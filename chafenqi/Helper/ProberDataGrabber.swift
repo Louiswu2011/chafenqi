@@ -9,29 +9,6 @@ import Foundation
 import Moya
 
 struct ProbeDataGrabber {
-//    static func getSongDataFromServer() {
-//        let task = URLSession.shared.dataTask(with: URL(string: "https://www.diving-fish.com/api/chunithmprober/music_data")!) { data, response, error in
-//            guard error == nil else { return }
-//
-//            guard let httpResponse = response as? HTTPURLResponse,
-//                  (200...299).contains(httpResponse.statusCode) else {
-//                print("Cannot connect to server, Aborting...")
-//
-//                return
-//            }
-//
-//            print("Receiving song data...")
-//            print("MIME type: \(String(describing: httpResponse.mimeType))")
-//
-//            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-//               let data = data {
-//
-//            }
-//        }
-//        task.resume()
-//        // return rawData
-//    }
-    
     static func getSongDataSetFromServer() async throws -> Set<SongData> {
         let provider = MoyaProvider<ProberService>()
         var data = Set<SongData>()
@@ -46,13 +23,11 @@ struct ProbeDataGrabber {
             }
         }
         
+        if (data.isEmpty) {
+            throw CFQError.emptyResponseError
+        }
+        
         return data
-        
-        
-//        let request = URLRequest(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/music_data")!)
-//        let (data, _) = try await URLSession.shared.data(for: request)
-//        let decoder = JSONDecoder()
-//        return try! decoder.decode(Set<SongData>.self, from: data)
     }
     
     static func getUserInfo(id: String) async throws -> UserScoreData {
@@ -80,8 +55,6 @@ struct ProbeDataGrabber {
 
         let (data, _) = try await URLSession.shared.data(for: request)
         let decoder = JSONDecoder()
-
-        // print(String(decoding: data, as: UTF8.self))
         
         do {
             return try decoder.decode(UserScoreData.self, from: data)
@@ -90,6 +63,4 @@ struct ProbeDataGrabber {
         }
         
     }
-    
-    // static func getSongCoverById(id: Int) async throws -> 
 }

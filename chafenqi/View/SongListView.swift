@@ -12,7 +12,7 @@ struct SongListView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
     @State private var didSongListLoaded = false
     @State private var decodedLoadedSongs: Set<SongData> = []
-    @SceneStorage("loadedSongs") var loadedSongs: Data = Data()
+    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
     // @SceneStorage("filteredSongs") var filteredSongs: Data = Data()
     
     let columns = [GridItem(.flexible())]

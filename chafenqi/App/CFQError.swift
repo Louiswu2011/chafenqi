@@ -8,5 +8,7 @@
 import Foundation
 
 enum CFQError: Error {
+    case emptyResponseError
+    case requestTimeoutError
     case invalidResponseError(response: String)
 }

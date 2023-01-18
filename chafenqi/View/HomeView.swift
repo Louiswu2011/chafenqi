@@ -14,16 +14,24 @@ enum LoadStatus {
 
 struct HomeView: View {
     @State private var isLoading = true
+    
     @State private var showingSettings = false
+    @State private var showingMaximumRating = false
+    
     @State private var status: LoadStatus = .loading
+    
     @State private var userInfo: UserScoreData = UserScoreData()
     
     @SceneStorage("userInfoData") var userInfoData: Data = Data()
     
-    @AppStorage("settingsCoverSource") var coverSource = "Github"
+    @AppStorage("settingsCoverSource") var coverSource = ""
     @AppStorage("userAccountId") var accountId = ""
     @AppStorage("userAccountName") var accountName = ""
     
+    private var rows = [
+        GridItem(),
+        GridItem()
+    ]
     
     var body: some View {
         ZStack {
@@ -41,7 +49,7 @@ struct HomeView: View {
                             ZStack {
                                 CutCircularProgressView(progress: 0.7, lineWidth: 10, width: 70, color: Color.indigo)
                                 
-                                Text("16.85")
+                                Text("\(userInfo.getAvgR10(), specifier: "%.2f")")
                                     .foregroundColor(Color.indigo)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
@@ -53,32 +61,91 @@ struct HomeView: View {
                             .padding(.top, 50)
                             
                             ZStack {
-                                CutCircularProgressView(progress: 0.8, lineWidth: 14, width: 100, color: Color.pink)
+                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativePercentage(), lineWidth: 14, width: 100, color: Color.pink)
                                 
-                                Text("\(userInfo.rating, specifier: "%.2f")")
+                                Text(showingMaximumRating ? "\(userInfo.getMaximumRating(), specifier: "%.2f")" : "\(userInfo.rating, specifier: "%.2f")")
                                     .foregroundColor(Color.pink)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title)
+                                    .transition(.opacity)
                                 
-                                Text("Rating")
+                                Text(showingMaximumRating ? "MAX" : "Rating")
                                     .padding(.top, 70)
                             }
                             .padding()
+                            .onTapGesture {
+                                showingMaximumRating.toggle()
+                            }
                             
                             ZStack {
                                 CutCircularProgressView(progress: 0.4, lineWidth: 10, width: 70, color: Color.cyan)
                                 
-                                Text("16.04")
+                                Text("\(userInfo.getAvgB30(), specifier: "%.2f")")
                                     .foregroundColor(Color.cyan)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
                                 
-                                Text("B40")
+                                Text("B30")
                                     .padding(.top, 60)
                             }
                             .padding()
                             .padding(.top, 50)
                         }
+                        
+                        // B30
+                        HStack {
+                            Text("B30")
+                                .font(.title2)
+                                .padding()
+                            
+                            Spacer()
+                            
+                            Button {
+                                
+                            } label: {
+                                Image(systemName: "arrow.right")
+                            }
+                            .padding()
+                        }
+                        
+                        ScrollView(.horizontal) {
+                            LazyHGrid(rows: rows, spacing: 5) {
+                                ForEach(userInfo.records.b30, id: \.chartID) { entry in
+                                    SongMiniInfoView(song: entry)
+                                        // .padding(5)
+                                }
+                            }
+                        }
+                        .frame(height: 210)
+                        .padding(.horizontal)
+                        
+                        // R10
+                        HStack {
+                            Text("R10")
+                                .font(.title2)
+                                .padding()
+                            
+                            Spacer()
+                            
+                            Button {
+                                
+                            } label: {
+                                Image(systemName: "arrow.right")
+                            }
+                            .padding()
+                        }
+                        
+                        ScrollView(.horizontal) {
+                            LazyHGrid(rows: rows, spacing: 5) {
+                                ForEach(userInfo.records.r10, id: \.chartID) { entry in
+                                    SongMiniInfoView(song: entry)
+                                        // .padding(5)
+                                }
+                            }
+                        }
+                        .frame(height: 210)
+                        .padding(.horizontal)
+                        
                         
                         Text("目前封面来源：\(coverSource)")
                             .padding()
@@ -142,8 +209,6 @@ struct HomeView: View {
                 }
             }
         }
-        
-        
     }
     
     func refreshUserInfo() async {
@@ -153,7 +218,7 @@ struct HomeView: View {
     }
     
     func loadUserInfo() async {
-        guard userInfoData.isEmpty else { return }
+        // guard userInfoData.isEmpty else { return }
         
         switch status {
         case .loading:

@@ -39,8 +39,8 @@ struct CutCircularProgressView: View {
                     
                 )
                 .rotationEffect(.degrees(150.0))
-                .animation(.easeOut, value: progress)
                 .frame(width: width, height: width)
+                .animation(.easeInOut, value: progress)
         }
     }
 }
