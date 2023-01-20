@@ -10,6 +10,7 @@ import SwiftUI
 struct SongListView: View {
     @Binding public var searchText: String
     @AppStorage("settingsCoverSource") var coverSource = ""
+    @State private var showingDetail = false
     @State private var didSongListLoaded = false
     @State private var decodedLoadedSongs: Set<SongData> = []
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
@@ -25,6 +26,12 @@ struct SongListView: View {
                 List {
                     ForEach(searchResults.sorted(by: <), id: \.id) { song in
                         SongBasicInfoView(song: song)
+                            .sheet(isPresented: $showingDetail) {
+                                SongDetailView(song: song)
+                            }
+                            .onTapGesture {
+                                showingDetail.toggle()
+                            }
                     }
                 }
                     

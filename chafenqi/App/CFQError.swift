@@ -8,6 +8,8 @@
 import Foundation
 
 enum CFQError: Error {
+    case IOError(file: String)
+    case unsupportedError(reason: String)
     case emptyResponseError
     case requestTimeoutError
     case invalidResponseError(response: String)
