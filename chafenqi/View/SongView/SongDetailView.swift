@@ -12,10 +12,13 @@ struct SongDetailView: View {
     
     @AppStorage("settingsCoverSource") var coverSource = ""
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @State private var isFavourite = false
     @State private var selectedDifficulty = "Master"
     @State private var availableDiffs: [String] = ["Master"]
     @State private var isLoading = true
+    @State private var showingChart = false
     
     var song: SongData
     
@@ -53,7 +56,8 @@ struct SongDetailView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        AsyncImage(url: coverURL) { phase in
+                        
+                        CachedAsyncImage(url: coverURL) { phase in
                             if let image = phase.image {
                                 image
                                     .resizable()
@@ -64,8 +68,7 @@ struct SongDetailView: View {
                             }
                         }
                         .cornerRadius(15)
-                        .shadow(radius: 2)
-                        // .border(Color.black)
+                        .shadow(color: colorScheme == .dark ? Color.white : Color.gray.opacity(0.7), radius: 1)
                         .frame(width: 120, height: 120)
                         .padding(.leading)
                         
@@ -75,9 +78,13 @@ struct SongDetailView: View {
                             Text(song.title)
                                 .font(.title)
                                 .bold()
+                                .lineLimit(2)
+                                .minimumScaleFactor(0.8)
                             
                             Text(song.basicInfo.artist)
                                 .font(.title2)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
                         }
                         
                         Spacer()
@@ -101,7 +108,9 @@ struct SongDetailView: View {
                         }
                     }
                     .frame(height: 120)
-                    .padding(.top)
+                    .padding(.top, 5.0)
+                    .navigationTitle("")
+                    .navigationBarTitleDisplayMode(.inline)
                     
                     HStack {
                         if (song.constant.count == 6) {
@@ -138,7 +147,14 @@ struct SongDetailView: View {
                     .padding(.top, 5.0)
                     .padding(.horizontal)
                     
-                    
+                    HStack {
+                        Text("\(song.basicInfo.from)")
+                        
+                        Spacer()
+                        
+                        Text("\(song.basicInfo.genre)")
+                    }
+                    .padding(.horizontal)
                     
                     HStack {
                         Text("难度：")
@@ -149,45 +165,49 @@ struct SongDetailView: View {
                             }
                         }
                     }
-                    
-                    
-                    
+
                     ZStack {
-                        
+                        // TODO: fix background
+                        RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
+                            .background(Color.black.opacity(0.8))
+                            .shadow(color: colorScheme == .dark ? Color.white : Color.gray.opacity(0.7), radius: 1)
                         
                         Group {
-                            AsyncImage(url: bgURL) { phase in
+                            CachedAsyncImage(url: bgURL) { phase in
                                 if let image = phase.image {
                                     image
                                         .resizable()
                                 } else if let error = phase.error {
-                                    Color.red
+                                    // Color.red
+                                } else {
+                                    ProgressView()
                                 }
                             }
                             
-                            AsyncImage(url: barURL) { phase in
+                            CachedAsyncImage(url: barURL) { phase in
                                 if let image = phase.image {
                                     image
                                         .resizable()
                                 } else if let error = phase.error {
-                                    Color.red
+                                    // Color.red
+                                } else {
+                                    ProgressView()
                                 }
                             }
                             
-                            AsyncImage(url: chartURL) { phase in
+                            CachedAsyncImage(url: chartURL) { phase in
                                 if let image = phase.image {
                                     image
                                         .resizable()
                                 } else if let error = phase.error {
-                                    Color.red
+                                    // Color.red
+                                } else {
+                                    ProgressView()
                                 }
                             }
                         }
                         .tag("chartImage")
-                        .border(Color.white.opacity(0.8))
-                        .overlay {
-                            RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
-                        }
+                        
                         
                         ZStack {
                             RoundedRectangle(cornerRadius: 5)
@@ -195,17 +215,18 @@ struct SongDetailView: View {
                                 .foregroundColor(Color.gray.opacity(0.8))
                             
                             Button {
-                                
+                                showingChart.toggle()
                             } label: {
                                 Image(systemName: "plus.magnifyingglass")
-                                
                             }
-                            
+                            .sheet(isPresented: $showingChart) {
+                                SongChartView(webChartId: webChartId, diff: difficultyString)
+                            }
                         }
                         .position(x: 330, y: 180)
-                        
                     }
                     .frame(width: 350, height: 200)
+                    .border(Color.white.opacity(0.8))
                 }
                 
                 HStack {
@@ -230,6 +251,7 @@ struct SongDetailView: View {
                 }
                 .padding()
             }
+            
         }
     }
 }
@@ -237,6 +259,7 @@ struct SongDetailView: View {
 struct SongDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SongDetailView(song: tempSongData)
+            // .environment(\.colorScheme, .dark)
     }
 }
 

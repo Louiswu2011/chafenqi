@@ -63,6 +63,38 @@ struct UserScoreData: Codable {
             }
         }
         
+        func getClearBadgeColor() -> Color {
+            switch (self.status) {
+            case "fullcombo":
+                return Color.blue.opacity(0.9)
+            case "AllJustice":
+                return Color.yellow
+            default:
+                return Color.red
+            }
+        }
+        
+        func getGradeBadgeColor() -> Color {
+            switch (score) {
+            case 950000...974999:
+                return Color.brown
+            case 975000...999999:
+                return Color.yellow.opacity(0.7)
+            case 1000000...1007499:
+                return Color.yellow
+            case 1007500...1008999:
+                return Color.red
+            case 1009000...:
+                return Color.red
+            default:
+                return Color.brown
+            }
+        }
+        
+        func shouldApplyRainbow() -> Bool {
+            score >= 1007500
+        }
+        
         func getLevelColor() -> Color {
             switch (self.levelIndex) {
             case 0:
@@ -74,7 +106,7 @@ struct UserScoreData: Codable {
             case 3:
                 return Color.purple
             case 4:
-                return Color.black
+                return Color.gray
             default:
                 return Color.purple
             }
@@ -126,7 +158,16 @@ struct UserScoreData: Codable {
     }
     
     func getMaximumRating() -> Double {
-        return ( getAvgB30() + self.records.r10[0].rating ) / 2.0
+        return ( getAvgB30() * 30.0 + self.records.b30[0].rating * 10.0 ) / 40.0
+    }
+    
+    func getRelativeR10Percentage() -> Double {
+        if (abs(getAvgR10() - self.records.b30[0].rating) > 1) {
+            return getAvgR10() / self.records.b30[0].rating
+        } else {
+            let head = Int(getAvgR10())
+            return (getAvgR10() - Double(head)) / (self.records.b30[0].rating - Double(head))
+        }
     }
     
     func getRelativePercentage() -> Double {

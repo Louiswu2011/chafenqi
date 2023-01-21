@@ -64,6 +64,7 @@ struct SongBasicInfoView: View {
                 VStack(alignment: .leading) {
                     Text(song.title)
                         .font(.title2)
+                        .bold()
                     // .scaledToFit()
                         // .border(Color.black)
                         .multilineTextAlignment(.leading)

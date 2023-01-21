@@ -47,7 +47,7 @@ struct HomeView: View {
                     VStack {
                         HStack {
                             ZStack {
-                                CutCircularProgressView(progress: 0.7, lineWidth: 10, width: 70, color: Color.indigo)
+                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativeR10Percentage(), lineWidth: 10, width: 70, color: Color.indigo)
                                 
                                 Text("\(userInfo.getAvgR10(), specifier: "%.2f")")
                                     .foregroundColor(Color.indigo)
@@ -78,9 +78,10 @@ struct HomeView: View {
                             }
                             
                             ZStack {
-                                CutCircularProgressView(progress: 0.4, lineWidth: 10, width: 70, color: Color.cyan)
+                                // TODO: get max
+                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getAvgB30() / 17.30, lineWidth: 10, width: 70, color: Color.cyan)
                                 
-                                Text("\(userInfo.getAvgB30(), specifier: "%.2f")")
+                                Text(showingMaximumRating ? "17.30" : "\(userInfo.getAvgB30(), specifier: "%.2f")")
                                     .foregroundColor(Color.cyan)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
@@ -110,8 +111,8 @@ struct HomeView: View {
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
-                                ForEach(userInfo.records.b30, id: \.chartID) { entry in
-                                    SongMiniInfoView(song: entry)
+                                ForEach(0..<30) { i in
+                                    SongMiniInfoView(song: userInfo.records.b30[i])
                                         // .padding(5)
                                 }
                             }
@@ -137,8 +138,8 @@ struct HomeView: View {
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
-                                ForEach(userInfo.records.r10, id: \.chartID) { entry in
-                                    SongMiniInfoView(song: entry)
+                                ForEach(0..<10) { i in
+                                    SongMiniInfoView(song: userInfo.records.r10[i])
                                         // .padding(5)
                                 }
                             }
@@ -201,7 +202,7 @@ struct HomeView: View {
                 }
             }
         }
-        .navigationTitle("主页")
+        .navigationTitle("\(userInfo.nickname)的个人资料")
         .onChange(of: showingSettings) { value in
             if(!value) {
                 Task {

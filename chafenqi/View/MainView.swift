@@ -35,16 +35,14 @@ struct MainView: View {
                 Text("记录")
             }
             
-            NavigationView {
-                SongListView(searchText: $searchText)
-            }
-            .searchable(text: $searchText, prompt: "输入歌曲名/作者...")
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled(true)
-            .tabItem {
-                Image(systemName: "music.note.list")
-                Text("歌曲")
-            }
+            
+            SongListView()
+                .tabItem {
+                    Image(systemName: "music.note.list")
+                    Text("歌曲")
+                }
+            
+            
         }
     }
 }

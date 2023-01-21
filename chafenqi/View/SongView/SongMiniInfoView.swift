@@ -16,32 +16,74 @@ struct SongMiniInfoView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
     
     var body: some View {
-        HStack {
-            let requestURL = coverSource == "Github" ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicID).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicID).png")
+        ZStack{
+            let clearBadgeColor = song.getClearBadgeColor()
             
-            CachedAsyncImage(url: requestURL){ phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 80, height: 80)
-                        .cornerRadius(10)
-                        .shadow(radius: 2)
+            VStack(spacing: 2) {
+                if (clearBadgeColor != Color.red) {
+                    HStack {
+                        Spacer()
+                        
+                        Text("FC")
+                            .font(.system(size: 22))
+                            .foregroundColor(clearBadgeColor)
+                            .padding(.trailing, 8)
+                    }
                     
-                } else if let error = phase.error {
-                    Color.red
-                        .task {
-                            print(error)
-                        }
-                } else {
-                    ProgressView()
+                    
+                    Rectangle()
+                        .frame(width: 190, height: 8)
+                        .foregroundColor(clearBadgeColor.opacity(0.8))
+                    
+                    
+                    Spacer()
                 }
             }
+            .padding(.top, 6)
             
-            VStack(alignment: .leading) {
-                Text(String(song.score))
-                Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
-                Text("\(song.getGrade())/\(song.getStatus())")
+
+            
+            
+            HStack {
+                let requestURL = coverSource == "Github" ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicID).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicID).png")
+                
+                CachedAsyncImage(url: requestURL){ phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                        
+                    } else if let error = phase.error {
+                        Color.red
+                            .task {
+                                print(error)
+                            }
+                    } else {
+                        ProgressView()
+                    }
+                }
+                
+                VStack(alignment: .leading) {
+                    Spacer()
+                    
+                    if(song.shouldApplyRainbow()) {
+                        Text(String(song.score))
+                            .font(.title3)
+                            .bold()
+                            .rainbow()
+                    } else {
+                        Text(String(song.score))
+                            .font(.title3)
+                            .bold()
+                    }
+                        
+                    Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
+                    // Text("\(song.getGrade())/\(song.getStatus())")
+                }
+                .frame(height: 80)
             }
         }
         
@@ -49,6 +91,7 @@ struct SongMiniInfoView: View {
         .background(song.getLevelColor().opacity(0.8))
         .cornerRadius(10)
         // .border(.black)
+            
     }
 }
 
@@ -57,3 +100,4 @@ struct SongMiniInfoView_Previews: PreviewProvider {
         SongMiniInfoView(song: song)
     }
 }
+

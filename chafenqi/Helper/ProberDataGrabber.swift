@@ -9,25 +9,11 @@ import Foundation
 import Moya
 
 struct ProbeDataGrabber {
-    static func getSongDataSetFromServer() async throws -> Set<SongData> {
-        let provider = MoyaProvider<ProberService>()
-        var data = Set<SongData>()
-        provider.request(.getSongInfo) { result in
-            switch result {
-            case let .success(response):
-                let decoder = JSONDecoder()
-                data = try! decoder.decode(Set<SongData>.self, from: response.data)
-                
-            case .failure(_):
-                data = Set<SongData>()
-            }
-        }
-        
-        if (data.isEmpty) {
-            throw CFQError.emptyResponseError
-        }
-        
-        return data
+    static func getSongDataSetFromServer() async throws ->  Set<SongData>{
+        let request = URLRequest(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/music_data")!)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let decoder = JSONDecoder()
+        return try! decoder.decode(Set<SongData>.self, from: data)
     }
     
     static func getUserInfo(id: String) async throws -> UserScoreData {
@@ -41,9 +27,9 @@ struct ProbeDataGrabber {
     static private func getUserInfoBy(type: String, payload: String) async throws -> UserScoreData {
         let body = [type: payload]
         let bodyData = try! JSONSerialization.data(withJSONObject: body)
-
+        
         var request = URLRequest(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/query/player")!)
-
+        
         request.httpMethod = "POST"
         request.httpBody = bodyData
         request.setValue("\(bodyData.count)", forHTTPHeaderField: "Content-Length")
@@ -52,7 +38,7 @@ struct ProbeDataGrabber {
             forHTTPHeaderField: "Content-Type"
         )
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-
+        
         let (data, _) = try await URLSession.shared.data(for: request)
         let decoder = JSONDecoder()
         
