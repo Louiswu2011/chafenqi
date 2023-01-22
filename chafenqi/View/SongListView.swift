@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ImageViewer
 
 struct SongListView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
@@ -81,7 +82,6 @@ struct SongListView: View {
             .autocorrectionDisabled(true)
             
         }
-        
     }
     
     var searchResults: Set<SongData> {

@@ -30,8 +30,8 @@ struct Rainbow: ViewModifier {
 
 struct RainbowAnimation: ViewModifier {
     @State var isOn: Bool = false
-    let hueColors = stride(from: 0, to: 1, by: 0.01).map {
-        Color(hue: $0, saturation: 1, brightness: 1)
+    let hueColors = stride(from: 0, to: 0.6, by: 0.05).map {
+        Color(hue: $0, saturation: 0.8, brightness: 1)
     }
 
     var duration: Double = 4
@@ -67,4 +67,36 @@ extension View {
     func rainbowAnimation() -> some View {
             self.modifier(RainbowAnimation())
         }
+}
+
+extension UIImage {
+    func mergeWith(topImage: UIImage, deltaX: CGFloat) -> UIImage {
+    let bottomImage = self
+
+    UIGraphicsBeginImageContext(size)
+
+
+    let areaSize = CGRect(x: 0, y: 0, width: bottomImage.size.width + deltaX, height: bottomImage.size.height)
+    bottomImage.draw(in: areaSize)
+
+    topImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
+
+    let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
+    UIGraphicsEndImageContext()
+    return mergedImage
+  }
+    
+    func overlayWith(image: UIImage, posX: CGFloat, posY: CGFloat) -> UIImage {
+        let newWidth = size.width < posX + image.size.width ? posX + image.size.width : size.width
+        let newHeight = size.height < posY + image.size.height ? posY + image.size.height : size.height
+        let newSize = CGSize(width: newWidth, height: newHeight)
+
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        draw(in: CGRect(origin: CGPoint.zero, size: size))
+        image.draw(in: CGRect(origin: CGPoint(x: posX, y: posY), size: image.size))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        return newImage
+      }
 }

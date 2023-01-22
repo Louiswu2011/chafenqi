@@ -33,10 +33,10 @@ struct ChartIdConverter {
         let diffs = ["exp", "mst", "ult"]
         var availableDiffs: [String] = []
         let id = map["\(musicId)"]!
-        if (id == "Unknown") { throw CFQError.unsupportedError(reason: "World's End charts are not supported right now.") }
+        if (id == "Unknown") { throw CFQError.unsupportedError(reason: "暂不支持WE谱面预览") }
         
         for diff in diffs {
-            let chartURL = URL(string: "https://sdvx.in/chunithm/\(id.prefix(2))/obj/data\(id)\(diff).png")
+            let chartURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : id.prefix(2))/obj/data\(id)\(diff).png")
             let request = URLRequest(url: chartURL!)
             let (_, response) = try await URLSession.shared.data(for: request)
             

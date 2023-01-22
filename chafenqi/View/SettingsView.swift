@@ -12,6 +12,7 @@ struct SettingsView: View {
     @AppStorage("userAccountId") var accountId = ""
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userAccountType") var accountType = "QQ号"
+    
     @State private var accountInfo = ""
     
     var sourceOptions = ["Github", "Gitee"]

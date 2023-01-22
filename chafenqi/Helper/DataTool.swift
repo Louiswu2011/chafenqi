@@ -7,6 +7,8 @@
 
 import Foundation
 
+let difficulty = ["Expert": "exp", "Master": "mst", "Ultima": "ult"]
+
 func getMaxRatingPossible(songList: Set<SongData>) -> Double {
     var max = 0.0
     

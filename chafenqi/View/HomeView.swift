@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RefreshableScrollView
+import AlertToast
 
 enum LoadStatus {
     case error(errorText: String)
@@ -17,6 +19,7 @@ struct HomeView: View {
     
     @State private var showingSettings = false
     @State private var showingMaximumRating = false
+    @State private var showingCompletionToast = false
     
     @State private var status: LoadStatus = .loading
     
@@ -24,7 +27,7 @@ struct HomeView: View {
     
     @SceneStorage("userInfoData") var userInfoData: Data = Data()
     
-    @AppStorage("settingsCoverSource") var coverSource = ""
+    @AppStorage("settingsCoverSource") var coverSource = "Github"
     @AppStorage("userAccountId") var accountId = ""
     @AppStorage("userAccountName") var accountName = ""
     
@@ -43,13 +46,13 @@ struct HomeView: View {
                         .padding()
                 }
             case .complete:
-                ScrollView(.vertical) {
+                ScrollView{
                     VStack {
                         HStack {
                             ZStack {
                                 CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativeR10Percentage(), lineWidth: 10, width: 70, color: Color.indigo)
                                 
-                                Text("\(userInfo.getAvgR10(), specifier: "%.2f")")
+                                Text(showingMaximumRating ? "\(userInfo.records.b30[0].rating, specifier: "%.2f")" : "\(userInfo.getAvgR10(), specifier: "%.2f")")
                                     .foregroundColor(Color.indigo)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
@@ -81,7 +84,7 @@ struct HomeView: View {
                                 // TODO: get max
                                 CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getAvgB30() / 17.30, lineWidth: 10, width: 70, color: Color.cyan)
                                 
-                                Text(showingMaximumRating ? "17.30" : "\(userInfo.getAvgB30(), specifier: "%.2f")")
+                                Text("\(userInfo.getAvgB30(), specifier: "%.2f")")
                                     .foregroundColor(Color.cyan)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
@@ -113,7 +116,7 @@ struct HomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<30) { i in
                                     SongMiniInfoView(song: userInfo.records.b30[i])
-                                        // .padding(5)
+                                    // .padding(5)
                                 }
                             }
                         }
@@ -140,7 +143,7 @@ struct HomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<10) { i in
                                     SongMiniInfoView(song: userInfo.records.r10[i])
-                                        // .padding(5)
+                                    // .padding(5)
                                 }
                             }
                         }
@@ -148,23 +151,12 @@ struct HomeView: View {
                         .padding(.horizontal)
                         
                         
-                        Text("目前封面来源：\(coverSource)")
+                        Text("封面来源：\(coverSource)")
                             .padding()
-                        
-                        Button {
-                            status = .loading
-                            userInfoData = Data()
-                            Task {
-                                await loadUserInfo()
-                            }
-                        } label: {
-                            Text("刷新")
-                        }
                     }
+                    
                 }
-                .refreshable {
-                    await refreshUserInfo()
-                }
+                
                 
                 
             case let .error(text):
@@ -216,6 +208,7 @@ struct HomeView: View {
         status = .loading
         userInfoData = Data()
         await loadUserInfo()
+        showingCompletionToast.toggle()
     }
     
     func loadUserInfo() async {

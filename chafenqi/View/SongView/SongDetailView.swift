@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+import UIKit
 import CachedAsyncImage
+import AlertToast
 
 struct SongDetailView: View {
     
@@ -19,32 +21,23 @@ struct SongDetailView: View {
     @State private var availableDiffs: [String] = ["Master"]
     @State private var isLoading = true
     @State private var showingChart = false
+    @State private var isCheckingDiff = true
+    @State private var chartImage: UIImage = UIImage()
+    @State private var chartImageView = Image(systemName: "magnifyingglass")
     
     var song: SongData
     
     let converter = try! ChartIdConverter()
     
+    func reloadChartImage(id: String, diff: String) async throws {
+        chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: id, diff: difficulty[diff]!)
+        chartImageView = Image(uiImage: chartImage)
+    }
+    
     var body: some View {
         let webChartId = try! converter.getWebChartId(musicId: song.id)
         
         let coverURL = coverSource == "Github" ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
-        
-        var difficultyString: String = {
-            switch (selectedDifficulty) {
-            case "Expert":
-                return "exp"
-            case "Master":
-                return "mst"
-            case "Ultima":
-                return "ult"
-            default:
-                return "mst"
-            }
-        }()
-        
-        let barURL = URL(string: "https://sdvx.in/chunithm/\(webChartId.prefix(2))/bg/\(webChartId)bar.png")
-        let bgURL = URL(string: "https://sdvx.in/chunithm/\(webChartId.prefix(2))/bg/\(webChartId)bg.png")
-        let chartURL = URL(string: "https://sdvx.in/chunithm/\(webChartId.prefix(2))/obj/data\(webChartId)\(difficultyString).png")
         
         if (isLoading) {
             ProgressView()
@@ -56,7 +49,6 @@ struct SongDetailView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        
                         CachedAsyncImage(url: coverURL) { phase in
                             if let image = phase.image {
                                 image
@@ -164,50 +156,36 @@ struct SongDetailView: View {
                                 Text(diff)
                             }
                         }
+                        .onChange(of: selectedDifficulty) { tag in
+                            Task {
+                                do {
+                                    chartImage = UIImage()
+                                    try await reloadChartImage(id: webChartId, diff: selectedDifficulty)
+                                } catch {
+                                    AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载谱面图片失败")
+                                }
+                            }
+                        }
+                        
+                        if(isCheckingDiff) {
+                            ProgressView()
+                                .padding(.leading, 5)
+                        }
                     }
 
                     ZStack {
                         // TODO: fix background
                         RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
-                            .background(Color.black.opacity(0.8))
+                            .background(Color.black)
                             .shadow(color: colorScheme == .dark ? Color.white : Color.gray.opacity(0.7), radius: 1)
                         
-                        Group {
-                            CachedAsyncImage(url: bgURL) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                } else if let error = phase.error {
-                                    // Color.red
-                                } else {
-                                    ProgressView()
-                                }
-                            }
-                            
-                            CachedAsyncImage(url: barURL) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                } else if let error = phase.error {
-                                    // Color.red
-                                } else {
-                                    ProgressView()
-                                }
-                            }
-                            
-                            CachedAsyncImage(url: chartURL) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                } else if let error = phase.error {
-                                    // Color.red
-                                } else {
-                                    ProgressView()
-                                }
-                            }
+                        // Chart Image
+                        if (chartImage == UIImage()) {
+                            ProgressView()
+                        } else {
+                            Image(uiImage: chartImage)
+                                .resizable()
                         }
-                        .tag("chartImage")
-                        
                         
                         ZStack {
                             RoundedRectangle(cornerRadius: 5)
@@ -215,18 +193,33 @@ struct SongDetailView: View {
                                 .foregroundColor(Color.gray.opacity(0.8))
                             
                             Button {
-                                showingChart.toggle()
+                                if (chartImage != UIImage()) {
+                                    showingChart.toggle()
+                                }
                             } label: {
                                 Image(systemName: "plus.magnifyingglass")
                             }
                             .sheet(isPresented: $showingChart) {
-                                SongChartView(webChartId: webChartId, diff: difficultyString)
+                                SongChartView(chartImage: chartImage)
                             }
                         }
                         .position(x: 330, y: 180)
                     }
                     .frame(width: 350, height: 200)
-                    .border(Color.white.opacity(0.8))
+                    .task {
+                        do {
+                            chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
+                            chartImageView = Image(uiImage: chartImage)
+                            availableDiffs = try await converter.getAvailableDiffs(musicId: song.id)
+                            isCheckingDiff.toggle()
+                        } catch CFQError.requestTimeoutError {
+                            AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载谱面图片失败")
+                        } catch CFQError.unsupportedError(let reason) {
+                            AlertToast(displayMode: .hud, type: .error(Color.red), title: reason)
+                        } catch {
+                            
+                        }
+                    }
                 }
                 
                 HStack {
@@ -243,16 +236,18 @@ struct SongDetailView: View {
                         }
                     }()
                     
-                    Text("谱师：\(song.charts[chartIndex].charter)")
-                    
-                    Spacer()
-                    
-                    Text("连击数：\(song.charts[chartIndex].combo)")
+                    if (song.charts.indices.contains(chartIndex)) {
+                        Text("谱师：\(song.charts[chartIndex].charter)")
+                        
+                        Spacer()
+                        
+                        Text("连击数：\(song.charts[chartIndex].combo)")
+                    }
                 }
                 .padding()
             }
-            
         }
+
     }
 }
 

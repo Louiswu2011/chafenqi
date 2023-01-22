@@ -8,7 +8,7 @@
 import SwiftUI
 import CachedAsyncImage
 
-let song: UserScoreData.ScoreEntry = UserScoreData.ScoreEntry(chartID: 3, constant: 14.5, status: "AllJustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
+let song: UserScoreData.ScoreEntry = UserScoreData.ScoreEntry(chartID: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
 
 struct SongMiniInfoView: View {
     let song: UserScoreData.ScoreEntry
@@ -24,7 +24,7 @@ struct SongMiniInfoView: View {
                     HStack {
                         Spacer()
                         
-                        Text("FC")
+                        Text(song.getStatus())
                             .font(.system(size: 22))
                             .foregroundColor(clearBadgeColor)
                             .padding(.trailing, 8)
@@ -69,17 +69,12 @@ struct SongMiniInfoView: View {
                 VStack(alignment: .leading) {
                     Spacer()
                     
-                    if(song.shouldApplyRainbow()) {
-                        Text(String(song.score))
-                            .font(.title3)
-                            .bold()
-                            .rainbow()
-                    } else {
-                        Text(String(song.score))
-                            .font(.title3)
-                            .bold()
-                    }
-                        
+                    
+                    Text(String(song.score))
+                        .font(.title3)
+                        .bold()
+                    
+                    
                     Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
                     // Text("\(song.getGrade())/\(song.getStatus())")
                 }

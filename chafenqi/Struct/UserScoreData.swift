@@ -54,9 +54,9 @@ struct UserScoreData: Codable {
         
         func getStatus() -> String {
             switch (self.status) {
-            case "fullcombo":
+            case "fullcombo", "fullchain":
                 return "FC"
-            case "AllJustice":
+            case "alljustice":
                 return "AJ"
             default:
                 return "Clear"
@@ -65,9 +65,9 @@ struct UserScoreData: Codable {
         
         func getClearBadgeColor() -> Color {
             switch (self.status) {
-            case "fullcombo":
+            case "fullcombo", "fullchain":
                 return Color.blue.opacity(0.9)
-            case "AllJustice":
+            case "alljustice":
                 return Color.yellow
             default:
                 return Color.red
