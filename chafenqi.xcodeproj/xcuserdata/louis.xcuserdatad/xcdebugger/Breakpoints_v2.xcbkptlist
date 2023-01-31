@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "EDE3AB61-4E42-492C-B019-C41A56C2AF72"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F97DDBDF-0704-489C-AC3D-1769A74C5AF3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "chafenqi/Helper/ProberDataGrabber.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "getUserRecord(token:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F97DDBDF-0704-489C-AC3D-1769A74C5AF3 - be9bd61d7ef67ed6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for static chafenqi.ProbeDataGrabber.getUserRecord(token: Swift.String) async throws -&gt; Foundation.Data"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/Helper/ProberDataGrabber.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "1085">
+               </Location>
+               <Location
+                  uuid = "F97DDBDF-0704-489C-AC3D-1769A74C5AF3 - 85eebebeb15b01b4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for static chafenqi.ProbeDataGrabber.getUserRecord(token: Swift.String) async throws -&gt; Foundation.Data"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/Helper/ProberDataGrabber.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "F97DDBDF-0704-489C-AC3D-1769A74C5AF3 - 4ea1cf060ecf32d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for static chafenqi.ProbeDataGrabber.getUserRecord(token: Swift.String) async throws -&gt; Foundation.Data"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/Helper/ProberDataGrabber.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "78">
+               </Location>
+               <Location
+                  uuid = "F97DDBDF-0704-489C-AC3D-1769A74C5AF3 - 95b348c56cba8d3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for static chafenqi.ProbeDataGrabber.getUserRecord(token: Swift.String) async throws -&gt; Foundation.Data"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/Helper/ProberDataGrabber.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "53">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A8B8819-B7A4-4CF1-BEC2-68CECC0D61BA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "chafenqi/View/SongView/SongDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
