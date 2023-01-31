@@ -8,10 +8,10 @@
 import SwiftUI
 import CachedAsyncImage
 
-let song: UserScoreData.ScoreEntry = UserScoreData.ScoreEntry(chartID: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
+let song: ScoreEntry = ScoreEntry(chartID: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
 
 struct SongMiniInfoView: View {
-    let song: UserScoreData.ScoreEntry
+    let song: ScoreEntry
     
     @AppStorage("settingsCoverSource") var coverSource = ""
     

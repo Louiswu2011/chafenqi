@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ImageViewer
 
 struct SongListView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""

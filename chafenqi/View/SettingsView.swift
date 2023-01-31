@@ -9,51 +9,121 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
-    @AppStorage("userAccountId") var accountId = ""
-    @AppStorage("userAccountName") var accountName = ""
-    @AppStorage("userAccountType") var accountType = "QQ号"
     
-    @State private var accountInfo = ""
+    @AppStorage("userAccountName") var accountName = "louisb"
+    @AppStorage("userNickname") var accountNickname = ""
+    @AppStorage("userToken") var token = ""
+    @AppStorage("userTokenHeader") var tokenHeader = ""
+    @AppStorage("userInfoData") var infoData = Data()
+    
+    @AppStorage("didLogin") var didLogin = false
+    
+    @State private var accountPassword = ""
+    @State private var showingLoginView = false
+    @State private var showingBuildNumber = false
+    @State private var loading = false
+    
+    @Binding var showingSettings: Bool
     
     var sourceOptions = ["Github", "Gitee"]
     var accountOptions = ["QQ号", "账户名"]
+    var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
     var body: some View {
         NavigationView {
-            List {
-                Section("常规") {
+            Form {
+                Section {
                     Picker("封面来源", selection: $coverSource) {
                         ForEach(sourceOptions, id: \.self) {
                             Text($0)
                         }
                     }
-                    // .pickerStyle(.wheel)
+                    .pickerStyle(.automatic)
+                } header: {
+                    Text("常规")
+                } footer: {
+                    Text("Gitee暂不可用")
                 }
-                Section("账户") {
-
-                        Picker("类型", selection: $accountType) {
-                            ForEach (accountOptions, id: \.self) {
-                                Text($0)
+                
+                Section {
+                    if (didLogin) {
+                        HStack {
+                            TextInfoView(text: "Token", info: token)
+                        }
+                        TextInfoView(text: "用户名", info: accountName)
+                        Button {
+                            clearUserCache()
+                            didLogin.toggle()
+                        } label: {
+                            Text("登出")
+                                .foregroundColor(Color.red)
+                        }
+                    } else {
+                        TextField("用户名", text: $accountName)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                        SecureField("密码", text: $accountPassword)
+                        HStack {
+                            Button {
+                                Task {
+                                    do {
+                                        loading.toggle()
+                                        (tokenHeader, token) = try await ProbeDataGrabber.loginAs(username: accountName, password: accountPassword)
+                                        didLogin.toggle()
+                                        showingSettings.toggle()
+                                    } catch CFQError.AuthenticationFailedError {
+                                    } catch {
+                                        
+                                    }
+                                    loading.toggle()
+                                }
+                            } label: {
+                                Text("登录")
+                            }
+                            if (loading) {
+                                Spacer()
+                                
+                                ProgressView()
                             }
                         }
-                        .pickerStyle(.segmented)
-                        
-                        if (accountType == "QQ号") {
-                            TextField("输入QQ号", text: $accountId)
-                        } else {
-                            TextField("输入账户名", text: $accountName)
-                        }
-                    
-                    
+                    }
+                } header: {
+                    Text("账户")
+                }
+                
+                Section {
+                    HStack {
+                        Text("版本")
+                        Spacer()
+                        Text("\(bundleVersion) \(showingBuildNumber ? "Build \(bundleBuildNumber)" : "")")
+                            .foregroundColor(Color.gray)
+                            .onTapGesture {
+                                showingBuildNumber.toggle()
+                            }
+                    }
+                } header: {
+                    Text("关于")
+                } footer: {
+                    Text(credits)
                 }
             }
             .navigationTitle("设置")
         }
     }
+    
+    func clearUserCache(){
+        accountName = ""
+        accountPassword = ""
+        accountNickname = ""
+        tokenHeader = ""
+        token = ""
+        infoData = Data()
+    }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(showingSettings: .constant(true))
     }
 }

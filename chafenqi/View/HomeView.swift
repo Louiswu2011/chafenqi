@@ -11,7 +11,8 @@ import AlertToast
 
 enum LoadStatus {
     case error(errorText: String)
-    case loading, complete
+    case loading(hint: String)
+    case complete, empty, loadFromCache
 }
 
 struct HomeView: View {
@@ -21,15 +22,21 @@ struct HomeView: View {
     @State private var showingMaximumRating = false
     @State private var showingCompletionToast = false
     
-    @State private var status: LoadStatus = .loading
+    @State private var status: LoadStatus = .loading(hint: "获取用户数据中...")
     
-    @State private var userInfo: UserScoreData = UserScoreData()
+    @State private var userInfo = UserData()
+    @State private var b30 = ArraySlice<ScoreEntry>()
     
-    @SceneStorage("userInfoData") var userInfoData: Data = Data()
+    @State private var previousToken = ""
     
     @AppStorage("settingsCoverSource") var coverSource = "Github"
-    @AppStorage("userAccountId") var accountId = ""
+    
+    @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
+    @AppStorage("userToken") var token = ""
+    @AppStorage("userInfoData") var userInfoData = Data()
+    
+    @AppStorage("didLogin") var didLogin = false
     
     private var rows = [
         GridItem(),
@@ -39,10 +46,16 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             switch status {
-            case .loading:
+            case .loading(let hint):
                 VStack {
                     ProgressView()
-                    Text("载入数据中...")
+                    Text(hint)
+                        .padding()
+                }
+            case .loadFromCache:
+                VStack {
+                    ProgressView()
+                    Text("加载缓存中...")
                         .padding()
                 }
             case .complete:
@@ -52,7 +65,7 @@ struct HomeView: View {
                             ZStack {
                                 CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativeR10Percentage(), lineWidth: 10, width: 70, color: Color.indigo)
                                 
-                                Text(showingMaximumRating ? "\(userInfo.records.b30[0].rating, specifier: "%.2f")" : "\(userInfo.getAvgR10(), specifier: "%.2f")")
+                                Text(showingMaximumRating ? "\(b30[0].rating, specifier: "%.2f")" : "\(userInfo.getAvgR10(), specifier: "%.2f")")
                                     .foregroundColor(Color.indigo)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
@@ -115,7 +128,7 @@ struct HomeView: View {
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<30) { i in
-                                    SongMiniInfoView(song: userInfo.records.b30[i])
+                                    SongMiniInfoView(song: b30[i])
                                     // .padding(5)
                                 }
                             }
@@ -164,7 +177,7 @@ struct HomeView: View {
                     Text(text)
                         .padding()
                     Button {
-                        status = .loading
+                        status = .loading(hint: "获取用户数据中...")
                         userInfoData = Data()
                         Task {
                             await loadUserInfo()
@@ -174,60 +187,104 @@ struct HomeView: View {
                     }
                     
                 }
+            case .empty:
+                VStack {
+                    Text("未登录查分器，请前往设置登录")
+                        .padding()
+                }
             }
+            
         }
         .task {
-            if (accountId.isEmpty && accountName.isEmpty) {
-                showingSettings.toggle()
+            if (!didLogin) {
+                status = .empty
             } else {
+                if (userInfoData.isEmpty) {
+                    status = .loading(hint: "获取用户数据中...")
+                } else {
+                    status = .loadFromCache
+                }
+                
                 await loadUserInfo()
             }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    previousToken = token
                     showingSettings.toggle()
                 }) {
                     Image(systemName: "gear")
                 }.sheet(isPresented: $showingSettings) {
-                    SettingsView(coverSource: coverSource)
+                    SettingsView(coverSource: coverSource, showingSettings: $showingSettings)
                 }
             }
         }
-        .navigationTitle("\(userInfo.nickname)的个人资料")
+        .navigationTitle(!accountNickname.isEmpty ? "\(accountNickname)的个人资料" : "查分器NEW")
         .onChange(of: showingSettings) { value in
             if(!value) {
-                Task {
-                    await refreshUserInfo()
+                if (didLogin){
+                    Task {
+                        if (token != previousToken) {
+                            await refreshUserInfo()
+                        }
+                    }
+                } else {
+                    status = .empty
                 }
             }
         }
     }
     
     func refreshUserInfo() async {
-        status = .loading
+        guard didLogin else {
+            status = .empty
+            return
+        }
+        
+        status = .loading(hint: "获取用户数据中...")
         userInfoData = Data()
         await loadUserInfo()
-        showingCompletionToast.toggle()
     }
     
     func loadUserInfo() async {
-        // guard userInfoData.isEmpty else { return }
+        guard didLogin && !token.isEmpty else { return }
+        
+        let decoder = JSONDecoder()
         
         switch status {
         case .loading:
             do {
-                try await userInfoData =  JSONEncoder().encode(accountId != "" ? ProbeDataGrabber.getUserInfo(id: accountId) : ProbeDataGrabber.getUserInfo(username: accountName))
-                userInfo = try! JSONDecoder().decode(UserScoreData.self, from: userInfoData)
+                accountNickname = try await ProbeDataGrabber.getUserNickname(username: accountName)
+                userInfoData = try await ProbeDataGrabber.getUserRecord(token: token)
+                
+                status = .loading(hint: "加载数据中...")
+                userInfo = try decoder.decode(UserData.self, from: userInfoData)
+                userInfo.records.best.sort {
+                    $0.rating > $1.rating
+                }
+                b30 = userInfo.records.best.prefix(upTo: 30)
+                
                 status = .complete
-            } catch CFQError.invalidResponseError(response: _) {
-                status = .error(errorText: "用户不存在")
             } catch {
-                status = .error(errorText: "网络连接超时")
+                print(error)
+                status = .error(errorText: error.localizedDescription)
             }
-        case .complete:
-            break
-        case .error(errorText: _):
+            
+        case .loadFromCache:
+            do {
+                userInfo = try decoder.decode(UserData.self, from: userInfoData)
+                userInfo.records.best.sort {
+                    $0.rating > $1.rating
+                }
+                b30 = userInfo.records.best.prefix(upTo: 30)
+                status = .complete
+            } catch {
+                print(error)
+                status = .error(errorText: error.localizedDescription)
+            }
+
+        case .complete, .error(errorText: _), .empty:
             break
         }
     }
