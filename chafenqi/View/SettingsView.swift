@@ -48,10 +48,8 @@ struct SettingsView: View {
                 
                 Section {
                     if (didLogin) {
-                        HStack {
-                            TextInfoView(text: "Token", info: token)
-                        }
                         TextInfoView(text: "用户名", info: accountName)
+                        TextInfoView(text: "Token", info: token)
                         Button {
                             clearUserCache()
                             didLogin.toggle()
@@ -102,6 +100,11 @@ struct SettingsView: View {
                                 showingBuildNumber.toggle()
                             }
                     }
+                    Button() {
+                        
+                    } label: {
+                        Text("请作者打一把中二")
+                    }.disabled(true)
                 } header: {
                     Text("关于")
                 } footer: {

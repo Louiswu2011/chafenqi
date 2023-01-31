@@ -13,17 +13,24 @@ import AlertToast
 struct SongDetailView: View {
     
     @AppStorage("settingsCoverSource") var coverSource = ""
+    @AppStorage("userInfoData") var userInfoData = Data()
     
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isFavourite = false
+    @State private var isLoading = true
+    @State private var isCheckingDiff = true
+    @State private var loadingScore = true
+    @State private var showingChart = false
+    
     @State private var selectedDifficulty = "Master"
     @State private var availableDiffs: [String] = ["Master"]
-    @State private var isLoading = true
-    @State private var showingChart = false
-    @State private var isCheckingDiff = true
+    
     @State private var chartImage: UIImage = UIImage()
     @State private var chartImageView = Image(systemName: "magnifyingglass")
+    
+    @State private var userInfo = UserData()
+    @State private var scoreEntries = [Int: ScoreEntry]()
     
     var song: SongData
     
@@ -245,9 +252,98 @@ struct SongDetailView: View {
                     }
                 }
                 .padding()
+                
+                if (!loadingScore) {
+                    VStack(spacing: 10) {
+                        let levelLabel = [
+                            0: "Basic",
+                            1: "Advanced",
+                            2: "Expert",
+                            3: "Master",
+                            4: "Ultima"
+                        ]
+                        
+                        ForEach(0..<4) { index in
+                            ZStack {
+                                let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
+                                
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(getLevelColor(index: index).opacity(0.5))
+                                
+                                HStack {
+                                    Text(levelLabel[index]!)
+                                    Spacer()
+                                    if (exists) {
+                                        Text(scoreEntries[index]!.getStatus())
+                                    }
+                                    Text(exists ? String(scoreEntries[index]!.score) : "尚未游玩")
+                                        .bold()
+                                    if (exists) {
+                                        Text("\(scoreEntries[index]!.rating, specifier: "%.2f")/\(String(scoreEntries[index]!.constant))")
+                                    }
+                                }
+                                .padding()
+                            }
+                            .padding(.horizontal)
+                            
+                        }
+                        
+                        if (song.charts.count == 5) {
+                            ZStack {
+                                let exists = !scoreEntries.filter{ $0.key == 4 }.isEmpty
+                                
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(getLevelColor(index: 4).opacity(0.5))
+                                
+                                HStack {
+                                    Text(levelLabel[4]!)
+                                    Spacer()
+                                    if (exists) {
+                                        Text(scoreEntries[4]!.getStatus())
+                                    }
+                                    Text(exists ? String(scoreEntries[4]!.score) : "尚未游玩")
+                                        .bold()
+                                    if (exists) {
+                                        Text("\(scoreEntries[4]!.rating, specifier: "%.2f")/\(String(scoreEntries[4]!.constant))")
+                                    }
+                                }
+                                .padding()
+                            }
+                            .padding(.horizontal)
+                        }
+                        
+                    }
+                }
+            }
+            .task {
+                userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
+                var scores = userInfo.records.best.filter {
+                    $0.musicID == song.id
+                }
+                scores.sort {
+                    $0.levelIndex < $1.levelIndex
+                }
+                scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
+                loadingScore.toggle()
             }
         }
+    }
+}
 
+func getLevelColor(index: Int) -> Color {
+    switch (index) {
+    case 0:
+        return Color.green
+    case 1:
+        return Color.yellow
+    case 2:
+        return Color.red
+    case 3:
+        return Color.purple
+    case 4:
+        return Color.gray
+    default:
+        return Color.purple
     }
 }
 
