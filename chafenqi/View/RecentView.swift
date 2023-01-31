@@ -10,7 +10,7 @@ import SwiftUI
 struct RecentView: View {
     
     var body: some View {
-        Text("近的最近的最近的最")
+        Text("对不起做不到")
             .navigationTitle("最近记录")
     }
 }

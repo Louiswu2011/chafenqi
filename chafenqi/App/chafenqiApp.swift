@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+var credits = """
+特别感谢：
+@SoreHait
+@Diving-Fish - 舞萌DX/中二节奏查分器
+sdvx.in - 谱面预览
+And You
+"""
+
 @main
 struct chafenqiApp: App {
     var body: some Scene {

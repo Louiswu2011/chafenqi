@@ -16,20 +16,29 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
+            
+            
             Text("用查分器账号登录")
                 .font(.title)
                 .padding()
             
-            TextField("用户名", text: $username)
-                .padding(.leading)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled(true)
-                .cornerRadius(20.0)
+            HStack {
+                Image(systemName: "person.fill")
                 
-            
-            SecureField("密码", text: $password)
-                .cornerRadius(20.0)
-                .padding()
+                TextField("用户名", text: $username)
+                    .padding(.leading)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                    .cornerRadius(20.0)
+            }
+                
+            HStack {
+                Image(systemName: "lock.fill")
+                
+                SecureField("密码", text: $password)
+                    .cornerRadius(20.0)
+                    .padding()
+            }
             
             Button ("登录") {
                 

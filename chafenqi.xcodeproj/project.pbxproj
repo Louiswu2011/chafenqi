@@ -11,6 +11,8 @@
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912B296C341F005DC8A3 /* SettingsView.swift */; };
 		BF0D912E296C4B7F005DC8A3 /* SongDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912D296C4B7F005DC8A3 /* SongDetailView.swift */; };
+		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
+		BF55004D29818D9D004072A0 /* B30View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF55004C29818D9D004072A0 /* B30View.swift */; };
 		BF670DE529781B0100EA2CBB /* SongMiniInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670DE429781B0100EA2CBB /* SongMiniInfoView.swift */; };
 		BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69A297C3365003A67B0 /* DataTool.swift */; };
 		BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */; };
@@ -22,11 +24,12 @@
 		BF7E2524296AD44000169B57 /* SongBasicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2523296AD44000169B57 /* SongBasicInfoView.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
+		BFEB5AE9298937E8005646AA /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* UserData.swift */; };
+		BFEB5AEB29897E1C005646AA /* UserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* UserScoreData.swift */; };
 		BFECEC62297D212900D2F383 /* RefreshableScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = BFECEC61297D212900D2F383 /* RefreshableScrollView */; };
 		BFECEC65297D256600D2F383 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BFECEC64297D256600D2F383 /* AlertToast */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
 		BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC72297D37E600D2F383 /* SongChartView.swift */; };
-		BFF16EAA297671DC00ED163F /* UserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF16EA9297671DC00ED163F /* UserScoreData.swift */; };
 		BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C029681F8D001392E5 /* chafenqiApp.swift */; };
 		BFF353C329681F8D001392E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C229681F8D001392E5 /* MainView.swift */; };
 		BFF353C529681F8E001392E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF353C429681F8E001392E5 /* Assets.xcassets */; };
@@ -60,6 +63,8 @@
 		BF0CFD60297B26E5003763E2 /* IdMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IdMap.json; sourceTree = "<group>"; };
 		BF0D912B296C341F005DC8A3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BF0D912D296C4B7F005DC8A3 /* SongDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDetailView.swift; sourceTree = "<group>"; };
+		BF38089D298916F7008FF936 /* TextInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfoView.swift; sourceTree = "<group>"; };
+		BF55004C29818D9D004072A0 /* B30View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = B30View.swift; sourceTree = "<group>"; };
 		BF670DE429781B0100EA2CBB /* SongMiniInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongMiniInfoView.swift; sourceTree = "<group>"; };
 		BF7BC69A297C3365003A67B0 /* DataTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTool.swift; sourceTree = "<group>"; };
 		BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewModifier.swift; sourceTree = "<group>"; };
@@ -70,9 +75,10 @@
 		BF7E2521296AAD1A00169B57 /* ProberDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProberDataGrabber.swift; sourceTree = "<group>"; };
 		BF7E2523296AD44000169B57 /* SongBasicInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongBasicInfoView.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
+		BFEB5AE8298937E8005646AA /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		BFEB5AEA29897E1C005646AA /* UserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserScoreData.swift; sourceTree = "<group>"; };
 		BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageGrabber.swift; sourceTree = "<group>"; };
 		BFECEC72297D37E600D2F383 /* SongChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongChartView.swift; sourceTree = "<group>"; };
-		BFF16EA9297671DC00ED163F /* UserScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserScoreData.swift; sourceTree = "<group>"; };
 		BFF353BD29681F8D001392E5 /* chafenqi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chafenqi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF353C029681F8D001392E5 /* chafenqiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiApp.swift; sourceTree = "<group>"; };
 		BFF353C229681F8D001392E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -123,6 +129,14 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		BF55004B29818D8D004072A0 /* ScoreView */ = {
+			isa = PBXGroup;
+			children = (
+				BF55004C29818D9D004072A0 /* B30View.swift */,
+			);
+			path = ScoreView;
+			sourceTree = "<group>";
+		};
 		BF670DE629781B0E00EA2CBB /* SongView */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,7 +152,8 @@
 			isa = PBXGroup;
 			children = (
 				BF7E251E296AAACE00169B57 /* SongData.swift */,
-				BFF16EA9297671DC00ED163F /* UserScoreData.swift */,
+				BFEB5AEA29897E1C005646AA /* UserScoreData.swift */,
+				BFEB5AE8298937E8005646AA /* UserData.swift */,
 			);
 			path = Struct;
 			sourceTree = "<group>";
@@ -225,6 +240,7 @@
 		BFF353EA296831EE001392E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BF55004B29818D8D004072A0 /* ScoreView */,
 				BF670DE629781B0E00EA2CBB /* SongView */,
 				BFF353C229681F8D001392E5 /* MainView.swift */,
 				BFF353EC29683271001392E5 /* LoginView.swift */,
@@ -233,6 +249,7 @@
 				BF7E2519296AA8CD00169B57 /* RecentView.swift */,
 				BF7E251B296AA9DC00169B57 /* SongListView.swift */,
 				BF0D912B296C341F005DC8A3 /* SettingsView.swift */,
+				BF38089D298916F7008FF936 /* TextInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -391,7 +408,6 @@
 				BFF353ED29683271001392E5 /* LoginView.swift in Sources */,
 				BF7E251A296AA8CD00169B57 /* RecentView.swift in Sources */,
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
-				BFF16EAA297671DC00ED163F /* UserScoreData.swift in Sources */,
 				BF7E2524296AD44000169B57 /* SongBasicInfoView.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* SongData.swift in Sources */,
 				BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */,
@@ -399,12 +415,16 @@
 				BFF353C329681F8D001392E5 /* MainView.swift in Sources */,
 				BF7E2518296AA89500169B57 /* HomeView.swift in Sources */,
 				BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */,
+				BF55004D29818D9D004072A0 /* B30View.swift in Sources */,
 				BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */,
 				BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */,
+				BFEB5AE9298937E8005646AA /* UserData.swift in Sources */,
+				BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */,
 				BF7E2522296AAD1A00169B57 /* ProberDataGrabber.swift in Sources */,
 				BF670DE529781B0100EA2CBB /* SongMiniInfoView.swift in Sources */,
 				BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */,
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
+				BFEB5AEB29897E1C005646AA /* UserScoreData.swift in Sources */,
 				BF0D912E296C4B7F005DC8A3 /* SongDetailView.swift in Sources */,
 				BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */,
 			);
@@ -563,22 +583,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_ASSET_PATHS = "\"chafenqi/Preview Content\"";
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = org.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -593,22 +614,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_ASSET_PATHS = "\"chafenqi/Preview Content\"";
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = org.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -623,7 +645,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -643,7 +665,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -662,7 +684,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -680,7 +702,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
