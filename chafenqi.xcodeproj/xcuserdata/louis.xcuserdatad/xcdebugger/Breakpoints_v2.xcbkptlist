@@ -92,8 +92,8 @@
             filePath = "chafenqi/View/SongView/SongDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -108,8 +108,8 @@
             filePath = "chafenqi/View/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "307"
-            endingLineNumber = "307"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "loadUserInfo()"
             landmarkType = "7">
             <Locations>
@@ -171,8 +171,8 @@
             filePath = "chafenqi/View/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "loadUserInfo()"
             landmarkType = "7">
             <Locations>

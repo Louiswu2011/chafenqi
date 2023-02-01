@@ -168,7 +168,11 @@ struct HomeView: View {
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<10) { i in
-                                    SongMiniInfoView(song: userInfo.records.r10[i])
+                                    NavigationLink {
+                                        SongDetailView(song: decodedLoadedSongs.filter{ $0.id == userInfo.records.r10[i].musicID }[0])
+                                    } label: {
+                                        SongMiniInfoView(song: userInfo.records.r10[i])
+                                    }.buttonStyle(.plain)
                                 }
                             }
                         }

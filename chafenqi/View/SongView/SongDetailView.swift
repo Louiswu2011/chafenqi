@@ -22,6 +22,7 @@ struct SongDetailView: View {
     @State private var isCheckingDiff = true
     @State private var loadingScore = true
     @State private var showingChart = false
+    @State private var showingCalc = false
     
     @State private var selectedDifficulty = "Master"
     @State private var availableDiffs: [String] = ["Master"]
@@ -247,13 +248,15 @@ struct SongDetailView: View {
                 .padding([.vertical], 10)
                 
                 if (!loadingScore) {
-                    VStack(spacing: 10) {
+                    VStack(spacing: 5) {
                         ForEach(0..<4) { index in
                             ScoreCardView(index: index, scoreEntries: scoreEntries, song: song)
+                                .padding(.bottom, 5)
                             
                         }
                         if (song.charts.count == 5) {
                             ScoreCardView(index: 4, scoreEntries: scoreEntries, song: song)
+                                .padding(.bottom, 5)
                         }
                     }
                 }
@@ -268,6 +271,23 @@ struct SongDetailView: View {
                 }
                 scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
                 loadingScore.toggle()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button {
+                            showingCalc.toggle()
+                        } label: {
+                            Image(systemName: "plus.forwardslash.minus")
+                            Text("分数计算")
+                        }
+                        .sheet(isPresented: $showingCalc) {
+                            BorderCalcView(song: song)
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
             }
         }
     }
@@ -299,12 +319,15 @@ struct SongDetailView: View {
                     HStack {
                         Text(levelLabel[index]!)
                         Spacer()
-                        if (exists) {
+                        if (exists && showingDetail) {
                             Text(scoreEntries[index]!.getStatus())
                             Text(scoreEntries[index]!.getGrade())
                         }
                         Text(exists ? String(scoreEntries[index]!.score) : "尚未游玩")
                             .bold()
+                        if (exists && showingDetail) {
+                            Text("\(scoreEntries[index]!.rating, specifier: "%.2f")")
+                        }
                         Image(systemName: "chevron.backward")
                             .rotationEffect(Angle(degrees: rotationAngle))
                             .onTapGesture {
@@ -321,6 +344,7 @@ struct SongDetailView: View {
                     if (showingDetail) {
                         HStack {
                             Text("谱师：\(song.charts[index].charter)")
+                                .lineLimit(1)
                             Spacer()
                             Text("连击数：\(song.charts[index].combo)")
                         }

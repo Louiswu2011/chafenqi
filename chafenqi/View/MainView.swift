@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct MainView: View {
+    @AppStorage("favList") var favList = "0;"
+    
     @State private var searchText = ""
     @State private var searchSeletedItem = ""
     // @State private var shouldShowDetail = false
@@ -33,7 +35,13 @@ struct MainView: View {
                     Text("歌曲")
                 }
             
-            
+            NavigationView {
+                ToolView()
+            }
+            .tabItem {
+                Image(systemName: "shippingbox.fill")
+                Text("工具")
+            }
         }
     }
 }

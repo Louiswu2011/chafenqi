@@ -21,8 +21,8 @@ struct FilterPanelView: View {
     @State private var filterConstantLowerBound = ""
     
     @State private var filterLevel = true
-    @State private var filterLevelUpperBound = ""
-    @State private var filterLevelLowerBound = ""
+    @State private var filterLevelUpperBound = "1"
+    @State private var filterLevelLowerBound = "15"
     
     @State private var sortOptions = ["按等级", "按定数", "按版本", "按标题"]
     @State private var sortWays = ["升序", "降序"]

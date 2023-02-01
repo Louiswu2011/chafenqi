@@ -54,19 +54,20 @@ struct SongListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button {
-                            showingFilterPanel.toggle()
-                        } label: {
-                            Image(systemName: "arrow.up.arrow.down")
-                            Text("筛选和排序")
-                        }
-                        .sheet(isPresented: $showingFilterPanel) {
-                            
-                        }
+//                        Button {
+//                            showingFilterPanel.toggle()
+//                        } label: {
+//                            Image(systemName: "arrow.up.arrow.down")
+//                            Text("筛选和排序")
+//                        }
+//                        .sheet(isPresented: $showingFilterPanel) {
+//
+//                        }
                         Toggle(isOn: $showingPlayed) {
                             Image(systemName: "rectangle.on.rectangle")
                             Text("仅显示已游玩曲目")
                         }
+                        .disabled(!didLogin)
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                     }
@@ -75,11 +76,9 @@ struct SongListView: View {
             .task {
                 if (loadedSongs.isEmpty) {
                     didSongListLoaded = false
-                    print("Starting task...")
                     // var songs: Set<SongData>
                     do {
                         try await loadedSongs = JSONEncoder().encode(ProbeDataGrabber.getSongDataSetFromServer())
-                        print("Returned.")
                         didSongListLoaded.toggle()
                         decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
                     } catch {
@@ -97,8 +96,14 @@ struct SongListView: View {
     }
     
     var searchResults: Set<SongData> {
-        let songs = try! decodedLoadedSongs.isEmpty ? JSONDecoder().decode(Set<SongData>.self, from: loadedSongs) :
+        var songs = try! decodedLoadedSongs.isEmpty ? JSONDecoder().decode(Set<SongData>.self, from: loadedSongs) :
             decodedLoadedSongs
+        
+        if (showingPlayed) {
+            let userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
+            let idList = userInfo.records.best.compactMap { $0.musicID }
+            songs = songs.filter { idList.contains( $0.id ) }
+        }
         
         if searchText.isEmpty {
             return songs
@@ -106,6 +111,8 @@ struct SongListView: View {
             return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
         }
     }
+    
+    
 }
 
 
