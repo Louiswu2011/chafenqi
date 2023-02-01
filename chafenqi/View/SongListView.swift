@@ -7,15 +7,26 @@
 
 import SwiftUI
 
+enum sortState {
+    case byMusicID, byHighestConstant
+}
+
 struct SongListView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
+    @AppStorage("didLogin") var didLogin = false
+    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("didSongListLoaded") private var didSongListLoaded = false
     
     @State private var searchText = ""
-    @State private var showingDetail = false
-    @State private var didSongListLoaded = false
+
+    
     @State private var decodedLoadedSongs: Set<SongData> = []
-    // @SceneStorage("filteredSongs") var filteredSongs: Data = Data()
+    
+    @State private var showingDetail = false
+    @State private var showingFilterPanel = false
+    @State private var showingPlayed = false
+
     
     var body: some View {
         NavigationView {
@@ -23,6 +34,7 @@ struct SongListView: View {
                 if (didSongListLoaded) {
                     // Text("\(searchText)")
                     //ScrollView {
+                    
                     List {
                         ForEach(searchResults.sorted(by: <), id: \.id) { song in
                             NavigationLink(destination: SongDetailView(song: song)) {
@@ -43,16 +55,17 @@ struct SongListView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Button {
-                            
+                            showingFilterPanel.toggle()
                         } label: {
                             Image(systemName: "arrow.up.arrow.down")
-                            Text("排序")
+                            Text("筛选和排序")
                         }
-                        Button {
+                        .sheet(isPresented: $showingFilterPanel) {
                             
-                        } label: {
-                            Image(systemName: "slider.horizontal.3")
-                            Text("筛选")
+                        }
+                        Toggle(isOn: $showingPlayed) {
+                            Image(systemName: "rectangle.on.rectangle")
+                            Text("仅显示已游玩曲目")
                         }
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")

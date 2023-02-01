@@ -242,76 +242,19 @@ struct SongDetailView: View {
                             return 3
                         }
                     }()
-                    
-                    if (song.charts.indices.contains(chartIndex)) {
-                        Text("谱师：\(song.charts[chartIndex].charter)")
-                        
-                        Spacer()
-                        
-                        Text("连击数：\(song.charts[chartIndex].combo)")
-                    }
                 }
-                .padding()
+                .padding([.horizontal])
+                .padding([.vertical], 10)
                 
                 if (!loadingScore) {
                     VStack(spacing: 10) {
-                        let levelLabel = [
-                            0: "Basic",
-                            1: "Advanced",
-                            2: "Expert",
-                            3: "Master",
-                            4: "Ultima"
-                        ]
-                        
                         ForEach(0..<4) { index in
-                            ZStack {
-                                let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
-                                
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(getLevelColor(index: index).opacity(0.5))
-                                
-                                HStack {
-                                    Text(levelLabel[index]!)
-                                    Spacer()
-                                    if (exists) {
-                                        Text(scoreEntries[index]!.getStatus())
-                                    }
-                                    Text(exists ? String(scoreEntries[index]!.score) : "尚未游玩")
-                                        .bold()
-                                    if (exists) {
-                                        Text("\(scoreEntries[index]!.rating, specifier: "%.2f")/\(String(scoreEntries[index]!.constant))")
-                                    }
-                                }
-                                .padding()
-                            }
-                            .padding(.horizontal)
+                            ScoreCardView(index: index, scoreEntries: scoreEntries, song: song)
                             
                         }
-                        
                         if (song.charts.count == 5) {
-                            ZStack {
-                                let exists = !scoreEntries.filter{ $0.key == 4 }.isEmpty
-                                
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(getLevelColor(index: 4).opacity(0.5))
-                                
-                                HStack {
-                                    Text(levelLabel[4]!)
-                                    Spacer()
-                                    if (exists) {
-                                        Text(scoreEntries[4]!.getStatus())
-                                    }
-                                    Text(exists ? String(scoreEntries[4]!.score) : "尚未游玩")
-                                        .bold()
-                                    if (exists) {
-                                        Text("\(scoreEntries[4]!.rating, specifier: "%.2f")/\(String(scoreEntries[4]!.constant))")
-                                    }
-                                }
-                                .padding()
-                            }
-                            .padding(.horizontal)
+                            ScoreCardView(index: 4, scoreEntries: scoreEntries, song: song)
                         }
-                        
                     }
                 }
             }
@@ -328,7 +271,69 @@ struct SongDetailView: View {
             }
         }
     }
+    
+    struct ScoreCardView: View {
+        var index: Int
+        var scoreEntries: [Int: ScoreEntry]
+        var song: SongData
+        
+        @State private var showingDetail = false
+        @State private var rotationAngle: Double = 0
+        
+        let levelLabel = [
+            0: "Basic",
+            1: "Advanced",
+            2: "Expert",
+            3: "Master",
+            4: "Ultima"
+        ]
+        
+        var body: some View {
+            ZStack {
+                let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
+                
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(getLevelColor(index: index).opacity(0.5))
+                
+                VStack() {
+                    HStack {
+                        Text(levelLabel[index]!)
+                        Spacer()
+                        if (exists) {
+                            Text(scoreEntries[index]!.getStatus())
+                            Text(scoreEntries[index]!.getGrade())
+                        }
+                        Text(exists ? String(scoreEntries[index]!.score) : "尚未游玩")
+                            .bold()
+                        Image(systemName: "chevron.backward")
+                            .rotationEffect(Angle(degrees: rotationAngle))
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    rotationAngle = showingDetail ? rotationAngle + 90 : rotationAngle - 90
+                                }
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    showingDetail.toggle()
+                                }
+                            }
+                    }
+                    .padding()
+                    
+                    if (showingDetail) {
+                        HStack {
+                            Text("谱师：\(song.charts[index].charter)")
+                            Spacer()
+                            Text("连击数：\(song.charts[index].combo)")
+                        }
+                        .padding([.leading, .bottom, .trailing])
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
 }
+
+
 
 func getLevelColor(index: Int) -> Color {
     switch (index) {

@@ -92,10 +92,151 @@
             filePath = "chafenqi/View/SongView/SongDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "body"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "64EB51DA-C6E0-4A14-8B4D-70621534C4B0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "chafenqi/View/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "loadUserInfo()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "64EB51DA-C6E0-4A14-8B4D-70621534C4B0 - 4508bbfc826c3776"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "289"
+                  endingLineNumber = "289"
+                  offsetFromSymbolStart = "3252">
+               </Location>
+               <Location
+                  uuid = "64EB51DA-C6E0-4A14-8B4D-70621534C4B0 - b100353d485ed374"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "289"
+                  endingLineNumber = "289"
+                  offsetFromSymbolStart = "1147">
+               </Location>
+               <Location
+                  uuid = "64EB51DA-C6E0-4A14-8B4D-70621534C4B0 - 98591a0875f54aa3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "289"
+                  endingLineNumber = "289"
+                  offsetFromSymbolStart = "553">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "99FDE8C4-1C0D-4DD9-B5CE-2002BBB198CB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "chafenqi/View/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
+            landmarkName = "loadUserInfo()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "99FDE8C4-1C0D-4DD9-B5CE-2002BBB198CB - 6d19bc781986ef99"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "282"
+                  endingLineNumber = "282"
+                  offsetFromSymbolStart = "1081">
+               </Location>
+               <Location
+                  uuid = "99FDE8C4-1C0D-4DD9-B5CE-2002BBB198CB - c3897af00cff27aa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "282"
+                  endingLineNumber = "282"
+                  offsetFromSymbolStart = "53">
+               </Location>
+               <Location
+                  uuid = "99FDE8C4-1C0D-4DD9-B5CE-2002BBB198CB - 591139badc738b9b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "282"
+                  endingLineNumber = "282"
+                  offsetFromSymbolStart = "161">
+               </Location>
+               <Location
+                  uuid = "99FDE8C4-1C0D-4DD9-B5CE-2002BBB198CB - 98591a0875f54a48"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for chafenqi.HomeView.loadUserInfo() async -&gt; ()"
+                  moduleName = "chafenqi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/louis/Documents/chafenqi/chafenqi/View/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "282"
+                  endingLineNumber = "282"
+                  offsetFromSymbolStart = "164">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

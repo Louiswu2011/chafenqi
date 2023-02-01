@@ -29,7 +29,11 @@ struct HomeView: View {
     
     @State private var previousToken = ""
     
+    @State private var decodedLoadedSongs: Set<SongData> = []
+    
     @AppStorage("settingsCoverSource") var coverSource = "Github"
+    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
+    @AppStorage("didSongListLoaded") private var didSongListLoaded = false
     
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
@@ -109,6 +113,11 @@ struct HomeView: View {
                             .padding(.top, 50)
                         }
                         
+                        // Basic Info
+                        VStack {
+                            Text("总游玩谱面：\(userInfo.records.best.count)")
+                        }
+                        
                         // B30
                         HStack {
                             Text("B30")
@@ -117,19 +126,23 @@ struct HomeView: View {
                             
                             Spacer()
                             
-                            Button {
-                                
+                            
+                            NavigationLink {
+                                B30View(userInfo: userInfo)
                             } label: {
                                 Image(systemName: "arrow.right")
-                            }
-                            .padding()
+                            }.padding()
+                            
                         }
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<30) { i in
-                                    SongMiniInfoView(song: b30[i])
-                                    // .padding(5)
+                                    NavigationLink {
+                                        SongDetailView(song: decodedLoadedSongs.filter{ $0.id == b30[i].musicID }[0])
+                                    } label: {
+                                        SongMiniInfoView(song: b30[i])
+                                    }.buttonStyle(.plain)
                                 }
                             }
                         }
@@ -156,7 +169,6 @@ struct HomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<10) { i in
                                     SongMiniInfoView(song: userInfo.records.r10[i])
-                                    // .padding(5)
                                 }
                             }
                         }
@@ -236,6 +248,37 @@ struct HomeView: View {
         }
     }
     
+    func loadSongList() async {
+        if (loadedSongs.isEmpty) {
+            didSongListLoaded = false
+            do {
+                try await loadedSongs = JSONEncoder().encode(ProbeDataGrabber.getSongDataSetFromServer())
+                didSongListLoaded.toggle()
+                decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+            } catch {
+                print(error)
+            }
+        } else if(decodedLoadedSongs.isEmpty) {
+            decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+        } else {
+            didSongListLoaded = true
+        }
+    }
+    
+    func downloadUserData() async throws {
+        accountNickname = try await ProbeDataGrabber.getUserNickname(username: accountName)
+        userInfoData = try await ProbeDataGrabber.getUserRecord(token: token)
+    }
+    
+    func prepareRecords() throws {
+        let decoder = JSONDecoder()
+        userInfo = try decoder.decode(UserData.self, from: userInfoData)
+        userInfo.records.best.sort {
+            $0.rating > $1.rating
+        }
+        b30 = userInfo.records.best.prefix(upTo: 30)
+    }
+    
     func refreshUserInfo() async {
         guard didLogin else {
             status = .empty
@@ -249,21 +292,17 @@ struct HomeView: View {
     
     func loadUserInfo() async {
         guard didLogin && !token.isEmpty else { return }
-        
-        let decoder = JSONDecoder()
-        
+
         switch status {
         case .loading:
             do {
-                accountNickname = try await ProbeDataGrabber.getUserNickname(username: accountName)
-                userInfoData = try await ProbeDataGrabber.getUserRecord(token: token)
+                try await downloadUserData()
                 
                 status = .loading(hint: "加载数据中...")
-                userInfo = try decoder.decode(UserData.self, from: userInfoData)
-                userInfo.records.best.sort {
-                    $0.rating > $1.rating
-                }
-                b30 = userInfo.records.best.prefix(upTo: 30)
+                try prepareRecords()
+                
+                status = .loading(hint: "加载歌曲列表中...")
+                await loadSongList()
                 
                 status = .complete
             } catch {
@@ -273,11 +312,9 @@ struct HomeView: View {
             
         case .loadFromCache:
             do {
-                userInfo = try decoder.decode(UserData.self, from: userInfoData)
-                userInfo.records.best.sort {
-                    $0.rating > $1.rating
-                }
-                b30 = userInfo.records.best.prefix(upTo: 30)
+                try prepareRecords()
+                await loadSongList()
+                
                 status = .complete
             } catch {
                 print(error)

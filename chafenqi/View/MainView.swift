@@ -27,15 +27,6 @@ struct MainView: View {
             }
             
             
-            NavigationView {
-                RecentView()
-            }
-            .tabItem {
-                Image(systemName: "clock")
-                Text("记录")
-            }
-            
-            
             SongListView()
                 .tabItem {
                     Image(systemName: "music.note.list")

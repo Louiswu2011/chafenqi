@@ -14,9 +14,12 @@ struct UserData: Codable {
     var username: String
     
     init(){
-        rating = 0.0
-        records = UserRecord(best: Array<ScoreEntry>(), r10: Array<ScoreEntry>())
-        username = ""
+        let placerholder = ScoreEntry(chartID: 1, constant: 14.4, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "Master", musicID: 3, rating: 16.40, score: 1009560, title: "Y")
+        let best = [ScoreEntry](repeating: placerholder, count: 100)
+        let r10 = [ScoreEntry](repeating: placerholder, count: 10)
+        rating = 17.00
+        records = UserRecord(best: best, r10: r10)
+        username = "louis"
     }
 
     

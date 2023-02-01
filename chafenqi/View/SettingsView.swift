@@ -48,9 +48,6 @@ struct SettingsView: View {
                 
                 Section {
                     if (didLogin) {
-                        HStack {
-                            TextInfoView(text: "Token", info: token)
-                        }
                         TextInfoView(text: "用户名", info: accountName)
                         TextInfoView(text: "Token", info: token)
                         Button {

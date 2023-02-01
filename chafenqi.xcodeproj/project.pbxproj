@@ -14,6 +14,7 @@
 		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
 		BF55004D29818D9D004072A0 /* B30View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF55004C29818D9D004072A0 /* B30View.swift */; };
 		BF670DE529781B0100EA2CBB /* SongMiniInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670DE429781B0100EA2CBB /* SongMiniInfoView.swift */; };
+		BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6EB97F298A429B003A5604 /* FilterPanelView.swift */; };
 		BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69A297C3365003A67B0 /* DataTool.swift */; };
 		BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */; };
 		BF7E2518296AA89500169B57 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2517296AA89500169B57 /* HomeView.swift */; };
@@ -30,6 +31,7 @@
 		BFECEC65297D256600D2F383 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BFECEC64297D256600D2F383 /* AlertToast */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
 		BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC72297D37E600D2F383 /* SongChartView.swift */; };
+		BFEF7EDB298A448500F87ACC /* SongFilterOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEF7EDA298A448500F87ACC /* SongFilterOption.swift */; };
 		BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C029681F8D001392E5 /* chafenqiApp.swift */; };
 		BFF353C329681F8D001392E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C229681F8D001392E5 /* MainView.swift */; };
 		BFF353C529681F8E001392E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF353C429681F8E001392E5 /* Assets.xcassets */; };
@@ -66,6 +68,7 @@
 		BF38089D298916F7008FF936 /* TextInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfoView.swift; sourceTree = "<group>"; };
 		BF55004C29818D9D004072A0 /* B30View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = B30View.swift; sourceTree = "<group>"; };
 		BF670DE429781B0100EA2CBB /* SongMiniInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongMiniInfoView.swift; sourceTree = "<group>"; };
+		BF6EB97F298A429B003A5604 /* FilterPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPanelView.swift; sourceTree = "<group>"; };
 		BF7BC69A297C3365003A67B0 /* DataTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTool.swift; sourceTree = "<group>"; };
 		BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewModifier.swift; sourceTree = "<group>"; };
 		BF7E2517296AA89500169B57 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 		BFEB5AEA29897E1C005646AA /* UserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserScoreData.swift; sourceTree = "<group>"; };
 		BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageGrabber.swift; sourceTree = "<group>"; };
 		BFECEC72297D37E600D2F383 /* SongChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongChartView.swift; sourceTree = "<group>"; };
+		BFEF7EDA298A448500F87ACC /* SongFilterOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFilterOption.swift; sourceTree = "<group>"; };
 		BFF353BD29681F8D001392E5 /* chafenqi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chafenqi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF353C029681F8D001392E5 /* chafenqiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiApp.swift; sourceTree = "<group>"; };
 		BFF353C229681F8D001392E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -148,12 +152,21 @@
 			path = SongView;
 			sourceTree = "<group>";
 		};
+		BF6EB981298A42A2003A5604 /* PanelView */ = {
+			isa = PBXGroup;
+			children = (
+				BF6EB97F298A429B003A5604 /* FilterPanelView.swift */,
+			);
+			path = PanelView;
+			sourceTree = "<group>";
+		};
 		BF7E251D296AAAB200169B57 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
 				BF7E251E296AAACE00169B57 /* SongData.swift */,
 				BFEB5AEA29897E1C005646AA /* UserScoreData.swift */,
 				BFEB5AE8298937E8005646AA /* UserData.swift */,
+				BFEF7EDA298A448500F87ACC /* SongFilterOption.swift */,
 			);
 			path = Struct;
 			sourceTree = "<group>";
@@ -168,13 +181,6 @@
 				BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */,
 			);
 			path = Helper;
-			sourceTree = "<group>";
-		};
-		BFCA382E2977020B008E30F1 /* API */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = API;
 			sourceTree = "<group>";
 		};
 		BFF353B429681F8D001392E5 = {
@@ -201,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				BF0CFD5F297B26D6003763E2 /* Resource */,
-				BFCA382E2977020B008E30F1 /* API */,
 				BF7E2520296AACE200169B57 /* Helper */,
 				BF7E251D296AAAB200169B57 /* Struct */,
 				BFF353EB2968324B001392E5 /* App */,
@@ -240,6 +245,7 @@
 		BFF353EA296831EE001392E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BF6EB981298A42A2003A5604 /* PanelView */,
 				BF55004B29818D8D004072A0 /* ScoreView */,
 				BF670DE629781B0E00EA2CBB /* SongView */,
 				BFF353C229681F8D001392E5 /* MainView.swift */,
@@ -405,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFCA383229770851008E30F1 /* CFQError.swift in Sources */,
+				BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */,
 				BFF353ED29683271001392E5 /* LoginView.swift in Sources */,
 				BF7E251A296AA8CD00169B57 /* RecentView.swift in Sources */,
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
@@ -424,6 +431,7 @@
 				BF670DE529781B0100EA2CBB /* SongMiniInfoView.swift in Sources */,
 				BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */,
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
+				BFEF7EDB298A448500F87ACC /* SongFilterOption.swift in Sources */,
 				BFEB5AEB29897E1C005646AA /* UserScoreData.swift in Sources */,
 				BF0D912E296C4B7F005DC8A3 /* SongDetailView.swift in Sources */,
 				BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */,
