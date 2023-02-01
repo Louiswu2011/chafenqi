@@ -61,8 +61,8 @@ struct SongDetailView: View {
                             if let image = phase.image {
                                 image
                                     .resizable()
-                            } else if let error = phase.error {
-                                Color.red
+                            } else if phase.error != nil {
+                                Image(systemName: "questionmark.square")
                             } else {
                                 ProgressView()
                             }

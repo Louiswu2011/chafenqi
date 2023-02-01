@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
+		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
+		BF02B680298ACD6D00F5234E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = BF02B67F298ACD6D00F5234E /* Introspect */; };
 		BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */; };
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912B296C341F005DC8A3 /* SettingsView.swift */; };
@@ -19,7 +21,6 @@
 		BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69A297C3365003A67B0 /* DataTool.swift */; };
 		BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */; };
 		BF7E2518296AA89500169B57 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2517296AA89500169B57 /* HomeView.swift */; };
-		BF7E251A296AA8CD00169B57 /* RecentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2519296AA8CD00169B57 /* RecentView.swift */; };
 		BF7E251C296AA9DC00169B57 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E251B296AA9DC00169B57 /* SongListView.swift */; };
 		BF7E251F296AAACE00169B57 /* SongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E251E296AAACE00169B57 /* SongData.swift */; };
 		BF7E2522296AAD1A00169B57 /* ProberDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2521296AAD1A00169B57 /* ProberDataGrabber.swift */; };
@@ -63,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
+		BF02B67C298AC26300F5234E /* SongRandomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRandomizerView.swift; sourceTree = "<group>"; };
 		BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartIdConverter.swift; sourceTree = "<group>"; };
 		BF0CFD60297B26E5003763E2 /* IdMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IdMap.json; sourceTree = "<group>"; };
 		BF0D912B296C341F005DC8A3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -74,7 +76,6 @@
 		BF7BC69A297C3365003A67B0 /* DataTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTool.swift; sourceTree = "<group>"; };
 		BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewModifier.swift; sourceTree = "<group>"; };
 		BF7E2517296AA89500169B57 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		BF7E2519296AA8CD00169B57 /* RecentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentView.swift; sourceTree = "<group>"; };
 		BF7E251B296AA9DC00169B57 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		BF7E251E296AAACE00169B57 /* SongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongData.swift; sourceTree = "<group>"; };
 		BF7E2521296AAD1A00169B57 /* ProberDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProberDataGrabber.swift; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFECEC65297D256600D2F383 /* AlertToast in Frameworks */,
+				BF02B680298ACD6D00F5234E /* Introspect in Frameworks */,
 				BFECEC62297D212900D2F383 /* RefreshableScrollView in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 			);
@@ -127,6 +129,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF02B67A298AC22100F5234E /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				BF38089D298916F7008FF936 /* TextInfoView.swift */,
+				BFF353F22968533B001392E5 /* CutCircularProgressView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		BF02B67B298AC23B00F5234E /* ToolboxView */ = {
+			isa = PBXGroup;
+			children = (
+				BF02B678298A96E400F5234E /* BorderCalcView.swift */,
+				BF02B67C298AC26300F5234E /* SongRandomizerView.swift */,
+			);
+			path = ToolboxView;
+			sourceTree = "<group>";
+		};
 		BF0CFD5F297B26D6003763E2 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +177,7 @@
 		BF6EB981298A42A2003A5604 /* PanelView */ = {
 			isa = PBXGroup;
 			children = (
+				BF0D912B296C341F005DC8A3 /* SettingsView.swift */,
 				BF6EB97F298A429B003A5604 /* FilterPanelView.swift */,
 			);
 			path = PanelView;
@@ -188,6 +209,9 @@
 		BFEF7EDC298A851100F87ACC /* TopView */ = {
 			isa = PBXGroup;
 			children = (
+				BF7E251B296AA9DC00169B57 /* SongListView.swift */,
+				BFEF7EDD298A856E00F87ACC /* ToolView.swift */,
+				BF7E2517296AA89500169B57 /* HomeView.swift */,
 			);
 			path = TopView;
 			sourceTree = "<group>";
@@ -254,19 +278,13 @@
 		BFF353EA296831EE001392E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BF02B67B298AC23B00F5234E /* ToolboxView */,
+				BF02B67A298AC22100F5234E /* CustomView */,
 				BFEF7EDC298A851100F87ACC /* TopView */,
 				BF6EB981298A42A2003A5604 /* PanelView */,
 				BF55004B29818D8D004072A0 /* ScoreView */,
 				BF670DE629781B0E00EA2CBB /* SongView */,
 				BFF353C229681F8D001392E5 /* MainView.swift */,
-				BFF353F22968533B001392E5 /* CutCircularProgressView.swift */,
-				BF7E2517296AA89500169B57 /* HomeView.swift */,
-				BF7E2519296AA8CD00169B57 /* RecentView.swift */,
-				BF7E251B296AA9DC00169B57 /* SongListView.swift */,
-				BF0D912B296C341F005DC8A3 /* SettingsView.swift */,
-				BF38089D298916F7008FF936 /* TextInfoView.swift */,
-				BFEF7EDD298A856E00F87ACC /* ToolView.swift */,
-				BF02B678298A96E400F5234E /* BorderCalcView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -300,6 +318,7 @@
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
 				BFECEC61297D212900D2F383 /* RefreshableScrollView */,
 				BFECEC64297D256600D2F383 /* AlertToast */,
+				BF02B67F298ACD6D00F5234E /* Introspect */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -377,6 +396,7 @@
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				BFECEC60297D212900D2F383 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */,
 				BFECEC63297D256600D2F383 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				BF02B67E298ACD6D00F5234E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -423,7 +443,7 @@
 			files = (
 				BFCA383229770851008E30F1 /* CFQError.swift in Sources */,
 				BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */,
-				BF7E251A296AA8CD00169B57 /* RecentView.swift in Sources */,
+				BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */,
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
 				BF7E2524296AD44000169B57 /* SongBasicInfoView.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* SongData.swift in Sources */,
@@ -777,6 +797,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BF02B67E298ACD6D00F5234E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 		BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
@@ -804,6 +832,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BF02B67F298ACD6D00F5234E /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF02B67E298ACD6D00F5234E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
