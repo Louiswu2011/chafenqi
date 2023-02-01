@@ -25,8 +25,7 @@ struct SettingsView: View {
     
     @Binding var showingSettings: Bool
     
-    var sourceOptions = ["Github", "Gitee"]
-    var accountOptions = ["QQ号", "账户名"]
+    var sourceOptions = [0: "Github", 1: "Gitee"]
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
@@ -35,8 +34,8 @@ struct SettingsView: View {
             Form {
                 Section {
                     Picker("封面来源", selection: $coverSource) {
-                        ForEach(sourceOptions, id: \.self) {
-                            Text($0)
+                        ForEach(sourceOptions.sorted(by: <), id: \.key) {
+                            Text($0.value)
                         }
                     }
                     .pickerStyle(.automatic)
@@ -91,6 +90,16 @@ struct SettingsView: View {
                 }
                 
                 Section {
+                    NavigationLink {
+                        RandomizerSettingsView()
+                    } label: {
+                        Text("随机歌曲")
+                    }
+                } header: {
+                    Text("工具")
+                }
+                
+                Section {
                     HStack {
                         Text("版本")
                         Spacer()
@@ -122,6 +131,31 @@ struct SettingsView: View {
         tokenHeader = ""
         token = ""
         infoData = Data()
+    }
+}
+
+struct RandomizerSettingsView: View {
+    @AppStorage("settingsRandomizerFilterMode") var filterMode = 0
+    
+    let filterOptions = [0: "无", 1: "仅未游玩歌曲", 2: "仅已游玩歌曲"]
+    
+    var body: some View {
+        Form {
+            Section {
+                HStack {
+                    Text("筛选模式")
+                    Picker("", selection: $filterMode) {
+                        ForEach(filterOptions.sorted(by: <), id: \.key) {
+                            Text($0.value)
+                        }
+                    }
+                }
+            } header: {
+                Text("常规")
+            }
+        }
+        .navigationTitle("随机歌曲")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

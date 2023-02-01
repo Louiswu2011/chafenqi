@@ -12,7 +12,7 @@ import AlertToast
 
 struct SongDetailView: View {
     
-    @AppStorage("settingsCoverSource") var coverSource = ""
+    @AppStorage("settingsCoverSource") var coverSource = 0
     @AppStorage("userInfoData") var userInfoData = Data()
     
     @Environment(\.colorScheme) var colorScheme
@@ -45,7 +45,7 @@ struct SongDetailView: View {
     var body: some View {
         let webChartId = try! converter.getWebChartId(musicId: song.id)
         
-        let coverURL = coverSource == "Github" ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
+        let coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
         
         if (isLoading) {
             ProgressView()

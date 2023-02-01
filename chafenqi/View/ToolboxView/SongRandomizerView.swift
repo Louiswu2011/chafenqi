@@ -11,7 +11,10 @@ import CachedAsyncImage
 struct SongRandomizerView: View {
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
     @AppStorage("didSongListLoaded") var didSongListLoaded = false
-    @AppStorage("settingsCoverSource") var coverSource = "Github"
+    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("didLogin") var didLogin = false
+    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsRandomizerFilterMode") var filterMode = 0
     
     @State private var isSpinning = false
     @State private var showingConstant = false
@@ -84,7 +87,7 @@ struct SongRandomizerView: View {
                 Button {
                     randomSong = getRandomSong()
                 } label: {
-                    Text("再来一次")
+                    Text("再来一首")
                     Image(systemName: "dice")
                 }
                 // .disabled(isSpinning)
@@ -104,6 +107,7 @@ struct SongRandomizerView: View {
         }
         .onAppear {
             decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+            filterSongList()
             randomSong = getRandomSong()
         }
         .navigationTitle("随机歌曲")
@@ -111,9 +115,26 @@ struct SongRandomizerView: View {
         
     }
     
+    func filterSongList() {
+        guard didLogin else { return }
+        
+        let playedList = try! JSONDecoder().decode(UserData.self, from: userInfoData).records.best.compactMap { $0.musicID }
+        
+        switch (filterMode) {
+        case 0:
+            return
+        case 1:
+            decodedLoadedSongs = decodedLoadedSongs.filter { !playedList.contains($0.id) }
+        case 2:
+            decodedLoadedSongs = decodedLoadedSongs.filter { playedList.contains($0.id) }
+        default:
+            return
+        }
+    }
+    
     func getRandomSong() -> SongData {
         let randSong = decodedLoadedSongs.randomElement()!
-        coverURL = coverSource == "Github" ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.id).png")
+        coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.id).png")
         return randSong
     }
 }
