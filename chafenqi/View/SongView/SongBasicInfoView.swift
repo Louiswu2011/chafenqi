@@ -19,12 +19,12 @@ struct SongBasicInfoView: View {
     
     let song: SongData
 
-    @AppStorage("settingsCoverSource") var coverSource = ""
+    @AppStorage("settingsCoverSource") var coverSource = 0
     @State private var showingChartConstant = false
     
     var body: some View {
         HStack() {
-            let requestURL = coverSource == "Github" ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
+            let requestURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
             
             CachedAsyncImage(url: requestURL){ phase in
                 if let image = phase.image {
