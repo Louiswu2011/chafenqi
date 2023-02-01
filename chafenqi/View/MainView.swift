@@ -21,19 +21,19 @@ struct MainView: View {
         TabView {
             NavigationView {
                 HomeView()
-                    
             }
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("主页")
             }
             
-            
-            SongListView()
-                .tabItem {
-                    Image(systemName: "music.note.list")
-                    Text("歌曲")
-                }
+            NavigationView {
+                SongListView()
+            }
+            .tabItem {
+                Image(systemName: "music.note.list")
+                Text("歌曲")
+            }
             
             NavigationView {
                 ToolView()

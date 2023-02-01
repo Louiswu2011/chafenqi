@@ -31,9 +31,11 @@ struct HomeView: View {
     
     @State private var decodedLoadedSongs: Set<SongData> = []
     
+    @State private var totalChartCount = 0
+    
     @AppStorage("settingsCoverSource") var coverSource = "Github"
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
-    @AppStorage("didSongListLoaded") private var didSongListLoaded = false
+    @AppStorage("didSongListLoaded") var didSongListLoaded = false
     
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
@@ -115,7 +117,7 @@ struct HomeView: View {
                         
                         // Basic Info
                         VStack {
-                            Text("总游玩谱面：\(userInfo.records.best.count)")
+                            Text("总游玩谱面：" + String(userInfo.records.best.count) + "/" + String(totalChartCount))
                         }
                         
                         // B30
@@ -181,7 +183,16 @@ struct HomeView: View {
                         
                         
                         Text("封面来源：\(coverSource)")
-                            .padding()
+                            .padding(.top)
+                        
+                        Button {
+                            Task {
+                                await refreshUserInfo()
+                            }
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                            Text("刷新")
+                        }.padding()
                     }
                     
                 }
@@ -290,8 +301,15 @@ struct HomeView: View {
         }
         
         status = .loading(hint: "获取用户数据中...")
-        userInfoData = Data()
+        resetCache()
+        
         await loadUserInfo()
+    }
+    
+    func resetCache() {
+        userInfoData = Data()
+        loadedSongs = Data()
+        totalChartCount = 0
     }
     
     func loadUserInfo() async {
@@ -307,6 +325,10 @@ struct HomeView: View {
                 
                 status = .loading(hint: "加载歌曲列表中...")
                 await loadSongList()
+                totalChartCount = getTotalChartCount()
+                
+                // For now
+                removeWEChart()
                 
                 status = .complete
             } catch {
@@ -318,6 +340,9 @@ struct HomeView: View {
             do {
                 try prepareRecords()
                 await loadSongList()
+                if (totalChartCount == 0) {
+                    totalChartCount = getTotalChartCount()
+                }
                 
                 status = .complete
             } catch {
@@ -328,6 +353,21 @@ struct HomeView: View {
         case .complete, .error(errorText: _), .empty:
             break
         }
+    }
+    
+    func removeWEChart() {
+        var decoded = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+        decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
+        loadedSongs = try! JSONEncoder().encode(decoded)
+        decodedLoadedSongs = decoded
+    }
+    
+    func getTotalChartCount() -> Int {
+        var total = 0
+        decodedLoadedSongs.forEach { song in
+            total += song.charts.count
+        }
+        return total
     }
 }
 
