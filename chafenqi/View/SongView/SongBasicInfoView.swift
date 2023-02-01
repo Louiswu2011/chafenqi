@@ -33,13 +33,13 @@ struct SongBasicInfoView: View {
                         .scaledToFill()
                         .frame(width: 80, height: 80)
                     
-                } else if let error = phase.error {
-                    Color.red
-                        .task {
-                            print(error)
-                        }
+                } else if phase.error != nil {
+                    Image(systemName: "questionmark.square")
+                        .resizable()
+                        .frame(width: 80, height: 80)
                 } else {
                     ProgressView()
+                        .frame(width: 80, height: 80)
                 }
             }
                 // .resizable()

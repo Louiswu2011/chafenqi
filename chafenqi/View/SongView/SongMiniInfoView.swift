@@ -56,13 +56,13 @@ struct SongMiniInfoView: View {
                             .cornerRadius(10)
                             .shadow(radius: 5)
                         
-                    } else if let error = phase.error {
-                        Color.red
-                            .task {
-                                print(error)
-                            }
+                    } else if phase.error != nil {
+                        Image(systemName: "questionmark.square")
+                            .resizable()
+                            .frame(width: 80, height: 80)
                     } else {
                         ProgressView()
+                            .frame(width: 80, height: 80)
                     }
                 }
                 
