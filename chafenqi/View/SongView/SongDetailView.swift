@@ -57,20 +57,8 @@ struct SongDetailView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        CachedAsyncImage(url: coverURL) { phase in
-                            if let image = phase.image {
-                                image
-                                    .resizable()
-                            } else if phase.error != nil {
-                                Image(systemName: "questionmark.square")
-                            } else {
-                                ProgressView()
-                            }
-                        }
-                        .cornerRadius(15)
-                        .shadow(color: colorScheme == .dark ? Color.white : Color.gray.opacity(0.7), radius: 1)
-                        .frame(width: 120, height: 120)
-                        .padding(.leading)
+                        SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10)
+                            .padding(.leading)
                         
                         VStack(alignment: .leading) {
                             Spacer()
@@ -86,6 +74,7 @@ struct SongDetailView: View {
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.8)
                         }
+                        .padding(.leading, 5)
                         
                         Spacer()
                         
@@ -144,7 +133,6 @@ struct SongDetailView: View {
                         Text("BPM: \(song.basicInfo.bpm)")
                             .font(.title3)
                     }
-                    .padding(.top, 5.0)
                     .padding(.horizontal)
                     
                     HStack {
@@ -182,9 +170,8 @@ struct SongDetailView: View {
                     }
 
                     ZStack {
-                        // TODO: fix background
                         RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
-                            .background(Color.black)
+                            .foregroundColor(Color.black)
                             .shadow(color: colorScheme == .dark ? Color.white : Color.gray.opacity(0.7), radius: 1)
                         
                         // Chart Image
@@ -229,23 +216,7 @@ struct SongDetailView: View {
                         }
                     }
                 }
-                
-                HStack {
-                    let chartIndex: Int = {
-                        switch(selectedDifficulty) {
-                        case "Expert":
-                            return 2
-                        case "Master":
-                            return 3
-                        case "Ultima":
-                            return 4
-                        default:
-                            return 3
-                        }
-                    }()
-                }
-                .padding([.horizontal])
-                .padding([.vertical], 10)
+                .padding(.bottom)
                 
                 if (!loadingScore) {
                     VStack(spacing: 5) {
@@ -342,13 +313,15 @@ struct SongDetailView: View {
                     .padding()
                     
                     if (showingDetail) {
-                        HStack {
-                            Text("谱师：\(song.charts[index].charter)")
-                                .lineLimit(1)
-                            Spacer()
-                            Text("连击数：\(song.charts[index].combo)")
+                        VStack {
+                            HStack {
+                                Text("谱师：\(song.charts[index].charter)")
+                                    .lineLimit(1)
+                                Spacer()
+                                Text("连击数：\(song.charts[index].combo)")
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding([.leading, .bottom, .trailing])
                     }
                 }
             }

@@ -29,23 +29,7 @@ struct SongRandomizerView: View {
     var body: some View {
         
         VStack(alignment: .center) {
-            CachedAsyncImage(url: coverURL){ phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
-                    
-                } else if phase.error != nil {
-                    Image(systemName: "questionmark.square")
-                        .frame(width: 200, height: 200)
-                } else {
-                    ProgressView()
-                        .frame(width: 200, height: 200)
-                }
-            }
+            SongCoverView(coverURL: coverURL!, size: 200, cornerRadius: 5)
             
             Text(randomSong.basicInfo.title)
                 .bold()

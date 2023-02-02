@@ -10,6 +10,7 @@
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
 		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
 		BF02B680298ACD6D00F5234E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = BF02B67F298ACD6D00F5234E /* Introspect */; };
+		BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */; };
 		BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */; };
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912B296C341F005DC8A3 /* SettingsView.swift */; };
@@ -65,6 +66,8 @@
 /* Begin PBXFileReference section */
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
 		BF02B67C298AC26300F5234E /* SongRandomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRandomizerView.swift; sourceTree = "<group>"; };
+		BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCoverView.swift; sourceTree = "<group>"; };
+		BF0A0BA2298C372F008F9700 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartIdConverter.swift; sourceTree = "<group>"; };
 		BF0CFD60297B26E5003763E2 /* IdMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IdMap.json; sourceTree = "<group>"; };
 		BF0D912B296C341F005DC8A3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 			children = (
 				BF38089D298916F7008FF936 /* TextInfoView.swift */,
 				BFF353F22968533B001392E5 /* CutCircularProgressView.swift */,
+				BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -239,6 +243,7 @@
 		BFF353BF29681F8D001392E5 /* chafenqi */ = {
 			isa = PBXGroup;
 			children = (
+				BF0A0BA2298C372F008F9700 /* Info.plist */,
 				BF0CFD5F297B26D6003763E2 /* Resource */,
 				BF7E2520296AACE200169B57 /* Helper */,
 				BF7E251D296AAAB200169B57 /* Struct */,
@@ -446,6 +451,7 @@
 				BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */,
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
 				BF7E2524296AD44000169B57 /* SongBasicInfoView.swift in Sources */,
+				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* SongData.swift in Sources */,
 				BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */,
 				BFEF7EDE298A856E00F87ACC /* ToolView.swift in Sources */,
@@ -623,11 +629,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 63;
 				DEVELOPMENT_ASSET_PATHS = "\"chafenqi/Preview Content\"";
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chafenqi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -639,7 +646,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -654,11 +661,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 63;
 				DEVELOPMENT_ASSET_PATHS = "\"chafenqi/Preview Content\"";
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chafenqi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -670,7 +678,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

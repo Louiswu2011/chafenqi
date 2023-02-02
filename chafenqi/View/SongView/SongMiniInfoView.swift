@@ -47,24 +47,7 @@ struct SongMiniInfoView: View {
             HStack {
                 let requestURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicID).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicID).png")
                 
-                CachedAsyncImage(url: requestURL){ phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        
-                    } else if phase.error != nil {
-                        Image(systemName: "questionmark.square")
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                    } else {
-                        ProgressView()
-                            .frame(width: 80, height: 80)
-                    }
-                }
+                SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10)
                 
                 VStack(alignment: .leading) {
                     Spacer()

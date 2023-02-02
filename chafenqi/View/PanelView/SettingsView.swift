@@ -33,12 +33,16 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section {
-                    Picker("封面来源", selection: $coverSource) {
-                        ForEach(sourceOptions.sorted(by: <), id: \.key) {
-                            Text($0.value)
+                    HStack {
+                        Text("封面来源")
+                        Spacer()
+                        Picker("", selection: $coverSource) {
+                            ForEach(sourceOptions.sorted(by: <), id: \.key) {
+                                Text($0.value)
+                            }
                         }
+                        .pickerStyle(.menu)
                     }
-                    .pickerStyle(.automatic)
                 } header: {
                     Text("常规")
                 } footer: {
@@ -109,6 +113,9 @@ struct SettingsView: View {
                                 showingBuildNumber.toggle()
                             }
                     }
+                    
+                    Link("到Github提交反馈...", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
+                    
                     Button() {
                         
                     } label: {
@@ -144,11 +151,13 @@ struct RandomizerSettingsView: View {
             Section {
                 HStack {
                     Text("筛选模式")
+                    Spacer()
                     Picker("", selection: $filterMode) {
                         ForEach(filterOptions.sorted(by: <), id: \.key) {
                             Text($0.value)
                         }
                     }
+                    .pickerStyle(.menu)
                 }
             } header: {
                 Text("常规")

@@ -191,7 +191,7 @@ struct HomeView: View {
                             }
                         } label: {
                             Image(systemName: "arrow.clockwise")
-                            Text("刷新")
+                            Text("刷新缓存")
                         }.padding()
                     }
                     

@@ -34,26 +34,26 @@ struct ToolView: View {
                     }
                     .frame(height: 50)
                     
-                    HStack {
-                        NavigationLink {
-                            
-                        } label: {
-                            Image(systemName: "plus.forwardslash.minus")
-                                .resizable()
-                                .aspectRatio(1, contentMode: .fit)
-                                .padding(5)
-                            VStack(alignment: .leading) {
-                                Text("分数计算器")
-                                    .font(.title2)
-                                    .bold()
-                                Text("我不要再鸟寸了！")
-                                    .font(.footnote)
-                            }
-                            Spacer()
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    .frame(height: 50)
+//                    HStack {
+//                        NavigationLink {
+//
+//                        } label: {
+//                            Image(systemName: "plus.forwardslash.minus")
+//                                .resizable()
+//                                .aspectRatio(1, contentMode: .fit)
+//                                .padding(5)
+//                            VStack(alignment: .leading) {
+//                                Text("分数计算器")
+//                                    .font(.title2)
+//                                    .bold()
+//                                Text("我不要再鸟寸了！")
+//                                    .font(.footnote)
+//                            }
+//                            Spacer()
+//                        }
+//                        .buttonStyle(.plain)
+//                    }
+//                    .frame(height: 50)
                 } header: {
                     Text("常规")
                 }

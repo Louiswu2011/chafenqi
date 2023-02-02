@@ -18,7 +18,9 @@ let tempSongData = try! JSONDecoder().decode(SongData.self, from: data!)
 struct SongBasicInfoView: View {
     
     let song: SongData
-
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     @AppStorage("settingsCoverSource") var coverSource = 0
     @State private var showingChartConstant = false
     
@@ -26,47 +28,17 @@ struct SongBasicInfoView: View {
         HStack() {
             let requestURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
             
-            CachedAsyncImage(url: requestURL){ phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 80, height: 80)
-                    
-                } else if phase.error != nil {
-                    Image(systemName: "questionmark.square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                } else {
-                    ProgressView()
-                        .frame(width: 80, height: 80)
+            SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
                 }
-            }
-                // .resizable()
-                // .scaledToFit()
-                .cornerRadius(10.0)
-                // .padding([.top, .bottom, .trailing], 8.0)
-                // .frame(width: 130, height: 130)
-                // .foregroundColor(.accentColor)
-                .shadow(color: .black,radius: 1)
-                // .border(Color.accentColor.opacity(0.5))
-            
-//            RemoteImageView(
-//                url: URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")!,
-//                placeholder: {
-//                    ProgressView()
-//                }, image: {
-//                    Image(uiImage: $0).resizable()
-//                })
-
             
             HStack{
                 VStack(alignment: .leading) {
                     Text(song.title)
                         .font(.title2)
                         .bold()
-                    // .scaledToFit()
-                        // .border(Color.black)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
@@ -74,8 +46,6 @@ struct SongBasicInfoView: View {
                     
                     Text(song.basicInfo.artist)
                         .font(.title3)
-                    // .scaledToFit()
-                        // .border(Color.black)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
@@ -125,24 +95,9 @@ struct SongBasicInfoView: View {
                     .onTapGesture {
                         showingChartConstant.toggle()
                     }
-                    
                 }
-                // .frame(maxWidth: 200)
-                // .border(Color.blue)
-                
-                // Spacer()
             }
-
-            // Spacer()
         }
-        // .frame(width: 300, height: 90)
-        // .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-        // .padding()
-        // .border(Color.black)
-        // .background(Color(dominantColor[1]).opacity(0.7))
-        // .cornerRadius(10.0)
-        
-        
     }
 }
 
