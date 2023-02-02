@@ -1,5 +1,12 @@
 # 中二节奏/舞萌DX查分器（暂定）
 用Swift实现的轻量级查分器，支持iOS15及以上。
+
+<p>
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/homeScreen.png" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/detailScreen.png" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/songListScreen.png" width="230">
+  </p>
+
 ## 主要功能
 - [x] 基本信息查询
 - [x] Rating/B30/R10计算
@@ -12,7 +19,6 @@
 3. 用Diving-Fish查分器账号登录
 4. 开始查分！
 ## 注意事项
-- 暂不支持浏览WE谱面信息（程序闪退）
 - 暂不支持从Gitee获取封面
 - 各种视觉小Bug
 ## 编译项目
