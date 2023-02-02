@@ -2,10 +2,9 @@
 用Swift实现的轻量级查分器，支持iOS15及以上。
 
 <p>
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/homeScreen.png" width="240">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/detailScreen.png" width="240">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/songListScreen.png" width="240">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/randomScreen.png" width="240">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/homeScreen.png" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/detailScreen.png" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/songListScreen.png" width="230">
   </p>
 
 ## 主要功能
