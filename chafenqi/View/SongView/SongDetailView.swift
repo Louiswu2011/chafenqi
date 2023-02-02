@@ -15,6 +15,7 @@ struct SongDetailView: View {
     @AppStorage("settingsCoverSource") var coverSource = 0
     @AppStorage("userInfoData") var userInfoData = Data()
     @AppStorage("chartIDMap") var mapData = Data()
+    @AppStorage("didLogin") var didLogin = false
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -217,7 +218,7 @@ struct SongDetailView: View {
                 }
                 .padding(.bottom)
                 
-                if (!loadingScore) {
+                if (!loadingScore && didLogin) {
                     VStack(spacing: 5) {
                         ForEach(0..<4) { index in
                             ScoreCardView(index: index, scoreEntries: scoreEntries, song: song)
@@ -232,33 +233,35 @@ struct SongDetailView: View {
                 }
             }
             .task {
-                userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
-                var scores = userInfo.records.best.filter {
-                    $0.musicID == song.id
+                if(didLogin) {
+                    userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
+                    var scores = userInfo.records.best.filter {
+                        $0.musicID == song.id
+                    }
+                    scores.sort {
+                        $0.levelIndex < $1.levelIndex
+                    }
+                    scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
                 }
-                scores.sort {
-                    $0.levelIndex < $1.levelIndex
-                }
-                scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
                 loadingScore.toggle()
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button {
-                            showingCalc.toggle()
-                        } label: {
-                            Image(systemName: "plus.forwardslash.minus")
-                            Text("分数计算")
-                        }
-                        .sheet(isPresented: $showingCalc) {
-                            BorderCalcView(song: song)
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Menu {
+//                        Button {
+//                            showingCalc.toggle()
+//                        } label: {
+//                            Image(systemName: "plus.forwardslash.minus")
+//                            Text("分数计算")
+//                        }
+//                        .sheet(isPresented: $showingCalc) {
+//                            BorderCalcView(song: song)
+//                        }
+//                    } label: {
+//                        Image(systemName: "ellipsis.circle")
+//                    }
+//                }
+//            }
         }
     }
     

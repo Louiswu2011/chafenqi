@@ -225,6 +225,8 @@ struct HomeView: View {
             
         }
         .task {
+            getChartIDMap()
+            
             if (!didLogin) {
                 status = .empty
             } else {
@@ -330,8 +332,6 @@ struct HomeView: View {
                 await loadSongList()
                 totalChartCount = getTotalChartCount()
                 
-                try getChartIDMap()
-                
                 // For now
                 removeWEChart()
                 
@@ -375,15 +375,11 @@ struct HomeView: View {
         return total
     }
     
-    func getChartIDMap() throws {
+    func getChartIDMap() {
+        guard mapData.isEmpty else { return }
+        
         let path = Bundle.main.url(forResource: "IdMap", withExtension: "json")
-        let content: Data
-        do {
-            mapData = try Data(contentsOf: path!)
-            print("Successfully loaded ID map file.")
-        } catch {
-            throw CFQError.IOError(file: path!.absoluteString)
-        }
+        mapData = try! Data(contentsOf: path!)
     }
 }
 
