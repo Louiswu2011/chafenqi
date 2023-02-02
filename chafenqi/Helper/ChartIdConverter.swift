@@ -10,26 +10,13 @@ import Foundation
 struct ChartIdConverter {
     private var map: Dictionary<String, String>
     
-    init() throws {
-        let path = Bundle.main.url(forResource: "IdMap", withExtension: "json")
-        let content: Data
-        do {
-            content = try Data(contentsOf: path!)
-            map = try JSONDecoder().decode(Dictionary<String, String>.self, from: content)
-            print("Successfully loaded ID map file.")
-        } catch {
-            throw CFQError.IOError(file: path!.absoluteString)
-        }
-        
-    }
-    
-    func getWebChartId(musicId: Int) throws -> String {
+    static func getWebChartId(musicId: Int, map: [String: String]) throws -> String {
         let id = map["\(musicId)"]
         if (id == "Unknown") { throw CFQError.unsupportedError(reason: "World's End charts are not supported right now.") }
         return id!
     }
     
-    func getAvailableDiffs(musicId: Int) async throws -> [String] {
+    static func getAvailableDiffs(musicId: Int, map: [String: String]) async throws -> [String] {
         let diffs = ["exp", "mst", "ult"]
         var availableDiffs: [String] = []
         let id = map["\(musicId)"]!

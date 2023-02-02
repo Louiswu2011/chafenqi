@@ -14,6 +14,7 @@ struct SongDetailView: View {
     
     @AppStorage("settingsCoverSource") var coverSource = 0
     @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("chartIDMap") var mapData = Data()
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -35,15 +36,13 @@ struct SongDetailView: View {
     
     var song: SongData
     
-    let converter = try! ChartIdConverter()
-    
     func reloadChartImage(id: String, diff: String) async throws {
         chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: id, diff: difficulty[diff]!)
         chartImageView = Image(uiImage: chartImage)
     }
     
     var body: some View {
-        let webChartId = try! converter.getWebChartId(musicId: song.id)
+        let webChartId = try! ChartIdConverter.getWebChartId(musicId: song.id, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
         
         let coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
         
@@ -205,7 +204,7 @@ struct SongDetailView: View {
                         do {
                             chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
                             chartImageView = Image(uiImage: chartImage)
-                            availableDiffs = try await converter.getAvailableDiffs(musicId: song.id)
+                            availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.id, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
                             isCheckingDiff.toggle()
                         } catch CFQError.requestTimeoutError {
                             AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载谱面图片失败")

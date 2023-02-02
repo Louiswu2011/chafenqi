@@ -37,6 +37,8 @@ struct HomeView: View {
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
     @AppStorage("didSongListLoaded") var didSongListLoaded = false
     
+    @AppStorage("chartIDMap") var mapData = Data()
+    
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userToken") var token = ""
@@ -310,6 +312,7 @@ struct HomeView: View {
         userInfoData = Data()
         loadedSongs = Data()
         totalChartCount = 0
+        mapData = Data()
     }
     
     func loadUserInfo() async {
@@ -326,6 +329,8 @@ struct HomeView: View {
                 status = .loading(hint: "加载歌曲列表中...")
                 await loadSongList()
                 totalChartCount = getTotalChartCount()
+                
+                try getChartIDMap()
                 
                 // For now
                 removeWEChart()
@@ -368,6 +373,17 @@ struct HomeView: View {
             total += song.charts.count
         }
         return total
+    }
+    
+    func getChartIDMap() throws {
+        let path = Bundle.main.url(forResource: "IdMap", withExtension: "json")
+        let content: Data
+        do {
+            mapData = try Data(contentsOf: path!)
+            print("Successfully loaded ID map file.")
+        } catch {
+            throw CFQError.IOError(file: path!.absoluteString)
+        }
     }
 }
 
