@@ -25,6 +25,7 @@ struct SongRandomizerView: View {
     @State private var coverURL = URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/3.png")
     
     @State private var screenBounds = UIScreen.main.bounds
+    @State var randomOnAppear: Bool = false
     
     var body: some View {
         
@@ -90,9 +91,12 @@ struct SongRandomizerView: View {
             .padding()
         }
         .onAppear {
-            decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
-            filterSongList()
-            randomSong = getRandomSong()
+            if randomOnAppear {
+                decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+                filterSongList()
+                randomSong = getRandomSong()
+                randomOnAppear = false
+            }
         }
         .navigationTitle("随机歌曲")
         .navigationBarTitleDisplayMode(.inline)

@@ -1,2 +1,7 @@
 xcuserdata/
 *.xcuserstate
+DerivedData/
+.DS_Store
+*/.DS_Store
+chafenqi.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+chafenqi.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
