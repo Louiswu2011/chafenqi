@@ -57,7 +57,11 @@ struct SongDetailView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10)
+                        SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10, withShadow: false)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
+                            }
                             .padding(.leading)
                         
                         VStack(alignment: .leading) {
