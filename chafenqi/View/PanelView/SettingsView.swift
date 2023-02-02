@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
     
-    @AppStorage("userAccountName") var accountName = "louisb"
+    @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userToken") var token = ""
     @AppStorage("userTokenHeader") var tokenHeader = ""
