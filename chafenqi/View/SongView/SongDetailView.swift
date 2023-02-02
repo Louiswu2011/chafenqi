@@ -320,7 +320,7 @@ struct SongDetailView: View {
                                 Spacer()
                                 Text("连击数：\(song.charts[index].combo)")
                             }
-                            .padding(.horizontal)
+                            .padding([.horizontal, .bottom])
                         }
                     }
                 }
