@@ -1,5 +1,13 @@
 # 中二节奏/舞萌DX查分器（暂定）
 用Swift实现的轻量级查分器，支持iOS15及以上。
+
+<p>
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/homeScreen.png" width="240">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/detailScreen.png" width="240">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/songListScreen.png" width="240">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/randomScreen.png" width="240">
+  </p>
+
 ## 主要功能
 - [x] 基本信息查询
 - [x] Rating/B30/R10计算
