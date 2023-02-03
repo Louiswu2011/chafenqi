@@ -97,23 +97,17 @@ struct MaimaiListView: View {
         var songs = try! decodedLoadedMaimaiSongs.isEmpty ? JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs) :
         decodedLoadedMaimaiSongs
         
+        if (showingPlayed) {
+            let userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+            let idList = userInfo.records.compactMap { $0.musicId }
+            songs = songs.filter { idList.contains( Int($0.musicId)! ) }
+        }
+
         if searchText.isEmpty {
             return songs
         } else {
             return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
         }
-        
-//        if (showingPlayed) {
-//            let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
-//            let idList = userInfo.records.best.compactMap { $0.musicID }
-//            songs = songs.filter { idList.contains( $0.id ) }
-//        }
-//
-//        if searchText.isEmpty {
-//            return songs
-//        } else {
-//            return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
-//        }
     }
 }
 

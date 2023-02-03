@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MaimaiPlayerRecord: Codable {
     var additionalRating: Int
@@ -23,6 +24,28 @@ struct MaimaiPlayerRecord: Codable {
         records = []
         username = "TEST"
     }
+    
+    func getPastVersionRating(songData: Array<MaimaiSongData>) -> Int {
+        records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 25).reduce(0) { return $0 + $1.rating }
+    }
+    
+    func getCurrentVersionRating(songData: Array<MaimaiSongData>) -> Int {
+        records.filter { songData.filter { $0.basicInfo.isNew == true }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 15).reduce(0) { return $0 + $1.rating }
+    }
+    
+    func getPastSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
+        records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 25)
+    }
+    
+    func getCurrentSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
+        records.filter { songData.filter { $0.basicInfo.isNew == true }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 15)
+    }
+    
+    func getRawRating(songData: Array<MaimaiSongData>) -> Int {
+        getPastVersionRating(songData: songData) * 25 + getCurrentVersionRating(songData: songData) * 15
+    }
+    
+    
 }
 
 struct MaimaiRecordEntry: Codable {
@@ -85,6 +108,34 @@ struct MaimaiRecordEntry: Codable {
             return "FDX+"
         default:
             return ""
+        }
+    }
+    
+    func getClearBadgeColor() -> Color {
+        switch (self.status) {
+        case "fc", "fcp":
+            return Color.blue.opacity(0.9)
+        case "ap", "app":
+            return Color.yellow
+        default:
+            return Color.red
+        }
+    }
+    
+    func getLevelColor() -> Color {
+        switch (self.levelIndex) {
+        case 0:
+            return Color.green
+        case 1:
+            return Color.yellow
+        case 2:
+            return Color.red
+        case 3:
+            return Color.purple
+        case 4:
+            return Color.purple.opacity(0.33)
+        default:
+            return Color.purple
         }
     }
 }

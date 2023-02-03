@@ -26,6 +26,13 @@ struct MaimaiHomeView: View {
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
     @State private var userInfo = MaimaiPlayerRecord()
     
+    @State private var pastRating = 0
+    @State private var currentRating = 0
+    @State private var rawRating = 0
+    
+    @State private var pastSlice = ArraySlice<MaimaiRecordEntry>()
+    @State private var currentSlice = ArraySlice<MaimaiRecordEntry>()
+    
     @State private var status = LoadStatus.loading(hint: "加载用户信息中...")
     
     private var rows = [
@@ -37,50 +44,114 @@ struct MaimaiHomeView: View {
         ZStack {
             switch (status) {
             case .complete:
-                HStack {
-                    ZStack {
-                        CutCircularProgressView(progress: 0.6, lineWidth: 10, width: 70, color: Color.indigo)
+                ScrollView {
+                    VStack {
+                        HStack {
+                            ZStack {
+                                CutCircularProgressView(progress: 0.6, lineWidth: 10, width: 70, color: Color.indigo)
+                                
+                                Text(String(pastRating))
+                                    .foregroundColor(Color.indigo)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.title3)
+                                
+                                Text("Prev")
+                                    .padding(.top, 60)
+                            }
+                            .padding()
+                            .padding(.top, 50)
+                            
+                            ZStack {
+                                CutCircularProgressView(progress: 0.7, lineWidth: 14, width: 100, color: Color.pink)
+                                
+                                Text(String(rawRating))
+                                    .foregroundColor(Color.pink)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.title)
+                                    .transition(.opacity)
+                                
+                                Text("Rating")
+                                    .padding(.top, 70)
+                            }
+                            .padding()
+                            
+                            
+                            ZStack {
+                                // TODO: get max
+                                CutCircularProgressView(progress: 0.3, lineWidth: 10, width: 70, color: Color.cyan)
+                                
+                                Text(String(currentRating))
+                                    .foregroundColor(Color.cyan)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.title3)
+                                
+                                Text("New")
+                                    .padding(.top, 60)
+                            }
+                            .padding()
+                            .padding(.top, 50)
+                        }
                         
-                        Text("12345")
-                            .foregroundColor(Color.indigo)
-                            .textFieldStyle(.roundedBorder)
-                            .font(.title3)
+                        HStack {
+                            Text("旧版本 - B25")
+                                .font(.title2)
+                                .padding()
+                            
+                            Spacer()
+                            
+                            
+                            NavigationLink {
+                                
+                            } label: {
+                                Image(systemName: "arrow.right")
+                            }.padding()
+                            
+                        }
                         
-                        Text("R10")
-                            .padding(.top, 60)
+                        ScrollView(.horizontal) {
+                            LazyHGrid(rows: rows, spacing: 5) {
+                                ForEach(0..<25) { i in
+                                    NavigationLink {
+                                        MaimaiDetailView(song: decodedSongList.filter { Int($0.musicId)! == pastSlice[i].musicId }[0])
+                                    } label: {
+                                        MaimaiMiniView(song: pastSlice[i])
+                                    }.buttonStyle(.plain)
+                                }
+                            }
+                        }
+                        .frame(height: 210)
+                        .padding(.horizontal)
+                        
+                        HStack {
+                            Text("新版本 - B15")
+                                .font(.title2)
+                                .padding()
+                            
+                            Spacer()
+                            
+                            
+                            NavigationLink {
+                                
+                            } label: {
+                                Image(systemName: "arrow.right")
+                            }.padding()
+                            
+                        }
+                        
+                        ScrollView(.horizontal) {
+                            LazyHGrid(rows: rows, spacing: 5) {
+                                ForEach(0..<15) { i in
+                                    NavigationLink {
+                                        MaimaiDetailView(song: decodedSongList.filter { Int($0.musicId)! == currentSlice[i].musicId }[0])
+                                    } label: {
+                                        MaimaiMiniView(song: currentSlice[i])
+                                    }.buttonStyle(.plain)
+                                }
+                            }
+                        }
+                        .frame(height: 210)
+                        .padding(.horizontal)
                     }
-                    .padding()
-                    .padding(.top, 50)
-                    
-                    ZStack {
-                        CutCircularProgressView(progress: 0.7, lineWidth: 14, width: 100, color: Color.pink)
-                        
-                        Text("5678")
-                            .foregroundColor(Color.pink)
-                            .textFieldStyle(.roundedBorder)
-                            .font(.title)
-                            .transition(.opacity)
-                        
-                        Text("Rating")
-                            .padding(.top, 70)
-                    }
-                    .padding()
-                    
-                    
-                    ZStack {
-                        // TODO: get max
-                        CutCircularProgressView(progress: 0.3, lineWidth: 10, width: 70, color: Color.cyan)
-                        
-                        Text("3234")
-                            .foregroundColor(Color.cyan)
-                            .textFieldStyle(.roundedBorder)
-                            .font(.title3)
-                        
-                        Text("B30")
-                            .padding(.top, 60)
-                    }
-                    .padding()
-                    .padding(.top, 50)
                 }
             case let .loading(hint: hint):
                 VStack {
@@ -133,6 +204,13 @@ struct MaimaiHomeView: View {
             
             userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
             userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+            
+            pastRating = userInfo.getPastVersionRating(songData: decodedSongList)
+            currentRating = userInfo.getCurrentVersionRating(songData: decodedSongList)
+            rawRating = pastRating + currentRating
+            
+            pastSlice = userInfo.getPastSlice(songData: decodedSongList)
+            currentSlice = userInfo.getCurrentSlice(songData: decodedSongList)
             
         } catch {
             print("Failed to load.")
