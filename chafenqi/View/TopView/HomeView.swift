@@ -33,7 +33,7 @@ struct HomeView: View {
     
     @State private var totalChartCount = 0
     
-    @AppStorage("settingsCoverSource") var coverSource = "Github"
+    @AppStorage("settingsCoverSource") var coverSource = 0
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
     @AppStorage("didSongListLoaded") var didSongListLoaded = false
     
@@ -319,7 +319,7 @@ struct HomeView: View {
     
     func loadUserInfo() async {
         guard didLogin && !token.isEmpty else { return }
-
+        
         switch status {
         case .loading:
             do {
@@ -354,7 +354,7 @@ struct HomeView: View {
                 print(error)
                 status = .error(errorText: error.localizedDescription)
             }
-
+            
         case .complete, .error(errorText: _), .empty:
             break
         }

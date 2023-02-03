@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("settingsCoverSource") var coverSource = ""
+    @AppStorage("settingsCoverSource") var coverSource = 0
     
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userNickname") var accountNickname = ""
