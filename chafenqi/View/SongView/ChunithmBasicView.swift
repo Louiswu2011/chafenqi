@@ -15,7 +15,7 @@ let data = """
 """.data(using: .utf8)
 let tempSongData = try! JSONDecoder().decode(ChunithmSongData.self, from: data!)
 
-struct ChunithmSongBasicView: View {
+struct ChunithmBasicView: View {
     
     let song: ChunithmSongData
     
@@ -106,6 +106,6 @@ struct ChunithmSongBasicView: View {
 
 struct SongBasicInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        ChunithmSongBasicView(song: tempSongData)
+        ChunithmBasicView(song: tempSongData)
     }
 }

@@ -9,72 +9,76 @@ import SwiftUI
 
 let tempMaiJSON = """
 {
-      "id": "8",
-      "title": "True Love Song",
+      "id": "11222",
+      "title": "BREaK! BREaK! BREaK!",
       "type": "DX",
       "ds": [
-        4,
-        6.4,
-        9.2,
-        11.7
+        6,
+        8.5,
+        12.8,
+        14.7
       ],
       "level": [
-        "4",
         "6",
-        "9",
-        "11+"
+        "8",
+        "12+",
+        "14+"
       ],
       "cids": [
-        1,
-        2,
-        3,
-        4
+        5996,
+        5997,
+        5998,
+        5999
       ],
       "charts": [
         {
           "notes": [
-            63,
-            23,
+            172,
+            10,
             8,
-            2
+            0,
+            17
           ],
           "charter": "-"
         },
         {
           "notes": [
-            85,
-            27,
-            6,
-            4
-          ],
-          "charter": "-"
-        },
-        {
-          "notes": [
-            110,
-            56,
-            9,
-            2
-          ],
-          "charter": "譜面-100号"
-        },
-        {
-          "notes": [
-            263,
+            321,
+            17,
             14,
-            19,
-            6
+            26,
+            36
           ],
-          "charter": "ニャイン"
+          "charter": "-"
+        },
+        {
+          "notes": [
+            513,
+            65,
+            42,
+            55,
+            57
+          ],
+          "charter": "サファ太"
+        },
+        {
+          "notes": [
+            797,
+            76,
+            121,
+            62,
+            50
+          ],
+          "charter": "サファ太 vs -ZONE- SaFaRi"
         }
       ],
       "basic_info": {
-        "title": "True Love Song",
-        "artist": "Kai/クラシック「G線上のアリア」",
+        "title": "BREaK! BREaK! BREaK!",
+        "artist": "HiTECH NINJA vs Cranky",
         "genre": "maimai",
-        "bpm": 150,
+        "bpm": 165,
         "release_date": "",
-        "from": "maimai",
+        "from": "maimai でらっくす Splash",
         "is_new": false
       }
     }
@@ -82,7 +86,7 @@ let tempMaiJSON = """
 
 let tempMaimaiSong = try! JSONDecoder().decode(MaimaiSongData.self, from: tempMaiJSON!)
 
-struct MaimaiSongBasicView: View {
+struct MaimaiBasicView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var showingChartConstant = false
@@ -99,7 +103,7 @@ struct MaimaiSongBasicView: View {
                         .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
                 }
                 .onTapGesture {
-                    print(song.musicId)
+                    print(getCoverNumber(id: song.musicId))
                 }
             
             HStack{
@@ -164,17 +168,12 @@ struct MaimaiSongBasicView: View {
         
     }
     
-    func getCoverNumber(id: String) -> String {
-        if (id.count == 5) {
-            return String(id[id.index(after: id.startIndex)..<id.endIndex])
-        } else {
-            return String(format: "%04d", Int(id)!)
-        }
-    }
+    
 }
+
 
 struct MaimaiSongBasicView_Previews: PreviewProvider {
     static var previews: some View {
-        MaimaiSongBasicView(song: tempMaimaiSong)
+        MaimaiBasicView(song: tempMaimaiSong)
     }
 }

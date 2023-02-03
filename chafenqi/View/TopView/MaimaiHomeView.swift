@@ -16,6 +16,7 @@ struct MaimaiHomeView: View {
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userToken") var token = ""
+    @AppStorage("userMaimaiInfoData") var userInfoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
     
@@ -23,6 +24,7 @@ struct MaimaiHomeView: View {
     
     @State private var decodedSongList: Array<MaimaiSongData> = []
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
+    @State private var userInfo = MaimaiPlayerRecord()
     
     @State private var status = LoadStatus.loading(hint: "加载用户信息中...")
     
@@ -129,6 +131,8 @@ struct MaimaiHomeView: View {
             loadedSongs = try await MaimaiDataGrabber.getMusicData()
             decodedSongList = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
             
+            userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
+            userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
             
         } catch {
             print("Failed to load.")

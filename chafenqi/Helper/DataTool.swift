@@ -22,3 +22,12 @@ func getMaxRatingPossible(songList: Set<ChunithmSongData>) -> Double {
     
     return max / 30.0
 }
+
+
+func getCoverNumber(id: String) -> String {
+    if (id.count == 5) {
+        return String(id[id.index(after: id.startIndex)..<id.endIndex])
+    } else {
+        return String(format: "%04d", Int(id)!)
+    }
+}

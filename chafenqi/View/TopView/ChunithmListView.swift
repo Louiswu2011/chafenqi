@@ -41,8 +41,8 @@ struct ChunithmListView: View {
                 List {
                     
                     ForEach(searchChunithmResults.sorted(by: <), id: \.id) { song in
-                        NavigationLink(destination: SongDetailView(song: song)) {
-                            ChunithmSongBasicView(song: song)
+                        NavigationLink(destination: ChunithmDetailView(song: song)) {
+                            ChunithmBasicView(song: song)
                         }
                     }
                     

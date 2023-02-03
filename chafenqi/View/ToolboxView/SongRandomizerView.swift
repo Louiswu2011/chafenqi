@@ -80,7 +80,7 @@ struct SongRandomizerView: View {
                 
                 
                 NavigationLink {
-                    SongDetailView(song: randomSong)
+                    ChunithmDetailView(song: randomSong)
                 } label: {
                     Text("转到详情")
                     Image(systemName: "arrowshape.turn.up.right")

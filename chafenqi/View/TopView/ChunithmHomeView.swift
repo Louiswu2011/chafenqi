@@ -142,7 +142,7 @@ struct ChunithmHomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<30) { i in
                                     NavigationLink {
-                                        SongDetailView(song: decodedLoadedSongs.filter{ $0.id == b30[i].musicID }[0])
+                                        ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.id == b30[i].musicID }[0])
                                     } label: {
                                         SongMiniInfoView(song: b30[i])
                                     }.buttonStyle(.plain)
@@ -172,7 +172,7 @@ struct ChunithmHomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<10) { i in
                                     NavigationLink {
-                                        SongDetailView(song: decodedLoadedSongs.filter{ $0.id == userInfo.records.r10[i].musicID }[0])
+                                        ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.id == userInfo.records.r10[i].musicID }[0])
                                     } label: {
                                         SongMiniInfoView(song: userInfo.records.r10[i])
                                     }.buttonStyle(.plain)

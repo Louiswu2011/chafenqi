@@ -33,7 +33,12 @@ struct MaimaiListView: View {
             if (didSongListLoaded) {
                 List {
                     ForEach(searchMaimaiResults.sorted(by: <), id: \.musicId) { song in
-                        MaimaiSongBasicView(song: song)
+                        NavigationLink {
+                            MaimaiDetailView(song: song)
+                        } label: {
+                            MaimaiBasicView(song: song)
+                        }
+                        
                     }
                 }
             } else {

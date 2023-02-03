@@ -10,7 +10,7 @@ import UIKit
 import CachedAsyncImage
 import AlertToast
 
-struct SongDetailView: View {
+struct ChunithmDetailView: View {
     
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("userChunithmInfoData") var userInfoData = Data()
@@ -290,7 +290,7 @@ struct SongDetailView: View {
                 let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(getLevelColor(index: index).opacity(0.5))
+                    .foregroundColor(getChunithmLevelColor(index: index).opacity(0.5))
                 
                 VStack() {
                     HStack {
@@ -338,7 +338,7 @@ struct SongDetailView: View {
 
 
 
-func getLevelColor(index: Int) -> Color {
+func getChunithmLevelColor(index: Int) -> Color {
     switch (index) {
     case 0:
         return Color.green
@@ -357,7 +357,7 @@ func getLevelColor(index: Int) -> Color {
 
 struct SongDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SongDetailView(song: tempSongData)
+        ChunithmDetailView(song: tempSongData)
             // .environment(\.colorScheme, .dark)
     }
 }
