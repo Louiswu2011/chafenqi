@@ -13,7 +13,7 @@ let song: ScoreEntry = ScoreEntry(chartID: 3, constant: 14.5, status: "alljustic
 struct SongMiniInfoView: View {
     let song: ScoreEntry
     
-    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     
     var body: some View {
         ZStack{

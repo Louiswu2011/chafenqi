@@ -22,7 +22,7 @@ struct MainView: View {
         TabView {
             NavigationView {
                 if (mode == 0) {
-                    HomeView()
+                    ChunithmHomeView()
                 } else {
                     MaimaiHomeView()
                 }
@@ -33,7 +33,11 @@ struct MainView: View {
             }
             
             NavigationView {
-                SongListView()
+                if (mode == 0) {
+                    ChunithmListView()
+                } else {
+                    MaimaiListView()
+                }
             }
             .tabItem {
                 Image(systemName: "music.note.list")

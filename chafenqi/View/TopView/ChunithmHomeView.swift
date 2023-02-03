@@ -14,7 +14,7 @@ enum LoadStatus {
     case complete, empty, loadFromCache
 }
 
-struct HomeView: View {
+struct ChunithmHomeView: View {
     @State private var isLoading = true
     
     @State private var showingSettings = false
@@ -32,7 +32,7 @@ struct HomeView: View {
     
     @State private var totalChartCount = 0
     
-    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
     @AppStorage("didChunithmSongListLoaded") var didSongListLoaded = false
     
@@ -246,7 +246,7 @@ struct HomeView: View {
                 }) {
                     Image(systemName: "gear")
                 }.sheet(isPresented: $showingSettings) {
-                    SettingsView(coverSource: coverSource, showingSettings: $showingSettings)
+                    SettingsView(showingSettings: $showingSettings)
                 }
             }
         }

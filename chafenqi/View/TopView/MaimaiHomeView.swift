@@ -9,7 +9,7 @@ import SwiftUI
 import AlertToast
 
 struct MaimaiHomeView: View {
-    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("loadedMaimaiChartStats") var loadedStats: Data = Data()
     @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
     
@@ -114,7 +114,7 @@ struct MaimaiHomeView: View {
                 }) {
                     Image(systemName: "gear")
                 }.sheet(isPresented: $showingSettings) {
-                    SettingsView(coverSource: coverSource, showingSettings: $showingSettings)
+                    SettingsView(showingSettings: $showingSettings)
                 }
             }
         }

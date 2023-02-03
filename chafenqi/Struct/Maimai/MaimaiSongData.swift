@@ -7,7 +7,19 @@
 
 import Foundation
 
-struct MaimaiSongData: Codable {
+struct MaimaiSongData: Codable, Hashable, Comparable {
+    static func < (lhs: MaimaiSongData, rhs: MaimaiSongData) -> Bool {
+        lhs.musicId < rhs.musicId
+    }
+    
+    static func == (lhs: MaimaiSongData, rhs: MaimaiSongData) -> Bool {
+        lhs.musicId == rhs.musicId
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(musicId)
+    }
+    
     struct MaimaiSongChartData: Codable {
         var notes: Array<Int>
         var charter: String

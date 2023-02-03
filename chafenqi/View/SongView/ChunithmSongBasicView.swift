@@ -15,13 +15,14 @@ let data = """
 """.data(using: .utf8)
 let tempSongData = try! JSONDecoder().decode(ChunithmSongData.self, from: data!)
 
-struct SongBasicInfoView: View {
+struct ChunithmSongBasicView: View {
     
     let song: ChunithmSongData
     
     @Environment(\.colorScheme) var colorScheme
+
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     
-    @AppStorage("settingsCoverSource") var coverSource = 0
     @State private var showingChartConstant = false
     
     var body: some View {
@@ -105,6 +106,6 @@ struct SongBasicInfoView: View {
 
 struct SongBasicInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        SongBasicInfoView(song: tempSongData)
+        ChunithmSongBasicView(song: tempSongData)
     }
 }

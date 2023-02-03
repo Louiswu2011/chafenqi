@@ -11,17 +11,20 @@ enum sortState {
     case byMusicID, byHighestConstant
 }
 
-struct SongListView: View {
-    @AppStorage("settingsCoverSource") var coverSource = ""
+struct ChunithmListView: View {
+    @AppStorage("settingsCurrentMode") var mode = 0
+    
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
+    
     @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+    
     @AppStorage("didLogin") var didLogin = false
     @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("didChunithmSongListLoaded") private var didSongListLoaded = false
     
     @State private var searchText = ""
     
-    
-    @State private var decodedLoadedSongs: Set<ChunithmSongData> = []
+    @State private var decodedLoadedChunithmSongs: Set<ChunithmSongData> = []
     
     @State private var showingDetail = false
     @State private var showingFilterPanel = false
@@ -36,12 +39,13 @@ struct SongListView: View {
                 //ScrollView {
                 
                 List {
-                    ForEach(searchResults.sorted(by: <), id: \.id) { song in
+                    
+                    ForEach(searchChunithmResults.sorted(by: <), id: \.id) { song in
                         NavigationLink(destination: SongDetailView(song: song)) {
-                            SongBasicInfoView(song: song)
+                            ChunithmSongBasicView(song: song)
                         }
-                        // TODO: open detail view
                     }
+                    
                 }
             } else {
                 VStack(spacing: 15) {
@@ -80,7 +84,7 @@ struct SongListView: View {
                 do {
                     try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                     didSongListLoaded.toggle()
-                    decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+                    decodedLoadedChunithmSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -94,10 +98,9 @@ struct SongListView: View {
         
     }
     
-    
-    var searchResults: Set<ChunithmSongData> {
-        var songs = try! decodedLoadedSongs.isEmpty ? JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs) :
-        decodedLoadedSongs
+    var searchChunithmResults: Set<ChunithmSongData> {
+        var songs = try! decodedLoadedChunithmSongs.isEmpty ? JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs) :
+        decodedLoadedChunithmSongs
         
         if (showingPlayed) {
             let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
@@ -119,6 +122,6 @@ struct SongListView: View {
 
 struct SongListView_Previews: PreviewProvider {
     static var previews: some View {
-        SongListView()
+        ChunithmListView()
     }
 }

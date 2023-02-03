@@ -13,7 +13,7 @@ struct SongRandomizerView: View {
     @AppStorage("didChunithmSongListLoaded") var didSongListLoaded = false
     @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("didLogin") var didLogin = false
-    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("settingsRandomizerFilterMode") var filterMode = 0
     
     @State private var isSpinning = false
