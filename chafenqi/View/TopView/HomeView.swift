@@ -32,6 +32,7 @@ struct HomeView: View {
     @State private var decodedLoadedSongs: Set<SongData> = []
     
     @State private var totalChartCount = 0
+    @State private var firstAppear = true
     
     @AppStorage("settingsCoverSource") var coverSource = 0
     @AppStorage("loadedSongs") var loadedSongs: Data = Data()
@@ -225,18 +226,21 @@ struct HomeView: View {
             
         }
         .task {
-            getChartIDMap()
-            
-            if (!didLogin) {
-                status = .empty
-            } else {
-                if (userInfoData.isEmpty) {
-                    status = .loading(hint: "获取用户数据中...")
-                } else {
-                    status = .loadFromCache
-                }
+            if firstAppear {
+                getChartIDMap()
                 
-                await loadUserInfo()
+                if (!didLogin) {
+                    status = .empty
+                } else {
+                    firstAppear = false
+                    if (userInfoData.isEmpty) {
+                        status = .loading(hint: "获取用户数据中...")
+                    } else {
+                        status = .loadFromCache
+                    }
+                    
+                    await loadUserInfo()
+                }
             }
         }
         .toolbar {
