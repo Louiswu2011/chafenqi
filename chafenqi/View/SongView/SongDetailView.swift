@@ -53,6 +53,8 @@ struct SongDetailView: View {
                     // availableDiffs = try! await converter.getAvailableDiffs(musicId: song.id)
                     isLoading.toggle()
                 }
+                .navigationTitle("")
+                .navigationBarTitleDisplayMode(.inline)
         } else {
             ScrollView {
                 VStack {
