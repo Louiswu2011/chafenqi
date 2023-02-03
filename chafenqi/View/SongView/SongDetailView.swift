@@ -13,7 +13,7 @@ import AlertToast
 struct SongDetailView: View {
     
     @AppStorage("settingsCoverSource") var coverSource = 0
-    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("chartIDMap") var mapData = Data()
     @AppStorage("didLogin") var didLogin = false
     

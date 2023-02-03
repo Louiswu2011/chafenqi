@@ -32,6 +32,7 @@
 		BF7E2522296AAD1A00169B57 /* ProberDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2521296AAD1A00169B57 /* ProberDataGrabber.swift */; };
 		BF7E2524296AD44000169B57 /* SongBasicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2523296AD44000169B57 /* SongBasicInfoView.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
+		BFBC54F1298CE32A00A93918 /* MaimaiHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
 		BFEB5AE9298937E8005646AA /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* UserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* UserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* UserScoreData.swift */; };
@@ -94,6 +95,7 @@
 		BF7E251E296AAACE00169B57 /* SongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongData.swift; sourceTree = "<group>"; };
 		BF7E2521296AAD1A00169B57 /* ProberDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProberDataGrabber.swift; sourceTree = "<group>"; };
 		BF7E2523296AD44000169B57 /* SongBasicInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongBasicInfoView.swift; sourceTree = "<group>"; };
+		BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiHomeView.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		BFEB5AEA29897E1C005646AA /* UserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserScoreData.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				BF7E251B296AA9DC00169B57 /* SongListView.swift */,
 				BFEF7EDD298A856E00F87ACC /* ToolView.swift */,
 				BF7E2517296AA89500169B57 /* HomeView.swift */,
+				BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */,
 			);
 			path = TopView;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				BFF353C329681F8D001392E5 /* MainView.swift in Sources */,
 				BF7E2518296AA89500169B57 /* HomeView.swift in Sources */,
 				BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */,
+				BFBC54F1298CE32A00A93918 /* MaimaiHomeView.swift in Sources */,
 				BF55004D29818D9D004072A0 /* B30View.swift in Sources */,
 				BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */,
 				BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */,

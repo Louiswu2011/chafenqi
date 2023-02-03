@@ -9,9 +9,9 @@ import SwiftUI
 import CachedAsyncImage
 
 struct SongRandomizerView: View {
-    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
-    @AppStorage("didSongListLoaded") var didSongListLoaded = false
-    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+    @AppStorage("didChunithmSongListLoaded") var didSongListLoaded = false
+    @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("didLogin") var didLogin = false
     @AppStorage("settingsCoverSource") var coverSource = 0
     @AppStorage("settingsRandomizerFilterMode") var filterMode = 0

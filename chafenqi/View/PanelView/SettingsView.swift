@@ -15,7 +15,7 @@ struct SettingsView: View {
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userToken") var token = ""
     @AppStorage("userTokenHeader") var tokenHeader = ""
-    @AppStorage("userInfoData") var infoData = Data()
+    @AppStorage("userChunithmInfoData") var infoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
     

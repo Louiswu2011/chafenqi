@@ -13,10 +13,10 @@ enum sortState {
 
 struct SongListView: View {
     @AppStorage("settingsCoverSource") var coverSource = ""
-    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
+    @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
     @AppStorage("didLogin") var didLogin = false
-    @AppStorage("userInfoData") var userInfoData = Data()
-    @AppStorage("didSongListLoaded") private var didSongListLoaded = false
+    @AppStorage("userChunithmInfoData") var userInfoData = Data()
+    @AppStorage("didChunithmSongListLoaded") private var didSongListLoaded = false
     
     @State private var searchText = ""
     

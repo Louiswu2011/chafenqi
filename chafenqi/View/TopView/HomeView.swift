@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RefreshableScrollView
 import AlertToast
 
 enum LoadStatus {
@@ -34,15 +33,15 @@ struct HomeView: View {
     @State private var totalChartCount = 0
     
     @AppStorage("settingsCoverSource") var coverSource = 0
-    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
-    @AppStorage("didSongListLoaded") var didSongListLoaded = false
+    @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+    @AppStorage("didChunithmSongListLoaded") var didSongListLoaded = false
     
     @AppStorage("chartIDMap") var mapData = Data()
     
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userToken") var token = ""
-    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("userChunithmInfoData") var userInfoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
     
