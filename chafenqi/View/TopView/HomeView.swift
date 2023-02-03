@@ -23,12 +23,12 @@ struct HomeView: View {
     
     @State private var status: LoadStatus = .loading(hint: "获取用户数据中...")
     
-    @State private var userInfo = UserData()
+    @State private var userInfo = ChunithmUserData()
     @State private var b30 = ArraySlice<ScoreEntry>()
     
     @State private var previousToken = ""
     
-    @State private var decodedLoadedSongs: Set<SongData> = []
+    @State private var decodedLoadedSongs: Set<ChunithmSongData> = []
     
     @State private var totalChartCount = 0
     
@@ -272,12 +272,12 @@ struct HomeView: View {
             do {
                 try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                 didSongListLoaded.toggle()
-                decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+                decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
             } catch {
                 print(error)
             }
         } else if(decodedLoadedSongs.isEmpty) {
-            decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+            decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
         } else {
             didSongListLoaded = true
         }
@@ -290,7 +290,7 @@ struct HomeView: View {
     
     func prepareRecords() throws {
         let decoder = JSONDecoder()
-        userInfo = try decoder.decode(UserData.self, from: userInfoData)
+        userInfo = try decoder.decode(ChunithmUserData.self, from: userInfoData)
         userInfo.records.best.sort {
             $0.rating > $1.rating
         }
@@ -360,7 +360,7 @@ struct HomeView: View {
     }
     
     func removeWEChart() {
-        var decoded = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+        var decoded = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
         decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
         loadedSongs = try! JSONEncoder().encode(decoded)
         decodedLoadedSongs = decoded

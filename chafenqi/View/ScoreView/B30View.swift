@@ -14,7 +14,7 @@ struct B30View: View {
     
     @State private var b30 = ArraySlice<ScoreEntry>()
     
-    var userInfo: UserData
+    var userInfo: ChunithmUserData
     
     var body: some View {
         NavigationView {
@@ -50,6 +50,6 @@ struct B30View: View {
 
 struct B30View_Previews: PreviewProvider {
     static var previews: some View {
-        B30View(userInfo: UserData())
+        B30View(userInfo: ChunithmUserData())
     }
 }

@@ -55,6 +55,7 @@ struct SettingsView: View {
                     if (didLogin) {
                         TextInfoView(text: "用户名", info: accountName)
                         TextInfoView(text: "Token", info: token)
+                            .textSelection(.enabled)
                         HStack {
                             Text("当前数据来源")
                             Spacer()

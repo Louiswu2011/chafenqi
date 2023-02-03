@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct UserScoreData: Codable {
+struct ChunithmUserScoreData: Codable {
     struct ScoreRecord: Codable {
         var b30: Array<ScoreEntry>
         var r10: Array<ScoreEntry>

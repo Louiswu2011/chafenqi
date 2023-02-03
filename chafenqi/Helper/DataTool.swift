@@ -9,7 +9,7 @@ import Foundation
 
 let difficulty = ["Expert": "exp", "Master": "mst", "Ultima": "ult"]
 
-func getMaxRatingPossible(songList: Set<SongData>) -> Double {
+func getMaxRatingPossible(songList: Set<ChunithmSongData>) -> Double {
     var max = 0.0
     
     let sortedList = songList.sorted(by: { (a, b) in

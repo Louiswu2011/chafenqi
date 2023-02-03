@@ -19,7 +19,7 @@ struct SongRandomizerView: View {
     @State private var isSpinning = false
     @State private var showingConstant = false
     
-    @State private var decodedLoadedSongs = Set<SongData>()
+    @State private var decodedLoadedSongs = Set<ChunithmSongData>()
     
     @State private var randomSong = tempSongData
     @State private var coverURL = URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/3.png")
@@ -92,7 +92,7 @@ struct SongRandomizerView: View {
         }
         .onAppear {
             if randomOnAppear {
-                decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+                decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
                 filterSongList()
                 randomSong = getRandomSong()
                 randomOnAppear = false
@@ -106,7 +106,7 @@ struct SongRandomizerView: View {
     func filterSongList() {
         guard didLogin else { return }
         
-        let playedList = try! JSONDecoder().decode(UserData.self, from: userInfoData).records.best.compactMap { $0.musicID }
+        let playedList = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData).records.best.compactMap { $0.musicID }
         
         switch (filterMode) {
         case 0:
@@ -120,7 +120,7 @@ struct SongRandomizerView: View {
         }
     }
     
-    func getRandomSong() -> SongData {
+    func getRandomSong() -> ChunithmSongData {
         let randSong = decodedLoadedSongs.randomElement()!
         coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.id).png")
         return randSong

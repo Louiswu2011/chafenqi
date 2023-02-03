@@ -21,7 +21,11 @@ struct MainView: View {
     var body: some View {
         TabView {
             NavigationView {
-                HomeView()
+                if (mode == 0) {
+                    HomeView()
+                } else {
+                    MaimaiHomeView()
+                }
             }
             .tabItem {
                 Image(systemName: "house.fill")

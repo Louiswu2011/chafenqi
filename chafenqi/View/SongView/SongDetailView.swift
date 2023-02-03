@@ -32,10 +32,10 @@ struct SongDetailView: View {
     @State private var chartImage: UIImage = UIImage()
     @State private var chartImageView = Image(systemName: "magnifyingglass")
     
-    @State private var userInfo = UserData()
+    @State private var userInfo = ChunithmUserData()
     @State private var scoreEntries = [Int: ScoreEntry]()
     
-    var song: SongData
+    var song: ChunithmSongData
     
     func reloadChartImage(id: String, diff: String) async throws {
         chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: id, diff: difficulty[diff]!)
@@ -238,7 +238,7 @@ struct SongDetailView: View {
             }
             .task {
                 if(didLogin) {
-                    userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
+                    userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
                     var scores = userInfo.records.best.filter {
                         $0.musicID == song.id
                     }
@@ -272,7 +272,7 @@ struct SongDetailView: View {
     struct ScoreCardView: View {
         var index: Int
         var scoreEntries: [Int: ScoreEntry]
-        var song: SongData
+        var song: ChunithmSongData
         
         @State private var showingDetail = false
         @State private var rotationAngle: Double = 0

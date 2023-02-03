@@ -21,7 +21,7 @@ struct SongListView: View {
     @State private var searchText = ""
     
     
-    @State private var decodedLoadedSongs: Set<SongData> = []
+    @State private var decodedLoadedSongs: Set<ChunithmSongData> = []
     
     @State private var showingDetail = false
     @State private var showingFilterPanel = false
@@ -80,7 +80,7 @@ struct SongListView: View {
                 do {
                     try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                     didSongListLoaded.toggle()
-                    decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+                    decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -95,12 +95,12 @@ struct SongListView: View {
     }
     
     
-    var searchResults: Set<SongData> {
-        var songs = try! decodedLoadedSongs.isEmpty ? JSONDecoder().decode(Set<SongData>.self, from: loadedSongs) :
+    var searchResults: Set<ChunithmSongData> {
+        var songs = try! decodedLoadedSongs.isEmpty ? JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs) :
         decodedLoadedSongs
         
         if (showingPlayed) {
-            let userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
+            let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
             let idList = userInfo.records.best.compactMap { $0.musicID }
             songs = songs.filter { idList.contains( $0.id ) }
         }
