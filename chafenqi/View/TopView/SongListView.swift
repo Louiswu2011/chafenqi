@@ -78,7 +78,7 @@ struct SongListView: View {
                 didSongListLoaded = false
                 // var songs: Set<SongData>
                 do {
-                    try await loadedSongs = JSONEncoder().encode(ProbeDataGrabber.getSongDataSetFromServer())
+                    try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                     didSongListLoaded.toggle()
                     decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
                 } catch {

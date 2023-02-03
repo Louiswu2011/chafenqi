@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProbeDataGrabber {
+struct ChunithmDataGrabber {
     static func getSongDataSetFromServer() async throws ->  Set<SongData>{
         let request = URLRequest(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/music_data")!)
         let (data, _) = try await URLSession.shared.data(for: request)

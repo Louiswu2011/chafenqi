@@ -82,7 +82,7 @@ struct SettingsView: View {
                                 Task {
                                     do {
                                         loading.toggle()
-                                        (tokenHeader, token) = try await ProbeDataGrabber.loginAs(username: accountName, password: accountPassword)
+                                        (tokenHeader, token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
                                         didLogin.toggle()
                                         showingSettings.toggle()
                                     } catch CFQError.AuthenticationFailedError {

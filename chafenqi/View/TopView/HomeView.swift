@@ -270,7 +270,7 @@ struct HomeView: View {
         if (loadedSongs.isEmpty) {
             didSongListLoaded = false
             do {
-                try await loadedSongs = JSONEncoder().encode(ProbeDataGrabber.getSongDataSetFromServer())
+                try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                 didSongListLoaded.toggle()
                 decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
             } catch {
@@ -284,8 +284,8 @@ struct HomeView: View {
     }
     
     func downloadUserData() async throws {
-        accountNickname = try await ProbeDataGrabber.getUserNickname(username: accountName)
-        userInfoData = try await ProbeDataGrabber.getUserRecord(token: token)
+        accountNickname = try await ChunithmDataGrabber.getUserNickname(username: accountName)
+        userInfoData = try await ChunithmDataGrabber.getUserRecord(token: token)
     }
     
     func prepareRecords() throws {
