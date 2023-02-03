@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MainView: View {
     @AppStorage("favList") var favList = "0;"
+    @AppStorage("settingsCurrentMode") var mode = 0 // 0: Chunithm NEW, 1: maimaiDX
     
     @State private var searchText = ""
     @State private var searchSeletedItem = ""
