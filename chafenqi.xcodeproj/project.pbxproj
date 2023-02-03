@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
 		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
-		BF02B680298ACD6D00F5234E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = BF02B67F298ACD6D00F5234E /* Introspect */; };
 		BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */; };
 		BF0A0BA9298C3E97008F9700 /* songListScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BF0A0BA4298C3E92008F9700 /* songListScreen.png */; };
 		BF0A0BAA298C3E97008F9700 /* randomScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BF0A0BA5298C3E93008F9700 /* randomScreen.png */; };
@@ -121,7 +120,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFECEC65297D256600D2F383 /* AlertToast in Frameworks */,
-				BF02B680298ACD6D00F5234E /* Introspect in Frameworks */,
 				BFECEC62297D212900D2F383 /* RefreshableScrollView in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 			);
@@ -349,7 +347,6 @@
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
 				BFECEC61297D212900D2F383 /* RefreshableScrollView */,
 				BFECEC64297D256600D2F383 /* AlertToast */,
-				BF02B67F298ACD6D00F5234E /* Introspect */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -427,7 +424,6 @@
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				BFECEC60297D212900D2F383 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */,
 				BFECEC63297D256600D2F383 /* XCRemoteSwiftPackageReference "AlertToast" */,
-				BF02B67E298ACD6D00F5234E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -837,14 +833,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BF02B67E298ACD6D00F5234E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.4;
-			};
-		};
 		BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
@@ -872,11 +860,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BF02B67F298ACD6D00F5234E /* Introspect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF02B67E298ACD6D00F5234E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
-		};
 		BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
