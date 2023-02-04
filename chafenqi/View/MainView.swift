@@ -14,8 +14,6 @@ struct MainView: View {
     
     @State private var searchText = ""
     @State private var searchSeletedItem = ""
-    // @State private var shouldShowDetail = false
-    // @State private var searchForBothGames = false
     @State private var showingLoginView = false
     
     var body: some View {
