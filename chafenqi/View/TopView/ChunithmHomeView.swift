@@ -31,6 +31,7 @@ struct ChunithmHomeView: View {
     @State private var decodedLoadedSongs: Set<ChunithmSongData> = []
     
     @State private var totalChartCount = 0
+    @State private var firstAppear = true
     
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
@@ -224,18 +225,21 @@ struct ChunithmHomeView: View {
             
         }
         .task {
-            getChartIDMap()
-            
-            if (!didLogin) {
-                status = .empty
-            } else {
-                if (userInfoData.isEmpty) {
-                    status = .loading(hint: "获取用户数据中...")
-                } else {
-                    status = .loadFromCache
-                }
+            if firstAppear {
+                getChartIDMap()
                 
-                await loadUserInfo()
+                if (!didLogin) {
+                    status = .empty
+                } else {
+                    firstAppear = false
+                    if (userInfoData.isEmpty) {
+                        status = .loading(hint: "获取用户数据中...")
+                    } else {
+                        status = .loadFromCache
+                    }
+                    
+                    await loadUserInfo()
+                }
             }
         }
         .toolbar {
