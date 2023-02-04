@@ -1,27 +1,26 @@
 //
-//  SearchView.swift
+//  MaimaiListView.swift
 //  chafenqi
 //
-//  Created by 刘易斯 on 2023/1/8.
+//  Created by 刘易斯 on 2023/2/3.
 //
 
 import SwiftUI
 
-enum sortState {
-    case byMusicID, byHighestConstant
-}
-
-struct SongListView: View {
-    @AppStorage("settingsCoverSource") var coverSource = ""
-    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
+struct MaimaiListView: View {
+    @AppStorage("settingsCurrentMode") var mode = 0
+    
+    @AppStorage("settingsMaimaiCoverSource") var coverSource = 0
+    
+    @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
+    
     @AppStorage("didLogin") var didLogin = false
-    @AppStorage("userInfoData") var userInfoData = Data()
-    @AppStorage("didSongListLoaded") private var didSongListLoaded = false
+    @AppStorage("userMaimaiInfoData") var userInfoData = Data()
+    @AppStorage("didMaimaiSongListLoaded") private var didSongListLoaded = false
     
     @State private var searchText = ""
     
-    
-    @State private var decodedLoadedSongs: Set<SongData> = []
+    @State private var decodedLoadedMaimaiSongs: Array<MaimaiSongData> = []
     
     @State private var showingDetail = false
     @State private var showingFilterPanel = false
@@ -32,15 +31,14 @@ struct SongListView: View {
         
         VStack{
             if (didSongListLoaded) {
-                // Text("\(searchText)")
-                //ScrollView {
-                
                 List {
-                    ForEach(searchResults.sorted(by: <), id: \.id) { song in
-                        NavigationLink(destination: SongDetailView(song: song)) {
-                            SongBasicInfoView(song: song)
+                    ForEach(searchMaimaiResults.sorted(by: <), id: \.musicId) { song in
+                        NavigationLink {
+                            MaimaiDetailView(song: song)
+                        } label: {
+                            MaimaiBasicView(song: song)
                         }
-                        // TODO: open detail view
+                        
                     }
                 }
             } else {
@@ -49,6 +47,7 @@ struct SongListView: View {
                     Text("加载歌曲列表中")
                 }
             }
+            
         }
         .navigationTitle("曲目列表")
         .toolbar {
@@ -78,9 +77,9 @@ struct SongListView: View {
                 didSongListLoaded = false
                 // var songs: Set<SongData>
                 do {
-                    try await loadedSongs = JSONEncoder().encode(ProbeDataGrabber.getSongDataSetFromServer())
-                    didSongListLoaded.toggle()
-                    decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+                    try await loadedSongs = JSONEncoder().encode(MaimaiDataGrabber.getMusicData())
+                    decodedLoadedMaimaiSongs = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
+                    didSongListLoaded = true
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -94,31 +93,26 @@ struct SongListView: View {
         
     }
     
-    
-    var searchResults: Set<SongData> {
-        var songs = try! decodedLoadedSongs.isEmpty ? JSONDecoder().decode(Set<SongData>.self, from: loadedSongs) :
-        decodedLoadedSongs
+    var searchMaimaiResults: Array<MaimaiSongData> {
+        var songs = try! decodedLoadedMaimaiSongs.isEmpty ? JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs) :
+        decodedLoadedMaimaiSongs
         
         if (showingPlayed) {
-            let userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
-            let idList = userInfo.records.best.compactMap { $0.musicID }
-            songs = songs.filter { idList.contains( $0.id ) }
+            let userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+            let idList = userInfo.records.compactMap { $0.musicId }
+            songs = songs.filter { idList.contains( Int($0.musicId)! ) }
         }
-        
+
         if searchText.isEmpty {
             return songs
         } else {
             return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
         }
     }
-    
-    
 }
 
-
-
-struct SongListView_Previews: PreviewProvider {
+struct MaimaiListView_Previews: PreviewProvider {
     static var previews: some View {
-        SongListView()
+        MaimaiListView()
     }
 }

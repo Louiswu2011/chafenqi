@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 0
+    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
+    @AppStorage("settingsCurrentMode") var currentMode = 0
     
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userToken") var token = ""
     @AppStorage("userTokenHeader") var tokenHeader = ""
-    @AppStorage("userInfoData") var infoData = Data()
+    @AppStorage("userChunithmInfoData") var infoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
     
@@ -25,7 +27,9 @@ struct SettingsView: View {
     
     @Binding var showingSettings: Bool
     
-    var sourceOptions = [0: "Github", 1: "Gitee"]
+    var chunithmSourceOptions = [0: "Github", 1: "Gitee"]
+    var maimaiSourceOptions = [0: "Diving-Fish"]
+    var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
@@ -36,12 +40,21 @@ struct SettingsView: View {
                     HStack {
                         Text("封面来源")
                         Spacer()
-                        Picker("", selection: $coverSource) {
-                            ForEach(sourceOptions.sorted(by: <), id: \.key) {
-                                Text($0.value)
+                        if (currentMode == 0) {
+                            Picker("", selection: $chunithmCoverSource) {
+                                ForEach(chunithmSourceOptions.sorted(by: <), id: \.key) {
+                                    Text($0.value)
+                                }
                             }
+                            .pickerStyle(.menu)
+                        } else {
+                            Picker("", selection: $maimaiCoverSource) {
+                                ForEach(maimaiSourceOptions.sorted(by: <), id: \.key) {
+                                    Text($0.value)
+                                }
+                            }
+                            .pickerStyle(.menu)
                         }
-                        .pickerStyle(.menu)
                     }
                 } header: {
                     Text("常规")
@@ -53,6 +66,17 @@ struct SettingsView: View {
                     if (didLogin) {
                         TextInfoView(text: "用户名", info: accountName)
                         TextInfoView(text: "Token", info: token)
+                            .textSelection(.enabled)
+                        HStack {
+                            Text("当前数据来源")
+                            Spacer()
+                            Picker("", selection: $currentMode) {
+                                ForEach(modeOptions.sorted(by: <), id: \.key) {
+                                    Text($0.value)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                        }
                         Button {
                             clearUserCache()
                             didLogin.toggle()
@@ -70,7 +94,7 @@ struct SettingsView: View {
                                 Task {
                                     do {
                                         loading.toggle()
-                                        (tokenHeader, token) = try await ProbeDataGrabber.loginAs(username: accountName, password: accountPassword)
+                                        (tokenHeader, token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
                                         didLogin.toggle()
                                         showingSettings.toggle()
                                     } catch CFQError.AuthenticationFailedError {

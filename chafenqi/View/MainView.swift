@@ -10,17 +10,20 @@ import SwiftUI
 
 struct MainView: View {
     @AppStorage("favList") var favList = "0;"
+    @AppStorage("settingsCurrentMode") var mode = 0 // 0: Chunithm NEW, 1: maimaiDX
     
     @State private var searchText = ""
     @State private var searchSeletedItem = ""
-    // @State private var shouldShowDetail = false
-    // @State private var searchForBothGames = false
     @State private var showingLoginView = false
     
     var body: some View {
         TabView {
             NavigationView {
-                HomeView()
+                if (mode == 0) {
+                    ChunithmHomeView()
+                } else {
+                    MaimaiHomeView()
+                }
             }
             .tabItem {
                 Image(systemName: "house.fill")
@@ -28,7 +31,11 @@ struct MainView: View {
             }
             
             NavigationView {
-                SongListView()
+                if (mode == 0) {
+                    ChunithmListView()
+                } else {
+                    MaimaiListView()
+                }
             }
             .tabItem {
                 Image(systemName: "music.note.list")

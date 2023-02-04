@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RefreshableScrollView
 import AlertToast
 
 enum LoadStatus {
@@ -15,7 +14,7 @@ enum LoadStatus {
     case complete, empty, loadFromCache
 }
 
-struct HomeView: View {
+struct ChunithmHomeView: View {
     @State private var isLoading = true
     
     @State private var showingSettings = false
@@ -24,26 +23,26 @@ struct HomeView: View {
     
     @State private var status: LoadStatus = .loading(hint: "获取用户数据中...")
     
-    @State private var userInfo = UserData()
+    @State private var userInfo = ChunithmUserData()
     @State private var b30 = ArraySlice<ScoreEntry>()
     
     @State private var previousToken = ""
     
-    @State private var decodedLoadedSongs: Set<SongData> = []
+    @State private var decodedLoadedSongs: Set<ChunithmSongData> = []
     
     @State private var totalChartCount = 0
     @State private var firstAppear = true
     
-    @AppStorage("settingsCoverSource") var coverSource = 0
-    @AppStorage("loadedSongs") var loadedSongs: Data = Data()
-    @AppStorage("didSongListLoaded") var didSongListLoaded = false
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
+    @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+    @AppStorage("didChunithmSongListLoaded") var didSongListLoaded = false
     
     @AppStorage("chartIDMap") var mapData = Data()
     
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userToken") var token = ""
-    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("userChunithmInfoData") var userInfoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
     
@@ -144,9 +143,9 @@ struct HomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<30) { i in
                                     NavigationLink {
-                                        SongDetailView(song: decodedLoadedSongs.filter{ $0.id == b30[i].musicID }[0])
+                                        ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.id == b30[i].musicID }[0])
                                     } label: {
-                                        SongMiniInfoView(song: b30[i])
+                                        ChunithmMiniInfoView(song: b30[i])
                                     }.buttonStyle(.plain)
                                 }
                             }
@@ -174,9 +173,9 @@ struct HomeView: View {
                             LazyHGrid(rows: rows, spacing: 5) {
                                 ForEach(0..<10) { i in
                                     NavigationLink {
-                                        SongDetailView(song: decodedLoadedSongs.filter{ $0.id == userInfo.records.r10[i].musicID }[0])
+                                        ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.id == userInfo.records.r10[i].musicID }[0])
                                     } label: {
-                                        SongMiniInfoView(song: userInfo.records.r10[i])
+                                        ChunithmMiniInfoView(song: userInfo.records.r10[i])
                                     }.buttonStyle(.plain)
                                 }
                             }
@@ -251,7 +250,7 @@ struct HomeView: View {
                 }) {
                     Image(systemName: "gear")
                 }.sheet(isPresented: $showingSettings) {
-                    SettingsView(coverSource: coverSource, showingSettings: $showingSettings)
+                    SettingsView(showingSettings: $showingSettings)
                 }
             }
         }
@@ -275,27 +274,27 @@ struct HomeView: View {
         if (loadedSongs.isEmpty) {
             didSongListLoaded = false
             do {
-                try await loadedSongs = JSONEncoder().encode(ProbeDataGrabber.getSongDataSetFromServer())
+                try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                 didSongListLoaded.toggle()
-                decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+                decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
             } catch {
                 print(error)
             }
         } else if(decodedLoadedSongs.isEmpty) {
-            decodedLoadedSongs = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+            decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
         } else {
             didSongListLoaded = true
         }
     }
     
     func downloadUserData() async throws {
-        accountNickname = try await ProbeDataGrabber.getUserNickname(username: accountName)
-        userInfoData = try await ProbeDataGrabber.getUserRecord(token: token)
+        accountNickname = try await ChunithmDataGrabber.getUserNickname(username: accountName)
+        userInfoData = try await ChunithmDataGrabber.getUserRecord(token: token)
     }
     
     func prepareRecords() throws {
         let decoder = JSONDecoder()
-        userInfo = try decoder.decode(UserData.self, from: userInfoData)
+        userInfo = try decoder.decode(ChunithmUserData.self, from: userInfoData)
         userInfo.records.best.sort {
             $0.rating > $1.rating
         }
@@ -365,7 +364,7 @@ struct HomeView: View {
     }
     
     func removeWEChart() {
-        var decoded = try! JSONDecoder().decode(Set<SongData>.self, from: loadedSongs)
+        var decoded = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
         decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
         loadedSongs = try! JSONEncoder().encode(decoded)
         decodedLoadedSongs = decoded

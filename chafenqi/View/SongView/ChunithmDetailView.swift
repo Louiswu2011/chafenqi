@@ -10,10 +10,10 @@ import UIKit
 import CachedAsyncImage
 import AlertToast
 
-struct SongDetailView: View {
+struct ChunithmDetailView: View {
     
-    @AppStorage("settingsCoverSource") var coverSource = 0
-    @AppStorage("userInfoData") var userInfoData = Data()
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
+    @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("chartIDMap") var mapData = Data()
     @AppStorage("didLogin") var didLogin = false
     
@@ -32,10 +32,10 @@ struct SongDetailView: View {
     @State private var chartImage: UIImage = UIImage()
     @State private var chartImageView = Image(systemName: "magnifyingglass")
     
-    @State private var userInfo = UserData()
+    @State private var userInfo = ChunithmUserData()
     @State private var scoreEntries = [Int: ScoreEntry]()
     
-    var song: SongData
+    var song: ChunithmSongData
     
     func reloadChartImage(id: String, diff: String) async throws {
         chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: id, diff: difficulty[diff]!)
@@ -240,7 +240,7 @@ struct SongDetailView: View {
             }
             .task {
                 if(didLogin) {
-                    userInfo = try! JSONDecoder().decode(UserData.self, from: userInfoData)
+                    userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
                     var scores = userInfo.records.best.filter {
                         $0.musicID == song.id
                     }
@@ -274,7 +274,7 @@ struct SongDetailView: View {
     struct ScoreCardView: View {
         var index: Int
         var scoreEntries: [Int: ScoreEntry]
-        var song: SongData
+        var song: ChunithmSongData
         
         @State private var showingDetail = false
         @State private var rotationAngle: Double = 0
@@ -292,7 +292,7 @@ struct SongDetailView: View {
                 let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(getLevelColor(index: index).opacity(0.5))
+                    .foregroundColor(getChunithmLevelColor(index: index).opacity(0.5))
                 
                 VStack() {
                     HStack {
@@ -340,7 +340,7 @@ struct SongDetailView: View {
 
 
 
-func getLevelColor(index: Int) -> Color {
+func getChunithmLevelColor(index: Int) -> Color {
     switch (index) {
     case 0:
         return Color.green
@@ -359,7 +359,7 @@ func getLevelColor(index: Int) -> Color {
 
 struct SongDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SongDetailView(song: tempSongData)
+        ChunithmDetailView(song: tempSongData)
             // .environment(\.colorScheme, .dark)
     }
 }

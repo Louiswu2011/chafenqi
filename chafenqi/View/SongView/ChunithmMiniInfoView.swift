@@ -10,10 +10,10 @@ import CachedAsyncImage
 
 let song: ScoreEntry = ScoreEntry(chartID: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
 
-struct SongMiniInfoView: View {
+struct ChunithmMiniInfoView: View {
     let song: ScoreEntry
     
-    @AppStorage("settingsCoverSource") var coverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     
     var body: some View {
         ZStack{
@@ -73,9 +73,9 @@ struct SongMiniInfoView: View {
     }
 }
 
-struct SongMiniInfoView_Previews: PreviewProvider {
+struct ChunithmMiniInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        SongMiniInfoView(song: song)
+        ChunithmMiniInfoView(song: song)
     }
 }
 

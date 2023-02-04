@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct UserData: Codable {
+struct ChunithmUserData: Codable {
     var rating: Double
     var records: UserRecord
     var username: String

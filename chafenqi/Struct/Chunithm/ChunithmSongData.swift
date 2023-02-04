@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct SongData: Hashable, Equatable, Codable, Comparable {
-    static func < (lhs: SongData, rhs: SongData) -> Bool {
+struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
+    static func < (lhs: ChunithmSongData, rhs: ChunithmSongData) -> Bool {
         return lhs.id < rhs.id
     }
     
     
-    struct SongBasicInfo: Codable {
+    struct ChunithmSongBasicInfo: Codable {
         var title: String
         var artist: String
         var genre: String
@@ -21,7 +21,7 @@ struct SongData: Hashable, Equatable, Codable, Comparable {
         var from: String
     }
     
-    struct SongChartData: Codable {
+    struct ChunithmSongChartData: Codable {
         var combo: Int
         var charter: String
     }
@@ -31,8 +31,8 @@ struct SongData: Hashable, Equatable, Codable, Comparable {
     var constant: Array<Double>
     var level: Array<String>
     var chartID: Array<Int>
-    var charts: Array<SongChartData>
-    var basicInfo: SongBasicInfo
+    var charts: Array<ChunithmSongChartData>
+    var basicInfo: ChunithmSongBasicInfo
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -41,8 +41,8 @@ struct SongData: Hashable, Equatable, Codable, Comparable {
         constant = try values.decode(Array<Double>.self, forKey: CodingKeys.constant)
         level = try values.decode(Array<String>.self, forKey: CodingKeys.level)
         chartID = try values.decode(Array<Int>.self, forKey: CodingKeys.chardID)
-        charts = try values.decode(Array<SongChartData>.self, forKey: CodingKeys.charts)
-        basicInfo = try values.decode(SongBasicInfo.self, forKey: CodingKeys.basicInfo)
+        charts = try values.decode(Array<ChunithmSongChartData>.self, forKey: CodingKeys.charts)
+        basicInfo = try values.decode(ChunithmSongBasicInfo.self, forKey: CodingKeys.basicInfo)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -67,7 +67,7 @@ struct SongData: Hashable, Equatable, Codable, Comparable {
         try container.encode(basicInfo, forKey: .basicInfo)
     }
     
-    static func == (lhs: SongData, rhs: SongData) -> Bool {
+    static func == (lhs: ChunithmSongData, rhs: ChunithmSongData) -> Bool {
         return lhs.id == rhs.id
     }
 }

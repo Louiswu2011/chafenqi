@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ProbeDataGrabber {
-    static func getSongDataSetFromServer() async throws ->  Set<SongData>{
+struct ChunithmDataGrabber {
+    static func getSongDataSetFromServer() async throws ->  Set<ChunithmSongData>{
         let request = URLRequest(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/music_data")!)
         let (data, _) = try await URLSession.shared.data(for: request)
         let decoder = JSONDecoder()
-        return try! decoder.decode(Set<SongData>.self, from: data)
+        return try! decoder.decode(Set<ChunithmSongData>.self, from: data)
     }
 
     
@@ -24,7 +24,7 @@ struct ProbeDataGrabber {
         let decoder = JSONDecoder()
         
         do {
-            return try decoder.decode(UserScoreData.self, from: data).nickname
+            return try decoder.decode(ChunithmUserScoreData.self, from: data).nickname
         } catch {
             throw CFQError.invalidResponseError(response: String(decoding: data, as: UTF8.self))
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BorderCalcView: View {
-    var song: SongData
+    var song: ChunithmSongData
     
     var body: some View {
         VStack {

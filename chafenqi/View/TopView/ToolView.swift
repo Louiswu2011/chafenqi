@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ToolView: View {
+    @AppStorage("settingsCurrentMode") var currentMode = 0
+    
     var body: some View {
         VStack {
             Form {
@@ -25,10 +27,9 @@ struct ToolView: View {
                                 Text("随机歌曲")
                                     .font(.title2)
                                     .bold()
-                                Text("今天中二打什么？")
+                                Text(currentMode == 0 ? "今天中二打什么？" : "今天maimai打什么？")
                                     .font(.footnote)
                             }
-                            Spacer()
                         }
                         .buttonStyle(.plain)
                     }
