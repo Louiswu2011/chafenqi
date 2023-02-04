@@ -159,9 +159,9 @@ struct MaimaiBasicView: View {
                             Text("DX")
                         }
                     }
-                }
-                .onTapGesture {
-                    showingChartConstant.toggle()
+                    .onTapGesture {
+                        showingChartConstant.toggle()
+                    }
                 }
             }
         }

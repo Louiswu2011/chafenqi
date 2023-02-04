@@ -25,24 +25,12 @@ struct MaimaiPlayerRecord: Codable {
         username = "TEST"
     }
     
-    func getPastVersionRating(songData: Array<MaimaiSongData>) -> Int {
-        records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 25).reduce(0) { return $0 + $1.rating }
-    }
-    
-    func getCurrentVersionRating(songData: Array<MaimaiSongData>) -> Int {
-        records.filter { songData.filter { $0.basicInfo.isNew == true }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 15).reduce(0) { return $0 + $1.rating }
-    }
-    
     func getPastSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
         records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 25)
     }
     
     func getCurrentSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
         records.filter { songData.filter { $0.basicInfo.isNew == true }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 15)
-    }
-    
-    func getRawRating(songData: Array<MaimaiSongData>) -> Int {
-        getPastVersionRating(songData: songData) * 25 + getCurrentVersionRating(songData: songData) * 15
     }
     
     
@@ -133,7 +121,7 @@ struct MaimaiRecordEntry: Codable {
         case 3:
             return Color.purple
         case 4:
-            return Color.purple.opacity(0.33)
+            return Color(red: 224 / 255, green: 217 / 255, blue: 230 / 255)
         default:
             return Color.purple
         }

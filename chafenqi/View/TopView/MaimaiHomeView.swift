@@ -24,6 +24,7 @@ struct MaimaiHomeView: View {
     @State private var firstAppear = true
     
     @State private var showingSettings = false
+    @State private var showingTotalCharts = false
     
     @State private var decodedSongList: Array<MaimaiSongData> = []
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
@@ -32,6 +33,11 @@ struct MaimaiHomeView: View {
     @State private var pastRating = 0
     @State private var currentRating = 0
     @State private var rawRating = 0
+    
+    @State private var totalPlayedCharts = 0
+    @State private var totalCharts = 0
+    
+    @State private var avgAchievement = 0.0
     
     @State private var pastSlice = ArraySlice<MaimaiRecordEntry>()
     @State private var currentSlice = ArraySlice<MaimaiRecordEntry>()
@@ -52,53 +58,70 @@ struct MaimaiHomeView: View {
                 ScrollView {
                     VStack {
                         HStack {
-                            ZStack {
-                                CutCircularProgressView(progress: 0.6, lineWidth: 10, width: 70, color: Color.indigo)
-                                
-                                Text(String(pastRating))
-                                    .foregroundColor(Color.indigo)
-                                    .textFieldStyle(.roundedBorder)
-                                    .font(.title3)
-                                
-                                Text("Prev")
-                                    .padding(.top, 60)
-                            }
-                            .padding()
-                            .padding(.top, 50)
+//                            ZStack {
+//                                CutCircularProgressView(progress: 0.6, lineWidth: 10, width: 70, color: Color.indigo)
+//
+//                                Text(String(pastRating))
+//                                    .foregroundColor(Color.indigo)
+//                                    .textFieldStyle(.roundedBorder)
+//                                    .font(.title3)
+//
+//                                Text("Prev")
+//                                    .padding(.top, 60)
+//                            }
+//                            .padding()
+//                            .padding(.top, 50)
                             
-                            ZStack {
-                                CutCircularProgressView(progress: 0.7, lineWidth: 14, width: 100, color: Color.pink)
+
+                            HStack {
+                                VStack {
+                                    Text("Rating")
+                                        .font(.title2)
+                                    Text(String(rawRating + userInfo.additionalRating))
+                                        .font(.title3)
+                                }
                                 
-                                Text(String(rawRating))
-                                    .foregroundColor(Color.pink)
-                                    .textFieldStyle(.roundedBorder)
-                                    .font(.title)
-                                    .transition(.opacity)
-                                
-                                Text("Rating")
-                                    .padding(.top, 70)
                             }
-                            .padding()
+                            .padding([.horizontal, .top])
                             
                             
-                            ZStack {
-                                // TODO: get max
-                                CutCircularProgressView(progress: 0.3, lineWidth: 10, width: 70, color: Color.cyan)
-                                
-                                Text(String(currentRating))
-                                    .foregroundColor(Color.cyan)
-                                    .textFieldStyle(.roundedBorder)
-                                    .font(.title3)
-                                
-                                Text("New")
-                                    .padding(.top, 60)
-                            }
-                            .padding()
-                            .padding(.top, 50)
+//                            ZStack {
+//                                CutCircularProgressView(progress: showingTotalCharts ? 1 : Double(totalPlayedCharts) / Double(totalCharts), lineWidth: 8, width: 50, color: Color.pink)
+//
+//                                Text(String(showingTotalCharts ? totalCharts : totalPlayedCharts))
+//                                    .foregroundColor(Color.pink)
+//                                    .textFieldStyle(.roundedBorder)
+//                                    .font(.title)
+//                                    .transition(.opacity)
+//
+//                                Text(showingTotalCharts ? "总谱面" : "已游玩")
+//                                    .font(.system(size: 20))
+//                                    .padding(.top, 70)
+//                            }
+//                            .padding()
+//                            .onTapGesture {
+//                                showingTotalCharts.toggle()
+//                            }
+                            
+                            
+//                            ZStack {
+//                                // TODO: get max
+//                                CutCircularProgressView(progress: 0.3, lineWidth: 10, width: 70, color: Color.cyan)
+//
+//                                Text(String(currentRating))
+//                                    .foregroundColor(Color.cyan)
+//                                    .textFieldStyle(.roundedBorder)
+//                                    .font(.title3)
+//
+//                                Text("New")
+//                                    .padding(.top, 60)
+//                            }
+//                            .padding()
+//                            .padding(.top, 50)
                         }
                         
                         HStack {
-                            Text("旧版本 - B25")
+                            Text("旧版本 - R" + String(pastRating))
                                 .font(.title2)
                                 .padding()
                             
@@ -128,7 +151,7 @@ struct MaimaiHomeView: View {
                         .padding(.horizontal)
                         
                         HStack {
-                            Text("新版本 - B15")
+                            Text("新版本 - R" + String(currentRating))
                                 .font(.title2)
                                 .padding()
                             
@@ -171,6 +194,7 @@ struct MaimaiHomeView: View {
             case .error(errorText: let errorText):
                 VStack {
                     ProgressView()
+                        .padding()
                     Text(errorText)
                 }
             }
@@ -212,18 +236,22 @@ struct MaimaiHomeView: View {
     }
     
     func loadUserData() async throws {
-        status = .loading(hint: "获取用户数据中...")
-        userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
+        if (userInfoData.isEmpty){
+            status = .loading(hint: "获取用户数据中...")
+            userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
+        }
         userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
         
-        status = .loading(hint: "获取谱面列表中...")
-        loadedSongs = try await MaimaiDataGrabber.getMusicData()
-
+        if (loadedSongs.isEmpty){
+            status = .loading(hint: "获取谱面列表中...")
+            loadedSongs = try await MaimaiDataGrabber.getMusicData()
+        }
         decodedSongList = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
         
-        status = .loading(hint: "加载谱面数据中...")
-        loadedStats = try await MaimaiDataGrabber.getChartStat()
-        
+        if (loadedStats.isEmpty){
+            status = .loading(hint: "加载谱面数据中...")
+            loadedStats = try await MaimaiDataGrabber.getChartStat()
+        }
         decodedChartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
         
         status = .loading(hint: "加载用户数据中...")
@@ -234,12 +262,21 @@ struct MaimaiHomeView: View {
     }
     
     func calculateData() {
-        pastRating = userInfo.getPastVersionRating(songData: decodedSongList)
-        currentRating = userInfo.getCurrentVersionRating(songData: decodedSongList)
-        rawRating = pastRating + currentRating
-        
         pastSlice = userInfo.getPastSlice(songData: decodedSongList)
         currentSlice = userInfo.getCurrentSlice(songData: decodedSongList)
+        
+        pastRating = pastSlice.reduce(0) { $0 + $1.rating }
+        currentRating = currentSlice.reduce(0) { $0 + $1.rating }
+        rawRating = pastRating + currentRating
+        
+        totalCharts = decodedSongList.reduce(0) {
+            $0 + $1.charts.count
+        }
+        totalPlayedCharts = userInfo.records.count
+        
+        avgAchievement = userInfo.records.reduce(0.0) {
+            $0 + $1.achievements / Double(userInfo.records.count)
+        }
     }
     
     func resetCache() {
