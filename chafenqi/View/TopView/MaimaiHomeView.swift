@@ -18,7 +18,10 @@ struct MaimaiHomeView: View {
     @AppStorage("userToken") var token = ""
     @AppStorage("userMaimaiInfoData") var userInfoData = Data()
     
+    @AppStorage("didCachedMaimaiData") var didCached = false
     @AppStorage("didLogin") var didLogin = false
+    
+    @State private var firstAppear = true
     
     @State private var showingSettings = false
     
@@ -33,7 +36,9 @@ struct MaimaiHomeView: View {
     @State private var pastSlice = ArraySlice<MaimaiRecordEntry>()
     @State private var currentSlice = ArraySlice<MaimaiRecordEntry>()
     
-    @State private var status = LoadStatus.loading(hint: "加载用户信息中...")
+    @State private var status = LoadStatus.empty
+    
+    @State private var previousToken = ""
     
     private var rows = [
         GridItem(),
@@ -161,8 +166,7 @@ struct MaimaiHomeView: View {
                 }
             case .loadFromCache, .empty:
                 VStack {
-                    ProgressView()
-                    Text("Wait a moment...")
+                    Text("未登录查分器，请前往设置登录")
                 }
             case .error(errorText: let errorText):
                 VStack {
@@ -172,17 +176,23 @@ struct MaimaiHomeView: View {
             }
         }
         .task {
+            guard token != "" else { status = .empty; return }
+            if (pastSlice.isEmpty) { didCached = false }
+            guard !didCached else { status = .complete; return }
+
             do {
                 try await loadUserData()
-                status = .complete
             } catch {
                 status = .error(errorText: error.localizedDescription)
             }
+            
+            
         }
         .navigationTitle(didLogin ? "LOUIS的个人资料" : "查分器DX")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    previousToken = token
                     showingSettings.toggle()
                 }) {
                     Image(systemName: "gear")
@@ -191,31 +201,49 @@ struct MaimaiHomeView: View {
                 }
             }
         }
+        .onChange(of: showingSettings) { value in
+            if(!value) {
+                if (token != previousToken) {
+                    resetCache()
+                }
+            }
+        }
         
     }
     
     func loadUserData() async throws {
-        do {
-            loadedStats = try await MaimaiDataGrabber.getChartStat()
-            decodedChartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
-            
-            loadedSongs = try await MaimaiDataGrabber.getMusicData()
-            decodedSongList = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
-            
-            userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
-            userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
-            
-            pastRating = userInfo.getPastVersionRating(songData: decodedSongList)
-            currentRating = userInfo.getCurrentVersionRating(songData: decodedSongList)
-            rawRating = pastRating + currentRating
-            
-            pastSlice = userInfo.getPastSlice(songData: decodedSongList)
-            currentSlice = userInfo.getCurrentSlice(songData: decodedSongList)
-            
-        } catch {
-            print("Failed to load.")
-            print(error)
-        }
+        status = .loading(hint: "获取用户数据中...")
+        userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
+        userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+        
+        status = .loading(hint: "获取谱面列表中...")
+        loadedSongs = try await MaimaiDataGrabber.getMusicData()
+
+        decodedSongList = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
+        
+        status = .loading(hint: "加载谱面数据中...")
+        loadedStats = try await MaimaiDataGrabber.getChartStat()
+        
+        decodedChartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+        
+        status = .loading(hint: "加载用户数据中...")
+        calculateData()
+        
+        status = .complete
+        didCached = true
+    }
+    
+    func calculateData() {
+        pastRating = userInfo.getPastVersionRating(songData: decodedSongList)
+        currentRating = userInfo.getCurrentVersionRating(songData: decodedSongList)
+        rawRating = pastRating + currentRating
+        
+        pastSlice = userInfo.getPastSlice(songData: decodedSongList)
+        currentSlice = userInfo.getCurrentSlice(songData: decodedSongList)
+    }
+    
+    func resetCache() {
+        didCached = false
     }
 }
 

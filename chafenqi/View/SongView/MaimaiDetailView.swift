@@ -193,7 +193,7 @@ struct MaimaiDetailView: View {
             1: "Advanced",
             2: "Expert",
             3: "Master",
-            4: "Ultima"
+            4: "Re:Master"
         ]
         
         var body: some View {

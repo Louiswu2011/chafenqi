@@ -9,19 +9,25 @@ import SwiftUI
 import CachedAsyncImage
 
 struct SongRandomizerView: View {
-    @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+    @AppStorage("loadedChunithmSongs") var loadedChunithmSongs: Data = Data()
     @AppStorage("didChunithmSongListLoaded") var didSongListLoaded = false
-    @AppStorage("userChunithmInfoData") var userInfoData = Data()
+    @AppStorage("userChunithmInfoData") var userChunithmData = Data()
     @AppStorage("didLogin") var didLogin = false
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("settingsRandomizerFilterMode") var filterMode = 0
+    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
+    @AppStorage("settingsCurrentMode") var currentMode = 0
+    @AppStorage("userMaimaiInfoData") var userMaimaiData = Data()
+    @AppStorage("loadedMaimaiSongs") var loadedMaimaiSongs: Data = Data()
     
     @State private var isSpinning = false
     @State private var showingConstant = false
     
-    @State private var decodedLoadedSongs = Set<ChunithmSongData>()
+    @State private var decodedChunithmSongs = Set<ChunithmSongData>()
+    @State private var decodedMaimaiSongs = Set<MaimaiSongData>()
     
-    @State private var randomSong = tempSongData
+    @State private var randomChunithmSong = tempSongData
+    @State private var randomMaimaiSong = tempMaimaiSong
     @State private var coverURL = URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/3.png")
     
     @State private var screenBounds = UIScreen.main.bounds
@@ -32,7 +38,7 @@ struct SongRandomizerView: View {
         VStack(alignment: .center) {
             SongCoverView(coverURL: coverURL!, size: 200, cornerRadius: 5)
             
-            Text(randomSong.basicInfo.title)
+            Text(currentMode == 0 ? randomChunithmSong.basicInfo.title : randomMaimaiSong.basicInfo.title)
                 .bold()
                 .font(.title)
                 .multilineTextAlignment(.center)
@@ -41,27 +47,47 @@ struct SongRandomizerView: View {
                 .padding([.top, .horizontal])
             
             
-            Text(randomSong.basicInfo.artist)
+            Text(currentMode == 0 ? randomChunithmSong.basicInfo.artist : randomMaimaiSong.basicInfo.artist)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .padding([.bottom, .horizontal])
             
             HStack {
-                Text(showingConstant ? String(format: "%.1f", randomSong.constant[0]) : randomSong.level[0])
-                    .foregroundColor(Color.green)
-                    .font(.title3)
-                Text(showingConstant ? String(format: "%.1f", randomSong.constant[1]) : randomSong.level[1])
-                    .foregroundColor(Color.yellow)
-                    .font(.title3)
-                Text(showingConstant ? String(format: "%.1f", randomSong.constant[2]) : randomSong.level[2])
-                    .foregroundColor(Color.red)
-                    .font(.title3)
-                Text(showingConstant ? String(format: "%.1f", randomSong.constant[3]) : randomSong.level[3])
-                    .foregroundColor(Color.purple)
-                    .font(.title3)
-                if (randomSong.level.count == 5) {
-                    Text(showingConstant ? String(format: "%.1f", randomSong.constant[4]) : randomSong.level[4])
+                if (currentMode == 0) {
+                    Text(showingConstant ? String(format: "%.1f", randomChunithmSong.constant[0]) : randomChunithmSong.level[0])
+                        .foregroundColor(Color.green)
                         .font(.title3)
+                    Text(showingConstant ? String(format: "%.1f", randomChunithmSong.constant[1]) : randomChunithmSong.level[1])
+                        .foregroundColor(Color.yellow)
+                        .font(.title3)
+                    Text(showingConstant ? String(format: "%.1f", randomChunithmSong.constant[2]) : randomChunithmSong.level[2])
+                        .foregroundColor(Color.red)
+                        .font(.title3)
+                    Text(showingConstant ? String(format: "%.1f", randomChunithmSong.constant[3]) : randomChunithmSong.level[3])
+                        .foregroundColor(Color.purple)
+                        .font(.title3)
+                    if (randomChunithmSong.level.count == 5) {
+                        Text(showingConstant ? String(format: "%.1f", randomChunithmSong.constant[4]) : randomChunithmSong.level[4])
+                            .font(.title3)
+                    }
+                } else {
+                    Text(showingConstant ? String(format: "%.1f", randomMaimaiSong.constant[0]) : randomMaimaiSong.level[0])
+                        .foregroundColor(Color.green)
+                        .font(.title3)
+                    Text(showingConstant ? String(format: "%.1f", randomMaimaiSong.constant[1]) : randomMaimaiSong.level[1])
+                        .foregroundColor(Color.yellow)
+                        .font(.title3)
+                    Text(showingConstant ? String(format: "%.1f", randomMaimaiSong.constant[2]) : randomMaimaiSong.level[2])
+                        .foregroundColor(Color.red)
+                        .font(.title3)
+                    Text(showingConstant ? String(format: "%.1f", randomMaimaiSong.constant[3]) : randomMaimaiSong.level[3])
+                        .foregroundColor(Color.purple)
+                        .font(.title3)
+                    if (randomMaimaiSong.level.count == 5) {
+                        Text(showingConstant ? String(format: "%.1f", randomMaimaiSong.constant[4]) : randomMaimaiSong.level[4])
+                            .foregroundColor(Color.purple.opacity(0.33))
+                            .font(.title3)
+                    }
                 }
             }
             .onTapGesture {
@@ -70,7 +96,11 @@ struct SongRandomizerView: View {
             
             HStack {
                 Button {
-                    randomSong = getRandomSong()
+                    if (currentMode == 0) {
+                        randomChunithmSong = getChunithmRandomSong()
+                    } else {
+                        randomMaimaiSong = getMaimaiRandomSong()
+                    }
                 } label: {
                     Text("再来一首")
                     Image(systemName: "dice")
@@ -78,9 +108,12 @@ struct SongRandomizerView: View {
                 // .disabled(isSpinning)
                 .padding(.horizontal)
                 
-                
                 NavigationLink {
-                    ChunithmDetailView(song: randomSong)
+                    if (currentMode == 0) {
+                        ChunithmDetailView(song: randomChunithmSong)
+                    } else {
+                        MaimaiDetailView(song: randomMaimaiSong)
+                    }
                 } label: {
                     Text("转到详情")
                     Image(systemName: "arrowshape.turn.up.right")
@@ -92,9 +125,16 @@ struct SongRandomizerView: View {
         }
         .onAppear {
             if randomOnAppear {
-                decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
-                filterSongList()
-                randomSong = getRandomSong()
+                if (currentMode == 0) {
+                    filterChunithmSongList()
+                    decodedChunithmSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedChunithmSongs)
+                    randomChunithmSong = getChunithmRandomSong()
+                    
+                } else {
+                    filterMaimaiSongList()
+                    decodedMaimaiSongs = try! JSONDecoder().decode(Set<MaimaiSongData>.self, from: loadedMaimaiSongs)
+                    randomMaimaiSong = getMaimaiRandomSong()
+                }
                 randomOnAppear = false
             }
         }
@@ -103,26 +143,46 @@ struct SongRandomizerView: View {
         
     }
     
-    func filterSongList() {
+    func filterChunithmSongList() {
         guard didLogin else { return }
         
-        let playedList = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData).records.best.compactMap { $0.musicID }
+        let playedList = try! JSONDecoder().decode(ChunithmUserData.self, from: userChunithmData).records.best.compactMap { $0.musicID }
         
         switch (filterMode) {
         case 0:
             return
         case 1:
-            decodedLoadedSongs = decodedLoadedSongs.filter { !playedList.contains($0.id) }
-        case 2:
-            decodedLoadedSongs = decodedLoadedSongs.filter { playedList.contains($0.id) }
+            decodedChunithmSongs = decodedChunithmSongs.filter { !playedList.contains($0.id) }
         default:
-            return
+            decodedChunithmSongs = decodedChunithmSongs.filter { playedList.contains($0.id) }
         }
     }
     
-    func getRandomSong() -> ChunithmSongData {
-        let randSong = decodedLoadedSongs.randomElement()!
+    func filterMaimaiSongList() {
+        guard didLogin else { return }
+        
+        let playedList = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userMaimaiData).records.compactMap{ $0.musicId }
+        
+        switch (filterMode) {
+        case 0:
+            return
+        case 1:
+            decodedMaimaiSongs = decodedMaimaiSongs.filter { !playedList.contains( Int($0.musicId)!) }
+        default:
+            decodedMaimaiSongs = decodedMaimaiSongs.filter { !playedList.contains( Int($0.musicId)!) }
+        }
+    }
+    
+    func getChunithmRandomSong() -> ChunithmSongData {
+        let randSong = decodedChunithmSongs.randomElement()!
         coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.id).png")
+        return randSong
+    }
+    
+    func getMaimaiRandomSong() -> MaimaiSongData {
+        let randSong = decodedMaimaiSongs.randomElement()!
+        coverURL = URL(string: "https://www.diving-fish.com/covers/\(getCoverNumber(id: randSong.musicId)).png")
+        
         return randSong
     }
 }
