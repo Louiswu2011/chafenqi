@@ -138,13 +138,10 @@ struct SettingsView: View {
                             }
                     }
                     
-                    Link("到Github提交反馈...", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
+                    Link("到Github提交反馈", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
                     
-                    Button() {
-                        
-                    } label: {
-                        Text("请作者打一把中二")
-                    }.disabled(true)
+                    Link("请作者打一把中二", destination: URL(string: "https://afdian.net/a/chafenqi")!)
+
                 } header: {
                     Text("关于")
                 } footer: {
