@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+let remasterColor = Color(red: 224 / 255, green: 217 / 255, blue: 230 / 255)
+
 struct MaimaiPlayerRecord: Codable {
     var additionalRating: Int
     var records: Array<MaimaiRecordEntry>

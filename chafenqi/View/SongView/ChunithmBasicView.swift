@@ -55,47 +55,9 @@ struct ChunithmBasicView: View {
                     Spacer()
                     
                     HStack {
-                        if (showingChartConstant) {
-                            if (song.constant.count == 6) {
-                                Text("\(song.constant[5], specifier: "%.1f")")
-                            } else if (song.level.count == 1) {
-                                Text("\(song.constant[0], specifier: "%.1f")")
-                            } else {
-                                Text("\(song.constant[0], specifier: "%.1f")")
-                                    .foregroundColor(Color.green)
-                                Text("\(song.constant[1], specifier: "%.1f")")
-                                    .foregroundColor(Color.yellow)
-                                Text("\(song.constant[2], specifier: "%.1f")")
-                                    .foregroundColor(Color.red)
-                                Text("\(song.constant[3], specifier: "%.1f")")
-                                    .foregroundColor(Color.purple)
-                                if (song.level.count == 5) {
-                                    Text("\(song.constant[4], specifier: "%.1f")")
-                                }
-                            }
-                        } else { 
-                            if (song.level.count == 6) {
-                                Text(song.level[5])
-                            } else if (song.level.count == 1) {
-                                Text(song.level[0])
-                            } else {
-                                Text(song.level[0])
-                                    .foregroundColor(Color.green)
-                                Text(song.level[1])
-                                    .foregroundColor(Color.yellow)
-                                Text(song.level[2])
-                                    .foregroundColor(Color.red)
-                                Text(song.level[3])
-                                    .foregroundColor(Color.purple)
-                                if (song.level.count == 5) {
-                                    Text(song.level[4])
-                                }
-                            }
-                        }
+                        LevelStripView(mode: 0, levels: song.level)
                     }
-                    .onTapGesture {
-                        showingChartConstant.toggle()
-                    }
+                    
                 }
             }
         }

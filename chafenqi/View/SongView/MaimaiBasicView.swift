@@ -89,8 +89,6 @@ let tempMaimaiSong = try! JSONDecoder().decode(MaimaiSongData.self, from: tempMa
 struct MaimaiBasicView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var showingChartConstant = false
-    
     var song: MaimaiSongData
     
     var body: some View {
@@ -106,69 +104,32 @@ struct MaimaiBasicView: View {
                     print(getCoverNumber(id: song.musicId))
                 }
             
-            HStack{
-                VStack(alignment: .leading) {
-                    Text(song.title)
-                        .font(.title2)
-                        .bold()
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                        .textSelection(.enabled)
-                    
-                    Text(song.basicInfo.artist)
-                        .font(.title3)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.6)
-                        .textSelection(.enabled)
-                    
-                    Spacer()
-                    
-                    HStack {
-                        if (showingChartConstant) {
-                            Text("\(song.constant[0], specifier: "%.1f")")
-                                .foregroundColor(Color.green)
-                            Text("\(song.constant[1], specifier: "%.1f")")
-                                .foregroundColor(Color.yellow)
-                            Text("\(song.constant[2], specifier: "%.1f")")
-                                .foregroundColor(Color.red)
-                            Text("\(song.constant[3], specifier: "%.1f")")
-                                .foregroundColor(Color.purple)
-                            if (song.level.count == 5) {
-                                Text("\(song.constant[4], specifier: "%.1f")")
-                                    .foregroundColor(Color.purple.opacity(0.5))
-                            }
-                            
-                        } else {
-                            Text(song.level[0])
-                                .foregroundColor(Color.green)
-                            Text(song.level[1])
-                                .foregroundColor(Color.yellow)
-                            Text(song.level[2])
-                                .foregroundColor(Color.red)
-                            Text(song.level[3])
-                                .foregroundColor(Color.purple)
-                            if (song.level.count == 5) {
-                                Text(song.level[4])
-                                    .foregroundColor(Color.purple.opacity(0.5))
-                            }
-                        }
-                        
-                        if(song.type == "DX") {
-                            Text("DX")
-                        }
-                    }
-                    .onTapGesture {
-                        showingChartConstant.toggle()
-                    }
-                }
+            
+            VStack(alignment: .leading) {
+                Text(song.title)
+                    .font(.system(size: 20))
+                    .bold()
+                    .textSelection(.enabled)
+                
+                
+                Text(song.basicInfo.artist)
+                    .font(.system(size: 15))
+                    .textSelection(.enabled)
+                
+                Spacer()
+                
+                LevelStripView(mode: 1, levels: song.level)
+                // .border(Color.blue)
+                
+                
+                //                        if(song.type == "DX") {
+                //                            Text("DX")
+                //                        }
+                
+                
             }
         }
-        
     }
-    
-    
 }
 
 
