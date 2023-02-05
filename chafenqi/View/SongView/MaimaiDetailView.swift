@@ -196,10 +196,25 @@ struct MaimaiDetailView: View {
             4: "Re:Master"
         ]
         
+        let standardNoteType = [
+            0: "Tap",
+            1: "Hold",
+            2: "Slide",
+            3: "Break"
+        ]
+        
+        let dxNoteType = [
+            0: "Tap",
+            1: "Hold",
+            2: "Slide",
+            3: "Touch",
+            4: "Break"
+        ]
+        
         var body: some View {
             ZStack {
                 let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
-                let statsExists = chartStat != nil
+                let statsExists = chartStat!.playCount != nil
                 
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(getChunithmLevelColor(index: index).opacity(0.5))
@@ -238,83 +253,50 @@ struct MaimaiDetailView: View {
                             }
                             .padding([.horizontal])
                             
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .opacity(0.1)
+                            HStack {
                                 
-                                HStack {
-                                    VStack {
-                                        HStack {
-                                            Text("Tap:")
-                                            Spacer()
-                                            Text(String(song.charts[index].notes[0]))
-                                        }
-                                        
-                                        HStack {
-                                            Text("Hold:")
-                                            Spacer()
-                                            Text(String(song.charts[index].notes[1]))
-                                        }
-                                        
-                                        HStack {
-                                            Text("Slide:")
-                                            Spacer()
-                                            Text(String(song.charts[index].notes[2]))
-                                        }
-                                        
-                                        if (song.type == "DX") {
-                                            HStack {
-                                                Text("Touch:")
-                                                Spacer()
-                                                Text(String(song.charts[index].notes[3]))
-                                            }
-                                            
-                                            HStack {
-                                                Text("Break:")
-                                                Spacer()
-                                                Text(String(song.charts[index].notes[4]))
-                                            }
-                                        } else {
-                                            HStack {
-                                                Text("Break:")
-                                                Spacer()
-                                                Text(String(song.charts[index].notes[3]))
-                                            }
-                                        }
-                                    }
-                                    .padding([.vertical, .leading])
-                                    
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .opacity(0.1)
                                     
                                     
                                     VStack {
-                                        HStack {
-                                            Text("评级:")
-                                                .font(.system(size: 15))
-                                            Spacer()
-                                            Text(statsExists ? chartStat!.tag! : "暂无评级")
-                                                .font(.system(size: 15))
-                                        }
-                                        
-                                        HStack {
-                                            Text("SSS+人数:")
-                                                .font(.system(size: 15))
-                                            Spacer()
-                                            Text(statsExists ? String(chartStat!.ssspCount!) : "暂无数据")
-                                                .font(.system(size: 15))
-                                        }
-                                        
-                                        HStack {
-                                            Text("平均成绩:")
-                                                .font(.system(size: 15))
-                                            Spacer()
-                                            Text(statsExists ? "\(chartStat!.averageScore!, specifier: "%.2f")%" : "暂无数据")
-                                                .font(.system(size: 15))
+                                        ForEach(song.type == "DX" ? dxNoteType.sorted(by: <) : standardNoteType.sorted(by: <), id: \.key) { type in
+                                            HStack {
+                                                Text("\(type.value):")
+                                                Spacer()
+                                                Text("\(song.charts[index].notes[type.key])")
+                                            }
                                         }
                                     }
-                                    .padding([.vertical, .trailing])
+                                    .padding()
                                 }
+                                .padding()
+                                
+                                Spacer()
+                                
+                                VStack {
+                                    HStack {
+                                        Text("评级:")
+                                        Spacer()
+                                        Text(statsExists ? String(chartStat!.tag!) : "-")
+                                    }
+                                    
+                                    HStack {
+                                        Text("SSS人数:")
+                                        Spacer()
+                                        Text(statsExists ? String(chartStat!.ssspCount!) : "-")
+                                    }
+                                    
+                                    HStack {
+                                        Text("平均成绩:")
+                                        Spacer()
+                                        Text(statsExists ? "\(chartStat!.averageScore!, specifier: "%.2f")%" : "-")
+                                    }
+                                }
+                                .padding([.vertical, .trailing])
+                                
                             }
-                            .padding()
                         }
                     }
                 }
@@ -322,7 +304,6 @@ struct MaimaiDetailView: View {
             .padding(.horizontal)
         }
     }
-    
 }
 
 
