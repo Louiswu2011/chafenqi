@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MaimaiSongData: Codable, Hashable, Comparable {
     static func < (lhs: MaimaiSongData, rhs: MaimaiSongData) -> Bool {
@@ -63,5 +64,22 @@ struct MaimaiSongData: Codable, Hashable, Comparable {
         case chartId = "cids"
         case charts
         case basicInfo = "basic_info"
+    }
+    
+    func getLevelColor(index: Int) -> Color {
+        switch (index) {
+        case 0:
+            return Color.green
+        case 1:
+            return Color.yellow
+        case 2:
+            return Color.red
+        case 3:
+            return Color.purple
+        case 4:
+            return Color(red: 171 / 255, green: 147 / 255, blue: 191 / 255)
+        default:
+            return Color.purple
+        }
     }
 }

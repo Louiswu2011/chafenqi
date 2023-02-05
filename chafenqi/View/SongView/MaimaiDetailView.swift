@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct MaimaiDetailView: View {
     @AppStorage("settingsMaimaiCoverSource") var coverSource = 0
     @AppStorage("userMaimaiInfoData") var userInfoData = Data()
@@ -88,20 +90,20 @@ struct MaimaiDetailView: View {
                 HStack {
                     
                     Text("\(song.constant[0], specifier: "%.1f")")
-                        .foregroundColor(Color.green)
+                        .foregroundColor(maimaiLevelColor[0])
                         .font(.title3)
                     Text("\(song.constant[1], specifier: "%.1f")")
-                        .foregroundColor(Color.yellow)
+                        .foregroundColor(maimaiLevelColor[1])
                         .font(.title3)
                     Text("\(song.constant[2], specifier: "%.1f")")
-                        .foregroundColor(Color.red)
+                        .foregroundColor(maimaiLevelColor[2])
                         .font(.title3)
                     Text("\(song.constant[3], specifier: "%.1f")")
-                        .foregroundColor(Color.purple)
+                        .foregroundColor(maimaiLevelColor[3])
                         .font(.title3)
                     if (song.level.count == 5) {
                         Text("\(song.constant[4], specifier: "%.1f")")
-                            .foregroundColor(Color.purple.opacity(0.33))
+                            .foregroundColor(maimaiLevelColor[4])
                             .font(.title3)
                     }
                     
@@ -217,7 +219,7 @@ struct MaimaiDetailView: View {
                 let statsExists = chartStat!.playCount != nil
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(getChunithmLevelColor(index: index).opacity(0.5))
+                    .foregroundColor(maimaiLevelColor[index]?.opacity(0.9))
                 
                 VStack() {
                     HStack {
@@ -306,24 +308,6 @@ struct MaimaiDetailView: View {
     }
 }
 
-
-
-func getMaimaiLevelColor(index: Int) -> Color {
-    switch (index) {
-    case 0:
-        return Color.green
-    case 1:
-        return Color.yellow
-    case 2:
-        return Color.red
-    case 3:
-        return Color.purple
-    case 4:
-        return Color.purple.opacity(0.33)
-    default:
-        return Color.purple
-    }
-}
 
 struct MaimaiDetailView_Previews: PreviewProvider {
     static var previews: some View {

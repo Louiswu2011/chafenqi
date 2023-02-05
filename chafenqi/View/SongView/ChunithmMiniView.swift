@@ -10,7 +10,7 @@ import CachedAsyncImage
 
 let song: ScoreEntry = ScoreEntry(chartID: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
 
-struct ChunithmMiniInfoView: View {
+struct ChunithmMiniView: View {
     let song: ScoreEntry
     
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -66,7 +66,7 @@ struct ChunithmMiniInfoView: View {
         }
         
         .frame(width: 190, height: 100)
-        .background(song.getLevelColor().opacity(0.8))
+        .background(chunithmLevelColor[song.levelIndex])
         .cornerRadius(10)
         // .border(.black)
             
@@ -75,7 +75,7 @@ struct ChunithmMiniInfoView: View {
 
 struct ChunithmMiniInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        ChunithmMiniInfoView(song: song)
+        ChunithmMiniView(song: song)
     }
 }
 

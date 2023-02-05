@@ -108,31 +108,18 @@ struct ChunithmDetailView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     
                     HStack {
-                        if (song.constant.count == 6) {
-                            Text("\(song.constant[5], specifier: "%.1f")")
+                        ForEach(0..<4) { index in
+                            Text("\(song.constant[index], specifier: "%.1f")")
+                                .foregroundColor(chunithmLevelColor[index])
                                 .font(.title3)
-                            
-                        } else if (song.level.count == 1) {
-                            Text("\(song.constant[0], specifier: "%.1f")")
-                                .font(.title3)
-                        } else {
-                            Text("\(song.constant[0], specifier: "%.1f")")
-                                .foregroundColor(Color.green)
-                                .font(.title3)
-                            Text("\(song.constant[1], specifier: "%.1f")")
-                                .foregroundColor(Color.yellow)
-                                .font(.title3)
-                            Text("\(song.constant[2], specifier: "%.1f")")
-                                .foregroundColor(Color.red)
-                                .font(.title3)
-                            Text("\(song.constant[3], specifier: "%.1f")")
-                                .foregroundColor(Color.purple)
-                                .font(.title3)
-                            if (song.level.count == 5) {
-                                Text("\(song.constant[4], specifier: "%.1f")")
-                                    .font(.title3)
-                            }
                         }
+                        
+                        if (song.level.count == 5) {
+                            Text("\(song.constant[4], specifier: "%.1f")")
+                                .foregroundColor(chunithmLevelColor[4])
+                                .font(.title3)
+                        }
+                        
                         
                         Spacer()
                         
@@ -292,7 +279,7 @@ struct ChunithmDetailView: View {
                 let exists = !scoreEntries.filter{ $0.key == index }.isEmpty
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(getChunithmLevelColor(index: index).opacity(0.5))
+                    .foregroundColor(chunithmLevelColor[index]!.opacity(0.9))
                 
                 VStack() {
                     HStack {
@@ -357,10 +344,9 @@ func getChunithmLevelColor(index: Int) -> Color {
     }
 }
 
-struct SongDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChunithmDetailView(song: tempSongData)
-            // .environment(\.colorScheme, .dark)
-    }
-}
+//struct SongDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChunithmDetailView(song: tempSongData)
+//    }
+//}
 

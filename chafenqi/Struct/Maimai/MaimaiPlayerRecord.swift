@@ -123,7 +123,7 @@ struct MaimaiRecordEntry: Codable {
         case 3:
             return Color.purple
         case 4:
-            return Color(red: 224 / 255, green: 217 / 255, blue: 230 / 255)
+            return Color(red: 171 / 255, green: 147 / 255, blue: 191 / 255)
         default:
             return Color.purple
         }

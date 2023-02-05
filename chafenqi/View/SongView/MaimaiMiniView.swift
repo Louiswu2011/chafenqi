@@ -63,7 +63,7 @@ struct MaimaiMiniView: View {
         }
         
         .frame(width: 190, height: 100)
-        .background(song.getLevelColor().opacity(0.8))
+        .background(maimaiLevelColor[song.levelIndex])
         .cornerRadius(10)
         // .border(.black)
             

@@ -12,13 +12,15 @@ struct LevelStripView: View {
     var levels: Array<String>
     
     var body: some View {
+        let levelColor = mode == 0 ? chunithmLevelColor : maimaiLevelColor
+        
         HStack {
-            LevelBlockView(color: Color.green, level: levels[0])
-            LevelBlockView(color: Color.yellow, level: levels[1])
-            LevelBlockView(color: Color.red, level: levels[2])
-            LevelBlockView(color: Color.purple, level: levels[3])
+            LevelBlockView(color: levelColor[0]!, level: levels[0])
+            LevelBlockView(color: levelColor[1]!, level: levels[1])
+            LevelBlockView(color: levelColor[2]!, level: levels[2])
+            LevelBlockView(color: levelColor[3]!, level: levels[3])
             if (levels.count == 5) {
-                LevelBlockView(color: mode == 0 ? Color.black : remasterColor, level: levels[4])
+                LevelBlockView(color: levelColor[4]!, level: levels[4])
             }
         }
     }

@@ -145,7 +145,7 @@ struct ChunithmHomeView: View {
                                     NavigationLink {
                                         ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.musicId == b30[i].musicID }[0])
                                     } label: {
-                                        ChunithmMiniInfoView(song: b30[i])
+                                        ChunithmMiniView(song: b30[i])
                                     }.buttonStyle(.plain)
                                 }
                             }
@@ -175,7 +175,7 @@ struct ChunithmHomeView: View {
                                     NavigationLink {
                                         ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.musicId == userInfo.records.r10[i].musicID }[0])
                                     } label: {
-                                        ChunithmMiniInfoView(song: userInfo.records.r10[i])
+                                        ChunithmMiniView(song: userInfo.records.r10[i])
                                     }.buttonStyle(.plain)
                                 }
                             }

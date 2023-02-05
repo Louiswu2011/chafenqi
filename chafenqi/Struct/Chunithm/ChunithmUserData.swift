@@ -165,23 +165,6 @@ struct ScoreEntry: Codable {
         score >= 1007500
     }
     
-    func getLevelColor() -> Color {
-        switch (self.levelIndex) {
-        case 0:
-            return Color.green
-        case 1:
-            return Color.yellow
-        case 2:
-            return Color.red
-        case 3:
-            return Color.purple
-        case 4:
-            return Color.gray
-        default:
-            return Color.purple
-        }
-    }
-    
     enum CodingKeys: String, CodingKey{
         case chartID = "cid"
         case constant = "ds"
