@@ -9,7 +9,7 @@ import Foundation
 
 struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
     static func < (lhs: ChunithmSongData, rhs: ChunithmSongData) -> Bool {
-        return lhs.id < rhs.id
+        return lhs.musicId < rhs.musicId
     }
     
     
@@ -26,7 +26,7 @@ struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
         var charter: String
     }
     
-    var id: Int
+    var musicId: Int
     var title: String
     var constant: Array<Double>
     var level: Array<String>
@@ -36,7 +36,7 @@ struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(Int.self, forKey: .id)
+        musicId = try values.decode(Int.self, forKey: .id)
         title = try values.decode(String.self, forKey: CodingKeys.title)
         constant = try values.decode(Array<Double>.self, forKey: CodingKeys.constant)
         level = try values.decode(Array<String>.self, forKey: CodingKeys.level)
@@ -53,12 +53,12 @@ struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(musicId)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
+        try container.encode(musicId, forKey: .id)
         try container.encode(title, forKey: .title)
         try container.encode(constant, forKey: .constant)
         try container.encode(level, forKey: .level)
@@ -68,7 +68,7 @@ struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
     }
     
     static func == (lhs: ChunithmSongData, rhs: ChunithmSongData) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.musicId == rhs.musicId
     }
 }
 

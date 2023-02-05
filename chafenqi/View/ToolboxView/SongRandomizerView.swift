@@ -152,9 +152,9 @@ struct SongRandomizerView: View {
         case 0:
             return
         case 1:
-            decodedChunithmSongs = decodedChunithmSongs.filter { !playedList.contains($0.id) }
+            decodedChunithmSongs = decodedChunithmSongs.filter { !playedList.contains($0.musicId) }
         default:
-            decodedChunithmSongs = decodedChunithmSongs.filter { playedList.contains($0.id) }
+            decodedChunithmSongs = decodedChunithmSongs.filter { playedList.contains($0.musicId) }
         }
     }
     
@@ -175,7 +175,7 @@ struct SongRandomizerView: View {
     
     func getChunithmRandomSong() -> ChunithmSongData {
         let randSong = decodedChunithmSongs.randomElement()!
-        coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.id).png")
+        coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.musicId).png")
         return randSong
     }
     

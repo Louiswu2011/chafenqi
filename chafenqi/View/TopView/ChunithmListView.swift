@@ -40,9 +40,9 @@ struct ChunithmListView: View {
                 
                 List {
                     
-                    ForEach(searchChunithmResults.sorted(by: <), id: \.id) { song in
+                    ForEach(searchChunithmResults.sorted(by: <), id: \.musicId) { song in
                         NavigationLink(destination: ChunithmDetailView(song: song)) {
-                            ChunithmBasicView(song: song)
+                            SongBasicView(chunithmSong: song)
                         }
                     }
                     
@@ -105,7 +105,7 @@ struct ChunithmListView: View {
         if (showingPlayed) {
             let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
             let idList = userInfo.records.best.compactMap { $0.musicID }
-            songs = songs.filter { idList.contains( $0.id ) }
+            songs = songs.filter { idList.contains( $0.musicId ) }
         }
         
         if searchText.isEmpty {

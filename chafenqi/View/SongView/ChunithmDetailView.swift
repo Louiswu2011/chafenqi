@@ -43,9 +43,9 @@ struct ChunithmDetailView: View {
     }
     
     var body: some View {
-        let webChartId = try! ChartIdConverter.getWebChartId(musicId: song.id, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
+        let webChartId = try! ChartIdConverter.getWebChartId(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
         
-        let coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.id).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.id).png")
+        let coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicId).png")
         
         if (isLoading) {
             ProgressView()
@@ -211,7 +211,7 @@ struct ChunithmDetailView: View {
                         do {
                             chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
                             chartImageView = Image(uiImage: chartImage)
-                            availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.id, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
+                            availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
                             isCheckingDiff.toggle()
                         } catch CFQError.requestTimeoutError {
                             AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载谱面图片失败")
@@ -242,7 +242,7 @@ struct ChunithmDetailView: View {
                 if(didLogin) {
                     userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
                     var scores = userInfo.records.best.filter {
-                        $0.musicID == song.id
+                        $0.musicID == song.musicId
                     }
                     scores.sort {
                         $0.levelIndex < $1.levelIndex

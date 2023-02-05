@@ -36,7 +36,7 @@ struct MaimaiListView: View {
                         NavigationLink {
                             MaimaiDetailView(song: song)
                         } label: {
-                            MaimaiBasicView(song: song)
+                            SongBasicView(maimaiSong: song)
                         }
                         
                     }
