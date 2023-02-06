@@ -8,7 +8,7 @@
 import Foundation
 
 struct MaimaiPlayerProfile: Codable {
-    var additionalRating: String
+    var additionalRating: Int
     var bindQQ: String
     var nickname: String
     var plate: String
@@ -22,5 +22,14 @@ struct MaimaiPlayerProfile: Codable {
         case plate
         case privacy
         case username
+    }
+    
+    init() {
+        additionalRating = 0
+        bindQQ = "0"
+        nickname = "MAIMAI"
+        plate = "None"
+        privacy = false
+        username = "MAIMAI"
     }
 }

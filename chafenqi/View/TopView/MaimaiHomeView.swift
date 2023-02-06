@@ -16,7 +16,9 @@ struct MaimaiHomeView: View {
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userToken") var token = ""
+    
     @AppStorage("userMaimaiInfoData") var userInfoData = Data()
+    @AppStorage("userMaimaiProfileData") var userProfileData = Data()
     
     @AppStorage("didCachedMaimaiData") var didCached = false
     @AppStorage("didLogin") var didLogin = false
@@ -28,7 +30,9 @@ struct MaimaiHomeView: View {
     
     @State private var decodedSongList: Array<MaimaiSongData> = []
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
+    
     @State private var userInfo = MaimaiPlayerRecord()
+    @State private var userProfile = MaimaiPlayerProfile()
     
     @State private var pastRating = 0
     @State private var currentRating = 0
@@ -58,66 +62,31 @@ struct MaimaiHomeView: View {
                 ScrollView {
                     VStack {
                         HStack {
-//                            ZStack {
-//                                CutCircularProgressView(progress: 0.6, lineWidth: 10, width: 70, color: Color.indigo)
-//
-//                                Text(String(pastRating))
-//                                    .foregroundColor(Color.indigo)
-//                                    .textFieldStyle(.roundedBorder)
-//                                    .font(.title3)
-//
-//                                Text("Prev")
-//                                    .padding(.top, 60)
-//                            }
-//                            .padding()
-//                            .padding(.top, 50)
-                            
- 
-
-                                HStack {
-                                    Text("Rating")
-                                        .font(.title2)
+                            HStack {
+                                Text("Rating")
+                                    .font(.system(size: 20))
+                                VStack {
                                     Text(String(rawRating + userInfo.additionalRating))
-                                        .font(.title3)
+                                        .font(.system(size: 20))
+                                        .bold()
+                                    Text(verbatim: "(\(rawRating)+\(userInfo.additionalRating))")
+                                        .font(.system(size: 15))
                                 }
+                            }
                             
-                            
-                            
-                            
-//                            ZStack {
-//                                CutCircularProgressView(progress: showingTotalCharts ? 1 : Double(totalPlayedCharts) / Double(totalCharts), lineWidth: 8, width: 50, color: Color.pink)
-//
-//                                Text(String(showingTotalCharts ? totalCharts : totalPlayedCharts))
-//                                    .foregroundColor(Color.pink)
-//                                    .textFieldStyle(.roundedBorder)
-//                                    .font(.title)
-//                                    .transition(.opacity)
-//
-//                                Text(showingTotalCharts ? "总谱面" : "已游玩")
-//                                    .font(.system(size: 20))
-//                                    .padding(.top, 70)
-//                            }
-//                            .padding()
-//                            .onTapGesture {
-//                                showingTotalCharts.toggle()
-//                            }
-                            
-                            
-//                            ZStack {
-//                                // TODO: get max
-//                                CutCircularProgressView(progress: 0.3, lineWidth: 10, width: 70, color: Color.cyan)
-//
-//                                Text(String(currentRating))
-//                                    .foregroundColor(Color.cyan)
-//                                    .textFieldStyle(.roundedBorder)
-//                                    .font(.title3)
-//
-//                                Text("New")
-//                                    .padding(.top, 60)
-//                            }
-//                            .padding()
-//                            .padding(.top, 50)
+                            HStack {
+                                Text("Avg%")
+                                    .font(.system(size: 20))
+                                VStack {
+                                    Text("\(avgAchievement, specifier: "%.4f")%")
+                                        .font(.system(size: 20))
+                                        .bold()
+                                    Text(verbatim: "(\(totalPlayedCharts)条记录)")
+                                        .font(.system(size: 15))
+                                }
+                            }
                         }
+                        .padding(.top)
                         
                         HStack {
                             Text("旧版本 - R" + String(pastRating))
@@ -192,9 +161,16 @@ struct MaimaiHomeView: View {
                 }
             case .error(errorText: let errorText):
                 VStack {
-                    ProgressView()
-                        .padding()
                     Text(errorText)
+                        .padding()
+                    Button {
+                        resetCache()
+                        Task {
+                            try await loadUserData()
+                        }
+                    } label: {
+                        Text("重试")
+                    }
                 }
             }
         }
@@ -211,7 +187,7 @@ struct MaimaiHomeView: View {
             
             
         }
-        .navigationTitle(didLogin ? "LOUIS的个人资料" : "查分器DX")
+        .navigationTitle(didLogin ? "\(userProfile.nickname)的个人资料" : "查分器DX")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -235,29 +211,59 @@ struct MaimaiHomeView: View {
     }
     
     func loadUserData() async throws {
-        if (userInfoData.isEmpty){
-            status = .loading(hint: "获取用户数据中...")
-            userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
+        do {
+            userInfo = try JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+        } catch {
+            await getUserInfoData()
+            userInfo = try JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
         }
-        userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
         
-        if (loadedSongs.isEmpty){
-            status = .loading(hint: "获取谱面列表中...")
-            loadedSongs = try await MaimaiDataGrabber.getMusicData()
+        do {
+            userProfile = try JSONDecoder().decode(MaimaiPlayerProfile.self, from: userProfileData)
+        } catch {
+            await getUserProfileData()
+            userProfile = try JSONDecoder().decode(MaimaiPlayerProfile.self, from: userProfileData)
         }
-        decodedSongList = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
         
-        if (loadedStats.isEmpty){
-            status = .loading(hint: "加载谱面数据中...")
-            loadedStats = try await MaimaiDataGrabber.getChartStat()
+        do {
+            decodedSongList = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
+        } catch {
+            await getSongListData()
+            decodedSongList = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
         }
-        decodedChartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+        
+        do {
+            decodedChartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+        } catch {
+            await getChartStatsData()
+            decodedChartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+        }
         
         status = .loading(hint: "加载用户数据中...")
         calculateData()
         
         status = .complete
         didCached = true
+    }
+    
+    func getUserInfoData() async {
+        status = .loading(hint: "获取用户数据中...")
+        userInfoData = try! await MaimaiDataGrabber.getPlayerRecord(token: token)
+    }
+    
+    func getUserProfileData() async {
+        status = .loading(hint: "获取用户设置中...")
+        userProfileData = try! await MaimaiDataGrabber.getPlayerProfile(token: token)
+    }
+    
+    func getSongListData() async {
+        status = .loading(hint: "获取谱面列表中...")
+        loadedSongs = try! await MaimaiDataGrabber.getMusicData()
+    }
+    
+    func getChartStatsData() async {
+        status = .loading(hint: "加载谱面数据中...")
+        loadedStats = try! await MaimaiDataGrabber.getChartStat()
     }
     
     func calculateData() {
