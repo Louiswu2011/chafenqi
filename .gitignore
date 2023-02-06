@@ -3,5 +3,6 @@ xcuserdata/
 DerivedData/
 .DS_Store
 */.DS_Store
-chafenqi.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
 chafenqi.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/chafenqi.xcodeproj/xcuserdata/louis.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
