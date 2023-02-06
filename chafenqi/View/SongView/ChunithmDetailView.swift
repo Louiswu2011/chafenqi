@@ -151,7 +151,7 @@ struct ChunithmDetailView: View {
                                     chartImage = UIImage()
                                     try await reloadChartImage(id: webChartId, diff: selectedDifficulty)
                                 } catch {
-                                    AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载谱面图片失败")
+                                    
                                 }
                             }
                         }
@@ -201,9 +201,9 @@ struct ChunithmDetailView: View {
                             availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
                             isCheckingDiff.toggle()
                         } catch CFQError.requestTimeoutError {
-                            AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载谱面图片失败")
-                        } catch CFQError.unsupportedError(let reason) {
-                            AlertToast(displayMode: .hud, type: .error(Color.red), title: reason)
+
+                        } catch CFQError.unsupportedError {
+
                         } catch {
                             
                         }

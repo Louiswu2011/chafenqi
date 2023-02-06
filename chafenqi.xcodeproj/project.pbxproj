@@ -45,8 +45,6 @@
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
-		BFECEC62297D212900D2F383 /* RefreshableScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = BFECEC61297D212900D2F383 /* RefreshableScrollView */; };
-		BFECEC65297D256600D2F383 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BFECEC64297D256600D2F383 /* AlertToast */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
 		BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC72297D37E600D2F383 /* SongChartView.swift */; };
 		BFEF7EDE298A856E00F87ACC /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEF7EDD298A856E00F87ACC /* ToolView.swift */; };
@@ -137,8 +135,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFECEC65297D256600D2F383 /* AlertToast in Frameworks */,
-				BFECEC62297D212900D2F383 /* RefreshableScrollView in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,8 +384,6 @@
 			name = chafenqi;
 			packageProductDependencies = (
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
-				BFECEC61297D212900D2F383 /* RefreshableScrollView */,
-				BFECEC64297D256600D2F383 /* AlertToast */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -465,8 +459,6 @@
 			mainGroup = BFF353B429681F8D001392E5;
 			packageReferences = (
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
-				BFECEC60297D212900D2F383 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */,
-				BFECEC63297D256600D2F383 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -897,22 +889,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		BFECEC60297D212900D2F383 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Q42/RefreshableScrollView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.2;
-			};
-		};
-		BFECEC63297D256600D2F383 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/elai950/AlertToast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -920,16 +896,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
 			productName = CachedAsyncImage;
-		};
-		BFECEC61297D212900D2F383 /* RefreshableScrollView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFECEC60297D212900D2F383 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */;
-			productName = RefreshableScrollView;
-		};
-		BFECEC64297D256600D2F383 /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFECEC63297D256600D2F383 /* XCRemoteSwiftPackageReference "AlertToast" */;
-			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
