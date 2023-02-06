@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AlertToast
 
 enum LoadStatus {
     case error(errorText: String)

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AlertToast
 
 struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0

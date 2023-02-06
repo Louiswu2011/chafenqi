@@ -8,7 +8,6 @@
 import SwiftUI
 import UIKit
 import CachedAsyncImage
-import AlertToast
 
 struct ChunithmDetailView: View {
     
