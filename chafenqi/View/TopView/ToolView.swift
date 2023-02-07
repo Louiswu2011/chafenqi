@@ -10,6 +10,8 @@ import SwiftUI
 struct ToolView: View {
     @AppStorage("settingsCurrentMode") var currentMode = 0
     
+    @State private var showingUpdaterView = false
+    
     var body: some View {
         VStack {
             Form {
@@ -28,7 +30,7 @@ struct ToolView: View {
                                     .font(.title2)
                                     .bold()
                                 Text(currentMode == 0 ? "今天中二打什么？" : "今天maimai打什么？")
-                                    .font(.footnote)
+                                    .font(.system(size: 15))
                             }
                         }
                         .buttonStyle(.plain)
@@ -55,6 +57,14 @@ struct ToolView: View {
 //                        .buttonStyle(.plain)
 //                    }
 //                    .frame(height: 50)
+                    
+                    NavigationLink {
+                        UpdaterRouterView()
+                    } label: {
+                        Text("Updater")
+                    }
+                    
+                    
                 } header: {
                     Text("常规")
                 }
@@ -66,6 +76,6 @@ struct ToolView: View {
 
 struct ToolView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        ToolView()
     }
 }
