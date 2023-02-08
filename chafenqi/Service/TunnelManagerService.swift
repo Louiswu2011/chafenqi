@@ -32,6 +32,7 @@ final class TunnelManagerService: ObservableObject {
                 completion(.failure(error))
             } else {
                 self.isStarted = true
+                print("Loaded preference from settings.")
                 completion(.success(()))
             }
         }

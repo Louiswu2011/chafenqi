@@ -58,10 +58,15 @@ struct UpdaterMainView: View {
     
     func startProxyByUser() {
         print("Starting proxy...")
-        do {
-            try service.manager?.connection.startVPNTunnel(options: [:] as [String : NSObject] )
-        } catch {
-            print("Failed to start proxy.")
+        service.manager?.saveToPreferences { _ in
+            service.manager?.loadFromPreferences { _ in
+                do {
+                    try service.manager?.connection.startVPNTunnel(options: [:] as [String : NSObject] )
+                } catch {
+                    print("Failed to start proxy.")
+                    print(error)
+                }
+            }
         }
     }
     

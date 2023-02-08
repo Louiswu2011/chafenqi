@@ -9,15 +9,24 @@ import Foundation
 import NIO
 import NIOHTTP1
 
-final class ChunithmNetHandler: ChannelInboundHandler {
-    typealias InboundIn = HTTPServerRequestPart
-    typealias OutboundOut = HTTPServerResponsePart
+final class ChunithmNetHandler {
+
     
-    func channelRead(context: ChannelHandlerContext, data: NIOAny) {
-        print(context.remoteAddress ?? "")
+}
+
+extension ChunithmNetHandler: ChannelOutboundHandler {
+    typealias OutboundIn = HTTPClientRequestPart
+    typealias OutboundOut = HTTPClientRequestPart
+    
+    func write(context: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {
+        guard case .head(var head) = self.unwrapOutboundIn(data) else {
+            context.write(data, promise: promise)
+            return
+        }
         
-        let part = self.unwrapInboundIn(data)
-        
-        
+        NSLog(head.uri)
+        context.write(data, promise: promise)
     }
 }
+
+

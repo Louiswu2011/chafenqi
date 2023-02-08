@@ -22,26 +22,31 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         NSLog("Starting Tunnel...")
         
-        Task {
-            localServer.start()
-        }
         
-        let settings = initUpdaterSettings(host: "127.0.0.1", port: port)
-        setTunnelNetworkSettings(settings) { error in
-            if let e = error {
-                NSLog("Failed to save settings.")
-                completionHandler(e)
-            } else {
-                NSLog("Setting endpoint...")
-                let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
-                NSLog("Connecting to local server...")
-                self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
-                completionHandler(nil)
+        localServer.start { result in
+            switch result {
+            case .success():
+                let settings = self.initUpdaterSettings(host: "127.0.0.1", port: self.port)
+                self.setTunnelNetworkSettings(settings) { error in
+                    if let e = error {
+                        NSLog("Failed to save settings.")
+                        completionHandler(e)
+                    } else {
+                        NSLog("Setting endpoint...")
+                        let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
+                        NSLog("Connecting to local server...")
+                        self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
+                        NSLog("Connected to local server.")
+                        completionHandler(nil)
+                        self.sendPackets()
+                    }
+                }
+            case .failure(let error):
+                completionHandler(error)
             }
         }
 
-        NSLog("Connected to local server.")
-        self.sendPackets()
+        
     }
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
@@ -67,23 +72,17 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
         // Add code here to wake up.
     }
     
-    private func readPackets() {
-        packetFlow.readPacketObjects { (packets) in
-            defer { self.readPackets() }
-            packets.forEach { [self] (packet) in
-                NSLog("Packet: \(packet.data)")
-            }
-        }
-    }
-    
-    
     private func sendPackets() {
         packetFlow.readPackets { [weak self] (packets, protocols) in
             guard let strongSelf = self else { return }
             
             for packet in packets {
                 strongSelf.connection.write(packet, completionHandler: { error in
-                    NSLog("Sent packet.")
+                    if error != nil {
+                        NSLog("Sent failed.")
+                    } else {
+                        NSLog("Sent packet.")
+                    }
                 })
             }
             strongSelf.sendPackets()
