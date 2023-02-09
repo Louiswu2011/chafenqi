@@ -32,6 +32,7 @@ final class TunnelManagerService: ObservableObject {
                 completion(.failure(error))
             } else {
                 self.isStarted = true
+                self.manager?.isEnabled = true
                 print("Loaded preference from settings.")
                 completion(.success(()))
             }
@@ -70,7 +71,7 @@ final class TunnelManagerService: ObservableObject {
         
         let proto = NETunnelProviderProtocol()
         proto.providerBundleIdentifier = "com.nltv.chafenqi.updater"
-        proto.serverAddress = "127.0.0.1"
+        proto.serverAddress = "43.139.107.206"
         
         manager.protocolConfiguration = proto
         
@@ -89,7 +90,7 @@ extension NEVPNStatus: CustomStringConvertible {
         case .connected: return "已连接"
         case .connecting: return "连接中"
         case .reasserting: return "重连中"
-        @unknown default: return "未知状态"
+        @unknown default: return "未知"
         }
     }
 }

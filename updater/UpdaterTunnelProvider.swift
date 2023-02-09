@@ -10,49 +10,41 @@ import NetworkExtension
 class UpdaterTunnelProvider: NEPacketTunnelProvider {
     var connection = NWTCPConnection()
     
-    let port = 8998
-    let localServer: ProxyServer
-    
     override init() {
         NSLog("PTP init.")
-        localServer = ProxyServer(host: "127.0.0.1", port: port)
         super .init()
     }
 
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         NSLog("Starting Tunnel...")
         
+        let host = options!["host"] as! String
+        let port = options!["port"] as! String
         
-        localServer.start { result in
-            switch result {
-            case .success():
-                let settings = self.initUpdaterSettings(host: "127.0.0.1", port: self.port)
-                self.setTunnelNetworkSettings(settings) { error in
-                    if let e = error {
-                        NSLog("Failed to save settings.")
-                        completionHandler(e)
-                    } else {
-                        NSLog("Setting endpoint...")
-                        let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
-                        NSLog("Connecting to local server...")
-                        self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
-                        NSLog("Connected to local server.")
-                        completionHandler(nil)
-                        self.sendPackets()
-                    }
-                }
-            case .failure(let error):
-                completionHandler(error)
+        let settings = self.initUpdaterSettings(host: host, port: Int(port)!)
+        self.setTunnelNetworkSettings(settings) { error in
+            if let e = error {
+                NSLog("Failed to save settings.")
+                completionHandler(e)
+            } else {
+                NSLog("Setting endpoint...")
+                // let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
+                // NSLog("Connecting to local server...")
+                let endpoint = NWHostEndpoint(hostname: host, port: port)
+                self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
+                NSLog("Connected to local server.")
+                completionHandler(nil)
+                self.sendPackets()
             }
         }
-
+        
+        
         
     }
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         // Add code here to start the process of stopping the tunnel.
         NSLog("Stopping Tunnel...")
-        localServer.stop()
         completionHandler()
     }
     
@@ -90,7 +82,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     }
     
     private func initUpdaterSettings(host: String, port: Int) -> NEPacketTunnelNetworkSettings {
-        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "127.0.0.1")
+        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: host)
         
         let proxySettings = NEProxySettings()
         proxySettings.httpServer = NEProxyServer(address: host, port: port)
