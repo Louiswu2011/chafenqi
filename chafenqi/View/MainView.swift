@@ -31,8 +31,10 @@ struct MainView: View {
     @State private var searchSeletedItem = ""
     @State private var showingLoginView = false
     
+    @Binding var currentTab: TabIdentifier
+    
     var body: some View {
-        TabView {
+        TabView(selection: $currentTab) {
             NavigationView {
                 if (mode == 0) {
                     ChunithmHomeView()
@@ -44,6 +46,7 @@ struct MainView: View {
                 Image(systemName: "house.fill")
                 Text("主页")
             }
+            .tag(TabIdentifier.home)
             
             NavigationView {
                 if (mode == 0) {
@@ -56,6 +59,7 @@ struct MainView: View {
                 Image(systemName: "music.note.list")
                 Text("歌曲")
             }
+            .tag(TabIdentifier.list)
             
             NavigationView {
                 ToolView()
@@ -64,12 +68,13 @@ struct MainView: View {
                 Image(systemName: "shippingbox.fill")
                 Text("工具")
             }
+            .tag(TabIdentifier.tool)
         }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(currentTab: .constant(.home))
     }
 }

@@ -17,9 +17,38 @@ And You
 
 @main
 struct chafenqiApp: App {
+    @State var currentTab: TabIdentifier = .home
+    @State var shouldRefresh = false
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView(currentTab: $currentTab)
+                .onOpenURL { url in
+                    guard let identifier = url.tabIdentifier else { return }
+                    
+                    currentTab = identifier
+                }
+        }
+    }
+}
+
+enum TabIdentifier: Hashable {
+    case home, list, tool
+}
+
+extension URL {
+    var isDeeplink: Bool {
+        return scheme == "chafenqi"
+    }
+    
+    var tabIdentifier: TabIdentifier? {
+        guard isDeeplink else { return nil }
+        
+        switch host {
+        case "home": return .home
+        case "list": return .list
+        case "tool": return .tool
+        default: return nil
         }
     }
 }
