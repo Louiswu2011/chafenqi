@@ -182,10 +182,6 @@ struct ChunithmHomeView: View {
                         .frame(height: 210)
                         .padding(.horizontal)
                         
-                        
-                        Text("封面来源：\(coverSource)")
-                            .padding(.top)
-                        
                         Button {
                             Task {
                                 await refreshUserInfo()

@@ -146,7 +146,10 @@ struct MaimaiHomeView: View {
                         }
                         .frame(height: 210)
                         .padding(.horizontal)
+                        
+                        // TODO: Add refresh button
                     }
+                    
                 }
             case let .loading(hint: hint):
                 VStack {
