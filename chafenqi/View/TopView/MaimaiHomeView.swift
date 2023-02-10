@@ -105,7 +105,7 @@ struct MaimaiHomeView: View {
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
-                                ForEach(0..<25) { i in
+                                ForEach(0..<pastSlice.count) { i in
                                     NavigationLink {
                                         MaimaiDetailView(song: decodedSongList.filter { Int($0.musicId)! == pastSlice[i].musicId }[0])
                                     } label: {
@@ -135,7 +135,7 @@ struct MaimaiHomeView: View {
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
-                                ForEach(0..<15) { i in
+                                ForEach(0..<currentSlice.count) { i in
                                     NavigationLink {
                                         MaimaiDetailView(song: decodedSongList.filter { Int($0.musicId)! == currentSlice[i].musicId }[0])
                                     } label: {
@@ -291,6 +291,6 @@ struct MaimaiHomeView: View {
 
 struct MaimaiHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(currentTab: .constant(.home))
     }
 }

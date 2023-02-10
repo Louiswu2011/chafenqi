@@ -28,11 +28,15 @@ struct MaimaiPlayerRecord: Codable {
     }
     
     func getPastSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
-        records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 25)
+        let slice = records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }
+        let length = slice.count > 14 ? 15 : slice.count
+        return slice.prefix(upTo: length)
     }
     
     func getCurrentSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
-        records.filter { songData.filter { $0.basicInfo.isNew == true }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }.prefix(upTo: 15)
+        let slice = records.filter { songData.filter { $0.basicInfo.isNew == true }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }
+        let length = slice.count > 14 ? 15 : slice.count
+        return slice.prefix(upTo: length)
     }
     
     

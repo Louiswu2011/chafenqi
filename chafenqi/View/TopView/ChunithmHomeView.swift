@@ -140,7 +140,7 @@ struct ChunithmHomeView: View {
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
-                                ForEach(0..<30) { i in
+                                ForEach(0..<b30.count) { i in
                                     NavigationLink {
                                         ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.musicId == b30[i].musicID }[0])
                                     } label: {
@@ -170,7 +170,7 @@ struct ChunithmHomeView: View {
                         
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows, spacing: 5) {
-                                ForEach(0..<10) { i in
+                                ForEach(0..<userInfo.records.r10.count) { i in
                                     NavigationLink {
                                         ChunithmDetailView(song: decodedLoadedSongs.filter{ $0.musicId == userInfo.records.r10[i].musicID }[0])
                                     } label: {
@@ -297,7 +297,8 @@ struct ChunithmHomeView: View {
         userInfo.records.best.sort {
             $0.rating > $1.rating
         }
-        b30 = userInfo.records.best.prefix(upTo: 30)
+        let length = b30.count > 29 ? 30 : b30.count
+        b30 = userInfo.records.best.prefix(upTo: length)
     }
     
     func refreshUserInfo() async {
@@ -389,6 +390,6 @@ struct ChunithmHomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(currentTab: .constant(.home))
     }
 }

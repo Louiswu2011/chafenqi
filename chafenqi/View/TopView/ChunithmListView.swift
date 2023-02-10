@@ -40,7 +40,7 @@ struct ChunithmListView: View {
                 
                 List {
                     
-                    ForEach(searchChunithmResults.sorted(by: <), id: \.musicId) { song in
+                    ForEach(searchChunithmResults!.sorted(by: <), id: \.musicId) { song in
                         NavigationLink(destination: ChunithmDetailView(song: song)) {
                             SongBasicView(chunithmSong: song)
                         }
@@ -77,16 +77,18 @@ struct ChunithmListView: View {
                 }
             }
         }
-        .task {
+        .onAppear {
             if (loadedSongs.isEmpty) {
                 didSongListLoaded = false
                 // var songs: Set<SongData>
-                do {
-                    try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
-                    didSongListLoaded.toggle()
-                    decodedLoadedChunithmSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
-                } catch {
-                    print(error.localizedDescription)
+                Task {
+                    do {
+                        try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
+                        didSongListLoaded.toggle()
+                        decodedLoadedChunithmSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
             } else {
                 didSongListLoaded = true
@@ -98,9 +100,13 @@ struct ChunithmListView: View {
         
     }
     
-    var searchChunithmResults: Set<ChunithmSongData> {
+    var searchChunithmResults: Set<ChunithmSongData>? {
+        guard didSongListLoaded else { return nil }
+        
+
         var songs = try! decodedLoadedChunithmSongs.isEmpty ? JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs) :
-        decodedLoadedChunithmSongs
+            decodedLoadedChunithmSongs
+        
         
         if (showingPlayed) {
             let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
