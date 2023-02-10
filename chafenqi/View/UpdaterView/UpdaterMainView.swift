@@ -22,7 +22,9 @@ struct UpdaterMainView: View {
     @State var proxyHost = ""
     @State var proxyPort = ""
     
-    @State private var options = [
+    @State var shouldJump = false
+    
+    @State private var proxyOptions = [
         "host": "43.139.107.206",
         "port": "8998"
     ]
@@ -54,7 +56,7 @@ struct UpdaterMainView: View {
             Section {
                 HStack {
                     Text("地址")
-                    TextField("", text: Binding<String>(get: {self.options["host"] ?? ""}, set: {self.options["host"] = $0}))
+                    TextField("", text: Binding<String>(get: {self.proxyOptions["host"] ?? ""}, set: {self.proxyOptions["host"] = $0}))
                         .disabled(isProxyOn)
                         .foregroundColor(.gray)
                         .autocorrectionDisabled(true)
@@ -62,7 +64,7 @@ struct UpdaterMainView: View {
                 
                 HStack {
                     Text("端口")
-                    TextField("", text: Binding<String>(get: {self.options["port"] ?? ""}, set: {self.options["port"] = $0}))
+                    TextField("", text: Binding<String>(get: {self.proxyOptions["port"] ?? ""}, set: {self.proxyOptions["port"] = $0}))
                         .disabled(isProxyOn)
                         .foregroundColor(.gray)
                         .autocorrectionDisabled(true)
@@ -83,22 +85,26 @@ struct UpdaterMainView: View {
                 }
             } header: {
                 Text("设置")
+            } footer: {
+                Text("如非必要请勿更改代理地址和端口")
             }
             
             Section {
                 Button {
-                    copyAndJump(mode: 0)
+                    copyUrlToClipboard(mode: 0)
                 } label: {
                     Text("上传中二节奏分数...")
                 }
                 .disabled(!didLogin)
                 
                 Button {
-                    copyAndJump(mode: 1)
+                    copyUrlToClipboard(mode: 1)
                 } label: {
                     Text("上传舞萌DX分数...")
                 }
                 .disabled(!didLogin)
+                
+                Toggle("跳转到微信", isOn: $shouldJump)
             } footer: {
                 if (didLogin) {
                     Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
@@ -107,6 +113,12 @@ struct UpdaterMainView: View {
                     Text("请在设置中登录查分器账号后再上传分数")
                         .multilineTextAlignment(.leading)
                 }
+            }
+            
+            Button {
+                resetSettings()
+            } label: {
+                Text("恢复默认设置")
             }
         }
         .onAppear {
@@ -133,7 +145,7 @@ struct UpdaterMainView: View {
             service.manager?.isEnabled = true
             service.manager?.saveToPreferences { _ in
                 do {
-                    try service.manager?.connection.startVPNTunnel(options: options as [String : NSObject] )
+                    try service.manager?.connection.startVPNTunnel(options: proxyOptions as [String : NSObject] )
                 } catch {
                     print("Failed to start proxy.")
                     print(error)
@@ -153,17 +165,32 @@ struct UpdaterMainView: View {
     }
     
     func removeProxyProfile() {
-        
+        service.removeProfile { _ in
+            
+        }
     }
     
-    func copyAndJump(mode: Int) {
+    func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "http://43.139.107.206:8082/upload_\(destination)?token=\(token)"
-        let wechatJumpUrl = "weixin://dl/moments"
+        let requestUrl = "http://\(proxyOptions["host"]!):\(proxyOptions["port"]!)/upload_\(destination)?token=\(token)"
         
         pasteboard.string = requestUrl
+        
+        // Add notice
+        
+        if (shouldJump) { jumpToWechat() }
+    }
+    
+    func jumpToWechat() {
+        let wechatJumpUrl = "weixin://dl/moments"
         UIApplication.shared.open(URL(string: wechatJumpUrl)!)
+    }
+    
+    func resetSettings() {
+        proxyOptions["host"] = "43.139.107.206"
+        proxyOptions["port"] = "8998"
+        shouldJump = false
     }
 }
 

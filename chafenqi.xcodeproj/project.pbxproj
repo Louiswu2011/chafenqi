@@ -23,20 +23,12 @@
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912B296C341F005DC8A3 /* SettingsView.swift */; };
 		BF0D912E296C4B7F005DC8A3 /* ChunithmDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912D296C4B7F005DC8A3 /* ChunithmDetailView.swift */; };
-		BF31BCD429918AA300C3AA5D /* ProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF31BCD329918AA300C3AA5D /* ProxyServer.swift */; };
-		BF31BCDF2991906700C3AA5D /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = BF31BCDE2991906700C3AA5D /* NIO */; };
-		BF31BCE2299190CA00C3AA5D /* NIOTransportServices in Frameworks */ = {isa = PBXBuildFile; productRef = BF31BCE1299190CA00C3AA5D /* NIOTransportServices */; };
-		BF31BCE4299190D100C3AA5D /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = BF31BCE3299190D100C3AA5D /* NIO */; };
-		BF31BCE6299190D500C3AA5D /* NIOTransportServices in Frameworks */ = {isa = PBXBuildFile; productRef = BF31BCE5299190D500C3AA5D /* NIOTransportServices */; };
-		BF31BCE8299192D000C3AA5D /* ChunithmNetHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF31BCE7299192CF00C3AA5D /* ChunithmNetHandler.swift */; };
-		BF31BCEA29919B2600C3AA5D /* NIOHTTP1 in Frameworks */ = {isa = PBXBuildFile; productRef = BF31BCE929919B2600C3AA5D /* NIOHTTP1 */; };
 		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF55004D29818D9D004072A0 /* B30View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF55004C29818D9D004072A0 /* B30View.swift */; };
 		BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */; };
 		BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */; };
-		BF56C6FE2992E60E0075BEF9 /* ConnectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6FD2992E60E0075BEF9 /* ConnectHandler.swift */; };
 		BF670DE529781B0100EA2CBB /* ChunithmMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */; };
 		BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6EB97F298A429B003A5604 /* FilterPanelView.swift */; };
 		BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69A297C3365003A67B0 /* DataTool.swift */; };
@@ -47,7 +39,6 @@
 		BF7E2522296AAD1A00169B57 /* ChunithmDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */; };
 		BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB72992C00700658724 /* UpdaterRouterView.swift */; };
 		BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
-		BFA70A7729936F6F006BD7CC /* GlueHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA70A7629936F6F006BD7CC /* GlueHandler.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
 		BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3A29B298F7BAD00C8C3BF /* LevelBlockView.swift */; };
 		BFBC54F1298CE32A00A93918 /* MaimaiHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */; };
@@ -133,15 +124,12 @@
 		BF0CFD60297B26E5003763E2 /* IdMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IdMap.json; sourceTree = "<group>"; };
 		BF0D912B296C341F005DC8A3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BF0D912D296C4B7F005DC8A3 /* ChunithmDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmDetailView.swift; sourceTree = "<group>"; };
-		BF31BCD329918AA300C3AA5D /* ProxyServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyServer.swift; sourceTree = "<group>"; };
-		BF31BCE7299192CF00C3AA5D /* ChunithmNetHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmNetHandler.swift; sourceTree = "<group>"; };
 		BF38089D298916F7008FF936 /* TextInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfoView.swift; sourceTree = "<group>"; };
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
 		BF55004C29818D9D004072A0 /* B30View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = B30View.swift; sourceTree = "<group>"; };
 		BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
 		BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterMainView.swift; sourceTree = "<group>"; };
-		BF56C6FD2992E60E0075BEF9 /* ConnectHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectHandler.swift; sourceTree = "<group>"; };
 		BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmMiniView.swift; sourceTree = "<group>"; };
 		BF6EB97F298A429B003A5604 /* FilterPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPanelView.swift; sourceTree = "<group>"; };
 		BF7BC69A297C3365003A67B0 /* DataTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTool.swift; sourceTree = "<group>"; };
@@ -152,7 +140,6 @@
 		BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmDataGrabber.swift; sourceTree = "<group>"; };
 		BF9CEFB72992C00700658724 /* UpdaterRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterRouterView.swift; sourceTree = "<group>"; };
 		BF9CEFB92992C03500658724 /* TunnelManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelManagerService.swift; sourceTree = "<group>"; };
-		BFA70A7629936F6F006BD7CC /* GlueHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlueHandler.swift; sourceTree = "<group>"; };
 		BFB3A29B298F7BAD00C8C3BF /* LevelBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBlockView.swift; sourceTree = "<group>"; };
 		BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiHomeView.swift; sourceTree = "<group>"; };
 		BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDataGrabber.swift; sourceTree = "<group>"; };
@@ -186,10 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF31BCE6299190D500C3AA5D /* NIOTransportServices in Frameworks */,
 				BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */,
-				BF31BCE4299190D100C3AA5D /* NIO in Frameworks */,
-				BF31BCEA29919B2600C3AA5D /* NIOHTTP1 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,9 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF31BCE2299190CA00C3AA5D /* NIOTransportServices in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
-				BF31BCDF2991906700C3AA5D /* NIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +233,6 @@
 		BF068F732991856F008665E3 /* updater */ = {
 			isa = PBXGroup;
 			children = (
-				BF56C6FC2992D24F0075BEF9 /* LocalServer */,
 				BF068F742991856F008665E3 /* UpdaterTunnelProvider.swift */,
 				BF068F762991856F008665E3 /* Info.plist */,
 				BF068F772991856F008665E3 /* updater.entitlements */,
@@ -293,17 +274,6 @@
 				BF55004C29818D9D004072A0 /* B30View.swift */,
 			);
 			path = ScoreView;
-			sourceTree = "<group>";
-		};
-		BF56C6FC2992D24F0075BEF9 /* LocalServer */ = {
-			isa = PBXGroup;
-			children = (
-				BF31BCE7299192CF00C3AA5D /* ChunithmNetHandler.swift */,
-				BF31BCD329918AA300C3AA5D /* ProxyServer.swift */,
-				BF56C6FD2992E60E0075BEF9 /* ConnectHandler.swift */,
-				BFA70A7629936F6F006BD7CC /* GlueHandler.swift */,
-			);
-			path = LocalServer;
 			sourceTree = "<group>";
 		};
 		BF670DE629781B0E00EA2CBB /* SongView */ = {
@@ -501,9 +471,6 @@
 			);
 			name = updater;
 			packageProductDependencies = (
-				BF31BCE3299190D100C3AA5D /* NIO */,
-				BF31BCE5299190D500C3AA5D /* NIOTransportServices */,
-				BF31BCE929919B2600C3AA5D /* NIOHTTP1 */,
 			);
 			productName = updater;
 			productReference = BF068F6F2991856F008665E3 /* updater.appex */;
@@ -526,8 +493,6 @@
 			name = chafenqi;
 			packageProductDependencies = (
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
-				BF31BCDE2991906700C3AA5D /* NIO */,
-				BF31BCE1299190CA00C3AA5D /* NIOTransportServices */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -606,8 +571,6 @@
 			mainGroup = BFF353B429681F8D001392E5;
 			packageReferences = (
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
-				BF31BCDD2991906700C3AA5D /* XCRemoteSwiftPackageReference "swift-nio" */,
-				BF31BCE0299190CA00C3AA5D /* XCRemoteSwiftPackageReference "swift-nio-transport-services" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -666,11 +629,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFA70A7729936F6F006BD7CC /* GlueHandler.swift in Sources */,
 				BF068F752991856F008665E3 /* UpdaterTunnelProvider.swift in Sources */,
-				BF31BCD429918AA300C3AA5D /* ProxyServer.swift in Sources */,
-				BF31BCE8299192D000C3AA5D /* ChunithmNetHandler.swift in Sources */,
-				BF56C6FE2992E60E0075BEF9 /* ConnectHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1128,22 +1087,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BF31BCDD2991906700C3AA5D /* XCRemoteSwiftPackageReference "swift-nio" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-nio.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-		BF31BCE0299190CA00C3AA5D /* XCRemoteSwiftPackageReference "swift-nio-transport-services" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-nio-transport-services.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
@@ -1155,31 +1098,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BF31BCDE2991906700C3AA5D /* NIO */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF31BCDD2991906700C3AA5D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIO;
-		};
-		BF31BCE1299190CA00C3AA5D /* NIOTransportServices */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF31BCE0299190CA00C3AA5D /* XCRemoteSwiftPackageReference "swift-nio-transport-services" */;
-			productName = NIOTransportServices;
-		};
-		BF31BCE3299190D100C3AA5D /* NIO */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF31BCDD2991906700C3AA5D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIO;
-		};
-		BF31BCE5299190D500C3AA5D /* NIOTransportServices */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF31BCE0299190CA00C3AA5D /* XCRemoteSwiftPackageReference "swift-nio-transport-services" */;
-			productName = NIOTransportServices;
-		};
-		BF31BCE929919B2600C3AA5D /* NIOHTTP1 */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF31BCDD2991906700C3AA5D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIOHTTP1;
-		};
 		BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
