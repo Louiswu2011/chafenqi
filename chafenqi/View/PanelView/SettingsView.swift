@@ -12,6 +12,8 @@ struct SettingsView: View {
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
     
+    @AppStorage("proxyDidInstallProfile") var installed = false
+    
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userToken") var token = ""
@@ -159,6 +161,10 @@ struct SettingsView: View {
         tokenHeader = ""
         token = ""
         infoData = Data()
+    }
+    
+    func setupProxy() {
+        
     }
 }
 

@@ -11,6 +11,7 @@ var credits = """
 特别感谢：
 @SoreHait
 @Diving-Fish - 舞萌DX/中二节奏查分器
+@bakapiano - 查分器更新方案
 sdvx.in - 谱面预览
 And You
 """

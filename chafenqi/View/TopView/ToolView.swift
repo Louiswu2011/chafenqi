@@ -10,6 +10,8 @@ import SwiftUI
 struct ToolView: View {
     @AppStorage("settingsCurrentMode") var currentMode = 0
     
+    @State private var showingUpdaterView = false
+    
     var body: some View {
         VStack {
             Form {
@@ -25,15 +27,15 @@ struct ToolView: View {
                                 .padding(5)
                             VStack(alignment: .leading) {
                                 Text("随机歌曲")
-                                    .font(.title2)
+                                    .font(.system(size: 16))
                                     .bold()
                                 Text(currentMode == 0 ? "今天中二打什么？" : "今天maimai打什么？")
-                                    .font(.footnote)
+                                    .font(.system(size: 12))
                             }
                         }
                         .buttonStyle(.plain)
                     }
-                    .frame(height: 50)
+                    .frame(height: 40)
                     
 //                    HStack {
 //                        NavigationLink {
@@ -55,8 +57,27 @@ struct ToolView: View {
 //                        .buttonStyle(.plain)
 //                    }
 //                    .frame(height: 50)
-                } header: {
-                    Text("常规")
+                    
+                    NavigationLink {
+                        UpdaterRouterView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "paperplane")
+                                .resizable()
+                                .aspectRatio(1, contentMode: .fit)
+                                .padding(5)
+                            VStack(alignment: .leading) {
+                                Text("分数上传")
+                                    .font(.system(size: 16))
+                                    .bold()
+                                Text("Powered by ?")
+                                    .font(.system(size: 12))
+                            }
+                        }
+                        .frame(height: 40)
+                    }
+                    
+                    
                 }
             }
             .navigationTitle("工具箱")
@@ -66,6 +87,6 @@ struct ToolView: View {
 
 struct ToolView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        ToolView()
     }
 }
