@@ -58,7 +58,6 @@ struct UpdaterMainView: View {
                         .disabled(isProxyOn)
                         .foregroundColor(.gray)
                         .autocorrectionDisabled(true)
-                        .keyboardType(.numberPad)
                 }
                 
                 HStack {
