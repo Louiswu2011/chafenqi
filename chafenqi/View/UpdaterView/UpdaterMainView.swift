@@ -13,6 +13,7 @@ struct UpdaterMainView: View {
     @ObservedObject var service = TunnelManagerService.shared
     
     @State var isShowingAlert = false
+    @State var isShowingConfig = false
     
     @State var isProxyOn = false
     @State var proxyStatus = ""
@@ -26,7 +27,8 @@ struct UpdaterMainView: View {
     
     @State private var proxyOptions = [
         "host": "43.139.107.206",
-        "port": "8998"
+        "proxyPort": "8998",
+        "frontendPort": "8082"
     ]
     
     var body: some View {
@@ -54,21 +56,34 @@ struct UpdaterMainView: View {
             }
             
             Section {
-                HStack {
-                    Text("地址")
-                    TextField("", text: Binding<String>(get: {self.proxyOptions["host"] ?? ""}, set: {self.proxyOptions["host"] = $0}))
-                        .disabled(isProxyOn)
-                        .foregroundColor(.gray)
-                        .autocorrectionDisabled(true)
-                }
+                Toggle("高级设置", isOn: $isShowingConfig.animation(.easeIn))
                 
-                HStack {
-                    Text("端口")
-                    TextField("", text: Binding<String>(get: {self.proxyOptions["port"] ?? ""}, set: {self.proxyOptions["port"] = $0}))
-                        .disabled(isProxyOn)
-                        .foregroundColor(.gray)
-                        .autocorrectionDisabled(true)
-                        .keyboardType(.numberPad)
+                if (isShowingConfig) {
+                    HStack {
+                        Text("地址")
+                        TextField("", text: Binding<String>(get: {self.proxyOptions["host"] ?? ""}, set: {self.proxyOptions["host"] = $0}))
+                            .disabled(isProxyOn)
+                            .foregroundColor(.gray)
+                            .autocorrectionDisabled(true)
+                    }
+                    
+                    HStack {
+                        Text("代理端口")
+                        TextField("", text: Binding<String>(get: {self.proxyOptions["proxyPort"] ?? ""}, set: {self.proxyOptions["proxyPort"] = $0}))
+                            .disabled(isProxyOn)
+                            .foregroundColor(.gray)
+                            .autocorrectionDisabled(true)
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    HStack {
+                        Text("前端端口")
+                        TextField("", text: Binding<String>(get: {self.proxyOptions["frontendPort"] ?? ""}, set: {self.proxyOptions["frontendPort"] = $0}))
+                            .disabled(isProxyOn)
+                            .foregroundColor(.gray)
+                            .autocorrectionDisabled(true)
+                            .keyboardType(.numberPad)
+                    }
                 }
                 
                 Button {
@@ -173,7 +188,7 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "http://\(proxyOptions["host"]!):8082/upload_\(destination)?token=\(token)"
+        let requestUrl = "http://\(proxyOptions["host"]!):\(proxyOptions["frontendPort"]!)/upload_\(destination)?token=\(token)"
         
         pasteboard.string = requestUrl
         
@@ -189,7 +204,8 @@ struct UpdaterMainView: View {
     
     func resetSettings() {
         proxyOptions["host"] = "43.139.107.206"
-        proxyOptions["port"] = "8998"
+        proxyOptions["proxyPort"] = "8998"
+        proxyOptions["frontendPort"] = "8082"
         shouldJump = false
     }
 }
