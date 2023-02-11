@@ -13,6 +13,7 @@ struct UpdaterMainView: View {
     @ObservedObject var service = TunnelManagerService.shared
     
     @State var isShowingAlert = false
+    @State var isShowingPasted = false
     @State var isShowingConfig = false
     
     @State var isProxyOn = false
@@ -22,8 +23,6 @@ struct UpdaterMainView: View {
     
     @State var proxyHost = ""
     @State var proxyPort = ""
-    
-    @State var shouldJump = false
     
     @State private var proxyOptions = [
         "host": "43.139.107.206",
@@ -118,8 +117,6 @@ struct UpdaterMainView: View {
                     Text("上传舞萌DX分数...")
                 }
                 .disabled(!didLogin)
-                
-                Toggle("跳转到微信", isOn: $shouldJump)
             } footer: {
                 if (didLogin) {
                     Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
@@ -193,20 +190,12 @@ struct UpdaterMainView: View {
         pasteboard.string = requestUrl
         
         // Add notice
-        
-        if (shouldJump) { jumpToWechat() }
-    }
-    
-    func jumpToWechat() {
-        let wechatJumpUrl = "weixin://dl/moments"
-        UIApplication.shared.open(URL(string: wechatJumpUrl)!)
     }
     
     func resetSettings() {
         proxyOptions["host"] = "43.139.107.206"
         proxyOptions["proxyPort"] = "8998"
         proxyOptions["frontendPort"] = "8082"
-        shouldJump = false
     }
 }
 
