@@ -146,7 +146,7 @@ struct SongRandomizerView: View {
     func filterChunithmSongList() {
         guard didLogin else { return }
         
-        let playedList = try! JSONDecoder().decode(ChunithmUserData.self, from: userChunithmData).records.best.compactMap { $0.musicID }
+        let playedList = try! JSONDecoder().decode(ChunithmUserData.self, from: userChunithmData).records.best.compactMap { $0.musicId }
         
         switch (filterMode) {
         case 0:

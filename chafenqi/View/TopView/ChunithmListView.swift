@@ -110,7 +110,7 @@ struct ChunithmListView: View {
         
         if (showingPlayed) {
             let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
-            let idList = userInfo.records.best.compactMap { $0.musicID }
+            let idList = userInfo.records.best.compactMap { $0.musicId }
             songs = songs.filter { idList.contains( $0.musicId ) }
         }
         

@@ -49,11 +49,7 @@ struct MainView: View {
             .tag(TabIdentifier.home)
             
             NavigationView {
-                if (mode == 0) {
-                    ChunithmListView()
-                } else {
-                    MaimaiListView()
-                }
+                SongListView()
             }
             .tabItem {
                 Image(systemName: "music.note.list")

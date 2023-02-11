@@ -148,6 +148,6 @@ struct SongBasicView: View {
 
 struct MaimaiSongBasicView_Previews: PreviewProvider {
     static var previews: some View {
-        MaimaiListView()
+        SongListView()
     }
 }
