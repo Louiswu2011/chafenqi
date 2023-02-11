@@ -14,7 +14,7 @@ struct ChunithmUserData: Codable {
     var username: String
     
     init(){
-        let placerholder = ScoreEntry(chartID: 1, constant: 14.4, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "Master", musicID: 3, rating: 16.40, score: 1009560, title: "Y")
+        let placerholder = ScoreEntry(chartId: 1, constant: 14.4, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "Master", musicId: 3, rating: 16.40, score: 1009560, title: "Y")
         let best = [ScoreEntry](repeating: placerholder, count: 100)
         let r10 = [ScoreEntry](repeating: placerholder, count: 10)
         rating = 17.00
@@ -79,14 +79,14 @@ struct UserRecord: Codable {
     var r10: Array<ScoreEntry>
 }
 
-struct ScoreEntry: Codable {
-    var chartID: Int
+struct ScoreEntry: Codable, Hashable {
+    var chartId: Int
     var constant: Double
     var status: String
     var level: String
     var levelIndex: Int
     var levelLabel: String
-    var musicID: Int
+    var musicId: Int
     var rating: Double
     var score: Int
     var title: String
@@ -166,12 +166,12 @@ struct ScoreEntry: Codable {
     }
     
     enum CodingKeys: String, CodingKey{
-        case chartID = "cid"
+        case chartId = "cid"
         case constant = "ds"
         case status = "fc"
         case levelIndex = "level_index"
         case levelLabel = "level_label"
-        case musicID = "mid"
+        case musicId = "mid"
         case rating = "ra"
         case level, score, title
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 import CachedAsyncImage
 
-let song: ScoreEntry = ScoreEntry(chartID: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicID: 3, rating: 14.75, score: 1010000, title: "Test")
+let song: ScoreEntry = ScoreEntry(chartId: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicId: 3, rating: 14.75, score: 1010000, title: "Test")
 
 struct ChunithmMiniView: View {
     let song: ScoreEntry
@@ -45,7 +45,7 @@ struct ChunithmMiniView: View {
             
             
             HStack {
-                let requestURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicID).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicID).png")
+                let requestURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicId).png")
                 
                 SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10)
                 

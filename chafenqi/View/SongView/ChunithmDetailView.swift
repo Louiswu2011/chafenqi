@@ -228,7 +228,7 @@ struct ChunithmDetailView: View {
                 if(didLogin) {
                     userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
                     var scores = userInfo.records.best.filter {
-                        $0.musicID == song.musicId
+                        $0.musicId == song.musicId
                     }
                     scores.sort {
                         $0.levelIndex < $1.levelIndex
