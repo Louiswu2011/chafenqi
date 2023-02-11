@@ -25,6 +25,7 @@
 		BF0D912E296C4B7F005DC8A3 /* ChunithmDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912D296C4B7F005DC8A3 /* ChunithmDetailView.swift */; };
 		BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF21A71E2997787D00292193 /* MaimaiPlayerRating.swift */; };
 		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
+		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF55004D29818D9D004072A0 /* B30View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF55004C29818D9D004072A0 /* B30View.swift */; };
@@ -182,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
+				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +495,7 @@
 			name = chafenqi;
 			packageProductDependencies = (
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
+				BF42045729982705008C7E02 /* AlertToast */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -571,6 +574,7 @@
 			mainGroup = BFF353B429681F8D001392E5;
 			packageReferences = (
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
+				BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1089,6 +1093,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
@@ -1100,6 +1112,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BF42045729982705008C7E02 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
 		BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;

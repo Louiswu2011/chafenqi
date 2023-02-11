@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct UpdaterMainView: View {
     @AppStorage("userToken") var token = ""
@@ -13,6 +14,8 @@ struct UpdaterMainView: View {
     @ObservedObject var service = TunnelManagerService.shared
     
     @State var isShowingAlert = false
+    @State var isShowingPasted = false
+    @State var isShowingConfig = false
     
     @State var isProxyOn = false
     @State var proxyStatus = ""
@@ -22,18 +25,17 @@ struct UpdaterMainView: View {
     @State var proxyHost = ""
     @State var proxyPort = ""
     
-    @State var shouldJump = false
-    
     @State private var proxyOptions = [
         "host": "43.139.107.206",
-        "port": "8998"
+        "proxyPort": "8998",
+        "frontendPort": "8082"
     ]
     
     var body: some View {
         Form {
             Section {
                 HStack {
-                    Text("连接状态")
+                    Text("状态")
                     Spacer()
                     Toggle(isOn: $isProxyOn) {
                         Text(proxyStatus)
@@ -50,25 +52,38 @@ struct UpdaterMainView: View {
                     
                 }
             } header: {
-                Text("状态")
+                Text("连接")
             }
             
             Section {
-                HStack {
-                    Text("地址")
-                    TextField("", text: Binding<String>(get: {self.proxyOptions["host"] ?? ""}, set: {self.proxyOptions["host"] = $0}))
-                        .disabled(isProxyOn)
-                        .foregroundColor(.gray)
-                        .autocorrectionDisabled(true)
-                }
+                Toggle("高级设置", isOn: $isShowingConfig.animation(.easeIn))
                 
-                HStack {
-                    Text("端口")
-                    TextField("", text: Binding<String>(get: {self.proxyOptions["port"] ?? ""}, set: {self.proxyOptions["port"] = $0}))
-                        .disabled(isProxyOn)
-                        .foregroundColor(.gray)
-                        .autocorrectionDisabled(true)
-                        .keyboardType(.numberPad)
+                if (isShowingConfig) {
+                    HStack {
+                        Text("地址")
+                        TextField("", text: Binding<String>(get: {self.proxyOptions["host"] ?? ""}, set: {self.proxyOptions["host"] = $0}))
+                            .disabled(isProxyOn)
+                            .foregroundColor(.gray)
+                            .autocorrectionDisabled(true)
+                    }
+                    
+                    HStack {
+                        Text("代理端口")
+                        TextField("", text: Binding<String>(get: {self.proxyOptions["proxyPort"] ?? ""}, set: {self.proxyOptions["proxyPort"] = $0}))
+                            .disabled(isProxyOn)
+                            .foregroundColor(.gray)
+                            .autocorrectionDisabled(true)
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    HStack {
+                        Text("前端端口")
+                        TextField("", text: Binding<String>(get: {self.proxyOptions["frontendPort"] ?? ""}, set: {self.proxyOptions["frontendPort"] = $0}))
+                            .disabled(isProxyOn)
+                            .foregroundColor(.gray)
+                            .autocorrectionDisabled(true)
+                            .keyboardType(.numberPad)
+                    }
                 }
                 
                 Button {
@@ -92,6 +107,7 @@ struct UpdaterMainView: View {
             Section {
                 Button {
                     copyUrlToClipboard(mode: 0)
+                    isShowingPasted.toggle()
                 } label: {
                     Text("上传中二节奏分数...")
                 }
@@ -99,12 +115,12 @@ struct UpdaterMainView: View {
                 
                 Button {
                     copyUrlToClipboard(mode: 1)
+                    isShowingPasted.toggle()
                 } label: {
                     Text("上传舞萌DX分数...")
                 }
                 .disabled(!didLogin)
                 
-                Toggle("跳转到微信", isOn: $shouldJump)
             } footer: {
                 if (didLogin) {
                     Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
@@ -124,6 +140,9 @@ struct UpdaterMainView: View {
         .onAppear {
             refreshStatus()
             registerObserver()
+        }
+        .toast(isPresenting: $isShowingPasted, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
         }
     }
     
@@ -173,24 +192,17 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "http://\(proxyOptions["host"]!):8082/upload_\(destination)?token=\(token)"
+        let requestUrl = "http://\(proxyOptions["host"]!):\(proxyOptions["frontendPort"]!)/upload_\(destination)?token=\(token)"
         
         pasteboard.string = requestUrl
         
         // Add notice
-        
-        if (shouldJump) { jumpToWechat() }
-    }
-    
-    func jumpToWechat() {
-        let wechatJumpUrl = "weixin://dl/moments"
-        UIApplication.shared.open(URL(string: wechatJumpUrl)!)
     }
     
     func resetSettings() {
         proxyOptions["host"] = "43.139.107.206"
-        proxyOptions["port"] = "8998"
-        shouldJump = false
+        proxyOptions["proxyPort"] = "8998"
+        proxyOptions["frontendPort"] = "8082"
     }
 }
 
