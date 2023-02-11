@@ -897,7 +897,7 @@
 				CODE_SIGN_ENTITLEMENTS = chafenqi/chafenqi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_ASSET_PATHS = "\"chafenqi/Preview Content\"";
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				ENABLE_PREVIEWS = YES;
@@ -934,7 +934,7 @@
 				CODE_SIGN_ENTITLEMENTS = chafenqi/chafenqi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_ASSET_PATHS = "\"chafenqi/Preview Content\"";
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				ENABLE_PREVIEWS = YES;
