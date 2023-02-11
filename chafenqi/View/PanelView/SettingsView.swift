@@ -18,7 +18,8 @@ struct SettingsView: View {
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userToken") var token = ""
     @AppStorage("userTokenHeader") var tokenHeader = ""
-    @AppStorage("userChunithmInfoData") var infoData = Data()
+    @AppStorage("userChunithmInfoData") var chunithmInfoData = Data()
+    @AppStorage("userMaimaiInfoData") var maimaiInfoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
     
@@ -160,7 +161,8 @@ struct SettingsView: View {
         accountNickname = ""
         tokenHeader = ""
         token = ""
-        infoData = Data()
+        chunithmInfoData = Data()
+        maimaiInfoData = Data()
     }
     
     func setupProxy() {

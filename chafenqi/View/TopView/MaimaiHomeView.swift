@@ -148,6 +148,15 @@ struct MaimaiHomeView: View {
                         .padding(.horizontal)
                         
                         // TODO: Add refresh button
+                        Button {
+                            Task {
+                                resetCache()
+                                try! await prepareData()
+                            }
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                            Text("刷新缓存")
+                        }.padding()
                     }
                     
                 }
@@ -168,7 +177,7 @@ struct MaimaiHomeView: View {
                     Button {
                         resetCache()
                         Task {
-                            try await loadUserData()
+                            try await prepareData()
                         }
                     } label: {
                         Text("重试")
@@ -177,17 +186,11 @@ struct MaimaiHomeView: View {
             }
         }
         .task {
-            guard token != "" else { status = .empty; return }
-            if (pastSlice.isEmpty) { didCached = false }
-            guard !didCached else { status = .complete; return }
-
             do {
-                try await loadUserData()
+                try await prepareData()
             } catch {
                 status = .error(errorText: error.localizedDescription)
             }
-            
-            
         }
         .navigationTitle(didLogin ? "\(userProfile.nickname)的个人资料" : "查分器DX")
         .toolbar {
@@ -204,12 +207,27 @@ struct MaimaiHomeView: View {
         }
         .onChange(of: showingSettings) { value in
             if(!value) {
-                if (token != previousToken) {
+                if token != previousToken {
                     resetCache()
+                }
+                Task {
+                    try! await prepareData()
                 }
             }
         }
         
+    }
+    
+    func prepareData() async throws {
+        guard token != "" || didLogin else { status = .empty; return }
+        if (pastSlice.isEmpty) { didCached = false }
+        guard !didCached else { status = .complete; return }
+
+        do {
+            try await loadUserData()
+        } catch {
+            status = .error(errorText: error.localizedDescription)
+        }
     }
     
     func loadUserData() async throws {
@@ -288,6 +306,10 @@ struct MaimaiHomeView: View {
     
     func resetCache() {
         didCached = false
+        userInfoData = Data()
+        userProfileData = Data()
+        loadedSongs = Data()
+        loadedStats = Data()
     }
 }
 

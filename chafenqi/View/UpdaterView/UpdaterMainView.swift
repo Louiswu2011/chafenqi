@@ -173,7 +173,7 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "http://\(proxyOptions["host"]!):\(proxyOptions["port"]!)/upload_\(destination)?token=\(token)"
+        let requestUrl = "http://\(proxyOptions["host"]!):8082/upload_\(destination)?token=\(token)"
         
         pasteboard.string = requestUrl
         
