@@ -11,6 +11,7 @@ struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
     @AppStorage("loadedMaimaiChartStats") var loadedStats: Data = Data()
     @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
+    @AppStorage("loadedMaimaiRanking") var loadedRanking: Data = Data()
     
     @AppStorage("userNickname") var accountNickname = ""
     @AppStorage("userAccountName") var accountName = ""
@@ -29,6 +30,7 @@ struct MaimaiHomeView: View {
     
     @State private var decodedSongList: Array<MaimaiSongData> = []
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
+    @State private var decodedRanking: Array<MaimaiPlayerRating> = []
     
     @State private var userInfo = MaimaiPlayerRecord()
     @State private var userProfile = MaimaiPlayerProfile()
@@ -41,6 +43,8 @@ struct MaimaiHomeView: View {
     @State private var totalCharts = 0
     
     @State private var avgAchievement = 0.0
+    
+    @State private var ranking = 0
     
     @State private var pastSlice = ArraySlice<MaimaiRecordEntry>()
     @State private var currentSlice = ArraySlice<MaimaiRecordEntry>()
@@ -85,7 +89,9 @@ struct MaimaiHomeView: View {
                                 }
                             }
                         }
-                        .padding(.top)
+                        .padding(.vertical)
+                        
+                        Text("Rating全国排名: #\(ranking)")
                         
                         HStack {
                             Text("旧版本 - R" + String(pastRating))
@@ -259,6 +265,13 @@ struct MaimaiHomeView: View {
             decodedChartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
         }
         
+        do {
+            decodedRanking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: loadedRanking)
+        } catch {
+            await getRankingData()
+            decodedRanking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: loadedRanking)
+        }
+        
         status = .loading(hint: "加载用户数据中...")
         calculateData()
         
@@ -286,6 +299,11 @@ struct MaimaiHomeView: View {
         loadedStats = try! await MaimaiDataGrabber.getChartStat()
     }
     
+    func getRankingData() async {
+        status = .loading(hint: "加载排行榜中...")
+        loadedRanking = try! await MaimaiDataGrabber.getRatingRanking()
+    }
+    
     func calculateData() {
         pastSlice = userInfo.getPastSlice(songData: decodedSongList)
         currentSlice = userInfo.getCurrentSlice(songData: decodedSongList)
@@ -302,6 +320,13 @@ struct MaimaiHomeView: View {
         avgAchievement = userInfo.records.reduce(0.0) {
             $0 + $1.achievements / Double(userInfo.records.count)
         }
+        
+        decodedRanking.sort {
+            $0.rating > $1.rating
+        }
+        ranking = (decodedRanking.firstIndex(where: {
+            $0.username == userProfile.username
+        }) ?? -1) + 1
     }
     
     func resetCache() {
