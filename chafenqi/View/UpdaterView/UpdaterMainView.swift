@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct UpdaterMainView: View {
     @AppStorage("userToken") var token = ""
@@ -34,7 +35,7 @@ struct UpdaterMainView: View {
         Form {
             Section {
                 HStack {
-                    Text("连接状态")
+                    Text("状态")
                     Spacer()
                     Toggle(isOn: $isProxyOn) {
                         Text(proxyStatus)
@@ -51,7 +52,7 @@ struct UpdaterMainView: View {
                     
                 }
             } header: {
-                Text("状态")
+                Text("连接")
             }
             
             Section {
@@ -106,6 +107,7 @@ struct UpdaterMainView: View {
             Section {
                 Button {
                     copyUrlToClipboard(mode: 0)
+                    isShowingPasted.toggle()
                 } label: {
                     Text("上传中二节奏分数...")
                 }
@@ -113,10 +115,12 @@ struct UpdaterMainView: View {
                 
                 Button {
                     copyUrlToClipboard(mode: 1)
+                    isShowingPasted.toggle()
                 } label: {
                     Text("上传舞萌DX分数...")
                 }
                 .disabled(!didLogin)
+                
             } footer: {
                 if (didLogin) {
                     Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
@@ -136,6 +140,9 @@ struct UpdaterMainView: View {
         .onAppear {
             refreshStatus()
             registerObserver()
+        }
+        .toast(isPresenting: $isShowingPasted, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
         }
     }
     
