@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-import AlertToast
 
 struct UpdaterMainView: View {
     @AppStorage("userToken") var token = ""
     @AppStorage("didLogin") var didLogin = false
+    
     @ObservedObject var service = TunnelManagerService.shared
+    @ObservedObject var toastManager = AlertToastManager.shared
     
     @State var isShowingAlert = false
-    @State var isShowingPasted = false
     @State var isShowingConfig = false
     
     @State var isProxyOn = false
@@ -108,7 +108,6 @@ struct UpdaterMainView: View {
             Section {
                 Button {
                     copyUrlToClipboard(mode: 0)
-                    isShowingPasted.toggle()
                 } label: {
                     Text("上传中二节奏分数...")
                 }
@@ -116,7 +115,6 @@ struct UpdaterMainView: View {
                 
                 Button {
                     copyUrlToClipboard(mode: 1)
-                    isShowingPasted.toggle()
                 } label: {
                     Text("上传舞萌DX分数...")
                 }
@@ -141,9 +139,6 @@ struct UpdaterMainView: View {
         .onAppear {
             refreshStatus()
             registerObserver()
-        }
-        .toast(isPresenting: $isShowingPasted, duration: 2, tapToDismiss: true) {
-            AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
         }
     }
     
@@ -197,7 +192,7 @@ struct UpdaterMainView: View {
         
         pasteboard.string = requestUrl
         
-        // Add notice
+        toastManager.showingUpdaterPasted = true
     }
     
     func resetSettings() {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct UpdaterRouterView: View {
     @ObservedObject var service = TunnelManagerService.shared

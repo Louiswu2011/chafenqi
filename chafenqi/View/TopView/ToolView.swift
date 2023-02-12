@@ -76,8 +76,6 @@ struct ToolView: View {
                         }
                         .frame(height: 40)
                     }
-                    
-                    
                 }
             }
             .navigationTitle("工具箱")

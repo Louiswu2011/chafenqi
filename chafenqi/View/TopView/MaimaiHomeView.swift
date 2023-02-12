@@ -239,7 +239,6 @@ struct MaimaiHomeView: View {
     
     func prepareData() async {
         guard token != "" || didLogin else { status = .notLogin; return }
-        guard !userInfo.isRecordEmpty() else { status = .empty; return }
         if (pastSlice.isEmpty) { didCached = false }
         guard !didCached else { status = .complete; return }
 

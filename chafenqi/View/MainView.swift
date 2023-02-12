@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 let maimaiLevelColor = [
     0: Color(red: 128 / 255, green: 216 / 255, blue: 98 / 255),
@@ -27,9 +28,13 @@ struct MainView: View {
     @AppStorage("favList") var favList = "0;"
     @AppStorage("settingsCurrentMode") var mode = 0 // 0: Chunithm NEW, 1: maimaiDX
     
+    @ObservedObject var toastManager = AlertToastManager.shared
+    
     @State private var searchText = ""
     @State private var searchSeletedItem = ""
     @State private var showingLoginView = false
+    
+    @State private var showingPastedToast = false
     
     @Binding var currentTab: TabIdentifier
     
@@ -65,6 +70,9 @@ struct MainView: View {
                 Text("工具")
             }
             .tag(TabIdentifier.tool)
+            .toast(isPresenting: $toastManager.showingUpdaterPasted, duration: 2, tapToDismiss: true) {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
+            }
         }
     }
 }

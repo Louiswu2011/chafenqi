@@ -154,19 +154,24 @@ struct SongListView: View {
     var searchChunithmResults: Array<ChunithmSongData>? {
         guard didChunithmLoaded && mode == 0 else { return nil }
         
-        var songs = try! decodedChunithmSongs.isEmpty ? JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs) :
-        decodedChunithmSongs
-        
-        if (showingPlayed) {
-            let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userChunithmInfoData)
-            let idList = userInfo.records.best.compactMap { $0.musicId }
-            songs = songs.filter { idList.contains( $0.musicId ) }
-        }
+        do {
+            var songs = try decodedChunithmSongs.isEmpty ? JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs) :
+            decodedChunithmSongs
+            
+            if (showingPlayed) {
+                let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userChunithmInfoData)
+                let idList = userInfo.records.best.compactMap { $0.musicId }
+                songs = songs.filter { idList.contains( $0.musicId ) }
+            }
 
-        if searchText.isEmpty {
-            return songs
-        } else {
-            return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+            if searchText.isEmpty {
+                return songs
+            } else {
+                return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+            }
+        } catch {
+            
+            return nil
         }
     }
 }
