@@ -19,7 +19,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
         NSLog("Starting Tunnel...")
         
         let host = options!["host"] as! String
-        let port = options!["port"] as! String
+        let port = options!["proxyPort"] as! String
         
         let settings = self.initUpdaterSettings(host: host, port: Int(port)!)
         self.setTunnelNetworkSettings(settings) { error in
