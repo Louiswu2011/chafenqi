@@ -32,8 +32,8 @@ struct MaimaiHomeView: View {
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
     @State private var decodedRanking: Array<MaimaiPlayerRating> = []
     
-    @State private var userInfo = MaimaiPlayerRecord()
-    @State private var userProfile = MaimaiPlayerProfile()
+    @State private var userInfo = MaimaiPlayerRecord.shared
+    @State private var userProfile = MaimaiPlayerProfile.shared
     
     @State private var pastRating = 0
     @State private var currentRating = 0
@@ -49,7 +49,7 @@ struct MaimaiHomeView: View {
     @State private var pastSlice = ArraySlice<MaimaiRecordEntry>()
     @State private var currentSlice = ArraySlice<MaimaiRecordEntry>()
     
-    @State private var status = LoadStatus.empty
+    @State private var status = LoadStatus.notLogin
     
     @State private var previousToken = ""
     
@@ -172,7 +172,7 @@ struct MaimaiHomeView: View {
                         .padding()
                     Text(hint)
                 }
-            case .loadFromCache, .empty:
+            case .loadFromCache, .notLogin:
                 VStack {
                     Text("未登录查分器，请前往设置登录")
                 }
@@ -187,6 +187,19 @@ struct MaimaiHomeView: View {
                         }
                     } label: {
                         Text("重试")
+                    }
+                }
+            case .empty:
+                VStack {
+                    Text("暂无游玩数据！")
+                        .padding()
+                    Button {
+                        resetCache()
+                        Task {
+                            try await prepareData()
+                        }
+                    } label: {
+                        Text("刷新")
                     }
                 }
             }
@@ -225,7 +238,8 @@ struct MaimaiHomeView: View {
     }
     
     func prepareData() async throws {
-        guard token != "" || didLogin else { status = .empty; return }
+        guard token != "" || didLogin else { status = .notLogin; return }
+        guard !userInfo.isRecordEmpty() else { status = .empty; return }
         if (pastSlice.isEmpty) { didCached = false }
         guard !didCached else { status = .complete; return }
 
@@ -270,6 +284,11 @@ struct MaimaiHomeView: View {
         } catch {
             await getRankingData()
             decodedRanking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: loadedRanking)
+        }
+        
+        if userInfo.isRecordEmpty() {
+            status = .empty
+            return
         }
         
         status = .loading(hint: "加载用户数据中...")

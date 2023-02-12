@@ -31,7 +31,7 @@ struct ChunithmDetailView: View {
     @State private var chartImage: UIImage = UIImage()
     @State private var chartImageView = Image(systemName: "magnifyingglass")
     
-    @State private var userInfo = ChunithmUserData()
+    @State private var userInfo = ChunithmUserData.shared
     @State private var scoreEntries = [Int: ScoreEntry]()
     
     var song: ChunithmSongData

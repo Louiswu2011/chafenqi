@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import AlertToast
 
 enum LoadStatus {
     case error(errorText: String)
     case loading(hint: String)
-    case complete, empty, loadFromCache
+    case complete, notLogin, loadFromCache, empty
+    
+    func getErrorText() -> String? {
+        switch self {
+        case .error(let text):
+            return text
+        default:
+            return nil
+        }
+    }
 }
 
 struct ChunithmHomeView: View {
@@ -19,10 +29,11 @@ struct ChunithmHomeView: View {
     @State private var showingSettings = false
     @State private var showingMaximumRating = false
     @State private var showingCompletionToast = false
+    @State private var showingErrorToast = false
     
     @State private var status: LoadStatus = .loading(hint: "获取用户数据中...")
     
-    @State private var userInfo = ChunithmUserData()
+    @State private var userInfo = ChunithmUserData.shared
     @State private var b30 = ArraySlice<ScoreEntry>()
     
     @State private var previousToken = ""
@@ -193,9 +204,7 @@ struct ChunithmHomeView: View {
                     }
                     
                 }
-                
-                
-                
+
             case let .error(text):
                 VStack {
                     Text(text)
@@ -211,28 +220,47 @@ struct ChunithmHomeView: View {
                     }
                     
                 }
-            case .empty:
+            case .notLogin:
                 VStack {
                     Text("未登录查分器，请前往设置登录")
                         .padding()
                 }
+            case .empty:
+                VStack {
+                    Text("暂无游玩数据！")
+                        .padding()
+                    Button {
+                        status = .loading(hint: "获取用户数据中...")
+                        userInfoData = Data()
+                        Task {
+                            await loadUserInfo()
+                        }
+                    } label: {
+                        Text("刷新")
+                    }
+                    
+                }
             }
             
         }
-        .task {
-            if firstAppear {
-                getChartIDMap()
-                
-                if (!didLogin) {
+        .toast(isPresenting: $showingErrorToast, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .error(.red), title: "发生错误")
+        }
+        .onAppear {
+            if (mapData.isEmpty) { getChartIDMap() }
+            
+            if (!didLogin) {
+                status = .notLogin
+            } else {
+                if (userInfoData.isEmpty) {
+                    status = .loading(hint: "获取用户数据中...")
+                } else if (userInfo.isRecordDataEmpty()) {
                     status = .empty
                 } else {
-                    firstAppear = false
-                    if (userInfoData.isEmpty) {
-                        status = .loading(hint: "获取用户数据中...")
-                    } else {
-                        status = .loadFromCache
-                    }
-                    
+                    status = .loadFromCache
+                }
+                
+                Task {
                     await loadUserInfo()
                 }
             }
@@ -259,13 +287,60 @@ struct ChunithmHomeView: View {
                         }
                     }
                 } else {
-                    status = .empty
-                }
+                    status = .notLogin
+            }
             }
         }
     }
+
+    func loadUserInfo() async {
+        guard didLogin && !token.isEmpty else { return }
+        
+        switch status {
+        case .loading:
+            do {
+                try await downloadUserData()
+                
+                status = .loading(hint: "加载数据中...")
+                try prepareRecords()
+                
+                status = .loading(hint: "加载歌曲列表中...")
+                try await loadSongList()
+                totalChartCount = getTotalChartCount()
+                
+                // For now
+                try removeWEChart()
+                
+                if userInfo.isRecordDataEmpty() {
+                    status = .empty
+                } else {
+                    status = .complete
+                }
+            } catch {
+                break
+            }
+            
+        case .loadFromCache:
+            do {
+                try prepareRecords()
+                try await loadSongList()
+                if (totalChartCount == 0) {
+                    totalChartCount = getTotalChartCount()
+                }
+                
+                status = .complete
+            } catch {
+                print(error)
+                status = .error(errorText: error.localizedDescription)
+            }
+            
+        case .complete, .error(errorText: _), .notLogin, .empty:
+            break
+        }
+    }
     
-    func loadSongList() async {
+    
+    func loadSongList() async throws {
         if (loadedSongs.isEmpty) {
             didSongListLoaded = false
             do {
@@ -274,32 +349,56 @@ struct ChunithmHomeView: View {
                 decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
             } catch {
                 print(error)
+                status = .error(errorText: "加载歌曲列表失败")
+                showingErrorToast.toggle()
+                throw CFQError.LoadingError
             }
         } else if(decodedLoadedSongs.isEmpty) {
-            decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+            do {
+                decodedLoadedSongs = try JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+            } catch {
+                print(error)
+                status = .error(errorText: "解析歌曲列表失败")
+                showingErrorToast.toggle()
+                throw CFQError.LoadingError
+            }
         } else {
             didSongListLoaded = true
         }
     }
     
     func downloadUserData() async throws {
-        accountNickname = try await ChunithmDataGrabber.getUserNickname(username: accountName)
-        userInfoData = try await ChunithmDataGrabber.getUserRecord(token: token)
+        do {
+            accountNickname = try await ChunithmDataGrabber.getUserNickname(username: accountName)
+            userInfoData = try await ChunithmDataGrabber.getUserRecord(token: token)
+        } catch {
+            print(error)
+            status = .error(errorText: "加载用户数据失败")
+            throw CFQError.LoadingError
+        }
     }
     
     func prepareRecords() throws {
-        let decoder = JSONDecoder()
-        userInfo = try decoder.decode(ChunithmUserData.self, from: userInfoData)
-        userInfo.records.best.sort {
-            $0.rating > $1.rating
+        do {
+            let decoder = JSONDecoder()
+            userInfo = try decoder.decode(ChunithmUserData.self, from: userInfoData)
+            userInfo.records.best.sort {
+                $0.rating > $1.rating
+            }
+            let length = userInfo.records.best.count > 29 ? 30 : userInfo.records.best.count
+            b30 = userInfo.records.best.prefix(upTo: length)
+            
+            if accountNickname == "" { accountNickname = accountName }
+        } catch {
+            print(error)
+            status = .error(errorText: "解析用户数据失败")
+            throw CFQError.LoadingError
         }
-        let length = userInfo.records.best.count > 29 ? 30 : userInfo.records.best.count
-        b30 = userInfo.records.best.prefix(upTo: length)
     }
     
     func refreshUserInfo() async {
         guard didLogin else {
-            status = .empty
+            status = .notLogin
             return
         }
         
@@ -316,54 +415,17 @@ struct ChunithmHomeView: View {
         mapData = Data()
     }
     
-    func loadUserInfo() async {
-        guard didLogin && !token.isEmpty else { return }
-        
-        switch status {
-        case .loading:
-            do {
-                try await downloadUserData()
-                
-                status = .loading(hint: "加载数据中...")
-                try prepareRecords()
-                
-                status = .loading(hint: "加载歌曲列表中...")
-                await loadSongList()
-                totalChartCount = getTotalChartCount()
-                
-                // For now
-                removeWEChart()
-                
-                status = .complete
-            } catch {
-                print(error)
-                status = .error(errorText: error.localizedDescription)
-            }
-            
-        case .loadFromCache:
-            do {
-                try prepareRecords()
-                await loadSongList()
-                if (totalChartCount == 0) {
-                    totalChartCount = getTotalChartCount()
-                }
-                
-                status = .complete
-            } catch {
-                print(error)
-                status = .error(errorText: error.localizedDescription)
-            }
-            
-        case .complete, .error(errorText: _), .empty:
-            break
+    func removeWEChart() throws {
+        do {
+            var decoded = try JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+            decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
+            loadedSongs = try JSONEncoder().encode(decoded)
+            decodedLoadedSongs = decoded
+        } catch {
+            print(error)
+            status = .error(errorText: "加载歌曲列表失败")
+            throw CFQError.LoadingError
         }
-    }
-    
-    func removeWEChart() {
-        var decoded = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
-        decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
-        loadedSongs = try! JSONEncoder().encode(decoded)
-        decodedLoadedSongs = decoded
     }
     
     func getTotalChartCount() -> Int {

@@ -15,17 +15,19 @@ struct MaimaiPlayerRecord: Codable {
     var records: Array<MaimaiRecordEntry>
     var username: String
     
+    static let shared = MaimaiPlayerRecord(additionalRating: 1000, records: [], username: "?")
+    
     enum CodingKeys: String, CodingKey {
         case additionalRating = "additional_rating"
         case records
         case username
     }
     
-    init(){
-        additionalRating = 1000
-        records = []
-        username = "TEST"
-    }
+//    init(){
+//        additionalRating = 1000
+//        records = []
+//        username = "TEST"
+//    }
     
     func getPastSlice(songData: Array<MaimaiSongData>) -> ArraySlice<MaimaiRecordEntry> {
         let slice = records.filter { songData.filter { $0.basicInfo.isNew == false }.compactMap { Int($0.musicId)! }.contains( $0.musicId ) }.sorted { $0.rating > $1.rating }
@@ -39,7 +41,9 @@ struct MaimaiPlayerRecord: Codable {
         return slice.prefix(upTo: length)
     }
     
-    
+    func isRecordEmpty() -> Bool {
+        return self.records.isEmpty
+    }
 }
 
 struct MaimaiRecordEntry: Codable {
