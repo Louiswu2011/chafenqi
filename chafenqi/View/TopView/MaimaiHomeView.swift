@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -27,13 +28,14 @@ struct MaimaiHomeView: View {
     
     @State private var showingSettings = false
     @State private var showingTotalCharts = false
+    @State private var showingErrorToast = false
     
     @State private var decodedSongList: Array<MaimaiSongData> = []
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
     @State private var decodedRanking: Array<MaimaiPlayerRating> = []
     
-    @State private var userInfo = MaimaiPlayerRecord()
-    @State private var userProfile = MaimaiPlayerProfile()
+    @State private var userInfo = MaimaiPlayerRecord.shared
+    @State private var userProfile = MaimaiPlayerProfile.shared
     
     @State private var pastRating = 0
     @State private var currentRating = 0
@@ -49,7 +51,7 @@ struct MaimaiHomeView: View {
     @State private var pastSlice = ArraySlice<MaimaiRecordEntry>()
     @State private var currentSlice = ArraySlice<MaimaiRecordEntry>()
     
-    @State private var status = LoadStatus.empty
+    @State private var status = LoadStatus.notLogin
     
     @State private var previousToken = ""
     
@@ -153,11 +155,10 @@ struct MaimaiHomeView: View {
                         .frame(height: 210)
                         .padding(.horizontal)
                         
-                        // TODO: Add refresh button
                         Button {
                             Task {
                                 resetCache()
-                                try! await prepareData()
+                                await prepareData()
                             }
                         } label: {
                             Image(systemName: "arrow.clockwise")
@@ -172,7 +173,7 @@ struct MaimaiHomeView: View {
                         .padding()
                     Text(hint)
                 }
-            case .loadFromCache, .empty:
+            case .loadFromCache, .notLogin:
                 VStack {
                     Text("未登录查分器，请前往设置登录")
                 }
@@ -183,20 +184,29 @@ struct MaimaiHomeView: View {
                     Button {
                         resetCache()
                         Task {
-                            try await prepareData()
+                            await prepareData()
                         }
                     } label: {
                         Text("重试")
                     }
                 }
+            case .empty:
+                VStack {
+                    Text("暂无游玩数据！")
+                        .padding()
+                    Button {
+                        resetCache()
+                        Task {
+                            await prepareData()
+                        }
+                    } label: {
+                        Text("刷新")
+                    }
+                }
             }
         }
         .task {
-            do {
-                try await prepareData()
-            } catch {
-                status = .error(errorText: error.localizedDescription)
-            }
+            await prepareData()
         }
         .navigationTitle(didLogin ? "\(userProfile.nickname)的个人资料" : "查分器DX")
         .toolbar {
@@ -217,22 +227,26 @@ struct MaimaiHomeView: View {
                     resetCache()
                 }
                 Task {
-                    try! await prepareData()
+                    await prepareData()
                 }
             }
+        }
+        .toast(isPresenting: $showingErrorToast, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .error(.red), title: "发生错误")
         }
         
     }
     
-    func prepareData() async throws {
-        guard token != "" || didLogin else { status = .empty; return }
+    func prepareData() async {
+        guard token != "" || didLogin else { status = .notLogin; return }
+        guard !userInfo.isRecordEmpty() else { status = .empty; return }
         if (pastSlice.isEmpty) { didCached = false }
         guard !didCached else { status = .complete; return }
 
         do {
             try await loadUserData()
         } catch {
-            status = .error(errorText: error.localizedDescription)
+            status = .error(errorText: "获取用户信息失败")
         }
     }
     
@@ -270,6 +284,11 @@ struct MaimaiHomeView: View {
         } catch {
             await getRankingData()
             decodedRanking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: loadedRanking)
+        }
+        
+        if userInfo.isRecordEmpty() {
+            status = .empty
+            return
         }
         
         status = .loading(hint: "加载用户数据中...")

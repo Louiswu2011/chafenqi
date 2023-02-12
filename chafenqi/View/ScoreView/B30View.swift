@@ -50,6 +50,6 @@ struct B30View: View {
 
 struct B30View_Previews: PreviewProvider {
     static var previews: some View {
-        B30View(userInfo: ChunithmUserData())
+        B30View(userInfo: ChunithmUserData.shared)
     }
 }

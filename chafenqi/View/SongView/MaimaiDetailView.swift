@@ -25,7 +25,7 @@ struct MaimaiDetailView: View {
     
     @State private var showingCalc = false
     
-    @State private var userInfo = MaimaiPlayerRecord()
+    @State private var userInfo = MaimaiPlayerRecord.shared
     @State private var scoreEntries = [Int: MaimaiRecordEntry]()
     @State private var chartStats = [:]
     
