@@ -12,15 +12,6 @@ enum LoadStatus {
     case error(errorText: String)
     case loading(hint: String)
     case complete, notLogin, loadFromCache, empty
-    
-    func getErrorText() -> String? {
-        switch self {
-        case .error(let text):
-            return text
-        default:
-            return nil
-        }
-    }
 }
 
 struct ChunithmHomeView: View {

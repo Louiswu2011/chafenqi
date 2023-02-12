@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -27,6 +28,7 @@ struct MaimaiHomeView: View {
     
     @State private var showingSettings = false
     @State private var showingTotalCharts = false
+    @State private var showingErrorToast = false
     
     @State private var decodedSongList: Array<MaimaiSongData> = []
     @State private var decodedChartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
@@ -153,11 +155,10 @@ struct MaimaiHomeView: View {
                         .frame(height: 210)
                         .padding(.horizontal)
                         
-                        // TODO: Add refresh button
                         Button {
                             Task {
                                 resetCache()
-                                try! await prepareData()
+                                await prepareData()
                             }
                         } label: {
                             Image(systemName: "arrow.clockwise")
@@ -183,7 +184,7 @@ struct MaimaiHomeView: View {
                     Button {
                         resetCache()
                         Task {
-                            try await prepareData()
+                            await prepareData()
                         }
                     } label: {
                         Text("重试")
@@ -196,7 +197,7 @@ struct MaimaiHomeView: View {
                     Button {
                         resetCache()
                         Task {
-                            try await prepareData()
+                            await prepareData()
                         }
                     } label: {
                         Text("刷新")
@@ -205,11 +206,7 @@ struct MaimaiHomeView: View {
             }
         }
         .task {
-            do {
-                try await prepareData()
-            } catch {
-                status = .error(errorText: error.localizedDescription)
-            }
+            await prepareData()
         }
         .navigationTitle(didLogin ? "\(userProfile.nickname)的个人资料" : "查分器DX")
         .toolbar {
@@ -230,14 +227,17 @@ struct MaimaiHomeView: View {
                     resetCache()
                 }
                 Task {
-                    try! await prepareData()
+                    await prepareData()
                 }
             }
+        }
+        .toast(isPresenting: $showingErrorToast, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .error(.red), title: "发生错误")
         }
         
     }
     
-    func prepareData() async throws {
+    func prepareData() async {
         guard token != "" || didLogin else { status = .notLogin; return }
         guard !userInfo.isRecordEmpty() else { status = .empty; return }
         if (pastSlice.isEmpty) { didCached = false }
@@ -246,7 +246,7 @@ struct MaimaiHomeView: View {
         do {
             try await loadUserData()
         } catch {
-            status = .error(errorText: error.localizedDescription)
+            status = .error(errorText: "获取用户信息失败")
         }
     }
     
