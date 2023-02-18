@@ -60,6 +60,7 @@ struct MainView: View {
                 Image(systemName: "clock")
                 Text("最近")
             }
+            .tag(TabIdentifier.recent)
             
             NavigationView {
                 SongListView()

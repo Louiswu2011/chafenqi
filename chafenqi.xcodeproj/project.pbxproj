@@ -20,6 +20,7 @@
 		BF0A0BAD298C3E97008F9700 /* searchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BF0A0BA8298C3E95008F9700 /* searchScreen.png */; };
 		BF0A0BAF298C444D008F9700 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BF0A0BAE298C444D008F9700 /* .gitignore */; };
 		BF0BF04129A12E3300F78872 /* ChunithmRecentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0BF04029A12E3300F78872 /* ChunithmRecentRecord.swift */; };
+		BF0BF04529A135EC00F78872 /* RecentBasicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0BF04429A135EC00F78872 /* RecentBasicView.swift */; };
 		BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */; };
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D912B296C341F005DC8A3 /* SettingsView.swift */; };
@@ -127,6 +128,7 @@
 		BF0A0BA8298C3E95008F9700 /* searchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchScreen.png; sourceTree = "<group>"; };
 		BF0A0BAE298C444D008F9700 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BF0BF04029A12E3300F78872 /* ChunithmRecentRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmRecentRecord.swift; sourceTree = "<group>"; };
+		BF0BF04429A135EC00F78872 /* RecentBasicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentBasicView.swift; sourceTree = "<group>"; };
 		BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartIdConverter.swift; sourceTree = "<group>"; };
 		BF0CFD60297B26E5003763E2 /* IdMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IdMap.json; sourceTree = "<group>"; };
 		BF0D912B296C341F005DC8A3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -264,6 +266,14 @@
 			path = Screenshot;
 			sourceTree = "<group>";
 		};
+		BF0BF04329A135D300F78872 /* Recent */ = {
+			isa = PBXGroup;
+			children = (
+				BF0BF04429A135EC00F78872 /* RecentBasicView.swift */,
+			);
+			path = Recent;
+			sourceTree = "<group>";
+		};
 		BF0CFD5F297B26D6003763E2 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +309,7 @@
 		BF670DE629781B0E00EA2CBB /* SongView */ = {
 			isa = PBXGroup;
 			children = (
+				BF0BF04329A135D300F78872 /* Recent */,
 				BFECEC72297D37E600D2F383 /* SongChartView.swift */,
 				BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */,
 				BF0D912D296C4B7F005DC8A3 /* ChunithmDetailView.swift */,
@@ -708,6 +719,7 @@
 				BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */,
 				BF153FDF299AB6CE0025B375 /* SongBarView.swift in Sources */,
 				BF0D912E296C4B7F005DC8A3 /* ChunithmDetailView.swift in Sources */,
+				BF0BF04529A135EC00F78872 /* RecentBasicView.swift in Sources */,
 				BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

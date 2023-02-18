@@ -16,33 +16,50 @@ struct RecentView: View {
     
     @AppStorage("userAccountName") var accountName = ""
     
+    @AppStorage("loadedMaimaiSongs") var loadedMaimaiSongs = Data()
+    @AppStorage("loadedChunithmSongs") var loadedChunithmSongs = Data()
+    
     @AppStorage("userChunithmRecentData") var chuRecentData = Data()
     @AppStorage("userMaimaiRecentData") var maiRecentData = Data()
     
     @State var chuRecent: Array<ChunithmRecentRecord> = []
     @State var maiRecent: Array<MaimaiRecentRecord> = []
+    @State var chuSongs: Array<ChunithmSongData> = []
+    @State var maiSongs: Array<MaimaiSongData> = []
     @State var status: LoadStatus = .loading(hint: "加载中...")
     
     var body: some View {
         VStack {
             if(didLogin) {
-                if (currentMode == 0) {
-                    switch status {
-                    case .loading(let hint):
-                        VStack {
-                            ProgressView()
-                                .padding()
-                            Text(hint)
-                        }
-                    case .complete:
-                        List {
-                            ForEach(chuRecent, id: \.timestamp) { entry in
-                                Text(entry.title)
+                switch status {
+                case .loading(let hint):
+                    VStack {
+                        ProgressView()
+                            .padding()
+                        Text(hint)
+                    }
+                case .complete:
+                    List {
+                        if (currentMode == 0) {
+                            ForEach(chuRecent.indices) { index in
+                                NavigationLink {
+                                    
+                                } label: {
+                                    RecentBasicView(chunithmSong: chuSongs[index], chunithmRecord: chuRecent[index], mode: 0)
+                                }
+                            }
+                        } else {
+                            ForEach(maiRecent.indices) { index in
+                                NavigationLink {
+                                    
+                                } label: {
+                                    RecentBasicView(maimaiSong: maiSongs[index], maimaiRecord: maiRecent[index], mode: 1)
+                                }
                             }
                         }
-                    default:
-                        Text("?")
                     }
+                default:
+                    Text("?")
                 }
             } else {
                 Text("请先登录查分器账号！")
@@ -74,15 +91,42 @@ struct RecentView: View {
     func getRecentData() async {
         status = .loading(hint: "加载中...")
         if (currentMode == 0) {
-            guard chuRecentData.isEmpty else { status = .complete; return }
+            guard chuRecent.isEmpty else { status = .complete; return }
             do {
                 chuRecentData = try await ChunithmDataGrabber.getRecentData(username: accountName)
                 if (chuRecent.isEmpty) {
                     chuRecent = try JSONDecoder().decode(Array<ChunithmRecentRecord>.self, from: chuRecentData)
                 }
+                let chuSongData = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs)
+                
+                for (index, entry) in chuRecent.enumerated() {
+                    status = .loading(hint: "加载中 \(index + 1)/\(chuRecent.count)")
+                    chuSongs.append(chuSongData.first { data in
+                        String(data.musicId) == entry.music_id
+                    }!)
+                }
                 status = .complete
             } catch {
+                print(error)
+            }
+        } else {
+            guard maiRecent.isEmpty else { status = .complete; return }
+            do {
+                maiRecentData = try await MaimaiDataGrabber.getRecentData(username: accountName)
+                if (maiRecent.isEmpty) {
+                    maiRecent = try JSONDecoder().decode(Array<MaimaiRecentRecord>.self, from: maiRecentData)
+                }
+                let maiSongData = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedMaimaiSongs)
                 
+                for (index, entry) in maiRecent.enumerated() {
+                    status = .loading(hint: "加载中 \(index + 1)/\(maiRecent.count)")
+                    maiSongs.append(maiSongData.first { data in
+                        String(data.title) == entry.title
+                    }!)
+                }
+                status = .complete
+            } catch {
+                print(error)
             }
         }
     }

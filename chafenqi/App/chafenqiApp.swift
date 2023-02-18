@@ -34,7 +34,7 @@ struct chafenqiApp: App {
 }
 
 enum TabIdentifier: Hashable {
-    case home, list, tool
+    case home, recent, list, tool
 }
 
 extension URL {
@@ -47,6 +47,7 @@ extension URL {
         
         switch host {
         case "home": return .home
+        case "recent": return .recent
         case "list": return .list
         case "tool": return .tool
         default: return nil
