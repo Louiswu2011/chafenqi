@@ -43,7 +43,7 @@ struct RecentView: View {
                         if (currentMode == 0) {
                             ForEach(chuRecent.indices) { index in
                                 NavigationLink {
-                                    
+                                    RecentDetailView(chuSong: chuSongs[index], chuRecord: chuRecent[index], mode: 0)
                                 } label: {
                                     RecentBasicView(chunithmSong: chuSongs[index], chunithmRecord: chuRecent[index], mode: 0)
                                 }
@@ -51,7 +51,7 @@ struct RecentView: View {
                         } else {
                             ForEach(maiRecent.indices) { index in
                                 NavigationLink {
-                                    
+                                    RecentDetailView(maiSong: maiSongs[index], maiRecord: maiRecent[index], mode: 1)
                                 } label: {
                                     RecentBasicView(maimaiSong: maiSongs[index], maimaiRecord: maiRecent[index], mode: 1)
                                 }
