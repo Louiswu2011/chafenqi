@@ -52,14 +52,23 @@ struct ChunithmMiniView: View {
                 VStack(alignment: .leading) {
                     Spacer()
                     
+                    if song.levelIndex == 4 {
+                        Text(String(song.score))
+                            .font(.title3)
+                            .bold()
+                            .foregroundColor(.white)
+                    } else {
+                        Text(String(song.score))
+                            .font(.title3)
+                            .bold()
+                    }
                     
-                    Text(String(song.score))
-                        .font(.title3)
-                        .bold()
-                    
-                    
-                    Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
-                    // Text("\(song.getGrade())/\(song.getStatus())")
+                    if song.levelIndex == 4 {
+                        Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
+                            .foregroundColor(.white)
+                    } else {
+                        Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
+                    }
                 }
                 .frame(height: 80)
             }

@@ -15,4 +15,5 @@ enum CFQError: Error {
     case requestTimeoutError
     case invalidResponseError(response: String)
     case LoadingError
+    case BadRequestError
 }

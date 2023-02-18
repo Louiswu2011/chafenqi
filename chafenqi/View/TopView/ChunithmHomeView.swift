@@ -29,7 +29,7 @@ struct ChunithmHomeView: View {
     
     @State private var previousToken = ""
     
-    @State private var decodedLoadedSongs: Set<ChunithmSongData> = []
+    @State private var decodedLoadedSongs: Array<ChunithmSongData> = []
     
     @State private var totalChartCount = 0
     @State private var firstAppear = true
@@ -133,7 +133,7 @@ struct ChunithmHomeView: View {
                             
                             
                             NavigationLink {
-                                B30View(userInfo: userInfo)
+                                B30View(decodedLoadedSongs: decodedLoadedSongs, b30: b30)
                             } label: {
                                 Image(systemName: "arrow.right")
                             }.padding()
@@ -245,10 +245,8 @@ struct ChunithmHomeView: View {
             } else {
                 if (userInfoData.isEmpty) {
                     status = .loading(hint: "获取用户数据中...")
-                } else if (userInfo.isRecordDataEmpty()) {
-                    status = .empty
-                } else {
-                    status = .loadFromCache
+//                } else {
+//                    status = .loadFromCache
                 }
                 
                 Task {
@@ -337,7 +335,7 @@ struct ChunithmHomeView: View {
             do {
                 try await loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
                 didSongListLoaded.toggle()
-                decodedLoadedSongs = try! JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+                decodedLoadedSongs = try! JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedSongs)
             } catch {
                 print(error)
                 status = .error(errorText: "加载歌曲列表失败")
@@ -346,7 +344,7 @@ struct ChunithmHomeView: View {
             }
         } else if(decodedLoadedSongs.isEmpty) {
             do {
-                decodedLoadedSongs = try JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+                decodedLoadedSongs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedSongs)
             } catch {
                 print(error)
                 status = .error(errorText: "解析歌曲列表失败")
@@ -408,7 +406,7 @@ struct ChunithmHomeView: View {
     
     func removeWEChart() throws {
         do {
-            var decoded = try JSONDecoder().decode(Set<ChunithmSongData>.self, from: loadedSongs)
+            var decoded = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedSongs)
             decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
             loadedSongs = try JSONEncoder().encode(decoded)
             decodedLoadedSongs = decoded

@@ -54,6 +54,14 @@ struct MainView: View {
             .tag(TabIdentifier.home)
             
             NavigationView {
+                RecentView()
+            }
+            .tabItem {
+                Image(systemName: "clock")
+                Text("最近")
+            }
+            
+            NavigationView {
                 SongListView()
             }
             .tabItem {
