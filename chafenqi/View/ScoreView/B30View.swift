@@ -42,7 +42,7 @@ struct B30View: View {
                     }
                 }
             }.task {
-                b30 = userInfo.records.best.sorted { $0.rating > $1.rating }.prefix(upTo: 30)
+                
             }
         }
     }

@@ -136,7 +136,9 @@ struct ChunithmHomeView: View {
                                 B30View(userInfo: userInfo)
                             } label: {
                                 Image(systemName: "arrow.right")
-                            }.padding()
+                            }
+                            .padding()
+                            .disabled(true)
                             
                         }
                         
@@ -168,6 +170,7 @@ struct ChunithmHomeView: View {
                                 Image(systemName: "arrow.right")
                             }
                             .padding()
+                            .disabled(true)
                         }
                         
                         ScrollView(.horizontal) {

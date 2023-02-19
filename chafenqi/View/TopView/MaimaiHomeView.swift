@@ -107,7 +107,9 @@ struct MaimaiHomeView: View {
                                 
                             } label: {
                                 Image(systemName: "arrow.right")
-                            }.padding()
+                            }
+                            .padding()
+                            .disabled(true)
                             
                         }
                         
@@ -137,7 +139,9 @@ struct MaimaiHomeView: View {
                                 
                             } label: {
                                 Image(systemName: "arrow.right")
-                            }.padding()
+                            }
+                            .padding()
+                            .disabled(true)
                             
                         }
                         

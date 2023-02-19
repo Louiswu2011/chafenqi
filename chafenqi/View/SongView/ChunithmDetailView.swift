@@ -195,11 +195,14 @@ struct ChunithmDetailView: View {
                     .frame(width: 350, height: 200)
                     .task {
                         do {
-                            webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
-                            chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
-                            chartImageView = Image(uiImage: chartImage)
-                            availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
-                            isCheckingDiff.toggle()
+                            if (!mapData.isEmpty) {
+                                let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: mapData)
+                                webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
+                                chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
+                                chartImageView = Image(uiImage: chartImage)
+                                availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
+                                isCheckingDiff.toggle()
+                            }
                         } catch CFQError.requestTimeoutError {
 
                         } catch CFQError.unsupportedError {
@@ -235,8 +238,8 @@ struct ChunithmDetailView: View {
                         $0.levelIndex < $1.levelIndex
                     }
                     scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
+                    loadingScore = false
                 }
-                loadingScore.toggle()
             }
 //            .toolbar {
 //                ToolbarItem(placement: .navigationBarTrailing) {
