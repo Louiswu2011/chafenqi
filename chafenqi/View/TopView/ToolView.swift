@@ -19,7 +19,7 @@ struct ToolView: View {
                     
                     HStack {
                         NavigationLink {
-                            SongRandomizerView(randomOnAppear: true)
+                            SongRandomizerView(firstTimeAppear: true)
                         } label: {
                             Image(systemName: "dice")
                                 .resizable()

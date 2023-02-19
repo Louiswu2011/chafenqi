@@ -114,7 +114,7 @@ struct SongListView: View {
                     Task {
                         do {
                             try await loadedChunithmSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
-                            decodedChunithmSongs = try! JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs)
+                            decodedChunithmSongs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs)
                             didChunithmLoaded = true
                         } catch {
                             print(error.localizedDescription)
