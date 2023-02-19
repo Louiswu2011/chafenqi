@@ -13,6 +13,7 @@ struct UpdaterHelpView: View {
     var body: some View {
         let width: CGFloat = 350
         
+        // TODO: Fix Multiline issue
         VStack(alignment: .center) {
             Text("传分器帮助")
                 .font(.largeTitle)
