@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct SettingsView: View {
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 0
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
+    
+    @AppStorage("firstTimeLaunch") var firstTime = true
     
     @AppStorage("proxyDidInstallProfile") var installed = false
     
@@ -22,6 +25,8 @@ struct SettingsView: View {
     @AppStorage("userMaimaiInfoData") var maimaiInfoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
+
+    @ObservedObject var toastManager = AlertToastManager.shared
     
     @State private var accountPassword = ""
     @State private var showingLoginView = false
@@ -130,6 +135,13 @@ struct SettingsView: View {
                     Text("工具")
                 }
                 
+                Button {
+                    firstTime = true
+                    toastManager.showingTutorialReseted = true
+                } label: {
+                    Text("重置教程")
+                }
+                
                 Section {
                     HStack {
                         Text("版本")
@@ -154,6 +166,9 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("设置")
+            .toast(isPresenting: $toastManager.showingTutorialReseted, duration: 2, tapToDismiss: true) {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: "教程已重置")
+            }
         }
     }
     

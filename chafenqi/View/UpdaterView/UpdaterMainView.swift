@@ -102,6 +102,7 @@ struct UpdaterMainView: View {
                 }
                 .sheet(isPresented: $isShowingHelp) {
                     UpdaterHelpView(isShowingHelp: $isShowingHelp)
+                        .interactiveDismissDisabled(true)
                 }
             }
         }
@@ -159,7 +160,6 @@ struct UpdaterMainView: View {
         let pasteboard = UIPasteboard.general
         var requestUrl = "https://www.nltv.top/upload_\(destination)?token=\(token)"
 
-        
         pasteboard.string = requestUrl
         
         toastManager.showingUpdaterPasted = true

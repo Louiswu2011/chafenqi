@@ -9,6 +9,7 @@ import Foundation
 
 final class AlertToastManager: ObservableObject {
     @Published var showingUpdaterPasted = false
+    @Published var showingTutorialReseted = false
     
     static let shared = AlertToastManager()
 }

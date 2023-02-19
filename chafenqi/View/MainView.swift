@@ -27,6 +27,7 @@ let chunithmLevelColor = [
 struct MainView: View {
     @AppStorage("favList") var favList = "0;"
     @AppStorage("settingsCurrentMode") var mode = 0 // 0: Chunithm NEW, 1: maimaiDX
+    @AppStorage("firstTimeLaunch") var firstTime = true
     
     @ObservedObject var toastManager = AlertToastManager.shared
     
@@ -34,7 +35,7 @@ struct MainView: View {
     @State private var searchSeletedItem = ""
     @State private var showingLoginView = false
     
-    @State private var showingPastedToast = false
+    @State private var showingWelcome = false
     
     @Binding var currentTab: TabIdentifier
     
@@ -72,6 +73,15 @@ struct MainView: View {
             .tag(TabIdentifier.tool)
             .toast(isPresenting: $toastManager.showingUpdaterPasted, duration: 2, tapToDismiss: true) {
                 AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
+            }
+        }.sheet(isPresented: $showingWelcome) {
+            WelcomeTabView(isShowingWelcome: $showingWelcome)
+                .interactiveDismissDisabled(true)
+        }
+        .onAppear {
+            if (firstTime) {
+                showingWelcome.toggle()
+                firstTime.toggle()
             }
         }
     }

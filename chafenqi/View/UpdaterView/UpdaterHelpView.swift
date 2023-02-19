@@ -20,77 +20,79 @@ struct UpdaterHelpView: View {
                 .bold()
                 .padding()
             
-            HStack() {
-                Image(systemName: "1.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 40)
-                    .padding(.horizontal)
-                
-                VStack(alignment: .leading) {
-                    Text("打开代理开关")
-                        .font(.system(size: 20))
-                        .bold()
-                    Text("当显示\"已连接\"时即为连接成功")
+            VStack(alignment: .leading) {
+                HStack() {
+                    Image(systemName: "1.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 40)
+                        .padding(.horizontal)
+                    
+                    VStack(alignment: .leading) {
+                        Text("打开代理开关")
+                            .font(.system(size: 20))
+                            .bold()
+                        Text("当显示\"已连接\"时即为连接成功")
+                    }
                 }
-            }
-            .padding()
-            .frame(width: width)
-            
-            HStack {
-                Image(systemName: "2.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 40)
-                    .padding(.horizontal)
+                .padding(20)
                 
-                VStack(alignment: .leading) {
-                    Text("选择舞萌DX/中二节奏NEW分数上传")
-                        .font(.system(size: 20))
-                        .bold()
-                    Text("分数上传链接将复制到剪贴板")
+                HStack {
+                    Image(systemName: "2.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 40)
+                        .padding(.horizontal)
+                    
+                    VStack(alignment: .leading) {
+                        Text("选择舞萌DX/中二节奏NEW分数上传")
+                            .font(.system(size: 20))
+                            .bold()
+                        Text("分数上传链接将复制到剪贴板")
+                    }
                 }
-            }
-            .padding()
-            .frame(width: width)
-            
-            HStack {
-                Image(systemName: "3.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 40)
-                    .padding(.horizontal)
+                .padding(20)
                 
-                VStack(alignment: .leading) {
-                    Text("打开微信任意聊天窗口发送并点击链接")
-                        .font(.system(size: 20))
-                        .bold()
-                    Text("如遇微信提示是否访问，请点击继续访问")
+                HStack {
+                    Image(systemName: "3.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 40)
+                        .padding(.horizontal)
+                    
+                    VStack(alignment: .leading) {
+                        Text("在微信任意聊天窗口发送并点击链接")
+                            .font(.system(size: 20))
+                            .bold()
+                        Text("如遇微信提示是否访问，请点击继续访问")
+                    }
                 }
-            }
-            .padding()
-            .frame(width: width)
-            
-            HStack {
-                Image(systemName: "4.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 40)
-                    .padding(.horizontal)
+                .padding(20)
                 
-                VStack(alignment: .leading) {
-                    Text("等候分数上传")
-                        .font(.system(size: 20))
-                        .bold()
-                    Text("目前分数上传成功后会显示乱码，后续将会调整为正常的信息")
+                HStack {
+                    Image(systemName: "4.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 40)
+                        .padding(.horizontal)
+                    
+                    VStack(alignment: .leading) {
+                        Text("等候分数上传")
+                            .font(.system(size: 20))
+                            .bold()
+                        Text("出现成功页面后即可关闭微信窗口")
+                    }
                 }
+                .padding(20)
             }
-            .padding()
-            .frame(width: width)
             
-            Text("注：打开代理期间无法访问网络属正常现象，无需等候消息发送成功即可直接点击链接。\n更新完成后请及时关闭代理，防止服务器拥堵及影响到正常网络链接。")
+            Text("打开代理期间无法访问网络属正常现象，无需等候消息发送成功即可直接点击链接。")
                 .font(.system(size: 15))
-                .padding()
+                .padding(.horizontal)
+            
+            Text("更新完成后请及时关闭代理，防止服务器拥堵及影响到网络的正常使用。")
+                .font(.system(size: 15))
+                .padding(.horizontal)
             
             Button {
                 isShowingHelp.toggle()

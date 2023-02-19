@@ -129,7 +129,7 @@ struct SongListView: View {
                     Task {
                         do {
                             try await loadedMaimaiSongs = JSONEncoder().encode(MaimaiDataGrabber.getMusicData())
-                            decodedMaimaiSongs = try! JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedMaimaiSongs)
+                            decodedMaimaiSongs = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedMaimaiSongs)
                             didMaimaiLoaded = true
                         } catch {
                             print(error.localizedDescription)
