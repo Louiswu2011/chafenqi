@@ -93,7 +93,9 @@ struct MaimaiHomeView: View {
                         }
                         .padding(.vertical)
                         
-                        Text("Rating全国排名: #\(ranking)")
+                        if(ranking != 0) {
+                            Text("Rating全国排名: #\(ranking)")
+                        }
                         
                         HStack {
                             Text("旧版本 - R" + String(pastRating))
@@ -357,6 +359,7 @@ struct MaimaiHomeView: View {
         userProfileData = Data()
         loadedSongs = Data()
         loadedStats = Data()
+        ranking = 0
     }
 }
 
