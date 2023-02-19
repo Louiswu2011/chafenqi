@@ -16,6 +16,7 @@ struct UpdaterMainView: View {
     
     @State var isShowingAlert = false
     @State var isShowingConfig = false
+    @State var isShowingHelp = false
     
     @State var isProxyOn = false
     @State var proxyStatus = ""
@@ -127,6 +128,17 @@ struct UpdaterMainView: View {
                 } else {
                     Text("请在设置中登录查分器账号后再上传分数")
                         .multilineTextAlignment(.leading)
+                }
+            }
+            
+            Section {
+                Button {
+                    isShowingHelp.toggle()
+                } label: {
+                    Text("使用教程")
+                }
+                .sheet(isPresented: $isShowingHelp) {
+                    UpdaterHelpView(isShowingHelp: $isShowingHelp)
                 }
             }
             
