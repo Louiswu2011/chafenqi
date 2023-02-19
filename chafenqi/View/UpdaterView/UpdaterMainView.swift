@@ -22,15 +22,7 @@ struct UpdaterMainView: View {
     @State var proxyStatus = ""
     
     @State private var observers = [AnyObject]()
-    
-    @State var proxyHost = ""
-    @State var proxyPort = ""
-    
-    @State private var proxyOptions = [
-        "host": "43.139.107.206",
-        "proxyPort": "8998",
-        "frontendPort": "8082"
-    ]
+
     
     var body: some View {
         Form {
@@ -57,36 +49,6 @@ struct UpdaterMainView: View {
             }
             
             Section {
-                Toggle("高级设置", isOn: $isShowingConfig.animation(.easeIn))
-                
-                if (isShowingConfig) {
-                    HStack {
-                        Text("地址")
-                        TextField("", text: Binding<String>(get: {self.proxyOptions["host"] ?? ""}, set: {self.proxyOptions["host"] = $0}))
-                            .disabled(isProxyOn)
-                            .foregroundColor(.gray)
-                            .autocorrectionDisabled(true)
-                    }
-                    
-                    HStack {
-                        Text("代理端口")
-                        TextField("", text: Binding<String>(get: {self.proxyOptions["proxyPort"] ?? ""}, set: {self.proxyOptions["proxyPort"] = $0}))
-                            .disabled(isProxyOn)
-                            .foregroundColor(.gray)
-                            .autocorrectionDisabled(true)
-                            .keyboardType(.numberPad)
-                    }
-                    
-                    HStack {
-                        Text("前端端口")
-                        TextField("", text: Binding<String>(get: {self.proxyOptions["frontendPort"] ?? ""}, set: {self.proxyOptions["frontendPort"] = $0}))
-                            .disabled(isProxyOn)
-                            .foregroundColor(.gray)
-                            .autocorrectionDisabled(true)
-                            .keyboardType(.numberPad)
-                    }
-                }
-                
                 Button {
                     isShowingAlert.toggle()
                 } label: {
@@ -99,6 +61,8 @@ struct UpdaterMainView: View {
                           primaryButton: .cancel(Text("取消")),
                           secondaryButton: .destructive(Text("卸载")){ removeProxyProfile() })
                 }
+                
+                
             } header: {
                 Text("设置")
             } footer: {
@@ -140,12 +104,6 @@ struct UpdaterMainView: View {
                     UpdaterHelpView(isShowingHelp: $isShowingHelp)
                 }
             }
-            
-            Button {
-                resetSettings()
-            } label: {
-                Text("恢复默认设置")
-            }
         }
         .onAppear {
             refreshStatus()
@@ -171,7 +129,7 @@ struct UpdaterMainView: View {
             service.manager?.isEnabled = true
             service.manager?.saveToPreferences { _ in
                 do {
-                    try service.manager?.connection.startVPNTunnel(options: proxyOptions as [String : NSObject] )
+                    try service.manager?.connection.startVPNTunnel()
                 } catch {
                     print("Failed to start proxy.")
                     print(error)
@@ -199,18 +157,14 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "http://\(proxyOptions["host"]!):\(proxyOptions["frontendPort"]!)/upload_\(destination)?token=\(token)"
+        var requestUrl = "https://www.nltv.top/upload_\(destination)?token=\(token)"
+
         
         pasteboard.string = requestUrl
         
         toastManager.showingUpdaterPasted = true
     }
-    
-    func resetSettings() {
-        proxyOptions["host"] = "43.139.107.206"
-        proxyOptions["proxyPort"] = "8998"
-        proxyOptions["frontendPort"] = "8082"
-    }
+
 }
 
 struct UpdaterMainView_Previews: PreviewProvider {

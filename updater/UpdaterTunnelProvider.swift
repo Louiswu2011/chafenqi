@@ -18,21 +18,19 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         NSLog("Starting Tunnel...")
         
-        let host = options!["host"] as! String
-        let port = options!["proxyPort"] as! String
+        let port = 8998
         
-        let settings = self.initUpdaterSettings(host: host, port: Int(port)!)
+        let settings = self.initUpdaterSettings(host: "43.139.107.206", port: port)
         self.setTunnelNetworkSettings(settings) { error in
             if let e = error {
                 NSLog("Failed to save settings.")
+                NSLog(e.localizedDescription)
                 completionHandler(e)
             } else {
                 NSLog("Setting endpoint...")
-                // let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
-                // NSLog("Connecting to local server...")
-                let endpoint = NWHostEndpoint(hostname: host, port: port)
+                let endpoint = NWHostEndpoint(hostname: "43.139.107.206", port: "\(port)")
                 self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
-                NSLog("Connected to local server.")
+                NSLog("Connected to NLTV server.")
                 completionHandler(nil)
                 self.sendPackets()
             }
@@ -71,9 +69,10 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
             for packet in packets {
                 strongSelf.connection.write(packet, completionHandler: { error in
                     if error != nil {
-                        NSLog("Sent failed.")
+                        // NSLog("Sent failed.")
+                        // NSLog(error!.localizedDescription)
                     } else {
-                        NSLog("Sent packet.")
+                        // NSLog("Sent packet.")
                     }
                 })
             }
@@ -82,7 +81,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     }
     
     private func initUpdaterSettings(host: String, port: Int) -> NEPacketTunnelNetworkSettings {
-        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: host)
+        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "43.139.107.206")
         
         let proxySettings = NEProxySettings()
         proxySettings.httpServer = NEProxyServer(address: host, port: port)
