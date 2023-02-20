@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import RefreshableScrollView
 
 struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -64,7 +65,7 @@ struct MaimaiHomeView: View {
         ZStack {
             switch (status) {
             case .complete:
-                ScrollView {
+                RefreshableScrollView {
                     VStack {
                         HStack {
                             HStack {
@@ -173,16 +174,24 @@ struct MaimaiHomeView: View {
                     }
                     
                 }
+                .refreshable {
+                    resetCache()
+                    Task {
+                        await prepareData()
+                    }
+                }
             case let .loading(hint: hint):
                 VStack {
                     ProgressView()
                         .padding()
                     Text(hint)
                 }
+                .navigationBarTitle("")
             case .loadFromCache, .notLogin:
                 VStack {
                     Text("未登录查分器，请前往设置登录")
                 }
+                .navigationBarTitle("")
             case .error(errorText: let errorText):
                 VStack {
                     Text(errorText)
@@ -196,6 +205,7 @@ struct MaimaiHomeView: View {
                         Text("重试")
                     }
                 }
+                .navigationBarTitle("")
             case .empty:
                 VStack {
                     Text("暂无游玩数据！")
@@ -209,6 +219,7 @@ struct MaimaiHomeView: View {
                         Text("刷新")
                     }
                 }
+                .navigationBarTitle("")
             }
         }
         .task {

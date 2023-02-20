@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import RefreshableScrollView
 
 enum LoadStatus {
     case error(errorText: String)
@@ -61,14 +62,16 @@ struct ChunithmHomeView: View {
                     Text(hint)
                         .padding()
                 }
+                .navigationBarTitle("")
             case .loadFromCache:
                 VStack {
                     ProgressView()
                     Text("加载缓存中...")
                         .padding()
                 }
+                .navigationBarTitle("")
             case .complete:
-                ScrollView{
+                RefreshableScrollView{
                     VStack {
                         HStack {
                             ZStack {
@@ -198,6 +201,11 @@ struct ChunithmHomeView: View {
                     }
                     
                 }
+                .refreshable {
+                    Task {
+                        await refreshUserInfo()
+                    }
+                }
 
             case let .error(text):
                 VStack {
@@ -214,11 +222,13 @@ struct ChunithmHomeView: View {
                     }
                     
                 }
+                .navigationBarTitle("")
             case .notLogin:
                 VStack {
                     Text("未登录查分器，请前往设置登录")
                         .padding()
                 }
+                .navigationBarTitle("")
             case .empty:
                 VStack {
                     Text("暂无游玩数据！")
@@ -234,6 +244,7 @@ struct ChunithmHomeView: View {
                     }
                     
                 }
+                .navigationBarTitle("")
             }
             
         }
@@ -248,10 +259,12 @@ struct ChunithmHomeView: View {
             } else {
                 if (userInfoData.isEmpty) {
                     status = .loading(hint: "获取用户数据中...")
-                } else if (userInfo.isRecordDataEmpty()) {
-                    status = .empty
                 } else {
-                    status = .loadFromCache
+                    if (!userInfo.isRecordDataEmpty()){
+                        status = .loadFromCache
+                    } else {
+                        status = .empty
+                    }
                 }
                 
                 Task {

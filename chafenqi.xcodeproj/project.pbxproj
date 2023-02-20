@@ -27,6 +27,7 @@
 		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
 		BF3C3EA729997385001959E5 /* AlertToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3C3EA629997385001959E5 /* AlertToastManager.swift */; };
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
+		BF45E22C29A34EA3001498A8 /* RefreshableScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = BF45E22B29A34EA3001498A8 /* RefreshableScrollView */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF55004D29818D9D004072A0 /* B30View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF55004C29818D9D004072A0 /* B30View.swift */; };
@@ -197,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
+				BF45E22C29A34EA3001498A8 /* RefreshableScrollView in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -533,6 +535,7 @@
 			packageProductDependencies = (
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
 				BF42045729982705008C7E02 /* AlertToast */,
+				BF45E22B29A34EA3001498A8 /* RefreshableScrollView */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -612,6 +615,7 @@
 			packageReferences = (
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				BF45E22A29A34EA3001498A8 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1145,6 +1149,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		BF45E22A29A34EA3001498A8 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Q42/RefreshableScrollView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.2;
+			};
+		};
 		BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
@@ -1160,6 +1172,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		BF45E22B29A34EA3001498A8 /* RefreshableScrollView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF45E22A29A34EA3001498A8 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */;
+			productName = RefreshableScrollView;
 		};
 		BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;
