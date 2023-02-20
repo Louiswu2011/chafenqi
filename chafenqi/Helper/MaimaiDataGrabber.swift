@@ -54,7 +54,7 @@ struct MaimaiDataGrabber {
     }
     
     static func getRecentData(username: String, limit: Int = 30) async throws -> Data {
-        let request = URLRequest(url: URL(string: "http://43.139.107.206:8082/recent?mode=1&username=\(username)&count=\(limit)")!)
+        let request = URLRequest(url: URL(string: "https://nltv.top/recent?mode=1&username=\(username)&count=\(limit)")!)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 let sharedMaimaiRecentRecordJSON = """
 {"timestamp":1676382600,"title":"Grievous Lady", "diff": "master", "achievement":"100.9553%","is_new_record":1,"dx_score":"2810","fc_status":"fcplus","fs_status":null,"note_tap":"597,128,1,0,0","note_hold":"73,19,0,0,0","note_slide":"85,0,0,0,0","note_touch":"44,0,0,0,0","note_break":"36,5,0,0,0","max_combo":"988/988","max_sync":"583/1976","matching_1":"０Ｓｈｕ＿","matching_2":"―","matching_3":"―","createdAt":"2023-02-18 16:43:59.657 +00:00","updatedAt":"2023-02-18 16:43:59.657 +00:00"}
@@ -94,6 +95,50 @@ struct MaimaiRecentRecord: Codable {
             return "SSS+"
         default:
             return "F"
+        }
+    }
+    
+    func getGradeBadgeColor() -> Color {
+        let rawAchievement = Double(achievement.replacingOccurrences(of: "%", with: ""))!
+        switch rawAchievement {
+        case ..<80:
+            return Color.gray
+        case 80..<97:
+            return Color.brown
+        case 97...:
+            return Color.orange
+        default:
+            return Color.clear
+        }
+    }
+    
+    func getFCBadgeColor() -> Color {
+        switch (fc_status) {
+        case "clear":
+            return Color.green
+        case "fc", "fcplus":
+            return Color.blue
+        case "ap", "applus":
+            return Color.yellow
+        default:
+            return Color.clear
+        }
+    }
+    
+    func getDescribingStatus() -> String {
+        switch (fc_status) {
+        case "clear":
+            return "CLEAR"
+        case "fc":
+            return "FC"
+        case "fcplus":
+            return "FC+"
+        case "ap":
+            return "AP"
+        case "applus":
+            return "AP+"
+        default:
+            return "CLEAR"
         }
     }
 }

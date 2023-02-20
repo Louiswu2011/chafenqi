@@ -46,22 +46,31 @@ struct RecentBasicView: View {
                     
                     Spacer()
                     Text(chunithmSong?.title ?? "")
-                        .font(.system(size: 18))
+                        .font(.system(size: 15))
                     
                     HStack(alignment: .center) {
                         Text(chunithmRecord.score)
-                            .font(.system(size: 25))
+                            .font(.system(size: 23))
                             .bold()
-                        Text(chunithmRecord.getGrade())
-                            .font(.system(size: 20))
-                            .bold()
+                            .frame(width: 110, alignment: .leading)
+                        if (chunithmRecord.fc_status != "clear") {
+                            InfoBadge(badgeColor: chunithmRecord.getFCBadgeColor(), text: chunithmRecord.getDescribingStatus())
+                        }
                     }
                 } else {
                     HStack {
-                        Text(maimaiRecord.getDateString())
-                            .font(.system(size: 15))
+                        let diff = maimaiRecord.diff.uppercased()
+                        
+                        if(diff == "REMASTER") {
+                            Text(maimaiRecord.getDateString())
+                                .font(.system(size: 14))
+                                .lineLimit(2)
+                        } else {
+                            Text(maimaiRecord.getDateString())
+                                .font(.system(size: 15))
+                        }
                         Spacer()
-                        Text(maimaiRecord.diff.uppercased())
+                        Text(diff == "REMASTER" ? "Re:Master" : diff)
                             .foregroundColor(maimaiLevelColor[maimaiRecord.getLevelIndex()])
                     }
                     
@@ -71,11 +80,12 @@ struct RecentBasicView: View {
                     
                     HStack(alignment: .center) {
                         Text(maimaiRecord.achievement)
-                            .font(.system(size: 25))
+                            .font(.system(size: 23))
                             .bold()
-                        Text(maimaiRecord.getRate())
-                            .font(.system(size: 20))
-                            .bold()
+                            .frame(width: 130, alignment: .leading)
+                        if (maimaiRecord.fc_status != "") {
+                            InfoBadge(badgeColor: maimaiRecord.getFCBadgeColor(), text: maimaiRecord.getDescribingStatus())
+                        }
                     }
                 }
             }
@@ -86,6 +96,24 @@ struct RecentBasicView: View {
             }
         }
         .frame(height: 80)
+    }
+}
+
+struct InfoBadge: View {
+    var badgeColor: Color
+    var text: String
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5)
+                .foregroundColor(badgeColor)
+            
+            Text(text)
+                .font(.system(size: 15))
+                .bold()
+                .foregroundColor(.white)
+        }
+        .frame(width: 40, height: 20)
     }
 }
 

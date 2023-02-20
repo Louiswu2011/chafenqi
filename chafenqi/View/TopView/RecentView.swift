@@ -108,6 +108,7 @@ struct RecentView: View {
                 status = .complete
             } catch {
                 print(error)
+                await getRecentData()
             }
         } else {
             guard maiRecent.isEmpty else { status = .complete; return }
@@ -127,6 +128,7 @@ struct RecentView: View {
                 status = .complete
             } catch {
                 print(error)
+                await getRecentData()
             }
         }
     }

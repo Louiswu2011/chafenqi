@@ -12,7 +12,6 @@ struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
         return lhs.musicId < rhs.musicId
     }
     
-    
     struct ChunithmSongBasicInfo: Codable {
         var title: String
         var artist: String

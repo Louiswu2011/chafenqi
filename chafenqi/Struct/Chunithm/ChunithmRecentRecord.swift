@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 let sharedChunithmRecentRecordJSON = """
-{"timestamp":1676726340, "music_id": "1059","title":"MEGALOVANIA","diff": "master", "score":"1009940","is_new_record":0,"fc_status":"clear","rank_index":"13","judge_critical":"2000","judge_justice":"12","judge_attack":"0","judge_miss":"0","note_tap":"100.98%","note_hold":"101.00%","note_slide":"101.00%","note_air":"101.00%","note_flick":"101.00%","createdAt":"2023-02-18 15:52:51.370 +00:00","updatedAt":"2023-02-18 15:52:51.370 +00:00"}
+{"timestamp":1676726340, "music_id": "1059","title":"MEGALOVANIA","diff": "master", "score":"1009940","is_new_record":0,"fc_status":"clear","rank_index":"13","judge_critical":"1675","judge_justice":"213","judge_attack":"15","judge_miss":"31","note_tap":"100.98%","note_hold":"101.00%","note_slide":"101.00%","note_air":"101.00%","note_flick":"101.00%","createdAt":"2023-02-18 15:52:51.370 +00:00","updatedAt":"2023-02-18 15:52:51.370 +00:00"}
 """
 
 struct ChunithmRecentRecord: Codable {
@@ -92,6 +93,45 @@ struct ChunithmRecentRecord: Codable {
             return "SSS+"
         default:
             return "F"
+        }
+    }
+    
+    func getGradeBadgeColor() -> Color {
+        switch Int(rank_index)! {
+        case 0..<5:
+            return Color.gray
+        case 5..<8:
+            return Color.brown
+        case 8...:
+            return Color.orange
+        default:
+            return Color.clear
+        }
+    }
+    
+    func getFCBadgeColor() -> Color {
+        switch (fc_status) {
+        case "clear":
+            return Color.green
+        case "fullcombo":
+            return Color.blue
+        case "alljustice":
+            return Color.yellow
+        default:
+            return Color.clear
+        }
+    }
+    
+    func getDescribingStatus() -> String {
+        switch (fc_status) {
+        case "clear":
+            return "CLEAR"
+        case "fullcombo":
+            return "FC"
+        case "alljustice":
+            return "AJ"
+        default:
+            return "CLEAR"
         }
     }
 }
