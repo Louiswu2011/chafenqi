@@ -85,59 +85,41 @@ struct RecentDetailView: View {
                         
                         HStack {
                             VStack {
-                                ZStack(alignment: .trailing) {
-                                    Rectangle()
-                                        .fill(Color.yellow.opacity(0.6))
-                                        .frame(width: chuniWidthArray[0])
-                                    
-                                    HStack {
-                                        VStack{
-                                            Text("Justice")
-                                            Text("Critical")
-                                                .font(.system(size: 10))
-                                        }
-                                        Spacer()
-                                        Text(chuRecord.judge_critical)
-                                            .bold()
-                                    }
-                                }
-                                
-                                ZStack(alignment: .trailing) {
-                                    Rectangle()
-                                        .fill(Color.red.opacity(0.6))
-                                        .frame(width: chuniWidthArray[1])
-                                    
-                                    HStack {
+                                HStack {
+                                    VStack{
                                         Text("Justice")
-                                        Spacer()
-                                        Text(chuRecord.judge_justice)
-                                            .bold()
+                                        Text("Critical")
+                                            .font(.system(size: 10))
                                     }
+                                    Spacer()
+                                    Text(chuRecord.judge_critical)
+                                        .bold()
                                 }
                                 
-                                ZStack(alignment: .trailing) {
-                                    Rectangle()
-                                        .fill(Color.green.opacity(0.6))
-                                        .frame(width: chuniWidthArray[2])
-                                    HStack {
-                                        Text("Attack")
-                                        Spacer()
-                                        Text(chuRecord.judge_attack)
-                                            .bold()
-                                    }
+                                
+                                HStack {
+                                    Text("Justice")
+                                    Spacer()
+                                    Text(chuRecord.judge_justice)
+                                        .bold()
                                 }
                                 
-                                ZStack(alignment: .trailing) {
-                                    Rectangle()
-                                        .fill(Color.gray.opacity(0.6))
-                                        .frame(width: chuniWidthArray[3])
-                                    HStack {
-                                        Text("Miss")
-                                        Spacer()
-                                        Text(chuRecord.judge_miss)
-                                            .bold()
-                                    }
+                                
+                                HStack {
+                                    Text("Attack")
+                                    Spacer()
+                                    Text(chuRecord.judge_attack)
+                                        .bold()
                                 }
+                                
+                                
+                                HStack {
+                                    Text("Miss")
+                                    Spacer()
+                                    Text(chuRecord.judge_miss)
+                                        .bold()
+                                }
+                                
                             }
                             .frame(width: chuniJudgeWidth)
                             .padding(.trailing)
@@ -240,6 +222,6 @@ extension CGFloat {
 
 struct RecentDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        RecentDetailView()
+        RecentDetailView(mode: 1)
     }
 }

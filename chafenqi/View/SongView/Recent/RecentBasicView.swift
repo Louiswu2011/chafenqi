@@ -83,7 +83,7 @@ struct RecentBasicView: View {
                             .font(.system(size: 23))
                             .bold()
                             .frame(width: 130, alignment: .leading)
-                        if (maimaiRecord.fc_status != "") {
+                        if (maimaiRecord.fc_status != nil) {
                             InfoBadge(badgeColor: maimaiRecord.getFCBadgeColor(), text: maimaiRecord.getDescribingStatus())
                         }
                     }

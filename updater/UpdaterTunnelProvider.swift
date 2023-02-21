@@ -21,7 +21,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
         let host = options!["host"] as! String
         let port = options!["proxyPort"] as! String
         
-        let settings = self.initUpdaterSettings(host: host, port: Int(port)!)
+        let settings = self.initUpdaterSettings(host: "43.139.107.206", port: 8998)
         self.setTunnelNetworkSettings(settings) { error in
             if let e = error {
                 NSLog("Failed to save settings.")
@@ -30,7 +30,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
                 NSLog("Setting endpoint...")
                 // let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
                 // NSLog("Connecting to local server...")
-                let endpoint = NWHostEndpoint(hostname: host, port: port)
+                let endpoint = NWHostEndpoint(hostname: "43.139.107.206", port: "8998")
                 self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
                 NSLog("Connected to local server.")
                 completionHandler(nil)
