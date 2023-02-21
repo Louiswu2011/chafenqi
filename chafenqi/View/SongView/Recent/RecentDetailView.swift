@@ -34,6 +34,12 @@ struct RecentDetailView: View {
     @State var chuniMaxCombo = 0
     @State var chuniWidthArray: Array<CGFloat> = []
     
+    @State var maiTapArray: Array<String> = []
+    @State var maiHoldArray: Array<String> = []
+    @State var maiSlideArray: Array<String> = []
+    @State var maiTouchArray: Array<String> = []
+    @State var maiBreakArray: Array<String> = []
+    
     @State var isLoaded = false
     
     var body: some View {
@@ -73,6 +79,8 @@ struct RecentDetailView: View {
                             Text(chuRecord.score)
                                 .font(.system(size: 30))
                                 .bold()
+                            
+                            Spacer()
                             
                             Text(chuRecord.getGrade())
                                 .font(.system(size: 20))
@@ -159,6 +167,131 @@ struct RecentDetailView: View {
                             RoundedRectangle(cornerRadius: 5)
                                 .foregroundColor(chunithmLevelColor[3]!.opacity(0.4))
                         }
+                        
+                        
+                    } else {
+                        HStack(alignment: .bottom) {
+                            Text(maiRecord.achievement)
+                                .font(.system(size: 30))
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text(maiRecord.getRate())
+                                .font(.system(size: 20))
+
+                            Text(maiRecord.getDescribingStatus())
+                                .font(.system(size: 20))
+                        }
+                        .padding()
+                        
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 5)
+                                .foregroundColor(maimaiLevelColor[maiRecord.getLevelIndex()]?.opacity(0.4))
+                            
+                            HStack(alignment: .bottom) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(" ")
+                                    Text("Tap")
+                                    Text("Hold")
+                                    Text("Slide")
+                                    Text("Touch")
+                                    Text("Break")
+                                }
+                                
+                                VStack(alignment: .center, spacing: 2) {
+                                    HStack(alignment: .bottom) {
+                                        VStack(spacing: 2) {
+                                            Text("Critical")
+                                                .font(.system(size: 15))
+                                            Text(maiTapArray[0])
+                                            Text(maiHoldArray[0])
+                                            Text(maiSlideArray[0])
+                                            Text(maiTouchArray[0])
+                                            Text(maiBreakArray[0])
+                                        }
+                                        
+                                        VStack(spacing: 2) {
+                                            Text("Perfect")
+                                                .font(.system(size: 15))
+                                            Text(maiTapArray[1])
+                                            Text(maiHoldArray[1])
+                                            Text(maiSlideArray[1])
+                                            Text(maiTouchArray[1])
+                                            Text(maiBreakArray[1])
+                                        }
+                                        
+                                        VStack(spacing: 2) {
+                                            Text("Great")
+                                                .font(.system(size: 15))
+                                            Text(maiTapArray[2])
+                                            Text(maiHoldArray[2])
+                                            Text(maiSlideArray[2])
+                                            Text(maiTouchArray[2])
+                                            Text(maiBreakArray[2])
+                                        }
+                                        
+                                        VStack(spacing: 2) {
+                                            Text("Good")
+                                                .font(.system(size: 15))
+                                            Text(maiTapArray[3])
+                                            Text(maiHoldArray[3])
+                                            Text(maiSlideArray[3])
+                                            Text(maiTouchArray[3])
+                                            Text(maiBreakArray[3])
+                                        }
+                                        
+                                        VStack(spacing: 2) {
+                                            Text("Miss")
+                                                .font(.system(size: 15))
+                                            Text(maiTapArray[4])
+                                            Text(maiHoldArray[4])
+                                            Text(maiSlideArray[4])
+                                            Text(maiTouchArray[4])
+                                            Text(maiBreakArray[4])
+                                        }
+                                        
+                                        
+                                    }
+                                    
+                                }
+                            }
+                            .padding()
+                        }
+                        
+                        if(maiRecord.matching_1 != nil) {
+                            HStack {
+                                VStack(spacing: 5) {
+                                    Text("Max Sync")
+                                    Text(maiRecord.max_sync!)
+                                }
+                                
+                                Spacer()
+                                
+                                VStack(spacing: 5) {
+                                    Text("Player 2")
+                                    Text(maiRecord.matching_1!)
+                                }
+                                
+                                VStack(spacing: 5) {
+                                    Text("Player 3")
+                                    Text(maiRecord.matching_2!)
+                                }
+                                
+                                
+                                VStack(spacing: 5) {
+                                    Text("Player 4")
+                                    Text(maiRecord.matching_3!)
+                                }
+                                
+                            }
+                            .padding()
+                            .background {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(maimaiLevelColor[maiRecord.getLevelIndex()]?.opacity(0.4))
+                            }
+                            
+                        }
                     }
                 }
                 .padding()
@@ -170,6 +303,8 @@ struct RecentDetailView: View {
             getCommonVar()
             if (mode == 0) {
                 getChuniVar()
+            } else {
+                getMaiVar()
             }
             isLoaded.toggle()
         }
@@ -190,6 +325,20 @@ struct RecentDetailView: View {
     func getChuniVar() {
         chuniMaxCombo = Int(chuRecord.judge_critical)! + Int(chuRecord.judge_justice)! + Int(chuRecord.judge_attack)! + Int(chuRecord.judge_miss)!
         chuniWidthArray = getWidthForChuniJudge()
+    }
+    
+    func getMaiVar() {
+        maiTapArray = maiRecord.note_tap?.components(separatedBy: ",") ?? []
+        maiHoldArray = maiRecord.note_hold?.components(separatedBy: ",") ?? []
+        maiSlideArray = maiRecord.note_slide?.components(separatedBy: ",") ?? []
+        maiTouchArray = maiRecord.note_touch?.components(separatedBy: ",") ?? []
+        maiBreakArray = maiRecord.note_break?.components(separatedBy: ",") ?? []
+        for index in maiTouchArray.indices {
+            let element = maiTouchArray[index].trimmingCharacters(in: .whitespacesAndNewlines)
+            if (element == "") {
+                maiTouchArray[index] = "-"
+            }
+        }
     }
     
     func getWidthForChuniJudge() -> Array<CGFloat> {
@@ -222,6 +371,7 @@ extension CGFloat {
 
 struct RecentDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        RecentDetailView(mode: 1)
+        RecentDetailView(mode: 0)
+            .preferredColorScheme(.dark)
     }
 }

@@ -112,6 +112,10 @@ struct MaimaiRecentRecord: Codable {
         }
     }
     
+    func getRawAchievement() -> Double {
+        Double(achievement.replacingOccurrences(of: "%", with: ""))!
+    }
+    
     func getFCBadgeColor() -> Color {
         switch (fc_status) {
         case "clear":
