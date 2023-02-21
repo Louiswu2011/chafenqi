@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct SettingsView: View {
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 0
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
+    
+    @AppStorage("firstTimeLaunch") var firstTime = true
     
     @AppStorage("proxyDidInstallProfile") var installed = false
     
@@ -22,6 +25,8 @@ struct SettingsView: View {
     @AppStorage("userMaimaiInfoData") var maimaiInfoData = Data()
     
     @AppStorage("didLogin") var didLogin = false
+
+    @ObservedObject var toastManager = AlertToastManager.shared
     
     @State private var accountPassword = ""
     @State private var showingLoginView = false
@@ -130,6 +135,13 @@ struct SettingsView: View {
                     Text("工具")
                 }
                 
+                Button {
+                    firstTime = true
+                    toastManager.showingTutorialReseted = true
+                } label: {
+                    Text("重置教程")
+                }
+                
                 Section {
                     HStack {
                         Text("版本")
@@ -140,6 +152,8 @@ struct SettingsView: View {
                                 showingBuildNumber.toggle()
                             }
                     }
+                        
+                    Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
                     
                     Link("到Github提交反馈", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
                     
@@ -152,6 +166,9 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("设置")
+            .toast(isPresenting: $toastManager.showingTutorialReseted, duration: 2, tapToDismiss: true) {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: "教程已重置")
+            }
         }
     }
     

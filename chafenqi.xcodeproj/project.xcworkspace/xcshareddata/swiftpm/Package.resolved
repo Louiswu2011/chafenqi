@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "refreshablescrollview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Q42/RefreshableScrollView.git",
+      "state" : {
+        "revision" : "45ab1092d36ca77bbbeee1534251085d974dc40e",
+        "version" : "0.0.2"
+      }
+    },
+    {
       "identity" : "swiftui-cached-async-image",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lorenzofiamingo/swiftui-cached-async-image",

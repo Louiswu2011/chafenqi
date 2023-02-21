@@ -34,6 +34,8 @@ struct ChunithmDetailView: View {
     @State private var userInfo = ChunithmUserData.shared
     @State private var scoreEntries = [Int: ScoreEntry]()
     
+    @State private var webChartId: String = ""
+    
     var song: ChunithmSongData
     
     func reloadChartImage(id: String, diff: String) async throws {
@@ -42,8 +44,6 @@ struct ChunithmDetailView: View {
     }
     
     var body: some View {
-        let webChartId = try! ChartIdConverter.getWebChartId(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
-        
         let coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicId).png")
         
         if (isLoading) {
@@ -195,10 +195,14 @@ struct ChunithmDetailView: View {
                     .frame(width: 350, height: 200)
                     .task {
                         do {
-                            chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
-                            chartImageView = Image(uiImage: chartImage)
-                            availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
-                            isCheckingDiff.toggle()
+                            if (!mapData.isEmpty) {
+                                let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: mapData)
+                                webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
+                                chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
+                                chartImageView = Image(uiImage: chartImage)
+                                availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
+                                isCheckingDiff.toggle()
+                            }
                         } catch CFQError.requestTimeoutError {
 
                         } catch CFQError.unsupportedError {
@@ -234,8 +238,8 @@ struct ChunithmDetailView: View {
                         $0.levelIndex < $1.levelIndex
                     }
                     scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
+                    loadingScore = false
                 }
-                loadingScore.toggle()
             }
 //            .toolbar {
 //                ToolbarItem(placement: .navigationBarTrailing) {

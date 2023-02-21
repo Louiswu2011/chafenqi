@@ -9,9 +9,9 @@ import Foundation
 
 struct MaimaiPlayerProfile: Codable {
     var additionalRating: Int
-    var bindQQ: String
+    var bindQQ: String = "0"
     var nickname: String
-    var plate: String
+    var plate: String = ""
     var privacy: Bool
     var username: String
     

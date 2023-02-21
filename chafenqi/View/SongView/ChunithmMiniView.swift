@@ -11,6 +11,8 @@ import CachedAsyncImage
 let song: ScoreEntry = ScoreEntry(chartId: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicId: 3, rating: 14.75, score: 1010000, title: "Test")
 
 struct ChunithmMiniView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     let song: ScoreEntry
     
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -52,23 +54,20 @@ struct ChunithmMiniView: View {
                 VStack(alignment: .leading) {
                     Spacer()
                     
-                    if song.levelIndex == 4 {
+                    if(colorScheme == .light && song.levelIndex == 4) {
                         Text(String(song.score))
                             .font(.title3)
-                            .bold()
                             .foregroundColor(.white)
-                    } else {
-                        Text(String(song.score))
-                            .font(.title3)
                             .bold()
-                    }
-                    
-                    if song.levelIndex == 4 {
                         Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
                             .foregroundColor(.white)
                     } else {
+                        Text(String(song.score))
+                            .font(.title3)
+                            .bold()
                         Text("\(song.rating, specifier: "%.2f")/\(song.constant, specifier: "%.1f")")
                     }
+                    // Text("\(song.getGrade())/\(song.getStatus())")
                 }
                 .frame(height: 80)
             }

@@ -19,7 +19,7 @@ struct ToolView: View {
                     
                     HStack {
                         NavigationLink {
-                            SongRandomizerView(randomOnAppear: true)
+                            SongRandomizerView(firstTimeAppear: true)
                         } label: {
                             Image(systemName: "dice")
                                 .resizable()
@@ -70,7 +70,7 @@ struct ToolView: View {
                                 Text("分数上传")
                                     .font(.system(size: 16))
                                     .bold()
-                                Text("Powered by ?")
+                                Text("Powered by @bakapiano")
                                     .font(.system(size: 12))
                             }
                         }

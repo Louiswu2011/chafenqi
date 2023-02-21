@@ -26,9 +26,12 @@ struct ChunithmUserData: Codable {
 
     
     func getAvgB30() -> Double {
-        let b30 = self.records.best.sorted {
+        let best = self.records.best.sorted {
             $0.rating > $1.rating
-        }.prefix(upTo: 30)
+        }
+        
+        let length = best.count > 29 ? 30 : best.count
+        let b30 = best.prefix(upTo: length)
         
         var avg: Double = 0.0
         b30.forEach { entry in

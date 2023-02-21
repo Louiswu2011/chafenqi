@@ -22,15 +22,33 @@ struct B30View: View {
     ]
     
     var body: some View {
-        VStack {
-            ScrollView {
-                ForEach(b30, id: \.musicId) { entry in
-                    SongBarView(song: entry)
-                        .padding(.vertical, 5)
+        NavigationView {
+            VStack {
+                HStack {
+                    ZStack {
+                        // TODO: get max
+                        CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getAvgB30() / 17.30, lineWidth: 14, width: 100, color: Color.cyan)
+                        
+                        Text("\(userInfo.getAvgB30(), specifier: "%.2f")")
+                            .foregroundColor(Color.cyan)
+                            .textFieldStyle(.roundedBorder)
+                            .font(.title)
+                        
+                        Text("B30")
+                            .padding(.top, 70)
+                            .font(.title2)
+                    }
+                    .padding()
+                    
+                    VStack {
+                        Spacer()
+                        Text("总游玩曲目：\(userInfo.records.best.count)")
+                        Text("a")
+                    }
                 }
+            }.task {
+                
             }
-            .navigationTitle("B30")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

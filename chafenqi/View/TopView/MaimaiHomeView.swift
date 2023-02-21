@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import RefreshableScrollView
 
 struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -64,7 +65,7 @@ struct MaimaiHomeView: View {
         ZStack {
             switch (status) {
             case .complete:
-                ScrollView {
+                RefreshableScrollView {
                     VStack {
                         HStack {
                             HStack {
@@ -93,7 +94,9 @@ struct MaimaiHomeView: View {
                         }
                         .padding(.vertical)
                         
-                        Text("Rating全国排名: #\(ranking)")
+                        if(ranking != 0) {
+                            Text("Rating全国排名: #\(ranking)")
+                        }
                         
                         HStack {
                             Text("旧版本 - R" + String(pastRating))
@@ -107,7 +110,9 @@ struct MaimaiHomeView: View {
                                 
                             } label: {
                                 Image(systemName: "arrow.right")
-                            }.padding()
+                            }
+                            .padding()
+                            .disabled(true)
                             
                         }
                         
@@ -137,7 +142,9 @@ struct MaimaiHomeView: View {
                                 
                             } label: {
                                 Image(systemName: "arrow.right")
-                            }.padding()
+                            }
+                            .padding()
+                            .disabled(true)
                             
                         }
                         
@@ -167,16 +174,24 @@ struct MaimaiHomeView: View {
                     }
                     
                 }
+                .refreshable {
+                    resetCache()
+                    Task {
+                        await prepareData()
+                    }
+                }
             case let .loading(hint: hint):
                 VStack {
                     ProgressView()
                         .padding()
                     Text(hint)
                 }
+                .navigationBarTitle("")
             case .loadFromCache, .notLogin:
                 VStack {
                     Text("未登录查分器，请前往设置登录")
                 }
+                .navigationBarTitle("")
             case .error(errorText: let errorText):
                 VStack {
                     Text(errorText)
@@ -190,6 +205,7 @@ struct MaimaiHomeView: View {
                         Text("重试")
                     }
                 }
+                .navigationBarTitle("")
             case .empty:
                 VStack {
                     Text("暂无游玩数据！")
@@ -203,6 +219,7 @@ struct MaimaiHomeView: View {
                         Text("刷新")
                     }
                 }
+                .navigationBarTitle("")
             }
         }
         .task {
@@ -353,6 +370,7 @@ struct MaimaiHomeView: View {
         userProfileData = Data()
         loadedSongs = Data()
         loadedStats = Data()
+        ranking = 0
     }
 }
 
