@@ -65,8 +65,6 @@ struct UpdaterMainView: View {
                 
             } header: {
                 Text("设置")
-            } footer: {
-                Text("如非必要请勿更改代理地址和端口")
             }
             
             Section {
@@ -158,7 +156,7 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        var requestUrl = "https://www.nltv.top/upload_\(destination)?token=\(token)"
+        let requestUrl = "https://nltv.top/upload_\(destination)?token=\(token)"
 
         pasteboard.string = requestUrl
         

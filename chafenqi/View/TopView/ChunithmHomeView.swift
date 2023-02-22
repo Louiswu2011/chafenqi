@@ -133,16 +133,6 @@ struct ChunithmHomeView: View {
                                 .padding()
                             
                             Spacer()
-                            
-                            
-                            NavigationLink {
-                                B30View(decodedLoadedSongs: decodedLoadedSongs, b30: b30)
-                            } label: {
-                                Image(systemName: "arrow.right")
-                            }
-                            .padding()
-                            .disabled(true)
-                            
                         }
                         
                         ScrollView(.horizontal) {
@@ -166,14 +156,6 @@ struct ChunithmHomeView: View {
                                 .padding()
                             
                             Spacer()
-                            
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "arrow.right")
-                            }
-                            .padding()
-                            .disabled(true)
                         }
                         
                         ScrollView(.horizontal) {
