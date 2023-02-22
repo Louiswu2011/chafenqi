@@ -59,7 +59,11 @@ struct RecentView: View {
                         }
                     }
                 default:
-                    Text("?")
+                    VStack{
+                        Text("暂无最近记录")
+                            .padding()
+                        Text("可通过传分器上传")
+                    }
                 }
             } else {
                 Text("请先登录查分器账号！")
@@ -76,6 +80,8 @@ struct RecentView: View {
                 Button(action: {
                     chuRecentData = Data()
                     maiRecentData = Data()
+                    chuSongs = []
+                    maiSongs = []
                     chuRecent = []
                     maiRecent = []
                     Task {
