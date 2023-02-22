@@ -105,15 +105,6 @@ struct MaimaiHomeView: View {
                             
                             Spacer()
                             
-                            
-                            NavigationLink {
-                                
-                            } label: {
-                                Image(systemName: "arrow.right")
-                            }
-                            .padding()
-                            .disabled(true)
-                            
                         }
                         
                         ScrollView(.horizontal) {
@@ -136,15 +127,6 @@ struct MaimaiHomeView: View {
                                 .padding()
                             
                             Spacer()
-                            
-                            
-                            NavigationLink {
-                                
-                            } label: {
-                                Image(systemName: "arrow.right")
-                            }
-                            .padding()
-                            .disabled(true)
                             
                         }
                         
