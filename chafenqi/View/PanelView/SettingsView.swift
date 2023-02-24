@@ -23,6 +23,7 @@ struct SettingsView: View {
     @AppStorage("userTokenHeader") var tokenHeader = ""
     @AppStorage("userChunithmInfoData") var chunithmInfoData = Data()
     @AppStorage("userMaimaiInfoData") var maimaiInfoData = Data()
+    @AppStorage("userMaimaiProfileData") var maimaiProfileData = Data()
     
     @AppStorage("didLogin") var didLogin = false
 
@@ -185,10 +186,7 @@ struct SettingsView: View {
         token = ""
         chunithmInfoData = Data()
         maimaiInfoData = Data()
-    }
-    
-    func setupProxy() {
-        
+        maimaiProfileData = Data()
     }
 }
 
