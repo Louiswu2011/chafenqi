@@ -109,25 +109,47 @@ struct SongBasicView: View {
             
             
             SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
-                }
+                .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
             
             
             VStack(alignment: .leading) {
-                Text(mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
-                    .font(.system(size: 20))
-                    .bold()
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .textSelection(.enabled)
+                if #available(iOS 15.0, *) {
+                    Text(mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
+                        .font(.system(size: 20))
+                        .bold()
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .textSelection(.enabled)
+                } else {
+                    Text(mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
+                        .font(.system(size: 20))
+                        .bold()
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contextMenu(ContextMenu(menuItems: {
+                            Button("拷贝", action: {
+                              UIPasteboard.general.string = mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title
+                            })
+                          }))
+                }
                 
                 
-                Text(mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
-                    .font(.system(size: 15))
-                    .lineLimit(1)
-                    .textSelection(.enabled)
+                if #available(iOS 15.0, *) {
+                    Text(mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
+                        .font(.system(size: 15))
+                        .lineLimit(1)
+                        .textSelection(.enabled)
+                } else {
+                    Text(mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
+                        .font(.system(size: 15))
+                        .lineLimit(1)
+                        .contextMenu(ContextMenu(menuItems: {
+                            Button("拷贝", action: {
+                              UIPasteboard.general.string = mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist
+                            })
+                          }))
+                }
                 
                 Spacer()
                 

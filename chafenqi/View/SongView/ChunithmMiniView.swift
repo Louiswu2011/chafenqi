@@ -8,7 +8,7 @@
 import SwiftUI
 import CachedAsyncImage
 
-let song: ScoreEntry = ScoreEntry(chartId: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "MASTER", musicId: 3, rating: 14.75, score: 1010000, title: "Test")
+let song: ScoreEntry = ScoreEntry(chartId: 3, constant: 14.5, status: "alljustice", level: "14", levelIndex: 2, levelLabel: "MASTER", musicId: 3, rating: 14.75, score: 1010000, title: "Test")
 
 struct ChunithmMiniView: View {
     @Environment(\.colorScheme) var colorScheme

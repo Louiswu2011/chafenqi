@@ -29,10 +29,8 @@ struct RecentBasicView: View {
             
             
             SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
-                }
+                .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
             
             VStack(alignment: .leading){
                 if (mode == 0) {

@@ -100,7 +100,6 @@ struct UpdaterMainView: View {
                 }
                 .sheet(isPresented: $isShowingHelp) {
                     UpdaterHelpView(isShowingHelp: $isShowingHelp)
-                        .interactiveDismissDisabled(true)
                 }
             }
         }

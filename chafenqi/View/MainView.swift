@@ -9,19 +9,19 @@ import SwiftUI
 import AlertToast
 
 let maimaiLevelColor = [
-    0: Color(red: 128 / 255, green: 216 / 255, blue: 98 / 255),
-    1: Color(red: 242 / 255, green: 218 / 255, blue: 71 / 255),
-    2: Color(red: 237 / 255, green: 127 / 255, blue: 132 / 255),
-    3: Color(red: 176 / 255, green: 122 / 255, blue: 238 / 255),
-    4: Color(red: 206 / 255, green: 164 / 255, blue: 251 / 255)
+    0: Color(red: 128, green: 216, blue: 98),
+    1: Color(red: 242, green: 218, blue: 71),
+    2: Color(red: 237, green: 127, blue: 132),
+    3: Color(red: 176, green: 122, blue: 238),
+    4: Color(red: 2065, green: 164, blue: 251)
 ]
 
 let chunithmLevelColor = [
-    0: Color(red: 73 / 255, green: 166 / 255, blue: 137 / 255),
-    1: Color(red: 237 / 255, green: 123 / 255, blue: 33 / 255),
-    2: Color(red: 205 / 255, green: 85 / 255, blue: 77 / 255),
-    3: Color(red: 171 / 255, green: 104 / 255, blue: 249 / 255),
-    4: Color(red: 32 / 255, green: 32 / 255, blue: 32 / 255)
+    0: Color(red: 73, green: 166, blue: 137),
+    1: Color(red: 237, green: 123, blue: 33),
+    2: Color(red: 205, green: 85, blue: 77),
+    3: Color(red: 171, green: 104, blue: 249),
+    4: Color(red: 32, green: 32, blue: 32)
 ]
 
 struct MainView: View {
@@ -84,8 +84,13 @@ struct MainView: View {
                 AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
             }
         }.sheet(isPresented: $showingWelcome) {
-            WelcomeTabView(isShowingWelcome: $showingWelcome)
-                .interactiveDismissDisabled(true)
+            if #available(iOS 15.0, *) {
+                WelcomeTabView(isShowingWelcome: $showingWelcome)
+                    .interactiveDismissDisabled(true)
+            } else {
+                WelcomeTabView(isShowingWelcome: $showingWelcome)
+                    .presentation(isModal: true)
+            }
         }
         .onAppear {
             if (firstTime) {
@@ -93,6 +98,7 @@ struct MainView: View {
                 firstTime.toggle()
             }
         }
+            
     }
 }
 

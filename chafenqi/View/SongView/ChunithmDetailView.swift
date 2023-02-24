@@ -48,9 +48,10 @@ struct ChunithmDetailView: View {
         
         if (isLoading) {
             ProgressView()
-                .task {
-                    // availableDiffs = try! await converter.getAvailableDiffs(musicId: song.id)
-                    isLoading.toggle()
+                .onAppear {
+                    Task {
+                        isLoading.toggle()
+                    }
                 }
                 .navigationTitle("")
                 .navigationBarTitleDisplayMode(.inline)
@@ -59,10 +60,8 @@ struct ChunithmDetailView: View {
                 VStack {
                     HStack {
                         SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10, withShadow: false)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
-                            }
+                            .overlay(RoundedRectangle(cornerRadius: 10)
+                                .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                             .padding(.leading)
                         
                         VStack(alignment: .leading) {
@@ -97,7 +96,7 @@ struct ChunithmDetailView: View {
                                         .scaleEffect(1.2)
                                 }
                             }
-                            .tint(.red)
+                            .foregroundColor(.red)
                             .padding(.trailing)
                         }
                     }
@@ -139,7 +138,8 @@ struct ChunithmDetailView: View {
                     HStack {
                         Text("难度：")
                         
-                        Picker("难度：", selection: $selectedDifficulty) {
+                        
+                        Picker(selectedDifficulty, selection: $selectedDifficulty) {
                             ForEach(availableDiffs, id: \.self) { diff in
                                 Text(diff)
                             }
@@ -154,6 +154,7 @@ struct ChunithmDetailView: View {
                                 }
                             }
                         }
+                        .pickerStyle(.menu)
                         
                         if(isCheckingDiff) {
                             ProgressView()
@@ -193,22 +194,24 @@ struct ChunithmDetailView: View {
                         .position(x: 330, y: 180)
                     }
                     .frame(width: 350, height: 200)
-                    .task {
-                        do {
-                            if (!mapData.isEmpty) {
-                                let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: mapData)
-                                webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
-                                chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
-                                chartImageView = Image(uiImage: chartImage)
-                                availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
-                                isCheckingDiff.toggle()
+                    .onAppear {
+                        Task {
+                            do {
+                                if (!mapData.isEmpty) {
+                                    let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: mapData)
+                                    webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
+                                    chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
+                                    chartImageView = Image(uiImage: chartImage)
+                                    availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
+                                    isCheckingDiff.toggle()
+                                }
+                            } catch CFQError.requestTimeoutError {
+
+                            } catch CFQError.unsupportedError {
+
+                            } catch {
+                                
                             }
-                        } catch CFQError.requestTimeoutError {
-
-                        } catch CFQError.unsupportedError {
-
-                        } catch {
-                            
                         }
                     }
                 }
@@ -228,19 +231,22 @@ struct ChunithmDetailView: View {
                     }
                 }
             }
-            .task {
-                if(didLogin) {
-                    userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
-                    var scores = userInfo.records.best.filter {
-                        $0.musicId == song.musicId
+            .onAppear {
+                Task {
+                    if(didLogin) {
+                        userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
+                        var scores = userInfo.records.best.filter {
+                            $0.musicId == song.musicId
+                        }
+                        scores.sort {
+                            $0.levelIndex < $1.levelIndex
+                        }
+                        scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
+                        loadingScore = false
                     }
-                    scores.sort {
-                        $0.levelIndex < $1.levelIndex
-                    }
-                    scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
-                    loadingScore = false
                 }
             }
+
 //            .toolbar {
 //                ToolbarItem(placement: .navigationBarTrailing) {
 //                    Menu {
@@ -347,9 +353,9 @@ func getChunithmLevelColor(index: Int) -> Color {
     }
 }
 
-//struct SongDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChunithmDetailView(song: tempSongData)
-//    }
-//}
+struct SongDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChunithmDetailView(song: tempSongData)
+    }
+}
 

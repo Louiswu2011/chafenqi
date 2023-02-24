@@ -39,27 +39,50 @@ struct RecentView: View {
                         Text(hint)
                     }
                 case .complete:
-                    List {
-                        if (currentMode == 0) {
-                            ForEach(chuRecent.indices) { index in
-                                NavigationLink {
-                                    RecentDetailView(chuSong: chuSongs[index], chuRecord: chuRecent[index], mode: 0)
-                                } label: {
-                                    RecentBasicView(chunithmSong: chuSongs[index], chunithmRecord: chuRecent[index], mode: 0)
-                                }
+                    if (currentMode == 0) {
+                        if (chuSongs.isEmpty || chuRecent.isEmpty) {
+                            VStack{
+                                Text("暂无最近记录")
+                                    .padding()
+                                Text("可通过传分器上传")
                             }
                         } else {
-                            ForEach(maiRecent.indices) { index in
-                                NavigationLink {
-                                    RecentDetailView(maiSong: maiSongs[index], maiRecord: maiRecent[index], mode: 1)
-                                } label: {
-                                    RecentBasicView(maimaiSong: maiSongs[index], maimaiRecord: maiRecent[index], mode: 1)
+                            List {
+                                ForEach(chuRecent.indices) { index in
+                                    NavigationLink {
+                                        RecentDetailView(chuSong: chuSongs[index], chuRecord: chuRecent[index], mode: 0)
+                                    } label: {
+                                        RecentBasicView(chunithmSong: chuSongs[index], chunithmRecord: chuRecent[index], mode: 0)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (maiSongs.isEmpty || maiRecent.isEmpty) {
+                            VStack{
+                                Text("暂无最近记录")
+                                    .padding()
+                                Text("可通过传分器上传")
+                            }
+                        } else {
+                            List {
+                                ForEach(maiRecent.indices) { index in
+                                    NavigationLink {
+                                        RecentDetailView(maiSong: maiSongs[index], maiRecord: maiRecent[index], mode: 1)
+                                    } label: {
+                                        RecentBasicView(maimaiSong: maiSongs[index], maimaiRecord: maiRecent[index], mode: 1)
+                                    }
                                 }
                             }
                         }
                     }
+                    
                 default:
-                    Text("?")
+                    VStack{
+                        Text("暂无最近记录")
+                            .padding()
+                        Text("可通过传分器上传")
+                    }
                 }
             } else {
                 Text("请先登录查分器账号！")
@@ -76,6 +99,8 @@ struct RecentView: View {
                 Button(action: {
                     chuRecentData = Data()
                     maiRecentData = Data()
+                    chuSongs = []
+                    maiSongs = []
                     chuRecent = []
                     maiRecent = []
                     Task {
@@ -89,6 +114,10 @@ struct RecentView: View {
     }
     
     func getRecentData() async {
+        guard didLogin else {
+            status = .notLogin
+            return
+        }
         status = .loading(hint: "加载中...")
         if (currentMode == 0) {
             guard chuRecent.isEmpty else { status = .complete; return }
@@ -105,7 +134,11 @@ struct RecentView: View {
                         String(data.musicId) == entry.music_id
                     }!)
                 }
-                status = .complete
+                if (chuSongs.isEmpty || chuRecent.isEmpty) {
+                    status = .empty
+                } else {
+                    status = .complete
+                }
             } catch {
                 print(error)
                 await getRecentData()
@@ -125,7 +158,12 @@ struct RecentView: View {
                         String(data.title) == entry.title
                     }!)
                 }
-                status = .complete
+                
+                if (maiSongs.isEmpty || maiRecent.isEmpty) {
+                    status = .empty
+                } else {
+                    status = .complete
+                }
             } catch {
                 print(error)
                 await getRecentData()

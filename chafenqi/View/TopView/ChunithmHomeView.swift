@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AlertToast
-import RefreshableScrollView
 
 enum LoadStatus {
     case error(errorText: String)
@@ -71,14 +70,14 @@ struct ChunithmHomeView: View {
                 }
                 .navigationBarTitle("")
             case .complete:
-                RefreshableScrollView{
+                ScrollView{
                     VStack {
                         HStack {
                             ZStack {
-                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativeR10Percentage(), lineWidth: 10, width: 70, color: Color.indigo)
+                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativeR10Percentage(), lineWidth: 10, width: 70, color: ChafenqiColor.secondary)
                                 
                                 Text(showingMaximumRating ? "\(b30[0].rating, specifier: "%.2f")" : "\(userInfo.getAvgR10(), specifier: "%.2f")")
-                                    .foregroundColor(Color.indigo)
+                                    .foregroundColor(ChafenqiColor.secondary)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
                                 
@@ -89,10 +88,10 @@ struct ChunithmHomeView: View {
                             .padding(.top, 50)
                             
                             ZStack {
-                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativePercentage(), lineWidth: 14, width: 100, color: Color.pink)
+                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getRelativePercentage(), lineWidth: 14, width: 100, color: Color.red)
                                 
                                 Text(showingMaximumRating ? "\(userInfo.getMaximumRating(), specifier: "%.2f")" : "\(userInfo.rating, specifier: "%.2f")")
-                                    .foregroundColor(Color.pink)
+                                    .foregroundColor(Color.red)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title)
                                     .transition(.opacity)
@@ -107,10 +106,10 @@ struct ChunithmHomeView: View {
                             
                             ZStack {
                                 // TODO: get max
-                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getAvgB30() / 17.30, lineWidth: 10, width: 70, color: Color.cyan)
+                                CutCircularProgressView(progress: showingMaximumRating ? 1 : userInfo.getAvgB30() / 17.30, lineWidth: 10, width: 70, color: ChafenqiColor.auxilary)
                                 
                                 Text("\(userInfo.getAvgB30(), specifier: "%.2f")")
-                                    .foregroundColor(Color.cyan)
+                                    .foregroundColor(ChafenqiColor.auxilary)
                                     .textFieldStyle(.roundedBorder)
                                     .font(.title3)
                                 
@@ -182,11 +181,6 @@ struct ChunithmHomeView: View {
                         }.padding()
                     }
                     
-                }
-                .refreshable {
-                    Task {
-                        await refreshUserInfo()
-                    }
                 }
 
             case let .error(text):

@@ -99,7 +99,6 @@ struct UpdaterHelpView: View {
             } label: {
                 Text("我知道了")
             }
-            .buttonStyle(.borderedProminent)
             .padding()
         }
     }

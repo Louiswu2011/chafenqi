@@ -21,7 +21,7 @@ struct ToolView: View {
                         NavigationLink {
                             SongRandomizerView(firstTimeAppear: true)
                         } label: {
-                            Image(systemName: "dice")
+                            Image(systemName: "questionmark.square")
                                 .resizable()
                                 .aspectRatio(1, contentMode: .fit)
                                 .padding(5)

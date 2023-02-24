@@ -35,114 +35,206 @@ struct SongListView: View {
     
     
     var body: some View {
-        VStack{
-            let isLoaded = mode == 0 ? didChunithmLoaded : didMaimaiLoaded
-            
-            if (isLoaded) {
+        if #available(iOS 15.0, *) {
+            VStack{
+                let isLoaded = mode == 0 ? didChunithmLoaded : didMaimaiLoaded
+                
+                if (isLoaded) {
+                    if (mode == 0) {
+                        if searchChunithmResults != nil {
+                            List {
+                                ForEach(searchChunithmResults!.sorted(by: <), id: \.musicId) { song in
+                                    NavigationLink {
+                                        ChunithmDetailView(song: song)
+                                    } label: {
+                                        SongBasicView(chunithmSong: song)
+                                    }
+                                    
+                                }
+                            }
+                        } else {
+                            VStack(spacing: 15) {
+                                ProgressView()
+                                Text("加载歌曲列表中...")
+                            }
+                        }
+                    } else {
+                        if searchMaimaiResults != nil {
+                            List {
+                                ForEach(searchMaimaiResults!.sorted(by: <), id: \.musicId) { song in
+                                    NavigationLink {
+                                        MaimaiDetailView(song: song)
+                                    } label: {
+                                        SongBasicView(maimaiSong: song)
+                                    }
+                                    
+                                }
+                            }
+                        } else {
+                            VStack(spacing: 15) {
+                                ProgressView()
+                                Text("加载歌曲列表中...")
+                            }
+                        }
+                    }
+                } else {
+                    VStack(spacing: 15) {
+                        ProgressView()
+                        Text("加载歌曲列表中...")
+                    }
+                }
+                
+            }
+            .navigationTitle("曲目列表")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Toggle(isOn: $showingPlayed) {
+                            Image(systemName: "rectangle.on.rectangle")
+                            Text("仅显示已游玩曲目")
+                        }
+                        .disabled(!didLogin)
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                    }
+                }
+            }
+            .onAppear {
                 if (mode == 0) {
-                    if searchChunithmResults != nil {
-                        List {
-                            ForEach(searchChunithmResults!.sorted(by: <), id: \.musicId) { song in
-                                NavigationLink {
-                                    ChunithmDetailView(song: song)
-                                } label: {
-                                    SongBasicView(chunithmSong: song)
-                                }
-                                
+                    if (loadedChunithmSongs.isEmpty) {
+                        didChunithmLoaded = false
+                        Task {
+                            do {
+                                try await loadedChunithmSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
+                                decodedChunithmSongs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs)
+                                didChunithmLoaded = true
+                            } catch {
+                                print(error.localizedDescription)
                             }
                         }
                     } else {
-                        VStack(spacing: 15) {
-                            ProgressView()
-                            Text("加载歌曲列表中...")
-                        }
+                        didChunithmLoaded = true
                     }
                 } else {
-                    if searchMaimaiResults != nil {
-                        List {
-                            ForEach(searchMaimaiResults!.sorted(by: <), id: \.musicId) { song in
-                                NavigationLink {
-                                    MaimaiDetailView(song: song)
-                                } label: {
-                                    SongBasicView(maimaiSong: song)
-                                }
-                                
+                    if (loadedMaimaiSongs.isEmpty) {
+                        didMaimaiLoaded = false
+                        Task {
+                            do {
+                                try await loadedMaimaiSongs = JSONEncoder().encode(MaimaiDataGrabber.getMusicData())
+                                decodedMaimaiSongs = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedMaimaiSongs)
+                                didMaimaiLoaded = true
+                            } catch {
+                                print(error.localizedDescription)
                             }
                         }
                     } else {
-                        VStack(spacing: 15) {
-                            ProgressView()
-                            Text("加载歌曲列表中...")
-                        }
+                        didMaimaiLoaded = true
                     }
-                }
-            } else {
-                VStack(spacing: 15) {
-                    ProgressView()
-                    Text("加载歌曲列表中...")
                 }
             }
-            
-        }
-        .navigationTitle("曲目列表")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    //                        Button {
-                    //                            showingFilterPanel.toggle()
-                    //                        } label: {
-                    //                            Image(systemName: "arrow.up.arrow.down")
-                    //                            Text("筛选和排序")
-                    //                        }
-                    //                        .sheet(isPresented: $showingFilterPanel) {
-                    //
-                    //                        }
-                    Toggle(isOn: $showingPlayed) {
-                        Image(systemName: "rectangle.on.rectangle")
-                        Text("仅显示已游玩曲目")
-                    }
-                    .disabled(!didLogin)
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
-                }
-            }
-        }
-        .onAppear {
-            if (mode == 0) {
-                if (loadedChunithmSongs.isEmpty) {
-                    didChunithmLoaded = false
-                    Task {
-                        do {
-                            try await loadedChunithmSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
-                            decodedChunithmSongs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs)
-                            didChunithmLoaded = true
-                        } catch {
-                            print(error.localizedDescription)
+            .searchable(text: $searchText, prompt: "输入歌曲名/作者...")
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+        } else {
+            VStack{
+                let isLoaded = mode == 0 ? didChunithmLoaded : didMaimaiLoaded
+                
+                if (isLoaded) {
+                    if (mode == 0) {
+                        if searchChunithmResults != nil {
+                            List {
+                                ForEach(searchChunithmResults!.sorted(by: <), id: \.musicId) { song in
+                                    NavigationLink {
+                                        ChunithmDetailView(song: song)
+                                    } label: {
+                                        SongBasicView(chunithmSong: song)
+                                    }
+                                    
+                                }
+                            }
+                        } else {
+                            VStack(spacing: 15) {
+                                ProgressView()
+                                Text("加载歌曲列表中...")
+                            }
                         }
-                    }
-                } else {
-                    didChunithmLoaded = true
-                }
-            } else {
-                if (loadedMaimaiSongs.isEmpty) {
-                    didMaimaiLoaded = false
-                    Task {
-                        do {
-                            try await loadedMaimaiSongs = JSONEncoder().encode(MaimaiDataGrabber.getMusicData())
-                            decodedMaimaiSongs = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedMaimaiSongs)
-                            didMaimaiLoaded = true
-                        } catch {
-                            print(error.localizedDescription)
+                    } else {
+                        if searchMaimaiResults != nil {
+                            List {
+                                ForEach(searchMaimaiResults!.sorted(by: <), id: \.musicId) { song in
+                                    NavigationLink {
+                                        MaimaiDetailView(song: song)
+                                    } label: {
+                                        SongBasicView(maimaiSong: song)
+                                    }
+                                    
+                                }
+                            }
+                        } else {
+                            VStack(spacing: 15) {
+                                ProgressView()
+                                Text("加载歌曲列表中...")
+                            }
                         }
                     }
                 } else {
-                    didMaimaiLoaded = true
+                    VStack(spacing: 15) {
+                        ProgressView()
+                        Text("加载歌曲列表中...")
+                    }
+                }
+                
+            }
+            .navigationTitle("曲目列表")
+            .toolbar {
+                ToolbarItem() {
+                    Menu {
+                        Toggle(isOn: $showingPlayed) {
+                            Image(systemName: "rectangle.on.rectangle")
+                            Text("仅显示已游玩曲目")
+                        }
+                        .disabled(!didLogin)
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                    }
                 }
             }
+            .onAppear {
+                if (mode == 0) {
+                    if (loadedChunithmSongs.isEmpty) {
+                        didChunithmLoaded = false
+                        Task {
+                            do {
+                                try await loadedChunithmSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
+                                decodedChunithmSongs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: loadedChunithmSongs)
+                                didChunithmLoaded = true
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    } else {
+                        didChunithmLoaded = true
+                    }
+                } else {
+                    if (loadedMaimaiSongs.isEmpty) {
+                        didMaimaiLoaded = false
+                        Task {
+                            do {
+                                try await loadedMaimaiSongs = JSONEncoder().encode(MaimaiDataGrabber.getMusicData())
+                                decodedMaimaiSongs = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedMaimaiSongs)
+                                didMaimaiLoaded = true
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    } else {
+                        didMaimaiLoaded = true
+                    }
+                }
+            }
+            .autocapitalization(.none)
+            .autocorrectionDisabled(true)
         }
-        .searchable(text: $searchText, prompt: "输入歌曲名/作者...")
-        .textInputAutocapitalization(.never)
-        .autocorrectionDisabled(true)
         
     }
     
