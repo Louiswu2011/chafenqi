@@ -40,10 +40,8 @@ struct MaimaiDetailView: View {
             VStack {
                 HStack {
                     SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10, withShadow: false)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1)
-                        }
+                        .overlay(RoundedRectangle(cornerRadius: 10)
+                            .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                         .padding(.leading)
                     
                     VStack(alignment: .leading) {
@@ -78,7 +76,7 @@ struct MaimaiDetailView: View {
                                     .scaleEffect(1.2)
                             }
                         }
-                        .tint(.red)
+                        .foregroundColor(.red)
                         .padding(.trailing)
                     }
                 }
@@ -146,19 +144,21 @@ struct MaimaiDetailView: View {
                     }
                 }
             }
-            .task {
-                if(didLogin) {
-                    userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
-                    var scores = userInfo.records.filter {
-                        $0.musicId == Int(song.musicId)!
+            .onAppear {
+                Task {
+                    if(didLogin) {
+                        userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+                        var scores = userInfo.records.filter {
+                            $0.musicId == Int(song.musicId)!
+                        }
+                        scores.sort {
+                            $0.levelIndex < $1.levelIndex
+                        }
+                        scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
+                        chartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
                     }
-                    scores.sort {
-                        $0.levelIndex < $1.levelIndex
-                    }
-                    scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
-                    chartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+                    loadingScore.toggle()
                 }
-                loadingScore.toggle()
             }
             //            .toolbar {
             //                ToolbarItem(placement: .navigationBarTrailing) {

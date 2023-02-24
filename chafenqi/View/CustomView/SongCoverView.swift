@@ -18,29 +18,54 @@ struct SongCoverView: View {
     var switchShadowColor = false
     
     var body: some View {
-        CachedAsyncImage(url: coverURL){ phase in
-            if let image = phase.image {
-                if (withShadow) {
-                    image
-                        .resizable()
-                        .scaledToFill()
+        if #available(iOS 15.0, *) {
+            CachedAsyncImage(url: coverURL){ phase in
+                if let image = phase.image {
+                    if (withShadow) {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: size, height: size)
+                            .cornerRadius(cornerRadius)
+                            .shadow(color: switchShadowColor ? (colorScheme == .dark ? Color.white.opacity(0.33) : Color.black.opacity(0.33)) : Color.black.opacity(0.33), radius: 5)
+                    } else {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: size, height: size)
+                            .cornerRadius(cornerRadius)
+                    }
+                    
+                } else if phase.error != nil {
+                    ProgressView()
                         .frame(width: size, height: size)
-                        .cornerRadius(cornerRadius)
-                        .shadow(color: switchShadowColor ? (colorScheme == .dark ? Color.white.opacity(0.33) : Color.black.opacity(0.33)) : Color.black.opacity(0.33), radius: 5)
                 } else {
-                    image
-                        .resizable()
-                        .scaledToFill()
+                    ProgressView()
                         .frame(width: size, height: size)
-                        .cornerRadius(cornerRadius)
                 }
-                
-            } else if phase.error != nil {
-                ProgressView()
-                    .frame(width: size, height: size)
+            }
+        } else {
+            if (withShadow) {
+                AsyncImage(url: coverURL, placeholder: {
+                    ProgressView()
+                }, image: {
+                    Image(uiImage: $0)
+                        .resizable()
+                })
+                // .scaledToFill()
+                .frame(width: size, height: size)
+                .cornerRadius(cornerRadius)
+                .shadow(color: switchShadowColor ? (colorScheme == .dark ? Color.white.opacity(0.33) : Color.black.opacity(0.33)) : Color.black.opacity(0.33), radius: 5)
             } else {
-                ProgressView()
-                    .frame(width: size, height: size)
+                AsyncImage(url: coverURL, placeholder: {
+                    ProgressView()
+                }, image: {
+                    Image(uiImage: $0)
+                        .resizable()
+                })
+                // .scaledToFill()
+                .frame(width: size, height: size)
+                .cornerRadius(cornerRadius)
             }
         }
     }

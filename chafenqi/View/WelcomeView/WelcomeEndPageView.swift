@@ -36,7 +36,6 @@ struct WelcomeEndPageView: View {
                     .font(.system(size: 20))
             }
             .padding()
-            .buttonStyle(.borderedProminent)
 
         }
     }

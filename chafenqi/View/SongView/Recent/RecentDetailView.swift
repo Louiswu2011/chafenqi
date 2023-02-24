@@ -46,7 +46,7 @@ struct RecentDetailView: View {
         ScrollView {
             if (isLoaded) {
                 VStack {
-                    HStack {
+                    HStack(alignment: .bottom) {
                         SongCoverView(coverURL: URL(string: requestURL)!, size: 120, cornerRadius: 10, withShadow: false)
                         
                         VStack(alignment: .leading) {
@@ -163,10 +163,8 @@ struct RecentDetailView: View {
                             }
                         }
                         .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundColor(chunithmLevelColor[3]!.opacity(0.4))
-                        }
+                        .background(RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
                         
                         
                     } else {
@@ -286,10 +284,8 @@ struct RecentDetailView: View {
                                 
                             }
                             .padding()
-                            .background {
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(maimaiLevelColor[maiRecord.getLevelIndex()]?.opacity(0.4))
-                            }
+                            .background(RoundedRectangle(cornerRadius: 5)
+                                .foregroundColor(maimaiLevelColor[maiRecord.getLevelIndex()]?.opacity(0.4)))
                             
                         }
                     }

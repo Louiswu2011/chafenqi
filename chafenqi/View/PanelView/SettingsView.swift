@@ -74,7 +74,6 @@ struct SettingsView: View {
                     if (didLogin) {
                         TextInfoView(text: "用户名", info: accountName)
                         TextInfoView(text: "Token", info: token)
-                            .textSelection(.enabled)
                         HStack {
                             Text("当前数据来源")
                             Spacer()
@@ -93,9 +92,15 @@ struct SettingsView: View {
                                 .foregroundColor(Color.red)
                         }
                     } else {
-                        TextField("用户名", text: $accountName)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
+                        if #available(iOS 15.0, *) {
+                            TextField("用户名", text: $accountName)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                        } else {
+                            TextField("用户名", text: $accountName)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled(true)
+                        }
                         SecureField("密码", text: $accountPassword)
                         HStack {
                             Button {

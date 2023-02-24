@@ -156,7 +156,7 @@ struct ScoreEntry: Codable, Hashable {
     func getGradeBadgeColor() -> Color {
         switch (score) {
         case 950000...974999:
-            return Color.brown
+            return Color.gray
         case 975000...999999:
             return Color.yellow.opacity(0.7)
         case 1000000...1007499:
@@ -166,7 +166,7 @@ struct ScoreEntry: Codable, Hashable {
         case 1009000...:
             return Color.red
         default:
-            return Color.brown
+            return Color.gray
         }
     }
     

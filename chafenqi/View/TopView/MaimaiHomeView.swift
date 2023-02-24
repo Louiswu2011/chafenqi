@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AlertToast
-import RefreshableScrollView
 
 struct MaimaiHomeView: View {
     @AppStorage("settingsChunithmCoverSource") var coverSource = 0
@@ -65,7 +64,7 @@ struct MaimaiHomeView: View {
         ZStack {
             switch (status) {
             case .complete:
-                RefreshableScrollView {
+                ScrollView {
                     VStack {
                         HStack {
                             HStack {
@@ -156,12 +155,6 @@ struct MaimaiHomeView: View {
                     }
                     
                 }
-                .refreshable {
-                    resetCache()
-                    Task {
-                        await prepareData()
-                    }
-                }
             case let .loading(hint: hint):
                 VStack {
                     ProgressView()
@@ -204,8 +197,10 @@ struct MaimaiHomeView: View {
                 .navigationBarTitle("")
             }
         }
-        .task {
-            await prepareData()
+        .onAppear {
+            Task {
+                await prepareData()
+            }
         }
         .navigationTitle(didLogin ? "\(userProfile.nickname)的个人资料" : "查分器DX")
         .toolbar {

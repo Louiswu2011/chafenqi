@@ -16,9 +16,7 @@ struct WelcomePage1View: View {
             Image("Icon")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .mask {
-                    RoundedRectangle(cornerRadius: 15)
-                }
+                .mask(RoundedRectangle(cornerRadius: 15))
                 .frame(width: 100)
                 .padding(.top, 40)
                 .padding()

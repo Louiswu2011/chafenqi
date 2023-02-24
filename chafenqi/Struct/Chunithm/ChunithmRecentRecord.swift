@@ -40,8 +40,11 @@ struct ChunithmRecentRecord: Codable {
     }
     
     func getDateString() -> String {
-        let style = Date.VerbatimFormatStyle(format: "\(year: .defaultDigits)/\(month: .twoDigits)/\(day: .twoDigits) \(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .oneBased)):\(minute: .twoDigits)", timeZone: .autoupdatingCurrent, calendar: .autoupdatingCurrent)
-        return style.format(getDate())
+//        let style = Date.VerbatimFormatStyle(format: "\(year: .defaultDigits)/\(month: .twoDigits)/\(day: .twoDigits) \(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .oneBased)):\(minute: .twoDigits)", timeZone: .autoupdatingCurrent, calendar: .autoupdatingCurrent)
+        var formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+        
+        return formatter.string(from: getDate())
     }
     
     func getLevelIndex() -> Int {
@@ -101,7 +104,7 @@ struct ChunithmRecentRecord: Codable {
         case 0..<5:
             return Color.gray
         case 5..<8:
-            return Color.brown
+            return Color.gray
         case 8...:
             return Color.orange
         default:

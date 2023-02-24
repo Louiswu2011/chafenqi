@@ -27,11 +27,11 @@
 		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
 		BF3C3EA729997385001959E5 /* AlertToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3C3EA629997385001959E5 /* AlertToastManager.swift */; };
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
-		BF45E22C29A34EA3001498A8 /* RefreshableScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = BF45E22B29A34EA3001498A8 /* RefreshableScrollView */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */; };
 		BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */; };
+		BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF571DAB29A91A2700702240 /* ChafenqiColor.swift */; };
 		BF572E0C29A5E32000E9811B /* RecentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E0B29A5E32000E9811B /* RecentView.swift */; };
 		BF572E1229A5E37A00E9811B /* RecentBasicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1029A5E37A00E9811B /* RecentBasicView.swift */; };
 		BF572E1329A5E37A00E9811B /* RecentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1129A5E37A00E9811B /* RecentDetailView.swift */; };
@@ -62,6 +62,10 @@
 		BFBC5505298D005900A93918 /* SongBasicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC5504298D005900A93918 /* SongBasicView.swift */; };
 		BFBC5507298D078000A93918 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC5506298D078000A93918 /* SongListView.swift */; };
 		BFBDF70D29A1FA1800B99C79 /* UpdaterHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBDF70C29A1FA1800B99C79 /* UpdaterHelpView.swift */; };
+		BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256A629A7E32000B65CE7 /* AsyncImage.swift */; };
+		BFC256A929A7E35500B65CE7 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256A829A7E35500B65CE7 /* ImageLoader.swift */; };
+		BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */; };
+		BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AC29A7E96100B65CE7 /* ModalView.swift */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
@@ -144,6 +148,7 @@
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
 		BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
 		BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterMainView.swift; sourceTree = "<group>"; };
+		BF571DAB29A91A2700702240 /* ChafenqiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafenqiColor.swift; sourceTree = "<group>"; };
 		BF572E0B29A5E32000E9811B /* RecentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentView.swift; sourceTree = "<group>"; };
 		BF572E1029A5E37A00E9811B /* RecentBasicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentBasicView.swift; sourceTree = "<group>"; };
 		BF572E1129A5E37A00E9811B /* RecentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetailView.swift; sourceTree = "<group>"; };
@@ -173,6 +178,10 @@
 		BFBC5504298D005900A93918 /* SongBasicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongBasicView.swift; sourceTree = "<group>"; };
 		BFBC5506298D078000A93918 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		BFBDF70C29A1FA1800B99C79 /* UpdaterHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterHelpView.swift; sourceTree = "<group>"; };
+		BFC256A629A7E32000B65CE7 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
+		BFC256A829A7E35500B65CE7 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		BFC256AC29A7E96100B65CE7 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmUserData.swift; sourceTree = "<group>"; };
 		BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunithmUserScoreData.swift; sourceTree = "<group>"; };
@@ -206,7 +215,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
-				BF45E22C29A34EA3001498A8 /* RefreshableScrollView in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				BF0CFD60297B26E5003763E2 /* IdMap.json */,
+				BF571DAB29A91A2700702240 /* ChafenqiColor.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -353,12 +362,14 @@
 		BF7E2520296AACE200169B57 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				BFC256A529A7E2E100B65CE7 /* AsyncImage */,
 				BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */,
 				BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */,
 				BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */,
 				BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */,
 				BF7BC69A297C3365003A67B0 /* DataTool.swift */,
 				BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */,
+				BFC256AC29A7E96100B65CE7 /* ModalView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -408,6 +419,16 @@
 				BF21A71E2997787D00292193 /* MaimaiPlayerRating.swift */,
 			);
 			path = Maimai;
+			sourceTree = "<group>";
+		};
+		BFC256A529A7E2E100B65CE7 /* AsyncImage */ = {
+			isa = PBXGroup;
+			children = (
+				BFC256A629A7E32000B65CE7 /* AsyncImage.swift */,
+				BFC256A829A7E35500B65CE7 /* ImageLoader.swift */,
+				BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */,
+			);
+			path = AsyncImage;
 			sourceTree = "<group>";
 		};
 		BFEF7EDC298A851100F87ACC /* TopView */ = {
@@ -555,7 +576,6 @@
 			packageProductDependencies = (
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
 				BF42045729982705008C7E02 /* AlertToast */,
-				BF45E22B29A34EA3001498A8 /* RefreshableScrollView */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -635,7 +655,6 @@
 			packageReferences = (
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */,
-				BF45E22A29A34EA3001498A8 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -714,6 +733,7 @@
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
 				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,
 				BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */,
+				BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */,
 				BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */,
 				BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */,
@@ -726,8 +746,10 @@
 				BFBC5501298CEB4C00A93918 /* MaimaiSongData.swift in Sources */,
 				BFF353C329681F8D001392E5 /* MainView.swift in Sources */,
 				BF7E2518296AA89500169B57 /* ChunithmHomeView.swift in Sources */,
+				BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */,
 				BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */,
 				BFBC54F1298CE32A00A93918 /* MaimaiHomeView.swift in Sources */,
+				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,
 				BFBC5505298D005900A93918 /* SongBasicView.swift in Sources */,
@@ -736,6 +758,7 @@
 				BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */,
 				BF8E054229A2A22300079A06 /* WelcomePage2View.swift in Sources */,
 				BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */,
+				BFC256A929A7E35500B65CE7 /* ImageLoader.swift in Sources */,
 				BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */,
 				BF7E2522296AAD1A00169B57 /* ChunithmDataGrabber.swift in Sources */,
 				BF8E054029A295FA00079A06 /* WelcomePage1View.swift in Sources */,
@@ -743,6 +766,7 @@
 				BF670DE529781B0100EA2CBB /* ChunithmMiniView.swift in Sources */,
 				BF3C3EA729997385001959E5 /* AlertToastManager.swift in Sources */,
 				BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */,
+				BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */,
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
@@ -806,7 +830,7 @@
 				INFOPLIST_FILE = updater/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = updater;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -834,7 +858,7 @@
 				INFOPLIST_FILE = updater/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = updater;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -900,7 +924,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -954,7 +978,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -986,7 +1010,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1023,7 +1047,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1173,14 +1197,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		BF45E22A29A34EA3001498A8 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Q42/RefreshableScrollView.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.2;
-			};
-		};
 		BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
@@ -1196,11 +1212,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
-		};
-		BF45E22B29A34EA3001498A8 /* RefreshableScrollView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF45E22A29A34EA3001498A8 /* XCRemoteSwiftPackageReference "RefreshableScrollView" */;
-			productName = RefreshableScrollView;
 		};
 		BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;
