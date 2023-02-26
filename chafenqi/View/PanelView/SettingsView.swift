@@ -50,14 +50,14 @@ struct SettingsView: View {
                         Text("封面来源")
                         Spacer()
                         if (currentMode == 0) {
-                            Picker("", selection: $chunithmCoverSource) {
+                            Picker(chunithmSourceOptions[chunithmCoverSource]!, selection: $chunithmCoverSource) {
                                 ForEach(chunithmSourceOptions.sorted(by: <), id: \.key) {
                                     Text($0.value)
                                 }
                             }
                             .pickerStyle(.menu)
                         } else {
-                            Picker("", selection: $maimaiCoverSource) {
+                            Picker(maimaiSourceOptions[maimaiCoverSource]!, selection: $maimaiCoverSource) {
                                 ForEach(maimaiSourceOptions.sorted(by: <), id: \.key) {
                                     Text($0.value)
                                 }
@@ -78,7 +78,7 @@ struct SettingsView: View {
                         HStack {
                             Text("当前数据来源")
                             Spacer()
-                            Picker("", selection: $currentMode) {
+                            Picker(modeOptions[currentMode]!, selection: $currentMode) {
                                 ForEach(modeOptions.sorted(by: <), id: \.key) {
                                     Text($0.value)
                                 }
