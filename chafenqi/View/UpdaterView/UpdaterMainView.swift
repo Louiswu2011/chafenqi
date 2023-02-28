@@ -155,7 +155,7 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "https://nltv.top/upload_\(destination)?token=\(token)"
+        let requestUrl = "http://43.139.107.206/upload_\(destination)?token=\(token)"
 
         pasteboard.string = requestUrl
         
