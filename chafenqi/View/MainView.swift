@@ -13,7 +13,7 @@ let maimaiLevelColor = [
     1: Color(red: 242, green: 218, blue: 71),
     2: Color(red: 237, green: 127, blue: 132),
     3: Color(red: 176, green: 122, blue: 238),
-    4: Color(red: 2065, green: 164, blue: 251)
+    4: Color(red: 206, green: 164, blue: 251)
 ]
 
 let chunithmLevelColor = [
