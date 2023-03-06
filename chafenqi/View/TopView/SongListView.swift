@@ -342,23 +342,6 @@ struct SongListView: View {
                         }
                     }
                     
-                    let diffMatches = regex.difficultyRegex.matches(in: searchText, range: range)
-                    if let diffHit = diffMatches.first {
-                        var diffIndex = "0"
-                        
-                        for rangeIndex in 0..<diffHit.numberOfRanges {
-                            let hitRange = diffHit.range(at: rangeIndex)
-                            
-                            if hitRange == range { continue }
-                            
-                            if let substringRange = Range(hitRange, in: searchText) {
-                                diffIndex = String(searchText[substringRange])
-                            }
-                        }
-                        
-                        print(diffIndex)
-                    }
-                    
                     return songs
                 } else {
                     return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}

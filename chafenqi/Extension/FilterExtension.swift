@@ -74,6 +74,7 @@ extension Array<ChunithmSongData> {
             idList.contains($0.musicId)
         }
     }
+    
 }
 
 func levelToDigit(level: String) -> Double {
