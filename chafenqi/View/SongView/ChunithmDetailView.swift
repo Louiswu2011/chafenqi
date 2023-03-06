@@ -43,9 +43,7 @@ struct ChunithmDetailView: View {
         chartImageView = Image(uiImage: chartImage)
     }
     
-    var body: some View {
-        let coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicId).png")
-        
+    var body: some View {        
         if (isLoading) {
             ProgressView()
                 .onAppear {
@@ -59,7 +57,7 @@ struct ChunithmDetailView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10, withShadow: false)
+                        SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: coverSource, musicId: String(song.musicId)), size: 120, cornerRadius: 10, withShadow: false)
                             .overlay(RoundedRectangle(cornerRadius: 10)
                                 .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                             .padding(.leading)

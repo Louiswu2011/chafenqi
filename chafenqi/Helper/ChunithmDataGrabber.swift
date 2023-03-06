@@ -73,7 +73,7 @@ struct ChunithmDataGrabber {
     }
     
     static func getRecentData(username: String, limit: Int = 30) async throws -> Data {
-        let request = URLRequest(url: URL(string: "https://nltv.top/recent?mode=0&username=\(username)&count=\(limit)")!)
+        let request = URLRequest(url: URL(string: "http://43.139.107.206/recent?mode=0&username=\(username)&count=\(limit)")!)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
@@ -83,5 +83,13 @@ struct ChunithmDataGrabber {
         }
         
         return data
+    }
+    
+    static func getSongCoverUrl(source: Int, musicId: String) -> URL {
+        if (source == 0) {
+            return URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(musicId).png")!
+        } else {
+            return URL(string: "http://43.139.107.206/chunithm/cover?mid=\(musicId)")!
+        }
     }
 }

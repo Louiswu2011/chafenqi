@@ -32,14 +32,10 @@ struct MaimaiDetailView: View {
     var song: MaimaiSongData
     
     var body: some View {
-        
-        let coverURL = URL(string: "https://www.diving-fish.com/covers/\(getCoverNumber(id: song.musicId)).png")
-        
-        
         ScrollView {
             VStack {
                 HStack {
-                    SongCoverView(coverURL: coverURL!, size: 120, cornerRadius: 10, withShadow: false)
+                    SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: coverSource, coverId: getCoverNumber(id: String(song.musicId))), size: 120, cornerRadius: 10, withShadow: false)
                         .overlay(RoundedRectangle(cornerRadius: 10)
                             .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                         .padding(.leading)

@@ -36,7 +36,7 @@ struct SettingsView: View {
     
     @Binding var showingSettings: Bool
     
-    var chunithmSourceOptions = [0: "Github", 1: "Gitee"]
+    var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
     var maimaiSourceOptions = [0: "Diving-Fish"]
     var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
@@ -68,7 +68,9 @@ struct SettingsView: View {
                 } header: {
                     Text("常规")
                 } footer: {
-                    Text("Gitee暂不可用")
+                    if (currentMode == 0) {
+                        Text("国内访问推荐NLServer")
+                    }
                 }
                 
                 Section {

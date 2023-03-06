@@ -42,9 +42,7 @@ struct MaimaiMiniView: View {
             
             
             HStack {
-                let requestURL = URL(string: "https://www.diving-fish.com/covers/\(getCoverNumber(id: String(song.musicId))).png")
-                
-                SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10)
+                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: coverSource, coverId: getCoverNumber(id: String(song.musicId))), size: 80, cornerRadius: 10)
                 
                 VStack(alignment: .leading) {
                     Spacer()

@@ -47,9 +47,7 @@ struct ChunithmMiniView: View {
             
             
             HStack {
-                let requestURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(song.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(song.musicId).png")
-                
-                SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10)
+                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: coverSource, musicId: String(song.musicId)), size: 80, cornerRadius: 10)
                 
                 VStack(alignment: .leading) {
                     Spacer()

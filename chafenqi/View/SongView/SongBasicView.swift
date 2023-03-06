@@ -104,11 +104,11 @@ struct SongBasicView: View {
     
     var body: some View {
         HStack() {
-            let requestURL = mode == 0 ? chunithmCoverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(chunithmSong.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(chunithmSong.musicId).png") : URL(string: "https://www.diving-fish.com/covers/\(getCoverNumber(id: maimaiSong.musicId)).png")
+            let requestURL = mode == 0 ? ChunithmDataGrabber.getSongCoverUrl(source: chunithmCoverSource, musicId: String(chunithmSong.musicId)) : MaimaiDataGrabber.getSongCoverUrl(source: maimaiCoverSource, coverId: getCoverNumber(id: String(maimaiSong.musicId)))
             
             
             
-            SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
+            SongCoverView(coverURL: requestURL, size: 80, cornerRadius: 10, withShadow: false)
                 .overlay(RoundedRectangle(cornerRadius: 10)
                     .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
             
@@ -154,14 +154,6 @@ struct SongBasicView: View {
                 Spacer()
                 
                 LevelStripView(mode: mode, levels: mode == 0 ? chunithmSong.level : maimaiSong.level)
-                // .border(Color.blue)
-                
-                
-                //                        if(song.type == "DX") {
-                //                            Text("DX")
-                //                        }
-                
-                
             }
         }
     }
