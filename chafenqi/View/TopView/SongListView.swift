@@ -106,10 +106,12 @@ struct SongListView: View {
                         
                         Button {
                             // TODO: Add tutorial for advanced filtering
+                            
                         } label: {
                             Image(systemName: "questionmark.circle")
                             Text("高级搜索帮助")
                         }
+                        .disabled(true) // For now
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                     }
@@ -148,7 +150,7 @@ struct SongListView: View {
                     }
                 }
             }
-            .searchable(text: $searchText, prompt: "输入歌曲名/作者...")
+            .searchable(text: $searchText, prompt: advancedFiltering ? advancedPrompt : basicPrompt)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
         } else {
@@ -251,7 +253,6 @@ struct SongListView: View {
             .autocapitalization(.none)
             .autocorrectionDisabled(true)
         }
-        
     }
     
     var searchMaimaiResults: Array<MaimaiSongData>? {
