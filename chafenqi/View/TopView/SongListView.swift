@@ -33,6 +33,10 @@ struct SongListView: View {
     @State private var showingFilterPanel = false
     @State private var showingPlayed = false
     
+    @State private var advancedFiltering = false
+    
+    let basicPrompt = "输入歌曲名/作者..."
+    let advancedPrompt = "输入高级筛选条件..."
     
     var body: some View {
         if #available(iOS 15.0, *) {
@@ -94,6 +98,18 @@ struct SongListView: View {
                             Text("仅显示已游玩曲目")
                         }
                         .disabled(!didLogin)
+                        
+                        Toggle(isOn: $advancedFiltering) {
+                            Image(systemName: "ellipsis.rectangle")
+                            Text("高级搜索模式")
+                        }
+                        
+                        Button {
+                            // TODO: Add tutorial for advanced filtering
+                        } label: {
+                            Image(systemName: "questionmark.circle")
+                            Text("高级搜索帮助")
+                        }
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                     }
@@ -254,7 +270,11 @@ struct SongListView: View {
             if searchText.isEmpty {
                 return songs
             } else {
-                return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+                if (advancedFiltering) {
+                    return songs
+                } else {
+                    return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+                }
             }
         } catch {
             return nil
@@ -277,7 +297,64 @@ struct SongListView: View {
             if searchText.isEmpty {
                 return songs
             } else {
-                return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+                if (advancedFiltering) {
+                    let regex = RegexManager.shared
+                    
+                    let range = NSRange(searchText.startIndex..<searchText.endIndex, in: searchText)
+                    let constantMatches = regex.constantRegex.matches(in: searchText, range: range)
+                    if let constantHit = constantMatches.first {
+                        var constantParams: [String: String] = [:]
+                        
+                        for groupName in ["lowerDigit", "lowerDecimal", "upperDigit", "upperDecimal"] {
+                            let hitRange = constantHit.range(withName: groupName)
+                            if let substringRange = Range(hitRange, in: searchText) {
+                                let substring = String(searchText[substringRange])
+                                constantParams[groupName] = substring
+                            }
+                        }
+                        
+                        // print(constantParams)
+                        let lower = constantParams["lowerDigit"]! + (constantParams["lowerDecimal"] ?? "")
+                        let upper = constantParams["upperDigit"]! + (constantParams["upperDecimal"] ?? "")
+                        
+                    }
+                    
+                    let levelMatches = regex.levelRegex.matches(in: searchText, range: range)
+                    if let levelHit = levelMatches.first {
+                        var levelParams: [String: String] = [:]
+                        
+                        for groupName in ["lower", "upper"] {
+                            let hitRange = levelHit.range(withName: groupName)
+                            if let substringRange = Range(hitRange, in: searchText) {
+                                let substring = String(searchText[substringRange])
+                                levelParams[groupName] = substring
+                            }
+                        }
+                        
+                        print(levelParams)
+                    }
+                    
+                    let diffMatches = regex.difficultyRegex.matches(in: searchText, range: range)
+                    if let diffHit = diffMatches.first {
+                        var diffIndex = "0"
+                        
+                        for rangeIndex in 0..<diffHit.numberOfRanges {
+                            let hitRange = diffHit.range(at: rangeIndex)
+                            
+                            if hitRange == range { continue }
+                            
+                            if let substringRange = Range(hitRange, in: searchText) {
+                                diffIndex = String(searchText[substringRange])
+                            }
+                        }
+                        
+                        print(diffIndex)
+                    }
+                    
+                    return songs
+                } else {
+                    return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+                }
             }
         } catch {
             return nil

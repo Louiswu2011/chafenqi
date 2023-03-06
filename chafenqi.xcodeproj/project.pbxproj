@@ -26,6 +26,7 @@
 		BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF21A71E2997787D00292193 /* MaimaiPlayerRating.swift */; };
 		BF38089E298916F7008FF936 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF38089D298916F7008FF936 /* TextInfoView.swift */; };
 		BF3C3EA729997385001959E5 /* AlertToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3C3EA629997385001959E5 /* AlertToastManager.swift */; };
+		BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F2E29B642F4005D1C67 /* RegexManager.swift */; };
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
@@ -144,6 +145,7 @@
 		BF21A71E2997787D00292193 /* MaimaiPlayerRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiPlayerRating.swift; sourceTree = "<group>"; };
 		BF38089D298916F7008FF936 /* TextInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfoView.swift; sourceTree = "<group>"; };
 		BF3C3EA629997385001959E5 /* AlertToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastManager.swift; sourceTree = "<group>"; };
+		BF403F2E29B642F4005D1C67 /* RegexManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexManager.swift; sourceTree = "<group>"; };
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
 		BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				BF3C3EA629997385001959E5 /* AlertToastManager.swift */,
+				BF403F2E29B642F4005D1C67 /* RegexManager.swift */,
 			);
 			path = Object;
 			sourceTree = "<group>";
@@ -770,6 +773,7 @@
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
+				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
 				BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */,
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,
 				BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */,
