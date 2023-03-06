@@ -111,7 +111,7 @@ struct SongListView: View {
                             Image(systemName: "questionmark.circle")
                             Text("高级搜索帮助")
                         }
-                        .disabled(true) // For now
+                        .disabled(true) // For now
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                     }
@@ -263,9 +263,13 @@ struct SongListView: View {
             decodedMaimaiSongs
             
             if (showingPlayed) {
-                let userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userMaimaiInfoData)
-                let idList = userInfo.records.compactMap { $0.musicId }
-                songs = songs.filter { idList.contains( Int($0.musicId)! ) }
+                do {
+                    let userInfo = try JSONDecoder().decode(MaimaiPlayerRecord.self, from: userMaimaiInfoData)
+                    let idList = userInfo.records.compactMap { $0.musicId }
+                    songs = songs.filter { idList.contains( Int($0.musicId)! ) }
+                } catch {
+                    
+                }
             }
 
             if searchText.isEmpty {
@@ -334,9 +338,13 @@ struct SongListView: View {
             decodedChunithmSongs
             
             if (showingPlayed) {
-                let userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userChunithmInfoData)
-                let idList = userInfo.records.best.compactMap { $0.musicId }
-                songs = songs.filter { idList.contains( $0.musicId ) }
+                do {
+                    let userInfo = try JSONDecoder().decode(ChunithmUserData.self, from: userChunithmInfoData)
+                    let idList = userInfo.records.best.compactMap { $0.musicId }
+                    songs = songs.filter { idList.contains( $0.musicId ) }
+                } catch {
+                    
+                }
             }
 
             if searchText.isEmpty {
