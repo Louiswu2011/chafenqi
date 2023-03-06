@@ -313,9 +313,12 @@ struct SongListView: View {
                             }
                         }
                         
-                        // print(constantParams)
-                        let lower = constantParams["lowerDigit"]! + (constantParams["lowerDecimal"] ?? "")
-                        let upper = constantParams["upperDigit"]! + (constantParams["upperDecimal"] ?? "")
+                        let lower = Double(constantParams["lowerDigit"]! + (constantParams["lowerDecimal"] ?? "")) ?? 0.0
+                        let upper = Double(constantParams["upperDigit"]! + (constantParams["upperDecimal"] ?? "")) ?? 15.4
+                        
+                        if (lower <= upper) {
+                            songs = songs.filterConstant(lower: lower, upper: upper)
+                        }
                         
                     }
                     
