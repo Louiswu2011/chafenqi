@@ -147,8 +147,13 @@ struct SettingsView: View {
                     firstTime = true
                     toastManager.showingTutorialReseted = true
                 } label: {
-                    Text("重置教程")
+                    if (firstTime) {
+                        Text("重置教程")
+                    } else {
+                        Text("教程已重置")
+                    }
                 }
+                .disabled(!firstTime)
                 
                 Section {
                     HStack {
@@ -174,9 +179,6 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("设置")
-            .toast(isPresenting: $toastManager.showingTutorialReseted, duration: 2, tapToDismiss: true) {
-                AlertToast(displayMode: .hud, type: .complete(.green), title: "教程已重置")
-            }
         }
     }
     
