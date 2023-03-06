@@ -334,7 +334,12 @@ struct SongListView: View {
                             }
                         }
                         
-                        print(levelParams)
+                        let lower = levelParams["lower"]!
+                        let upper = levelParams["upper"]!
+                        
+                        if (levelToDigit(level: lower) <= levelToDigit(level: upper)) {
+                            songs = songs.filterLevel(lower: lower, upper: upper)
+                        }
                     }
                     
                     let diffMatches = regex.difficultyRegex.matches(in: searchText, range: range)

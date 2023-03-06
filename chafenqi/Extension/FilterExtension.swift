@@ -74,14 +74,14 @@ extension Array<ChunithmSongData> {
             idList.contains($0.musicId)
         }
     }
-    
-    private func levelToDigit(level: String) -> Double {
-        if (level.contains("+")) {
-            var formattedLevelString = level
-            formattedLevelString = formattedLevelString.replacingOccurrences(of: "+", with: ".5")
-            return Double(formattedLevelString) ?? 0.0
-        } else {
-            return Double(level) ?? 0.0
-        }
+}
+
+func levelToDigit(level: String) -> Double {
+    if (level.contains("+")) {
+        var formattedLevelString = level
+        formattedLevelString = formattedLevelString.replacingOccurrences(of: "+", with: ".5")
+        return Double(formattedLevelString) ?? 0.0
+    } else {
+        return Double(level) ?? 0.0
     }
 }
