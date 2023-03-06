@@ -49,7 +49,7 @@ extension Array<ChunithmSongData> {
         let upperDigit = levelToDigit(level: upper)
         return self.filter {
             for level in $0.level {
-                if (lowerDigit...upperDigit ~= levelToDigit(level: level)) {
+                if(lowerDigit...upperDigit ~= levelToDigit(level: level)) {
                     return true
                 }
             }
@@ -75,6 +75,40 @@ extension Array<ChunithmSongData> {
         }
     }
     
+}
+
+extension Array<MaimaiSongData> {
+    func filterTitleAndArtist(keyword: String) -> Self {
+        self.filter {
+            $0.basicInfo.title.lowercased().contains(keyword.lowercased()) || $0.basicInfo.artist.lowercased().contains(keyword.lowercased())
+        }
+    }
+    
+    func filterConstant(lower: Double, upper: Double) -> Self {
+        self.filter {
+            for constant in $0.constant {
+                if (lower...upper ~= constant) {
+                    return true
+                }
+            }
+            
+            return false
+        }
+    }
+    
+    func filterLevel(lower: String, upper: String) -> Self {
+        let lowerDigit = levelToDigit(level: lower)
+        let upperDigit = levelToDigit(level: upper)
+        return self.filter {
+            for level in $0.level {
+                if(lowerDigit...upperDigit ~= levelToDigit(level: level)) {
+                    return true
+                }
+            }
+            
+            return false
+        }
+    }
 }
 
 func levelToDigit(level: String) -> Double {

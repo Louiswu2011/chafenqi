@@ -271,9 +271,53 @@ struct SongListView: View {
                 return songs
             } else {
                 if (advancedFiltering) {
+                    let regex = RegexManager.shared
+                    
+                    let range = NSRange(searchText.startIndex..<searchText.endIndex, in: searchText)
+                    let constantMatches = regex.constantRegex.matches(in: searchText, range: range)
+                    if let constantHit = constantMatches.first {
+                        var constantParams: [String: String] = [:]
+                        
+                        for groupName in ["lowerDigit", "lowerDecimal", "upperDigit", "upperDecimal"] {
+                            let hitRange = constantHit.range(withName: groupName)
+                            if let substringRange = Range(hitRange, in: searchText) {
+                                let substring = String(searchText[substringRange])
+                                constantParams[groupName] = substring
+                            }
+                        }
+                        
+                        let lower = Double(constantParams["lowerDigit"]! + (constantParams["lowerDecimal"] ?? "")) ?? 0.0
+                        let upper = Double(constantParams["upperDigit"]! + (constantParams["upperDecimal"] ?? "")) ?? 15.0
+                        
+                        if (lower <= upper) {
+                            songs = songs.filterConstant(lower: lower, upper: upper)
+                        }
+                        
+                    }
+                    
+                    let levelMatches = regex.levelRegex.matches(in: searchText, range: range)
+                    if let levelHit = levelMatches.first {
+                        var levelParams: [String: String] = [:]
+                        
+                        for groupName in ["lower", "upper"] {
+                            let hitRange = levelHit.range(withName: groupName)
+                            if let substringRange = Range(hitRange, in: searchText) {
+                                let substring = String(searchText[substringRange])
+                                levelParams[groupName] = substring
+                            }
+                        }
+                        
+                        let lower = levelParams["lower"]!
+                        let upper = levelParams["upper"]!
+                        
+                        if (levelToDigit(level: lower) <= levelToDigit(level: upper)) {
+                            songs = songs.filterLevel(lower: lower, upper: upper)
+                        }
+                    }
+                    
                     return songs
                 } else {
-                    return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+                    return songs.filterTitleAndArtist(keyword: searchText)
                 }
             }
         } catch {
@@ -344,7 +388,7 @@ struct SongListView: View {
                     
                     return songs
                 } else {
-                    return songs.filter {$0.title.lowercased().contains(searchText.lowercased()) || $0.basicInfo.artist.lowercased().contains(searchText.lowercased())}
+                    return songs.filterTitleAndArtist(keyword: searchText)
                 }
             }
         } catch {
