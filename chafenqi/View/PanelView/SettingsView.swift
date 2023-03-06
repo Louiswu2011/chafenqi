@@ -9,7 +9,7 @@ import SwiftUI
 import AlertToast
 
 struct SettingsView: View {
-    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 0
+    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
     
