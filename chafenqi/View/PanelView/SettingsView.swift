@@ -34,6 +34,7 @@ struct SettingsView: View {
     @State private var accountPassword = ""
     @State private var showingLoginView = false
     @State private var showingBuildNumber = false
+    @State private var showingClearAlert = false
     @State private var loading = false
     
     @Binding var showingSettings: Bool
@@ -149,11 +150,22 @@ struct SettingsView: View {
                     }
                     
                     Button {
-                        
+                        showingClearAlert.toggle()
                     } label: {
                         Text("删除所有记录...")
                             .foregroundColor(.red)
                     }
+                    .alert(isPresented: $showingClearAlert) {
+                        Alert(
+                            title: Text("警告"),
+                            message: Text("这将会删除保存在服务器上的所有最近记录，且无法复原。"),
+                            primaryButton: .cancel(Text("取消")),
+                            secondaryButton: .destructive(Text("确定"), action: {
+                                clearRecentDatabase()
+                            })
+                        )
+                    }
+                    
                 } header: {
                     Text("最近记录")
                 } footer: {
@@ -219,6 +231,10 @@ struct SettingsView: View {
         chunithmInfoData = Data()
         maimaiInfoData = Data()
         maimaiProfileData = Data()
+    }
+    
+    func clearRecentDatabase() {
+        
     }
 }
 
