@@ -144,7 +144,7 @@ struct SettingsView: View {
                     HStack {
                         Text("显示条目数")
                         Spacer()
-                        TextField("", text: $entryCount)
+                        TextField("默认为30", text: $entryCount)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                     }
