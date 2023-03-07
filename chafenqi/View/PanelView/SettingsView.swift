@@ -12,6 +12,8 @@ struct SettingsView: View {
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
+    @AppStorage("settingsShouldUploadRecent") var uploadRecent = true
+    @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     
     @AppStorage("firstTimeLaunch") var firstTime = true
     
@@ -134,9 +136,29 @@ struct SettingsView: View {
                 }
                 
                 Section {
+                    Toggle(isOn: $uploadRecent) {
+                        Text("上传记录")
+                    }
                     
+                    HStack {
+                        Text("显示条目数")
+                        Spacer()
+                        TextField("", text: $entryCount)
+                            .multilineTextAlignment(.trailing)
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("删除所有记录...")
+                            .foregroundColor(.red)
+                    }
                 } header: {
                     Text("最近记录")
+                } footer: {
+                    Text("最近记录数据保存在查分器App服务器，不会保存水鱼服务器的密码")
+                        .multilineTextAlignment(.leading)
                 }
                 
                 Section {
