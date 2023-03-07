@@ -200,13 +200,13 @@ struct SongRandomizerView: View {
     
     func getChunithmRandomSong() -> ChunithmSongData {
         let randSong = decodedChunithmSongs.randomElement()!
-        coverURL = coverSource == 0 ? URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(randSong.musicId).png") : URL(string: "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(randSong.musicId).png")
+        coverURL = ChunithmDataGrabber.getSongCoverUrl(source: coverSource, musicId: String(randSong.musicId))
         return randSong
     }
     
     func getMaimaiRandomSong() -> MaimaiSongData {
         let randSong = decodedMaimaiSongs.randomElement()!
-        coverURL = URL(string: "https://www.diving-fish.com/covers/\(getCoverNumber(id: randSong.musicId)).png")
+        coverURL = MaimaiDataGrabber.getSongCoverUrl(source: maimaiCoverSource, coverId: getCoverNumber(id: randSong.musicId))
         
         return randSong
     }
