@@ -147,13 +147,13 @@ struct SettingsView: View {
                     firstTime = true
                     toastManager.showingTutorialReseted = true
                 } label: {
-                    if (firstTime) {
+                    if (!firstTime) {
                         Text("重置教程")
                     } else {
                         Text("教程已重置")
                     }
                 }
-                .disabled(!firstTime)
+                .disabled(firstTime)
                 
                 Section {
                     HStack {
