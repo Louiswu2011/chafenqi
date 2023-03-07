@@ -70,7 +70,7 @@ struct ToolView: View {
                                 Text("分数上传")
                                     .font(.system(size: 16))
                                     .bold()
-                                Text("Powered by @bakapiano")
+                                Text("Method by @bakapiano")
                                     .font(.system(size: 12))
                             }
                         }
