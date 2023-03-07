@@ -136,41 +136,53 @@ struct SettingsView: View {
                     Text("账户")
                 }
                 
-                Section {
-                    Toggle(isOn: $uploadRecent) {
-                        Text("上传记录")
+                if(didLogin) {
+                    Section {
+                        Toggle(isOn: $uploadRecent) {
+                            Text("上传记录")
+                        }
+                        
+                        HStack {
+                            Text("显示条目数")
+                            Spacer()
+                            TextField("默认为30", text: $entryCount)
+                                .multilineTextAlignment(.trailing)
+                                .keyboardType(.numberPad)
+                        }
+                        
+                        Button {
+                            showingClearAlert.toggle()
+                        } label: {
+                            Text("删除所有记录...")
+                        }
+                        .alert(isPresented: $showingClearAlert) {
+                            Alert(
+                                title: Text("警告"),
+                                message: Text("这将会删除保存在服务器上的所有最近记录，且无法复原。"),
+                                primaryButton: .cancel(Text("取消")),
+                                secondaryButton: .destructive(Text("确定"), action: {
+                                    Task {
+                                        do {
+                                            let statusCode = try await clearRecentDatabase(username: accountName)
+                                            if (statusCode == 200) {
+                                                toastManager.showingRecordDeleted.toggle()
+                                            }
+                                        } catch {
+                                            
+                                        }
+                                    }
+                                })
+                            )
+                        }
+                        .accentColor(.red)
+                        
+                        
+                    } header: {
+                        Text("最近记录")
+                    } footer: {
+                        Text("最近记录数据保存在查分器App服务器，不会保存水鱼服务器的密码")
+                            .multilineTextAlignment(.leading)
                     }
-                    
-                    HStack {
-                        Text("显示条目数")
-                        Spacer()
-                        TextField("默认为30", text: $entryCount)
-                            .multilineTextAlignment(.trailing)
-                            .keyboardType(.numberPad)
-                    }
-                    
-                    Button {
-                        showingClearAlert.toggle()
-                    } label: {
-                        Text("删除所有记录...")
-                            .foregroundColor(.red)
-                    }
-                    .alert(isPresented: $showingClearAlert) {
-                        Alert(
-                            title: Text("警告"),
-                            message: Text("这将会删除保存在服务器上的所有最近记录，且无法复原。"),
-                            primaryButton: .cancel(Text("取消")),
-                            secondaryButton: .destructive(Text("确定"), action: {
-                                clearRecentDatabase()
-                            })
-                        )
-                    }
-                    
-                } header: {
-                    Text("最近记录")
-                } footer: {
-                    Text("最近记录数据保存在查分器App服务器，不会保存水鱼服务器的密码")
-                        .multilineTextAlignment(.leading)
                 }
                 
                 Section {
@@ -220,6 +232,9 @@ struct SettingsView: View {
             }
             .navigationTitle("设置")
         }
+        .toast(isPresenting: $toastManager.showingRecordDeleted, duration: 1, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .complete(.green), title: "删除成功")
+        }
     }
     
     func clearUserCache(){
@@ -233,8 +248,12 @@ struct SettingsView: View {
         maimaiProfileData = Data()
     }
     
-    func clearRecentDatabase() {
+    func clearRecentDatabase(username: String) async throws -> Int {
+        let url = URL(string: "http://43.139.107.206/drop_recent?username=\(username.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")")!
+        let request = URLRequest(url: url)
         
+        let (_, response) = try await URLSession.shared.data(for: request)
+        return response.statusCode()
     }
 }
 

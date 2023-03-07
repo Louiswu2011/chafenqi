@@ -58,8 +58,7 @@ struct MaimaiDataGrabber {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        let httpResponse = response as! HTTPURLResponse
-        if (httpResponse.statusCode == 400) {
+        if (response.statusCode() == 400) {
             throw CFQError.BadRequestError
         }
         
