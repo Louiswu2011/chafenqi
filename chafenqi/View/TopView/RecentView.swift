@@ -14,6 +14,8 @@ struct RecentView: View {
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
     
+    @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
+    
     @AppStorage("userAccountName") var accountName = ""
     
     @AppStorage("loadedMaimaiSongs") var loadedMaimaiSongs = Data()
@@ -122,7 +124,7 @@ struct RecentView: View {
         if (currentMode == 0) {
             guard chuRecent.isEmpty else { status = .complete; return }
             do {
-                chuRecentData = try await ChunithmDataGrabber.getRecentData(username: accountName)
+                chuRecentData = try await ChunithmDataGrabber.getRecentData(username: accountName, limit: Int(entryCount) ?? 30)
                 if (chuRecent.isEmpty) {
                     chuRecent = try JSONDecoder().decode(Array<ChunithmRecentRecord>.self, from: chuRecentData)
                 }
@@ -145,7 +147,7 @@ struct RecentView: View {
         } else {
             guard maiRecent.isEmpty else { status = .complete; return }
             do {
-                maiRecentData = try await MaimaiDataGrabber.getRecentData(username: accountName)
+                maiRecentData = try await MaimaiDataGrabber.getRecentData(username: accountName, limit: Int(entryCount) ?? 30)
                 if (maiRecent.isEmpty) {
                     maiRecent = try JSONDecoder().decode(Array<MaimaiRecentRecord>.self, from: maiRecentData)
                 }
