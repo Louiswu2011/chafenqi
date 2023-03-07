@@ -239,7 +239,7 @@ struct ChunithmHomeView: View {
                     if (!userInfo.isRecordDataEmpty()){
                         status = .loadFromCache
                     } else {
-                        status = .empty
+                        status = .loading(hint: "获取用户数据中...")
                     }
                 }
                 
