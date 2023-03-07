@@ -12,7 +12,6 @@ struct SettingsView: View {
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsCurrentMode") var currentMode = 0
-    @AppStorage("settingsShouldUploadRecent") var uploadRecent = true
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     
     @AppStorage("firstTimeLaunch") var firstTime = true
@@ -138,10 +137,6 @@ struct SettingsView: View {
                 
                 if(didLogin) {
                     Section {
-                        Toggle(isOn: $uploadRecent) {
-                            Text("上传记录")
-                        }
-                        
                         HStack {
                             Text("显示条目数")
                             Spacer()
