@@ -134,6 +134,12 @@ struct SettingsView: View {
                 }
                 
                 Section {
+                    
+                } header: {
+                    Text("最近记录")
+                }
+                
+                Section {
                     NavigationLink {
                         RandomizerSettingsView()
                     } label: {
