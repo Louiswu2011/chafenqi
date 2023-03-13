@@ -20,7 +20,6 @@ struct ChunithmDetailView: View {
     
     @State private var isFavourite = false
     @State private var isLoading = true
-    @State private var isCheckingDiff = true
     @State private var loadingScore = true
     @State private var loadingComments = true
     @State private var showingChart = false
@@ -137,9 +136,11 @@ struct ChunithmDetailView: View {
                     .padding(.horizontal)
                     
                     HStack {
-                        Text("难度：")
-                        
-                        
+                        Text("谱面预览")
+                            .font(.system(size: 20))
+                            .bold()
+                        Spacer()
+
                         Picker(selectedDifficulty, selection: $selectedDifficulty) {
                             ForEach(availableDiffs, id: \.self) { diff in
                                 Text(diff)
@@ -156,12 +157,9 @@ struct ChunithmDetailView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        
-                        if(isCheckingDiff) {
-                            ProgressView()
-                                .padding(.leading, 5)
-                        }
                     }
+                    .padding(.top)
+                    .padding(.horizontal)
 
                     ZStack {
                         RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
@@ -203,8 +201,12 @@ struct ChunithmDetailView: View {
                                     webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
                                     chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
                                     chartImageView = Image(uiImage: chartImage)
-                                    availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: mapData))
-                                    isCheckingDiff.toggle()
+                                    if(song.level.contains("master")) {
+                                        availableDiffs.append("Master")
+                                    }
+                                    if(song.level.contains("ultima")) {
+                                        availableDiffs.append("Ultima")
+                                    }
                                 }
                             } catch CFQError.requestTimeoutError {
 
@@ -219,6 +221,15 @@ struct ChunithmDetailView: View {
                 .padding(.bottom)
                 
                 if (!loadingScore && didLogin) {
+                    HStack {
+                        Text("游玩记录")
+                            .font(.system(size: 20))
+                            .bold()
+                        Spacer()
+                    }
+                    .padding(.top)
+                    .padding(.horizontal)
+                    
                     VStack(spacing: 5) {
                         ForEach(0..<4) { index in
                             ScoreCardView(index: index, scoreEntries: scoreEntries, song: song)
@@ -243,6 +254,7 @@ struct ChunithmDetailView: View {
                                 Text("显示全部")
                             }
                         }
+                        .padding(.top)
                         .padding(.horizontal)
                         
                         ScrollView(.horizontal) {
