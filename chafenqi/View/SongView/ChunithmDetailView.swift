@@ -22,6 +22,7 @@ struct ChunithmDetailView: View {
     @State private var isLoading = true
     @State private var isCheckingDiff = true
     @State private var loadingScore = true
+    @State private var loadingComments = true
     @State private var showingChart = false
     @State private var showingCalc = false
     
@@ -33,6 +34,8 @@ struct ChunithmDetailView: View {
     
     @State private var userInfo = ChunithmUserData.shared
     @State private var scoreEntries = [Int: ScoreEntry]()
+    
+    @State private var comments: Array<Comment> = []
     
     @State private var webChartId: String = ""
     
@@ -220,12 +223,36 @@ struct ChunithmDetailView: View {
                         ForEach(0..<4) { index in
                             ScoreCardView(index: index, scoreEntries: scoreEntries, song: song)
                                 .padding(.bottom, 5)
-                            
+
                         }
                         if (song.charts.count == 5) {
                             ScoreCardView(index: 4, scoreEntries: scoreEntries, song: song)
                                 .padding(.bottom, 5)
                         }
+                    }
+                    
+                    if (!loadingComments) {
+                        HStack {
+                            Text("评论")
+                                .font(.system(size: 20))
+                                .bold()
+                            Spacer()
+                            NavigationLink {
+                                
+                            } label: {
+                                Text("显示全部")
+                            }
+                        }
+                        .padding(.horizontal)
+                        
+                        ScrollView(.horizontal) {
+                            ForEach(comments, id: \.uid) { entry in
+                                CommentCell(comment: entry)
+                                    .frame(width: 300)
+                            }
+                            // CommentCell(comment: .shared)
+                        }
+                        .padding(.horizontal)
                     }
                 }
             }
@@ -242,6 +269,10 @@ struct ChunithmDetailView: View {
                         scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
                         loadingScore = false
                     }
+                    
+                    loadingComments = true
+                    comments = await CommentHelper.getComments(mode: 0, musicId: song.musicId)
+                    loadingComments = false
                 }
             }
 

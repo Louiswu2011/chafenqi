@@ -19,6 +19,8 @@ struct Comment: Codable {
     var like: Int
     var dislike: Int
     
+    static let shared = Comment(message: "这是一条评论", sender: "这是一个发言者", uid: 1, timestamp: 10003442, mode: 0, musicId: 1, reply: -1, like: 0, dislike: 0)
+    
     func postLike() async -> Bool {
         await post(url: URL(string: "http://43.139.107.206/comment/like")!, body: ["uid": uid])
     }
@@ -41,12 +43,23 @@ struct Comment: Codable {
         await post(url: URL(string: "http://43.139.107.206/comment/add")!, body: ["uid": uid])
     }
     
+    func getDate() -> Date {
+        Date(timeIntervalSince1970: TimeInterval(timestamp))
+    }
+    
+    func getDateString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+        
+        return formatter.string(from: getDate())
+    }
+    
     private func post(url: URL, body: Dictionary<AnyHashable, AnyHashable>) async -> Bool {
         do {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            var (_, response) = try await URLSession.shared.data(for: request)
+            let (_, response) = try await URLSession.shared.data(for: request)
             return response.statusCode() == 200
         } catch {
             return false
@@ -54,51 +67,37 @@ struct Comment: Codable {
     }
 }
 
-extension Array<Comment> {
-    init(by: String) async {
-        // Get comments from specific sender
-        self = []
-        self = await getComments(by: by)
-    }
-    
-    init(mode: Int, musicId: Int) async {
-        // Get comments from specific songs
-        self = []
-        self = await getComments(mode: mode, musicId: musicId)
-    }
-    
-    private func getComments(mode: Int, musicId: Int) async -> Array<Comment> {
+struct CommentHelper {
+    static func getComments(mode: Int, musicId: Int) async -> Array<Comment> {
         let url = URL(string: "http://43.139.107.206/comment")!
         let body = ["mode": mode, "musicId": musicId]
 
-        return await getCommentsWithPayload(url: url, payload: body)
+        return await getCommentsWithQuery(url: url, queryBody: body)
     }
     
-    private func getComments(by: String) async -> Array<Comment> {
+    static func getComments(by: String) async -> Array<Comment> {
         let url = URL(string: "http://43.139.107.206/comment/by")!
         let body = ["sender": by]
         
-        return await getCommentsWithPayload(url: url, payload: body)
+        return await getCommentsWithQuery(url: url, queryBody: body)
     }
     
-    private func getCommentsWithPayload(url: URL, payload: Dictionary<AnyHashable, AnyHashable>) async -> Array<Comment> {
+    static private func getCommentsWithQuery(url: URL, queryBody: Dictionary<AnyHashable, AnyHashable>) async -> Array<Comment> {
         do {
-            let body = try JSONSerialization.data(withJSONObject: payload)
             var request = URLRequest(url: url)
-            
+
             request.httpMethod = "POST"
-            request.httpBody = body
-            request.setValue("\(data!.count)", forHTTPHeaderField: "Content-Length")
+            request.httpBody = try JSONSerialization.data(withJSONObject: queryBody)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
             
-            var (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
             if (response.statusCode() != 200) {
                 return []
             }
             
             return try JSONDecoder().decode(Array<Comment>.self, from: data)
         } catch {
+            print(error)
             return []
         }
     }

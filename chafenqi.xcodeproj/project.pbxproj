@@ -32,6 +32,7 @@
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF533C9829BF093C003409AB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9729BF093C003409AB /* Comment.swift */; };
+		BF533C9B29BF142A003409AB /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9A29BF142A003409AB /* CommentCell.swift */; };
 		BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */; };
 		BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */; };
 		BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF571DAB29A91A2700702240 /* ChafenqiColor.swift */; };
@@ -153,6 +154,7 @@
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
 		BF533C9729BF093C003409AB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		BF533C9A29BF142A003409AB /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
 		BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterMainView.swift; sourceTree = "<group>"; };
 		BF571DAB29A91A2700702240 /* ChafenqiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafenqiColor.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 		BF02B67A298AC22100F5234E /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				BF533C9929BF1419003409AB /* Comment */,
 				BF38089D298916F7008FF936 /* TextInfoView.swift */,
 				BFF353F22968533B001392E5 /* CutCircularProgressView.swift */,
 				BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */,
@@ -335,6 +338,14 @@
 			isa = PBXGroup;
 			children = (
 				BF533C9729BF093C003409AB /* Comment.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		BF533C9929BF1419003409AB /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				BF533C9A29BF142A003409AB /* CommentCell.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -755,6 +766,7 @@
 				BF8E053D29A293B800079A06 /* WelcomeTabView.swift in Sources */,
 				BFBDF70D29A1FA1800B99C79 /* UpdaterHelpView.swift in Sources */,
 				BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */,
+				BF533C9B29BF142A003409AB /* CommentCell.swift in Sources */,
 				BF572E1329A5E37A00E9811B /* RecentDetailView.swift in Sources */,
 				BFBC54F3298CE5F300A93918 /* MaimaiDataGrabber.swift in Sources */,
 				BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */,
