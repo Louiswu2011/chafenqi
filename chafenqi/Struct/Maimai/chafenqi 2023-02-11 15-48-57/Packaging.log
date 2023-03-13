@@ -1,0 +1,329 @@
+2023-02-11 07:48:10 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7ff56249f100; archive(resolved)="<IDEArchive: 0x60000848f120>", distributionTask(resolved)="2", distributionDestination(resolved)="2", distributionMethod(resolved)="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	Chain (16, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x7ff56249f100; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0x7ff55fe336a0; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff55fecaa50; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff56b3dfcc0; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff55ce49a70; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff56273ce90; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff55aba23a0; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff578f550f0; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff5627c2ec0; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff5618ecf70; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff5618c3f10; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff5618c2b80; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff55abe5e00; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x6000039ccd00; teamID='CYVRCL87U4', teamName='Tianhao Wu', teamType='Individual', username='wulouis@126.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7ff56b58e540; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="(null)">
+	<IDEDistributionContext: 0x7ff5626c5210; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x6000062cccb0>", team="(null)">
+	<IDEDistributionContext: 0x7ff55ca367e0; archive = "<IDEArchive: 0x60000848f120>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x7ff56249f100>
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCreateDestRootStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCopyItemStep
+2023-02-11 07:48:10 +0000  Running /usr/bin/ditto '-V' '/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app'
+2023-02-11 07:48:10 +0000  >>> Copying /Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app 
+2023-02-11 07:48:10 +0000  copying file ./_CodeSignature/CodeResources ... 
+2023-02-11 07:48:10 +0000  5335 bytes for ./_CodeSignature/CodeResources
+2023-02-11 07:48:10 +0000  copying file ./chafenqi ... 
+2023-02-11 07:48:10 +0000  6054368 bytes for ./chafenqi
+2023-02-11 07:48:10 +0000  copying file ./PlugIns/updater.appex/_CodeSignature/CodeResources ... 
+2023-02-11 07:48:10 +0000  2040 bytes for ./PlugIns/updater.appex/_CodeSignature/CodeResources
+2023-02-11 07:48:10 +0000  copying file ./PlugIns/updater.appex/updater ... 
+2023-02-11 07:48:10 +0000  133648 bytes for ./PlugIns/updater.appex/updater
+2023-02-11 07:48:10 +0000  copying file ./PlugIns/updater.appex/embedded.mobileprovision ... 
+2023-02-11 07:48:10 +0000  12973 bytes for ./PlugIns/updater.appex/embedded.mobileprovision
+2023-02-11 07:48:10 +0000  copying file ./PlugIns/updater.appex/Info.plist ... 
+2023-02-11 07:48:10 +0000  946 bytes for ./PlugIns/updater.appex/Info.plist
+2023-02-11 07:48:10 +0000  copying file ./AppIcon60x60@2x.png ... 
+2023-02-11 07:48:10 +0000  26494 bytes for ./AppIcon60x60@2x.png
+2023-02-11 07:48:10 +0000  copying file ./randomScreen.png ... 
+2023-02-11 07:48:10 +0000  281789 bytes for ./randomScreen.png
+2023-02-11 07:48:10 +0000  copying file ./songListScreen.png ... 
+2023-02-11 07:48:10 +0000  831957 bytes for ./songListScreen.png
+copying file ./detailScreen.png ... 
+2023-02-11 07:48:10 +0000  1361506 bytes for ./detailScreen.png
+2023-02-11 07:48:10 +0000  copying file ./Assets.car ... 
+2023-02-11 07:48:10 +0000  1036712 bytes for ./Assets.car
+2023-02-11 07:48:10 +0000  copying file ./.gitignore ... 
+2023-02-11 07:48:10 +0000  225 bytes for ./.gitignore
+2023-02-11 07:48:10 +0000  copying file ./AppIcon76x76@2x~ipad.png ... 
+2023-02-11 07:48:10 +0000  36511 bytes for ./AppIcon76x76@2x~ipad.png
+2023-02-11 07:48:10 +0000  copying file ./searchScreen.png ... 
+2023-02-11 07:48:10 +0000  406137 bytes for ./searchScreen.png
+2023-02-11 07:48:10 +0000  copying file ./IdMap.json ... 
+2023-02-11 07:48:10 +0000  17095 bytes for ./IdMap.json
+2023-02-11 07:48:10 +0000  copying file ./embedded.mobileprovision ... 
+2023-02-11 07:48:10 +0000  12671 bytes for ./embedded.mobileprovision
+2023-02-11 07:48:10 +0000  copying file ./Info.plist ... 
+2023-02-11 07:48:10 +0000  1613 bytes for ./Info.plist
+2023-02-11 07:48:10 +0000  copying file ./PkgInfo ... 
+2023-02-11 07:48:10 +0000  8 bytes for ./PkgInfo
+2023-02-11 07:48:10 +0000  copying file ./homeScreen.png ... 
+2023-02-11 07:48:10 +0000  1124863 bytes for ./homeScreen.png
+2023-02-11 07:48:10 +0000  /usr/bin/ditto exited with 0
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionEmbedProfileStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionInfoPlistStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionItemRemovalStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2023-02-11 07:48:10 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2023-02-11 07:48:10 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionSymbolsStep
+2023-02-11 07:48:10 +0000  Processing symbols for updater.appex
+2023-02-11 07:48:10 +0000  Running /usr/bin/rsync '-8aPhhE' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex' '--link-dest' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY'
+2023-02-11 07:48:10 +0000  building file list ... 
+2023-02-11 07:48:10 +0000   0 files...2023-02-11 07:48:10 +0000  6 files to consider
+2023-02-11 07:48:10 +0000  updater.appex/
+2023-02-11 07:48:10 +0000  updater.appex/_CodeSignature/
+rsync: link "/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/updater.appex/_CodeSignature/CodeResources" => /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex/_CodeSignature/CodeResources failed: Operation not permitted (1)
+2023-02-11 07:48:10 +0000  updater.appex/_CodeSignature/CodeResources
+2023-02-11 07:48:10 +0000  
+2023-02-11 07:48:10 +0000  sent 247 bytes  received 38 bytes  570.00 bytes/sec
+total size is 148.07K  speedup is 532.01
+2023-02-11 07:48:10 +0000  /usr/bin/rsync exited with 0
+2023-02-11 07:48:10 +0000  Running /usr/bin/rsync '-8aPhhE' '/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/dSYMs/' '--link-dest' '/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/dSYMs/' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY'
+2023-02-11 07:48:10 +0000  building file list ... 
+2023-02-11 07:48:10 +0000   0 files...2023-02-11 07:48:10 +0000  1 file to consider
+2023-02-11 07:48:10 +0000  ./
+2023-02-11 07:48:10 +0000  
+2023-02-11 07:48:10 +0000  sent 79 bytes  received 26 bytes  210.00 bytes/sec
+total size is 0  speedup is 0.00
+2023-02-11 07:48:10 +0000  /usr/bin/rsync exited with 0
+2023-02-11 07:48:10 +0000  Writing /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Symbols/05E10773-7CB3-300B-80DA-A1E973468C2A.symbols
+2023-02-11 07:48:10 +0000  Processing symbols for chafenqi.app
+2023-02-11 07:48:10 +0000  Running /usr/bin/rsync '-8aPhhE' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app' '--link-dest' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY'
+2023-02-11 07:48:10 +0000  building file list ... 
+2023-02-11 07:48:10 +0000   0 files...2023-02-11 07:48:10 +0000  24 files to consider
+2023-02-11 07:48:10 +0000  chafenqi.app/
+2023-02-11 07:48:10 +0000  chafenqi.app/PlugIns/
+chafenqi.app/PlugIns/updater.appex/
+2023-02-11 07:48:10 +0000  chafenqi.app/PlugIns/updater.appex/_CodeSignature/
+chafenqi.app/_CodeSignature/
+2023-02-11 07:48:10 +0000  
+2023-02-11 07:48:10 +0000  sent 731 bytes  received 50 bytes  1.53K bytes/sec
+total size is 10.83M  speedup is 14533.83
+2023-02-11 07:48:10 +0000  /usr/bin/rsync exited with 0
+2023-02-11 07:48:10 +0000  Running /usr/bin/rsync '-8aPhhE' '/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/dSYMs/' '--link-dest' '/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/dSYMs/' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY'
+2023-02-11 07:48:10 +0000  building file list ... 
+2023-02-11 07:48:10 +0000   0 files...2023-02-11 07:48:10 +0000  1 file to consider
+2023-02-11 07:48:10 +0000  ./
+2023-02-11 07:48:10 +0000  
+2023-02-11 07:48:10 +0000  sent 79 bytes  received 26 bytes  210.00 bytes/sec
+total size is 0  speedup is 0.00
+2023-02-11 07:48:10 +0000  /usr/bin/rsync exited with 0
+2023-02-11 07:48:10 +0000  Writing /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Symbols/41BA83B6-A054-30F7-B3B3-4FCF3C35B4FD.symbols
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCopyAppleProvidedContentStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionAppThinningStep
+2023-02-11 07:48:10 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionArchThinningStep
+2023-02-11 07:48:10 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex/updater' '-verify_arch' 'arm64e'
+2023-02-11 07:48:10 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2023-02-11 07:48:10 +0000  Skipping architecture thinning for item "updater" because arch "arm64e" wasn't found
+2023-02-11 07:48:10 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/chafenqi' '-verify_arch' 'arm64e'
+2023-02-11 07:48:10 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2023-02-11 07:48:10 +0000  Skipping architecture thinning for item "chafenqi" because arch "arm64e" wasn't found
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionODRStep
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionStripXattrsStep
+2023-02-11 07:48:10 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x600008504480; bundleID='com.nltv.chafenqi.updater', path='<DVTFilePath:0x6000089c6760:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103e9a90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005723e90; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi.updater";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "com.apple.security.application-groups" =     (
+        "group.com.nltv.chafenqi"
+    );
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi.updater', executablePath='<DVTFilePath:0x600008506880:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex/updater'>', hardenedRuntime='0'>'>
+2023-02-11 07:48:10 +0000  Running /usr/bin/xattr '-crs' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app'
+2023-02-11 07:48:10 +0000  /usr/bin/xattr exited with 0
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCodesignStep
+2023-02-11 07:48:10 +0000  Entitlements for <IDEDistributionItem: 0x600008504480; bundleID='com.nltv.chafenqi.updater', path='<DVTFilePath:0x6000089c6760:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103e9a90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000057177b0; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi.updater";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "com.apple.security.application-groups" =     (
+        "group.com.nltv.chafenqi"
+    );
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi.updater', executablePath='<DVTFilePath:0x600008506880:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex/updater'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi.updater";
+    "beta-reports-active" = 1;
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "com.apple.security.application-groups" =     (
+        "group.com.nltv.chafenqi"
+    );
+    "get-task-allow" = 0;
+}
+2023-02-11 07:48:10 +0000  Entitlements for <IDEDistributionItem: 0x600008504480; bundleID='com.nltv.chafenqi.updater', path='<DVTFilePath:0x6000089c6760:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103e9a90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005705c30; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi.updater";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "com.apple.security.application-groups" =     (
+        "group.com.nltv.chafenqi"
+    );
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi.updater', executablePath='<DVTFilePath:0x600008506880:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex/updater'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi.updater";
+    "beta-reports-active" = 1;
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "com.apple.security.application-groups" =     (
+        "group.com.nltv.chafenqi"
+    );
+    "get-task-allow" = 0;
+}
+2023-02-11 07:48:10 +0000  Writing entitlements for <IDEDistributionItem: 0x600008504480; bundleID='com.nltv.chafenqi.updater', path='<DVTFilePath:0x6000089c6760:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103e9a90; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000017e61b0; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi.updater";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "com.apple.security.application-groups" =     (
+        "group.com.nltv.chafenqi"
+    );
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi.updater', executablePath='<DVTFilePath:0x600008506880:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/PlugIns/updater.appex/updater'>', hardenedRuntime='0'>'> to: /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/entitlements~~~jOiwKm
+2023-02-11 07:48:10 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' 'DA8D7603A58CF037A5230F9EF26CA20A3E0FD23F' '--entitlements' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/entitlements~~~jOiwKm' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex'
+2023-02-11 07:48:10 +0000  /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex: replacing existing signature
+2023-02-11 07:48:10 +0000  /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex: signed bundle with Mach-O thin (arm64) [com.nltv.chafenqi.updater]
+2023-02-11 07:48:10 +0000  /usr/bin/codesign exited with 0
+2023-02-11 07:48:10 +0000  Entitlements for <IDEDistributionItem: 0x6000085e93e0; bundleID='com.nltv.chafenqi', path='<DVTFilePath:0x6000089c4690:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103f8370; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000017eed60; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi', executablePath='<DVTFilePath:0x60000881c310:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/chafenqi'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi";
+    "beta-reports-active" = 1;
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "get-task-allow" = 0;
+}
+2023-02-11 07:48:10 +0000  Entitlements for <IDEDistributionItem: 0x6000085e93e0; bundleID='com.nltv.chafenqi', path='<DVTFilePath:0x6000089c4690:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103f8370; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000017ba520; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi', executablePath='<DVTFilePath:0x60000881c310:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/chafenqi'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi";
+    "beta-reports-active" = 1;
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "get-task-allow" = 0;
+}
+2023-02-11 07:48:10 +0000  Writing entitlements for <IDEDistributionItem: 0x6000085e93e0; bundleID='com.nltv.chafenqi', path='<DVTFilePath:0x6000089c4690:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000103f8370; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600001708c60; name='Apple Development: Tianhao Wu (NAU5WH9K25)', hash='DF7F16975FCC3CD5A5A38EA50E5A40809B4C8007', serialNumber='BCA3E413833598BE9F0F5A53747536E', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-02-06 17:02:01 +0000''>', entitlements='{
+    "application-identifier" = "CYVRCL87U4.com.nltv.chafenqi";
+    "com.apple.developer.networking.networkextension" =     (
+        "packet-tunnel-provider"
+    );
+    "com.apple.developer.team-identifier" = CYVRCL87U4;
+    "get-task-allow" = 1;
+}', teamID='CYVRCL87U4', identifier='com.nltv.chafenqi', executablePath='<DVTFilePath:0x60000881c310:'/Users/louis/Library/Developer/Xcode/Archives/2023-02-11/chafenqi 2023-2-11, 15.47.xcarchive/Products/Applications/chafenqi.app/chafenqi'>', hardenedRuntime='0'>'> to: /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/entitlements~~~I2abKN
+2023-02-11 07:48:10 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' 'DA8D7603A58CF037A5230F9EF26CA20A3E0FD23F' '--entitlements' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/entitlements~~~I2abKN' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app'
+2023-02-11 07:48:10 +0000  /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app: replacing existing signature
+2023-02-11 07:48:10 +0000  /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app: signed app bundle with Mach-O thin (arm64) [com.nltv.chafenqi]
+2023-02-11 07:48:10 +0000  /usr/bin/codesign exited with 0
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionZipODRItemStep
+2023-02-11 07:48:10 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2023-02-11 07:48:10 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2023-02-11 07:48:10 +0000  Processing step: IDEDistributionCreateIPAStep
+2023-02-11 07:48:10 +0000  Running /usr/bin/rsync '-8aPhhE' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Symbols' '--link-dest' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root'
+2023-02-11 07:48:10 +0000  building file list ... 
+2023-02-11 07:48:10 +0000   0 files...2023-02-11 07:48:10 +0000  3 files to consider
+2023-02-11 07:48:10 +0000  Symbols/
+2023-02-11 07:48:10 +0000  
+2023-02-11 07:48:10 +0000  sent 194 bytes  received 26 bytes  440.00 bytes/sec
+total size is 2.39M  speedup is 11402.40
+2023-02-11 07:48:10 +0000  /usr/bin/rsync exited with 0
+2023-02-11 07:48:10 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root' '/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Packages/chafenqi.ipa'
+2023-02-11 07:48:10 +0000  >>> Copying /var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root 
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/_CodeSignature/CodeResources ... 
+2023-02-11 07:48:10 +0000  5335 bytes for ./Payload/chafenqi.app/_CodeSignature/CodeResources
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/chafenqi ... 
+2023-02-11 07:48:10 +0000  6054432 bytes for ./Payload/chafenqi.app/chafenqi
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/PlugIns/updater.appex/_CodeSignature/CodeResources ... 
+2023-02-11 07:48:10 +0000  2040 bytes for ./Payload/chafenqi.app/PlugIns/updater.appex/_CodeSignature/CodeResources
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/PlugIns/updater.appex/updater ... 
+2023-02-11 07:48:10 +0000  133712 bytes for ./Payload/chafenqi.app/PlugIns/updater.appex/updater
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/PlugIns/updater.appex/embedded.mobileprovision ... 
+2023-02-11 07:48:10 +0000  14957 bytes for ./Payload/chafenqi.app/PlugIns/updater.appex/embedded.mobileprovision
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/PlugIns/updater.appex/Info.plist ... 
+2023-02-11 07:48:10 +0000  977 bytes for ./Payload/chafenqi.app/PlugIns/updater.appex/Info.plist
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/AppIcon60x60@2x.png ... 
+2023-02-11 07:48:10 +0000  26494 bytes for ./Payload/chafenqi.app/AppIcon60x60@2x.png
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/randomScreen.png ... 
+2023-02-11 07:48:10 +0000  281789 bytes for ./Payload/chafenqi.app/randomScreen.png
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/songListScreen.png ... 
+2023-02-11 07:48:10 +0000  831957 bytes for ./Payload/chafenqi.app/songListScreen.png
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/detailScreen.png ... 
+2023-02-11 07:48:10 +0000  1361506 bytes for ./Payload/chafenqi.app/detailScreen.png
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/Assets.car ... 
+2023-02-11 07:48:10 +0000  1036712 bytes for ./Payload/chafenqi.app/Assets.car
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/.gitignore ... 
+2023-02-11 07:48:10 +0000  225 bytes for ./Payload/chafenqi.app/.gitignore
+copying file ./Payload/chafenqi.app/AppIcon76x76@2x~ipad.png ... 
+2023-02-11 07:48:10 +0000  36511 bytes for ./Payload/chafenqi.app/AppIcon76x76@2x~ipad.png
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/searchScreen.png ... 
+2023-02-11 07:48:10 +0000  406137 bytes for ./Payload/chafenqi.app/searchScreen.png
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/IdMap.json ... 
+2023-02-11 07:48:10 +0000  17095 bytes for ./Payload/chafenqi.app/IdMap.json
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/embedded.mobileprovision ... 
+2023-02-11 07:48:10 +0000  14655 bytes for ./Payload/chafenqi.app/embedded.mobileprovision
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/Info.plist ... 
+2023-02-11 07:48:10 +0000  1644 bytes for ./Payload/chafenqi.app/Info.plist
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/PkgInfo ... 
+8 bytes for ./Payload/chafenqi.app/PkgInfo
+2023-02-11 07:48:10 +0000  copying file ./Payload/chafenqi.app/homeScreen.png ... 
+2023-02-11 07:48:10 +0000  1124863 bytes for ./Payload/chafenqi.app/homeScreen.png
+2023-02-11 07:48:10 +0000  copying file ./Symbols/05E10773-7CB3-300B-80DA-A1E973468C2A.symbols ... 
+2023-02-11 07:48:10 +0000  24732 bytes for ./Symbols/05E10773-7CB3-300B-80DA-A1E973468C2A.symbols
+2023-02-11 07:48:10 +0000  copying file ./Symbols/41BA83B6-A054-30F7-B3B3-4FCF3C35B4FD.symbols ... 
+2023-02-11 07:48:11 +0000  2483796 bytes for ./Symbols/41BA83B6-A054-30F7-B3B3-4FCF3C35B4FD.symbols
+2023-02-11 07:48:11 +0000  /usr/bin/ditto exited with 0
+2023-02-11 07:48:11 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2023-02-11 07:48:11 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2023-02-11 07:48:11 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2023-02-11 07:48:11 +0000  IDEDistributionItem init <DVTFilePath:0x600008871a40:'/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app/PlugIns/updater.appex'>
+2023-02-11 07:48:11 +0000  IDEDistributionItem init <DVTFilePath:0x600008835340:'/var/folders/nf/qgvygbk179bbzfc888jcnssc0000gn/T/XcodeDistPipeline.~~~KRFZGY/Root/Payload/chafenqi.app'>
+2023-02-11 07:48:11 +0000  Processing step: IDEDistributionCreateManifestStep
+2023-02-11 07:48:11 +0000  Skipping step: IDEDistributionCreateManifestStep because it said so
