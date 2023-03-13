@@ -49,42 +49,7 @@ struct CommentDetail: View {
                         Text(comment.getDateString())
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
-                        
-                        Menu {
-                            if (comment.sender != accountName) {
-                                Button {
-                                    
-                                } label: {
-                                    Image(systemName: "hand.thumbsup")
-                                    Text("赞")
-                                }
-                                
-                                Button {
-                                    
-                                } label: {
-                                    Image(systemName: "hand.thumbsdown")
-                                    Text("踩")
-                                }
-                            }
-                            
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "arrowshape.turn.up.forward")
-                                Text("回复")
-                            }
-                            
-                            if (comment.sender == accountName) {
-                                Button {
-                                    
-                                } label: {
-                                    Image(systemName: "trash")
-                                    Text("删除")
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                        }
+
                     }
                     .padding(.vertical)
                     
@@ -95,33 +60,33 @@ struct CommentDetail: View {
                 }
                 .contextMenu {
                     if (comment.sender != accountName) {
-                        Button {
-                            Task {
-                                let result = await comment.postLike()
-                                if (result) {
-                                    // TODO: Add success toast
-                                } else {
-                                    // TODO: Add fail toast
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "hand.thumbsup")
-                            Text("赞")
-                        }
-                        
-                        Button {
-                            Task {
-                                let result = await comment.postDislike()
-                                if (result) {
-                                    // TODO: Add success toast
-                                } else {
-                                    // TODO: Add fail toast
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "hand.thumbsdown")
-                            Text("踩")
-                        }
+//                        Button {
+//                            Task {
+//                                let result = await comment.postLike()
+//                                if (result) {
+//                                    // TODO: Add success toast
+//                                } else {
+//                                    // TODO: Add fail toast
+//                                }
+//                            }
+//                        } label: {
+//                            Image(systemName: "hand.thumbsup")
+//                            Text("赞")
+//                        }
+//
+//                        Button {
+//                            Task {
+//                                let result = await comment.postDislike()
+//                                if (result) {
+//                                    // TODO: Add success toast
+//                                } else {
+//                                    // TODO: Add fail toast
+//                                }
+//                            }
+//                        } label: {
+//                            Image(systemName: "hand.thumbsdown")
+//                            Text("踩")
+//                        }
                     }
                     
                     Button {
