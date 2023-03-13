@@ -31,6 +31,7 @@
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
+		BF533C9829BF093C003409AB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9729BF093C003409AB /* Comment.swift */; };
 		BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */; };
 		BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */; };
 		BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF571DAB29A91A2700702240 /* ChafenqiColor.swift */; };
@@ -151,6 +152,7 @@
 		BF403F3229B64DA2005D1C67 /* FilterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
+		BF533C9729BF093C003409AB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
 		BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterMainView.swift; sourceTree = "<group>"; };
 		BF571DAB29A91A2700702240 /* ChafenqiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafenqiColor.swift; sourceTree = "<group>"; };
@@ -329,6 +331,14 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		BF533C9629BF0932003409AB /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				BF533C9729BF093C003409AB /* Comment.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
 		BF55004B29818D8D004072A0 /* ScoreView */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +381,7 @@
 		BF7E251D296AAAB200169B57 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
+				BF533C9629BF0932003409AB /* Comment */,
 				BFBC54FB298CEB1800A93918 /* Maimai */,
 				BFBC54FA298CEB0500A93918 /* Chunithm */,
 			);
@@ -795,6 +806,7 @@
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,
 				BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */,
+				BF533C9829BF093C003409AB /* Comment.swift in Sources */,
 				BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */,
 				BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */,
 				BF0D912E296C4B7F005DC8A3 /* ChunithmDetailView.swift in Sources */,
