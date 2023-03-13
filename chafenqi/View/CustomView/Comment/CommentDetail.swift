@@ -17,7 +17,7 @@ struct CommentDetail: View {
     
     var body: some View {
         Form {
-            ForEach(comments, id: \.uid) { comment in
+            ForEach(Array(comments.enumerated()), id: \.offset) { index, comment in
                 VStack(alignment: .leading) {
                     HStack {
                         // TODO: Add Like/Dislike counter
@@ -26,68 +26,29 @@ struct CommentDetail: View {
                             .bold()
                             .lineLimit(1)
                         Spacer()
+                        
+//                        HStack {
+//                            Image(systemName: "hand.thumbsup")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 15)
+//                            Text("\(comment.like)")
+//                        }
+//                        .onTapGesture {
+//                            comments[index].addLike()
+//                        }
+//
+//                        HStack {
+//                            Image(systemName: "hand.thumbsdown")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 15)
+//                            Text("\(comment.dislike)")
+//                        }
+                        
                         Text(comment.getDateString())
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
-                        
-                        Menu {
-                            if (comment.sender != accountName) {
-                                Button {
-                                    Task {
-                                        let result = await comment.postLike()
-                                        if (result) {
-                                            // TODO: Add success toast
-                                        } else {
-                                            // TODO: Add fail toast
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "hand.thumbsup")
-                                    Text("赞")
-                                }
-                                
-                                Button {
-                                    Task {
-                                        let result = await comment.postDislike()
-                                        if (result) {
-                                            // TODO: Add success toast
-                                        } else {
-                                            // TODO: Add fail toast
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "hand.thumbsdown")
-                                    Text("踩")
-                                }
-                            }
-                            
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "arrowshape.turn.up.forward")
-                                Text("回复")
-                            }
-                            
-                            if (comment.sender == accountName) {
-                                Button {
-                                    Task {
-                                        let result = await comment.delete()
-                                        if (result) {
-                                            comments.removeAll {
-                                                $0.uid == comment.uid
-                                            }
-                                        } else {
-                                            // TODO: Add fail toast
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "trash")
-                                    Text("删除")
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                        }
                     }
                     .padding(.vertical)
                     
@@ -95,6 +56,61 @@ struct CommentDetail: View {
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
                         .padding(.bottom)
+                }
+                .contextMenu {
+                    if (comment.sender != accountName) {
+                        Button {
+                            Task {
+                                let result = await comment.postLike()
+                                if (result) {
+                                    // TODO: Add success toast
+                                } else {
+                                    // TODO: Add fail toast
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "hand.thumbsup")
+                            Text("赞")
+                        }
+                        
+                        Button {
+                            Task {
+                                let result = await comment.postDislike()
+                                if (result) {
+                                    // TODO: Add success toast
+                                } else {
+                                    // TODO: Add fail toast
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "hand.thumbsdown")
+                            Text("踩")
+                        }
+                    }
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.forward")
+                        Text("回复")
+                    }
+                    
+                    if (comment.sender == accountName) {
+                        Button {
+                            Task {
+                                let result = await comment.delete()
+                                if (result) {
+                                    comments.remove(at: index)
+                                    // TODO: Add success toast
+                                } else {
+                                    // TODO: Add fail toast
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                            Text("删除")
+                        }
+                    }
                 }
             }
             .navigationTitle("评论")
@@ -110,7 +126,6 @@ struct CommentDetail: View {
             }
         }
         .buttonStyle(.borderless)
-        
     }
 }
 
