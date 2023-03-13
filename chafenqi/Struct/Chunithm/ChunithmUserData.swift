@@ -15,15 +15,43 @@ struct ChunithmUserData: Codable {
     
     static let shared = ChunithmUserData(rating: 19.00, records: UserRecord(best: [], r10: []), username: "?")
     
-//    init(){
-//        let placerholder = ScoreEntry(chartId: 1, constant: 14.4, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "Master", musicId: 3, rating: 16.40, score: 1009560, title: "Y")
-//        let best = [ScoreEntry](repeating: placerholder, count: 100)
-//        let r10 = [ScoreEntry](repeating: placerholder, count: 10)
-//        rating = 17.00
-//        records = UserRecord(best: best, r10: r10)
-//        username = "louis"
-//    }
+    func getOverpower() -> Double {
+        let qualifiedList = records.best.filter {
+            ($0.levelIndex == 3 || $0.levelIndex == 4) && $0.score >= 975000
+        }
+        
+        var overpower: Double = 0.0
+        for entry in qualifiedList {
+            let score = entry.score
+            var op: Double = 0.0
+            var extra: Double {
+                if (entry.getStatus() == "FC") {
+                    return 0.5
+                } else if (entry.getStatus() == "AJ") {
+                    return 1.0
+                } else {
+                    return 0.0
+                }
+            }
 
+            
+            if (score <= 1007500) {
+                op = entry.rating * 5
+            } else if (score < 1010000) {
+                op = (entry.constant + 2) * 5 + Double((score - 1007500)) * 0.0015
+            } else if (score == 1010000) {
+                op = (entry.constant + 2) * 5 + 4
+            }
+            
+            print("\(extra), \(entry.status)")
+            
+            overpower += (op + extra)
+        }
+        
+        print(qualifiedList.count)
+        
+        return overpower
+    }
     
     func getAvgB30() -> Double {
         let best = self.records.best.sorted {
@@ -133,7 +161,7 @@ struct ScoreEntry: Codable, Hashable {
     
     func getStatus() -> String {
         switch (self.status) {
-        case "fullcombo", "fullchain":
+        case "fullcombo", "fullchain2", "fullchain":
             return "FC"
         case "alljustice":
             return "AJ"

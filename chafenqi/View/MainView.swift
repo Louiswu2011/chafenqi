@@ -42,11 +42,7 @@ struct MainView: View {
     var body: some View {
         TabView(selection: $currentTab) {
             NavigationView {
-                if (mode == 0) {
-                    ChunithmHomeView()
-                } else {
-                    MaimaiHomeView()
-                }
+                HomeTopView()
             }
             .tabItem {
                 Image(systemName: "house.fill")
