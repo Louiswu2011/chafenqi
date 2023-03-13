@@ -31,25 +31,7 @@ struct CommentCell: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical)
         }
-        .background(
-            RoundedRectangle(cornerRadius: 5)
-                .fill(.gray.opacity(0.2))
-        )
-        .contextMenu {
-            Button {
-                
-            } label: {
-                Image(systemName: "hand.thumbsup")
-                Text("赞")
-            }
-            
-            Button {
-                
-            } label: {
-                Image(systemName: "hand.thumbsdown")
-                Text("踩")
-            }
-        }
+        
     }
 }
 

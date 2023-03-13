@@ -249,7 +249,7 @@ struct ChunithmDetailView: View {
                                 .bold()
                             Spacer()
                             NavigationLink {
-                                
+                                CommentDetail(comments: comments)
                             } label: {
                                 Text("显示全部")
                             }
@@ -260,7 +260,26 @@ struct ChunithmDetailView: View {
                         ScrollView(.horizontal) {
                             ForEach(comments, id: \.uid) { entry in
                                 CommentCell(comment: entry)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .fill(.gray.opacity(0.2))
+                                    )
                                     .frame(width: 300)
+                                    .contextMenu {
+                                        Button {
+                                            
+                                        } label: {
+                                            Image(systemName: "hand.thumbsup")
+                                            Text("赞")
+                                        }
+                                        
+                                        Button {
+                                            
+                                        } label: {
+                                            Image(systemName: "hand.thumbsdown")
+                                            Text("踩")
+                                        }
+                                    }
                             }
                             // CommentCell(comment: .shared)
                         }
