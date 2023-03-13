@@ -10,6 +10,7 @@ import Foundation
 struct Comment: Codable {
     var message: String
     var sender: String
+    var nickname: String
     
     var uid: Int
     var timestamp: Int
@@ -19,7 +20,7 @@ struct Comment: Codable {
     var like: Int
     var dislike: Int
     
-    static let shared = Comment(message: "这是一条评论", sender: "这是一个发言者", uid: 1, timestamp: 10003442, mode: 0, musicId: 1, reply: -1, like: 0, dislike: 0)
+    static let shared = Comment(message: "这是一条评论", sender: "这是一个发言者", nickname: "系统管理员", uid: 1, timestamp: 10003442, mode: 0, musicId: 1, reply: -1, like: 0, dislike: 0)
     
     func postLike() async -> Bool {
         await post(url: URL(string: "http://43.139.107.206/comment/like")!, body: ["uid": uid])
