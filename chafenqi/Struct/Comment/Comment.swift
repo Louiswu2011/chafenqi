@@ -20,7 +20,15 @@ struct Comment: Codable {
     var like: Int
     var dislike: Int
     
-    static let shared = Comment(message: "这是一条评论", sender: "这是一个发言者", nickname: "系统管理员", uid: 1, timestamp: 10003442, mode: 0, musicId: 1, reply: -1, like: 0, dislike: 0)
+    static let shared = Comment(message: "这是一条评论", sender: "这是一个发言者", nickname: "系统管理员", uid: 1, timestamp: 10003442, mode: 0, musicId: 1, reply: 2, like: 0, dislike: 0)
+    
+    func concatReply() -> String {
+        if (reply != -1) {
+            return "回复#\(reply): \(message)"
+        } else {
+            return message
+        }
+    }
     
     mutating func addLike() {
         self.like += 1

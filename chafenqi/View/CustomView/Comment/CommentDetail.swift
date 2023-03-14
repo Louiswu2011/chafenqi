@@ -54,6 +54,12 @@ struct CommentDetail: View {
 //                            Text("\(comment.dislike)")
 //                        }
                         
+
+                        Text("#\(comment.uid)")
+                            .font(.system(size: 15))
+                            .foregroundColor(.gray)
+                        
+                        
                         Text(comment.getDateString())
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
@@ -61,10 +67,13 @@ struct CommentDetail: View {
                     }
                     .padding(.vertical)
                     
-                    Text(comment.message)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(2)
-                        .padding(.bottom)
+                    HStack {
+                        Text(comment.concatReply())
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(50)
+                    }
+                    .padding(.bottom)
+                    
                 }
                 .contextMenu {
                     if (comment.sender != accountName) {
@@ -101,7 +110,7 @@ struct CommentDetail: View {
                         replyingTo = comment
                         showingComposer.toggle()
                     } label: {
-                        Image(systemName: "arrowshape.turn.up.forward")
+                        Image(systemName: "arrowshape.turn.up.backward")
                         Text("回复")
                     }
                     
@@ -141,7 +150,7 @@ struct CommentDetail: View {
             AlertToast(displayMode: .alert, type: .complete(.green), title: "提交成功")
         }
         .sheet(isPresented: $showingComposer) {
-            CommentComposerView(replyComment: replyingTo, showingComposer: $showingComposer)
+            CommentComposerView(comments: comments, from: from, replyComment: replyingTo, showingComposer: $showingComposer)
         }
     }
 }
@@ -159,7 +168,8 @@ struct CommentComposerView: View {
     
     @ObservedObject var toastManager = AlertToastManager.shared
     
-    @State var from: Int = 0
+    @State var comments = []
+    @State var from: Int
     @State var message = ""
     @State var replyComment: Comment? = nil
     
@@ -194,7 +204,8 @@ struct CommentComposerView: View {
                                 reply: reply ?? -1
                             )
                             if (result) {
-                                toastManager.showingCommentPostSucceed.toggle()
+                                // toastManager.showingCommentPostSucceed.toggle()
+                                
                                 showingComposer.toggle()
                             }
                         }

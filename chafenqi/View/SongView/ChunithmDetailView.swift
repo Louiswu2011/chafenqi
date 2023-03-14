@@ -35,6 +35,7 @@ struct ChunithmDetailView: View {
     @State private var scoreEntries = [Int: ScoreEntry]()
     
     @State private var comments: Array<Comment> = []
+    @State private var showingComposer = false
     
     @State private var webChartId: String = ""
     
@@ -257,22 +258,31 @@ struct ChunithmDetailView: View {
                         .padding(.top)
                         .padding(.horizontal)
                         
+
                         if (comments.isEmpty) {
-                            VStack {
-                                Text("暂无评论")
-                                    .padding()
+                            HStack {
+                                Button {
+                                    showingComposer.toggle()
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(.accentColor)
+                                    Text("发表第一条评论")
+                                }
                             }
+                            .padding()
                         } else {
                             ScrollView(.horizontal) {
-                                ForEach(comments, id: \.uid) { entry in
-                                    CommentCell(comment: entry)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .fill(.gray.opacity(0.2))
-                                        )
-                                        .frame(width: 300)
+                                HStack {
+                                    ForEach(comments, id: \.uid) { entry in
+                                        CommentCell(comment: entry)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 5)
+                                                    .fill(.gray.opacity(0.2))
+                                            )
+                                            .frame(width: 300)
+                                    }
+                                    
                                 }
-                                // CommentCell(comment: .shared)
                             }
                             .padding([.horizontal, .bottom])
                         }
@@ -297,6 +307,9 @@ struct ChunithmDetailView: View {
                     comments = await CommentHelper.getComments(mode: 0, musicId: song.musicId)
                     loadingComments = false
                 }
+            }
+            .sheet(isPresented: $showingComposer) {
+                CommentComposerView(from: song.musicId, showingComposer: $showingComposer)
             }
 
 //            .toolbar {
