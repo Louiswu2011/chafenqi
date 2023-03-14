@@ -287,7 +287,6 @@ struct ChunithmHomeView: View {
                 status = .loading(hint: "加载数据中...")
                 try prepareRecords()
                 
-                status = .loading(hint: "加载歌曲列表中...")
                 try await loadSongList()
                 totalChartCount = getTotalChartCount()
                 

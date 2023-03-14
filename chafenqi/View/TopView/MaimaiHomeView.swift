@@ -241,7 +241,7 @@ struct MaimaiHomeView: View {
     }
     
     func loadUserData() async {
-        status = .loading(hint: "加载数据中")
+        status = .loading(hint: "加载数据中...")
         if (userInfoData.isEmpty) {
             do {
                 try await getUserInfoData()
@@ -330,27 +330,22 @@ struct MaimaiHomeView: View {
     }
     
     func getUserInfoData() async throws {
-        status = .loading(hint: "获取用户数据中...")
         userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
     }
     
     func getUserProfileData() async throws {
-        status = .loading(hint: "获取用户设置中...")
         userProfileData = try await MaimaiDataGrabber.getPlayerProfile(token: token)
     }
     
     func getSongListData() async throws {
-        status = .loading(hint: "获取谱面列表中...")
         loadedSongs = try await MaimaiDataGrabber.getMusicData()
     }
     
     func getChartStatsData() async throws {
-        status = .loading(hint: "加载谱面数据中...")
         loadedStats = try await MaimaiDataGrabber.getChartStat()
     }
     
     func getRankingData() async throws {
-        status = .loading(hint: "加载排行榜中...")
         loadedRanking = try! await MaimaiDataGrabber.getRatingRanking()
     }
     
