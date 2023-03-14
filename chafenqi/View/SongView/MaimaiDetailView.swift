@@ -22,6 +22,10 @@ struct MaimaiDetailView: View {
     @State private var isLoading = true
     
     @State private var loadingScore = true
+    @State private var loadingComments = true
+    
+    @State private var comments: Array<Comment> = []
+    @State private var showingComposer = false
     
     @State private var showingCalc = false
     
@@ -127,6 +131,14 @@ struct MaimaiDetailView: View {
                 if (!loadingScore && didLogin) {
                     let stats = chartStats[song.musicId] as! Array<MaimaiChartStat>
                     
+                    HStack {
+                        Text("游玩记录")
+                            .font(.system(size: 20))
+                            .bold()
+                        Spacer()
+                    }
+                    .padding([.horizontal, .top])
+                    
                     VStack(spacing: 5) {
                         ForEach(0..<4) { index in
                             MaimaiScoreCardView(index: index, scoreEntries: scoreEntries, song: song, chartStat: stats[index])
@@ -138,11 +150,57 @@ struct MaimaiDetailView: View {
                                 .padding(.bottom, 5)
                         }
                     }
+                    
+                    if (!loadingComments) {
+                        HStack {
+                            Text("评论")
+                                .font(.system(size: 20))
+                                .bold()
+                            Spacer()
+                            NavigationLink {
+                                CommentDetail(from: Int(song.musicId) ?? 0, comments: comments)
+                            } label: {
+                                Text("显示全部")
+                            }
+                        }
+                        .padding(.top)
+                        .padding(.horizontal)
+                        
+
+                        if (comments.isEmpty) {
+                            HStack {
+                                Button {
+                                    showingComposer.toggle()
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(.accentColor)
+                                    Text("发表第一条评论")
+                                }
+                            }
+                            .padding()
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    ForEach(comments, id: \.uid) { entry in
+                                        CommentCell(comment: entry)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 5)
+                                                    .fill(.gray.opacity(0.2))
+                                            )
+                                            .frame(width: 300)
+                                    }
+                                    
+                                }
+                            }
+                            .padding([.horizontal, .bottom])
+                        }
+                    }
                 }
             }
             .onAppear {
                 Task {
                     if(didLogin) {
+                        loadingScore = true
                         userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
                         var scores = userInfo.records.filter {
                             $0.musicId == Int(song.musicId)!
@@ -153,8 +211,16 @@ struct MaimaiDetailView: View {
                         scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
                         chartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
                     }
-                    loadingScore.toggle()
+                    
+                    loadingComments = true
+                    comments = await CommentHelper.getComments(mode: 1, musicId: Int(song.musicId) ?? 0)
+                    loadingComments = false
+                    
+                    loadingScore = false
                 }
+            }
+            .sheet(isPresented: $showingComposer) {
+                CommentComposerView(from: Int(song.musicId) ?? 0, showingComposer: $showingComposer)
             }
             //            .toolbar {
             //                ToolbarItem(placement: .navigationBarTrailing) {
