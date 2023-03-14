@@ -132,9 +132,11 @@ struct RecentView: View {
                 
                 for (index, entry) in chuRecent.enumerated() {
                     status = .loading(hint: "加载中 \(index + 1)/\(chuRecent.count)")
-                    chuSongs.append(chuSongData.first { data in
+                    let found = chuSongData.first { data in
                         String(data.musicId) == entry.music_id
-                    }!)
+                    }
+                    guard let unwrapped = found else { continue }
+                    chuSongs.append(unwrapped)
                 }
                 if (chuSongs.isEmpty || chuRecent.isEmpty) {
                     status = .empty
@@ -155,9 +157,11 @@ struct RecentView: View {
                 
                 for (index, entry) in maiRecent.enumerated() {
                     status = .loading(hint: "加载中 \(index + 1)/\(maiRecent.count)")
-                    maiSongs.append(maiSongData.first { data in
+                    let found = maiSongData.first { data in
                         String(data.title) == entry.title
-                    }!)
+                    }
+                    guard let unwrapped = found else { continue }
+                    maiSongs.append(unwrapped)
                 }
                 
                 if (maiSongs.isEmpty || maiRecent.isEmpty) {
