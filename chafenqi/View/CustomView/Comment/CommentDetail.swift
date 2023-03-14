@@ -12,8 +12,12 @@ struct CommentDetail: View {
     @AppStorage("didLogin") var didLogin = false
     
     @AppStorage("userAccountName") var accountName = ""
+    @AppStorage("userNickname") var accountNickname = ""
     
     @State var comments: Array<Comment> = []
+    @State var showingComposer = false
+    
+    @State var message = ""
     
     var body: some View {
         Form {
@@ -116,6 +120,46 @@ struct CommentDetail: View {
             }
             .navigationTitle("评论")
             .navigationBarTitleDisplayMode(.inline)
+            
+            Button {
+                showingComposer.toggle()
+            } label: {
+                Text("Add New Comment...")
+            }
+            .sheet(isPresented: $showingComposer) {
+                NavigationView {
+                    VStack(alignment: .leading) {
+                        TextField("在这里输入你的评论...", text: $message)
+                            .autocorrectionDisabled(true)
+                            .multilineTextAlignment(.leading)
+                            .autocapitalization(.none)
+                        Spacer()
+                        Text("将以\(accountNickname)的身份发布，请文明发言")
+                            .font(.system(size: 15))
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    .navigationBarTitle("发表评论")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                
+                            } label: {
+                                Text("提交")
+                            }
+                        }
+                        
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
+                                showingComposer.toggle()
+                            } label: {
+                                Text("取消")
+                            }
+                        }
+                    }
+                }
+            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

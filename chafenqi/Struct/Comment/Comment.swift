@@ -78,26 +78,56 @@ struct Comment: Codable {
 }
 
 struct CommentHelper {
+    static func postComment(message: String, sender: String, nickname: String, mode: Int, musicId: Int, reply: Int = -1) async -> Bool {
+        let url = URL(string: "http://43.139.107.206/comment/add")!
+        let body = [
+            "message": message,
+            "sender": sender,
+            "nickname": nickname,
+            "mode": mode,
+            "musicId": musicId,
+            "reply": reply
+        ] as [String : AnyHashable]
+        
+        do {
+            var request = URLRequest(url: url)
+
+            request.httpMethod = "POST"
+            request.httpBody = try JSONSerialization.data(withJSONObject: body)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let (_, response) = try await URLSession.shared.data(for: request)
+            if (response.statusCode() != 200) {
+                return false
+            }
+            
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+    
     static func getComments(mode: Int, musicId: Int) async -> Array<Comment> {
         let url = URL(string: "http://43.139.107.206/comment")!
         let body = ["mode": mode, "musicId": musicId]
 
-        return await getCommentsWithQuery(url: url, queryBody: body)
+        return await postWithPayload(url: url, postBody: body)
     }
     
     static func getComments(by: String) async -> Array<Comment> {
         let url = URL(string: "http://43.139.107.206/comment/by")!
         let body = ["sender": by]
         
-        return await getCommentsWithQuery(url: url, queryBody: body)
+        return await postWithPayload(url: url, postBody: body)
     }
     
-    static private func getCommentsWithQuery(url: URL, queryBody: Dictionary<AnyHashable, AnyHashable>) async -> Array<Comment> {
+    static private func postWithPayload(url: URL, postBody: Dictionary<AnyHashable, AnyHashable>) async -> Array<Comment> {
         do {
             var request = URLRequest(url: url)
 
             request.httpMethod = "POST"
-            request.httpBody = try JSONSerialization.data(withJSONObject: queryBody)
+            request.httpBody = try JSONSerialization.data(withJSONObject: postBody)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
             let (data, response) = try await URLSession.shared.data(for: request)
