@@ -11,6 +11,8 @@ final class AlertToastManager: ObservableObject {
     @Published var showingUpdaterPasted = false
     @Published var showingTutorialReseted = false
     @Published var showingRecordDeleted = false
+    @Published var showingCommentPostSucceed = false
+    @Published var showingCommentPostFailed = false
     
     static let shared = AlertToastManager()
 }

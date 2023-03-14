@@ -50,7 +50,7 @@ struct Comment: Codable {
     }
     
     func delete() async -> Bool {
-        await post(url: URL(string: "http://43.139.107.206/comment/add")!, body: ["uid": uid])
+        await post(url: URL(string: "http://43.139.107.206/comment/delete")!, body: ["uid": uid])
     }
     
     func getDate() -> Date {
@@ -68,6 +68,8 @@ struct Comment: Codable {
         do {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
+            request.httpBody = try JSONSerialization.data(withJSONObject: body)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
             let (_, response) = try await URLSession.shared.data(for: request)
             return response.statusCode() == 200

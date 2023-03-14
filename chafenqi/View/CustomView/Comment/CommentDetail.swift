@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct CommentDetail: View {
     @AppStorage("settingsCurrentMode") var mode = 0
@@ -13,6 +14,10 @@ struct CommentDetail: View {
     
     @AppStorage("userAccountName") var accountName = ""
     @AppStorage("userNickname") var accountNickname = ""
+    
+    @ObservedObject var toastManager = AlertToastManager.shared
+    
+    @State var from: Int = 0
     
     @State var comments: Array<Comment> = []
     @State var showingComposer = false
@@ -144,7 +149,18 @@ struct CommentDetail: View {
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button {
-                                
+                                Task {
+                                    let result = await CommentHelper.postComment(
+                                        message: message,
+                                        sender: accountName,
+                                        nickname: accountNickname,
+                                        mode: mode,
+                                        musicId: from)
+                                    if (result) {
+                                        toastManager.showingCommentPostSucceed.toggle()
+                                        showingComposer.toggle()
+                                    }
+                                }
                             } label: {
                                 Text("提交")
                             }
@@ -171,6 +187,9 @@ struct CommentDetail: View {
             }
         }
         .buttonStyle(.borderless)
+        .toast(isPresenting: $toastManager.showingCommentPostSucceed, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .complete(.green), title: "提交成功")
+        }
     }
 }
 

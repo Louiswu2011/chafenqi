@@ -249,7 +249,7 @@ struct ChunithmDetailView: View {
                                 .bold()
                             Spacer()
                             NavigationLink {
-                                CommentDetail(comments: comments)
+                                CommentDetail(from: song.musicId, comments: comments)
                             } label: {
                                 Text("显示全部")
                             }
@@ -265,21 +265,6 @@ struct ChunithmDetailView: View {
                                             .fill(.gray.opacity(0.2))
                                     )
                                     .frame(width: 300)
-                                    .contextMenu {
-                                        Button {
-                                            
-                                        } label: {
-                                            Image(systemName: "hand.thumbsup")
-                                            Text("赞")
-                                        }
-                                        
-                                        Button {
-                                            
-                                        } label: {
-                                            Image(systemName: "hand.thumbsdown")
-                                            Text("踩")
-                                        }
-                                    }
                             }
                             // CommentCell(comment: .shared)
                         }
