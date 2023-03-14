@@ -24,133 +24,135 @@ struct CommentDetail: View {
     @State var replyingTo: Comment? = nil
     
     var body: some View {
-        Form {
-            ForEach(Array(comments.enumerated()), id: \.offset) { index, comment in
-                VStack(alignment: .leading) {
-                    HStack {
-                        // TODO: Add Like/Dislike counter
-                        Text(comment.nickname)
-                            .font(.system(size: 15))
-                            .bold()
-                            .lineLimit(1)
-                        Spacer()
+        Group {
+            Form {
+                ForEach(Array(comments.enumerated()), id: \.offset) { index, comment in
+                    VStack(alignment: .leading) {
+                        HStack {
+                            // TODO: Add Like/Dislike counter
+                            Text(comment.nickname)
+                                .font(.system(size: 15))
+                                .bold()
+                                .lineLimit(1)
+                            Spacer()
+                            
+                            //                        HStack {
+                            //                            Image(systemName: "hand.thumbsup")
+                            //                                .resizable()
+                            //                                .aspectRatio(contentMode: .fit)
+                            //                                .frame(width: 15)
+                            //                            Text("\(comment.like)")
+                            //                        }
+                            //                        .onTapGesture {
+                            //                            comments[index].addLike()
+                            //                        }
+                            //
+                            //                        HStack {
+                            //                            Image(systemName: "hand.thumbsdown")
+                            //                                .resizable()
+                            //                                .aspectRatio(contentMode: .fit)
+                            //                                .frame(width: 15)
+                            //                            Text("\(comment.dislike)")
+                            //                        }
+                            
+                            
+                            Text("#\(comment.uid)")
+                                .font(.system(size: 15))
+                                .foregroundColor(.gray)
+                            
+                            
+                            Text(comment.getDateString())
+                                .font(.system(size: 15))
+                                .foregroundColor(.gray)
+                            
+                        }
+                        .padding(.vertical)
                         
-//                        HStack {
-//                            Image(systemName: "hand.thumbsup")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: 15)
-//                            Text("\(comment.like)")
-//                        }
-//                        .onTapGesture {
-//                            comments[index].addLike()
-//                        }
-//
-//                        HStack {
-//                            Image(systemName: "hand.thumbsdown")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: 15)
-//                            Text("\(comment.dislike)")
-//                        }
+                        HStack {
+                            Text(comment.concatReply())
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(50)
+                        }
+                        .padding(.bottom)
                         
-
-                        Text("#\(comment.uid)")
-                            .font(.system(size: 15))
-                            .foregroundColor(.gray)
+                    }
+                    .contextMenu {
+                        if (comment.sender != accountName) {
+                            //                        Button {
+                            //                            Task {
+                            //                                let result = await comment.postLike()
+                            //                                if (result) {
+                            //                                    // TODO: Add success toast
+                            //                                } else {
+                            //                                    // TODO: Add fail toast
+                            //                                }
+                            //                            }
+                            //                        } label: {
+                            //                            Image(systemName: "hand.thumbsup")
+                            //                            Text("赞")
+                            //                        }
+                            //
+                            //                        Button {
+                            //                            Task {
+                            //                                let result = await comment.postDislike()
+                            //                                if (result) {
+                            //                                    // TODO: Add success toast
+                            //                                } else {
+                            //                                    // TODO: Add fail toast
+                            //                                }
+                            //                            }
+                            //                        } label: {
+                            //                            Image(systemName: "hand.thumbsdown")
+                            //                            Text("踩")
+                            //                        }
+                        }
                         
-                        
-                        Text(comment.getDateString())
-                            .font(.system(size: 15))
-                            .foregroundColor(.gray)
-
-                    }
-                    .padding(.vertical)
-                    
-                    HStack {
-                        Text(comment.concatReply())
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(50)
-                    }
-                    .padding(.bottom)
-                    
-                }
-                .contextMenu {
-                    if (comment.sender != accountName) {
-//                        Button {
-//                            Task {
-//                                let result = await comment.postLike()
-//                                if (result) {
-//                                    // TODO: Add success toast
-//                                } else {
-//                                    // TODO: Add fail toast
-//                                }
-//                            }
-//                        } label: {
-//                            Image(systemName: "hand.thumbsup")
-//                            Text("赞")
-//                        }
-//
-//                        Button {
-//                            Task {
-//                                let result = await comment.postDislike()
-//                                if (result) {
-//                                    // TODO: Add success toast
-//                                } else {
-//                                    // TODO: Add fail toast
-//                                }
-//                            }
-//                        } label: {
-//                            Image(systemName: "hand.thumbsdown")
-//                            Text("踩")
-//                        }
-                    }
-                    
-                    Button {
-                        replyingTo = comment
-                        showingComposer.toggle()
-                    } label: {
-                        Image(systemName: "arrowshape.turn.up.backward")
-                        Text("回复")
-                    }
-                    
-                    if (comment.sender == accountName) {
                         Button {
-                            Task {
-                                let result = await comment.delete()
-                                if (result) {
-                                    comments.remove(at: index)
-                                    // TODO: Add success toast
-                                } else {
-                                    // TODO: Add fail toast
-                                }
-                            }
+                            replyingTo = comment
+                            showingComposer.toggle()
                         } label: {
-                            Image(systemName: "trash")
-                            Text("删除")
+                            Image(systemName: "arrowshape.turn.up.backward")
+                            Text("回复")
+                        }
+                        
+                        if (comment.sender == accountName) {
+                            Button {
+                                Task {
+                                    let result = await comment.delete()
+                                    if (result) {
+                                        comments.remove(at: index)
+                                        // TODO: Add success toast
+                                    } else {
+                                        // TODO: Add fail toast
+                                    }
+                                }
+                            } label: {
+                                Image(systemName: "trash")
+                                Text("删除")
+                            }
                         }
                     }
                 }
             }
-            .navigationTitle("评论")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    replyingTo = nil
-                    showingComposer.toggle()
-                } label: {
-                    Image(systemName: "plus")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        replyingTo = nil
+                        showingComposer.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
-        }
-        .buttonStyle(.borderless)
-        .toast(isPresenting: $toastManager.showingCommentPostSucceed, duration: 2, tapToDismiss: true) {
-            AlertToast(displayMode: .alert, type: .complete(.green), title: "提交成功")
-        }
-        .sheet(isPresented: $showingComposer) {
-            CommentComposerView(comments: comments, from: from, replyComment: replyingTo, showingComposer: $showingComposer)
+            .buttonStyle(.borderless)
+            .toast(isPresenting: $toastManager.showingCommentPostSucceed, duration: 2, tapToDismiss: true) {
+                AlertToast(displayMode: .alert, type: .complete(.green), title: "提交成功")
+            }
+            .sheet(isPresented: $showingComposer) {
+                CommentComposerView(comments: comments, from: from, replyComment: replyingTo, showingComposer: $showingComposer)
+            }
+            .navigationTitle("评论")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
