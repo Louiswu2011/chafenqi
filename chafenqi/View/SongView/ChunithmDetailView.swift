@@ -257,18 +257,25 @@ struct ChunithmDetailView: View {
                         .padding(.top)
                         .padding(.horizontal)
                         
-                        ScrollView(.horizontal) {
-                            ForEach(comments, id: \.uid) { entry in
-                                CommentCell(comment: entry)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .fill(.gray.opacity(0.2))
-                                    )
-                                    .frame(width: 300)
+                        if (comments.isEmpty) {
+                            VStack {
+                                Text("暂无评论")
+                                    .padding()
                             }
-                            // CommentCell(comment: .shared)
+                        } else {
+                            ScrollView(.horizontal) {
+                                ForEach(comments, id: \.uid) { entry in
+                                    CommentCell(comment: entry)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .fill(.gray.opacity(0.2))
+                                        )
+                                        .frame(width: 300)
+                                }
+                                // CommentCell(comment: .shared)
+                            }
+                            .padding([.horizontal, .bottom])
                         }
-                        .padding(.horizontal)
                     }
                 }
             }

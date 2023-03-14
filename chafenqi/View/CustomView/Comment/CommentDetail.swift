@@ -21,8 +21,7 @@ struct CommentDetail: View {
     
     @State var comments: Array<Comment> = []
     @State var showingComposer = false
-    
-    @State var message = ""
+    @State var replyingTo: Comment? = nil
     
     var body: some View {
         Form {
@@ -99,7 +98,8 @@ struct CommentDetail: View {
                     }
                     
                     Button {
-                        
+                        replyingTo = comment
+                        showingComposer.toggle()
                     } label: {
                         Image(systemName: "arrowshape.turn.up.forward")
                         Text("回复")
@@ -125,62 +125,12 @@ struct CommentDetail: View {
             }
             .navigationTitle("评论")
             .navigationBarTitleDisplayMode(.inline)
-            
-            Button {
-                showingComposer.toggle()
-            } label: {
-                Text("Add New Comment...")
-            }
-            .sheet(isPresented: $showingComposer) {
-                NavigationView {
-                    VStack(alignment: .leading) {
-                        TextField("在这里输入你的评论...", text: $message)
-                            .autocorrectionDisabled(true)
-                            .multilineTextAlignment(.leading)
-                            .autocapitalization(.none)
-                        Spacer()
-                        Text("将以\(accountNickname)的身份发布，请文明发言")
-                            .font(.system(size: 15))
-                            .foregroundColor(.gray)
-                    }
-                    .padding()
-                    .navigationBarTitle("发表评论")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button {
-                                Task {
-                                    let result = await CommentHelper.postComment(
-                                        message: message,
-                                        sender: accountName,
-                                        nickname: accountNickname,
-                                        mode: mode,
-                                        musicId: from)
-                                    if (result) {
-                                        toastManager.showingCommentPostSucceed.toggle()
-                                        showingComposer.toggle()
-                                    }
-                                }
-                            } label: {
-                                Text("提交")
-                            }
-                        }
-                        
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                showingComposer.toggle()
-                            } label: {
-                                Text("取消")
-                            }
-                        }
-                    }
-                }
-            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    
+                    replyingTo = nil
+                    showingComposer.toggle()
                 } label: {
                     Image(systemName: "plus")
                 }
@@ -190,11 +140,77 @@ struct CommentDetail: View {
         .toast(isPresenting: $toastManager.showingCommentPostSucceed, duration: 2, tapToDismiss: true) {
             AlertToast(displayMode: .alert, type: .complete(.green), title: "提交成功")
         }
+        .sheet(isPresented: $showingComposer) {
+            CommentComposerView(replyComment: replyingTo, showingComposer: $showingComposer)
+        }
     }
 }
 
 struct CommentDetail_Previews: PreviewProvider {
     static var previews: some View {
         CommentDetail(comments: [Comment.shared, Comment.shared, Comment.shared, Comment.shared, Comment.shared])
+    }
+}
+
+struct CommentComposerView: View {
+    @AppStorage("settingsCurrentMode") var mode = 0
+    @AppStorage("userAccountName") var accountName = ""
+    @AppStorage("userNickname") var accountNickname = ""
+    
+    @ObservedObject var toastManager = AlertToastManager.shared
+    
+    @State var from: Int = 0
+    @State var message = ""
+    @State var replyComment: Comment? = nil
+    
+    @Binding var showingComposer: Bool
+    
+    var body: some View {
+        NavigationView {
+            VStack(alignment: .leading) {
+                TextField("在这里输入你的评论...", text: $message)
+                    .autocorrectionDisabled(true)
+                    .multilineTextAlignment(.leading)
+                    .autocapitalization(.none)
+                Spacer()
+                Text("将以\(accountNickname)的身份发布，请文明发言")
+                    .font(.system(size: 15))
+                    .foregroundColor(.gray)
+            }
+            .padding()
+            .navigationBarTitle("发表评论")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        let reply = replyComment?.uid
+                        Task {
+                            let result = await CommentHelper.postComment(
+                                message: message,
+                                sender: accountName,
+                                nickname: accountNickname,
+                                mode: mode,
+                                musicId: from,
+                                reply: reply ?? -1
+                            )
+                            if (result) {
+                                toastManager.showingCommentPostSucceed.toggle()
+                                showingComposer.toggle()
+                            }
+                        }
+                    } label: {
+                        Text("提交")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingComposer.toggle()
+                    } label: {
+                        Text("取消")
+                    }
+                }
+            }
+        }
     }
 }
