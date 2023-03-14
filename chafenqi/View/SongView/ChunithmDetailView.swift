@@ -228,7 +228,6 @@ struct ChunithmDetailView: View {
                             .bold()
                         Spacer()
                     }
-                    .padding(.top)
                     .padding(.horizontal)
                     
                     VStack(spacing: 5) {
@@ -271,7 +270,7 @@ struct ChunithmDetailView: View {
                             }
                             .padding()
                         } else {
-                            ScrollView(.horizontal) {
+                            ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
                                     ForEach(comments, id: \.uid) { entry in
                                         CommentCell(comment: entry)
