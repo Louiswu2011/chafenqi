@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>chafenqi.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>82</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>DA8D7603A58CF037A5230F9EF26CA20A3E0FD23F</string>
+				<key>dateExpires</key>
+				<string>2024/2/7</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>82</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>DA8D7603A58CF037A5230F9EF26CA20A3E0FD23F</string>
+						<key>dateExpires</key>
+						<string>2024/2/7</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>entitlements</key>
+					<dict>
+						<key>application-identifier</key>
+						<string>CYVRCL87U4.com.nltv.chafenqi.updater</string>
+						<key>beta-reports-active</key>
+						<true/>
+						<key>com.apple.developer.networking.networkextension</key>
+						<array>
+							<string>packet-tunnel-provider</string>
+						</array>
+						<key>com.apple.developer.team-identifier</key>
+						<string>CYVRCL87U4</string>
+						<key>com.apple.security.application-groups</key>
+						<array>
+							<string>group.com.nltv.chafenqi</string>
+						</array>
+						<key>get-task-allow</key>
+						<false/>
+					</dict>
+					<key>name</key>
+					<string>updater.appex</string>
+					<key>profile</key>
+					<dict>
+						<key>UUID</key>
+						<string>6cd04f23-940c-4b1b-9a36-3c457c3dc0f2</string>
+						<key>dateExpires</key>
+						<string>2024/2/8</string>
+						<key>name</key>
+						<string>iOS Team Store Provisioning Profile: com.nltv.chafenqi.updater</string>
+					</dict>
+					<key>symbols</key>
+					<true/>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>CYVRCL87U4</string>
+						<key>name</key>
+						<string>Tianhao Wu</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>1.1.0</string>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>CYVRCL87U4.com.nltv.chafenqi</string>
+				<key>beta-reports-active</key>
+				<true/>
+				<key>com.apple.developer.networking.networkextension</key>
+				<array>
+					<string>packet-tunnel-provider</string>
+				</array>
+				<key>com.apple.developer.team-identifier</key>
+				<string>CYVRCL87U4</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>chafenqi.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>0ba18e01-f7a5-4106-bad2-69d922fad9c9</string>
+				<key>dateExpires</key>
+				<string>2024/2/8</string>
+				<key>name</key>
+				<string>iOS Team Store Provisioning Profile: com.nltv.chafenqi</string>
+			</dict>
+			<key>symbols</key>
+			<true/>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>CYVRCL87U4</string>
+				<key>name</key>
+				<string>Tianhao Wu</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
