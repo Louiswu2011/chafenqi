@@ -53,6 +53,7 @@ struct MainView: View {
                 Text("主页")
             }
             .tag(TabIdentifier.home)
+            .navigationViewStyle(.stack)
             
             NavigationView {
                 RecentView()
@@ -62,6 +63,7 @@ struct MainView: View {
                 Text("最近")
             }
             .tag(TabIdentifier.recent)
+            .navigationViewStyle(.stack)
             
             NavigationView {
                 SongListView()
@@ -71,6 +73,7 @@ struct MainView: View {
                 Text("歌曲")
             }
             .tag(TabIdentifier.list)
+            .navigationViewStyle(.stack)
             
             NavigationView {
                 ToolView()
@@ -83,6 +86,7 @@ struct MainView: View {
             .toast(isPresenting: $toastManager.showingUpdaterPasted, duration: 2, tapToDismiss: true) {
                 AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
             }
+            .navigationViewStyle(.stack)
         }.sheet(isPresented: $showingWelcome) {
             if #available(iOS 15.0, *) {
                 WelcomeTabView(isShowingWelcome: $showingWelcome)
