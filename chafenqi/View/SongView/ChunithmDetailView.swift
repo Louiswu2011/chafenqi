@@ -420,6 +420,7 @@ func getChunithmLevelColor(index: Int) -> Color {
 struct SongDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ChunithmDetailView(song: tempSongData)
+            
     }
 }
 
