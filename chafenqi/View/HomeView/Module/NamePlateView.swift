@@ -14,7 +14,11 @@ struct NamePlateView: View {
     private var nameplateChuniColorTop = Color(red: 254, green: 241, blue: 65)
     private var nameplateChuniColorBottom = Color(red: 243, green: 200, blue: 48)
     
+    private var nameplateMaiColorTop = Color(red: 167, green: 243, blue: 254)
+    private var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
+    
     @State private var plateBackgroundGradient: LinearGradient = LinearGradient(colors: [.black, .white], startPoint: .top, endPoint: .bottom)
+    @State private var plateImageName = ""
     
     var body: some View {
         ZStack {
@@ -27,7 +31,7 @@ struct NamePlateView: View {
                 HStack {
                     Spacer()
                     
-                    Image("nameplate_penguin")
+                    Image(plateImageName)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .padding(.trailing, 10)
@@ -58,11 +62,12 @@ struct NamePlateView: View {
         .padding()
         .frame(height: 150)
         .onAppear {
-            // TODO: Replace placeholder color value for both game
             if (mode == 0) {
                 plateBackgroundGradient = LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom)
+                plateImageName = "nameplate_penguin"
             } else {
-                
+                plateBackgroundGradient = LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                plateImageName = "nameplate_salt"
             }
         }
     }

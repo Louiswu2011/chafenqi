@@ -67,6 +67,15 @@ struct HomeTopView: View {
             }
         }
         .navigationTitle("主页")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+
+                }) {
+                    Image(systemName: "gear")
+                }
+            }
+        }
     }
 }
 
