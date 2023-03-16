@@ -8,58 +8,50 @@
 import SwiftUI
 
 struct RecentSpotlightCardView: View {
-    @AppStorage("settingsChunithmCoverSource") var chuSource = 0
     
-    @State var recentRecord: ChunithmRecentRecord
-    @State var spotlightType: String
+    @State var spotlightText = "新纪录"
+    @State var dateSincePlayed = "2天前"
+    @State var record = MaimaiRecentRecord.shared
     
     var body: some View {
         ZStack {
+            // TODO: Change to diff color
             RoundedRectangle(cornerRadius: 5)
-                .foregroundColor(backgroundColor)
+                .foregroundColor(maimaiLevelColor[record.getLevelIndex()] ?? .blue)
             
-            VStack() {
-                HStack {
-                    SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: chuSource, musicId: recentRecord.music_id), size: 100, cornerRadius: 5, withShadow: true)
+            HStack {
+                VStack {
+                    HStack {
+                        Text(record.title)
+                            .font(.system(size: 20))
+                        
+                        Spacer()
+                        
+                        Text(spotlightText)
+                            .font(.system(size: 20))
+                            .bold()
+                    }
                     
                     Spacer()
                     
-                    Text(recentRecord.getGrade())
-                        .font(.system(size: 25))
-                        .bold()
+                    HStack {
+                        Text(record.achievement)
+                            .font(.system(size: 30))
+                            .bold()
+                        
+                        Spacer()
+                    }
                 }
-                .padding()
-                .background(
-                    Rectangle()
-                        .foregroundColor(.white)
-                        .frame(height: 80)
-                        .shadow(radius: 5)
-                )
-                
-                
-                Text("\(Int(recentRecord.score)!)")
-                    .font(.system(size: 30))
-                    .bold()
-                
-                Spacer()
-                
             }
-            
-            
-            
+            .padding()
         }
-        .frame(width: 220, height: 300)
-        .padding()
+        .frame(height: 100)
+    }
 
-    }
-    
-    var backgroundColor: Color {
-        getChunithmLevelColor(index: recentRecord.getLevelIndex())
-    }
 }
 
 struct RecentSpotlightCardView_Previews: PreviewProvider {
     static var previews: some View {
-        RecentSpotlightCardView(recentRecord: ChunithmRecentRecord.shared, spotlightType: "推分")
+        RecentSpotlightCardView()
     }
 }

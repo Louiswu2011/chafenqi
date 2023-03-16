@@ -35,24 +35,67 @@ struct NamePlateView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .padding(.trailing, 10)
-                        .frame(width: 100, height: 100)
+                        .frame(width: 110, height: 110)
+                        .contextMenu {
+                            Button {
+                                // TODO: Add custom avatar
+                            } label: {
+                                Image(systemName: "rectangle.on.rectangle.angled")
+                                Text("照片图库")
+                            }
+                        }
                     
                 }
             }
             
             HStack {
                 VStack(alignment: .leading) {
-                    Text(nickname)
-                        .font(.system(size: 27))
-                        .bold()
-                        .frame(maxWidth: 150, alignment: .leading)
-                    
-                    HStack(alignment: .center) {
-                        Text("Rating")
-                        Text("999.00")
-                            .font(.system(size: 20))
+                    HStack {
+                        Text(nickname)
+                            .font(.system(size: 30))
+                            .bold()
+                            .frame(maxWidth: 150, alignment: .leading)
+                        
+                        Spacer()
+                        
+                        Button {
                             
+                        } label: {
+                            HStack {
+                                Text("切换游戏")
+                                    .font(.system(size: 20))
+                                Image(systemName: "arrow.left.arrow.right")
+                            }
+                        }
                     }
+                    .padding(.bottom, 5)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        HStack() {
+                            Text("Rating")
+                                .font(.system(size: 20))
+                            Text("10302")
+                                .font(.system(size: 20))
+                                .bold()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Text("排名")
+                                .font(.system(size: 20))
+                            Text("#1000")
+                                .font(.system(size: 20))
+                                .bold()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Text("总完成率")
+                                .font(.system(size: 20))
+                            Text("100000%")
+                                .font(.system(size: 20))
+                                .bold()
+                        }
+                    }
+                    // .padding(.top, 10)
                     Spacer()
                 }
                 Spacer()
@@ -60,7 +103,7 @@ struct NamePlateView: View {
             .padding()
         }
         .padding()
-        .frame(height: 150)
+        .frame(height: 200)
         .onAppear {
             if (mode == 0) {
                 plateBackgroundGradient = LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom)

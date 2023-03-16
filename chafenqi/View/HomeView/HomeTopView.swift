@@ -30,18 +30,61 @@ struct HomeTopView: View {
                                 .font(.system(size: 20))
                                 .bold()
                             Spacer()
+
+                            NavigationLink {
+                                
+                            } label: {
+                                Text("显示全部")
+                                    .font(.system(size: 20))
+                            }
                         }
                         .padding(.horizontal)
+                        
+                        
+                        VStack {
+                            
+                        }
+                        .padding([.horizontal, .bottom])
+                        
+                        
                     }
                     
                     Group {
                         HStack {
-                            Text("Rating对象歌曲")
+                            Text("Rating分析")
                                 .font(.system(size: 20))
                                 .bold()
                             Spacer()
+                            
+                            NavigationLink {
+                                
+                            } label: {
+                                Text("显示详情")
+                                    .font(.system(size: 20))
+                            }
                         }
                         .padding(.horizontal)
+                        
+                        VStack {
+                            
+                        }
+                        .padding([.horizontal, .bottom])
+                    }
+                    
+                    Group {
+                        HStack {
+                            Text("实力分析")
+                                .font(.system(size: 20))
+                                .bold()
+                            Spacer()
+
+                        }
+                        .padding(.horizontal)
+                        
+                        VStack {
+                            
+                        }
+                        .padding([.horizontal, .bottom])
                     }
                     
                     Text("Overpower: \(overpower, specifier: "%.2f")")
