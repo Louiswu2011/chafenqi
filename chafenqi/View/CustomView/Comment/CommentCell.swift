@@ -13,7 +13,9 @@ struct CommentCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(comment.nickname)
+                let displayName = comment.nickname.isEmpty ? comment.sender : comment.nickname
+                
+                Text(displayName)
                     .font(.system(size: 15))
                     .bold()
                     .lineLimit(1)
