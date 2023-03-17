@@ -32,7 +32,7 @@ struct HomeTopView: View {
                             Spacer()
 
                             NavigationLink {
-                                
+                                RecentView()
                             } label: {
                                 Text("显示全部")
                                     .font(.system(size: 20))
@@ -41,7 +41,7 @@ struct HomeTopView: View {
                         .padding(.horizontal)
                         
                         
-                        VStack {
+                        HStack {
                             
                         }
                         .padding([.horizontal, .bottom])
