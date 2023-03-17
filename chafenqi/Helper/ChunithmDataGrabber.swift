@@ -30,6 +30,15 @@ struct ChunithmDataGrabber {
         }
     }
     
+    static func getUserScoreData(username: String) async throws -> Data {
+        let body = ["username": username]
+        let bodyData = try! JSONSerialization.data(withJSONObject: body)
+        
+        let (data, _) = try await postWithPayload(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/query/player")!, payload: bodyData)
+        return data
+
+    }
+    
     static func loginAs(username: String, password: String) async throws -> (String, String) {
         let body = ["username": username, "password": password]
         let bodyData = try! JSONSerialization.data(withJSONObject: body)

@@ -11,6 +11,8 @@ struct HomeTopView: View {
     @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("userToken") var token = ""
     
+    @ObservedObject var user = CFQUser()
+    
     @State private var loadStatus: LoadStatus = .loading(hint: "加载中...")
     
     @State private var chunithmUserData = ChunithmUserData.shared
