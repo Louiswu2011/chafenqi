@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NamePlateView: View {
     @AppStorage("settingsCurrentMode") var mode = 0
+    @AppStorage("userAccountName") var username = ""
     @AppStorage("userNickname") var nickname = ""
     
     private var nameplateChuniColorTop = Color(red: 254, green: 241, blue: 65)
@@ -50,9 +51,11 @@ struct NamePlateView: View {
             
             HStack {
                 VStack(alignment: .leading) {
+                    let displayName = nickname.isEmpty ? username : nickname
+                    
                     HStack {
-                        Text(nickname)
-                            .font(.system(size: 30))
+                        Text(displayName)
+                            .font(.system(size: 28))
                             .bold()
                             .frame(maxWidth: 150, alignment: .leading)
                         
@@ -63,7 +66,7 @@ struct NamePlateView: View {
                         } label: {
                             HStack {
                                 Text("切换游戏")
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 18))
                                 Image(systemName: "arrow.left.arrow.right")
                             }
                         }
@@ -73,25 +76,25 @@ struct NamePlateView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         HStack() {
                             Text("Rating")
-                                .font(.system(size: 20))
+                                .font(.system(size: 18))
                             Text("10302")
-                                .font(.system(size: 20))
+                                .font(.system(size: 18))
                                 .bold()
                         }
                         
                         HStack(alignment: .center) {
                             Text("排名")
-                                .font(.system(size: 20))
+                                .font(.system(size: 18))
                             Text("#1000")
-                                .font(.system(size: 20))
+                                .font(.system(size: 18))
                                 .bold()
                         }
                         
                         HStack(alignment: .center) {
                             Text("总完成率")
-                                .font(.system(size: 20))
+                                .font(.system(size: 18))
                             Text("100000%")
-                                .font(.system(size: 20))
+                                .font(.system(size: 18))
                                 .bold()
                         }
                     }

@@ -23,6 +23,22 @@ struct ChunithmUserData: Codable {
         var overpower: Double = 0.0
         for entry in qualifiedList {
             let score = entry.score
+            var rating: Double {
+                switch (entry.score) {
+                case 975000...999999:
+                    return entry.constant + Double(entry.score - 975000) / 2500 * 0.1
+                case 1000000...1004999:
+                    return entry.constant + 1.0 + Double(entry.score - 1000000) / 1000 * 0.1
+                case 1005000...1007499:
+                    return entry.constant + 1.5 + Double(entry.score - 1005000) / 500 * 0.1
+                case 1007500...1008999:
+                    return entry.constant + 2.0 + Double(entry.score - 1007500) / 100 * 0.01
+                case 1009000...1010000:
+                    return entry.constant + 2.15
+                default:
+                    return 0
+                }
+            }
             var op: Double = 0.0
             var extra: Double {
                 if (entry.getStatus() == "FC") {
@@ -36,20 +52,27 @@ struct ChunithmUserData: Codable {
 
             
             if (score <= 1007500) {
-                op = entry.rating * 5
+                op = rating * 5.0
             } else if (score < 1010000) {
-                op = (entry.constant + 2) * 5 + Double((score - 1007500)) * 0.0015
+                op = (entry.constant + 2.0) * 5.0 + Double((score - 1007500)) * 0.0015
             } else if (score == 1010000) {
-                op = (entry.constant + 2) * 5 + 4
+                op = (entry.constant + 2.0) * 5.0 + 4.0
             }
             
-            print("\(extra), \(entry.status)")
+            print("title \(entry.title), level \(entry.levelLabel), score \(score), base \(op), status \(entry.status), bonus \(extra)")
+            if((extra == 0.0 && entry.getStatus() != "Clear") || (extra != 0.0 && entry.getStatus() == "Clear")) {
+                print("Wrong extra value, got \(extra) while status is \(entry.getStatus())")
+            }
             
             overpower += (op + extra)
         }
         
-        print(qualifiedList.count)
+        for i in 10...15 {
+            print("Level \(i): \(qualifiedList.filter {$0.level == "\(i)"}.count)")
+            print("Level \(i)+: \(qualifiedList.filter {$0.level == "\(i)+"}.count)")
+        }
         
+        print(qualifiedList.count)
         return overpower
     }
     

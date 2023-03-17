@@ -35,7 +35,7 @@ struct HomeTopView: View {
                                 RecentView()
                             } label: {
                                 Text("显示全部")
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 18))
                             }
                         }
                         .padding(.horizontal)
@@ -60,7 +60,7 @@ struct HomeTopView: View {
                                 // TODO: Navigate to RatingDetailView
                             } label: {
                                 Text("显示详情")
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 18))
                             }
                         }
                         .padding(.horizontal)
