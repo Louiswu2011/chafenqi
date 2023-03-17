@@ -8,23 +8,19 @@
 import SwiftUI
 
 struct HomeTopView: View {
-    @AppStorage("userChunithmInfoData") var userInfoData = Data()
     @AppStorage("userToken") var token = ""
     
+    @ObservedObject var data = CFQPersistentData()
     @ObservedObject var user = CFQUser()
     
     @State private var loadStatus: LoadStatus = .loading(hint: "加载中...")
-    
-    @State private var chunithmUserData = ChunithmUserData.shared
-    
-    @State private var overpower = 0.0
     
     var body: some View {
         Group {
             switch (loadStatus) {
             case .complete:
                 ScrollView {
-                    NamePlateView()
+                    NamePlateView(user: user)
                     
                     Group {
                         HStack {
@@ -88,12 +84,13 @@ struct HomeTopView: View {
                         }
                         .padding([.horizontal, .bottom])
                     }
-                    
-                    Text("Overpower: \(overpower, specifier: "%.2f")")
-                        .padding()
                 }
             case .loading:
-                Text("loading...")
+                VStack {
+                    ProgressView()
+                        .padding()
+                    Text("加载中")
+                }
             default:
                 Text("loading...")
             }
@@ -101,13 +98,12 @@ struct HomeTopView: View {
         .onAppear {
             Task {
                 do {
-                    userInfoData = try await ChunithmDataGrabber.getUserRecord(token: token)
-                    chunithmUserData = try JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
-                    overpower = chunithmUserData.getOverpower()
+                    try await data.update()
+                    await user.loadFromToken(token: token, data: data)
                     
                     loadStatus = .complete
                 } catch {
-                    
+                    loadStatus = .error(errorText: "ERROR")
                 }
             }
         }
