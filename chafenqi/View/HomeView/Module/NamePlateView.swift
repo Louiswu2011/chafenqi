@@ -25,6 +25,7 @@ struct NamePlateView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 5)
                 .fill(plateBackgroundGradient)
+                .shadow(radius: 5)
             
             VStack {
                 Spacer()
