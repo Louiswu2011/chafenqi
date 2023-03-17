@@ -50,14 +50,14 @@ struct MainView: View {
             }
             .tag(TabIdentifier.home)
             
-            NavigationView {
-                RecentView()
-            }
-            .tabItem {
-                Image(systemName: "clock")
-                Text("最近")
-            }
-            .tag(TabIdentifier.recent)
+//            NavigationView {
+//                RecentView()
+//            }
+//            .tabItem {
+//                Image(systemName: "clock")
+//                Text("最近")
+//            }
+//            .tag(TabIdentifier.recent)
             
             NavigationView {
                 SongListView()

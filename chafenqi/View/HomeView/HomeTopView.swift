@@ -57,7 +57,7 @@ struct HomeTopView: View {
                             Spacer()
                             
                             NavigationLink {
-                                
+                                // TODO: Navigate to RatingDetailView
                             } label: {
                                 Text("显示详情")
                                     .font(.system(size: 20))
