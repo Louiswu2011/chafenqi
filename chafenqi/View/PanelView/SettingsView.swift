@@ -27,7 +27,7 @@ struct SettingsView: View {
     @AppStorage("userMaimaiProfileData") var maimaiProfileData = Data()
     
     @AppStorage("didLogin") var didLogin = false
-
+    
     @ObservedObject var toastManager = AlertToastManager.shared
     
     @State private var accountPassword = ""
@@ -45,191 +45,187 @@ struct SettingsView: View {
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    HStack {
-                        Text("封面来源")
-                        Spacer()
-                        if (currentMode == 0) {
-                            Picker(chunithmSourceOptions[chunithmCoverSource]!, selection: $chunithmCoverSource) {
-                                ForEach(chunithmSourceOptions.sorted(by: <), id: \.key) {
-                                    Text($0.value)
-                                }
-                            }
-                            .pickerStyle(.menu)
-                        } else {
-                            Picker(maimaiSourceOptions[maimaiCoverSource]!, selection: $maimaiCoverSource) {
-                                ForEach(maimaiSourceOptions.sorted(by: <), id: \.key) {
-                                    Text($0.value)
-                                }
-                            }
-                            .pickerStyle(.menu)
-                        }
-                    }
-                } header: {
-                    Text("常规")
-                } footer: {
+        
+        Form {
+            Section {
+                HStack {
+                    Text("封面来源")
+                    Spacer()
                     if (currentMode == 0) {
-                        Text("国内访问推荐NLServer")
+                        Picker(chunithmSourceOptions[chunithmCoverSource]!, selection: $chunithmCoverSource) {
+                            ForEach(chunithmSourceOptions.sorted(by: <), id: \.key) {
+                                Text($0.value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    } else {
+                        Picker(maimaiSourceOptions[maimaiCoverSource]!, selection: $maimaiCoverSource) {
+                            ForEach(maimaiSourceOptions.sorted(by: <), id: \.key) {
+                                Text($0.value)
+                            }
+                        }
+                        .pickerStyle(.menu)
                     }
                 }
-                
-                Section {
-                    if (didLogin) {
-                        TextInfoView(text: "用户名", info: accountName)
-                        TextInfoView(text: "Token", info: token)
-                        HStack {
-                            Text("当前数据来源")
-                            Spacer()
-                            Picker(modeOptions[currentMode]!, selection: $currentMode) {
-                                ForEach(modeOptions.sorted(by: <), id: \.key) {
-                                    Text($0.value)
-                                }
+            } header: {
+                Text("常规")
+            } footer: {
+                if (currentMode == 0) {
+                    Text("国内访问推荐NLServer")
+                }
+            }
+            
+            Section {
+                if (didLogin) {
+                    TextInfoView(text: "用户名", info: accountName)
+                    TextInfoView(text: "Token", info: token)
+                    HStack {
+                        Text("当前数据来源")
+                        Spacer()
+                        Picker(modeOptions[currentMode]!, selection: $currentMode) {
+                            ForEach(modeOptions.sorted(by: <), id: \.key) {
+                                Text($0.value)
                             }
-                            .pickerStyle(.menu)
                         }
-                        Button {
-                            clearUserCache()
-                            didLogin.toggle()
-                        } label: {
-                            Text("登出")
-                                .foregroundColor(Color.red)
-                        }
+                        .pickerStyle(.menu)
+                    }
+                    Button {
+                        clearUserCache()
+                        didLogin.toggle()
+                    } label: {
+                        Text("登出")
+                            .foregroundColor(Color.red)
+                    }
+                } else {
+                    if #available(iOS 15.0, *) {
+                        TextField("用户名", text: $accountName)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
                     } else {
-                        if #available(iOS 15.0, *) {
-                            TextField("用户名", text: $accountName)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled(true)
-                        } else {
-                            TextField("用户名", text: $accountName)
-                                .autocapitalization(.none)
-                                .autocorrectionDisabled(true)
+                        TextField("用户名", text: $accountName)
+                            .autocapitalization(.none)
+                            .autocorrectionDisabled(true)
+                    }
+                    SecureField("密码", text: $accountPassword)
+                    HStack {
+                        Button {
+                            Task {
+                                do {
+                                    loading.toggle()
+                                    (tokenHeader, token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
+                                    didLogin.toggle()
+                                    showingSettings.toggle()
+                                } catch CFQError.AuthenticationFailedError {
+                                } catch {
+                                    
+                                }
+                                loading.toggle()
+                            }
+                        } label: {
+                            Text("登录")
                         }
-                        SecureField("密码", text: $accountPassword)
-                        HStack {
-                            Button {
+                        if (loading) {
+                            Spacer()
+                            
+                            ProgressView()
+                        }
+                    }
+                }
+            } header: {
+                Text("账户")
+            }
+            
+            if(didLogin) {
+                Section {
+                    HStack {
+                        Text("显示条目数")
+                        Spacer()
+                        TextField("默认为30", text: $entryCount)
+                            .multilineTextAlignment(.trailing)
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    Button {
+                        showingClearAlert.toggle()
+                    } label: {
+                        Text("删除所有记录...")
+                    }
+                    .alert(isPresented: $showingClearAlert) {
+                        Alert(
+                            title: Text("警告"),
+                            message: Text("这将会删除保存在服务器上的所有最近记录，且无法复原。"),
+                            primaryButton: .cancel(Text("取消")),
+                            secondaryButton: .destructive(Text("确定"), action: {
                                 Task {
                                     do {
-                                        loading.toggle()
-                                        (tokenHeader, token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
-                                        didLogin.toggle()
-                                        showingSettings.toggle()
-                                    } catch CFQError.AuthenticationFailedError {
+                                        let statusCode = try await clearRecentDatabase(username: accountName)
+                                        if (statusCode == 200) {
+                                            toastManager.showingRecordDeleted.toggle()
+                                        }
                                     } catch {
                                         
                                     }
-                                    loading.toggle()
                                 }
-                            } label: {
-                                Text("登录")
-                            }
-                            if (loading) {
-                                Spacer()
-                                
-                                ProgressView()
-                            }
-                        }
+                            })
+                        )
                     }
-                } header: {
-                    Text("账户")
-                }
-                
-                if(didLogin) {
-                    Section {
-                        HStack {
-                            Text("显示条目数")
-                            Spacer()
-                            TextField("默认为30", text: $entryCount)
-                                .multilineTextAlignment(.trailing)
-                                .keyboardType(.numberPad)
-                        }
-                        
-                        Button {
-                            showingClearAlert.toggle()
-                        } label: {
-                            Text("删除所有记录...")
-                        }
-                        .alert(isPresented: $showingClearAlert) {
-                            Alert(
-                                title: Text("警告"),
-                                message: Text("这将会删除保存在服务器上的所有最近记录，且无法复原。"),
-                                primaryButton: .cancel(Text("取消")),
-                                secondaryButton: .destructive(Text("确定"), action: {
-                                    Task {
-                                        do {
-                                            let statusCode = try await clearRecentDatabase(username: accountName)
-                                            if (statusCode == 200) {
-                                                toastManager.showingRecordDeleted.toggle()
-                                            }
-                                        } catch {
-                                            
-                                        }
-                                    }
-                                })
-                            )
-                        }
-                        .accentColor(.red)
-                        
-                        
-                    } header: {
-                        Text("最近记录")
-                    } footer: {
-                        Text("最近记录数据保存在查分器App服务器，不会保存水鱼服务器的密码")
-                            .multilineTextAlignment(.leading)
-                    }
-                }
-                
-                Section {
-                    NavigationLink {
-                        RandomizerSettingsView()
-                    } label: {
-                        Text("随机歌曲")
-                    }
-                } header: {
-                    Text("工具")
-                }
-                
-                Button {
-                    firstTime = true
-                    toastManager.showingTutorialReseted = true
-                } label: {
-                    if (!firstTime) {
-                        Text("重置教程")
-                    } else {
-                        Text("教程已重置")
-                    }
-                }
-                .disabled(firstTime)
-                
-                Section {
-                    HStack {
-                        Text("版本")
-                        Spacer()
-                        Text("\(bundleVersion) \(showingBuildNumber ? "Build \(bundleBuildNumber)" : "")")
-                            .foregroundColor(Color.gray)
-                            .onTapGesture {
-                                showingBuildNumber.toggle()
-                            }
-                    }
-                        
-                    Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
+                    .accentColor(.red)
                     
-                    Link("到Github提交反馈", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
                     
-                    Link("请作者打一把中二", destination: URL(string: "https://afdian.net/a/chafenqi")!)
-
                 } header: {
-                    Text("关于")
+                    Text("最近记录")
                 } footer: {
-                    Text(credits)
+                    Text("最近记录数据保存在查分器App服务器，不会保存水鱼服务器的密码")
+                        .multilineTextAlignment(.leading)
                 }
             }
-            .navigationTitle("设置")
+            
+            Section {
+                NavigationLink {
+                    RandomizerSettingsView()
+                } label: {
+                    Text("随机歌曲")
+                }
+            } header: {
+                Text("工具")
+            }
+            
+            Button {
+                firstTime = true
+                toastManager.showingTutorialReseted = true
+            } label: {
+                if (!firstTime) {
+                    Text("重置教程")
+                } else {
+                    Text("教程已重置")
+                }
+            }
+            .disabled(firstTime)
+            
+            Section {
+                HStack {
+                    Text("版本")
+                    Spacer()
+                    Text("\(bundleVersion) \(showingBuildNumber ? "Build \(bundleBuildNumber)" : "")")
+                        .foregroundColor(Color.gray)
+                        .onTapGesture {
+                            showingBuildNumber.toggle()
+                        }
+                }
+                
+                Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
+                
+                Link("到Github提交反馈", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
+                
+                Link("请作者打一把中二", destination: URL(string: "https://afdian.net/a/chafenqi")!)
+                
+            } header: {
+                Text("关于")
+            } footer: {
+                Text(credits)
+            }
         }
-        .toast(isPresenting: $toastManager.showingRecordDeleted, duration: 1, tapToDismiss: true) {
-            AlertToast(displayMode: .alert, type: .complete(.green), title: "删除成功")
-        }
+        .navigationTitle("设置")
     }
     
     func clearUserCache(){

@@ -112,9 +112,9 @@ struct HomeTopView: View {
         .navigationTitle("主页")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-
-                }) {
+                NavigationLink {
+                    SettingsView(showingSettings: .constant(true))
+                } label: {
                     Image(systemName: "gear")
                 }
             }
