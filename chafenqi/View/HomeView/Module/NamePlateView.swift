@@ -19,8 +19,14 @@ struct NamePlateView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 5)
-                .fill(gradient)
+                .fill(LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom))
                 .shadow(radius: 5)
+                .opacity(user.currentMode == 0 ? 1 : 0)
+                
+            RoundedRectangle(cornerRadius: 5)
+                .fill(LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
+                .shadow(radius: 5)
+                .opacity(user.currentMode == 1 ? 1 : 0)
             
             VStack {
                 Spacer()
@@ -28,19 +34,36 @@ struct NamePlateView: View {
                 HStack {
                     Spacer()
                     
-                    Image(avatarName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .padding(.trailing, 10)
-                        .frame(width: 110, height: 110)
-                        .contextMenu {
-                            Button {
-                                // TODO: Add custom avatar
-                            } label: {
-                                Image(systemName: "rectangle.on.rectangle.angled")
-                                Text("照片图库")
+                    ZStack {
+                        Image("nameplate_penguin")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .padding(.trailing, 10)
+                            .frame(width: 110, height: 110)
+                            .contextMenu {
+                                Button {
+                                    // TODO: Add custom avatar
+                                } label: {
+                                    Image(systemName: "rectangle.on.rectangle.angled")
+                                    Text("照片图库")
+                                }
                             }
-                        }
+                            .opacity(user.currentMode == 0 ? 1 : 0)
+                        Image("nameplate_salt")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .padding(.trailing, 10)
+                            .frame(width: 110, height: 110)
+                            .contextMenu {
+                                Button {
+                                    // TODO: Add custom avatar
+                                } label: {
+                                    Image(systemName: "rectangle.on.rectangle.angled")
+                                    Text("照片图库")
+                                }
+                            }
+                            .opacity(user.currentMode == 1 ? 1 : 0)
+                    }
                 }
             }
             
@@ -55,7 +78,9 @@ struct NamePlateView: View {
                         Spacer()
                         
                         Button {
-                            user.currentMode.flip()
+                            withAnimation(.easeInOut(duration: 0.1)) {
+                                user.currentMode.flip()
+                            }
                         } label: {
                             HStack {
                                 Text("切换游戏")
