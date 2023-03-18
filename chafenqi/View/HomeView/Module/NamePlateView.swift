@@ -101,7 +101,7 @@ struct NamePlateView: View {
                                         .font(.system(size: 18))
                                         .bold()
                                 } else {
-                                    Text("\(user.maimai?.custom.rawRating ?? 0)")
+                                    Text(verbatim: "\(user.maimai?.custom.rawRating ?? 0)")
                                         .font(.system(size: 18))
                                         .bold()
                                 }
@@ -122,9 +122,16 @@ struct NamePlateView: View {
                                         .font(.system(size: 18))
                                         .bold()
                                 } else {
-                                    Text("平均完成率")
+                                    Text("P")
                                         .font(.system(size: 18))
-                                    Text("\(user.maimai?.custom.avgAchievement ?? 0, specifier: "%.4f")%")
+                                    Text(verbatim: "\(user.maimai?.custom.pastRating ?? 0)")
+                                        .font(.system(size: 18))
+                                        .bold()
+                                    Text("/")
+                                        .font(.system(size: 18))
+                                    Text("N")
+                                        .font(.system(size: 18))
+                                    Text(verbatim: "\(user.maimai?.custom.currentRating ?? 0)")
                                         .font(.system(size: 18))
                                         .bold()
                                 }
