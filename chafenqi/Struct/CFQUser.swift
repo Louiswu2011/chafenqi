@@ -24,6 +24,8 @@ class CFQUser: ObservableObject {
     
     var data = CFQPersistentData()
     
+    let dateFormat = "MM-dd HH:mm"
+    
     struct Maimai: Codable {
         var profile: MaimaiPlayerProfile = MaimaiPlayerProfile.shared
         var record: MaimaiPlayerRecord = MaimaiPlayerRecord.shared
@@ -39,6 +41,8 @@ class CFQUser: ObservableObject {
             var totalPlayed = 0
             var avgAchievement = 0.0
             var nationalRanking = 0
+            
+            var lastUpdateDate = ""
         }
     }
     
@@ -51,6 +55,8 @@ class CFQUser: ObservableObject {
         struct Custom: Codable {
             var overpower = 0.0
             var maxRating = 0.0
+            
+            var lastUpdateDate = ""
         }
     }
     
@@ -81,12 +87,27 @@ class CFQUser: ObservableObject {
         self.maimai!.custom.nationalRanking = (sortedRanking.firstIndex(where: {
             $0.username == self.maimai!.profile.username
         }) ?? -1) + 1
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormat
+        
+        let lastDate = Date(timeIntervalSince1970: TimeInterval(self.maimai!.recent.sorted {
+            $0.timestamp > $1.timestamp
+        }[0].timestamp))
+        self.maimai!.custom.lastUpdateDate = formatter.string(from: lastDate)
     }
     
     private func calculateChunithmData() {
         self.chunithm!.custom.overpower = self.chunithm!.profile.getOverpower()
         self.chunithm!.custom.maxRating = self.chunithm!.profile.getMaximumRating()
         
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormat
+        
+        let lastDate = Date(timeIntervalSince1970: TimeInterval(self.chunithm!.recent.sorted {
+            $0.timestamp > $1.timestamp
+        }[0].timestamp))
+        self.chunithm!.custom.lastUpdateDate = formatter.string(from: lastDate)
     }
     
     func refresh() async {
