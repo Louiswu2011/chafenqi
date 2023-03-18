@@ -18,15 +18,15 @@ struct NamePlateView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom))
-                .shadow(radius: 5)
-                .opacity(user.currentMode == 0 ? 1 : 0)
-                
-            RoundedRectangle(cornerRadius: 5)
-                .fill(LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
-                .shadow(radius: 5)
-                .opacity(user.currentMode == 1 ? 1 : 0)
+            if (user.currentMode == 0) {
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom))
+                    .shadow(radius: 5)
+            } else {
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
+                    .shadow(radius: 5)
+            }
             
             VStack {
                 Spacer()
@@ -34,7 +34,7 @@ struct NamePlateView: View {
                 HStack {
                     Spacer()
                     
-                    ZStack {
+                    if(user.currentMode == 0) {
                         Image("nameplate_penguin")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -48,7 +48,8 @@ struct NamePlateView: View {
                                     Text("照片图库")
                                 }
                             }
-                            .opacity(user.currentMode == 0 ? 1 : 0)
+                        
+                    } else {
                         Image("nameplate_salt")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -62,7 +63,6 @@ struct NamePlateView: View {
                                     Text("照片图库")
                                 }
                             }
-                            .opacity(user.currentMode == 1 ? 1 : 0)
                     }
                 }
             }
@@ -96,7 +96,7 @@ struct NamePlateView: View {
                             Text("Rating")
                                 .font(.system(size: 18))
                             if (user.currentMode == 0) {
-                                Text("\(user.chunithm?.rating.rating ?? 0.00, specifier: "%.2f")")
+                                Text("\(user.chunithm?.profile.getRating() ?? 0.0, specifier: "%.2f") (\(user.chunithm?.profile.getMaximumRating() ?? 0.0, specifier: "%.2f"))")
                                     .font(.system(size: 18))
                                     .bold()
                             } else {

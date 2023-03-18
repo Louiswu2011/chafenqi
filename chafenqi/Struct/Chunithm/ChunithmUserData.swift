@@ -99,12 +99,16 @@ struct ChunithmUserData: Codable {
         return avg / 10.0
     }
     
+    func getRating() -> Double {
+        return ((getAvgB30() * 30.0 + getAvgR10() * 10.0 ) / 40.0).cut(remainingDigits: 2)
+    }
+    
     func getMaximumRating() -> Double {
         let b1 = self.records.best.sorted {
             $0.rating > $1.rating
         }[0]
         
-        return ( getAvgB30() * 30.0 + b1.rating * 10.0 ) / 40.0
+        return ((getAvgB30() * 30.0 + b1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
     }
     
     func getRelativeR10Percentage() -> Double {
