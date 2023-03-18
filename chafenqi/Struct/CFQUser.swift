@@ -46,6 +46,11 @@ class CFQUser: ObservableObject {
         var profile: ChunithmUserData = ChunithmUserData.shared
         var rating: ChunithmUserScoreData = ChunithmUserScoreData.shared
         var recent: Array<ChunithmRecentRecord> = []
+        var custom: Custom = Custom()
+        
+        struct Custom: Codable {
+            var overpower = 0.0
+        }
     }
     
     private func calculateMaimaiData() {
@@ -77,6 +82,69 @@ class CFQUser: ObservableObject {
         }) ?? -1) + 1
     }
     
+    private func calculateChunithmData() {
+        let records = self.chunithm!.profile.records
+        let qualifiedList = records.best.filter {
+            ($0.levelIndex == 3 || $0.levelIndex == 4) && $0.score >= 975000
+        }
+        
+        var overpower: Double = 0.0
+        for entry in qualifiedList {
+            let score = entry.score
+            var rating: Double {
+                switch (entry.score) {
+                case 975000...999999:
+                    return entry.constant + Double(entry.score - 975000) / 2500 * 0.1
+                case 1000000...1004999:
+                    return entry.constant + 1.0 + Double(entry.score - 1000000) / 1000 * 0.1
+                case 1005000...1007499:
+                    return entry.constant + 1.5 + Double(entry.score - 1005000) / 500 * 0.1
+                case 1007500...1008999:
+                    return entry.constant + 2.0 + Double(entry.score - 1007500) / 100 * 0.01
+                case 1009000...1010000:
+                    return entry.constant + 2.15
+                default:
+                    return 0
+                }
+            }
+            var op: Double = 0.0
+            var extra: Double {
+                if (entry.getStatus() == "FC") {
+                    return 0.5
+                } else if (entry.getStatus() == "AJ") {
+                    return 1.0
+                } else {
+                    return 0.0
+                }
+            }
+            
+            
+            if (score <= 1007500) {
+                op = rating * 5.0
+            } else if (score < 1010000) {
+                op = (entry.constant + 2.0) * 5.0 + Double((score - 1007500)) * 0.0015
+            } else if (score == 1010000) {
+                op = (entry.constant + 2.0) * 5.0 + 4.0
+            }
+            
+            print("title \(entry.title), level \(entry.levelLabel), score \(score), base \(op), status \(entry.status), bonus \(extra)")
+            if((extra == 0.0 && entry.getStatus() != "Clear") || (extra != 0.0 && entry.getStatus() == "Clear")) {
+                print("Wrong extra value, got \(extra) while status is \(entry.getStatus())")
+            }
+            
+            overpower += (op + extra)
+        }
+        
+        for i in 10...15 {
+            print("Level \(i): \(qualifiedList.filter {$0.level == "\(i)"}.count)")
+            print("Level \(i)+: \(qualifiedList.filter {$0.level == "\(i)+"}.count)")
+        }
+        
+        print(qualifiedList.count)
+        
+        self.chunithm!.custom.overpower = overpower
+    }
+    
     func refresh() async {
         await self.loadFromToken(token: token, data: data)
     }
@@ -102,6 +170,7 @@ class CFQUser: ObservableObject {
             let chunithmUserScore = try await JSONDecoder().decode(ChunithmUserScoreData.self, from: ChunithmDataGrabber.getUserScoreData(username: chunithmProfile.username))
             
             self.chunithm = Chunithm(profile: chunithmProfile, rating: chunithmUserScore, recent: chunithmRecent)
+            calculateChunithmData()
         } catch {
             self.chunithm = nil
         }

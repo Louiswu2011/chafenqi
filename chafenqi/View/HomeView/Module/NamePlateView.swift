@@ -41,7 +41,6 @@ struct NamePlateView: View {
                                 Text("照片图库")
                             }
                         }
-                    
                 }
             }
             
@@ -84,7 +83,12 @@ struct NamePlateView: View {
                         
                         HStack(alignment: .center) {
                             if (user.currentMode == 0) {
-                            
+                                Text("OVERPOWER")
+                                    .font(.system(size: 18))
+                                
+                                Text("\(user.chunithm?.custom.overpower ?? 0.0, specifier: "%.2f")")
+                                    .font(.system(size: 18))
+                                    .bold()
                             } else {
                                 Text("排名")
                                     .font(.system(size: 18))

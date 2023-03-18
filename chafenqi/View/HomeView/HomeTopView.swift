@@ -116,6 +116,24 @@ struct HomeTopView: View {
                     Image(systemName: "gear")
                 }
             }
+            
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    Task {
+                        do {
+                            loadStatus = .loading(hint: "加载中")
+                            try await data.update()
+                            await user.refresh()
+                            
+                            loadStatus = .complete
+                        } catch {
+                            loadStatus = .error(errorText: "ERROR")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                }
+            }
         }
     }
 }
