@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeTopView: View {
     @AppStorage("userToken") var token = ""
+    @AppStorage("userCache") var cache = Data()
     
     @ObservedObject var data = CFQPersistentData()
     @ObservedObject var user = CFQUser()
@@ -101,6 +102,8 @@ struct HomeTopView: View {
                 do {
                     try await data.update()
                     await user.loadFromToken(token: token, data: data)
+                    
+                    
                     
                     loadStatus = .complete
                 } catch {

@@ -15,6 +15,15 @@ class CFQUser: ObservableObject {
     
     @AppStorage("settingsCurrentMode") var currentMode = 0
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
+    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
+    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
+    
+    @AppStorage("userMaimaiCache") var maimaiCache = Data()
+    @AppStorage("userChunithmCache") var chunithmCache = Data()
+    
+    @AppStorage("firstTimeLaunch") var firstTime = true
+    
+    @AppStorage("proxyDidInstallProfile") var installed = false
     
     var username = ""
     var nickname = ""
@@ -154,6 +163,27 @@ class CFQUser: ObservableObject {
         self.displayName = self.nickname.isEmpty ? self.username : self.nickname
         
         shouldReload = false
+    }
+    
+    func loadFromCache(cache: Data) throws {
+        guard (!maimaiCache.isEmpty && !chunithmCache.isEmpty) else { return }
+        guard shouldReload else { return }
+        
+        self.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
+        self.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
+        
+        shouldReload = false
+    }
+    
+    func saveToCache() throws {
+        maimaiCache = try JSONEncoder().encode(maimai)
+        chunithmCache = try JSONEncoder().encode(chunithm)
+    }
+    
+    static func hasCache() -> Bool {
+        @AppStorage("userMaimaiCache") var maimaiCache = Data()
+        @AppStorage("userChunithmCache") var chunithmCache = Data()
+        return !maimaiCache.isEmpty || !chunithmCache.isEmpty
     }
 }
 

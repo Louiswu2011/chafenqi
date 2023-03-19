@@ -13,9 +13,9 @@ struct RatingDetailView: View {
     var body: some View {
         ScrollView {
             if (user.currentMode == 0) {
-                RatingDetailChunithmView(chunithm: user.chunithm!)
+                RatingDetailChunithmView(mode: user.chunithmCoverSource, chunithm: user.chunithm!)
             } else {
-                RatingDetailMaimaiView(maimai: user.maimai!)
+                RatingDetailMaimaiView(mode: user.maimaiCoverSource, maimai: user.maimai!)
             }
         }
         .onAppear {
@@ -29,6 +29,7 @@ struct RatingDetailView: View {
 }
 
 struct RatingDetailMaimaiView: View {
+    @State var mode: Int
     @State var maimai: CFQUser.Maimai
     
     var body: some View {
@@ -61,6 +62,7 @@ struct RatingDetailMaimaiView: View {
 }
 
 struct RatingDetailChunithmView: View {
+    @State var mode: Int
     @State var chunithm: CFQUser.Chunithm
     
     var body: some View {
@@ -73,14 +75,22 @@ struct RatingDetailChunithmView: View {
                 Text("Best \(chunithm.profile.getAvgB30(), specifier: "%.2f") / Recent \(chunithm.profile.getAvgR10(), specifier: "%.2f")")
                     .font(.system(size: 20))
             }
-            
-            Divider()
+            .padding(.bottom)
             
             HStack {
                 Text("最佳成绩 B30")
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
+            }
+            .padding(.bottom)
+            
+            Group {
+                VStack {
+                    ForEach(Array(chunithm.rating.records.b30.enumerated()), id: \.offset) { index, entry in
+                        RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
+                    }
+                }
             }
             
             HStack {
@@ -89,6 +99,7 @@ struct RatingDetailChunithmView: View {
                     .bold()
                 Spacer()
             }
+            .padding(.bottom)
         }
     }
 }
@@ -96,5 +107,43 @@ struct RatingDetailChunithmView: View {
 struct RatingDetailView_Previews: PreviewProvider {
     static var previews: some View {
         RatingDetailView(user: CFQUser())
+    }
+}
+
+struct RatingChunithmEntryBanner: View {
+    @State var mode: Int
+    @State var index: Int
+    @State var entry: ScoreEntry
+    
+    var body: some View {
+        HStack {
+            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: mode, musicId: String(entry.musicId)), size: 50, cornerRadius: 5)
+                .padding(.trailing, 5)
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("#\(index)")
+                        .font(.system(size: 20))
+                        .bold()
+                        .frame(width: 25)
+                    Text("\(entry.rating, specifier: "%.2f")")
+                        .font(.system(size: 20))
+                        .bold()
+                        .frame(width: 35)
+                }
+                Spacer()
+                Text("\(entry.title)")
+                    .font(.system(size: 20))
+            }
+            Spacer()
+            VStack(alignment: .trailing) {
+                Text("\(entry.getStatus()) \(entry.getGrade())")
+                    .font(.system(size: 20))
+                Spacer()
+                Text("\(entry.score)")
+                    .font(.system(size: 20))
+                
+            }
+        }
+        .frame(height: 55)
     }
 }
