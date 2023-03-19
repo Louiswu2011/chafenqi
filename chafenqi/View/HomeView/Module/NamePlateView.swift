@@ -73,7 +73,7 @@ struct NamePlateView: View {
                         HStack {
                             Text(user.displayName)
                                 .foregroundColor(.black)
-                                .font(.system(size: 28))
+                                .font(.system(size: 25))
                                 .bold()
                                 .frame(maxWidth: 150, alignment: .leading)
                             
@@ -86,7 +86,7 @@ struct NamePlateView: View {
                             } label: {
                                 HStack {
                                     Text("切换游戏")
-                                        .font(.system(size: 18))
+                                        .font(.system(size: 16))
                                     Image(systemName: "arrow.left.arrow.right")
                                 }
                             }
@@ -162,7 +162,7 @@ struct NamePlateView: View {
                             }
                         }
                         .foregroundColor(.black)
-                        .font(.system(size: 18))
+                        .font(.system(size: 16))
                     }
                     Spacer()
                 }
@@ -170,7 +170,6 @@ struct NamePlateView: View {
             }
         }
         .padding()
-        .frame(height: 200)
     }
     
     var gradient: LinearGradient {
