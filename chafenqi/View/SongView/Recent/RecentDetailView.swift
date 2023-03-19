@@ -164,8 +164,15 @@ struct RecentDetailView: View {
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
+                        .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
                         
+                        NavigationLink {
+                            ChunithmDetailView(song: chuSong!)
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.right")
+                            Text("前往歌曲详情")
+                        }
+                        .padding()
                         
                     } else {
                         HStack(alignment: .bottom) {
@@ -288,6 +295,14 @@ struct RecentDetailView: View {
                                 .foregroundColor(maimaiLevelColor[maiRecord.getLevelIndex()]?.opacity(0.4)))
                             
                         }
+                        
+                        NavigationLink {
+                            MaimaiDetailView(song: maiSong!)
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.right")
+                            Text("前往歌曲详情")
+                        }
+                        .padding()
                     }
                 }
                 .padding()
@@ -302,7 +317,7 @@ struct RecentDetailView: View {
             } else {
                 getMaiVar()
             }
-            isLoaded.toggle()
+            isLoaded = true
         }
             
     }
