@@ -16,7 +16,7 @@ struct RatingDetailView: View {
                 RatingDetailChunithmView(mode: user.chunithmCoverSource, chunithm: user.chunithm!)
                     .padding()
             } else {
-                RatingDetailMaimaiView(mode: user.maimaiCoverSource, maimai: user.maimai!)
+                RatingDetailMaimaiView(mode: user.maimaiCoverSource, user: user)
                     .padding()
             }
         }
@@ -31,25 +31,41 @@ struct RatingDetailView: View {
 
 struct RatingDetailMaimaiView: View {
     @State var mode: Int
-    @State var maimai: CFQUser.Maimai
+    @State var user: CFQUser
+    
+    @State var pastFold = false
+    @State var newFold = false
     
     var body: some View {
         VStack {
             HStack {
-                Text(verbatim: "\(maimai.custom.rawRating)")
+                Text(verbatim: "\(user.maimai!.custom.rawRating)")
                     .font(.system(size: 30))
                     .bold()
                 Spacer()
-                Text(verbatim: "Past \(maimai.custom.pastRating) / New \(maimai.custom.currentRating)")
+                Text(verbatim: "Past \(user.maimai!.custom.pastRating) / New \(user.maimai!.custom.currentRating)")
             }
-            
-            Divider()
             
             HStack {
                 Text("旧曲 B25")
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        pastFold.toggle()
+                    }
+                } label: {
+                    Text(pastFold ? "展开" : "收起")
+                }
+            }
+            
+            if (!pastFold) {
+                VStack {
+                    ForEach(Array(user.maimai!.custom.pastSlice.enumerated()), id: \.offset) { index, entry in
+                        RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
+                    }
+                }
             }
             
             HStack {
@@ -57,6 +73,21 @@ struct RatingDetailMaimaiView: View {
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        newFold.toggle()
+                    }
+                } label: {
+                    Text(newFold ? "展开" : "收起")
+                }
+            }
+            
+            if (!newFold) {
+                VStack {
+                    ForEach(Array(user.maimai!.custom.currentSlice.enumerated()), id: \.offset) { index, entry in
+                        RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
+                    }
+                }
             }
         }
     }
@@ -65,6 +96,9 @@ struct RatingDetailMaimaiView: View {
 struct RatingDetailChunithmView: View {
     @State var mode: Int
     @State var chunithm: CFQUser.Chunithm
+    
+    @State var bestFold = false
+    @State var recentFold = false
     
     var body: some View {
         VStack {
@@ -83,10 +117,17 @@ struct RatingDetailChunithmView: View {
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        bestFold.toggle()
+                    }
+                } label: {
+                    Text(bestFold ? "展开" : "收起")
+                }
             }
             .padding(.bottom)
             
-            Group {
+            if(!bestFold) {
                 VStack {
                     ForEach(Array(chunithm.rating.records.b30.enumerated()), id: \.offset) { index, entry in
                         RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
@@ -99,8 +140,23 @@ struct RatingDetailChunithmView: View {
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        recentFold.toggle()
+                    }
+                } label: {
+                    Text(recentFold ? "展开" : "收起")
+                }
             }
             .padding(.bottom)
+            
+            if(!recentFold) {
+                VStack {
+                    ForEach(Array(chunithm.rating.records.r10.enumerated()), id: \.offset) { index, entry in
+                        RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
+                    }
+                }
+            }
         }
     }
 }
@@ -120,31 +176,65 @@ struct RatingChunithmEntryBanner: View {
         HStack {
             SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: mode, musicId: String(entry.musicId)), size: 50, cornerRadius: 5)
                 .padding(.trailing, 5)
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("#\(index)")
-                        .font(.system(size: 20))
-                        .bold()
-                        .frame(width: 25)
-                    Text("\(entry.rating, specifier: "%.2f")")
-                        .font(.system(size: 20))
-                        .bold()
-                        .frame(width: 35)
+            Group {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("#\(index)")
+                            .frame(width: 35, alignment: .leading)
+                        Text("\(entry.rating, specifier: "%.2f")")
+                            .bold()
+                            .frame(width: 50, alignment: .leading)
+                    }
+                    Spacer()
+                    Text("\(entry.title)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 Spacer()
-                Text("\(entry.title)")
-                    .font(.system(size: 20))
+                VStack(alignment: .trailing) {
+                    Text("\(entry.getStatus()) \(entry.getGrade())")
+                    Spacer()
+                    Text("\(entry.score)")
+                    
+                }
             }
-            Spacer()
-            VStack(alignment: .trailing) {
-                Text("\(entry.getStatus()) \(entry.getGrade())")
-                    .font(.system(size: 20))
-                Spacer()
-                Text("\(entry.score)")
-                    .font(.system(size: 20))
-                
-            }
+            .font(.system(size: 18))
         }
-        .frame(height: 55)
+        .frame(height: 50)
+    }
+}
+
+struct RatingMaimaiEntryBanner: View {
+    @State var mode: Int
+    @State var index: Int
+    @State var entry: MaimaiRecordEntry
+    
+    var body: some View {
+        HStack {
+            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: mode, coverId: getCoverNumber(id: String(entry.musicId))), size: 50, cornerRadius: 5)
+                .padding(.trailing, 5)
+            Group {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("#\(index)")
+                            .frame(width: 35, alignment: .leading)
+                        Text("\(entry.rating)")
+                            .bold()
+                            .frame(width: 50, alignment: .leading)
+                    }
+                    Spacer()
+                    Text("\(entry.title)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text("\(entry.getStatus()) \(entry.getRateString())")
+                    Spacer()
+                    Text("\(entry.achievements, specifier: "%.4f")%")
+                    
+                }
+            }
+            .font(.system(size: 18))
+        }
+        .frame(height: 50)
     }
 }

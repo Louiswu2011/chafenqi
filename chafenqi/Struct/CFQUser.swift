@@ -49,6 +49,8 @@ class CFQUser: ObservableObject {
         struct Custom: Codable {
             var pastRating = 0
             var currentRating = 0
+            var pastSlice: Array<MaimaiRecordEntry> = []
+            var currentSlice: Array<MaimaiRecordEntry> = []
             var rawRating = 0
             var totalCharts = 0
             var totalPlayed = 0
@@ -84,6 +86,9 @@ class CFQUser: ObservableObject {
         self.maimai!.custom.pastRating = pastSlice.reduce(0) { $0 + $1.rating }
         self.maimai!.custom.currentRating = currentSlice.reduce(0) { $0 + $1.rating }
         self.maimai!.custom.rawRating = self.maimai!.custom.pastRating + self.maimai!.custom.currentRating
+        
+        self.maimai!.custom.pastSlice = Array(self.maimai!.record.getPastSlice(songData: self.data.maimai.songlist))
+        self.maimai!.custom.currentSlice = Array(self.maimai!.record.getCurrentSlice(songData: self.data.maimai.songlist))
         
         self.maimai!.custom.totalCharts = songlist.reduce(0) {
             $0 + $1.charts.count
