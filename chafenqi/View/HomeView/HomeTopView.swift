@@ -73,7 +73,23 @@ struct HomeTopView: View {
                         
                         Group {
                             HStack {
-                                Text("实力分析")
+                                Text("好友动态")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                Spacer()
+                                
+                            }
+                            .padding(.horizontal)
+                            
+                            VStack {
+                                
+                            }
+                            .padding([.horizontal, .bottom])
+                        }
+                        
+                        Group {
+                            HStack {
+                                Text("随机一曲")
                                     .font(.system(size: 20))
                                     .bold()
                                 Spacer()
