@@ -19,15 +19,15 @@ struct NamePlateView: View {
     var body: some View {
         VStack {
             ZStack {
-                if (user.currentMode == 0) {
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom))
-                        .shadow(radius: 5)
-                } else {
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
-                        .shadow(radius: 5)
-                }
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom))
+                    .shadow(radius: 5)
+                    .opacity(user.currentMode == 0 ? 1 : 0)
+
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
+                    .shadow(radius: 5)
+                    .opacity(user.currentMode == 1 ? 1 : 0)
                 
                 VStack {
                     Spacer()
