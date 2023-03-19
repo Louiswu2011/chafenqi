@@ -9,34 +9,18 @@ import SwiftUI
 import AlertToast
 
 struct SettingsView: View {
-    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
-    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
-    @AppStorage("settingsCurrentMode") var currentMode = 0
-    @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
-    
     @AppStorage("firstTimeLaunch") var firstTime = true
     
     @AppStorage("proxyDidInstallProfile") var installed = false
     
-    @AppStorage("userAccountName") var accountName = ""
-    @AppStorage("userNickname") var accountNickname = ""
-    @AppStorage("userToken") var token = ""
-    @AppStorage("userTokenHeader") var tokenHeader = ""
-    @AppStorage("userChunithmInfoData") var chunithmInfoData = Data()
-    @AppStorage("userMaimaiInfoData") var maimaiInfoData = Data()
-    @AppStorage("userMaimaiProfileData") var maimaiProfileData = Data()
-    
-    @AppStorage("didLogin") var didLogin = false
-    
     @ObservedObject var toastManager = AlertToastManager.shared
+    @ObservedObject var user = CFQUser()
     
     @State private var accountPassword = ""
     @State private var showingLoginView = false
     @State private var showingBuildNumber = false
     @State private var showingClearAlert = false
     @State private var loading = false
-    
-    @Binding var showingSettings: Bool
     
     var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
     var maimaiSourceOptions = [0: "Diving-Fish"]
@@ -45,21 +29,21 @@ struct SettingsView: View {
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
     var body: some View {
-        
+
         Form {
             Section {
                 HStack {
                     Text("封面来源")
                     Spacer()
-                    if (currentMode == 0) {
-                        Picker(chunithmSourceOptions[chunithmCoverSource]!, selection: $chunithmCoverSource) {
+                    if (user.currentMode == 0) {
+                        Picker(chunithmSourceOptions[user.chunithmCoverSource]!, selection: user.$chunithmCoverSource) {
                             ForEach(chunithmSourceOptions.sorted(by: <), id: \.key) {
                                 Text($0.value)
                             }
                         }
                         .pickerStyle(.menu)
                     } else {
-                        Picker(maimaiSourceOptions[maimaiCoverSource]!, selection: $maimaiCoverSource) {
+                        Picker(maimaiSourceOptions[user.maimaiCoverSource]!, selection: user.$maimaiCoverSource) {
                             ForEach(maimaiSourceOptions.sorted(by: <), id: \.key) {
                                 Text($0.value)
                             }
@@ -70,19 +54,19 @@ struct SettingsView: View {
             } header: {
                 Text("常规")
             } footer: {
-                if (currentMode == 0) {
+                if (user.currentMode == 0) {
                     Text("国内访问推荐NLServer")
                 }
             }
             
             Section {
-                if (didLogin) {
-                    TextInfoView(text: "用户名", info: accountName)
-                    TextInfoView(text: "Token", info: token)
+                if (user.didLogin) {
+                    TextInfoView(text: "用户名", info: user.username)
+                    TextInfoView(text: "Token", info: user.token)
                     HStack {
                         Text("当前数据来源")
                         Spacer()
-                        Picker(modeOptions[currentMode]!, selection: $currentMode) {
+                        Picker(modeOptions[user.currentMode]!, selection: user.$currentMode) {
                             ForEach(modeOptions.sorted(by: <), id: \.key) {
                                 Text($0.value)
                             }
@@ -91,18 +75,18 @@ struct SettingsView: View {
                     }
                     Button {
                         clearUserCache()
-                        didLogin.toggle()
+                        user.didLogin = false
                     } label: {
                         Text("登出")
                             .foregroundColor(Color.red)
                     }
                 } else {
                     if #available(iOS 15.0, *) {
-                        TextField("用户名", text: $accountName)
+                        TextField("用户名", text: $user.username)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled(true)
                     } else {
-                        TextField("用户名", text: $accountName)
+                        TextField("用户名", text: $user.username)
                             .autocapitalization(.none)
                             .autocorrectionDisabled(true)
                     }
@@ -112,10 +96,10 @@ struct SettingsView: View {
                             Task {
                                 do {
                                     loading.toggle()
-                                    (tokenHeader, token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
-                                    didLogin.toggle()
-                                    showingSettings.toggle()
+                                    (_, user.token) = try await ChunithmDataGrabber.loginAs(username: user.username, password: accountPassword)
+                                    user.didLogin = true
                                 } catch CFQError.AuthenticationFailedError {
+                                    // TODO: Show wrong credentials toast
                                 } catch {
                                     
                                 }
@@ -135,12 +119,12 @@ struct SettingsView: View {
                 Text("账户")
             }
             
-            if(didLogin) {
+            if(user.didLogin) {
                 Section {
                     HStack {
                         Text("显示条目数")
                         Spacer()
-                        TextField("默认为30", text: $entryCount)
+                        TextField("默认为30", text: user.$entryCount)
                             .multilineTextAlignment(.trailing)
                             .keyboardType(.numberPad)
                     }
@@ -158,7 +142,7 @@ struct SettingsView: View {
                             secondaryButton: .destructive(Text("确定"), action: {
                                 Task {
                                     do {
-                                        let statusCode = try await clearRecentDatabase(username: accountName)
+                                        let statusCode = try await clearRecentDatabase(username: user.username)
                                         if (statusCode == 200) {
                                             toastManager.showingRecordDeleted.toggle()
                                         }
@@ -226,17 +210,11 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("设置")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func clearUserCache(){
-        accountName = ""
-        accountPassword = ""
-        accountNickname = ""
-        tokenHeader = ""
-        token = ""
-        chunithmInfoData = Data()
-        maimaiInfoData = Data()
-        maimaiProfileData = Data()
+        user.clear()
     }
     
     func clearRecentDatabase(username: String) async throws -> Int {
@@ -272,11 +250,5 @@ struct RandomizerSettingsView: View {
         }
         .navigationTitle("随机歌曲")
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(showingSettings: .constant(true))
     }
 }

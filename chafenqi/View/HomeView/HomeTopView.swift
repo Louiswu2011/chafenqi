@@ -101,10 +101,12 @@ struct HomeTopView: View {
             Task {
                 do {
                     print("token: \(user.token)")
-                    if (user.token == "") {
+                    if (user.shouldReload) {
                         try await user.loadFromToken(token: token)
                     } else {
-                        user.data = try await CFQPersistentData.loadFromCacheOrRefresh()
+                        if (user.data.shouldReload) {
+                            user.data = try await CFQPersistentData.loadFromCacheOrRefresh()
+                        }
                     }
                     
                     loadStatus = .complete
@@ -117,7 +119,7 @@ struct HomeTopView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    SettingsView(showingSettings: .constant(true))
+                    SettingsView(user: user)
                 } label: {
                     Image(systemName: "gear")
                 }

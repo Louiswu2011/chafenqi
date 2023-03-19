@@ -202,6 +202,7 @@ class CFQUser: ObservableObject {
         user.displayName = user.nickname.isEmpty ? user.username : user.nickname
         
         user.shouldReload = false
+        user.didLogin = true
         
         return user
     }
@@ -216,6 +217,16 @@ class CFQUser: ObservableObject {
         @AppStorage("userMaimaiCache") var maimaiCache = Data()
         @AppStorage("userChunithmCache") var chunithmCache = Data()
         return !maimaiCache.isEmpty || !chunithmCache.isEmpty
+    }
+    
+    func clear() {
+        self.username = ""
+        self.nickname = ""
+        self.displayName = ""
+        self.maimai = Maimai()
+        self.chunithm = Chunithm()
+        self.data = CFQPersistentData()
+        self.shouldReload = true
     }
 }
 
