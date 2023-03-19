@@ -72,6 +72,7 @@ struct NamePlateView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Text(user.displayName)
+                                .foregroundColor(.black)
                                 .font(.system(size: 28))
                                 .bold()
                                 .frame(maxWidth: 150, alignment: .leading)
@@ -92,87 +93,76 @@ struct NamePlateView: View {
                         }
                         .padding(.bottom, 5)
                         
-                        VStack(alignment: .leading, spacing: 2) {
-                            HStack {
-                                Text("Rating")
-                                    .font(.system(size: 18))
-                                if (user.currentMode == 0) {
-                                    Text("\(user.chunithm?.profile.getRating() ?? 0.0, specifier: "%.2f") (\(user.chunithm?.profile.getMaximumRating() ?? 0.0, specifier: "%.2f"))")
-                                        .font(.system(size: 18))
-                                        .bold()
-                                } else {
-                                    Text(verbatim: "\(user.maimai?.custom.rawRating ?? 0)")
-                                        .font(.system(size: 18))
-                                        .bold()
+                        Group {
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack {
+                                    Text("Rating")
+                                    if (user.currentMode == 0) {
+                                        Text("\(user.chunithm?.profile.getRating() ?? 0.0, specifier: "%.2f") (\(user.chunithm?.profile.getMaximumRating() ?? 0.0, specifier: "%.2f"))")
+                                            .bold()
+                                    } else {
+                                        Text(verbatim: "\(user.maimai?.custom.rawRating ?? 0)")
+                                            .bold()
+                                    }
                                 }
-                            }
-                            
-                            HStack {
-                                if (user.currentMode == 0) {
-                                    Text("B")
-                                        .font(.system(size: 18))
-                                    Text("\(user.chunithm?.profile.getAvgB30() ?? 0.0, specifier: "%.2f")")
-                                        .font(.system(size: 18))
-                                        .bold()
-                                    Text("/")
-                                        .font(.system(size: 18))
-                                    Text("R")
-                                        .font(.system(size: 18))
-                                    Text("\(user.chunithm?.profile.getAvgR10() ?? 0.0, specifier: "%.2f")")
-                                        .font(.system(size: 18))
-                                        .bold()
-                                } else {
-                                    Text("P")
-                                        .font(.system(size: 18))
-                                    Text(verbatim: "\(user.maimai?.custom.pastRating ?? 0)")
-                                        .font(.system(size: 18))
-                                        .bold()
-                                    Text("/")
-                                        .font(.system(size: 18))
-                                    Text("N")
-                                        .font(.system(size: 18))
-                                    Text(verbatim: "\(user.maimai?.custom.currentRating ?? 0)")
-                                        .font(.system(size: 18))
-                                        .bold()
+                                
+                                HStack {
+                                    Group {
+                                        if (user.currentMode == 0) {
+                                            Group {
+                                                Text("B")
+                                                Text("\(user.chunithm?.profile.getAvgB30() ?? 0.0, specifier: "%.2f")")
+                                                    .bold()
+                                                Text("/")
+                                                Text("R")
+                                                Text("\(user.chunithm?.profile.getAvgR10() ?? 0.0, specifier: "%.2f")")
+                                                    .bold()
+                                            }
+                                        } else {
+                                            Group {
+                                                Text("P")
+                                                Text(verbatim: "\(user.maimai?.custom.pastRating ?? 0)")
+                                                    .bold()
+                                                Text("/")
+                                                Text("N")
+                                                Text(verbatim: "\(user.maimai?.custom.currentRating ?? 0)")
+                                                    .bold()
+                                            }
+                                        }
+                                    }
+                                    
                                 }
-                            }
-                            
-                            HStack {
-                                if (user.currentMode == 0) {
-                                    Text("OVERPOWER")
-                                        .font(.system(size: 18))
-                                    
-                                    Text("\(user.chunithm?.custom.overpower ?? 0.0, specifier: "%.2f")")
-                                        .font(.system(size: 18))
-                                        .bold()
-                                } else {
-                                    
-                                    Text("排名")
-                                        .font(.system(size: 18))
-                                    
-                                    Text("#\(user.maimai?.custom.nationalRanking ?? 0)")
-                                        .font(.system(size: 18))
-                                        .bold()
+                                
+                                HStack {
+                                    if (user.currentMode == 0) {
+                                        Text("OVERPOWER")
+                                        
+                                        Text("\(user.chunithm?.custom.overpower ?? 0.0, specifier: "%.2f")")
+                                            .bold()
+                                    } else {
+                                        
+                                        Text("排名")
+                                        
+                                        Text("#\(user.maimai?.custom.nationalRanking ?? 0)")
+                                            .bold()
+                                    }
                                 }
-                            }
-                            
-                            Spacer()
-                            
-                            HStack {
-                                if (user.currentMode == 0) {
-                                    Text("更新于")
-                                        .font(.system(size: 18))
-                                    Text(user.chunithm?.custom.lastUpdateDate ?? "暂无数据")
-                                        .font(.system(size: 18))
-                                } else {
-                                    Text("更新于")
-                                        .font(.system(size: 18))
-                                    Text(user.maimai?.custom.lastUpdateDate ?? "暂无数据")
-                                        .font(.system(size: 18))
+                                
+                                Spacer()
+                                
+                                HStack {
+                                    if (user.currentMode == 0) {
+                                        Text("更新于")
+                                        Text(user.chunithm?.custom.lastUpdateDate ?? "暂无数据")
+                                    } else {
+                                        Text("更新于")
+                                        Text(user.maimai?.custom.lastUpdateDate ?? "暂无数据")
+                                    }
                                 }
                             }
                         }
-                        // .padding(.top, 10)
+                        .foregroundColor(.black)
+                        .font(.system(size: 18))
                     }
                     Spacer()
                 }
