@@ -18,83 +18,87 @@ struct HomeTopView: View {
     
     var body: some View {
         Group {
-            switch (loadStatus) {
-            case .complete:
-                ScrollView {
-                    NamePlateView(user: user)
-                    
-                    Group {
-                        HStack {
-                            Text("最近动态")
-                                .font(.system(size: 20))
-                                .bold()
-                            Spacer()
-
-                            NavigationLink {
-                                RecentView()
-                            } label: {
-                                Text("显示全部")
-                                    .font(.system(size: 18))
+            if (user.didLogin) {
+                switch (loadStatus) {
+                case .complete:
+                    ScrollView {
+                        NamePlateView(user: user)
+                        
+                        Group {
+                            HStack {
+                                Text("最近动态")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                Spacer()
+                                
+                                NavigationLink {
+                                    RecentView()
+                                } label: {
+                                    Text("显示全部")
+                                        .font(.system(size: 18))
+                                }
                             }
-                        }
-                        .padding(.horizontal)
-                        
-                        
-                        HStack {
+                            .padding(.horizontal)
                             
-                        }
-                        .padding([.horizontal, .bottom])
-                        
-                        
-                    }
-                    
-                    Group {
-                        HStack {
-                            Text("Rating分析")
-                                .font(.system(size: 20))
-                                .bold()
-                            Spacer()
                             
-                            NavigationLink {
-                                RatingDetailView(user: user)
-                            } label: {
-                                Text("显示详情")
-                                    .font(.system(size: 18))
+                            HStack {
+                                
                             }
-                        }
-                        .padding(.horizontal)
-                        
-                        VStack {
+                            .padding([.horizontal, .bottom])
+                            
                             
                         }
-                        .padding([.horizontal, .bottom])
-                    }
-                    
-                    Group {
-                        HStack {
-                            Text("实力分析")
-                                .font(.system(size: 20))
-                                .bold()
-                            Spacer()
-
-                        }
-                        .padding(.horizontal)
                         
-                        VStack {
+                        Group {
+                            HStack {
+                                Text("Rating分析")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                Spacer()
+                                
+                                NavigationLink {
+                                    RatingDetailView(user: user)
+                                } label: {
+                                    Text("显示详情")
+                                        .font(.system(size: 18))
+                                }
+                            }
+                            .padding(.horizontal)
                             
+                            VStack {
+                                
+                            }
+                            .padding([.horizontal, .bottom])
                         }
-                        .padding([.horizontal, .bottom])
+                        
+                        Group {
+                            HStack {
+                                Text("实力分析")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                Spacer()
+                                
+                            }
+                            .padding(.horizontal)
+                            
+                            VStack {
+                                
+                            }
+                            .padding([.horizontal, .bottom])
+                        }
                     }
+                case .loading:
+                    VStack {
+                        ProgressView()
+                            .padding()
+                        Text("加载中")
+                    }
+                case .notLogin:
+                    Text("未登录，请在设置中登录账号")
+                default:
+                    Text("未登录，请在设置中登录账号")
                 }
-            case .loading:
-                VStack {
-                    ProgressView()
-                        .padding()
-                    Text("加载中")
-                }
-            case .notLogin:
-                Text("未登录，请在设置中登录账号")
-            default:
+            } else {
                 Text("未登录，请在设置中登录账号")
             }
         }
@@ -102,7 +106,6 @@ struct HomeTopView: View {
             loadStatus = .loading(hint: "加载中...")
             Task {
                 do {
-                    print("token: \(user.token)")
                     if (user.didLogin) {
                         if (user.shouldReload) {
                             try await user.loadFromToken(token: token)

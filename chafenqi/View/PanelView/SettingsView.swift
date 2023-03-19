@@ -14,8 +14,10 @@ struct SettingsView: View {
     @AppStorage("proxyDidInstallProfile") var installed = false
     
     @ObservedObject var toastManager = AlertToastManager.shared
+    
     @ObservedObject var user = CFQUser()
     
+    @State private var accountName = ""
     @State private var accountPassword = ""
     @State private var showingLoginView = false
     @State private var showingBuildNumber = false
@@ -74,19 +76,19 @@ struct SettingsView: View {
                         .pickerStyle(.menu)
                     }
                     Button {
-                        clearUserCache()
                         user.didLogin = false
+                        clearUserCache()
                     } label: {
                         Text("登出")
                             .foregroundColor(Color.red)
                     }
                 } else {
                     if #available(iOS 15.0, *) {
-                        TextField("用户名", text: $user.username)
+                        TextField("用户名", text: $accountName)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled(true)
                     } else {
-                        TextField("用户名", text: $user.username)
+                        TextField("用户名", text: $accountName)
                             .autocapitalization(.none)
                             .autocorrectionDisabled(true)
                     }
@@ -96,7 +98,7 @@ struct SettingsView: View {
                             Task {
                                 do {
                                     loading.toggle()
-                                    (_, user.token) = try await ChunithmDataGrabber.loginAs(username: user.username, password: accountPassword)
+                                    (_, user.token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
                                     user.didLogin = true
                                 } catch CFQError.AuthenticationFailedError {
                                     // TODO: Show wrong credentials toast

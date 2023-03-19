@@ -14,15 +14,16 @@ struct RatingDetailView: View {
         ScrollView {
             if (user.currentMode == 0) {
                 RatingDetailChunithmView(mode: user.chunithmCoverSource, chunithm: user.chunithm!)
+                    .padding()
             } else {
                 RatingDetailMaimaiView(mode: user.maimaiCoverSource, maimai: user.maimai!)
+                    .padding()
             }
         }
         .onAppear {
             // Debug only
             // user.currentMode = 0
         }
-        .padding()
         .navigationTitle("Rating详情")
         .navigationBarTitleDisplayMode(.inline)
     }
