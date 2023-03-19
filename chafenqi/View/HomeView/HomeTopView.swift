@@ -9,10 +9,10 @@ import SwiftUI
 
 struct HomeTopView: View {
     @AppStorage("userToken") var token = ""
-    @AppStorage("userCache") var cache = Data()
+    @AppStorage("userMaimaiCache") var maimaiCache = Data()
+    @AppStorage("userChunithmCache") var chunithmCache = Data()
     
-    @ObservedObject var data = CFQPersistentData()
-    @ObservedObject var user = CFQUser()
+    @ObservedObject var user = CFQUser.loadFromCache()
     
     @State private var loadStatus: LoadStatus = .loading(hint: "加载中...")
     
@@ -100,10 +100,12 @@ struct HomeTopView: View {
             loadStatus = .loading(hint: "加载中...")
             Task {
                 do {
-                    try await data.update()
-                    await user.loadFromToken(token: token, data: data)
-                    
-                    
+                    print("token: \(user.token)")
+                    if (user.token == "") {
+                        try await user.loadFromToken(token: token)
+                    } else {
+                        user.data = try await CFQPersistentData.loadFromCacheOrRefresh()
+                    }
                     
                     loadStatus = .complete
                 } catch {
@@ -126,8 +128,7 @@ struct HomeTopView: View {
                     Task {
                         do {
                             loadStatus = .loading(hint: "加载中")
-                            try await data.refresh()
-                            await user.refresh()
+                            try await user.refresh()
                             
                             loadStatus = .complete
                         } catch {

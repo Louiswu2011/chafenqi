@@ -18,6 +18,7 @@ class CFQUser: ObservableObject {
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     
+    @AppStorage("userToken") var cachedToken = ""
     @AppStorage("userMaimaiCache") var maimaiCache = Data()
     @AppStorage("userChunithmCache") var chunithmCache = Data()
     
@@ -122,15 +123,18 @@ class CFQUser: ObservableObject {
         self.chunithm!.custom.lastUpdateDate = formatter.string(from: lastDate)
     }
     
-    func refresh() async {
+    func refresh() async throws {
         shouldReload = true
-        await self.loadFromToken(token: token, data: data)
+        try await self.loadFromToken(token: token)
     }
     
-    func loadFromToken(token: String, data: CFQPersistentData) async {
+    func loadFromToken(token: String) async throws {
         guard shouldReload else { return }
         
-        self.token = token
+        self.token = cachedToken
+        
+        let data = try await CFQPersistentData.loadFromCacheOrRefresh()
+        
         self.data = data
         
         do {
@@ -163,21 +167,49 @@ class CFQUser: ObservableObject {
         self.displayName = self.nickname.isEmpty ? self.username : self.nickname
         
         shouldReload = false
+        
+        try saveToCache()
     }
     
-    func loadFromCache(cache: Data) throws {
-        guard (!maimaiCache.isEmpty && !chunithmCache.isEmpty) else { return }
-        guard shouldReload else { return }
+    static func loadFromCache() -> CFQUser {
+        @AppStorage("userToken") var cachedToken = ""
+        @AppStorage("userMaimaiCache") var maimaiCache = Data()
+        @AppStorage("userChunithmCache") var chunithmCache = Data()
         
-        self.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
-        self.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
+        guard (!maimaiCache.isEmpty && !chunithmCache.isEmpty) else {
+            print("User cache is empty, returning.")
+            return CFQUser()
+        }
         
-        shouldReload = false
+        let user = CFQUser()
+        user.token = cachedToken
+        
+        do {
+            user.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
+        } catch {
+            user.maimai = nil
+        }
+        
+        do {
+            user.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
+        } catch {
+            user.chunithm = nil
+        }
+        
+        user.username = user.maimai?.profile.username ?? user.chunithm?.profile.username ?? ""
+        user.nickname = user.maimai?.profile.nickname ?? user.chunithm?.profile.username ?? ""
+        
+        user.displayName = user.nickname.isEmpty ? user.username : user.nickname
+        
+        user.shouldReload = false
+        
+        return user
     }
     
     func saveToCache() throws {
         maimaiCache = try JSONEncoder().encode(maimai)
         chunithmCache = try JSONEncoder().encode(chunithm)
+        print("Saved user cache.")
     }
     
     static func hasCache() -> Bool {

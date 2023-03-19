@@ -59,7 +59,7 @@ struct ChunithmUserData: Codable {
                 op = (entry.constant + 2.0) * 5.0 + 4.0
             }
             
-            print("title \(entry.title), level \(entry.levelLabel), score \(score), base \(op), status \(entry.status), bonus \(extra)")
+            // print("title \(entry.title), level \(entry.levelLabel), score \(score), base \(op), status \(entry.status), bonus \(extra)")
             if((extra == 0.0 && entry.getStatus() != "Clear") || (extra != 0.0 && entry.getStatus() == "Clear")) {
                 print("Wrong extra value, got \(extra) while status is \(entry.getStatus())")
             }
@@ -67,10 +67,10 @@ struct ChunithmUserData: Codable {
             overpower += (op + extra)
         }
         
-        for i in 10...15 {
-            print("Level \(i): \(qualifiedList.filter {$0.level == "\(i)"}.count)")
-            print("Level \(i)+: \(qualifiedList.filter {$0.level == "\(i)+"}.count)")
-        }
+//        for i in 10...15 {
+//            print("Level \(i): \(qualifiedList.filter {$0.level == "\(i)"}.count)")
+//            print("Level \(i)+: \(qualifiedList.filter {$0.level == "\(i)+"}.count)")
+//        }
         
         print(qualifiedList.count)
         return overpower

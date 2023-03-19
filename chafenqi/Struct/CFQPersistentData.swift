@@ -19,6 +19,11 @@ class CFQPersistentData: ObservableObject {
         @AppStorage("chartIDMap") var mapData = Data()
         
         var songs: Array<ChunithmSongData> = []
+        
+        static func hasCache() -> Bool {
+            @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+            return !loadedSongs.isEmpty
+        }
     }
     
     struct Maimai {
@@ -29,9 +34,23 @@ class CFQPersistentData: ObservableObject {
         var songlist: Array<MaimaiSongData> = []
         var chartStats: Dictionary<String, Array<MaimaiChartStat>> = [:]
         var ranking: Array<MaimaiPlayerRating> = []
+        
+        static func hasCache() -> Bool {
+            @AppStorage("loadedMaimaiChartStats") var loadedStats: Data = Data()
+            @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
+            @AppStorage("loadedMaimaiRanking") var loadedRanking: Data = Data()
+            return !loadedStats.isEmpty && !loadedSongs.isEmpty && !loadedRanking.isEmpty
+        }
     }
     
-    private func updateChunithm() async throws {
+    private func loadChunithm() async throws {
+        self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
+        
+        let path = Bundle.main.url(forResource: "IdMap", withExtension: "json")
+        self.chunithm.mapData = try Data(contentsOf: path!)
+    }
+    
+    private func reloadChunithm() async throws {
         try await self.chunithm.loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
 
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
@@ -45,7 +64,13 @@ class CFQPersistentData: ObservableObject {
         self.chunithm.mapData = try Data(contentsOf: path!)
     }
     
-    private func updateMaimai() async throws {
+    private func loadMaimai() async throws {
+        self.maimai.songlist = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
+        self.maimai.chartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: self.maimai.loadedStats)
+        self.maimai.ranking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: self.maimai.loadedRanking)
+    }
+    
+    private func reloadMaimai() async throws {
         self.maimai.loadedSongs = try await MaimaiDataGrabber.getMusicData()
         self.maimai.loadedStats = try await MaimaiDataGrabber.getChartStat()
         self.maimai.loadedRanking = try await MaimaiDataGrabber.getRatingRanking()
@@ -56,10 +81,15 @@ class CFQPersistentData: ObservableObject {
     }
     
     func update() async throws {
-        guard shouldReload else { return }
+        try await reloadMaimai()
+        try await reloadChunithm()
         
-        try await updateChunithm()
-        try await updateMaimai()
+        shouldReload = false
+    }
+    
+    func loadFromCache() async throws {
+        try await loadMaimai()
+        try await loadChunithm()
         
         shouldReload = false
     }
@@ -67,5 +97,19 @@ class CFQPersistentData: ObservableObject {
     func refresh() async throws {
         shouldReload = true
         try await update()
+    }
+    
+    static func loadFromCacheOrRefresh() async throws -> CFQPersistentData {
+        let data = CFQPersistentData()
+        if (Maimai.hasCache() && Chunithm.hasCache()) {
+            try await data.loadFromCache()
+            data.shouldReload = false
+            print("Persistent data cache loaded.")
+            return data
+        } else {
+            try await data.update()
+            print("Persistent data downloaded.")
+            return data
+        }
     }
 }
