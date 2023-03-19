@@ -132,9 +132,12 @@ struct RecentView: View {
                 
                 for (index, entry) in chuRecent.enumerated() {
                     status = .loading(hint: "加载中 \(index + 1)/\(chuRecent.count)")
-                    chuSongs.append(chuSongData.first { data in
+                    let data = chuSongData.first { data in
                         String(data.musicId) == entry.music_id
-                    }!)
+                    }
+                    if ((data) != nil) {
+                        chuSongs.append(data!)
+                    }
                 }
                 if (chuSongs.isEmpty || chuRecent.isEmpty) {
                     status = .empty

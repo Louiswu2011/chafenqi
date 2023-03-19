@@ -12,6 +12,8 @@ class CFQPersistentData: ObservableObject {
     @Published var chunithm: Chunithm = Chunithm()
     @Published var maimai: Maimai = Maimai()
     
+    var shouldReload = true
+    
     struct Chunithm {
         @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
         @AppStorage("chartIDMap") var mapData = Data()
@@ -30,9 +32,8 @@ class CFQPersistentData: ObservableObject {
     }
     
     private func updateChunithm() async throws {
-        if (self.chunithm.loadedSongs.isEmpty) {
-            try await self.chunithm.loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
-        }
+        try await self.chunithm.loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
+
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
         
         var decoded = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
@@ -45,17 +46,9 @@ class CFQPersistentData: ObservableObject {
     }
     
     private func updateMaimai() async throws {
-        if (self.maimai.loadedSongs.isEmpty) {
-            self.maimai.loadedSongs = try await MaimaiDataGrabber.getMusicData()
-        }
-        
-        if (self.maimai.loadedStats.isEmpty) {
-            self.maimai.loadedStats = try await MaimaiDataGrabber.getChartStat()
-        }
-        
-        if (self.maimai.loadedRanking.isEmpty) {
-            self.maimai.loadedRanking = try await MaimaiDataGrabber.getRatingRanking()
-        }
+        self.maimai.loadedSongs = try await MaimaiDataGrabber.getMusicData()
+        self.maimai.loadedStats = try await MaimaiDataGrabber.getChartStat()
+        self.maimai.loadedRanking = try await MaimaiDataGrabber.getRatingRanking()
         
         self.maimai.songlist = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
         self.maimai.chartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: self.maimai.loadedStats)
@@ -63,7 +56,16 @@ class CFQPersistentData: ObservableObject {
     }
     
     func update() async throws {
+        guard shouldReload else { return }
+        
         try await updateChunithm()
         try await updateMaimai()
+        
+        shouldReload = false
+    }
+    
+    func refresh() async throws {
+        shouldReload = true
+        try await update()
     }
 }

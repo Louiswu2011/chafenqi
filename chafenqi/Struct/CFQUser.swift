@@ -14,6 +14,7 @@ class CFQUser: ObservableObject {
     @Published var token = ""
     
     @AppStorage("settingsCurrentMode") var currentMode = 0
+    @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     
     var username = ""
     var nickname = ""
@@ -23,6 +24,8 @@ class CFQUser: ObservableObject {
     var chunithm: Chunithm? = Chunithm()
     
     var data = CFQPersistentData()
+    
+    var shouldReload = true
     
     let dateFormat = "MM-dd HH:mm"
     
@@ -111,32 +114,37 @@ class CFQUser: ObservableObject {
     }
     
     func refresh() async {
+        shouldReload = true
         await self.loadFromToken(token: token, data: data)
     }
     
     func loadFromToken(token: String, data: CFQPersistentData) async {
+        guard shouldReload else { return }
+        
         self.token = token
         self.data = data
         
         do {
             let maimaiProfile = try await JSONDecoder().decode(MaimaiPlayerProfile.self, from: MaimaiDataGrabber.getPlayerProfile(token: token))
             let maimaiRecord = try await JSONDecoder().decode(MaimaiPlayerRecord.self, from: MaimaiDataGrabber.getPlayerRecord(token: token))
-            let maimaiRecent = try await JSONDecoder().decode(Array<MaimaiRecentRecord>.self, from: MaimaiDataGrabber.getRecentData(username: maimaiProfile.username))
+            let maimaiRecent = try await JSONDecoder().decode(Array<MaimaiRecentRecord>.self, from: MaimaiDataGrabber.getRecentData(username: maimaiProfile.username, limit: Int(entryCount) ?? 30))
             
             self.maimai = Maimai(profile: maimaiProfile, record: maimaiRecord, recent: maimaiRecent)
             calculateMaimaiData()
         } catch {
+            print(error)
             self.maimai = nil
         }
         
         do {
             let chunithmProfile = try await JSONDecoder().decode(ChunithmUserData.self, from: ChunithmDataGrabber.getUserRecord(token: token))
-            let chunithmRecent = try await JSONDecoder().decode(Array<ChunithmRecentRecord>.self, from: ChunithmDataGrabber.getRecentData(username: chunithmProfile.username))
+            let chunithmRecent = try await JSONDecoder().decode(Array<ChunithmRecentRecord>.self, from: ChunithmDataGrabber.getRecentData(username: chunithmProfile.username, limit: Int(entryCount) ?? 30))
             let chunithmUserScore = try await JSONDecoder().decode(ChunithmUserScoreData.self, from: ChunithmDataGrabber.getUserScoreData(username: chunithmProfile.username))
             
             self.chunithm = Chunithm(profile: chunithmProfile, rating: chunithmUserScore, recent: chunithmRecent)
             calculateChunithmData()
         } catch {
+            print(error)
             self.chunithm = nil
         }
         
@@ -145,6 +153,7 @@ class CFQUser: ObservableObject {
         
         self.displayName = self.nickname.isEmpty ? self.username : self.nickname
         
+        shouldReload = false
     }
 }
 

@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-struct RecentSpotlightCardView: View {
+struct RecentSpotlightView: View {
     
     @State var spotlightText = "新纪录"
     @State var dateSincePlayed = "2天前"
+    
     @State var record = MaimaiRecentRecord.shared
+    @State var chuRecord = ChunithmRecentRecord.shared
     
     var body: some View {
         ZStack {
@@ -23,12 +25,12 @@ struct RecentSpotlightCardView: View {
                 VStack {
                     HStack {
                         Text(record.title)
-                            .font(.system(size: 20))
+                            .font(.system(size: 18))
                         
                         Spacer()
                         
                         Text(spotlightText)
-                            .font(.system(size: 20))
+                            .font(.system(size: 18))
                             .bold()
                     }
                     
@@ -36,22 +38,29 @@ struct RecentSpotlightCardView: View {
                     
                     HStack {
                         Text(record.achievement)
-                            .font(.system(size: 30))
+                            .font(.system(size: 24))
                             .bold()
                         
                         Spacer()
+                        
+                        NavigationLink {
+                            
+                        } label: {
+                            Text("前往详情")
+                                .font(.system(size: 18))
+                        }
                     }
                 }
             }
             .padding()
         }
-        .frame(height: 100)
+        .frame(height: 80)
     }
 
 }
 
 struct RecentSpotlightCardView_Previews: PreviewProvider {
     static var previews: some View {
-        RecentSpotlightCardView()
+        RecentSpotlightView()
     }
 }

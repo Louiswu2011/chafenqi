@@ -55,7 +55,7 @@ struct HomeTopView: View {
                             Spacer()
                             
                             NavigationLink {
-                                // TODO: Navigate to RatingDetailView
+                                RatingDetailView(user: user)
                             } label: {
                                 Text("显示详情")
                                     .font(.system(size: 18))
@@ -96,6 +96,7 @@ struct HomeTopView: View {
             }
         }
         .onAppear {
+            loadStatus = .loading(hint: "加载中...")
             Task {
                 do {
                     try await data.update()
@@ -122,7 +123,7 @@ struct HomeTopView: View {
                     Task {
                         do {
                             loadStatus = .loading(hint: "加载中")
-                            try await data.update()
+                            try await data.refresh()
                             await user.refresh()
                             
                             loadStatus = .complete
