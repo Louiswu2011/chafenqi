@@ -92,8 +92,10 @@ struct HomeTopView: View {
                         .padding()
                     Text("加载中")
                 }
+            case .notLogin:
+                Text("未登录，请在设置中登录账号")
             default:
-                Text("loading...")
+                Text("未登录，请在设置中登录账号")
             }
         }
         .onAppear {
@@ -101,15 +103,19 @@ struct HomeTopView: View {
             Task {
                 do {
                     print("token: \(user.token)")
-                    if (user.shouldReload) {
-                        try await user.loadFromToken(token: token)
-                    } else {
-                        if (user.data.shouldReload) {
-                            user.data = try await CFQPersistentData.loadFromCacheOrRefresh()
+                    if (user.didLogin) {
+                        if (user.shouldReload) {
+                            try await user.loadFromToken(token: token)
+                        } else {
+                            if (user.data.shouldReload) {
+                                user.data = try await CFQPersistentData.loadFromCacheOrRefresh()
+                            }
                         }
+                        
+                        loadStatus = .complete
+                    } else {
+                        loadStatus = .notLogin
                     }
-                    
-                    loadStatus = .complete
                 } catch {
                     loadStatus = .error(errorText: "ERROR")
                 }
