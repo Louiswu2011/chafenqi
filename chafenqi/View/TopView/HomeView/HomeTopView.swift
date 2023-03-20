@@ -12,7 +12,7 @@ struct HomeTopView: View {
     @AppStorage("userMaimaiCache") var maimaiCache = Data()
     @AppStorage("userChunithmCache") var chunithmCache = Data()
     
-    @ObservedObject var user = CFQUser.loadFromCache()
+    @ObservedObject var user: CFQUser
     
     @State private var loadStatus: LoadStatus = .loading(hint: "加载中...")
     
@@ -127,25 +127,10 @@ struct HomeTopView: View {
             }
         }
         .onAppear {
-            loadStatus = .loading(hint: "加载中...")
-            Task {
-                do {
-                    if (user.didLogin) {
-                        if (user.shouldReload) {
-                            try await user.loadFromToken(token: user.token)
-                        } else {
-                            if (user.data.shouldReload) {
-                                user.data = try await CFQPersistentData.loadFromCacheOrRefresh()
-                            }
-                        }
-                        
-                        loadStatus = .complete
-                    } else {
-                        loadStatus = .notLogin
-                    }
-                } catch {
-                    loadStatus = .error(errorText: "ERROR")
-                }
+            if (user.didLogin) {
+                loadStatus = .complete
+            } else {
+                loadStatus = .notLogin
             }
         }
         .navigationTitle("主页")

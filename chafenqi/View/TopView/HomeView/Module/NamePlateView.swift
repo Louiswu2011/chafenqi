@@ -188,9 +188,3 @@ struct NamePlateView: View {
         }
     }
 }
-
-struct NamePlateView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeTopView()
-    }
-}
