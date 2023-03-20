@@ -56,6 +56,7 @@ class CFQUser: ObservableObject {
             var totalPlayed = 0
             var avgAchievement = 0.0
             var nationalRanking = 0
+            var recentSong: Array<MaimaiSongData?> = []
             
             var lastUpdateDate = ""
         }
@@ -113,6 +114,14 @@ class CFQUser: ObservableObject {
             $0.timestamp > $1.timestamp
         }[0].timestamp))
         self.maimai!.custom.lastUpdateDate = formatter.string(from: lastDate)
+        
+        for entry in self.maimai!.recent {
+            let song = self.data.maimai.songlist.filter {
+                $0.title == entry.title
+            }.first
+            
+            self.maimai!.custom.recentSong.append(song)
+        }
     }
     
     private func calculateChunithmData() {
