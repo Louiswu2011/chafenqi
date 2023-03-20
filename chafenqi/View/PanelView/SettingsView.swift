@@ -205,10 +205,14 @@ struct SettingsView: View {
                 
                 Link("请作者打一把中二", destination: URL(string: "https://afdian.net/a/chafenqi")!)
                 
+                NavigationLink {
+                    SponsorView()
+                } label: {
+                    Text("鸣谢")
+                }
+                
             } header: {
                 Text("关于")
-            } footer: {
-                Text(credits)
             }
         }
         .navigationTitle("设置")

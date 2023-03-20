@@ -89,6 +89,7 @@
 		BFF353DC29681F8E001392E5 /* chafenqiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353DB29681F8E001392E5 /* chafenqiUITests.swift */; };
 		BFF353DE29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353DD29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift */; };
 		BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353F22968533B001392E5 /* CutCircularProgressView.swift */; };
+		BFFCE3AB29C8419F00893786 /* SponsorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFCE3AA29C8419F00893786 /* SponsorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -218,6 +219,7 @@
 		BFF353DB29681F8E001392E5 /* chafenqiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiUITests.swift; sourceTree = "<group>"; };
 		BFF353DD29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BFF353F22968533B001392E5 /* CutCircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutCircularProgressView.swift; sourceTree = "<group>"; };
+		BFFCE3AA29C8419F00893786 /* SponsorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -584,6 +586,7 @@
 				BF55004B29818D8D004072A0 /* ScoreView */,
 				BF670DE629781B0E00EA2CBB /* SongView */,
 				BFF353C229681F8D001392E5 /* MainView.swift */,
+				BFFCE3AA29C8419F00893786 /* SponsorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */,
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,
+				BFFCE3AB29C8419F00893786 /* SponsorView.swift in Sources */,
 				BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */,
 				BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */,
 				BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */,
