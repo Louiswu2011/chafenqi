@@ -45,6 +45,7 @@ struct RatingDetailMaimaiView: View {
                 Spacer()
                 Text(verbatim: "Past \(user.maimai!.custom.pastRating) / New \(user.maimai!.custom.currentRating)")
             }
+            .padding(.bottom)
             
             HStack {
                 Text("旧曲 B25")
@@ -59,6 +60,7 @@ struct RatingDetailMaimaiView: View {
                     Text(pastFold ? "展开" : "收起")
                 }
             }
+            .padding(.bottom)
             
             if (!pastFold) {
                 VStack {
@@ -81,6 +83,7 @@ struct RatingDetailMaimaiView: View {
                     Text(newFold ? "展开" : "收起")
                 }
             }
+            .padding(.bottom)
             
             if (!newFold) {
                 VStack {
