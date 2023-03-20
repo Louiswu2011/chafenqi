@@ -10,22 +10,72 @@ import SwiftUI
 struct RecentSpotlightView: View {    
     @ObservedObject var user = CFQUser()
     
+    let prompt = ["最近一首", "新纪录", "高分"]
+    
     var body: some View {
-        ZStack {
-            Group {
-                if (user.currentMode == 0) {
-                    ChunithmSpotlightView(record: user.chunithm!.recent.first, spotlightText: "Recent")
-                    ChunithmSpotlightView(record: user.chunithm!.recent.getLatestNewRecord(), spotlightText: "NewRecord")
-                    ChunithmSpotlightView(record: user.chunithm!.recent.getLatestHighscore(), spotlightText: "Highscore")
-                } else {
-                    MaimaiSpotlightView(record: user.maimai!.recent.first, spotlightText: "Recent")
-                    MaimaiSpotlightView(record: user.maimai!.recent.getLatestNewRecord(), spotlightText: "NewRecord")
-                    MaimaiSpotlightView(record: user.maimai!.recent.getLatestHighscore(), spotlightText: "Highscore")
+        VStack {
+            if (user.currentMode == 0) {
+                let recents = [user.chunithm!.recent.first, user.chunithm!.recent.getLatestNewRecord(), user.chunithm!.recent.getLatestHighscore()]
+                ForEach(Array(recents.enumerated()), id: \.offset) { index, record in
+                    NavigationLink {
+                        RecentDetailView()
+                    } label: {
+                        if (record != nil) {
+                            HStack {
+                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: record!.music_id), size: 65, cornerRadius: 5)
+                                    .padding(.trailing, 5)
+                                Spacer()
+                                VStack {
+                                    HStack {
+                                        Text(record!.getDateString())
+                                        Spacer()
+                                        Text(prompt[index])
+                                            .bold()
+                                    }
+                                    Spacer()
+                                    HStack {
+                                        Text(record!.title)
+                                        Spacer()
+                                        Text(record!.score)
+                                            .font(.system(size: 22))
+                                            .bold()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            } else {
+                let recents = [(0, user.maimai!.recent.first), user.maimai!.recent.getLatestNewRecord(), user.maimai!.recent.getLatestHighscore()]
+                ForEach(Array(recents.enumerated()), id: \.offset) { index, record in
+                    let (recentIndex, entry) = record
+                    if (entry != nil) {
+                        HStack {
+                            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: user.maimai!.custom.recentSong[recentIndex!]!.musicId)), size: 65, cornerRadius: 5)
+                                .padding(.trailing, 5)
+                            Spacer()
+                            VStack {
+                                HStack {
+                                    Text(entry!.getDateString())
+                                    Spacer()
+                                    Text(prompt[index])
+                                        .bold()
+                                }
+                                Spacer()
+                                HStack {
+                                    Text(entry!.title)
+                                    Spacer()
+                                    Text(entry!.achievement)
+                                        .font(.system(size: 22))
+                                        .bold()
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            .padding()
         }
-        .frame(height: 80)
     }
 
 }
@@ -36,24 +86,3 @@ struct RecentSpotlightCardView_Previews: PreviewProvider {
     }
 }
 
-struct ChunithmSpotlightView: View {
-    @State var record: ChunithmRecentRecord?
-    @State var spotlightText: String
-    
-    var body: some View {
-        HStack {
-            
-        }
-    }
-}
-
-struct MaimaiSpotlightView: View {
-    @State var record: MaimaiRecentRecord?
-    @State var spotlightText: String
-    
-    var body: some View {
-        HStack {
-            
-        }
-    }
-}

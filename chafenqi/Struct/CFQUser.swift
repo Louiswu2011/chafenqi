@@ -258,20 +258,26 @@ extension Double {
 }
 
 extension Array<MaimaiRecentRecord> {
-    func getLatestNewRecord() -> MaimaiRecentRecord? {
-        self.filter {
+    func getLatestNewRecord() -> (Int?, MaimaiRecentRecord?) {
+        let new = self.filter {
             $0.is_new_record == 1
         }.sorted {
             $0.timestamp > $1.timestamp
         }.first
+        return (self.firstIndex {
+            $0.timestamp == new?.timestamp
+        }, new)
     }
     
-    func getLatestHighscore() -> MaimaiRecentRecord? {
-        self.filter {
+    func getLatestHighscore() -> (Int?, MaimaiRecentRecord?) {
+        let high = self.filter {
             $0.getRawAchievement() >= 100.0
         }.sorted {
             $0.getRawAchievement() > $1.getRawAchievement()
         }.first
+        return (self.firstIndex {
+            $0.timestamp == high?.timestamp
+        }, high)
     }
 }
 

@@ -44,6 +44,7 @@ struct HomeTopView: View {
                             HStack {
                                 if ((user.currentMode == 1 && user.maimai == nil) || (user.currentMode == 0 && user.chunithm == nil)) {
                                     Text("暂无数据")
+                                        .padding()
                                 } else {
                                     RecentSpotlightView(user: user)
                                 }
