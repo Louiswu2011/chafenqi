@@ -103,14 +103,32 @@ struct HomeTopView: View {
                             .padding([.horizontal, .bottom])
                         }
                     }
-                case .loading:
+                case .loading(let prompt):
                     VStack {
                         ProgressView()
                             .padding()
-                        Text("加载中")
+                        Text(prompt)
                     }
                 case .notLogin:
                     Text("未登录，请在设置中登录账号")
+                case .error(let errorText):
+                    VStack {
+                        Text(errorText)
+                        Button {
+                            Task {
+                                do {
+                                    loadStatus = .loading(hint: "加载中")
+                                    try await user.refresh()
+                                    
+                                    loadStatus = .complete
+                                } catch {
+                                    loadStatus = .error(errorText: "哎呀，出错了")
+                                }
+                            }
+                        } label: {
+                            Text("重试")
+                        }
+                    }
                 default:
                     Text("未登录，请在设置中登录账号")
                 }
@@ -159,7 +177,7 @@ struct HomeTopView: View {
                             
                             loadStatus = .complete
                         } catch {
-                            loadStatus = .error(errorText: "ERROR")
+                            loadStatus = .error(errorText: "哎呀，出错了")
                         }
                     }
                 } label: {
