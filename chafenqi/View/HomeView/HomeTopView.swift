@@ -32,7 +32,7 @@ struct HomeTopView: View {
                                 Spacer()
                                 
                                 NavigationLink {
-                                    RecentView()
+                                    RecentView(user: user)
                                 } label: {
                                     Text("显示全部")
                                         .font(.system(size: 18))

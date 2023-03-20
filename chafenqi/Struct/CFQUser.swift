@@ -291,19 +291,25 @@ extension Array<MaimaiRecentRecord> {
 }
 
 extension Array<ChunithmRecentRecord> {
-    func getLatestNewRecord() -> ChunithmRecentRecord? {
-        self.filter {
+    func getLatestNewRecord() -> (Int?, ChunithmRecentRecord?) {
+        let new = self.filter {
             $0.is_new_record == 1
         }.sorted {
             $0.timestamp > $1.timestamp
         }.first
+        return (self.firstIndex {
+            $0.timestamp == new?.timestamp
+        }, new)
     }
     
-    func getLatestHighscore() -> ChunithmRecentRecord? {
-        self.filter {
+    func getLatestHighscore() -> (Int?, ChunithmRecentRecord?) {
+        let high = self.filter {
             $0.getRawScore() > 1000000
         }.sorted {
             $0.getRawScore() > $1.getRawScore()
         }.first
+        return (self.firstIndex {
+            $0.timestamp == high?.timestamp
+        }, high)
     }
 }
