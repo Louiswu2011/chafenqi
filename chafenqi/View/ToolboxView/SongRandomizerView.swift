@@ -103,9 +103,9 @@ struct SongRandomizerView: View {
                     
                     NavigationLink {
                         if (user.currentMode == 0) {
-                            ChunithmDetailView(song: randomChunithmSong)
+                            ChunithmDetailView(user: user, song: randomChunithmSong)
                         } else {
-                            MaimaiDetailView(song: randomMaimaiSong)
+                            MaimaiDetailView(user: user, song: randomMaimaiSong)
                         }
                     } label: {
                         Text("转到详情")

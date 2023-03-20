@@ -10,7 +10,7 @@ import SwiftUI
 struct MaimaiMiniView: View {
     let song: MaimaiRecordEntry
     
-    @AppStorage("settingsMaimaiCoverSource") var coverSource = 0
+    @ObservedObject var user: CFQUser
     
     var body: some View {
         ZStack{
@@ -42,7 +42,7 @@ struct MaimaiMiniView: View {
             
             
             HStack {
-                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: coverSource, coverId: getCoverNumber(id: String(song.musicId))), size: 80, cornerRadius: 10)
+                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(song.musicId))), size: 80, cornerRadius: 10)
                 
                 VStack(alignment: .leading) {
                     Spacer()
@@ -65,11 +65,5 @@ struct MaimaiMiniView: View {
         .cornerRadius(10)
         // .border(.black)
             
-    }
-}
-
-struct MaimaiMiniView_Previews: PreviewProvider {
-    static var previews: some View {
-        MaimaiMiniView(song: MaimaiRecordEntry(achievements: 101.00, constant: 15.00, dxScore: 1323, status: "app", syncStatus: "fsdp", level: "15", levelIndex: 3, levelLabel: "Master", rating: 211, rate: "sssp", musicId: 11253, title: "panduola", type: "DX"))
     }
 }

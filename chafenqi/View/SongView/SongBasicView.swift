@@ -94,9 +94,7 @@ let tempSongData = try! JSONDecoder().decode(ChunithmSongData.self, from: data!)
 struct SongBasicView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 0
-    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
-    @AppStorage("settingsCurrentMode") var mode = 0
+    @ObservedObject var user: CFQUser
     
     var maimaiSong: MaimaiSongData = tempMaimaiSong
     var chunithmSong: ChunithmSongData = tempSongData
@@ -104,7 +102,7 @@ struct SongBasicView: View {
     
     var body: some View {
         HStack() {
-            let requestURL = mode == 0 ? ChunithmDataGrabber.getSongCoverUrl(source: chunithmCoverSource, musicId: String(chunithmSong.musicId)) : MaimaiDataGrabber.getSongCoverUrl(source: maimaiCoverSource, coverId: getCoverNumber(id: String(maimaiSong.musicId)))
+            let requestURL = user.currentMode == 0 ? ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(chunithmSong.musicId)) : MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(maimaiSong.musicId)))
             
             
             
@@ -115,45 +113,45 @@ struct SongBasicView: View {
             
             VStack(alignment: .leading) {
                 if #available(iOS 15.0, *) {
-                    Text(mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
+                    Text(user.currentMode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
                         .font(.system(size: 20))
                         .bold()
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .textSelection(.enabled)
                 } else {
-                    Text(mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
+                    Text(user.currentMode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title)
                         .font(.system(size: 20))
                         .bold()
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .contextMenu(ContextMenu(menuItems: {
                             Button("拷贝", action: {
-                              UIPasteboard.general.string = mode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title
+                              UIPasteboard.general.string = user.currentMode == 0 ? chunithmSong.basicInfo.title : maimaiSong.basicInfo.title
                             })
                           }))
                 }
                 
                 
                 if #available(iOS 15.0, *) {
-                    Text(mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
+                    Text(user.currentMode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
                         .font(.system(size: 15))
                         .lineLimit(1)
                         .textSelection(.enabled)
                 } else {
-                    Text(mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
+                    Text(user.currentMode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist)
                         .font(.system(size: 15))
                         .lineLimit(1)
                         .contextMenu(ContextMenu(menuItems: {
                             Button("拷贝", action: {
-                              UIPasteboard.general.string = mode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist
+                              UIPasteboard.general.string = user.currentMode == 0 ? chunithmSong.basicInfo.artist : maimaiSong.basicInfo.artist
                             })
                           }))
                 }
                 
                 Spacer()
                 
-                LevelStripView(mode: mode, levels: mode == 0 ? chunithmSong.level : maimaiSong.level)
+                LevelStripView(mode: user.currentMode, levels: user.currentMode == 0 ? chunithmSong.level : maimaiSong.level)
             }
         }
     }

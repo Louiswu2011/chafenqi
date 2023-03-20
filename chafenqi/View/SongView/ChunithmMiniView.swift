@@ -15,7 +15,7 @@ struct ChunithmMiniView: View {
     
     let song: ScoreEntry
     
-    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
+    @ObservedObject var user: CFQUser
     
     var body: some View {
         ZStack{
@@ -47,7 +47,7 @@ struct ChunithmMiniView: View {
             
             
             HStack {
-                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: coverSource, musicId: String(song.musicId)), size: 80, cornerRadius: 10)
+                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicId)), size: 80, cornerRadius: 10)
                 
                 VStack(alignment: .leading) {
                     Spacer()
@@ -76,12 +76,6 @@ struct ChunithmMiniView: View {
         .cornerRadius(10)
         // .border(.black)
             
-    }
-}
-
-struct ChunithmMiniInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChunithmMiniView(song: song)
     }
 }
 

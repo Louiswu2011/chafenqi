@@ -29,9 +29,9 @@ struct SongListView: View {
                         List {
                             ForEach(searchChunithmResults!.sorted(by: <), id: \.musicId) { song in
                                 NavigationLink {
-                                    ChunithmDetailView(song: song)
+                                    ChunithmDetailView(user: user, song: song)
                                 } label: {
-                                    SongBasicView(chunithmSong: song)
+                                    SongBasicView(user: user, chunithmSong: song)
                                 }
                                 
                             }
@@ -47,9 +47,9 @@ struct SongListView: View {
                         List {
                             ForEach(searchMaimaiResults!.sorted(by: <), id: \.musicId) { song in
                                 NavigationLink {
-                                    MaimaiDetailView(song: song)
+                                    MaimaiDetailView(user: user, song: song)
                                 } label: {
-                                    SongBasicView(maimaiSong: song)
+                                    SongBasicView(user: user, maimaiSong: song)
                                 }
                                 
                             }
@@ -100,9 +100,9 @@ struct SongListView: View {
                         List {
                             ForEach(searchChunithmResults!.sorted(by: <), id: \.musicId) { song in
                                 NavigationLink {
-                                    ChunithmDetailView(song: song)
+                                    ChunithmDetailView(user: user, song: song)
                                 } label: {
-                                    SongBasicView(chunithmSong: song)
+                                    SongBasicView(user: user, chunithmSong: song)
                                 }
                                 
                             }
@@ -118,9 +118,9 @@ struct SongListView: View {
                         List {
                             ForEach(searchMaimaiResults!.sorted(by: <), id: \.musicId) { song in
                                 NavigationLink {
-                                    MaimaiDetailView(song: song)
+                                    MaimaiDetailView(user: user, song: song)
                                 } label: {
-                                    SongBasicView(maimaiSong: song)
+                                    SongBasicView(user: user, maimaiSong: song)
                                 }
                                 
                             }
