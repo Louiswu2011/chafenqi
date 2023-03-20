@@ -59,7 +59,7 @@
 		BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
 		BF9E9C4729BA39590011C2B1 /* HomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E9C4629BA39590011C2B1 /* HomeTopView.swift */; };
 		BF9E9C4A29BA3A6C0011C2B1 /* NamePlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E9C4929BA3A6C0011C2B1 /* NamePlateView.swift */; };
-		BF9E9C4C29BA48780011C2B1 /* RecentSpotlightCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E9C4B29BA48780011C2B1 /* RecentSpotlightCardView.swift */; };
+		BF9E9C4C29BA48780011C2B1 /* RecentSpotlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E9C4B29BA48780011C2B1 /* RecentSpotlightView.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
 		BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3A29B298F7BAD00C8C3BF /* LevelBlockView.swift */; };
 		BFBC54F1298CE32A00A93918 /* MaimaiHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */; };
@@ -187,7 +187,7 @@
 		BF9CEFB92992C03500658724 /* TunnelManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelManagerService.swift; sourceTree = "<group>"; };
 		BF9E9C4629BA39590011C2B1 /* HomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopView.swift; sourceTree = "<group>"; };
 		BF9E9C4929BA3A6C0011C2B1 /* NamePlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePlateView.swift; sourceTree = "<group>"; };
-		BF9E9C4B29BA48780011C2B1 /* RecentSpotlightCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSpotlightCardView.swift; sourceTree = "<group>"; };
+		BF9E9C4B29BA48780011C2B1 /* RecentSpotlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSpotlightView.swift; sourceTree = "<group>"; };
 		BFB3A29B298F7BAD00C8C3BF /* LevelBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBlockView.swift; sourceTree = "<group>"; };
 		BFBC54F0298CE32A00A93918 /* MaimaiHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiHomeView.swift; sourceTree = "<group>"; };
 		BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDataGrabber.swift; sourceTree = "<group>"; };
@@ -452,7 +452,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9E9C4929BA3A6C0011C2B1 /* NamePlateView.swift */,
-				BF9E9C4B29BA48780011C2B1 /* RecentSpotlightCardView.swift */,
+				BF9E9C4B29BA48780011C2B1 /* RecentSpotlightView.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -800,7 +800,7 @@
 				BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */,
 				BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */,
-				BF9E9C4C29BA48780011C2B1 /* RecentSpotlightCardView.swift in Sources */,
+				BF9E9C4C29BA48780011C2B1 /* RecentSpotlightView.swift in Sources */,
 				BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */,
 				BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */,
 				BF572E1229A5E37A00E9811B /* RecentBasicView.swift in Sources */,

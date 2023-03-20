@@ -246,3 +246,39 @@ extension Double {
         return floor(self * pow(10, Double(remainingDigits))) / pow(10, Double(remainingDigits))
     }
 }
+
+extension Array<MaimaiRecentRecord> {
+    func getLatestNewRecord() -> MaimaiRecentRecord? {
+        self.filter {
+            $0.is_new_record == 1
+        }.sorted {
+            $0.timestamp > $1.timestamp
+        }.first
+    }
+    
+    func getLatestHighscore() -> MaimaiRecentRecord? {
+        self.filter {
+            $0.getRawAchievement() >= 100.0
+        }.sorted {
+            $0.getRawAchievement() > $1.getRawAchievement()
+        }.first
+    }
+}
+
+extension Array<ChunithmRecentRecord> {
+    func getLatestNewRecord() -> ChunithmRecentRecord? {
+        self.filter {
+            $0.is_new_record == 1
+        }.sorted {
+            $0.timestamp > $1.timestamp
+        }.first
+    }
+    
+    func getLatestHighscore() -> ChunithmRecentRecord? {
+        self.filter {
+            $0.getRawScore() > 1000000
+        }.sorted {
+            $0.getRawScore() > $1.getRawScore()
+        }.first
+    }
+}

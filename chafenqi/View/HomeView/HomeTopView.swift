@@ -42,7 +42,7 @@ struct HomeTopView: View {
                             
                             
                             HStack {
-                                
+                                RecentSpotlightView(user: user)
                             }
                             .padding([.horizontal, .bottom])
                             
