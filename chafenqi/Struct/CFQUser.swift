@@ -136,7 +136,8 @@ class CFQUser: ObservableObject {
     func loadFromToken(token: String) async throws {
         guard shouldReload else { return }
         
-        self.token = cachedToken
+        self.token = token
+        cachedToken = token
         
         let data = try await CFQPersistentData.loadFromCacheOrRefresh()
         

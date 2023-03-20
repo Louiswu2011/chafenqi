@@ -42,7 +42,11 @@ struct HomeTopView: View {
                             
                             
                             HStack {
-                                RecentSpotlightView(user: user)
+                                if ((user.currentMode == 1 && user.maimai == nil) || (user.currentMode == 0 && user.chunithm == nil)) {
+                                    Text("暂无数据")
+                                } else {
+                                    RecentSpotlightView(user: user)
+                                }
                             }
                             .padding([.horizontal, .bottom])
                             
@@ -142,7 +146,7 @@ struct HomeTopView: View {
                 do {
                     if (user.didLogin) {
                         if (user.shouldReload) {
-                            try await user.loadFromToken(token: token)
+                            try await user.loadFromToken(token: user.token)
                         } else {
                             if (user.data.shouldReload) {
                                 user.data = try await CFQPersistentData.loadFromCacheOrRefresh()

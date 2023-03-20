@@ -24,7 +24,7 @@ struct MaimaiPlayerProfile: Codable {
         case username
     }
     
-    static let shared = MaimaiPlayerProfile(additionalRating: 0, bindQQ: "0", nickname: "?", plate: "", privacy: false, username: "?")
+    static let shared = MaimaiPlayerProfile(additionalRating: 0, bindQQ: "0", nickname: "?", plate: "nodata", privacy: false, username: "?")
     
 //    init() {
 //        additionalRating = 0

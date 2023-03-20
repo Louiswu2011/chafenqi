@@ -13,7 +13,7 @@ struct ChunithmUserData: Codable {
     var records: UserRecord
     var username: String
     
-    static let shared = ChunithmUserData(rating: 19.00, records: UserRecord(best: [], r10: []), username: "?")
+    static let shared = ChunithmUserData(rating: -1, records: UserRecord(best: [], r10: []), username: "?")
     
     func getOverpower() -> Double {
         let qualifiedList = records.best.filter {
@@ -104,11 +104,16 @@ struct ChunithmUserData: Codable {
     }
     
     func getMaximumRating() -> Double {
-        let b1 = self.records.best.sorted {
+        var b1 = 0.0
+        let array = self.records.best.sorted {
             $0.rating > $1.rating
-        }[0]
+        }
         
-        return ((getAvgB30() * 30.0 + b1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
+        if (!array.isEmpty) {
+            b1 = array[0].rating
+        }
+        
+        return ((getAvgB30() * 30.0 + b1 * 10.0) / 40.0).cut(remainingDigits: 2)
     }
     
     func getRelativeR10Percentage() -> Double {
