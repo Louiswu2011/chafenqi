@@ -18,62 +18,71 @@ struct RecentSpotlightView: View {
                 let recents = [(0, user.chunithm!.recent.first), user.chunithm!.recent.getLatestNewRecord(), user.chunithm!.recent.getLatestHighscore()]
                 ForEach(Array(recents.enumerated()), id: \.offset) { index, record in
                     let (recentIndex, entry) = record
-                    if (recentIndex != nil) {
-                        HStack {
-                            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: entry!.music_id), size: 65, cornerRadius: 5)
-                                .padding(.trailing, 5)
-                            Spacer()
-                            VStack {
-                                HStack {
-                                    Text(entry!.getDateString())
-                                    Spacer()
-                                    Text(prompt[index])
-                                        .bold()
-                                }
+                    if (entry != nil) {
+                        NavigationLink {
+                            RecentDetailView(chuSong: user.chunithm!.custom.recentSong[recentIndex!]!, chuRecord: entry!, mode: 0)
+                        } label: {
+                            HStack {
+                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: entry!.music_id), size: 65, cornerRadius: 5)
+                                    .padding(.trailing, 5)
                                 Spacer()
-                                HStack {
-                                    Text(entry!.title)
+                                VStack {
+                                    HStack {
+                                        Text(entry!.getDateString())
+                                        Spacer()
+                                        Text(prompt[index])
+                                            .bold()
+                                    }
                                     Spacer()
-                                    Text(entry!.score)
-                                        .font(.system(size: 22))
-                                        .bold()
+                                    HStack {
+                                        Text(entry!.title)
+                                        Spacer()
+                                        Text(entry!.score)
+                                            .font(.system(size: 22))
+                                            .bold()
+                                    }
                                 }
                             }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             } else {
                 let recents = [(0, user.maimai!.recent.first), user.maimai!.recent.getLatestNewRecord(), user.maimai!.recent.getLatestHighscore()]
                 ForEach(Array(recents.enumerated()), id: \.offset) { index, record in
                     let (recentIndex, entry) = record
-                    if (recentIndex != nil) {
-                        HStack {
-                            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: user.maimai!.custom.recentSong[recentIndex!]!.musicId)), size: 65, cornerRadius: 5)
-                                .padding(.trailing, 5)
-                            Spacer()
-                            VStack {
-                                HStack {
-                                    Text(entry!.getDateString())
-                                    Spacer()
-                                    Text(prompt[index])
-                                        .bold()
-                                }
+                    if (entry != nil) {
+                        NavigationLink {
+                            RecentDetailView(maiSong: user.maimai!.custom.recentSong[recentIndex!]!, maiRecord: entry!, mode: 1)
+                        } label: {
+                            HStack {
+                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: user.maimai!.custom.recentSong[recentIndex!]!.musicId)), size: 65, cornerRadius: 5)
+                                    .padding(.trailing, 5)
                                 Spacer()
-                                HStack {
-                                    Text(entry!.title)
+                                VStack {
+                                    HStack {
+                                        Text(entry!.getDateString())
+                                        Spacer()
+                                        Text(prompt[index])
+                                            .bold()
+                                    }
                                     Spacer()
-                                    Text(entry!.achievement)
-                                        .font(.system(size: 22))
-                                        .bold()
+                                    HStack {
+                                        Text(entry!.title)
+                                        Spacer()
+                                        Text(entry!.achievement)
+                                            .font(.system(size: 22))
+                                            .bold()
+                                    }
                                 }
                             }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             }
         }
     }
-
 }
 
 struct RecentSpotlightCardView_Previews: PreviewProvider {
