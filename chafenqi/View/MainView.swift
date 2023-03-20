@@ -89,7 +89,7 @@ struct MainView: View {
                             .tag(TabIdentifier.list)
                             
                             NavigationView {
-                                ToolView()
+                                ToolView(user: user)
                             }
                             .tabItem {
                                 Image(systemName: "shippingbox.fill")

@@ -10,6 +10,8 @@ import SwiftUI
 struct ToolView: View {
     @AppStorage("settingsCurrentMode") var currentMode = 0
     
+    @ObservedObject var user: CFQUser
+    
     @State private var showingUpdaterView = false
     
     var body: some View {
@@ -19,7 +21,7 @@ struct ToolView: View {
                     
                     HStack {
                         NavigationLink {
-                            SongRandomizerView(firstTimeAppear: true)
+                            SongRandomizerView(user: user, firstTimeAppear: true)
                         } label: {
                             Image(systemName: "questionmark.square")
                                 .resizable()
