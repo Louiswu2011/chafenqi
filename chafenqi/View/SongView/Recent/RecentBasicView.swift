@@ -94,6 +94,7 @@ struct RecentBasicView: View {
             }
         }
         .frame(height: 80)
+        .padding(.vertical, 5)
     }
 }
 

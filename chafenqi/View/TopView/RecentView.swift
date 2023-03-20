@@ -49,12 +49,14 @@ struct RecentView: View {
                                 Text("可通过传分器上传")
                             }
                         } else {
-                            List {
-                                ForEach(chuRecent.indices) { index in
-                                    NavigationLink {
-                                        RecentDetailView(chuSong: chuSongs[index], chuRecord: chuRecent[index], mode: 0)
-                                    } label: {
-                                        RecentBasicView(chunithmSong: chuSongs[index], chunithmRecord: chuRecent[index], mode: 0)
+                            Form {
+                                Section {
+                                    ForEach(chuRecent.indices) { index in
+                                        NavigationLink {
+                                            RecentDetailView(chuSong: chuSongs[index], chuRecord: chuRecent[index], mode: 0)
+                                        } label: {
+                                            RecentBasicView(chunithmSong: chuSongs[index], chunithmRecord: chuRecent[index], mode: 0)
+                                        }
                                     }
                                 }
                             }
@@ -67,12 +69,14 @@ struct RecentView: View {
                                 Text("可通过传分器上传")
                             }
                         } else {
-                            List {
-                                ForEach(maiRecent.indices) { index in
-                                    NavigationLink {
-                                        RecentDetailView(maiSong: maiSongs[index], maiRecord: maiRecent[index], mode: 1)
-                                    } label: {
-                                        RecentBasicView(maimaiSong: maiSongs[index], maimaiRecord: maiRecent[index], mode: 1)
+                            Form {
+                                Section {
+                                    ForEach(maiRecent.indices) { index in
+                                        NavigationLink {
+                                            RecentDetailView(maiSong: maiSongs[index], maiRecord: maiRecent[index], mode: 1)
+                                        } label: {
+                                            RecentBasicView(maimaiSong: maiSongs[index], maimaiRecord: maiRecent[index], mode: 1)
+                                        }
                                     }
                                 }
                             }
@@ -95,7 +99,8 @@ struct RecentView: View {
                 await getRecentData()
             }
         }
-        .navigationTitle("最近记录")
+        .navigationTitle("最近动态")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
