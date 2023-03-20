@@ -87,23 +87,8 @@ struct HomeTopView: View {
                             .padding(.horizontal)
                             
                             VStack {
-                                
-                            }
-                            .padding([.horizontal, .bottom])
-                        }
-                        
-                        Group {
-                            HStack {
-                                Text("随机一曲")
-                                    .font(.system(size: 20))
-                                    .bold()
-                                Spacer()
-                                
-                            }
-                            .padding(.horizontal)
-                            
-                            VStack {
-                                
+                                Text("敬请期待")
+                                    .padding()
                             }
                             .padding([.horizontal, .bottom])
                         }
