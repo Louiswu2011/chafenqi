@@ -33,6 +33,9 @@
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
+		BF533C9829BF093C003409AB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9729BF093C003409AB /* Comment.swift */; };
+		BF533C9B29BF142A003409AB /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9A29BF142A003409AB /* CommentCell.swift */; };
+		BF533C9D29BF3004003409AB /* CommentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9C29BF3004003409AB /* CommentDetail.swift */; };
 		BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */; };
 		BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */; };
 		BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF571DAB29A91A2700702240 /* ChafenqiColor.swift */; };
@@ -43,6 +46,7 @@
 		BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1629A5E3A700E9811B /* MaimaiRecentRecord.swift */; };
 		BF670DE529781B0100EA2CBB /* ChunithmMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */; };
 		BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6EB97F298A429B003A5604 /* FilterPanelView.swift */; };
+		BF74D20D29C387AE0099B427 /* CommentComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF74D20C29C387AE0099B427 /* CommentComposer.swift */; };
 		BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7B89DA29B7289C00E9ADA9 /* URLResponseExtension.swift */; };
 		BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69A297C3365003A67B0 /* DataTool.swift */; };
 		BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */; };
@@ -160,6 +164,9 @@
 		BF403F3229B64DA2005D1C67 /* FilterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
+		BF533C9729BF093C003409AB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		BF533C9A29BF142A003409AB /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		BF533C9C29BF3004003409AB /* CommentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetail.swift; sourceTree = "<group>"; };
 		BF56C6F82992C72F0075BEF9 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
 		BF56C6FA2992C9280075BEF9 /* UpdaterMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterMainView.swift; sourceTree = "<group>"; };
 		BF571DAB29A91A2700702240 /* ChafenqiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafenqiColor.swift; sourceTree = "<group>"; };
@@ -170,6 +177,7 @@
 		BF572E1629A5E3A700E9811B /* MaimaiRecentRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaimaiRecentRecord.swift; sourceTree = "<group>"; };
 		BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmMiniView.swift; sourceTree = "<group>"; };
 		BF6EB97F298A429B003A5604 /* FilterPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPanelView.swift; sourceTree = "<group>"; };
+		BF74D20C29C387AE0099B427 /* CommentComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentComposer.swift; sourceTree = "<group>"; };
 		BF7B89DA29B7289C00E9ADA9 /* URLResponseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseExtension.swift; sourceTree = "<group>"; };
 		BF7B89E129B72D7500E9ADA9 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		BF7BC69A297C3365003A67B0 /* DataTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTool.swift; sourceTree = "<group>"; };
@@ -260,6 +268,7 @@
 		BF02B67A298AC22100F5234E /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				BF533C9929BF1419003409AB /* Comment */,
 				BF38089D298916F7008FF936 /* TextInfoView.swift */,
 				BFF353F22968533B001392E5 /* CutCircularProgressView.swift */,
 				BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */,
@@ -344,6 +353,24 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		BF533C9629BF0932003409AB /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				BF533C9729BF093C003409AB /* Comment.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		BF533C9929BF1419003409AB /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				BF533C9A29BF142A003409AB /* CommentCell.swift */,
+				BF533C9C29BF3004003409AB /* CommentDetail.swift */,
+				BF74D20C29C387AE0099B427 /* CommentComposer.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
 		BF55004B29818D8D004072A0 /* ScoreView */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +413,7 @@
 		BF7E251D296AAAB200169B57 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
+				BF533C9629BF0932003409AB /* Comment */,
 				BFBC54FB298CEB1800A93918 /* Maimai */,
 				BFBC54FA298CEB0500A93918 /* Chunithm */,
 				BF3739C229C4E5F7002825B4 /* CFQUser.swift */,
@@ -789,6 +817,7 @@
 				BF8E053D29A293B800079A06 /* WelcomeTabView.swift in Sources */,
 				BFBDF70D29A1FA1800B99C79 /* UpdaterHelpView.swift in Sources */,
 				BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */,
+				BF533C9B29BF142A003409AB /* CommentCell.swift in Sources */,
 				BF572E1329A5E37A00E9811B /* RecentDetailView.swift in Sources */,
 				BF9C37A229C6E3D2003341C9 /* RatingDetailView.swift in Sources */,
 				BFBC54F3298CE5F300A93918 /* MaimaiDataGrabber.swift in Sources */,
@@ -809,6 +838,7 @@
 				BF572E1529A5E39D00E9811B /* ChunithmRecentRecord.swift in Sources */,
 				BFBC54FD298CEB2D00A93918 /* MaimaiPlayerProfile.swift in Sources */,
 				BFCD826129CA20710032264F /* LoginView.swift in Sources */,
+				BF74D20D29C387AE0099B427 /* CommentComposer.swift in Sources */,
 				BFBC5503298CEB5700A93918 /* MaimaiChartStat.swift in Sources */,
 				BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */,
 				BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */,
@@ -818,6 +848,7 @@
 				BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */,
 				BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */,
 				BFFD72E429CA25F30089EAC9 /* GradeBadgeView.swift in Sources */,
+				BF533C9D29BF3004003409AB /* CommentDetail.swift in Sources */,
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,
@@ -846,6 +877,7 @@
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,
 				BFFCE3AB29C8419F00893786 /* SponsorView.swift in Sources */,
 				BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */,
+				BF533C9829BF093C003409AB /* Comment.swift in Sources */,
 				BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */,
 				BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */,
 				BF0D912E296C4B7F005DC8A3 /* ChunithmDetailView.swift in Sources */,
@@ -1093,6 +1125,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1130,6 +1165,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -236,47 +236,86 @@ struct MaimaiHomeView: View {
         if (pastSlice.isEmpty) { didCached = false }
         guard !didCached else { status = .complete; return }
 
-        do {
-            try await loadUserData()
-        } catch {
-            status = .error(errorText: "获取用户信息失败")
-        }
+        await loadUserData()
+        
     }
     
-    func loadUserData() async throws {
+    func loadUserData() async {
+        status = .loading(hint: "加载数据中...")
+        if (userInfoData.isEmpty) {
+            do {
+                try await getUserInfoData()
+            } catch {
+                status = .error(errorText: "用户数据加载失败")
+                return
+            }
+        }
         do {
             userInfo = try JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
         } catch {
-            await getUserInfoData()
-            userInfo = try JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+            status = .error(errorText: "用户数据解析失败")
+            return
         }
         
+        
+        if (userProfileData.isEmpty) {
+            do {
+                try await getUserProfileData()
+            } catch {
+                status = .error(errorText: "用户资料加载失败")
+                return
+            }
+        }
         do {
             userProfile = try JSONDecoder().decode(MaimaiPlayerProfile.self, from: userProfileData)
         } catch {
-            await getUserProfileData()
-            userProfile = try JSONDecoder().decode(MaimaiPlayerProfile.self, from: userProfileData)
+            status = .error(errorText: "用户资料解析失败")
+            return
         }
         
+        if (loadedSongs.isEmpty) {
+            do {
+                try await getSongListData()
+            } catch {
+                status = .error(errorText: "歌曲列表加载失败")
+                return
+            }
+        }
         do {
             decodedSongList = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
         } catch {
-            await getSongListData()
-            decodedSongList = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: loadedSongs)
+            status = .error(errorText: "歌曲列表解析失败")
+            return
         }
         
+        if (loadedStats.isEmpty) {
+            do {
+                try await getChartStatsData()
+            } catch {
+                status = .error(errorText: "歌曲信息加载失败")
+                return
+            }
+        }
         do {
             decodedChartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
         } catch {
-            await getChartStatsData()
-            decodedChartStats = try JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+            status = .error(errorText: "歌曲信息解析失败")
+            return
         }
         
+        if (loadedRanking.isEmpty) {
+            do {
+                try await getRankingData()
+            } catch {
+                status = .error(errorText: "排行榜信息加载失败")
+                return
+            }
+        }
         do {
             decodedRanking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: loadedRanking)
         } catch {
-            await getRankingData()
-            decodedRanking = try JSONDecoder().decode(Array<MaimaiPlayerRating>.self, from: loadedRanking)
+            status = .error(errorText: "排行榜信息解析失败")
+            return
         }
         
         if userInfo.isRecordEmpty() {
@@ -284,35 +323,29 @@ struct MaimaiHomeView: View {
             return
         }
         
-        status = .loading(hint: "加载用户数据中...")
         calculateData()
         
         status = .complete
         didCached = true
     }
     
-    func getUserInfoData() async {
-        status = .loading(hint: "获取用户数据中...")
-        userInfoData = try! await MaimaiDataGrabber.getPlayerRecord(token: token)
+    func getUserInfoData() async throws {
+        userInfoData = try await MaimaiDataGrabber.getPlayerRecord(token: token)
     }
     
-    func getUserProfileData() async {
-        status = .loading(hint: "获取用户设置中...")
-        userProfileData = try! await MaimaiDataGrabber.getPlayerProfile(token: token)
+    func getUserProfileData() async throws {
+        userProfileData = try await MaimaiDataGrabber.getPlayerProfile(token: token)
     }
     
-    func getSongListData() async {
-        status = .loading(hint: "获取谱面列表中...")
-        loadedSongs = try! await MaimaiDataGrabber.getMusicData()
+    func getSongListData() async throws {
+        loadedSongs = try await MaimaiDataGrabber.getMusicData()
     }
     
-    func getChartStatsData() async {
-        status = .loading(hint: "加载谱面数据中...")
-        loadedStats = try! await MaimaiDataGrabber.getChartStat()
+    func getChartStatsData() async throws {
+        loadedStats = try await MaimaiDataGrabber.getChartStat()
     }
     
-    func getRankingData() async {
-        status = .loading(hint: "加载排行榜中...")
+    func getRankingData() async throws {
         loadedRanking = try! await MaimaiDataGrabber.getRatingRanking()
     }
     

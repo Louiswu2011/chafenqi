@@ -17,8 +17,8 @@ struct ChunithmDetailView: View {
     
     @State private var isFavourite = false
     @State private var isLoading = true
-    @State private var isCheckingDiff = true
     @State private var loadingScore = true
+    @State private var loadingComments = true
     @State private var showingChart = false
     @State private var showingCalc = false
     
@@ -30,6 +30,9 @@ struct ChunithmDetailView: View {
     
     @State private var userInfo = ChunithmUserData.shared
     @State private var scoreEntries = [Int: ScoreEntry]()
+    
+    @State private var comments: Array<Comment> = []
+    @State private var showingComposer = false
     
     @State private var webChartId: String = ""
     
@@ -131,9 +134,11 @@ struct ChunithmDetailView: View {
                     .padding(.horizontal)
                     
                     HStack {
-                        Text("难度：")
-                        
-                        
+                        Text("谱面预览")
+                            .font(.system(size: 20))
+                            .bold()
+                        Spacer()
+
                         Picker(selectedDifficulty, selection: $selectedDifficulty) {
                             ForEach(availableDiffs, id: \.self) { diff in
                                 Text(diff)
@@ -150,12 +155,9 @@ struct ChunithmDetailView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        
-                        if(isCheckingDiff) {
-                            ProgressView()
-                                .padding(.leading, 5)
-                        }
                     }
+                    .padding(.top)
+                    .padding(.horizontal)
 
                     ZStack {
                         RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
@@ -196,7 +198,12 @@ struct ChunithmDetailView: View {
                                 webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
                                 chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
                                 chartImageView = Image(uiImage: chartImage)
-                                availableDiffs = try await ChartIdConverter.getAvailableDiffs(musicId: song.musicId, map: try! JSONDecoder().decode(Dictionary<String, String>.self, from: user.data.chunithm.mapData))
+                                if(song.level.contains("master")) {
+                                    availableDiffs.append("Master")
+                                }
+                                if(song.level.contains("ultima")) {
+                                    availableDiffs.append("Ultima")
+                                }
                                 isCheckingDiff.toggle()
                             } catch CFQError.requestTimeoutError {
 
@@ -210,16 +217,70 @@ struct ChunithmDetailView: View {
                 }
                 .padding(.bottom)
                 
+
                 if (!loadingScore && user.didLogin) {
+                    HStack {
+                        Text("游玩记录")
+                            .font(.system(size: 20))
+                            .bold()
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    
                     VStack(spacing: 5) {
                         ForEach(0..<4) { index in
                             ScoreCardView(index: index, scoreEntries: scoreEntries, song: song)
                                 .padding(.bottom, 5)
-                            
+
                         }
                         if (song.charts.count == 5) {
                             ScoreCardView(index: 4, scoreEntries: scoreEntries, song: song)
                                 .padding(.bottom, 5)
+                        }
+                    }
+                    
+                    if (!loadingComments) {
+                        HStack {
+                            Text("评论")
+                                .font(.system(size: 20))
+                                .bold()
+                            Spacer()
+                            NavigationLink {
+                                CommentDetail(from: song.musicId, comments: comments)
+                            } label: {
+                                Text("显示全部")
+                            }
+                        }
+                        .padding(.top)
+                        .padding(.horizontal)
+                        
+
+                        if (comments.isEmpty) {
+                            HStack {
+                                Button {
+                                    showingComposer.toggle()
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(.accentColor)
+                                    Text("发表第一条评论")
+                                }
+                            }
+                            .padding()
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    ForEach(comments, id: \.uid) { entry in
+                                        CommentCell(comment: entry)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 5)
+                                                    .fill(.gray.opacity(0.2))
+                                            )
+                                            .frame(width: 300)
+                                    }
+                                    
+                                }
+                            }
+                            .padding([.horizontal, .bottom])
                         }
                     }
                 }
@@ -237,7 +298,14 @@ struct ChunithmDetailView: View {
                         scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
                         loadingScore = false
                     }
+                    
+                    loadingComments = true
+                    comments = await CommentHelper.getComments(mode: 0, musicId: song.musicId)
+                    loadingComments = false
                 }
+            }
+            .sheet(isPresented: $showingComposer) {
+                CommentComposerView(from: song.musicId, showingComposer: $showingComposer)
             }
 
 //            .toolbar {
@@ -345,4 +413,3 @@ func getChunithmLevelColor(index: Int) -> Color {
         return Color.purple
     }
 }
-
