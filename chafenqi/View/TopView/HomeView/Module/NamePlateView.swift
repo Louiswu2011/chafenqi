@@ -80,7 +80,7 @@ struct NamePlateView: View {
                             Spacer()
                             
                             Button {
-                                withAnimation(.easeInOut(duration: 0.1)) {
+                                withAnimation(.easeInOut(duration: 0.2)) {
                                     user.currentMode.flip()
                                 }
                             } label: {

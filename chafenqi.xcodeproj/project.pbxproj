@@ -74,6 +74,7 @@
 		BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */; };
 		BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AC29A7E96100B65CE7 /* ModalView.swift */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
+		BFCD826129CA20710032264F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCD826029CA20710032264F /* LoginView.swift */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
@@ -199,6 +200,7 @@
 		BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		BFC256AC29A7E96100B65CE7 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
+		BFCD826029CA20710032264F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmUserData.swift; sourceTree = "<group>"; };
 		BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunithmUserScoreData.swift; sourceTree = "<group>"; };
 		BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageGrabber.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				BF572E0B29A5E32000E9811B /* RecentView.swift */,
 				BFEF7EDD298A856E00F87ACC /* ToolView.swift */,
 				BFBC5506298D078000A93918 /* SongListView.swift */,
+				BFCD826029CA20710032264F /* LoginView.swift */,
 			);
 			path = TopView;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				BF9E9C4A29BA3A6C0011C2B1 /* NamePlateView.swift in Sources */,
 				BF572E1529A5E39D00E9811B /* ChunithmRecentRecord.swift in Sources */,
 				BFBC54FD298CEB2D00A93918 /* MaimaiPlayerProfile.swift in Sources */,
+				BFCD826129CA20710032264F /* LoginView.swift in Sources */,
 				BFBC5503298CEB5700A93918 /* MaimaiChartStat.swift in Sources */,
 				BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */,
 				BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */,
