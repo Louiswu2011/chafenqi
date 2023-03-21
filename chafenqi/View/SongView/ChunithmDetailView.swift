@@ -245,7 +245,7 @@ struct ChunithmDetailView: View {
                                 .bold()
                             Spacer()
                             NavigationLink {
-                                CommentDetail(from: song.musicId, comments: comments)
+                                CommentDetail(user: user, from: song.musicId, comments: comments)
                             } label: {
                                 Text("显示全部")
                             }
@@ -304,7 +304,7 @@ struct ChunithmDetailView: View {
                 }
             }
             .sheet(isPresented: $showingComposer) {
-                CommentComposerView(from: song.musicId, showingComposer: $showingComposer)
+                CommentComposerView(user: user, from: song.musicId, showingComposer: $showingComposer)
             }
 
 //            .toolbar {

@@ -154,7 +154,7 @@ struct MaimaiDetailView: View {
                                 .bold()
                             Spacer()
                             NavigationLink {
-                                CommentDetail(from: Int(song.musicId) ?? 0, comments: comments)
+                                CommentDetail(user: user, from: Int(song.musicId) ?? 0, comments: comments)
                             } label: {
                                 Text("显示全部")
                             }
@@ -216,7 +216,7 @@ struct MaimaiDetailView: View {
                 }
             }
             .sheet(isPresented: $showingComposer) {
-                CommentComposerView(from: Int(song.musicId) ?? 0, showingComposer: $showingComposer)
+                CommentComposerView(user: user, from: Int(song.musicId) ?? 0, showingComposer: $showingComposer)
             }
             //            .toolbar {
             //                ToolbarItem(placement: .navigationBarTrailing) {

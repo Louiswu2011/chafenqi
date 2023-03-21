@@ -9,13 +9,8 @@ import SwiftUI
 import AlertToast
 
 struct CommentDetail: View {
-    @AppStorage("settingsCurrentMode") var mode = 0
-    @AppStorage("didLogin") var didLogin = false
-    
-    @AppStorage("userAccountName") var accountName = ""
-    @AppStorage("userNickname") var accountNickname = ""
-    
     @ObservedObject var toastManager = AlertToastManager.shared
+    @ObservedObject var user: CFQUser
     
     @State var from: Int = 0
     
@@ -78,7 +73,7 @@ struct CommentDetail: View {
                         
                     }
                     .contextMenu {
-                        if (comment.sender != accountName) {
+                        if (comment.sender != user.username) {
                             //                        Button {
                             //                            Task {
                             //                                let result = await comment.postLike()
@@ -116,7 +111,7 @@ struct CommentDetail: View {
                             Text("回复")
                         }
                         
-                        if (comment.sender == accountName) {
+                        if (comment.sender == user.username) {
                             Button {
                                 Task {
                                     let result = await comment.delete()
@@ -150,18 +145,11 @@ struct CommentDetail: View {
                 AlertToast(displayMode: .alert, type: .complete(.green), title: "提交成功")
             }
             .sheet(isPresented: $showingComposer) {
-                CommentComposerView(comments: comments, from: from, replyComment: replyingTo, showingComposer: $showingComposer)
+                CommentComposerView(user: user, comments: comments, from: from, replyComment: replyingTo, showingComposer: $showingComposer)
             }
             .navigationTitle("评论")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
-
-struct CommentDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        CommentDetail(comments: [Comment.shared, Comment.shared, Comment.shared, Comment.shared, Comment.shared])
-    }
-}
-
 
