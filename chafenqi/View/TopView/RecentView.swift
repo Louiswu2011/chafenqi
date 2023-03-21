@@ -25,9 +25,9 @@ struct RecentView: View {
                             Section {
                                 ForEach(user.chunithm!.recent.indices) { index in
                                     NavigationLink {
-                                        RecentDetailView(chuSong: user.chunithm!.custom.recentSong[index], chuRecord: user.chunithm!.recent[index], mode: 0)
+                                        RecentDetailView(user: user, chuSong: user.chunithm!.custom.recentSong[index], chuRecord: user.chunithm!.recent[index], mode: 0)
                                     } label: {
-                                        RecentBasicView(chunithmSong: user.chunithm!.custom.recentSong[index], chunithmRecord: user.chunithm!.recent[index], mode: 0)
+                                        RecentBasicView(user: user, chunithmSong: user.chunithm!.custom.recentSong[index], chunithmRecord: user.chunithm!.recent[index], mode: 0)
                                     }
                                 }
                             }
@@ -45,9 +45,9 @@ struct RecentView: View {
                             Section {
                                 ForEach(user.maimai!.recent.indices) { index in
                                     NavigationLink {
-                                        RecentDetailView(maiSong: user.maimai!.custom.recentSong[index], maiRecord: user.maimai!.recent[index], mode: 1)
+                                        RecentDetailView(user: user, maiSong: user.maimai!.custom.recentSong[index], maiRecord: user.maimai!.recent[index], mode: 1)
                                     } label: {
-                                        RecentBasicView(maimaiSong: user.maimai!.custom.recentSong[index], maimaiRecord: user.maimai!.recent[index], mode: 1)
+                                        RecentBasicView(user: user, maimaiSong: user.maimai!.custom.recentSong[index], maimaiRecord: user.maimai!.recent[index], mode: 1)
                                     }
                                 }
                             }

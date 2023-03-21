@@ -21,7 +21,7 @@ struct RecentSpotlightView: View {
                         let (recentIndex, entry) = record
                         if (entry != nil) {
                             NavigationLink {
-                                RecentDetailView(chuSong: user.chunithm!.custom.recentSong[recentIndex!]!, chuRecord: entry!, mode: 0)
+                                RecentDetailView(user: user, chuSong: user.chunithm!.custom.recentSong[recentIndex!]!, chuRecord: entry!, mode: 0)
                             } label: {
                                 HStack {
                                     SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: entry!.music_id), size: 65, cornerRadius: 5)
@@ -58,7 +58,7 @@ struct RecentSpotlightView: View {
                         let (recentIndex, entry) = record
                         if (entry != nil) {
                             NavigationLink {
-                                RecentDetailView(maiSong: user.maimai!.custom.recentSong[recentIndex!]!, maiRecord: entry!, mode: 1)
+                                RecentDetailView(user: user, maiSong: user.maimai!.custom.recentSong[recentIndex!]!, maiRecord: entry!, mode: 1)
                             } label: {
                                 HStack {
                                     SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: user.maimai!.custom.recentSong[recentIndex!]!.musicId)), size: 65, cornerRadius: 5)

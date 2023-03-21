@@ -10,9 +10,7 @@ import SwiftUI
 struct RecentBasicView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    
-    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
-    @AppStorage("settingsChunithmCoverSoruce") var chunithmCoverSource = 0
+    @ObservedObject var user: CFQUser
     
     var maimaiSong: MaimaiSongData? = nil
     var chunithmSong: ChunithmSongData? = nil
@@ -24,7 +22,7 @@ struct RecentBasicView: View {
     
     var body: some View {
         HStack() {
-            let requestURL = mode == 0 ? ChunithmDataGrabber.getSongCoverUrl(source: chunithmCoverSource, musicId: String(chunithmSong?.musicId ?? 0)) : MaimaiDataGrabber.getSongCoverUrl(source: maimaiCoverSource, coverId: getCoverNumber(id: String(maimaiSong?.musicId ?? "0")))
+            let requestURL = mode == 0 ? ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(chunithmSong?.musicId ?? 0)) : MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(maimaiSong?.musicId ?? "0")))
             
             
             

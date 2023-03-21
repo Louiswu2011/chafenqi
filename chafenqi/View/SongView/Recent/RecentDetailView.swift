@@ -10,8 +10,7 @@ import SwiftUI
 struct RecentDetailView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
-    @AppStorage("settingsChunithmCoverSoruce") var chunithmCoverSource = 0
+    @ObservedObject var user: CFQUser
     
     var chuSong: ChunithmSongData? = tempSongData
     var maiSong: MaimaiSongData? = tempMaimaiSong
@@ -20,8 +19,6 @@ struct RecentDetailView: View {
     var maiRecord = MaimaiRecentRecord.shared
     
     var mode = 0
-    
-    @State var requestURL = ""
     
     @State var title = ""
     @State var artist = ""
@@ -47,7 +44,7 @@ struct RecentDetailView: View {
             if (isLoaded) {
                 VStack {
                     HStack(alignment: .bottom) {
-                        SongCoverView(coverURL: URL(string: requestURL)!, size: 120, cornerRadius: 10, withShadow: false)
+                        SongCoverView(coverURL: mode == 0 ? ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(chuSong!.musicId)) :  MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: maiSong!.musicId)), size: 120, cornerRadius: 10, withShadow: false)
                         
                         VStack(alignment: .leading) {
                             Spacer()
@@ -167,7 +164,7 @@ struct RecentDetailView: View {
                         .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
                         
                         NavigationLink {
-                            ChunithmDetailView(song: chuSong!)
+                            ChunithmDetailView(user: user, song: chuSong!)
                         } label: {
                             Image(systemName: "arrowshape.turn.up.right")
                             Text("前往歌曲详情")
@@ -297,7 +294,7 @@ struct RecentDetailView: View {
                         }
                         
                         NavigationLink {
-                            MaimaiDetailView(song: maiSong!)
+                            MaimaiDetailView(user: user, song: maiSong!)
                         } label: {
                             Image(systemName: "arrowshape.turn.up.right")
                             Text("前往歌曲详情")
@@ -323,8 +320,6 @@ struct RecentDetailView: View {
     }
     
     func getCommonVar() {
-        requestURL = mode == 0 ? chunithmCoverSource == 0 ?  "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(chuSong!.musicId).png" :  "https://gitee.com/louiswu2011/chunithm-cover/raw/master/image/\(chuSong!.musicId).png" :  "https://www.diving-fish.com/covers/\(getCoverNumber(id: maiSong!.musicId )).png"
-        
         title = mode == 0 ? chuRecord.title : maiRecord.title
         artist = mode == 0 ? chuSong!.basicInfo.artist : maiSong!.basicInfo.artist
         playTime = mode == 0 ? chuRecord.getDateString() : maiRecord.getDateString()
@@ -380,9 +375,3 @@ extension CGFloat {
     }
 }
 
-struct RecentDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecentDetailView(mode: 0)
-            .preferredColorScheme(.dark)
-    }
-}

@@ -204,7 +204,6 @@ struct ChunithmDetailView: View {
                                 if(song.level.contains("ultima")) {
                                     availableDiffs.append("Ultima")
                                 }
-                                isCheckingDiff.toggle()
                             } catch CFQError.requestTimeoutError {
 
                             } catch CFQError.unsupportedError {
