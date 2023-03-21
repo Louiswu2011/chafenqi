@@ -64,14 +64,15 @@ struct HomeTopView: View {
                                 NavigationLink {
                                     RatingDetailView(user: user)
                                 } label: {
-                                    Text("显示详情")
+                                    Text("显示全部")
                                         .font(.system(size: 18))
                                 }
                             }
                             .padding(.horizontal)
                             
                             VStack {
-                                
+                                Text("敬请期待")
+                                    .padding(.top)
                             }
                             .padding([.horizontal, .bottom])
                         }
@@ -88,7 +89,7 @@ struct HomeTopView: View {
                             
                             VStack {
                                 Text("敬请期待")
-                                    .padding()
+                                    .padding(.top)
                             }
                             .padding([.horizontal, .bottom])
                         }
