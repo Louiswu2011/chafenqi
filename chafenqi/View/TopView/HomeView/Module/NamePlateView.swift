@@ -20,14 +20,8 @@ struct NamePlateView: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 5)
-                    .fill(LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom))
+                    .fill(LinearGradient(colors: user.currentMode == 0 ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
                     .shadow(radius: 5)
-                    .opacity(user.currentMode == 0 ? 1 : 0)
-
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
-                    .shadow(radius: 5)
-                    .opacity(user.currentMode == 1 ? 1 : 0)
                 
                 VStack {
                     Spacer()
@@ -80,7 +74,7 @@ struct NamePlateView: View {
                             Spacer()
                             
                             Button {
-                                withAnimation(.easeInOut(duration: 0.2)) {
+                                withAnimation(.easeInOut(duration: 0.15)) {
                                     user.currentMode.flip()
                                 }
                             } label: {
