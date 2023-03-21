@@ -89,6 +89,7 @@
 		BFF353DE29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353DD29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift */; };
 		BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353F22968533B001392E5 /* CutCircularProgressView.swift */; };
 		BFFCE3AB29C8419F00893786 /* SponsorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFCE3AA29C8419F00893786 /* SponsorView.swift */; };
+		BFFD72E429CA25F30089EAC9 /* GradeBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFD72E329CA25F30089EAC9 /* GradeBadgeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -218,6 +219,7 @@
 		BFF353DD29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BFF353F22968533B001392E5 /* CutCircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutCircularProgressView.swift; sourceTree = "<group>"; };
 		BFFCE3AA29C8419F00893786 /* SponsorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorView.swift; sourceTree = "<group>"; };
+		BFFD72E329CA25F30089EAC9 /* GradeBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeBadgeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +264,7 @@
 				BFF353F22968533B001392E5 /* CutCircularProgressView.swift */,
 				BF0A0BA0298C2D8A008F9700 /* SongCoverView.swift */,
 				BFB3A29B298F7BAD00C8C3BF /* LevelBlockView.swift */,
+				BFFD72E329CA25F30089EAC9 /* GradeBadgeView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -814,6 +817,7 @@
 				BFF353C329681F8D001392E5 /* MainView.swift in Sources */,
 				BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */,
 				BF0D912C296C341F005DC8A3 /* SettingsView.swift in Sources */,
+				BFFD72E429CA25F30089EAC9 /* GradeBadgeView.swift in Sources */,
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,

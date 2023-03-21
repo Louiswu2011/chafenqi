@@ -63,7 +63,7 @@ struct RatingDetailMaimaiView: View {
             .padding(.bottom)
             
             if (!pastFold) {
-                VStack {
+                VStack(spacing: 15) {
                     ForEach(Array(user.maimai!.custom.pastSlice.enumerated()), id: \.offset) { index, entry in
                         RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
                     }
@@ -86,7 +86,7 @@ struct RatingDetailMaimaiView: View {
             .padding(.bottom)
             
             if (!newFold) {
-                VStack {
+                VStack(spacing: 15) {
                     ForEach(Array(user.maimai!.custom.currentSlice.enumerated()), id: \.offset) { index, entry in
                         RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
                     }
@@ -131,7 +131,7 @@ struct RatingDetailChunithmView: View {
             .padding(.bottom)
             
             if(!bestFold) {
-                VStack {
+                VStack(spacing: 15) {
                     ForEach(Array(chunithm.rating.records.b30.enumerated()), id: \.offset) { index, entry in
                         RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
                     }
@@ -154,7 +154,7 @@ struct RatingDetailChunithmView: View {
             .padding(.bottom)
             
             if(!recentFold) {
-                VStack {
+                VStack(spacing: 15) {
                     ForEach(Array(chunithm.rating.records.r10.enumerated()), id: \.offset) { index, entry in
                         RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
                     }
@@ -194,7 +194,13 @@ struct RatingChunithmEntryBanner: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text("\(entry.getStatus()) \(entry.getGrade())")
+                    HStack {
+                        let status = entry.getStatus()
+                        if (status != "Clear") {
+                            Text("\(entry.getStatus())")
+                        }
+                        GradeBadgeView(grade: entry.getGrade())
+                    }
                     Spacer()
                     Text("\(entry.score)")
                     
@@ -230,7 +236,10 @@ struct RatingMaimaiEntryBanner: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text("\(entry.getStatus()) \(entry.getRateString())")
+                    HStack {
+                        Text("\(entry.getStatus())")
+                        GradeBadgeView(grade: entry.getRateString())
+                    }
                     Spacer()
                     Text("\(entry.achievements, specifier: "%.4f")%")
                     
