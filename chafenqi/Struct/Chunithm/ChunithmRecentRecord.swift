@@ -35,6 +35,10 @@ struct ChunithmRecentRecord: Codable {
     var createdAt: String
     var updatedAt: String
     
+    func getRawScore() -> Int {
+        return Int(self.score.replacingOccurrences(of: ",", with: "")) ?? 0
+    }
+    
     func getDate() -> Date {
         Date(timeIntervalSince1970: TimeInterval(timestamp))
     }

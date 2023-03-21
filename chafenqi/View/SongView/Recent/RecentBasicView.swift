@@ -94,6 +94,7 @@ struct RecentBasicView: View {
             }
         }
         .frame(height: 80)
+        .padding(.vertical, 5)
     }
 }
 
@@ -112,11 +113,5 @@ struct InfoBadge: View {
                 .foregroundColor(.white)
         }
         .frame(width: 40, height: 20)
-    }
-}
-
-struct RecentMiniView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecentView()
     }
 }

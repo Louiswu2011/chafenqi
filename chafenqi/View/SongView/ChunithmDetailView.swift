@@ -11,10 +11,7 @@ import CachedAsyncImage
 
 struct ChunithmDetailView: View {
     
-    @AppStorage("settingsChunithmCoverSource") var coverSource = 0
-    @AppStorage("userChunithmInfoData") var userInfoData = Data()
-    @AppStorage("chartIDMap") var mapData = Data()
-    @AppStorage("didLogin") var didLogin = false
+    @ObservedObject var user: CFQUser
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -60,7 +57,7 @@ struct ChunithmDetailView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: coverSource, musicId: String(song.musicId)), size: 120, cornerRadius: 10, withShadow: false)
+                        SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicId)), size: 120, cornerRadius: 10, withShadow: false)
                             .overlay(RoundedRectangle(cornerRadius: 10)
                                 .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                             .padding(.leading)
@@ -197,18 +194,17 @@ struct ChunithmDetailView: View {
                     .onAppear {
                         Task {
                             do {
-                                if (!mapData.isEmpty) {
-                                    let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: mapData)
-                                    webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
-                                    chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
-                                    chartImageView = Image(uiImage: chartImage)
-                                    if(song.level.contains("master")) {
-                                        availableDiffs.append("Master")
-                                    }
-                                    if(song.level.contains("ultima")) {
-                                        availableDiffs.append("Ultima")
-                                    }
+                                let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: user.data.chunithm.mapData)
+                                webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
+                                chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
+                                chartImageView = Image(uiImage: chartImage)
+                                if(song.level.contains("master")) {
+                                    availableDiffs.append("Master")
                                 }
+                                if(song.level.contains("ultima")) {
+                                    availableDiffs.append("Ultima")
+                                }
+                                isCheckingDiff.toggle()
                             } catch CFQError.requestTimeoutError {
 
                             } catch CFQError.unsupportedError {
@@ -221,7 +217,8 @@ struct ChunithmDetailView: View {
                 }
                 .padding(.bottom)
                 
-                if (!loadingScore && didLogin) {
+
+                if (!loadingScore && user.didLogin) {
                     HStack {
                         Text("游玩记录")
                             .font(.system(size: 20))
@@ -290,8 +287,8 @@ struct ChunithmDetailView: View {
             }
             .onAppear {
                 Task {
-                    if(didLogin) {
-                        userInfo = try! JSONDecoder().decode(ChunithmUserData.self, from: userInfoData)
+                    if(user.didLogin) {
+                        userInfo = user.chunithm!.profile
                         var scores = userInfo.records.best.filter {
                             $0.musicId == song.musicId
                         }
@@ -416,11 +413,3 @@ func getChunithmLevelColor(index: Int) -> Color {
         return Color.purple
     }
 }
-
-struct SongDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChunithmDetailView(song: tempSongData)
-            
-    }
-}
-

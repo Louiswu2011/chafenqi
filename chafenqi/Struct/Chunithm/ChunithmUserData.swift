@@ -13,17 +13,68 @@ struct ChunithmUserData: Codable {
     var records: UserRecord
     var username: String
     
-    static let shared = ChunithmUserData(rating: 19.00, records: UserRecord(best: [], r10: []), username: "?")
+    static let shared = ChunithmUserData(rating: -1, records: UserRecord(best: [], r10: []), username: "?")
     
-//    init(){
-//        let placerholder = ScoreEntry(chartId: 1, constant: 14.4, status: "alljustice", level: "14", levelIndex: 3, levelLabel: "Master", musicId: 3, rating: 16.40, score: 1009560, title: "Y")
-//        let best = [ScoreEntry](repeating: placerholder, count: 100)
-//        let r10 = [ScoreEntry](repeating: placerholder, count: 10)
-//        rating = 17.00
-//        records = UserRecord(best: best, r10: r10)
-//        username = "louis"
-//    }
+    func getOverpower() -> Double {
+        let qualifiedList = records.best.filter {
+            ($0.levelIndex == 3 || $0.levelIndex == 4) && $0.score >= 975000
+        }
+        
+        var overpower: Double = 0.0
+        for entry in qualifiedList {
+            let score = entry.score
+            var rating: Double {
+                switch (entry.score) {
+                case 975000...999999:
+                    return entry.constant + Double(entry.score - 975000) / 2500 * 0.1
+                case 1000000...1004999:
+                    return entry.constant + 1.0 + Double(entry.score - 1000000) / 1000 * 0.1
+                case 1005000...1007499:
+                    return entry.constant + 1.5 + Double(entry.score - 1005000) / 500 * 0.1
+                case 1007500...1008999:
+                    return entry.constant + 2.0 + Double(entry.score - 1007500) / 100 * 0.01
+                case 1009000...1010000:
+                    return entry.constant + 2.15
+                default:
+                    return 0
+                }
+            }
+            var op: Double = 0.0
+            var extra: Double {
+                if (entry.getStatus() == "FC") {
+                    return 0.5
+                } else if (entry.getStatus() == "AJ") {
+                    return 1.0
+                } else {
+                    return 0.0
+                }
+            }
 
+            
+            if (score <= 1007500) {
+                op = rating * 5.0
+            } else if (score < 1010000) {
+                op = (entry.constant + 2.0) * 5.0 + Double((score - 1007500)) * 0.0015
+            } else if (score == 1010000) {
+                op = (entry.constant + 2.0) * 5.0 + 4.0
+            }
+            
+            // print("title \(entry.title), level \(entry.levelLabel), score \(score), base \(op), status \(entry.status), bonus \(extra)")
+            if((extra == 0.0 && entry.getStatus() != "Clear") || (extra != 0.0 && entry.getStatus() == "Clear")) {
+                print("Wrong extra value, got \(extra) while status is \(entry.getStatus())")
+            }
+            
+            overpower += (op + extra)
+        }
+        
+//        for i in 10...15 {
+//            print("Level \(i): \(qualifiedList.filter {$0.level == "\(i)"}.count)")
+//            print("Level \(i)+: \(qualifiedList.filter {$0.level == "\(i)+"}.count)")
+//        }
+        
+        print(qualifiedList.count)
+        return overpower
+    }
     
     func getAvgB30() -> Double {
         let best = self.records.best.sorted {
@@ -48,12 +99,21 @@ struct ChunithmUserData: Codable {
         return avg / 10.0
     }
     
+    func getRating() -> Double {
+        return ((getAvgB30() * 30.0 + getAvgR10() * 10.0 ) / 40.0).cut(remainingDigits: 2)
+    }
+    
     func getMaximumRating() -> Double {
-        let b1 = self.records.best.sorted {
+        var b1 = 0.0
+        let array = self.records.best.sorted {
             $0.rating > $1.rating
-        }[0]
+        }
         
-        return ( getAvgB30() * 30.0 + b1.rating * 10.0 ) / 40.0
+        if (!array.isEmpty) {
+            b1 = array[0].rating
+        }
+        
+        return ((getAvgB30() * 30.0 + b1 * 10.0) / 40.0).cut(remainingDigits: 2)
     }
     
     func getRelativeR10Percentage() -> Double {
@@ -133,7 +193,7 @@ struct ScoreEntry: Codable, Hashable {
     
     func getStatus() -> String {
         switch (self.status) {
-        case "fullcombo", "fullchain":
+        case "fullcombo", "fullchain2", "fullchain":
             return "FC"
         case "alljustice":
             return "AJ"

@@ -10,11 +10,7 @@ import SwiftUI
 
 
 struct MaimaiDetailView: View {
-    @AppStorage("settingsMaimaiCoverSource") var coverSource = 0
-    @AppStorage("userMaimaiInfoData") var userInfoData = Data()
-    @AppStorage("loadedMaimaiChartStats") var loadedStats: Data = Data()
-    
-    @AppStorage("didLogin") var didLogin = false
+    @ObservedObject var user: CFQUser
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -39,7 +35,7 @@ struct MaimaiDetailView: View {
         ScrollView {
             VStack {
                 HStack {
-                    SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: coverSource, coverId: getCoverNumber(id: String(song.musicId))), size: 120, cornerRadius: 10, withShadow: false)
+                    SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(song.musicId))), size: 120, cornerRadius: 10, withShadow: false)
                         .overlay(RoundedRectangle(cornerRadius: 10)
                             .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                         .padding(.leading)
@@ -128,7 +124,7 @@ struct MaimaiDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                if (!loadingScore && didLogin) {
+                if (!loadingScore && user.didLogin) {
                     let stats = chartStats[song.musicId] as! Array<MaimaiChartStat>
                     
                     HStack {
@@ -199,9 +195,9 @@ struct MaimaiDetailView: View {
             }
             .onAppear {
                 Task {
-                    if(didLogin) {
-                        loadingScore = true
-                        userInfo = try! JSONDecoder().decode(MaimaiPlayerRecord.self, from: userInfoData)
+                    if(user.didLogin) {
+                        userInfo = user.maimai!.record
+
                         var scores = userInfo.records.filter {
                             $0.musicId == Int(song.musicId)!
                         }
@@ -209,7 +205,7 @@ struct MaimaiDetailView: View {
                             $0.levelIndex < $1.levelIndex
                         }
                         scoreEntries = Dictionary(uniqueKeysWithValues: scores.map { ($0.levelIndex, $0) })
-                        chartStats = try! JSONDecoder().decode(Dictionary<String, Array<MaimaiChartStat>>.self, from: loadedStats)
+                        chartStats = user.data.maimai.chartStats
                     }
                     
                     loadingComments = true
@@ -367,13 +363,6 @@ struct MaimaiDetailView: View {
             }
             .padding(.horizontal)
         }
-    }
-}
-
-
-struct MaimaiDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        MaimaiDetailView(song: tempMaimaiSong)
     }
 }
 

@@ -211,7 +211,7 @@ struct MaimaiHomeView: View {
                 }) {
                     Image(systemName: "gear")
                 }.sheet(isPresented: $showingSettings) {
-                    SettingsView(showingSettings: $showingSettings)
+                    SettingsView()
                 }
             }
         }
