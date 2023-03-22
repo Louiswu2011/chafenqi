@@ -72,11 +72,12 @@ struct HomeTopView: View {
                             }
                             .padding(.horizontal)
                             
-                            VStack {
-                                Text("敬请期待")
-                                    .padding(.top)
+                            ScrollView(.horizontal) {
+                                if(user.currentMode == 1) {
+                                    RatingAnalysisView(user: user)
+                                }
                             }
-                            .padding([.horizontal, .bottom])
+                            .padding()
                         }
                         
                         Group {

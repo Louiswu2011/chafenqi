@@ -184,9 +184,9 @@ struct RatingChunithmEntryBanner: View {
                     HStack {
                         Text("#\(index)")
                             .frame(width: 35, alignment: .leading)
-                        Text("\(entry.rating, specifier: "%.2f")")
+                        Text("\(entry.constant, specifier: "%.1f")/\(entry.rating, specifier: "%.2f")")
                             .bold()
-                            .frame(width: 50, alignment: .leading)
+                            .frame(width: 90, alignment: .leading)
                     }
                     Spacer()
                     Text("\(entry.title)")
@@ -226,9 +226,9 @@ struct RatingMaimaiEntryBanner: View {
                     HStack {
                         Text("#\(index)")
                             .frame(width: 35, alignment: .leading)
-                        Text("\(entry.rating)")
+                        Text("\(entry.constant, specifier: "%.1f")/\(entry.rating)")
                             .bold()
-                            .frame(width: 50, alignment: .leading)
+                            .frame(width: 90, alignment: .leading)
                     }
                     Spacer()
                     Text("\(entry.title)")
