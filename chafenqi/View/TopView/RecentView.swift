@@ -14,7 +14,7 @@ struct RecentView: View {
         VStack {
             if(user.didLogin) {
                 if (user.currentMode == 0) {
-                    if (user.chunithm!.recent.isEmpty || user.chunithm!.custom.recentSong.isEmpty) {
+                    if (user.chunithm != nil) {
                         VStack{
                             Text("暂无最近记录")
                                 .padding()
@@ -34,7 +34,7 @@ struct RecentView: View {
                         }
                     }
                 } else {
-                    if (user.maimai!.recent.isEmpty || user.chunithm!.custom.recentSong.isEmpty) {
+                    if (user.maimai != nil) {
                         VStack{
                             Text("暂无最近记录")
                                 .padding()
