@@ -37,6 +37,7 @@ struct HomeTopView: View {
                                     Text("显示全部")
                                         .font(.system(size: 18))
                                 }
+                                .disabled(user.currentMode == 0 ? user.chunithm == nil : user.maimai == nil)
                             }
                             .padding(.horizontal)
                             
@@ -67,6 +68,7 @@ struct HomeTopView: View {
                                     Text("显示全部")
                                         .font(.system(size: 18))
                                 }
+                                .disabled(user.currentMode == 0 ? user.chunithm == nil : user.maimai == nil)
                             }
                             .padding(.horizontal)
                             
