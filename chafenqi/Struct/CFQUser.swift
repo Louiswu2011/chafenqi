@@ -71,7 +71,7 @@ class CFQUser: ObservableObject {
         struct Custom: Codable {
             var overpower = 0.0
             var maxRating = 0.0
-            var recentSong: Array<ChunithmSongData?> = []
+            var recentSong: Array<ChunithmSongData> = []
             
             var lastUpdateDate = ""
         }
@@ -137,12 +137,19 @@ class CFQUser: ObservableObject {
         }[0].timestamp))
         self.chunithm!.custom.lastUpdateDate = formatter.string(from: lastDate)
         
+        // Removing nil(World's End) entries for now
+        self.chunithm!.recent = self.chunithm!.recent.filter {
+            $0.diff != "worldsend"
+        }
+        
         for entry in self.chunithm!.recent {
             let song = self.data.chunithm.songs.filter {
                 String($0.musicId) == entry.music_id
             }.first
             
-            self.chunithm!.custom.recentSong.append(song)
+            if (song != nil) {
+                self.chunithm!.custom.recentSong.append(song!)
+            }
         }
     }
     

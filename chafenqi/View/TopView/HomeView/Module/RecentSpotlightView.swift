@@ -21,7 +21,7 @@ struct RecentSpotlightView: View {
                         let (recentIndex, entry) = record
                         if (entry != nil) {
                             NavigationLink {
-                                RecentDetailView(user: user, chuSong: user.chunithm!.custom.recentSong[recentIndex!]!, chuRecord: entry!, mode: 0)
+                                RecentDetailView(user: user, chuSong: user.chunithm!.custom.recentSong[recentIndex!], chuRecord: entry!, mode: 0)
                             } label: {
                                 HStack {
                                     SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: entry!.music_id), size: 65, cornerRadius: 5)

@@ -73,7 +73,7 @@ struct HomeTopView: View {
                             .padding(.horizontal)
                             
                             ScrollView(.horizontal) {
-                                if(user.currentMode == 1) {
+                                if(user.currentMode == 1 && user.maimai != nil) {
                                     RatingAnalysisView(user: user)
                                 }
                             }
