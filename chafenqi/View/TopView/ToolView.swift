@@ -61,7 +61,7 @@ struct ToolView: View {
 //                    .frame(height: 50)
                     
                     NavigationLink {
-                        UpdaterRouterView()
+                        UpdaterRouterView(user: user)
                     } label: {
                         HStack {
                             Image(systemName: "paperplane")

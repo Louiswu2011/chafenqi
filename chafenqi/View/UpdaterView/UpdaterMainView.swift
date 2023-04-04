@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct UpdaterMainView: View {
-    @AppStorage("userToken") var token = ""
-    @AppStorage("didLogin") var didLogin = false
-    
+    @ObservedObject var user: CFQUser
     @ObservedObject var service = TunnelManagerService.shared
     @ObservedObject var toastManager = AlertToastManager.shared
     
@@ -68,22 +66,26 @@ struct UpdaterMainView: View {
             }
             
             Section {
+                if (user.didLogin) {
+                    TextInfoView(text: "当前账号", info: user.username)
+                }
+                
                 Button {
                     copyUrlToClipboard(mode: 0)
                 } label: {
                     Text("上传中二节奏分数...")
                 }
-                .disabled(!didLogin)
+                .disabled(!user.didLogin)
                 
                 Button {
                     copyUrlToClipboard(mode: 1)
                 } label: {
                     Text("上传舞萌DX分数...")
                 }
-                .disabled(!didLogin)
+                .disabled(!user.didLogin)
                 
             } footer: {
-                if (didLogin) {
+                if (user.didLogin) {
                     Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
                         .multilineTextAlignment(.leading)
                 } else {
@@ -155,7 +157,7 @@ struct UpdaterMainView: View {
     func copyUrlToClipboard(mode: Int) {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let requestUrl = "http://43.139.107.206/upload_\(destination)?token=\(token)"
+        let requestUrl = "http://43.139.107.206/upload_\(destination)?token=\(user.token)"
 
         pasteboard.string = requestUrl
         
@@ -166,6 +168,6 @@ struct UpdaterMainView: View {
 
 struct UpdaterMainView_Previews: PreviewProvider {
     static var previews: some View {
-        UpdaterMainView()
+        UpdaterMainView(user: CFQUser())
     }
 }
