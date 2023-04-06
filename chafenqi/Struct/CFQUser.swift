@@ -111,10 +111,14 @@ class CFQUser: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
         
-        let lastDate = Date(timeIntervalSince1970: TimeInterval(self.maimai!.recent.sorted {
-            $0.timestamp > $1.timestamp
-        }[0].timestamp))
-        self.maimai!.custom.lastUpdateDate = formatter.string(from: lastDate)
+        if (self.maimai!.recent.isEmpty) {
+            self.maimai!.custom.lastUpdateDate = "暂无记录"
+        } else {
+            let lastDate = Date(timeIntervalSince1970: TimeInterval(self.maimai!.recent.sorted {
+                $0.timestamp > $1.timestamp
+            }[0].timestamp))
+            self.maimai!.custom.lastUpdateDate = formatter.string(from: lastDate)
+        }
         
         for entry in self.maimai!.recent {
             let song = self.data.maimai.songlist.filter {
@@ -132,10 +136,14 @@ class CFQUser: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
         
-        let lastDate = Date(timeIntervalSince1970: TimeInterval(self.chunithm!.recent.sorted {
-            $0.timestamp > $1.timestamp
-        }[0].timestamp))
-        self.chunithm!.custom.lastUpdateDate = formatter.string(from: lastDate)
+        if (self.chunithm!.recent.isEmpty) {
+            self.chunithm!.custom.lastUpdateDate = "暂无记录"
+        } else {
+            let lastDate = Date(timeIntervalSince1970: TimeInterval(self.chunithm!.recent.sorted {
+                $0.timestamp > $1.timestamp
+            }[0].timestamp))
+            self.chunithm!.custom.lastUpdateDate = formatter.string(from: lastDate)
+        }
         
         // Removing nil(World's End) entries for now
         self.chunithm!.recent = self.chunithm!.recent.filter {

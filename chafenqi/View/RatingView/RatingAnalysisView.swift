@@ -17,56 +17,58 @@ struct RatingAnalysisView: View {
     @State private var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("旧曲R25")
-                .bold()
-                .padding(.bottom)
-            
-            VStack {
-                let slice = user.maimai!.custom.pastSlice
-                let first = slice.first!
-                let last = slice.last!
-                HStack {
-                    SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: String(first.musicId))), size: 50, cornerRadius: 5, withShadow: false)
-                    VStack(alignment: .leading) {
-                        Text(first.title)
-                            .font(.system(size: 15))
-                        Spacer()
-                        Text("\(first.achievements, specifier: "%.4f")%")
-                            .bold()
-                    }
-                    Spacer()
-                    VStack {
-                        Text("最高")
-                        Text("\(first.rating)")
-                            .bold()
-                    }
-                }
+        if (user.didLogin) {
+            VStack(alignment: .leading) {
+                Text("旧曲R25")
+                    .bold()
+                    .padding(.bottom)
                 
-                HStack {
-                    SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: String(last.musicId))), size: 50, cornerRadius: 5, withShadow: false)
-                    VStack(alignment: .leading) {
-                        Text(last.title)
-                            .font(.system(size: 15))
+                VStack {
+                    let slice = user.maimai!.custom.pastSlice
+                    let first = slice.first!
+                    let last = slice.last!
+                    HStack {
+                        SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: String(first.musicId))), size: 50, cornerRadius: 5, withShadow: false)
+                        VStack(alignment: .leading) {
+                            Text(first.title)
+                                .font(.system(size: 15))
+                            Spacer()
+                            Text("\(first.achievements, specifier: "%.4f")%")
+                                .bold()
+                        }
                         Spacer()
-                        Text("\(last.achievements, specifier: "%.4f")%")
-                            .bold()
+                        VStack {
+                            Text("最高")
+                            Text("\(first.rating)")
+                                .bold()
+                        }
                     }
-                    Spacer()
-                    VStack {
-                        Text("最低")
-                        Text("\(last.rating)")
-                            .bold()
+                    
+                    HStack {
+                        SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: String(last.musicId))), size: 50, cornerRadius: 5, withShadow: false)
+                        VStack(alignment: .leading) {
+                            Text(last.title)
+                                .font(.system(size: 15))
+                            Spacer()
+                            Text("\(last.achievements, specifier: "%.4f")%")
+                                .bold()
+                        }
+                        Spacer()
+                        VStack {
+                            Text("最低")
+                            Text("\(last.rating)")
+                                .bold()
+                        }
                     }
                 }
+                .frame(height: 110)
+                
+                
+                Text("推荐歌曲")
+                    .bold()
+                    .padding(.vertical)
+                
             }
-            .frame(height: 110)
-            
-            
-            Text("推荐歌曲")
-                .bold()
-                .padding(.vertical)
-            
         }
     }
 }
