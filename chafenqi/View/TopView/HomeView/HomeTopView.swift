@@ -66,7 +66,7 @@ struct HomeTopView: View {
                                     RatingDetailView(user: user)
                                 } label: {
                                     Text("显示全部")
-                                        .font(.system(size: 18))
+                                        .font(.system(size: 18)) 
                                 }
                                 .disabled(user.currentMode == 0 ? user.chunithm == nil : user.maimai == nil)
                             }

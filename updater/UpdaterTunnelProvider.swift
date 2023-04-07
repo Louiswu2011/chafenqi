@@ -20,7 +20,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
         
         let port = 8998
         
-        let settings = self.initUpdaterSettings(host: "43.139.107.206", port: 8998)
+        let settings = self.initUpdaterSettings(host: "43.139.107.206", port: port)
         self.setTunnelNetworkSettings(settings) { error in
             if let e = error {
                 NSLog("Failed to save settings.")
