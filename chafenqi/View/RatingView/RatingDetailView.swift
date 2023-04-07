@@ -13,11 +13,15 @@ struct RatingDetailView: View {
     var body: some View {
         ScrollView {
             if (user.currentMode == 0) {
-                RatingDetailChunithmView(mode: user.chunithmCoverSource, chunithm: user.chunithm!)
-                    .padding()
+                if (user.chunithm != nil) {
+                    RatingDetailChunithmView(mode: user.chunithmCoverSource, chunithm: user.chunithm!)
+                        .padding()
+                }
             } else {
-                RatingDetailMaimaiView(mode: user.maimaiCoverSource, user: user)
-                    .padding()
+                if (user.maimai != nil) {
+                    RatingDetailMaimaiView(mode: user.maimaiCoverSource, user: user)
+                        .padding()
+                }
             }
         }
         .onAppear {
