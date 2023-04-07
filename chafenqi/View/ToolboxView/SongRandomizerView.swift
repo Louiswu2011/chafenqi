@@ -143,14 +143,14 @@ struct SongRandomizerView: View {
     func filterChunithmSongList() {
         guard user.didLogin else { return }
         
-        let playedList = user.chunithm!.profile.records.best.compactMap { $0.musicId }
-        
         switch (filterMode) {
         case 0:
             return
         case 1:
+            let playedList = user.chunithm!.profile.records.best.compactMap { $0.musicId }
             decodedChunithmSongs = decodedChunithmSongs.filter { !playedList.contains($0.musicId) }
         default:
+            let playedList = user.chunithm!.profile.records.best.compactMap { $0.musicId }
             decodedChunithmSongs = decodedChunithmSongs.filter { playedList.contains($0.musicId) }
         }
     }
