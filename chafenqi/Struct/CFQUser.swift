@@ -36,6 +36,7 @@ class CFQUser: ObservableObject {
     var data = CFQPersistentData()
     
     var shouldReload = true
+    var loaded = false
     
     let dateFormat = "MM-dd HH:mm"
     
@@ -150,6 +151,7 @@ class CFQUser: ObservableObject {
             $0.diff != "worldsend"
         }
         
+        
         for entry in self.chunithm!.recent {
             let song = self.data.chunithm.songs.filter {
                 String($0.musicId) == entry.music_id
@@ -157,6 +159,11 @@ class CFQUser: ObservableObject {
             
             if (song != nil) {
                 self.chunithm!.custom.recentSong.append(song!)
+            } else {
+                print("Cannot found music id:", entry.music_id, "Deleting...")
+                self.chunithm!.recent.removeAll { recent in
+                    recent.music_id == entry.music_id
+                }
             }
         }
     }
@@ -206,6 +213,7 @@ class CFQUser: ObservableObject {
         self.displayName = self.nickname.isEmpty ? self.username : self.nickname
         
         shouldReload = false
+        self.loaded = true
         
         try saveToCache()
     }
@@ -242,6 +250,7 @@ class CFQUser: ObservableObject {
         
         user.shouldReload = false
         user.didLogin = true
+        user.loaded = true
         
         return user
     }
@@ -266,6 +275,7 @@ class CFQUser: ObservableObject {
         self.chunithm = Chunithm()
         self.data = CFQPersistentData()
         self.shouldReload = true
+        self.loaded = false
     }
 }
 

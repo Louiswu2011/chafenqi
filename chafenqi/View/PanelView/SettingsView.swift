@@ -98,7 +98,9 @@ struct SettingsView: View {
                             Task {
                                 do {
                                     loading.toggle()
+                                    user.clear()
                                     (_, user.token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
+                                    user.shouldReload = true
                                     user.didLogin = true
                                 } catch CFQError.AuthenticationFailedError {
                                     // TODO: Show wrong credentials toast
