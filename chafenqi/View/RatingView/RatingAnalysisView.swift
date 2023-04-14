@@ -17,7 +17,7 @@ struct RatingAnalysisView: View {
     @State private var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
     
     var body: some View {
-        if (user.didLogin) {
+        if (user.didLogin && user.maimai != nil) {
             VStack(alignment: .leading) {
                 Text("旧曲R25")
                     .bold()
