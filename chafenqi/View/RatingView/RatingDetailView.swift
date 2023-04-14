@@ -78,6 +78,7 @@ struct RatingDetailMaimaiView: View {
                             RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
                         }
                         .disabled(song == nil)
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -108,6 +109,8 @@ struct RatingDetailMaimaiView: View {
                         } label: {
                             RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
                         }
+                        .disabled(song == nil)
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -161,6 +164,7 @@ struct RatingDetailChunithmView: View {
                             RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
                         }
                         .disabled(song == nil)
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -192,6 +196,7 @@ struct RatingDetailChunithmView: View {
                             RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
                         }
                         .disabled(song == nil)
+                        .buttonStyle(.plain)
                     }
                 }
             }
