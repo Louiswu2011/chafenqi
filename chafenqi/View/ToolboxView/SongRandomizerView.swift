@@ -141,7 +141,7 @@ struct SongRandomizerView: View {
     }
     
     func filterChunithmSongList() {
-        guard user.didLogin else { return }
+        guard user.didLogin && user.chunithm != nil else { return }
         
         switch (filterMode) {
         case 0:
@@ -156,7 +156,7 @@ struct SongRandomizerView: View {
     }
     
     func filterMaimaiSongList() {
-        guard user.didLogin else { return }
+        guard user.didLogin && user.maimai != nil else { return }
         
         switch (filterMode) {
         case 0:
