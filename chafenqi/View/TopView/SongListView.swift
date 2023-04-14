@@ -159,7 +159,7 @@ struct SongListView: View {
         
         var songs = user.data.maimai.songlist
         
-        if (showingPlayed) {
+        if (showingPlayed && user.maimai != nil) {
             let userInfo = user.maimai!.record
             let idList = userInfo.records.compactMap { $0.musicId }
             songs = songs.filter { idList.contains( Int($0.musicId)! ) }
@@ -226,7 +226,7 @@ struct SongListView: View {
         
         var songs = user.data.chunithm.songs
         
-        if (showingPlayed) {
+        if (showingPlayed && user.chunithm != nil) {
             
             let userInfo = user.chunithm!.profile
             let idList = userInfo.records.best.compactMap { $0.musicId }
