@@ -14,6 +14,7 @@ struct ChunithmDetailView: View {
     @ObservedObject var user: CFQUser
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) var openURL
     
     @State private var isFavourite = false
     @State private var isLoading = true
@@ -21,6 +22,8 @@ struct ChunithmDetailView: View {
     @State private var loadingComments = true
     @State private var showingChart = false
     @State private var showingCalc = false
+    @State private var showingDiffSelection = false
+    @State private var showingDiffSelectioniOS14 = false
     
     @State private var selectedDifficulty = "Master"
     @State private var availableDiffs: [String] = ["Master"]
@@ -216,6 +219,39 @@ struct ChunithmDetailView: View {
                 }
                 .padding(.bottom)
                 
+                let diffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
+                if #available(iOS 15.0, *) {
+                    Button {
+                        showingDiffSelection.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.right")
+                        Text("在Bilibili搜索谱面确认")
+                    }
+                    .padding(.bottom)
+                    .alert("选择难度", isPresented: $showingDiffSelection) {
+                        ForEach(Array(song.level.enumerated()), id: \.offset) { index, level in
+                            Button {
+                                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffArray[index]) chunithm".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                            } label: {
+                                Text("\(diffArray[index]) \(level)")
+                            }
+                        }
+                        Button("取消", role: .cancel) {}
+                    }
+                } else {
+                    // Fallback on earlier versions
+                    Button {
+                        showingDiffSelectioniOS14.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.right")
+                        Text("在Bilibili搜索谱面确认")
+                    }
+                    .padding(.bottom)
+                    .sheet(isPresented: $showingDiffSelectioniOS14) {
+                        CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: song.level, diffs: diffArray))
+                    }
+                }
+                
 
                 if (!loadingScore && user.didLogin) {
                     HStack {
@@ -325,6 +361,19 @@ struct ChunithmDetailView: View {
 //                }
 //            }
         }
+    }
+    
+    func getDiffSelectionArray(levels: [String], diffs: [String]) -> [(title: String, action: (() -> Void)?)] {
+        var array: [(title: String, action: (() -> Void)?)] = []
+        for (index, level) in levels.enumerated() {
+            array.append(("\(diffs[index]) \(level)", {
+                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) chunithm".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+            }))
+        }
+        array.append(("取消", {
+            
+        }))
+        return array
     }
     
     struct ScoreCardView: View {

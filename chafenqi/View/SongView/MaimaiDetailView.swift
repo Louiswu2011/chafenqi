@@ -13,6 +13,7 @@ struct MaimaiDetailView: View {
     @ObservedObject var user: CFQUser
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) var openURL
     
     @State private var isFavourite = false
     @State private var isLoading = true
@@ -24,6 +25,8 @@ struct MaimaiDetailView: View {
     @State private var showingComposer = false
     
     @State private var showingCalc = false
+    @State private var showingDiffSelection = false
+    @State private var showingDiffSelectioniOS14 = false
     
     @State private var userInfo = MaimaiPlayerRecord.shared
     @State private var scoreEntries = [Int: MaimaiRecordEntry]()
@@ -123,6 +126,39 @@ struct MaimaiDetailView: View {
                     Text("\(song.basicInfo.genre)")
                 }
                 .padding(.horizontal)
+                
+                let diffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
+                if #available(iOS 15.0, *) {
+                    Button {
+                        showingDiffSelection.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.right")
+                        Text("在Bilibili搜索谱面确认")
+                    }
+                    .padding(.vertical, 5)
+                    .alert("选择难度", isPresented: $showingDiffSelection) {
+                        ForEach(Array(song.level.enumerated()), id: \.offset) { index, level in
+                            Button {
+                                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffArray[index]) maimai".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                            } label: {
+                                Text("\(diffArray[index]) \(level)")
+                            }
+                        }
+                        Button("取消", role: .cancel) {}
+                    }
+                } else {
+                    // Fallback on earlier versions
+                    Button {
+                        showingDiffSelectioniOS14.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.right")
+                        Text("在Bilibili搜索谱面确认")
+                    }
+                    .padding(.vertical, 5)
+                    .sheet(isPresented: $showingDiffSelectioniOS14) {
+                        CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: song.level, diffs: diffArray))
+                    }
+                }
                 
                 if (!loadingScore && user.didLogin) {
                     let stats = chartStats[song.musicId] as! Array<MaimaiChartStat>
@@ -235,7 +271,6 @@ struct MaimaiDetailView: View {
             //                    }
             //                }
             //            }
-            
         }
     }
     
@@ -363,6 +398,19 @@ struct MaimaiDetailView: View {
             }
             .padding(.horizontal)
         }
+    }
+    
+    func getDiffSelectionArray(levels: [String], diffs: [String]) -> [(title: String, action: (() -> Void)?)] {
+        var array: [(title: String, action: (() -> Void)?)] = []
+        for (index, level) in levels.enumerated() {
+            array.append(("\(diffs[index]) \(level)", {
+                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) maimai".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+            }))
+        }
+        array.append(("取消", {
+            
+        }))
+        return array
     }
 }
 

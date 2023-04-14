@@ -52,6 +52,7 @@
 		BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */; };
 		BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E251E296AAACE00169B57 /* ChunithmSongData.swift */; };
 		BF7E2522296AAD1A00169B57 /* ChunithmDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */; };
+		BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF82062E29E94794004D32B0 /* CustomAlert.swift */; };
 		BF8E053D29A293B800079A06 /* WelcomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8E053C29A293B800079A06 /* WelcomeTabView.swift */; };
 		BF8E054029A295FA00079A06 /* WelcomePage1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8E053F29A295FA00079A06 /* WelcomePage1View.swift */; };
 		BF8E054229A2A22300079A06 /* WelcomePage2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8E054129A2A22300079A06 /* WelcomePage2View.swift */; };
@@ -185,6 +186,7 @@
 		BF7BC69C297C482C003A67B0 /* SongViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewModifier.swift; sourceTree = "<group>"; };
 		BF7E251E296AAACE00169B57 /* ChunithmSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmSongData.swift; sourceTree = "<group>"; };
 		BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmDataGrabber.swift; sourceTree = "<group>"; };
+		BF82062E29E94794004D32B0 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		BF8E053C29A293B800079A06 /* WelcomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTabView.swift; sourceTree = "<group>"; };
 		BF8E053F29A295FA00079A06 /* WelcomePage1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage1View.swift; sourceTree = "<group>"; };
 		BF8E054129A2A22300079A06 /* WelcomePage2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage2View.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				BFBC54FA298CEB0500A93918 /* Chunithm */,
 				BF3739C229C4E5F7002825B4 /* CFQUser.swift */,
 				BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */,
+				BF82062E29E94794004D32B0 /* CustomAlert.swift */,
 			);
 			path = Struct;
 			sourceTree = "<group>";
@@ -855,6 +858,7 @@
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,
+				BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */,
 				BFBC5505298D005900A93918 /* SongBasicView.swift in Sources */,
 				BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */,
 				BFBC5507298D078000A93918 /* SongListView.swift in Sources */,
