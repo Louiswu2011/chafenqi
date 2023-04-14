@@ -14,7 +14,7 @@ struct RatingDetailView: View {
         ScrollView {
             if (user.currentMode == 0) {
                 if (user.chunithm != nil) {
-                    RatingDetailChunithmView(mode: user.chunithmCoverSource, chunithm: user.chunithm!)
+                    RatingDetailChunithmView(mode: user.chunithmCoverSource, user: user)
                         .padding()
                 }
             } else {
@@ -69,7 +69,15 @@ struct RatingDetailMaimaiView: View {
             if (!pastFold) {
                 VStack(spacing: 15) {
                     ForEach(Array(user.maimai!.custom.pastSlice.enumerated()), id: \.offset) { index, entry in
-                        RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
+                        let song = user.data.maimai.songlist.filter {
+                            $0.musicId == String(entry.musicId)
+                        }.first
+                        NavigationLink {
+                            MaimaiDetailView(user: user, song: song!)
+                        } label: {
+                            RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
+                        }
+                        .disabled(song == nil)
                     }
                 }
             }
@@ -92,7 +100,14 @@ struct RatingDetailMaimaiView: View {
             if (!newFold) {
                 VStack(spacing: 15) {
                     ForEach(Array(user.maimai!.custom.currentSlice.enumerated()), id: \.offset) { index, entry in
-                        RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
+                        let song = user.data.maimai.songlist.filter {
+                            $0.musicId == String(entry.musicId)
+                        }.first
+                        NavigationLink {
+                            MaimaiDetailView(user: user, song: song!)
+                        } label: {
+                            RatingMaimaiEntryBanner(mode: mode, index: index + 1, entry: entry)
+                        }
                     }
                 }
             }
@@ -102,7 +117,7 @@ struct RatingDetailMaimaiView: View {
 
 struct RatingDetailChunithmView: View {
     @State var mode: Int
-    @State var chunithm: CFQUser.Chunithm
+    @State var user: CFQUser
     
     @State var bestFold = false
     @State var recentFold = false
@@ -110,11 +125,11 @@ struct RatingDetailChunithmView: View {
     var body: some View {
         VStack {
             HStack(alignment: .bottom) {
-                Text("\(chunithm.profile.getRating(), specifier: "%.2f")")
+                Text("\(user.chunithm!.profile.getRating(), specifier: "%.2f")")
                     .font(.system(size: 30))
                     .bold()
                 Spacer()
-                Text("Best \(chunithm.profile.getAvgB30(), specifier: "%.2f") / Recent \(chunithm.profile.getAvgR10(), specifier: "%.2f")")
+                Text("Best \(user.chunithm!.profile.getAvgB30(), specifier: "%.2f") / Recent \(user.chunithm!.profile.getAvgR10(), specifier: "%.2f")")
                     .font(.system(size: 20))
             }
             .padding(.bottom)
@@ -136,8 +151,16 @@ struct RatingDetailChunithmView: View {
             
             if(!bestFold) {
                 VStack(spacing: 15) {
-                    ForEach(Array(chunithm.rating.records.b30.enumerated()), id: \.offset) { index, entry in
-                        RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
+                    ForEach(Array(user.chunithm!.rating.records.b30.enumerated()), id: \.offset) { index, entry in
+                        let song = user.data.chunithm.songs.filter {
+                            $0.musicId == entry.musicId
+                        }.first
+                        NavigationLink {
+                            ChunithmDetailView(user: user, song: song!)
+                        } label: {
+                            RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
+                        }
+                        .disabled(song == nil)
                     }
                 }
             }
@@ -159,8 +182,16 @@ struct RatingDetailChunithmView: View {
             
             if(!recentFold) {
                 VStack(spacing: 15) {
-                    ForEach(Array(chunithm.rating.records.r10.enumerated()), id: \.offset) { index, entry in
-                        RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
+                    ForEach(Array(user.chunithm!.rating.records.r10.enumerated()), id: \.offset) { index, entry in
+                        let song = user.data.chunithm.songs.filter {
+                            $0.musicId == entry.musicId
+                        }.first
+                        NavigationLink {
+                            ChunithmDetailView(user: user, song: song!)
+                        } label: {
+                            RatingChunithmEntryBanner(mode: mode, index: index + 1, entry: entry)
+                        }
+                        .disabled(song == nil)
                     }
                 }
             }
