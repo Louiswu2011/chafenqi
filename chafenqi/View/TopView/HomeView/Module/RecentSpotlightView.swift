@@ -56,9 +56,10 @@ struct RecentSpotlightView: View {
                     let recents = [(0, user.maimai!.recent.first), user.maimai!.recent.getLatestNewRecord(), user.maimai!.recent.getLatestHighscore()]
                     ForEach(Array(recents.enumerated()), id: \.offset) { index, record in
                         let (recentIndex, entry) = record
-                        if (entry != nil) {
+                        let song: MaimaiSongData? = user.maimai!.custom.recentSong[recentIndex!]
+                        if (entry != nil && song != nil) {
                             NavigationLink {
-                                RecentDetailView(user: user, maiSong: user.maimai!.custom.recentSong[recentIndex!]!, maiRecord: entry!, mode: 1)
+                                RecentDetailView(user: user, maiSong: song, maiRecord: entry!, mode: 1)
                             } label: {
                                 HStack {
                                     SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: user.maimai!.custom.recentSong[recentIndex!]!.musicId)), size: 65, cornerRadius: 5)
