@@ -322,7 +322,7 @@ struct ChunithmDetailView: View {
             }
             .onAppear {
                 Task {
-                    if(user.didLogin) {
+                    if(user.didLogin && user.chunithm != nil) {
                         userInfo = user.chunithm!.profile
                         var scores = userInfo.records.best.filter {
                             $0.musicId == song.musicId

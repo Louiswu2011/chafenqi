@@ -160,7 +160,7 @@ struct MaimaiDetailView: View {
                     }
                 }
                 
-                if (!loadingScore && user.didLogin) {
+                if (!loadingScore && user.didLogin && user.maimai != nil) {
                     let stats = chartStats[song.musicId] as! Array<MaimaiChartStat>
                     
                     HStack {
@@ -231,7 +231,7 @@ struct MaimaiDetailView: View {
             }
             .onAppear {
                 Task {
-                    if(user.didLogin) {
+                    if(user.didLogin && user.maimai != nil) {
                         userInfo = user.maimai!.record
 
                         var scores = userInfo.records.filter {
