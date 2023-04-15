@@ -100,10 +100,18 @@ struct MainView: View {
                             }
                         }
                     case .error(errorText: let errorText):
-                        VStack {
-                            Text("错误")
-                                .padding()
-                            Text(errorText)
+                        NavigationView {
+                            VStack {
+                                Text("错误")
+                                    .padding()
+                                Text(errorText)
+                                    .padding()
+                                NavigationLink {
+                                    SettingsView(user: user)
+                                } label: {
+                                    Text("重试")
+                                }
+                            }
                         }
                     default:
                         VStack {
@@ -135,6 +143,7 @@ struct MainView: View {
                                 status = .notLogin
                             }
                         } catch {
+                            print(String(describing: error))
                             status = .error(errorText: error.localizedDescription)
                         }
                     }

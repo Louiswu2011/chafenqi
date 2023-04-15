@@ -7,20 +7,24 @@
 
 import Foundation
 
+struct MaimaiChartStatWrapper: Codable {
+    var charts: Dictionary<String, Array<MaimaiChartStat>>
+}
+
 struct MaimaiChartStat: Codable {
     var playCount: Int?
+    var diff: String?
+    var fit_diff: Double?
     var averageScore: Double?
-    var ssspCount: Int?
-    var tag: String?
-    var diffRanking: Int?
-    var diffTotal: Int?
+    var avg: Double?
+    var avg_dx: Double?
+    var std_dev: Double?
+    var dist: Array<Int>?
+    var fc_dist: Array<Int>?
     
     enum CodingKeys: String, CodingKey {
-        case playCount = "count"
+        case playCount = "cnt"
         case averageScore = "avg"
-        case ssspCount = "sssp_count"
-        case tag
-        case diffRanking = "v"
-        case diffTotal = "t"
+        case diff, fit_diff, avg_dx, dist, fc_dist, std_dev
     }
 }
