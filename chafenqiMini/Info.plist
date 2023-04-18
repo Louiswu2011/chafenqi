@@ -13,9 +13,9 @@
 			<key>IntentsSupported</key>
 			<array>
 				<string>BuildProxyURLIntent</string>
+				<string>FetchFishTokenIntent</string>
 				<string>StartProxyIntent</string>
 				<string>StopProxyIntent</string>
-				<string>FetchFishTokenIntent</string>
 			</array>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>

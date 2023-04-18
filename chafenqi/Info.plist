@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>paperplane.fill</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>OneClickUpload</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>一键传分</string>
-		</dict>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -38,8 +27,20 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>BuildProxyURLIntent</string>
+		<string>FetchFishTokenIntent</string>
 		<string>StartProxyIntent</string>
 		<string>StopProxyIntent</string>
+	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>paperplane.fill</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>一键传分</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>OneClickUpload</string>
+		</dict>
 	</array>
 </dict>
 </plist>
