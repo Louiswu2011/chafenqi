@@ -24,7 +24,7 @@ struct UpdaterMainView: View {
     @State private var startProxyActivity = "StartProxyIntent"
     @State private var stopProxyActivity = "StopProxyIntent"
     
-    let shortcutPath = "43.139.107.206/chafenqi/oneclick.shortcut".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    let shortcutPath = "http://43.139.107.206/chafenqi/shortcut".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
     let shortcutName = "一键传分".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
     
     var body: some View {
