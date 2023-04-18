@@ -17,16 +17,21 @@ sdvx.in - 谱面预览
 And You
 """
 
+private let quickActionService = QuickActionService.shared
 let sharedContainer = UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!
 
 @main
 struct chafenqiApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     @StateObject var user = CFQUser.loadFromCache()
     
     @State var currentTab: TabIdentifier = .home
     @State var shouldRefresh = false
     
     @ObservedObject var service = TunnelManagerService.shared
+    
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some Scene {
         WindowGroup {
@@ -60,6 +65,14 @@ struct chafenqiApp: App {
                     }
                     manager.connection.stopVPNTunnel()
                 })
+                .onChange(of: scenePhase, perform: { newValue in
+                    switch newValue {
+                    case .active:
+                        performActionIfNeeded()
+                    default:
+                        break
+                    }
+                })
         }
     }
     
@@ -78,6 +91,19 @@ struct chafenqiApp: App {
         }
         return manager
     }
+    
+    func performActionIfNeeded() {
+      guard let action = quickActionService.action else { return }
+
+      switch action {
+      case .oneClickUpload:
+          let shortcutName = "一键传分".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+          UIApplication.shared.open(URL(string: "shortcuts://run-shortcut?name=\(shortcutName)")!)
+      }
+
+      quickActionService.action = nil
+    }
+
 }
 
 enum TabIdentifier: Hashable {

@@ -82,6 +82,8 @@
 		BFCD826129CA20710032264F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCD826029CA20710032264F /* LoginView.swift */; };
 		BFCE1B2529EE591C00BFAA67 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
 		BFCE1B2829EE70EC00BFAA67 /* BuildURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */; };
+		BFCE1B2A29EE911600BFAA67 /* QuickActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2929EE911600BFAA67 /* QuickActionService.swift */; };
+		BFCE1B2C29EE93A600BFAA67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2B29EE93A600BFAA67 /* AppDelegate.swift */; };
 		BFE6DE6629CADA2E00AEF950 /* RatingAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE6DE6529CADA2E00AEF950 /* RatingAnalysisView.swift */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
@@ -230,6 +232,8 @@
 		BFCD826029CA20710032264F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BFCE1B2629EE622200BFAA67 /* chafenqiMini.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqiMini.entitlements; sourceTree = "<group>"; };
 		BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildURLHandler.swift; sourceTree = "<group>"; };
+		BFCE1B2929EE911600BFAA67 /* QuickActionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionService.swift; sourceTree = "<group>"; };
+		BFCE1B2B29EE93A600BFAA67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFE6DE6529CADA2E00AEF950 /* RatingAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingAnalysisView.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmUserData.swift; sourceTree = "<group>"; };
 		BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunithmUserScoreData.swift; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9CEFB92992C03500658724 /* TunnelManagerService.swift */,
+				BFCE1B2929EE911600BFAA67 /* QuickActionService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -675,6 +680,7 @@
 			children = (
 				BFF353C029681F8D001392E5 /* chafenqiApp.swift */,
 				BFCA383129770851008E30F1 /* CFQError.swift */,
+				BFCE1B2B29EE93A600BFAA67 /* AppDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -941,6 +947,7 @@
 				BFFD72E429CA25F30089EAC9 /* GradeBadgeView.swift in Sources */,
 				BF533C9D29BF3004003409AB /* CommentDetail.swift in Sources */,
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
+				BFCE1B2A29EE911600BFAA67 /* QuickActionService.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,
 				BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */,
@@ -966,6 +973,7 @@
 				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
 				BF9E9C4729BA39590011C2B1 /* HomeTopView.swift in Sources */,
 				BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */,
+				BFCE1B2C29EE93A600BFAA67 /* AppDelegate.swift in Sources */,
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
 				BFE6DE6629CADA2E00AEF950 /* RatingAnalysisView.swift in Sources */,
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,

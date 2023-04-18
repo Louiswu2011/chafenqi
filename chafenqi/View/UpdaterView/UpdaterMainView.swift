@@ -24,6 +24,9 @@ struct UpdaterMainView: View {
     @State private var startProxyActivity = "StartProxyIntent"
     @State private var stopProxyActivity = "StopProxyIntent"
     
+    let shortcutPath = "43.139.107.206/chafenqi/oneclick.shortcut".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    let shortcutName = "一键传分".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    
     var body: some View {
         Form {
             Section {
@@ -97,6 +100,8 @@ struct UpdaterMainView: View {
             }
             
             Section {
+                Link("添加到快捷指令", destination: URL(string: "shortcuts://import-shortcut?url=\(shortcutPath)&name=\(shortcutName)&silent=true")!)
+                
                 Button {
                     isShowingHelp.toggle()
                 } label: {
