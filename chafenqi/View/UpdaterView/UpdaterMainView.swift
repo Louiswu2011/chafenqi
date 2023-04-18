@@ -21,6 +21,8 @@ struct UpdaterMainView: View {
     
     @State private var observers = [AnyObject]()
 
+    @State private var startProxyActivity = "StartProxyIntent"
+    @State private var stopProxyActivity = "StopProxyIntent"
     
     var body: some View {
         Form {
@@ -109,6 +111,7 @@ struct UpdaterMainView: View {
             refreshStatus()
             registerObserver()
         }
+        
     }
     
     func registerObserver() {

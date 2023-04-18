@@ -100,6 +100,8 @@ struct SettingsView: View {
                                     loading.toggle()
                                     user.clear()
                                     (_, user.token) = try await ChunithmDataGrabber.loginAs(username: accountName, password: accountPassword)
+                                    sharedContainer.set(user.token, forKey: "userToken")
+                                    sharedContainer.synchronize()
                                     user.shouldReload = true
                                     user.didLogin = true
                                 } catch CFQError.AuthenticationFailedError {

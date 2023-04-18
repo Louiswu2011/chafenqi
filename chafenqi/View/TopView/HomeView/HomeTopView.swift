@@ -169,6 +169,6 @@ struct HomeTopView: View {
 
 struct HomeTopView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(currentTab: .constant(.home))
+        MainView(user: .loadFromCache(), currentTab: .constant(.home))
     }
 }

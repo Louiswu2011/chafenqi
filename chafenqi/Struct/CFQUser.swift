@@ -215,6 +215,9 @@ class CFQUser: ObservableObject {
         shouldReload = false
         self.loaded = true
         
+        sharedContainer.set(NSString(utf8String: self.token), forKey: "userToken")
+        sharedContainer.synchronize()
+        
         try saveToCache()
     }
     
@@ -251,6 +254,9 @@ class CFQUser: ObservableObject {
         user.shouldReload = false
         user.didLogin = true
         user.loaded = true
+        
+        sharedContainer.set(user.token, forKey: "userToken")
+        sharedContainer.synchronize()
         
         return user
     }

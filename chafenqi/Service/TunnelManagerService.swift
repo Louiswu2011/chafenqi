@@ -25,10 +25,14 @@ final class TunnelManagerService: ObservableObject {
     
     func loadProfile(_ completion: @escaping (Result<Void, Error>) -> Void) {
         NETunnelProviderManager.loadAllFromPreferences { [weak self] managers, error in
-            guard let self = self else { return }
+            guard let self = self else {
+                NSLog("I'm not me.")
+                return
+            }
             
             self.manager = managers?.first
             if let error = error {
+                NSLog("Error loaading profile:", String(describing: error))
                 completion(.failure(error))
             } else {
                 self.isStarted = true

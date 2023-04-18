@@ -36,7 +36,7 @@ struct MainView: View {
     @AppStorage("firstTimeLaunch") var firstTime = true
     
     @ObservedObject var toastManager = AlertToastManager.shared
-    @ObservedObject var user = CFQUser.loadFromCache()
+    @ObservedObject var user: CFQUser
     
     @State private var searchText = ""
     @State private var searchSeletedItem = ""
@@ -172,6 +172,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(currentTab: .constant(.home))
+        MainView(user: .loadFromCache(), currentTab: .constant(.home))
     }
 }

@@ -80,11 +80,18 @@
 		BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AC29A7E96100B65CE7 /* ModalView.swift */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
 		BFCD826129CA20710032264F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCD826029CA20710032264F /* LoginView.swift */; };
+		BFCE1B2529EE591C00BFAA67 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
+		BFCE1B2829EE70EC00BFAA67 /* BuildURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */; };
 		BFE6DE6629CADA2E00AEF950 /* RatingAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE6DE6529CADA2E00AEF950 /* RatingAnalysisView.swift */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
 		BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC72297D37E600D2F383 /* SongChartView.swift */; };
+		BFEF2E8B29EDCA0400EFF455 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFEF2E7A29EDC17200EFF455 /* Intents.framework */; };
+		BFEF2E8E29EDCA0400EFF455 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEF2E8D29EDCA0400EFF455 /* IntentHandler.swift */; };
+		BFEF2E9229EDCA0400EFF455 /* chafenqiMini.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BFEF2E8A29EDCA0400EFF455 /* chafenqiMini.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */; };
+		BFEF2E9829EDCC1E00EFF455 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */; };
 		BFEF7EDE298A856E00F87ACC /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEF7EDD298A856E00F87ACC /* ToolView.swift */; };
 		BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C029681F8D001392E5 /* chafenqiApp.swift */; };
 		BFF353C329681F8D001392E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C229681F8D001392E5 /* MainView.swift */; };
@@ -105,6 +112,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BF068F6E2991856F008665E3;
 			remoteInfo = updater;
+		};
+		BFEF2E9029EDCA0400EFF455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFF353B529681F8D001392E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFEF2E8929EDCA0400EFF455;
+			remoteInfo = chafenqiMini;
 		};
 		BFF353CE29681F8E001392E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -129,6 +143,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BFEF2E9229EDCA0400EFF455 /* chafenqiMini.appex in Embed Foundation Extensions */,
 				BF068F7A2991856F008665E3 /* updater.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -213,11 +228,18 @@
 		BFC256AC29A7E96100B65CE7 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
 		BFCD826029CA20710032264F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BFCE1B2629EE622200BFAA67 /* chafenqiMini.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqiMini.entitlements; sourceTree = "<group>"; };
+		BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildURLHandler.swift; sourceTree = "<group>"; };
 		BFE6DE6529CADA2E00AEF950 /* RatingAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingAnalysisView.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmUserData.swift; sourceTree = "<group>"; };
 		BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunithmUserScoreData.swift; sourceTree = "<group>"; };
 		BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageGrabber.swift; sourceTree = "<group>"; };
 		BFECEC72297D37E600D2F383 /* SongChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongChartView.swift; sourceTree = "<group>"; };
+		BFEF2E7A29EDC17200EFF455 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		BFEF2E8A29EDCA0400EFF455 /* chafenqiMini.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = chafenqiMini.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFEF2E8D29EDCA0400EFF455 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		BFEF2E8F29EDCA0400EFF455 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		BFEF7EDD298A856E00F87ACC /* ToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
 		BFF353BD29681F8D001392E5 /* chafenqi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chafenqi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF353C029681F8D001392E5 /* chafenqiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiApp.swift; sourceTree = "<group>"; };
@@ -240,6 +262,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFEF2E8729EDCA0400EFF455 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFEF2E8B29EDCA0400EFF455 /* Intents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +326,7 @@
 			children = (
 				BF068F712991856F008665E3 /* NetworkExtension.framework */,
 				BF7B89E129B72D7500E9ADA9 /* AuthenticationServices.framework */,
+				BFEF2E7A29EDC17200EFF455 /* Intents.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -526,6 +557,17 @@
 			path = AsyncImage;
 			sourceTree = "<group>";
 		};
+		BFEF2E8C29EDCA0400EFF455 /* chafenqiMini */ = {
+			isa = PBXGroup;
+			children = (
+				BFCE1B2629EE622200BFAA67 /* chafenqiMini.entitlements */,
+				BFEF2E8D29EDCA0400EFF455 /* IntentHandler.swift */,
+				BFEF2E8F29EDCA0400EFF455 /* Info.plist */,
+				BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */,
+			);
+			path = chafenqiMini;
+			sourceTree = "<group>";
+		};
 		BFEF7EDC298A851100F87ACC /* TopView */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +589,7 @@
 				BFF353D029681F8E001392E5 /* chafenqiTests */,
 				BFF353DA29681F8E001392E5 /* chafenqiUITests */,
 				BF068F732991856F008665E3 /* updater */,
+				BFEF2E8C29EDCA0400EFF455 /* chafenqiMini */,
 				BF068F702991856F008665E3 /* Frameworks */,
 				BFF353BE29681F8D001392E5 /* Products */,
 			);
@@ -559,6 +602,7 @@
 				BFF353CD29681F8E001392E5 /* chafenqiTests.xctest */,
 				BFF353D729681F8E001392E5 /* chafenqiUITests.xctest */,
 				BF068F6F2991856F008665E3 /* updater.appex */,
+				BFEF2E8A29EDCA0400EFF455 /* chafenqiMini.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -578,6 +622,7 @@
 				BFF353EA296831EE001392E5 /* View */,
 				BFF353C429681F8E001392E5 /* Assets.xcassets */,
 				BFF353C629681F8E001392E5 /* Preview Content */,
+				BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */,
 			);
 			path = chafenqi;
 			sourceTree = "<group>";
@@ -656,6 +701,23 @@
 			productReference = BF068F6F2991856F008665E3 /* updater.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		BFEF2E8929EDCA0400EFF455 /* chafenqiMini */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFEF2E9329EDCA0400EFF455 /* Build configuration list for PBXNativeTarget "chafenqiMini" */;
+			buildPhases = (
+				BFEF2E8629EDCA0400EFF455 /* Sources */,
+				BFEF2E8729EDCA0400EFF455 /* Frameworks */,
+				BFEF2E8829EDCA0400EFF455 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = chafenqiMini;
+			productName = chafenqiMini;
+			productReference = BFEF2E8A29EDCA0400EFF455 /* chafenqiMini.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BFF353BC29681F8D001392E5 /* chafenqi */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFF353E129681F8E001392E5 /* Build configuration list for PBXNativeTarget "chafenqi" */;
@@ -669,6 +731,7 @@
 			);
 			dependencies = (
 				BF068F792991856F008665E3 /* PBXTargetDependency */,
+				BFEF2E9129EDCA0400EFF455 /* PBXTargetDependency */,
 			);
 			name = chafenqi;
 			packageProductDependencies = (
@@ -728,6 +791,9 @@
 					BF068F6E2991856F008665E3 = {
 						CreatedOnToolsVersion = 14.2;
 					};
+					BFEF2E8929EDCA0400EFF455 = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					BFF353BC29681F8D001392E5 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -762,12 +828,20 @@
 				BFF353CC29681F8E001392E5 /* chafenqiTests */,
 				BFF353D629681F8E001392E5 /* chafenqiUITests */,
 				BF068F6E2991856F008665E3 /* updater */,
+				BFEF2E8929EDCA0400EFF455 /* chafenqiMini */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BF068F6D2991856F008665E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFEF2E8829EDCA0400EFF455 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -812,6 +886,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF068F752991856F008665E3 /* UpdaterTunnelProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFEF2E8629EDCA0400EFF455 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFEF2E9829EDCC1E00EFF455 /* Intents.intentdefinition in Sources */,
+				BFCE1B2829EE70EC00BFAA67 /* BuildURLHandler.swift in Sources */,
+				BFEF2E8E29EDCA0400EFF455 /* IntentHandler.swift in Sources */,
+				BFCE1B2529EE591C00BFAA67 /* TunnelManagerService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,6 +962,7 @@
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
+				BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */,
 				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
 				BF9E9C4729BA39590011C2B1 /* HomeTopView.swift in Sources */,
 				BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */,
@@ -918,6 +1004,11 @@
 			isa = PBXTargetDependency;
 			target = BF068F6E2991856F008665E3 /* updater */;
 			targetProxy = BF068F782991856F008665E3 /* PBXContainerItemProxy */;
+		};
+		BFEF2E9129EDCA0400EFF455 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFEF2E8929EDCA0400EFF455 /* chafenqiMini */;
+			targetProxy = BFEF2E9029EDCA0400EFF455 /* PBXContainerItemProxy */;
 		};
 		BFF353CF29681F8E001392E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -980,6 +1071,62 @@
 				);
 				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.updater;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BFEF2E9429EDCA0400EFF455 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = chafenqiMini/chafenqiMini.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CYVRCL87U4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chafenqiMini/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = chafenqiMini;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.chafenqiMini;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BFEF2E9529EDCA0400EFF455 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = chafenqiMini/chafenqiMini.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CYVRCL87U4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chafenqiMini/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = chafenqiMini;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.chafenqiMini;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1119,6 +1266,7 @@
 				INFOPLIST_FILE = chafenqi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSSiriUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1159,6 +1307,7 @@
 				INFOPLIST_FILE = chafenqi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSSiriUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1266,6 +1415,15 @@
 			buildConfigurations = (
 				BF068F7C2991856F008665E3 /* Debug */,
 				BF068F7D2991856F008665E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFEF2E9329EDCA0400EFF455 /* Build configuration list for PBXNativeTarget "chafenqiMini" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFEF2E9429EDCA0400EFF455 /* Debug */,
+				BFEF2E9529EDCA0400EFF455 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
