@@ -24,6 +24,8 @@ struct SettingsView: View {
     @State private var showingClearAlert = false
     @State private var loading = false
     
+    let iOSVersion = Int(Double(UIDevice.current.systemVersion)!.rounded(.down))
+    
     var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
     var maimaiSourceOptions = [0: "Diving-Fish"]
     var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
@@ -35,19 +37,38 @@ struct SettingsView: View {
         Form {
             Section {
                 HStack {
-                    Text("封面来源")
-                    Spacer()
                     if (user.currentMode == 0) {
-                        Picker(chunithmSourceOptions[user.chunithmCoverSource]!, selection: user.$chunithmCoverSource) {
+                        if (iOSVersion == 15) {
+                            Text("封面来源")
+                            Spacer()
+                        }
+                        Picker(selection: user.$chunithmCoverSource) {
                             ForEach(chunithmSourceOptions.sorted(by: <), id: \.key) {
                                 Text($0.value)
                             }
+                        } label: {
+                            if (iOSVersion == 15) {
+                                Text(chunithmSourceOptions[user.chunithmCoverSource]!)
+                            } else {
+                                Text("封面来源")
+                            }
                         }
                         .pickerStyle(.menu)
+                        
                     } else {
-                        Picker(maimaiSourceOptions[user.maimaiCoverSource]!, selection: user.$maimaiCoverSource) {
+                        if (iOSVersion == 15) {
+                            Text("封面来源")
+                            Spacer()
+                        }
+                        Picker(selection: user.$maimaiCoverSource) {
                             ForEach(maimaiSourceOptions.sorted(by: <), id: \.key) {
                                 Text($0.value)
+                            }
+                        } label: {
+                            if (iOSVersion == 15) {
+                                Text(maimaiSourceOptions[user.maimaiCoverSource]!)
+                            } else {
+                                Text("封面来源")
                             }
                         }
                         .pickerStyle(.menu)
@@ -66,11 +87,19 @@ struct SettingsView: View {
                     TextInfoView(text: "用户名", info: user.username)
                     TextInfoView(text: "Token", info: user.token)
                     HStack {
-                        Text("当前数据来源")
-                        Spacer()
-                        Picker(modeOptions[user.currentMode]!, selection: user.$currentMode) {
+                        if (iOSVersion == 15) {
+                            Text("当前数据来源")
+                            Spacer()
+                        }
+                        Picker(selection: user.$currentMode) {
                             ForEach(modeOptions.sorted(by: <), id: \.key) {
                                 Text($0.value)
+                            }
+                        } label: {
+                            if (iOSVersion == 15) {
+                                Text(modeOptions[user.currentMode]!)
+                            } else {
+                                Text("当前数据来源")
                             }
                         }
                         .pickerStyle(.menu)
