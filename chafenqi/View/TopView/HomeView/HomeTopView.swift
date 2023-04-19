@@ -150,19 +150,34 @@ struct HomeTopView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
                     Task {
-                        do {
-                            loadStatus = .loading(hint: "加载中")
-                            try await user.refresh()
-                            
-                            loadStatus = .complete
-                        } catch {
-                            loadStatus = .error(errorText: "哎呀，出错了")
-                        }
+                        await refreshByUser()
                     }
                 } label: {
                     Image(systemName: "arrow.clockwise")
                 }
             }
+        }
+        .onOpenURL { url in
+            if let action = url.action {
+                switch action {
+                case .refresh:
+                    // Refresh user info
+                    Task {
+                        await refreshByUser()
+                    }
+                }
+            }
+        }
+    }
+    
+    func refreshByUser() async {
+        do {
+            loadStatus = .loading(hint: "加载中")
+            try await user.refresh()
+            
+            loadStatus = .complete
+        } catch {
+            loadStatus = .error(errorText: "哎呀，出错了")
         }
     }
 }

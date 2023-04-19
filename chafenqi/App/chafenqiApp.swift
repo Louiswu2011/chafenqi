@@ -37,9 +37,9 @@ struct chafenqiApp: App {
         WindowGroup {
             MainView(user: user, currentTab: $currentTab)
                 .onOpenURL { url in
-                    guard let identifier = url.tabIdentifier else { return }
-                    
-                    currentTab = identifier
+                    if let identifier = url.tabIdentifier {
+                        currentTab = identifier
+                    }
                 }
                 .onContinueUserActivity("StartProxyIntent", perform: { activity in
                     print("Starting proxy in main app")
@@ -64,6 +64,8 @@ struct chafenqiApp: App {
                         return
                     }
                     manager.connection.stopVPNTunnel()
+                    // Prepare for refresh action
+                    currentTab = .home
                 })
                 .onChange(of: scenePhase, perform: { newValue in
                     switch newValue {
@@ -98,7 +100,8 @@ struct chafenqiApp: App {
       switch action {
       case .oneClickUpload:
           let shortcutName = "一键传分".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-          UIApplication.shared.open(URL(string: "shortcuts://run-shortcut?name=\(shortcutName)")!)
+          let callbackUrl = "chafenqi://refresh".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+          UIApplication.shared.open(URL(string: "shortcuts://x-callback-url/run-shortcut?name=\(shortcutName)&x-success=\(callbackUrl)")!)
       }
 
       quickActionService.action = nil
@@ -110,9 +113,22 @@ enum TabIdentifier: Hashable {
     case home, recent, list, tool
 }
 
+enum UrlAction: Hashable {
+    case refresh
+}
+
 extension URL {
     var isDeeplink: Bool {
         return scheme == "chafenqi"
+    }
+    
+    var action: UrlAction? {
+        guard isDeeplink else { return nil }
+        
+        switch host {
+        case "refresh": return .refresh
+        default: return nil
+        }
     }
     
     var tabIdentifier: TabIdentifier? {
