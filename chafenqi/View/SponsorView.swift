@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SponsorView: View {
+    @State var sponsorList: [String] = []
+    
     var body: some View {
         VStack {
             Form {
@@ -27,25 +29,30 @@ struct SponsorView: View {
                 }
                 
                 Section {
-                    Text("ruirui")
-                    Text("寒蝉.")
-                    Text("冰翎")
-                    Text("百夜")
-                    Text("陆仁贾")
-                    Text("铺盖")
-                    Text("dark童")
-                    Text("yozaki")
+                    ForEach(sponsorList, id: \.hashValue) { sponsor in
+                        Text(sponsor)
+                    }
                 } header: {
                     Text("爱发电赞助人员")
                 } footer: {
                     Text("排名不分先后，默认显示爱发电昵称")
                 }
-                
-                
             }
         }
         .navigationTitle("鸣谢")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                do {
+                    let request = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/sponsor")!)
+                    let (data, _) = try await URLSession.shared.data(for: request)
+                    sponsorList = try JSONDecoder().decode(Array<String>.self, from: data)
+                    sponsorList.reverse()
+                } catch {
+                    sponsorList.append("加载出错")
+                }
+            }
+        }
     }
 }
 

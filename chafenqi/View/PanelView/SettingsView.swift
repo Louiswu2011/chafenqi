@@ -22,7 +22,10 @@ struct SettingsView: View {
     @State private var showingLoginView = false
     @State private var showingBuildNumber = false
     @State private var showingClearAlert = false
+    @State private var showingNewVersionAlert = false
     @State private var loading = false
+    
+    @State private var versionData = ClientVersionData.empty
     
     let iOSVersion = Int(Double(UIDevice.current.systemVersion)!.rounded(.down))
     
@@ -232,6 +235,23 @@ struct SettingsView: View {
                         }
                 }
                 
+                Button {
+                    if (versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber)) {
+                        showingNewVersionAlert.toggle()
+                    }
+                } label: {
+                    Text("检查新版本...")
+                }
+                .alert(isPresented: $showingNewVersionAlert) {
+                    Alert(
+                        title: Text("发现新版本"),
+                        message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
+                        primaryButton: .default(Text("前往Testflight")) {
+                            UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
+                        },
+                        secondaryButton: .cancel(Text("取消")))
+                }
+                
                 Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
                 
                 Link("到Github提交反馈", destination: URL(string: "https://github.com/Louiswu2011/chafenqi/issues")!)
@@ -250,6 +270,17 @@ struct SettingsView: View {
         }
         .navigationTitle("设置")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                do {
+                    let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
+                    let (data, _) = try await URLSession.shared.data(for: versionRequest)
+                    versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
+                } catch {
+                    versionData = .empty
+                }
+            }
+        }
     }
     
     func clearUserCache(){
@@ -289,5 +320,22 @@ struct RandomizerSettingsView: View {
         }
         .navigationTitle("随机歌曲")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct ClientVersionData: Codable {
+    var major: String = ""
+    var minor: String = ""
+    
+    var majorBeta: String = ""
+    var minorBeta: String = ""
+    
+    var currentLeadingBranch: String = ""
+    
+    static let empty = ClientVersionData()
+    init() { self.major = "empty" }
+    
+    func hasNewVersion(major: String, minor: String) -> Bool {
+        self.major != major || self.minor != minor
     }
 }
