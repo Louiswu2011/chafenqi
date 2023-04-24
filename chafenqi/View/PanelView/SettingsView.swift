@@ -27,7 +27,7 @@ struct SettingsView: View {
     
     @State private var versionData = ClientVersionData.empty
     
-    let iOSVersion = Int(Double(UIDevice.current.systemVersion)!.rounded(.down))
+    let iOSVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
     
     var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
     var maimaiSourceOptions = [0: "Diving-Fish"]
