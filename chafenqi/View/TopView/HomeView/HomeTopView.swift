@@ -16,6 +16,8 @@ struct HomeTopView: View {
     
     @State private var loadStatus: LoadStatus = .loading(hint: "加载中...")
     
+    @State private var showingPReloadAlert = false
+    
     var body: some View {
         Group {
             if (user.didLogin) {
@@ -149,9 +151,7 @@ struct HomeTopView: View {
             
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    Task {
-                        await refreshByUser()
-                    }
+                    showingPReloadAlert.toggle()
                 } label: {
                     Image(systemName: "arrow.clockwise")
                 }
@@ -162,18 +162,34 @@ struct HomeTopView: View {
                 switch action {
                 case .refresh:
                     // Refresh user info
-                    Task {
-                        await refreshByUser()
-                    }
+                    showingPReloadAlert.toggle()
                 }
             }
         }
+        .alert(isPresented: $showingPReloadAlert) {
+            Alert(
+                title: Text("刷新歌曲列表"),
+                message: Text("请在游戏版本更新时进行刷新，否则将会影响更新速度"),
+                primaryButton: .cancel(Text("跳过"), action: {
+                    Task {
+                        await refreshByUser(shouldReloadPersistent: false)
+                    }
+                }),
+                secondaryButton: .destructive(Text("刷新"), action: {
+                    Task {
+                        await refreshByUser(shouldReloadPersistent: true)
+                    }
+                }))
+        }
     }
     
-    func refreshByUser() async {
+    func refreshByUser(shouldReloadPersistent: Bool) async {
         do {
             loadStatus = .loading(hint: "加载中")
             try await user.refresh()
+            if (shouldReloadPersistent) {
+                try await user.data.refresh()
+            }
             
             loadStatus = .complete
         } catch {
