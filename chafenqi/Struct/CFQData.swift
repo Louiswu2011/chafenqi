@@ -9,6 +9,36 @@ import Foundation
 
 struct CFQData {
     struct Maimai: Codable {
+        static func assignAssociated(songs: [MaimaiSongData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
+            var b = bests
+            for (i,entry) in b.enumerated() {
+                let searched = songs.first {
+                    $0.title == entry.title // TODO: What about Link(COF)?
+                }
+                if let song = searched {
+                    var e = entry
+                    e.associatedSong = song
+                    b[i] = e
+                }
+            }
+            return b
+        }
+        
+        static func assignAssociated(songs: [MaimaiSongData], recents: [RecentScoreEntry]) -> [RecentScoreEntry] {
+            var r = recents
+            for (i,entry) in r.enumerated() {
+                let searched = songs.first {
+                    $0.title == entry.title // TODO: What about Link(COF)?
+                }
+                if let song = searched {
+                    var e = entry
+                    e.associatedSong = song
+                    r[i] = e
+                }
+            }
+            return r
+        }
+        
         struct UserInfo: Codable {
             var uid: Int
             var nickname: String
@@ -34,6 +64,7 @@ struct CFQData {
             var fs: String
             var ds: Double
             var idx: String // Useless in maimai.NET
+            var associatedSong: MaimaiSongData?
             
             enum CodingKeys: String, CodingKey {
                 case title
@@ -71,6 +102,7 @@ struct CFQData {
             private var matching_1: String
             private var matching_2: String
             private var matching_3: String
+            var associatedSong: MaimaiSongData?
             
             init(from decoder: Decoder) throws {
                 let container: KeyedDecodingContainer<CFQData.Maimai.RecentScoreEntry.CodingKeys> = try decoder.container(keyedBy: CFQData.Maimai.RecentScoreEntry.CodingKeys.self)
@@ -130,6 +162,36 @@ struct CFQData {
     }
     
     struct Chunithm: Codable {
+        static func assignAssociated(songs: [ChunithmSongData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
+            var b = bests
+            for (i,entry) in b.enumerated() {
+                let searched = songs.first {
+                    String($0.musicId) == entry.idx
+                }
+                if let song = searched {
+                    var e = entry
+                    e.associatedSong = song
+                    b[i] = e
+                }
+            }
+            return b
+        }
+        
+        static func assignAssociated(songs: [ChunithmSongData], recents: [RecentScoreEntry]) -> [RecentScoreEntry] {
+            var r = recents
+            for (i,entry) in r.enumerated() {
+                let searched = songs.first {
+                    String($0.musicId) == entry.idx
+                }
+                if let song = searched {
+                    var e = entry
+                    e.associatedSong = song
+                    r[i] = e
+                }
+            }
+            return r
+        }
+        
         struct UserInfo: Codable {
             var uid: Int
             var nickname: String
@@ -158,6 +220,7 @@ struct CFQData {
             var fcombo: String
             var fchain: String
             var idx: String // Basically music id
+            var associatedSong: ChunithmSongData?
             
             enum CodingKeys: String, CodingKey {
                 case title
@@ -191,6 +254,7 @@ struct CFQData {
             private var notes_slide: String
             private var notes_air: String
             private var notes_flick: String
+            var associatedSong: ChunithmSongData?
             
             init(from decoder: Decoder) throws {
                 let container: KeyedDecodingContainer<CFQData.Chunithm.RecentScoreEntry.CodingKeys> = try decoder.container(keyedBy: CFQData.Chunithm.RecentScoreEntry.CodingKeys.self)
