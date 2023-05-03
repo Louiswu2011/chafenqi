@@ -1,0 +1,309 @@
+//
+//  CFQData.swift
+//  chafenqi
+//
+//  Created by 刘易斯 on 2023/5/4.
+//
+
+import Foundation
+
+struct CFQData {
+    struct Maimai: Codable {
+        struct UserInfo: Codable {
+            var uid: Int
+            var nickname: String
+            var trophy: String
+            var rating: Int
+            var maxRating: Int
+            var star: Int
+            var charUrl: String
+            var gradeUrl: String
+            var playCount: Int
+            var stats: String
+        }
+        
+        struct BestScoreEntry: Codable {
+            var title: String
+            var level: String
+            var levelIndex: Int
+            var type: String
+            var score: Double
+            var dxScore: Int
+            var rate: String // e.g. SSS+
+            var fc: String
+            var fs: String
+            var ds: Double
+            var idx: String // Useless in maimai.NET
+            
+            enum CodingKeys: String, CodingKey {
+                case title
+                case level
+                case levelIndex = "level_index"
+                case type
+                case score = "achievements"
+                case dxScore
+                case rate
+                case fc
+                case fs
+                case ds
+                case idx
+            }
+        }
+        
+        struct RecentScoreEntry: Codable {
+            var timestamp: Int
+            var title: String
+            var difficulty: String
+            var score: Double
+            var isNewRecord: Int
+            var dxScore: Int
+            var fc: String
+            var fs: String
+            var notes: [String: String]
+            private var notes_tap: String
+            private var notes_hold: String
+            private var notes_slide: String
+            private var notes_touch: String
+            private var notes_break: String
+            var maxCombo: String
+            var maxSync: String
+            var matching: [String]
+            private var matching_1: String
+            private var matching_2: String
+            private var matching_3: String
+            
+            init(from decoder: Decoder) throws {
+                let container: KeyedDecodingContainer<CFQData.Maimai.RecentScoreEntry.CodingKeys> = try decoder.container(keyedBy: CFQData.Maimai.RecentScoreEntry.CodingKeys.self)
+                self.timestamp = try container.decode(Int.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.timestamp)
+                self.title = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.title)
+                self.difficulty = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.difficulty)
+                self.score = try container.decode(Double.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.score)
+                self.isNewRecord = try container.decode(Int.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.isNewRecord)
+                self.dxScore = try container.decode(Int.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.dxScore)
+                self.fc = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.fc)
+                self.fs = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.fs)
+                self.notes_tap = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.notes_tap)
+                self.notes_hold = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.notes_hold)
+                self.notes_slide = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.notes_slide)
+                self.notes_touch = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.notes_touch)
+                self.notes_break = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.notes_break)
+                self.maxCombo = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.maxCombo)
+                self.maxSync = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.maxSync)
+                self.matching_1 = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.matching_1)
+                self.matching_2 = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.matching_2)
+                self.matching_3 = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.matching_3)
+                self.matching = [self.matching_1, self.matching_2, self.matching_3]
+                self.notes = ["tap": self.notes_tap, "hold": self.notes_hold, "slide": self.notes_slide, "touch": self.notes_touch, "break": self.notes_break]
+            }
+            
+            enum CodingKeys: String, CodingKey {
+                case timestamp
+                case title
+                case difficulty
+                case score = "achievements"
+                case isNewRecord
+                case dxScore
+                case fc
+                case fs
+                case notes_tap
+                case notes_hold
+                case notes_slide
+                case notes_touch
+                case notes_break
+                case maxCombo
+                case maxSync
+                case matching_1
+                case matching_2
+                case matching_3
+            }
+        }
+        
+        struct DeltaEntry: Codable {
+            var rating: Int
+            var playCount: Int
+            var stats: String
+            var dxScore: Int
+            var achievement: Double
+            var syncPoint: Int
+            var awakening: Int
+        }
+    }
+    
+    struct Chunithm: Codable {
+        struct UserInfo: Codable {
+            var uid: Int
+            var nickname: String
+            var trophy: String
+            var plate: String
+            var dan: Int
+            var ribbon: Int
+            var rating: Double
+            var maxRating: Double
+            var overpower_raw: Double
+            var overpower_percent: Double
+            var lastPlayDate: Int
+            var charUrl: String
+            var friendCode: String
+            var currentGold: Int
+            var totalGold: Int
+            var playCount: Int
+        }
+        
+        struct BestScoreEntry: Codable {
+            var title: String
+            var levelIndex: Int
+            var score: Int
+            var rankIndex: Int
+            var clear: String
+            var fcombo: String
+            var fchain: String
+            var idx: String // Basically music id
+            
+            enum CodingKeys: String, CodingKey {
+                case title
+                case levelIndex = "level_index"
+                case score
+                case rankIndex = "rank_index"
+                case clear
+                case fcombo = "full_combo"
+                case fchain = "full_chain"
+                case idx
+            }
+        }
+        
+        struct RecentScoreEntry: Codable {
+            var timestamp: Int
+            var idx: String
+            var title: String
+            var difficulty: String
+            var score: Int
+            var isNewRecord: Int
+            var fc: String
+            var rankIndex: Int
+            var judges: [String: Int]
+            private var judges_critical: Int
+            private var judges_justice: Int
+            private var judges_attack: Int
+            private var judges_miss: Int
+            var notes: [String: String]
+            private var notes_tap: String
+            private var notes_hold: String
+            private var notes_slide: String
+            private var notes_air: String
+            private var notes_flick: String
+            
+            init(from decoder: Decoder) throws {
+                let container: KeyedDecodingContainer<CFQData.Chunithm.RecentScoreEntry.CodingKeys> = try decoder.container(keyedBy: CFQData.Chunithm.RecentScoreEntry.CodingKeys.self)
+                self.timestamp = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.timestamp)
+                self.idx = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.idx)
+                self.title = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.title)
+                self.difficulty = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.difficulty)
+                self.score = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.score)
+                self.isNewRecord = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.isNewRecord)
+                self.fc = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.fc)
+                self.rankIndex = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.rankIndex)
+                self.judges_critical = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.judges_critical)
+                self.judges_justice = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.judges_justice)
+                self.judges_attack = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.judges_attack)
+                self.judges_miss = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.judges_miss)
+                self.notes_tap = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.notes_tap)
+                self.notes_hold = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.notes_hold)
+                self.notes_slide = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.notes_slide)
+                self.notes_air = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.notes_air)
+                self.notes_flick = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.notes_flick)
+                self.judges = ["critical": self.judges_critical, "justice": self.judges_justice, "attack": self.judges_attack, "miss": self.judges_miss]
+                self.notes = ["tap": self.notes_tap, "hold": self.notes_hold, "slide": self.notes_slide, "air": self.notes_air, "flick": self.notes_flick]
+            }
+            
+            enum CodingKeys: String, CodingKey {
+                case timestamp = "playTime"
+                case idx
+                case title
+                case difficulty
+                case score = "highscore"
+                case isNewRecord
+                case fc
+                case rankIndex = "rank_index"
+                case judges_critical
+                case judges_justice
+                case judges_attack
+                case judges_miss
+                case notes_tap
+                case notes_hold
+                case notes_slide
+                case notes_air
+                case notes_flick
+            }
+        }
+        
+        struct DeltaEntry: Codable {
+            var rating: Double
+            var overpower_raw: Double
+            var overpower_percent: Double
+            var playCount: Int
+            var totalGold: Int
+            var currentGold: Int
+        }
+        
+        struct ExtraEntry: Codable {
+            struct NameplateEntry: Codable {
+                var name: String
+                var url: String
+                var current: Int
+            }
+            struct SkillEntry: Codable {
+                var name: String
+                var icon: String
+                var level: Int
+                var description: String
+                var current: Int
+            }
+            struct CharacterEntry: Codable {
+                var name: String
+                var url: String
+                var rank: String
+                var exp: Double
+                var current: Int
+            }
+            struct TrophyEntry: Codable {
+                var name: String
+                var type: String
+                var description: String
+            }
+            struct MapIconEntry: Codable {
+                var name: String
+                var url: String
+                var current: Int
+            }
+            struct TicketEntry: Codable {
+                var name: String
+                var url: String
+                var count: Int
+                var description: String
+            }
+            struct CollectionEntry: Codable {
+                var charUrl: String
+                var charName: String
+                var charRank: String
+                var charExp: Double
+                var charIllust: String
+                var ghost: Int // Should always be zero
+                var silver: Int
+                var gold: Int
+            }
+        }
+    }
+}
+
+typealias CFQMaimai = CFQData.Maimai
+typealias CFQMaimaiUserInfo = CFQMaimai.UserInfo
+typealias CFQMaimaiBestScoreEntries = [CFQMaimai.BestScoreEntry]
+typealias CFQMaimaiRecentScoreEntries = [CFQMaimai.RecentScoreEntry]
+typealias CFQMaimaiDeltaEntries = [CFQMaimai.DeltaEntry]
+
+typealias CFQChunithm = CFQData.Chunithm
+typealias CFQChunithmUserInfo = CFQChunithm.UserInfo
+typealias CFQChunithmBestScoreEntries = [CFQChunithm.BestScoreEntry]
+typealias CFQChunithmRecentScoreEntries = [CFQChunithm.RecentScoreEntry]
+typealias CFQChunithmDeltaEntries = [CFQChunithm.DeltaEntry]
+typealias CFQChunithmExtraEntries = [CFQChunithm.ExtraEntry]
