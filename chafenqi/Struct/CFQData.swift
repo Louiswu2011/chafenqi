@@ -50,6 +50,8 @@ struct CFQData {
             var gradeUrl: String
             var playCount: Int
             var stats: String
+            var updatedAt: String
+            var createdAt: String
         }
         
         struct BestScoreEntry: Codable {
@@ -65,6 +67,8 @@ struct CFQData {
             var ds: Double
             var idx: String // Useless in maimai.NET
             var associatedSong: MaimaiSongData?
+            var updatedAt: String
+            var createdAt: String
             
             enum CodingKeys: String, CodingKey {
                 case title
@@ -78,6 +82,8 @@ struct CFQData {
                 case fs
                 case ds
                 case idx
+                case updatedAt
+                case createdAt
             }
         }
         
@@ -103,6 +109,8 @@ struct CFQData {
             private var matching_2: String
             private var matching_3: String
             var associatedSong: MaimaiSongData?
+            var updatedAt: String
+            var createdAt: String
             
             init(from decoder: Decoder) throws {
                 let container: KeyedDecodingContainer<CFQData.Maimai.RecentScoreEntry.CodingKeys> = try decoder.container(keyedBy: CFQData.Maimai.RecentScoreEntry.CodingKeys.self)
@@ -126,6 +134,8 @@ struct CFQData {
                 self.matching_3 = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.matching_3)
                 self.matching = [self.matching_1, self.matching_2, self.matching_3]
                 self.notes = ["tap": self.notes_tap, "hold": self.notes_hold, "slide": self.notes_slide, "touch": self.notes_touch, "break": self.notes_break]
+                self.updatedAt = try container.decode(String.self, forKey: .updatedAt)
+                self.createdAt = try container.decode(String.self, forKey: .createdAt)
             }
             
             enum CodingKeys: String, CodingKey {
@@ -147,6 +157,8 @@ struct CFQData {
                 case matching_1
                 case matching_2
                 case matching_3
+                case updatedAt
+                case createdAt
             }
         }
         
@@ -158,6 +170,8 @@ struct CFQData {
             var achievement: Double
             var syncPoint: Int
             var awakening: Int
+            var updatedAt: String
+            var createdAt: String
         }
     }
     
@@ -209,6 +223,8 @@ struct CFQData {
             var currentGold: Int
             var totalGold: Int
             var playCount: Int
+            var updatedAt: String
+            var createdAt: String
         }
         
         struct BestScoreEntry: Codable {
@@ -221,6 +237,8 @@ struct CFQData {
             var fchain: String
             var idx: String // Basically music id
             var associatedSong: ChunithmSongData?
+            var updatedAt: String
+            var createdAt: String
             
             enum CodingKeys: String, CodingKey {
                 case title
@@ -231,6 +249,8 @@ struct CFQData {
                 case fcombo = "full_combo"
                 case fchain = "full_chain"
                 case idx
+                case updatedAt
+                case createdAt
             }
         }
         
@@ -255,6 +275,8 @@ struct CFQData {
             private var notes_air: String
             private var notes_flick: String
             var associatedSong: ChunithmSongData?
+            var updatedAt: String
+            var createdAt: String
             
             init(from decoder: Decoder) throws {
                 let container: KeyedDecodingContainer<CFQData.Chunithm.RecentScoreEntry.CodingKeys> = try decoder.container(keyedBy: CFQData.Chunithm.RecentScoreEntry.CodingKeys.self)
@@ -277,6 +299,8 @@ struct CFQData {
                 self.notes_flick = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.notes_flick)
                 self.judges = ["critical": self.judges_critical, "justice": self.judges_justice, "attack": self.judges_attack, "miss": self.judges_miss]
                 self.notes = ["tap": self.notes_tap, "hold": self.notes_hold, "slide": self.notes_slide, "air": self.notes_air, "flick": self.notes_flick]
+                self.updatedAt = try container.decode(String.self, forKey: .updatedAt)
+                self.createdAt = try container.decode(String.self, forKey: .createdAt)
             }
             
             enum CodingKeys: String, CodingKey {
@@ -297,6 +321,8 @@ struct CFQData {
                 case notes_slide
                 case notes_air
                 case notes_flick
+                case updatedAt
+                case createdAt
             }
         }
         
@@ -307,6 +333,8 @@ struct CFQData {
             var playCount: Int
             var totalGold: Int
             var currentGold: Int
+            var updatedAt: String
+            var createdAt: String
         }
         
         struct ExtraEntry: Codable {
@@ -314,6 +342,8 @@ struct CFQData {
                 var name: String
                 var url: String
                 var current: Int
+                var updatedAt: String
+                var createdAt: String
             }
             struct SkillEntry: Codable {
                 var name: String
@@ -321,6 +351,8 @@ struct CFQData {
                 var level: Int
                 var description: String
                 var current: Int
+                var updatedAt: String
+                var createdAt: String
             }
             struct CharacterEntry: Codable {
                 var name: String
@@ -328,22 +360,30 @@ struct CFQData {
                 var rank: String
                 var exp: Double
                 var current: Int
+                var updatedAt: String
+                var createdAt: String
             }
             struct TrophyEntry: Codable {
                 var name: String
                 var type: String
                 var description: String
+                var updatedAt: String
+                var createdAt: String
             }
             struct MapIconEntry: Codable {
                 var name: String
                 var url: String
                 var current: Int
+                var updatedAt: String
+                var createdAt: String
             }
             struct TicketEntry: Codable {
                 var name: String
                 var url: String
                 var count: Int
                 var description: String
+                var updatedAt: String
+                var createdAt: String
             }
             struct CollectionEntry: Codable {
                 var charUrl: String
@@ -354,6 +394,8 @@ struct CFQData {
                 var ghost: Int // Should always be zero
                 var silver: Int
                 var gold: Int
+                var updatedAt: String
+                var createdAt: String
             }
         }
     }
