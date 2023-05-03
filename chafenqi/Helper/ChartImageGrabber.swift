@@ -9,10 +9,21 @@ import Foundation
 import UIKit
 
 struct ChartImageGrabber {
-    static func downloadChartImage(webChartId: String, diff: String) async throws -> UIImage {
-        let barURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : webChartId.prefix(2))/bg/\(webChartId)bar.png")
-        let bgURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : webChartId.prefix(2))/bg/\(webChartId)bg.png")
-        let chartURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : webChartId.prefix(2))/obj/data\(webChartId)\(diff).png")
+    static func downloadChartImage(identifier: String, diff: String, mode: Int) async throws -> UIImage {
+        let barURL: URL?
+        let bgURL: URL?
+        let chartURL: URL?
+
+        if (mode == 0) {
+            barURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/bg/\(identifier)bar.png")
+            bgURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/bg/\(identifier)bg.png")
+            chartURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/obj/data\(identifier)\(diff).png")
+        } else {
+            let title = identifier.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            barURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=bar")
+            bgURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=bg")
+            chartURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=\(diff)")
+        }
         
         do {
             let barImage = try await downloadImageFromUrl(url: barURL!)

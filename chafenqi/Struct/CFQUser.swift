@@ -16,6 +16,7 @@ class CFQUser: ObservableObject {
     @AppStorage("settingsCurrentMode") var currentMode = 0
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
+    @AppStorage("settingsChunithmChartSource") var chunithmChartSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     
     @AppStorage("userToken") var cachedToken = ""

@@ -30,17 +30,18 @@ struct SettingsView: View {
     let iOSVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
     
     var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
+    var chunithmChartSourceOptions = [0: "sdvx.in", 1: "NLServer"]
     var maimaiSourceOptions = [0: "Diving-Fish"]
     var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
     var body: some View {
-
+        
         Form {
             Section {
-                HStack {
-                    if (user.currentMode == 0) {
+                if (user.currentMode == 0) {
+                    HStack {
                         if (iOSVersion == 15) {
                             Text("封面来源")
                             Spacer()
@@ -57,8 +58,27 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        
-                    } else {
+                    }
+                    HStack {
+                        if (iOSVersion == 15) {
+                            Text("谱面来源")
+                            Spacer()
+                        }
+                        Picker(selection: user.$chunithmChartSource) {
+                            ForEach(chunithmChartSourceOptions.sorted(by: <), id: \.key) {
+                                Text($0.value)
+                            }
+                        } label: {
+                            if (iOSVersion == 15) {
+                                Text(chunithmChartSourceOptions[user.chunithmChartSource]!)
+                            } else {
+                                Text("谱面来源")
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+                } else {
+                    HStack {
                         if (iOSVersion == 15) {
                             Text("封面来源")
                             Spacer()
@@ -77,6 +97,7 @@ struct SettingsView: View {
                         .pickerStyle(.menu)
                     }
                 }
+                
             } header: {
                 Text("常规")
             } footer: {

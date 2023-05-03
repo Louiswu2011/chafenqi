@@ -41,8 +41,8 @@ struct ChunithmDetailView: View {
     
     var song: ChunithmSongData
     
-    func reloadChartImage(id: String, diff: String) async throws {
-        chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: id, diff: difficulty[diff]!)
+    func reloadChartImage(identifier: String, diff: String) async throws {
+        chartImage = try await ChartImageGrabber.downloadChartImage(identifier: identifier, diff: difficulty[diff]!, mode: user.chunithmChartSource)
         chartImageView = Image(uiImage: chartImage)
     }
     
@@ -151,7 +151,8 @@ struct ChunithmDetailView: View {
                             Task {
                                 do {
                                     chartImage = UIImage()
-                                    try await reloadChartImage(id: webChartId, diff: selectedDifficulty)
+                                    let identifier = user.chunithmChartSource == 0 ? webChartId : song.title
+                                    try await reloadChartImage(identifier: identifier, diff: selectedDifficulty)
                                 } catch {
                                     
                                 }
@@ -199,7 +200,8 @@ struct ChunithmDetailView: View {
                             do {
                                 let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: user.data.chunithm.mapData)
                                 webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
-                                chartImage = try await ChartImageGrabber.downloadChartImage(webChartId: webChartId, diff: difficulty[selectedDifficulty]!)
+                                let identifier = user.chunithmChartSource == 0 ? webChartId : song.title
+                                chartImage = try await ChartImageGrabber.downloadChartImage(identifier: identifier, diff: difficulty[selectedDifficulty]!, mode: user.chunithmChartSource)
                                 chartImageView = Image(uiImage: chartImage)
                                 if(song.level.contains("master")) {
                                     availableDiffs.append("Master")

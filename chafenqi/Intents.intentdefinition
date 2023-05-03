@@ -545,6 +545,10 @@
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>获取用户Token</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>r7fO2m</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
 					<true/>
 				</dict>
@@ -559,6 +563,10 @@
 					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>获取用户Token</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>O9yH1w</string>
 				</dict>
 			</dict>
 			<key>INIntentResponse</key>

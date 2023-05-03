@@ -20,7 +20,7 @@ class BuildURLHandler: NSObject, BuildProxyURLIntentHandling {
             case .maimai:
                 uploadQuery = "upload_maimai"
             }
-            var response = BuildProxyURLIntentResponse(code: .success, userActivity: nil)
+            let response = BuildProxyURLIntentResponse(code: .success, userActivity: nil)
             let url = "http://43.139.107.206/\(uploadQuery)?token=\(token)"
             response.url = url
             completion(response)
