@@ -57,6 +57,8 @@ struct CFQData: Codable {
             var stats: String
             var updatedAt: String
             var createdAt: String
+            
+            static let empty = UserInfo(uid: 0, nickname: "", trophy: "", rating: 0, maxRating: 0, star: 0, charUrl: "", gradeUrl: "", playCount: 0, stats: "", updatedAt: "", createdAt: "")
         }
         
         struct BestScoreEntry: Codable {
@@ -245,6 +247,8 @@ struct CFQData: Codable {
             var playCount: Int
             var updatedAt: String
             var createdAt: String
+            
+            static let empty = UserInfo(uid: 0, nickname: "", trophy: "", plate: "", dan: 0, ribbon: 0, rating: 0.0, maxRating: 0.0, overpower_raw: 0.0, overpower_percent: 0.0, lastPlayDate: 0, charUrl: "", friendCode: "", currentGold: 0, totalGold: 0, playCount: 0, updatedAt: "", createdAt: "")
         }
         
         struct BestScoreEntry: Codable {
@@ -377,6 +381,16 @@ struct CFQData: Codable {
         }
         
         struct ExtraEntry: Codable {
+            var nameplates: [NameplateEntry]
+            var skills: [SkillEntry]
+            var characters: [CharacterEntry]
+            var trophies: [TrophyEntry]
+            var mapIcons: [MapIconEntry]
+            var tickets: [TicketEntry]
+            var collections: CollectionEntry
+            
+            static let empty = ExtraEntry(nameplates: [], skills: [], characters: [], trophies: [], mapIcons: [], tickets: [], collections: CollectionEntry(charUrl: "", charName: "", charRank: "", charExp: 0.0, charIllust: "", ghost: 0, silver: 0, gold: 0, updatedAt: "", createdAt: ""))
+            
             struct NameplateEntry: Codable {
                 var name: String
                 var url: String
@@ -452,4 +466,4 @@ typealias CFQChunithmBestScoreEntries = [CFQChunithm.BestScoreEntry]
 typealias CFQChunithmRecentScoreEntries = [CFQChunithm.RecentScoreEntry]
 typealias CFQChunithmRatingEntries = [CFQChunithm.RatingEntry]
 typealias CFQChunithmDeltaEntries = [CFQChunithm.DeltaEntry]
-typealias CFQChunithmExtraEntries = [CFQChunithm.ExtraEntry]
+typealias CFQChunithmExtraEntry = CFQChunithm.ExtraEntry
