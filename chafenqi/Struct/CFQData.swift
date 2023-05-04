@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct CFQData {
+struct CFQData: Codable {
+    struct FishToken: Codable {
+        var uid: Int
+        var token: String
+    }
+    
     struct Maimai: Codable {
         static func assignAssociated(songs: [MaimaiSongData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
             var b = bests
@@ -206,6 +211,21 @@ struct CFQData {
             return r
         }
         
+        static func assignAssociated(songs: [ChunithmSongData], ratings: [RatingEntry]) -> [RatingEntry] {
+            var r = ratings
+            for (i, entry) in r.enumerated() {
+                let searched = songs.first {
+                    String($0.musicId) == entry.idx
+                }
+                if let song = searched {
+                    var e = entry
+                    e.associatedSong = song
+                    r[i] = e
+                }
+            }
+            return r
+        }
+        
         struct UserInfo: Codable {
             var uid: Int
             var nickname: String
@@ -326,6 +346,25 @@ struct CFQData {
             }
         }
         
+        struct RatingEntry: Codable {
+            var idx: String
+            var title: String
+            var score: Int
+            var type: String
+            var updatedAt: String
+            var createdAt: String
+            var associatedSong: ChunithmSongData?
+            
+            enum CodingKeys: String, CodingKey {
+                case idx
+                case title
+                case score = "highscore"
+                case type
+                case updatedAt
+                case createdAt
+            }
+        }
+        
         struct DeltaEntry: Codable {
             var rating: Double
             var overpower_raw: Double
@@ -411,5 +450,6 @@ typealias CFQChunithm = CFQData.Chunithm
 typealias CFQChunithmUserInfo = CFQChunithm.UserInfo
 typealias CFQChunithmBestScoreEntries = [CFQChunithm.BestScoreEntry]
 typealias CFQChunithmRecentScoreEntries = [CFQChunithm.RecentScoreEntry]
+typealias CFQChunithmRatingEntries = [CFQChunithm.RatingEntry]
 typealias CFQChunithmDeltaEntries = [CFQChunithm.DeltaEntry]
 typealias CFQChunithmExtraEntries = [CFQChunithm.ExtraEntry]
