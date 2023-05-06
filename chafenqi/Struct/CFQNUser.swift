@@ -123,17 +123,51 @@ class CFQNUser: ObservableObject {
         print("[CFQNUser] Assigned Associated Song Data.")
     }
     
+    func checkAssociated() -> [String] {
+        var failed: [String] = []
+        
+        for entry in self.maimai.best {
+            if (entry.associatedSong == nil) {
+                failed.append("maimai best: " + entry.title)
+            }
+        }
+        for entry in self.maimai.recent {
+            if (entry.associatedSong == nil) {
+                failed.append("maimai recent: " + entry.title)
+            }
+        }
+        for entry in self.chunithm.best {
+            if (entry.associatedSong == nil) {
+                failed.append("chunithm best: " + entry.title)
+            }
+        }
+        for entry in self.chunithm.recent {
+            if (entry.associatedSong == nil) {
+                failed.append("chunithm recent: " + entry.title)
+            }
+        }
+        for entry in self.chunithm.rating {
+            if (entry.associatedSong == nil) {
+                failed.append("chunithm rating: " + entry.title)
+            }
+        }
+        
+        return failed
+    }
+    
     func load(username: String, forceReload: Bool = false) async throws {
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
 
-        if (!jwtToken.isEmpty) {
-            try await fetchUserData(token: self.jwtToken)
-        } else {
-            self.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
-            self.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
-        }
+        try await fetchUserData(token: self.jwtToken)
+//        if (!jwtToken.isEmpty || forceReload = true) {
+//            try await fetchUserData(token: self.jwtToken)
+//        } else {
+//            self.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
+//            self.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
+//        }
 
         self.username = username
+        print(checkAssociated())
     }
 }
 

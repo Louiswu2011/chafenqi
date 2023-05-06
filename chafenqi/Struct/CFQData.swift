@@ -17,13 +17,25 @@ struct CFQData: Codable {
         static func assignAssociated(songs: [MaimaiSongData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
             var b = bests
             for (i,entry) in b.enumerated() {
-                let searched = songs.first {
-                    $0.title == entry.title // TODO: What about Link(COF)?
-                }
-                if let song = searched {
+                if (entry.title == "D✪N’T ST✪P R✪CKIN’") {
                     var e = entry
-                    e.associatedSong = song
+                    e.associatedSong = songs.first {
+                        $0.musicId == "364" && $0.type == entry.type
+                    }
                     b[i] = e
+                } else {
+                    let searched = songs.first {
+                        let titleMatch = $0.title.localizedCaseInsensitiveCompare(entry.title)
+                        if titleMatch == .orderedSame {
+                            return $0.type == entry.type // TODO: What about Link(COF)?
+                        }
+                        return false
+                    }
+                    if let song = searched {
+                        var e = entry
+                        e.associatedSong = song
+                        b[i] = e
+                    }
                 }
             }
             return b
@@ -32,13 +44,25 @@ struct CFQData: Codable {
         static func assignAssociated(songs: [MaimaiSongData], recents: [RecentScoreEntry]) -> [RecentScoreEntry] {
             var r = recents
             for (i,entry) in r.enumerated() {
-                let searched = songs.first {
-                    $0.title == entry.title // TODO: What about Link(COF)?
-                }
-                if let song = searched {
+                if (entry.title == "D✪N’T ST✪P R✪CKIN’") {
                     var e = entry
-                    e.associatedSong = song
+                    e.associatedSong = songs.first {
+                        $0.musicId == "364" && $0.type == entry.type
+                    }
                     r[i] = e
+                } else {
+                    let searched = songs.first {
+                        let titleMatch = $0.title.localizedCaseInsensitiveCompare(entry.title)
+                        if titleMatch == .orderedSame {
+                            return $0.type == entry.type // TODO: What about Link(COF)?
+                        }
+                        return false
+                    }
+                    if let song = searched {
+                        var e = entry
+                        e.associatedSong = song
+                        r[i] = e
+                    }
                 }
             }
             return r
@@ -98,6 +122,7 @@ struct CFQData: Codable {
             var timestamp: Int
             var title: String
             var difficulty: String
+            var type: String
             var score: Double
             var isNewRecord: Int
             var dxScore: Int
@@ -124,6 +149,7 @@ struct CFQData: Codable {
                 self.timestamp = try container.decode(Int.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.timestamp)
                 self.title = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.title)
                 self.difficulty = try container.decode(String.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.difficulty)
+                self.type = try container.decode(String.self, forKey: .type)
                 self.score = try container.decode(Double.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.score)
                 self.isNewRecord = try container.decode(Int.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.isNewRecord)
                 self.dxScore = try container.decode(Int.self, forKey: CFQData.Maimai.RecentScoreEntry.CodingKeys.dxScore)
@@ -149,6 +175,7 @@ struct CFQData: Codable {
                 case timestamp
                 case title
                 case difficulty
+                case type
                 case score = "achievements"
                 case isNewRecord
                 case dxScore
