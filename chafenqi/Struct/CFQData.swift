@@ -69,9 +69,9 @@ struct CFQData: Codable {
             var score: Double
             var dxScore: Int
             var rate: String // e.g. SSS+
-            var fc: String
-            var fs: String
-            var ds: Double
+            var fc: String = ""
+            var fs: String = ""
+            var ds: Double = 0.0
             var idx: String // Useless in maimai.NET
             var associatedSong: MaimaiSongData?
             var updatedAt: String
@@ -101,8 +101,8 @@ struct CFQData: Codable {
             var score: Double
             var isNewRecord: Int
             var dxScore: Int
-            var fc: String
-            var fs: String
+            var fc: String = ""
+            var fs: String = ""
             var notes: [String: String]
             private var notes_tap: String
             private var notes_hold: String
@@ -255,10 +255,10 @@ struct CFQData: Codable {
             var title: String
             var levelIndex: Int
             var score: Int
-            var rankIndex: Int
-            var clear: String
-            var fcombo: String
-            var fchain: String
+            var rankIndex: Int = -1
+            var clear: String = ""
+            var fcombo: String = ""
+            var fchain: String = ""
             var idx: String // Basically music id
             var associatedSong: ChunithmSongData?
             var updatedAt: String
@@ -267,7 +267,7 @@ struct CFQData: Codable {
             enum CodingKeys: String, CodingKey {
                 case title
                 case levelIndex = "level_index"
-                case score
+                case score = "highscore"
                 case rankIndex = "rank_index"
                 case clear
                 case fcombo = "full_combo"
@@ -285,8 +285,8 @@ struct CFQData: Codable {
             var difficulty: String
             var score: Int
             var isNewRecord: Int
-            var fc: String
-            var rankIndex: Int
+            var fc: String = ""
+            var rankIndex: Int = -1
             var judges: [String: Int]
             private var judges_critical: Int
             private var judges_justice: Int
@@ -328,7 +328,7 @@ struct CFQData: Codable {
             }
             
             enum CodingKeys: String, CodingKey {
-                case timestamp = "playTime"
+                case timestamp
                 case idx
                 case title
                 case difficulty

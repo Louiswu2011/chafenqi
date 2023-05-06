@@ -237,7 +237,6 @@
 		BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		BFC256AC29A7E96100B65CE7 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
-		BFCD826029CA20710032264F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BFCE1B2629EE622200BFAA67 /* chafenqiMini.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqiMini.entitlements; sourceTree = "<group>"; };
 		BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildURLHandler.swift; sourceTree = "<group>"; };
 		BFCE1B2929EE911600BFAA67 /* QuickActionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionService.swift; sourceTree = "<group>"; };
@@ -595,7 +594,6 @@
 				BF572E0B29A5E32000E9811B /* RecentView.swift */,
 				BFEF7EDD298A856E00F87ACC /* ToolView.swift */,
 				BFBC5506298D078000A93918 /* SongListView.swift */,
-				BFCD826029CA20710032264F /* LoginView.swift */,
 			);
 			path = TopView;
 			sourceTree = "<group>";

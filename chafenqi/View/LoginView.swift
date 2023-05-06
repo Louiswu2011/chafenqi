@@ -92,6 +92,7 @@ struct LoginView: View {
                                     withAnimation(defaultAnimation) {
                                         user.didLogin = true
                                     }
+                                    
                                 } else {
                                     alertToast.show = true
                                     state = .loginPending
