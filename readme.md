@@ -4,9 +4,9 @@
 用Swift实现的轻量级查分器，支持iOS15及以上。
 
 <p>
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/newHome.png" width="230">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/ratingDetail.png" width="230">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/newRecent.png" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/newHome.PNG" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/ratingDetail.PNG" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/newRecent.PNG" width="230">
   </p>
 
 ## 主要功能
