@@ -16,7 +16,6 @@ struct CFQServer {
     
     struct User {
         static func auth(username: String, password: String) async throws -> String {
-            let hash = password.sha256String
             let payload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
             let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth", payload: payload)
             let token = String(decoding: data, as: UTF8.self)
@@ -24,16 +23,16 @@ struct CFQServer {
         }
         
         static func register(username: String, password: String) async throws {
-            let payload = try encoder.encode(["username": username])
+            let payload = try JSONSerialization.data(withJSONObject: ["username": username])
             let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/checkUsername", payload: payload)
-            let registerPayload = try encoder.encode(["username": username, "password": password.sha256String])
+            let registerPayload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
             let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/register", payload: registerPayload)
         }
     }
     
     struct Fish {
         static func uploadToken(authToken: String, fishToken: String) async throws {
-            let payload = try encoder.encode(["token": fishToken])
+            let payload = try JSONSerialization.data(withJSONObject: ["token": fishToken])
             let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "fish/upload_token", payload: payload, token: authToken)
         }
     }
