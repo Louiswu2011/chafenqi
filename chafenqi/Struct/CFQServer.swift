@@ -7,6 +7,7 @@
 
 import Foundation
 import Crypto
+import AlertToast
 
 struct CFQServer {
     static let session = URLSession(configuration: .default)
@@ -15,7 +16,8 @@ struct CFQServer {
     
     struct User {
         static func auth(username: String, password: String) async throws -> String {
-            let payload = try encoder.encode(["username": username, "password": password.sha256String])
+            let hash = password.sha256String
+            let payload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
             let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth", payload: payload)
             let token = String(decoding: data, as: UTF8.self)
             return token
@@ -76,8 +78,8 @@ struct CFQServer {
         func fetchDeltaEntries() async throws -> CFQChunithmDeltaEntries {
             try await fetchGameData(CFQChunithmDeltaEntries.self, path: "api/chunithm/delta", authToken: authToken)
         }
-        func fetchExtraEntries() async throws -> CFQChunithmExtraEntries {
-            try await fetchGameData(CFQChunithmExtraEntries.self, path: "api/chunithm/extra", authToken: authToken)
+        func fetchExtraEntries() async throws -> CFQChunithmExtraEntry {
+            try await fetchGameData(CFQChunithmExtraEntry.self, path: "api/chunithm/extra", authToken: authToken)
         }
         func fetchRatingEntries() async throws -> CFQChunithmRatingEntries {
             try await fetchGameData(CFQChunithmRatingEntries.self, path: "api/chunithm/rating", authToken: authToken)
@@ -92,7 +94,9 @@ struct CFQServer {
         }
         var request = URLRequest(url: url.url!)
         request.httpMethod = method
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         if (!payload.isEmpty) {
+            request.setValue("\(payload.count)", forHTTPHeaderField: "Content-Length")
             request.httpBody = payload
         }
         if (!token.isEmpty) {
@@ -168,6 +172,11 @@ extension CFQServerError {
         case .UsernameOccupiedError:
             return "NOT UNIQUE"
         }
+    }
+}
+extension CFQServerError {
+    func alertToast() -> AlertToast {
+        return AlertToast(displayMode: .hud, type: .error(.red), title: "发生错误", subTitle: self.description)
     }
 }
 

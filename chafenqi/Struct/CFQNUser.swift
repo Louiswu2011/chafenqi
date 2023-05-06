@@ -9,20 +9,21 @@ import Foundation
 import SwiftUI
 
 class CFQNUser: ObservableObject {
-    @Published var token: String {
-        willSet {
-            Task {
-                if (!token.isEmpty) {
-                    try await fetchUserData(token: token)
-                }
-            }
-            objectWillChange.send()
-        }
-    }
+    @Published var didLogin = false
     
-    var maimai: Maimai
-    var chunithm: Chunithm
-    var data: CFQPersistentData
+    @AppStorage("JWT") var jwtToken = ""
+    @AppStorage("Fish") var fishToken = ""
+    @AppStorage("MaimaiCache") var maimaiCache = Data()
+    @AppStorage("ChunithmCache") var chunithmCache = Data()
+    
+    var maimai = Maimai()
+    var chunithm = Chunithm()
+    var data = CFQPersistentData()
+    
+    var username = ""
+    var fishUsername = ""
+    
+    var isPremium = false
     
     struct Maimai: Codable {
         var info: CFQMaimaiUserInfo = .empty
@@ -34,9 +35,13 @@ class CFQNUser: ObservableObject {
         init(token: String) async throws {
             let server = CFQMaimaiServer(authToken: token)
             do {
-                self.info = try await server.fetchUserInfo()
-                self.best = try await server.fetchBestEntries()
-                self.recent = try await server.fetchRecentEntries()
+                async let info = try server.fetchUserInfo()
+                async let best = try server.fetchBestEntries()
+                async let recent = try server.fetchRecentEntries()
+                
+                self.info = try await info
+                self.best = try await best
+                self.recent = try await recent
                 isNotEmpty = true
             } catch {
                 
@@ -47,6 +52,8 @@ class CFQNUser: ObservableObject {
                 self.delta = []
             }
         }
+        
+        init() {}
     }
     
     struct Chunithm: Codable {
@@ -61,40 +68,73 @@ class CFQNUser: ObservableObject {
         init(token: String) async throws {
             let server = CFQChunithmServer(authToken: token)
             do {
-                self.info = try await server.fetchUserInfo()
-                self.best = try await server.fetchBestEntries()
-                self.recent = try await server.fetchRecentEntries()
-                self.rating = try await server.fetchRatingEntries()
+                async let info = try server.fetchUserInfo()
+                async let best = try server.fetchBestEntries()
+                async let recent = try server.fetchRecentEntries()
+                async let rating = try server.fetchRatingEntries()
+                
+                self.info = try await info
+                self.best = try await best
+                self.recent = try await recent
+                self.rating = try await rating
                 isNotEmpty = true
             } catch CFQServerError.EntryNotFoundError {
                 
             }
             do {
-                self.delta = try await server.fetchDeltaEntries()
-                self.extra = try await server.fetchExtraEntries()
+                async let delta = try server.fetchDeltaEntries()
+                async let extra = try server.fetchExtraEntries()
+                
+                self.delta = try await delta
+                self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
                 
             }
         }
+        
+        init() {}
     }
     
-    init(token: String) async throws {
-        self.token = token
-        self.data = try await CFQPersistentData.loadFromCacheOrRefresh()
-        try await fetchUserData(token: token)
-    }
+    init() {}
     
     func fetchUserData(token: String) async throws {
         self.maimai = try await Maimai(token: token)
         self.chunithm = try await Chunithm(token: token)
-        if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
-            self.maimai.best = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, bests: self.maimai.best)
-            self.maimai.recent = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, recents: self.maimai.recent)
+        Task {
+            if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
+                self.maimai.best = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, bests: self.maimai.best)
+                self.maimai.recent = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, recents: self.maimai.recent)
+            }
         }
-        if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
-            self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, bests: self.chunithm.best)
-            self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, recents: self.chunithm.recent)
-            self.chunithm.rating = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, ratings: self.chunithm.rating)
+        Task {
+            if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
+                self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, bests: self.chunithm.best)
+                self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, recents: self.chunithm.recent)
+                self.chunithm.rating = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, ratings: self.chunithm.rating)
+            }
         }
     }
+    
+    func load(username: String, forceReload: Bool = false) async throws {
+        self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
+        do {
+            if (!jwtToken.isEmpty) {
+                async let maimai = Maimai(token: self.jwtToken)
+                async let chunithm = Chunithm(token: self.jwtToken)
+                self.maimai = try await maimai
+                self.chunithm = try await chunithm
+            } else {
+                self.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
+                self.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
+            }
+        } catch {
+            
+        }
+        self.username = username
+    }
+}
+
+enum CFQNUserError: Error {
+    case SavingError(cause: String, from: String)
+    case LoadingError(cause: String, from: String)
 }
