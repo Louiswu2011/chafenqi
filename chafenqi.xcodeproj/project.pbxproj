@@ -82,6 +82,7 @@
 		BFC256A929A7E35500B65CE7 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256A829A7E35500B65CE7 /* ImageLoader.swift */; };
 		BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */; };
 		BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC256AC29A7E96100B65CE7 /* ModalView.swift */; };
+		BFC860362A06B41000E3A7CF /* HomeNameplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC860352A06B41000E3A7CF /* HomeNameplate.swift */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
 		BFCE1B2529EE591C00BFAA67 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
 		BFCE1B2829EE70EC00BFAA67 /* BuildURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */; };
@@ -236,6 +237,7 @@
 		BFC256A829A7E35500B65CE7 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		BFC256AA29A7E37E00B65CE7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		BFC256AC29A7E96100B65CE7 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
+		BFC860352A06B41000E3A7CF /* HomeNameplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNameplate.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
 		BFCE1B2629EE622200BFAA67 /* chafenqiMini.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqiMini.entitlements; sourceTree = "<group>"; };
 		BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildURLHandler.swift; sourceTree = "<group>"; };
@@ -576,6 +578,22 @@
 			path = AsyncImage;
 			sourceTree = "<group>";
 		};
+		BFC860332A06B3E400E3A7CF /* v2 */ = {
+			isa = PBXGroup;
+			children = (
+				BFC860342A06B3F600E3A7CF /* Home */,
+			);
+			path = v2;
+			sourceTree = "<group>";
+		};
+		BFC860342A06B3F600E3A7CF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BFC860352A06B41000E3A7CF /* HomeNameplate.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		BFEF2E8C29EDCA0400EFF455 /* chafenqiMini */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,6 +691,7 @@
 		BFF353EA296831EE001392E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BFC860332A06B3E400E3A7CF /* v2 */,
 				BF9C37A029C6E3BF003341C9 /* RatingView */,
 				BF8E053E29A295D000079A06 /* WelcomeView */,
 				BF9CEFB62992BFD800658724 /* UpdaterView */,
@@ -940,6 +959,7 @@
 				BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */,
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
 				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,
+				BFC860362A06B41000E3A7CF /* HomeNameplate.swift in Sources */,
 				BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */,
 				BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */,

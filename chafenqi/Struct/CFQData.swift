@@ -380,6 +380,7 @@ struct CFQData: Codable {
         struct RatingEntry: Codable {
             var idx: String
             var title: String
+            var levelIndex: Int
             var score: Int
             var type: String
             var updatedAt: String
@@ -390,6 +391,7 @@ struct CFQData: Codable {
                 case idx
                 case title
                 case score = "highscore"
+                case levelIndex = "level_index"
                 case type
                 case updatedAt
                 case createdAt
@@ -479,6 +481,116 @@ struct CFQData: Codable {
             }
         }
     }
+}
+
+protocol CFQMaimaiRatingCalculatable {
+    var rating: Int { get }
+    func getRating(constant: Double, achievements: Double) -> Int
+}
+
+extension CFQMaimaiRatingCalculatable {
+    func getRating(constant: Double, achievements: Double) -> Int {
+        let ratingDict = [
+            100.5000...101.0000:22.4,
+            100.0000...100.4999:21.6,
+            99.5000...99.9999:21.1,
+            99.0000...99.4999:20.8,
+            98.0000...98.9999:20.3,
+            97.0000...97.9999:20.0,
+            94.0000...96.9999:16.8,
+            90.0000...93.9999:13.6,
+            80.0000...89.9999:8.0,
+            75.0000...79.9999:7.5
+        ]
+        var factor = 0.0
+        for range in ratingDict.keys {
+            if (range.contains(achievements)) {
+                factor = ratingDict[range]!
+            }
+        }
+        if (factor == 0.0) {
+            factor = (achievements / 10).rounded(.down)
+        }
+        let rating = Int((constant * achievements * factor).rounded(.down))
+        return rating
+    }
+}
+
+extension CFQData.Maimai.BestScoreEntry: CFQMaimaiRatingCalculatable {
+    var rating: Int {
+        getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
+    }
+}
+extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiRatingCalculatable {
+    var levelIndex: Int {
+        switch self.difficulty.lowercased() {
+        case "basic":
+            return 0
+        case "advanced":
+            return 1
+        case "expert":
+            return 2
+        case "master":
+            return 3
+        default:
+            return 4
+        }
+    }
+    
+    var rating: Int {
+        getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
+    }
+}
+
+protocol CFQChunithmRatingCalculatable {
+    var rating: Double {get}
+    func getRating(constant: Double, score: Int) -> Double
+}
+
+extension CFQChunithmRatingCalculatable {
+    func getRating(constant: Double, score: Int) -> Double {
+        var rating: Double {
+            switch (score) {
+            case 975000...999999:
+                return constant + Double(score - 975000) / 2500 * 0.1
+            case 1000000...1004999:
+                return constant + 1.0 + Double(score - 1000000) / 1000 * 0.1
+            case 1005000...1007499:
+                return constant + 1.5 + Double(score - 1005000) / 500 * 0.1
+            case 1007500...1008999:
+                return constant + 2.0 + Double(score - 1007500) / 100 * 0.01
+            case 1009000...1010000:
+                return constant + 2.15
+            default:
+                return 0
+            }
+        }
+        return rating
+    }
+}
+
+extension CFQData.Chunithm.BestScoreEntry: CFQChunithmRatingCalculatable {
+    var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
+}
+extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmRatingCalculatable {
+    var levelIndex: Int {
+        switch self.difficulty.lowercased() {
+        case "basic":
+            return 0
+        case "advanced":
+            return 1
+        case "expert":
+            return 2
+        case "master":
+            return 3
+        default:
+            return 4
+        }
+    }
+    var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
+}
+extension CFQData.Chunithm.RatingEntry: CFQChunithmRatingCalculatable {
+    var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
 
 typealias CFQMaimai = CFQData.Maimai

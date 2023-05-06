@@ -86,13 +86,12 @@ struct LoginView: View {
                                 let token = await login(username: account, password: password)
                                 if (!token.isEmpty) {
                                     // TODO: Navigate to HomeView
-                                    jwtToken = token
+                                    user.jwtToken = token
                                     try await user.load(username: account, forceReload: false)
                                     print("SUCCESS")
                                     withAnimation(defaultAnimation) {
                                         user.didLogin = true
                                     }
-                                    
                                 } else {
                                     alertToast.show = true
                                     state = .loginPending

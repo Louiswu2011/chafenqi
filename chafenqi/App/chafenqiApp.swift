@@ -36,7 +36,25 @@ struct chafenqiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LoginView(user: newUser)
+            if (newUser.didLogin) {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        Text("欢迎回来，\(newUser.username)")
+                        Button {
+                            withAnimation {
+                                newUser.didLogin.toggle()
+                            }
+                            newUser.logout()
+                        } label: {
+                            Text("登出")
+                        }
+                    }
+                    
+                    HomeNameplate(user: newUser)
+                }
+            } else {
+                LoginView(user: newUser)
+            }
 //            MainView(user: user, currentTab: $currentTab)
 //                .onOpenURL { url in
 //                    if let identifier = url.tabIdentifier {
