@@ -27,7 +27,7 @@ struct CFQData: Codable {
                     let searched = songs.first {
                         let titleMatch = $0.title.localizedCaseInsensitiveCompare(entry.title)
                         if titleMatch == .orderedSame {
-                            return $0.type == entry.type // TODO: What about Link(COF)?
+                            return $0.type == entry.type // What about Link(COF)? Distinguish them on server-side
                         }
                         return false
                     }
@@ -54,7 +54,7 @@ struct CFQData: Codable {
                     let searched = songs.first {
                         let titleMatch = $0.title.localizedCaseInsensitiveCompare(entry.title)
                         if titleMatch == .orderedSame {
-                            return $0.type == entry.type // TODO: What about Link(COF)?
+                            return $0.type == entry.type
                         }
                         return false
                     }

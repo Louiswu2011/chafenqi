@@ -167,11 +167,14 @@ class CFQNUser: ObservableObject {
 //        }
 
         self.username = username
-        print(checkAssociated())
+        if (!checkAssociated().isEmpty) {
+            throw CFQNUserError.AssociationError
+        }
     }
 }
 
 enum CFQNUserError: Error {
     case SavingError(cause: String, from: String)
     case LoadingError(cause: String, from: String)
+    case AssociationError
 }
