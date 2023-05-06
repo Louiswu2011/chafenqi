@@ -88,7 +88,7 @@ struct LoginView: View {
                                     // TODO: Navigate to HomeView
                                     user.jwtToken = token
                                     try await user.load(username: account, forceReload: false)
-                                    print("SUCCESS")
+                                    print("[Login] Successfully logged in.")
                                     withAnimation(defaultAnimation) {
                                         user.didLogin = true
                                     }

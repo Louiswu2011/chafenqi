@@ -20,12 +20,12 @@ class CFQNUser: ObservableObject {
     var chunithm = Chunithm()
     var data = CFQPersistentData()
     
-    var username = ""
+    @AppStorage("CFQUsername") var username = ""
     var fishUsername = ""
     
     var isPremium = false
     
-    var currentMode = 0
+    @Published var currentMode = 0
     
     struct Maimai: Codable {
         struct Custom: Codable {
@@ -38,12 +38,12 @@ class CFQNUser: ObservableObject {
             init() {}
             
             init(orig: CFQMaimaiBestScoreEntries) {
-                self.pastSlice = orig.filter { entry in
+                self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
-                }
-                self.currentSlice = orig.filter { entry in
+                }.sorted { $0.rating > $1.rating }.prefix(upTo: 25))
+                self.currentSlice = Array(orig.filter { entry in
                     return entry.associatedSong!.basicInfo.isNew
-                }
+                }.sorted { $0.rating > $1.rating }.prefix(upTo: 15))
                 self.pastRating = self.pastSlice.reduce(0) { orig, next in
                     orig + next.rating
                 }
@@ -188,6 +188,10 @@ class CFQNUser: ObservableObject {
         self.maimai.custom = Maimai.Custom(orig: self.maimai.best)
         self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating)
         print("[CFQNUser] Calculated Custom Values.")
+        
+        self.maimaiCache = try JSONEncoder().encode(self.maimai)
+        self.chunithmCache = try JSONEncoder().encode(self.chunithm)
+        print("[CFQNUser] Saved Data to Cache.")
     }
     
     func checkAssociated() -> [String] {
@@ -226,14 +230,8 @@ class CFQNUser: ObservableObject {
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
 
         try await fetchUserData(token: self.jwtToken)
-//        if (!jwtToken.isEmpty || forceReload = true) {
-//            try await fetchUserData(token: self.jwtToken)
-//        } else {
-//            self.maimai = try JSONDecoder().decode(Maimai.self, from: maimaiCache)
-//            self.chunithm = try JSONDecoder().decode(Chunithm.self, from: chunithmCache)
-//        }
-
         self.username = username
+
         if (!checkAssociated().isEmpty) {
             throw CFQNUserError.AssociationError
         }

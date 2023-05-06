@@ -491,16 +491,13 @@ protocol CFQMaimaiRatingCalculatable {
 extension CFQMaimaiRatingCalculatable {
     func getRating(constant: Double, achievements: Double) -> Int {
         let ratingDict = [
-            100.5000...101.0000:22.4,
-            100.0000...100.4999:21.6,
-            99.5000...99.9999:21.1,
-            99.0000...99.4999:20.8,
-            98.0000...98.9999:20.3,
-            97.0000...97.9999:20.0,
-            94.0000...96.9999:16.8,
-            90.0000...93.9999:13.6,
-            80.0000...89.9999:8.0,
-            75.0000...79.9999:7.5
+            100.5000...101.0000:14,
+            100.0000...100.4999:13.5,
+            99.5000...99.9999:13.2,
+            99.0000...99.4999:13,
+            98.0000...98.9999:12.7,
+            97.0000...97.9999:12.5,
+            94.0000...96.9999:10.5
         ]
         var factor = 0.0
         for range in ratingDict.keys {
@@ -511,7 +508,7 @@ extension CFQMaimaiRatingCalculatable {
         if (factor == 0.0) {
             factor = (achievements / 10).rounded(.down)
         }
-        let rating = Int((constant * achievements * factor).rounded(.down))
+        let rating = Int((constant * min(achievements, 100.5) * factor / 100).rounded(.down))
         return rating
     }
 }
