@@ -118,7 +118,11 @@ struct CFQData: Codable {
             }
         }
         
-        struct RecentScoreEntry: Codable {
+        struct RecentScoreEntry: Codable, Hashable {
+            func hash(into hasher: inout Hasher) {
+                hasher.combine(timestamp)
+            }
+            
             var timestamp: Int
             var title: String
             var difficulty: String
@@ -305,14 +309,20 @@ struct CFQData: Codable {
             }
         }
         
-        struct RecentScoreEntry: Codable {
+        struct RecentScoreEntry: Codable, Hashable {
+            func hash(into hasher: inout Hasher) {
+                hasher.combine(timestamp)
+            }
+            
             var timestamp: Int
             var idx: String
             var title: String
             var difficulty: String
             var score: Int
             var isNewRecord: Int
-            var fc: String = ""
+            var clear: String
+            var fcombo: String
+            var fchain: String
             var rankIndex: Int = -1
             var judges: [String: Int]
             private var judges_critical: Int
@@ -337,7 +347,9 @@ struct CFQData: Codable {
                 self.difficulty = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.difficulty)
                 self.score = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.score)
                 self.isNewRecord = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.isNewRecord)
-                self.fc = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.fc)
+                self.fcombo = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.fcombo)
+                self.fchain = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.fchain)
+                self.clear = try container.decode(String.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.clear)
                 self.rankIndex = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.rankIndex)
                 self.judges_critical = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.judges_critical)
                 self.judges_justice = try container.decode(Int.self, forKey: CFQData.Chunithm.RecentScoreEntry.CodingKeys.judges_justice)
@@ -361,7 +373,9 @@ struct CFQData: Codable {
                 case difficulty
                 case score = "highscore"
                 case isNewRecord
-                case fc
+                case clear
+                case fcombo = "full_combo"
+                case fchain = "full_chain"
                 case rankIndex = "rank_index"
                 case judges_critical
                 case judges_justice
@@ -588,6 +602,30 @@ extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmRatingCalculatable {
 }
 extension CFQData.Chunithm.RatingEntry: CFQChunithmRatingCalculatable {
     var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
+}
+
+extension String {
+    var customDateString: String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions.insert(.withFractionalSeconds)
+        formatter.formatOptions.insert(.withInternetDateTime)
+        var date = formatter.date(from: self)
+        if let date = date {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM-dd hh:mm"
+            return formatter.string(from: date)
+        }
+        return ""
+    }
+}
+
+extension Int {
+    var customDateString: String {
+        let date = Date(timeIntervalSince1970: TimeInterval(self))
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yy-MM-dd hh:mm"
+        return formatter.string(from: date)
+    }
 }
 
 typealias CFQMaimai = CFQData.Maimai

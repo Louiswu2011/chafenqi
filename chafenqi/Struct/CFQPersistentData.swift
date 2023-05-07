@@ -104,11 +104,11 @@ class CFQPersistentData: ObservableObject {
         if (Maimai.hasCache() && Chunithm.hasCache()) {
             try await data.loadFromCache()
             data.shouldReload = false
-            print("Persistent data cache loaded.")
+            print("[CFQPersistentData] Persistent data cache loaded.")
             return data
         } else {
             try await data.update()
-            print("Persistent data downloaded.")
+            print("[CFQPersistentData] Persistent data downloaded.")
             return data
         }
     }
@@ -116,6 +116,7 @@ class CFQPersistentData: ObservableObject {
     static func forceRefresh() async throws -> CFQPersistentData {
         let data = CFQPersistentData()
         try await data.update()
+        print("[CFQPersistentData] Persistent data downloaded.")
         return data
     }
 }

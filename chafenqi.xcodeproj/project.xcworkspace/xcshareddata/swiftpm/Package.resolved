@@ -5,8 +5,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/elai950/AlertToast",
       "state" : {
-        "revision" : "a437862bb6605080a5816e866cbd4ac8c8657b49",
-        "version" : "1.3.8"
+        "revision" : "b39252eacd159904afd7d718bba0afabb87f2f2f",
+        "version" : "1.3.9"
+      }
+    },
+    {
+      "identity" : "chartview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AppPear/ChartView",
+      "state" : {
+        "revision" : "caa75ecbc0d68f2b50d714909566406f80214186",
+        "version" : "2.0.0-beta.2"
       }
     },
     {
@@ -14,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto.git",
       "state" : {
-        "revision" : "6d9c36b4beda0dae88feab6dc36206434bae713c",
-        "version" : "2.4.1"
+        "revision" : "33a20e650c33f6d72d822d558333f2085effa3dc",
+        "version" : "2.5.0"
       }
     },
     {

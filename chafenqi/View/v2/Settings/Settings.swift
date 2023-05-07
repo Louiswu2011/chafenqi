@@ -1,0 +1,193 @@
+//
+//  Settings.swift
+//  chafenqi
+//
+//  Created by 刘易斯 on 2023/5/7.
+//
+
+import SwiftUI
+import AlertToast
+
+struct Settings: View {
+    @AppStorage("firstTimeLaunch") var firstTime = true
+    @AppStorage("shouldForceReload") var shouldForceReload = false
+    @AppStorage("proxyDidInstallProfile") var installed = false
+    
+    @ObservedObject var toastManager = AlertToastManager.shared
+    @ObservedObject var alertToast = AlertToastModel.shared
+    
+    @ObservedObject var user: CFQNUser
+    
+    @State private var showingLoginView = false
+    @State private var showingBuildNumber = false
+    @State private var showingClearAlert = false
+    @State private var showingNewVersionAlert = false
+    @State private var loading = false
+    
+    @State private var versionData = ClientVersionData.empty
+    
+    let iOSVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
+    
+    var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
+    var chunithmChartSourceOptions = [0: "sdvx.in", 1: "NLServer"]
+    var maimaiSourceOptions = [0: "Diving-Fish"]
+    var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
+    var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+    
+    var body: some View {
+        Form {
+            Section {
+                UserInfoWithAvatarView(user: user)
+                Button {
+                    let logoutAlert = Alert(title: Text("确定要登出吗？"), primaryButton: .cancel(Text("取消")), secondaryButton: .default(Text("登出"), action: {
+                        user.logout()
+                    }))
+                    alertToast.alert = logoutAlert
+                } label: {
+                    Text("登出...")
+                }
+                .foregroundColor(.red)
+            }
+            
+//            Section {
+//                SettingsInfoLabelView(title: "当前数据来源", message: "")
+//            } header: {
+//                Text("常规")
+//            }
+            
+            Section {
+                Toggle(isOn: $user.shouldForwardToFish.animation()) {
+                    Text("上传到水鱼网")
+                }
+                if (user.shouldForwardToFish) {
+                    SettingsInfoLabelView(title: "Token", message: "fishToken")
+                    Button {
+                        // TODO: Add sheet for fish login
+                    } label: {
+                        Text("更新水鱼Token...")
+                    }
+                }
+            } header: {
+                Text("传分")
+            }
+            
+            Section {
+                SettingsInfoLabelView(title: "Token", message: "serverToken")
+                Button {
+                    
+                } label: {
+                    Text("重置教程")
+                }
+                .foregroundColor(.red)
+                Button {
+                    let refreshAlert = Alert(title: Text("确定要刷新吗？"), message: Text("将登出帐号，重新登录即可刷新歌曲列表。该操作耗时较长，请耐心等候。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("刷新"), action: {
+                        shouldForceReload = true
+                        user.logout()
+                    }))
+                    alertToast.alert = refreshAlert
+                } label: {
+                    Text("刷新歌曲列表...")
+                }
+                .foregroundColor(.red)
+                Button {
+                    let eraseAlert = Alert(title: Text("确定要清空吗？"), message: Text("将登出并清空所有游戏数据，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
+                        user.logout()
+                        // TODO: Add erase function
+                    }))
+                    alertToast.alert = eraseAlert
+                } label: {
+                    Text("清空游戏数据...")
+                }
+                .foregroundColor(.red)
+            } header: {
+                Text("高级")
+            }
+            
+            Section {
+                NavigationLink {
+                    
+                } label: {
+                    Text("鸣谢")
+                }
+                SettingsInfoLabelView(title: "版本", message: "\(bundleVersion) Build \(bundleBuildNumber)")
+                Button {
+                    
+                } label: {
+                    Text("检查新版本...")
+                }
+                Button {
+                    
+                } label: {
+                    Text("加入QQ讨论群...")
+                }
+            } header: {
+                Text("关于")
+            }
+        }
+        .toast(isPresenting: $alertToast.show) {
+            alertToast.toast
+        }
+        .alert(isPresented: $alertToast.alertShow) {
+            alertToast.alert
+        }
+    }
+}
+
+struct SettingsInfoLabelView: View {
+    @State var title: String
+    @State var message: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(message)
+                .foregroundColor(.gray)
+        }
+    }
+}
+
+struct UserInfoWithAvatarView: View {
+    @ObservedObject var user: CFQNUser
+    
+    var body: some View {
+        HStack {
+            Image("Icon")
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
+                .frame(width: 55)
+                .mask(Circle())
+                .overlay(Circle().stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 2))
+                .padding(5)
+            VStack(alignment: .leading) {
+                Text(user.username)
+                    .bold()
+                    .font(.system(size: 20))
+                Text("📮")
+            }
+            Spacer()
+            if (user.isPremium) {
+                ZStack {
+                    HStack {
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fit)
+                            .foregroundColor(.red)
+                            .padding(.vertical, 3)
+                        Text("Sponsor")
+                            .font(.system(size: 14))
+                            .bold()
+                    }
+                }
+                .frame(width: 80, height: 20)
+            }
+        }
+    }
+}
+
+struct Settings_Previews: PreviewProvider {
+    static var previews: some View {
+        Settings(user: CFQNUser())
+    }
+}

@@ -34,27 +34,12 @@ struct chafenqiApp: App {
     
     @Environment(\.scenePhase) var scenePhase
     
+    let cacheController = CacheController.shared
+    
     var body: some Scene {
         WindowGroup {
-            if (newUser.didLogin) {
-                ScrollView {
-                    VStack(spacing: 20) {
-                        Text("欢迎回来，\(newUser.username)")
-                        Button {
-                            withAnimation {
-                                newUser.didLogin.toggle()
-                            }
-                            newUser.logout()
-                        } label: {
-                            Text("登出")
-                        }
-                    }
-                    
-                    HomeNameplate(user: newUser)
-                }
-            } else {
-                LoginView(user: newUser)
-            }
+            RootView(user: newUser)
+                .environment(\.managedObjectContext, cacheController.container.viewContext)
 //            MainView(user: user, currentTab: $currentTab)
 //                .onOpenURL { url in
 //                    if let identifier = url.tabIdentifier {
@@ -130,7 +115,7 @@ struct chafenqiApp: App {
 }
 
 enum TabIdentifier: Hashable {
-    case home, recent, list, tool
+    case home, recent, list, tool, upload
 }
 
 enum UrlAction: Hashable {
@@ -159,6 +144,7 @@ extension URL {
         case "recent": return .recent
         case "list": return .list
         case "tool": return .tool
+        case "upload": return .upload
         default: return nil
         }
     }

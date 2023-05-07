@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import AlertToast
 
 class AlertToastModel: ObservableObject {
@@ -14,6 +15,13 @@ class AlertToastModel: ObservableObject {
     @Published var toast = AlertToast(displayMode: .hud, type: .error(.red), title: ""){
         didSet {
             show.toggle()
+        }
+    }
+    
+    @Published var alertShow = false
+    @Published var alert = Alert(title: Text("")) {
+        didSet {
+            alertShow.toggle()
         }
     }
     

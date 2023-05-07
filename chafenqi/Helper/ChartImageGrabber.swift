@@ -6,10 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
+import CoreData
 import UIKit
 
 struct ChartImageGrabber {
     static func downloadChartImage(identifier: String, diff: String, mode: Int) async throws -> UIImage {
+        @Environment(\.managedObjectContext) var context
+        
         let barURL: URL?
         let bgURL: URL?
         let chartURL: URL?
@@ -23,6 +27,14 @@ struct ChartImageGrabber {
             barURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=bar")
             bgURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=bg")
             chartURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=\(diff)")
+        }
+        
+        let fetchRequest = ChartCache.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", chartURL?.absoluteString ?? "ongeki wen?")
+        let matches = try? context.fetch(fetchRequest)
+        if let match = matches?.first?.image {
+            print("[ChartImageGrabber] Read from cache.")
+            return UIImage(data: match)!
         }
         
         do {
@@ -51,5 +63,18 @@ struct ChartImageGrabber {
         let (data, _) = try await URLSession.shared.data(for: request)
         
         return UIImage(data: data)!
+    }
+    
+    private static func saveToCache(_ image: UIImage, chartUrl: String) {
+        @Environment(\.managedObjectContext) var context
+        do {
+            let chartCache = ChartCache(context: context)
+            chartCache.image = image.pngData()!
+            chartCache.imageUrl = chartUrl
+            try context.save()
+            print("[ChartImageGrabber] Saved \(chartUrl) to cache.")
+        } catch {
+            print("[ChartImageGrabber] Failed to save cache: \(error.localizedDescription)")
+        }
     }
 }

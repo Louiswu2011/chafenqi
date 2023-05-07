@@ -77,7 +77,6 @@ struct HomeNameplate: View {
                             Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
                                     user.currentMode = 1 - user.currentMode
-                                    print("current mode: \(user.currentMode)")
                                 }
                             } label: {
                                 HStack {
@@ -97,7 +96,7 @@ struct HomeNameplate: View {
                                         Text("\(user.chunithm.info.rating, specifier: "%.2f") (\(user.chunithm.custom.maxRating, specifier: "%.2f"))")
                                             .bold()
                                     } else {
-                                        Text(verbatim: "\(user.maimai.info.rating)")
+                                        Text(verbatim: "\(user.maimai.custom.rawRating)")
                                             .bold()
                                     }
                                 }
@@ -136,11 +135,10 @@ struct HomeNameplate: View {
                                         Text("\(user.chunithm.info.overpower_raw, specifier: "%.2f")")
                                             .bold()
                                     } else {
-                                        // TODO: Add back national ranking?
-//                                        Text("排名")
-//
-//                                        Text("#\(user.maimai?.custom.nationalRanking ?? 0)")
-//                                            .bold()
+                                        Text("游玩次数")
+
+                                        Text("\(user.maimai.info.playCount)")
+                                            .bold()
                                     }
                                 }
                                 
@@ -149,10 +147,10 @@ struct HomeNameplate: View {
                                 HStack {
                                     if (user.currentMode == 0) {
                                         Text("更新于")
-                                        Text("\(user.chunithm.info.updatedAt)")
+                                        Text("\(user.chunithm.info.updatedAt.customDateString)")
                                     } else {
                                         Text("更新于")
-                                        Text("\(user.maimai.info.updatedAt)")
+                                        Text("\(user.maimai.info.updatedAt.customDateString)")
                                     }
                                 }
                             }

@@ -17,6 +17,7 @@ enum LoginState {
 
 struct LoginView: View {
     @AppStorage("JWT") var jwtToken = ""
+    @AppStorage("shouldForceReload") var shouldForceReload = false
     @ObservedObject var alertToast = AlertToastModel.shared
     @ObservedObject var user: CFQNUser
     
@@ -87,7 +88,9 @@ struct LoginView: View {
                                 if (!token.isEmpty) {
                                     // TODO: Navigate to HomeView
                                     user.jwtToken = token
-                                    try await user.load(username: account, forceReload: false)
+                                    print("[Login] Should force reload? \(shouldForceReload)")
+                                    try await user.load(username: account, forceReload: shouldForceReload)
+                                    shouldForceReload = false
                                     print("[Login] Successfully logged in.")
                                     withAnimation(defaultAnimation) {
                                         user.didLogin = true
@@ -179,6 +182,7 @@ struct LoginView: View {
         .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
         }
+        
     }
     
     func login(username: String, password: String) async -> String {

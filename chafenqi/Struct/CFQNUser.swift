@@ -15,6 +15,11 @@ class CFQNUser: ObservableObject {
     @AppStorage("Fish") var fishToken = ""
     @AppStorage("MaimaiCache") var maimaiCache = Data()
     @AppStorage("ChunithmCache") var chunithmCache = Data()
+    @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
+    @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
+    @AppStorage("settingsChunithmChartSource") var chunithmChartSource = 1
+    @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
+    @AppStorage("settingsShouldForwardToFish") var shouldForwardToFish = true
     
     var maimai = Maimai()
     var chunithm = Chunithm()
@@ -35,9 +40,11 @@ class CFQNUser: ObservableObject {
             var currentRating = 0
             var rawRating = 0
             
+            var recommended: [CFQMaimai.RecentScoreEntry: String] = [:]
+            
             init() {}
             
-            init(orig: CFQMaimaiBestScoreEntries) {
+            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries) {
                 self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
                 }.sorted { $0.rating > $1.rating }.prefix(upTo: 25))
@@ -51,6 +58,40 @@ class CFQNUser: ObservableObject {
                     orig + next.rating
                 }
                 self.rawRating = self.pastRating + self.currentRating
+                
+                var r = recent
+                if let max = (r.filter {
+                    $0.fc == "applus"
+                }.first) {
+                    recommended[max] = "MAX"
+                    r.removeAll { $0.timestamp == max.timestamp }
+                }
+                
+                if let ap = (r.filter {
+                    $0.fc == "ap"
+                }.first) {
+                    recommended[ap] = "AP"
+                    r.removeAll { $0.timestamp == ap.timestamp }
+                }
+                if let fc = (r.filter {
+                    $0.fc.hasPrefix("fc") || $0.fs.hasPrefix("fs")
+                }.first) {
+                    recommended[fc] = "FC"
+                    r.removeAll { $0.timestamp == fc.timestamp }
+                }
+                let hs = r.sorted {
+                    $0.score > $1.score
+                }.first!
+                recommended[hs] = "HS"
+                let ro = r.sorted {
+                    $0.timestamp > $1.timestamp
+                }.first!
+                recommended[ro] = "RO"
+                if let nr = (r.filter {
+                    $0.isNewRecord == 1
+                }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
+                
+                print("[CFQNUser] Loaded maimai Custom Data.")
             }
         }
         
@@ -73,14 +114,14 @@ class CFQNUser: ObservableObject {
                 self.recent = try await recent
                 isNotEmpty = true
             } catch {
-                print("No maimai data from server")
+                print("[CFQNUser] No maimai data from server.")
                 print(String(describing: error))
             }
             do {
                 self.delta = try await server.fetchDeltaEntries()
             } catch CFQServerError.UserNotPremiumError {
                 self.delta = []
-                print("User is not premium, skipping")
+                print("[CFQNUser] User is not premium, skipping maimai deltas.")
             }
         }
         
@@ -96,8 +137,10 @@ class CFQNUser: ObservableObject {
             var r10: Double = 0.0
             var maxRating: Double = 0.0
             
+            var recommended: [CFQChunithm.RecentScoreEntry: String] = [:]
+            
             init() {}
-            init(orig: CFQChunithmRatingEntries) {
+            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries) {
                 self.b30Slice = orig.filter {
                     $0.type == "best"
                 }
@@ -118,6 +161,39 @@ class CFQNUser: ObservableObject {
                     $0.rating > $1.rating
                 }.first!
                 self.maxRating = ((self.b30 * 30.0 + r1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
+                
+                var r = recent
+                if let max = (r.filter {
+                    $0.score == 1010000
+                }.first) {
+                    recommended[max] = "MAX"
+                    r.removeAll { $0.timestamp == max.timestamp }
+                }
+                
+                if let ap = (r.filter {
+                    $0.fcombo == "alljustice"
+                }.first) {
+                    recommended[ap] = "AP"
+                    r.removeAll { $0.timestamp == ap.timestamp }
+                }
+                if let fc = (r.filter {
+                    $0.fcombo.contains("fullcombo") || $0.fchain.contains("fullchain")
+                }.first) {
+                    recommended[fc] = "FC"
+                    r.removeAll { $0.timestamp == fc.timestamp }
+                }
+                let hs = r.sorted {
+                    $0.score > $1.score
+                }.first!
+                recommended[hs] = "HS"
+                let ro = r.sorted {
+                    $0.timestamp > $1.timestamp
+                }.first!
+                recommended[ro] = "RO"
+                if let nr = (r.filter {
+                    $0.isNewRecord == 1
+                }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
+                print("[CFQNUser] Loaded chunithm Custom Data.")
             }
         }
         
@@ -144,7 +220,7 @@ class CFQNUser: ObservableObject {
                 self.rating = try await rating
                 isNotEmpty = true
             } catch {
-                print("No chunithm game data from server")
+                print("[CFQNUser] No chunithm game data from server.")
                 print(String(describing: error))
             }
             do {
@@ -154,7 +230,7 @@ class CFQNUser: ObservableObject {
                 self.delta = try await delta
                 self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
-                print("User is not premium, skipping")
+                print("[CFQNUser] User is not premium, skipping chunithm extras.")
             }
         }
         
@@ -185,8 +261,8 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Assigned Associated Song Data.")
         
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best)
-        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating)
+        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
+        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
         print("[CFQNUser] Calculated Custom Values.")
         
         self.maimaiCache = try JSONEncoder().encode(self.maimai)
@@ -245,6 +321,9 @@ class CFQNUser: ObservableObject {
         self.username = ""
         self.fishUsername = ""
         self.isPremium = false
+        withAnimation {
+            self.didLogin.toggle()
+        }
     }
 }
 
@@ -267,4 +346,20 @@ extension CFQNUserError: CustomStringConvertible {
     }
 }
 
+let recommendWeights = [
+    "MAX": 20, // AP+ / AJC
+    "AP": 10,
+    "FC": 9, // FC/FS/FC+/FS+/FDX
+    "HS": 7, // Highscore
+    "NR": 8, // New Record
+    "RO": 5  // Recent
+]
 
+let recommendPrompts = [
+    "MAX": "理论值",
+    "AP": "AP",
+    "FC": "FC",
+    "HS": "高分",
+    "NR": "新纪录",
+    "RO": "最近一首"
+]
