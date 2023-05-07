@@ -40,7 +40,7 @@ class ImageLoader: ObservableObject {
         if let match = matches?.first?.image {
             let img = UIImage(data: match)
             self.image = img
-            print("[ImageLoader] Read from cache.")
+            // print("[ImageLoader] Read from cache.")
             return
         }
         

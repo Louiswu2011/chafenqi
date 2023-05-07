@@ -36,6 +36,9 @@ class CacheController: ObservableObject {
         }
         let bcf = ByteCountFormatter()
         bcf.countStyle = .file
+        if (byteSize == 0) {
+            return "0 KB"
+        }
         return bcf.string(fromByteCount: Int64(byteSize))
     }
     

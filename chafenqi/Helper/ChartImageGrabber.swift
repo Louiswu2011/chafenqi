@@ -33,7 +33,7 @@ struct ChartImageGrabber {
         fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", chartURL?.absoluteString ?? "ongeki wen?")
         let matches = try? context.fetch(fetchRequest)
         if let match = matches?.first?.image {
-            print("[ChartImageGrabber] Read from cache.")
+            // print("[ChartImageGrabber] Read from cache.")
             return UIImage(data: match)!
         }
         
@@ -51,6 +51,8 @@ struct ChartImageGrabber {
 
             let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
+            
+            saveToCache(mergedImage, chartUrl: chartURL?.absoluteString ?? "ongeki wen?")
             
             return mergedImage
         } catch {

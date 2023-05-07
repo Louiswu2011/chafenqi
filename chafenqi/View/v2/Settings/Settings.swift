@@ -76,6 +76,27 @@ struct Settings: View {
             }
             
             Section {
+                NavigationLink {
+                    
+                } label: {
+                    Text("鸣谢")
+                }
+                SettingsInfoLabelView(title: "版本", message: "\(bundleVersion) Build \(bundleBuildNumber)")
+                Button {
+                    
+                } label: {
+                    Text("检查新版本...")
+                }
+                Button {
+                    
+                } label: {
+                    Text("加入QQ讨论群...")
+                }
+            } header: {
+                Text("关于")
+            }
+            
+            Section {
                 SettingsInfoLabelView(title: "Token", message: "serverToken")
                 HStack {
                     Text("缓存大小")
@@ -96,7 +117,7 @@ struct Settings: View {
                     }))
                     alertToast.alert = purgeCacheAlert
                 } label: {
-                    Text("清空缓存")
+                    Text("清空缓存...")
                 }
                 .foregroundColor(.red)
                 Button {
@@ -121,27 +142,6 @@ struct Settings: View {
                 .foregroundColor(.red)
             } header: {
                 Text("高级")
-            }
-            
-            Section {
-                NavigationLink {
-                    
-                } label: {
-                    Text("鸣谢")
-                }
-                SettingsInfoLabelView(title: "版本", message: "\(bundleVersion) Build \(bundleBuildNumber)")
-                Button {
-                    
-                } label: {
-                    Text("检查新版本...")
-                }
-                Button {
-                    
-                } label: {
-                    Text("加入QQ讨论群...")
-                }
-            } header: {
-                Text("关于")
             }
         }
         .toast(isPresenting: $alertToast.show) {
