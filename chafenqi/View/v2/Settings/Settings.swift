@@ -15,6 +15,7 @@ struct Settings: View {
     
     @ObservedObject var toastManager = AlertToastManager.shared
     @ObservedObject var alertToast = AlertToastModel.shared
+    @ObservedObject var cacheController = CacheController.shared
     
     @ObservedObject var user: CFQNUser
     
@@ -34,6 +35,8 @@ struct Settings: View {
     var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+    
+    @State var cacheSize = ""
     
     var body: some View {
         Form {
@@ -74,10 +77,26 @@ struct Settings: View {
             
             Section {
                 SettingsInfoLabelView(title: "Token", message: "serverToken")
+                HStack {
+                    Text("缓存大小")
+                    Spacer()
+                    Text(cacheSize)
+                        .foregroundColor(.gray)
+                }
                 Button {
                     
                 } label: {
                     Text("重置教程")
+                }
+                .foregroundColor(.red)
+                Button {
+                    let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
+                        cacheController.clearCache()
+                        cacheSize = cacheController.getCacheSize()
+                    }))
+                    alertToast.alert = purgeCacheAlert
+                } label: {
+                    Text("清空缓存")
                 }
                 .foregroundColor(.red)
                 Button {
@@ -130,6 +149,9 @@ struct Settings: View {
         }
         .alert(isPresented: $alertToast.alertShow) {
             alertToast.alert
+        }
+        .onAppear {
+            cacheSize = cacheController.getCacheSize()
         }
     }
 }
