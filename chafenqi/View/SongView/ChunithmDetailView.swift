@@ -13,6 +13,7 @@ struct ChunithmDetailView: View {
     
     @ObservedObject var user: CFQUser
     
+    @Environment(\.managedObjectContext) var context
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.openURL) var openURL
     
@@ -42,7 +43,7 @@ struct ChunithmDetailView: View {
     var song: ChunithmSongData
     
     func reloadChartImage(identifier: String, diff: String) async throws {
-        chartImage = try await ChartImageGrabber.downloadChartImage(identifier: identifier, diff: difficulty[diff]!, mode: user.chunithmChartSource)
+        chartImage = try await ChartImageGrabber.downloadChartImage(identifier: identifier, diff: difficulty[diff]!, mode: user.chunithmChartSource, context: context)
         chartImageView = Image(uiImage: chartImage)
     }
     
@@ -201,7 +202,7 @@ struct ChunithmDetailView: View {
                                 let map = try JSONDecoder().decode(Dictionary<String, String>.self, from: user.data.chunithm.mapData)
                                 webChartId = try ChartIdConverter.getWebChartId(musicId: song.musicId, map: map)
                                 let identifier = user.chunithmChartSource == 0 ? webChartId : song.title
-                                chartImage = try await ChartImageGrabber.downloadChartImage(identifier: identifier, diff: difficulty[selectedDifficulty]!, mode: user.chunithmChartSource)
+                                chartImage = try await ChartImageGrabber.downloadChartImage(identifier: identifier, diff: difficulty[selectedDifficulty]!, mode: user.chunithmChartSource, context: context)
                                 chartImageView = Image(uiImage: chartImage)
                                 if(song.level.contains("master")) {
                                     availableDiffs.append("Master")

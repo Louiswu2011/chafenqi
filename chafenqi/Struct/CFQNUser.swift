@@ -268,6 +268,14 @@ class CFQNUser: ObservableObject {
         self.maimaiCache = try JSONEncoder().encode(self.maimai)
         self.chunithmCache = try JSONEncoder().encode(self.chunithm)
         print("[CFQNUser] Saved Data to Cache.")
+        
+        do {
+            self.fishToken = try await CFQFishServer.fetchToken(authToken: token)
+            print("[CFQNUser] Fetched Fish Token.")
+        } catch CFQServerError.EntryNotFoundError {
+            self.fishToken = ""
+            print("[CFQNUser] No Fish Token Found.")
+        }
     }
     
     func checkAssociated() -> [String] {

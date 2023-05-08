@@ -11,9 +11,7 @@ import CoreData
 import UIKit
 
 struct ChartImageGrabber {
-    static func downloadChartImage(identifier: String, diff: String, mode: Int) async throws -> UIImage {
-        @Environment(\.managedObjectContext) var context
-        
+    static func downloadChartImage(identifier: String, diff: String, mode: Int, context: NSManagedObjectContext) async throws -> UIImage {
         let barURL: URL?
         let bgURL: URL?
         let chartURL: URL?
@@ -52,7 +50,7 @@ struct ChartImageGrabber {
             let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
             
-            saveToCache(mergedImage, chartUrl: chartURL?.absoluteString ?? "ongeki wen?")
+            saveToCache(mergedImage, chartUrl: chartURL?.absoluteString ?? "ongeki wen?", context: context)
             
             return mergedImage
         } catch {
@@ -67,8 +65,7 @@ struct ChartImageGrabber {
         return UIImage(data: data)!
     }
     
-    private static func saveToCache(_ image: UIImage, chartUrl: String) {
-        @Environment(\.managedObjectContext) var context
+    private static func saveToCache(_ image: UIImage, chartUrl: String, context: NSManagedObjectContext) {
         do {
             let chartCache = ChartCache(context: context)
             chartCache.image = image.pngData()!

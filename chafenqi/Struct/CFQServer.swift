@@ -35,6 +35,12 @@ struct CFQServer {
             let payload = try JSONSerialization.data(withJSONObject: ["token": fishToken])
             let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "fish/upload_token", payload: payload, token: authToken)
         }
+        
+        static func fetchToken(authToken: String) async throws -> String {
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "fish/fetch_token", token: authToken)
+            let token = String(decoding: data, as: UTF8.self)
+            return token
+        }
     }
     
     struct Maimai {

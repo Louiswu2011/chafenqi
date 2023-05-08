@@ -12,6 +12,8 @@ struct SongItemView: View {
     
     @ObservedObject var user: CFQNUser
     
+    @State var finishedLoading = false
+    
     @State var maiSong: MaimaiSongData?
     @State var chuSong: ChunithmSongData?
     
@@ -22,36 +24,52 @@ struct SongItemView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
-                .overlay(RoundedRectangle(cornerRadius: 10)
-                    .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
-            VStack(alignment: .leading) {
-                Text(title)
-                    .font(.system(size: 20))
-                    .bold()
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text(artist)
-                    .font(.system(size: 15))
-                    .lineLimit(1)
-                Spacer()
-                strip
+            if (finishedLoading) {
+                NavigationLink {
+                    if let song = chuSong {
+                        SongDetailView(user: user, chuSong: song)
+                    }
+                } label: {
+                    HStack {
+                        SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
+                            .overlay(RoundedRectangle(cornerRadius: 10)
+                                .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
+                        VStack(alignment: .leading) {
+                            Text(title)
+                                .font(.system(size: 20))
+                                .bold()
+                                .lineLimit(1)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text(artist)
+                                .font(.system(size: 15))
+                                .lineLimit(1)
+                            Spacer()
+                            strip
+                        }
+                    }
+                }
             }
         }
         .onAppear {
-            if let song = maiSong {
-                requestURL = MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: song.musicId))
-                title = song.title
-                artist = song.basicInfo.artist
-                strip = LevelStripView(mode: 1, levels: song.level)
-            } else if let song = chuSong {
-                requestURL = ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicId))
-                title = song.title
-                artist = song.basicInfo.artist
-                strip = LevelStripView(mode: 0, levels: song.level)
-            }
+            finishedLoading = false
+            loadVar()
+            finishedLoading = true
         }
         .navigationTitle("歌曲列表")
+    }
+    
+    func loadVar() {
+        if let song = maiSong {
+            requestURL = MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: song.musicId))
+            title = song.title
+            artist = song.basicInfo.artist
+            strip = LevelStripView(mode: 1, levels: song.level)
+        } else if let song = chuSong {
+            requestURL = ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicId))
+            title = song.title
+            artist = song.basicInfo.artist
+            strip = LevelStripView(mode: 0, levels: song.level)
+        }
     }
 }
 

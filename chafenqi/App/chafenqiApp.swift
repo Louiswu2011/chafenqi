@@ -40,46 +40,45 @@ struct chafenqiApp: App {
         WindowGroup {
             RootView(user: newUser)
                 .environment(\.managedObjectContext, cacheController.container.viewContext)
-//            MainView(user: user, currentTab: $currentTab)
-//                .onOpenURL { url in
-//                    if let identifier = url.tabIdentifier {
-//                        currentTab = identifier
-//                    }
-//                }
-//                .onContinueUserActivity("StartProxyIntent", perform: { activity in
-//                    print("Starting proxy in main app")
-//                    guard let manager = loadProxyManager() else {
-//                        return
-//                    }
-//                    manager.loadFromPreferences { _ in
-//                        manager.isEnabled = true
-//                        manager.saveToPreferences { _ in
-//                            do {
-//                                try manager.connection.startVPNTunnel()
-//                            } catch {
-//                                print("Failed to start proxy.")
-//                                print(error)
-//                            }
-//                        }
-//                    }
-//                })
-//                .onContinueUserActivity("StopProxyIntent", perform: { activity in
-//                    print("Stopping proxy in main app")
-//                    guard let manager = loadProxyManager() else {
-//                        return
-//                    }
-//                    manager.connection.stopVPNTunnel()
-//                    // Prepare for refresh action
-//                    currentTab = .home
-//                })
-//                .onChange(of: scenePhase, perform: { newValue in
-//                    switch newValue {
-//                    case .active:
-//                        performActionIfNeeded()
-//                    default:
-//                        break
-//                    }
-//                })
+                .onOpenURL { url in
+                    if let identifier = url.tabIdentifier {
+                        currentTab = identifier
+                    }
+                }
+                .onContinueUserActivity("StartProxyIntent", perform: { activity in
+                    print("Starting proxy in main app")
+                    guard let manager = loadProxyManager() else {
+                        return
+                    }
+                    manager.loadFromPreferences { _ in
+                        manager.isEnabled = true
+                        manager.saveToPreferences { _ in
+                            do {
+                                try manager.connection.startVPNTunnel()
+                            } catch {
+                                print("Failed to start proxy.")
+                                print(error)
+                            }
+                        }
+                    }
+                })
+                .onContinueUserActivity("StopProxyIntent", perform: { activity in
+                    print("Stopping proxy in main app")
+                    guard let manager = loadProxyManager() else {
+                        return
+                    }
+                    manager.connection.stopVPNTunnel()
+                    // Prepare for refresh action
+                    currentTab = .home
+                })
+                .onChange(of: scenePhase, perform: { newValue in
+                    switch newValue {
+                    case .active:
+                        performActionIfNeeded()
+                    default:
+                        break
+                    }
+                })
         }
     }
     

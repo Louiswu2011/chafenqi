@@ -31,6 +31,7 @@
 		BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F2E29B642F4005D1C67 /* RegexManager.swift */; };
 		BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F3229B64DA2005D1C67 /* FilterExtension.swift */; };
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
+		BF426D302A08DE5400606799 /* SongDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF426D2F2A08DE5400606799 /* SongDetailView.swift */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF533C9829BF093C003409AB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9729BF093C003409AB /* Comment.swift */; };
@@ -200,6 +201,7 @@
 		BF3C3EA629997385001959E5 /* AlertToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastManager.swift; sourceTree = "<group>"; };
 		BF403F2E29B642F4005D1C67 /* RegexManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexManager.swift; sourceTree = "<group>"; };
 		BF403F3229B64DA2005D1C67 /* FilterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
+		BF426D2F2A08DE5400606799 /* SongDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDetailView.swift; sourceTree = "<group>"; };
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
 		BF533C9729BF093C003409AB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -633,6 +635,7 @@
 			children = (
 				BFFEEB182A081F5C001B15B7 /* SongTopView.swift */,
 				BFFEEB1A2A081FCA001B15B7 /* SongItemView.swift */,
+				BF426D2F2A08DE5400606799 /* SongDetailView.swift */,
 			);
 			path = Song;
 			sourceTree = "<group>";
@@ -1026,6 +1029,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFE0759D2A0781E9005248A6 /* HomeView.swift in Sources */,
+				BF426D302A08DE5400606799 /* SongDetailView.swift in Sources */,
 				BFCA383229770851008E30F1 /* CFQError.swift in Sources */,
 				BF8E053D29A293B800079A06 /* WelcomeTabView.swift in Sources */,
 				BFBDF70D29A1FA1800B99C79 /* UpdaterHelpView.swift in Sources */,

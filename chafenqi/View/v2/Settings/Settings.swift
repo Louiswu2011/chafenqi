@@ -63,8 +63,10 @@ struct Settings: View {
                 Toggle(isOn: $user.shouldForwardToFish.animation()) {
                     Text("上传到水鱼网")
                 }
+                .disabled(user.fishToken.isEmpty)
                 if (user.shouldForwardToFish) {
-                    SettingsInfoLabelView(title: "Token", message: "fishToken")
+                    SettingsInfoLabelView(title: "Token", message: user.fishToken)
+                        .lineLimit(1)
                     Button {
                         // TODO: Add sheet for fish login
                     } label: {
@@ -77,39 +79,46 @@ struct Settings: View {
             
             Section {
                 NavigationLink {
-                    
+                    SponsorView()
                 } label: {
                     Text("鸣谢")
                 }
                 SettingsInfoLabelView(title: "版本", message: "\(bundleVersion) Build \(bundleBuildNumber)")
                 Button {
-                    
+                    if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) {
+                        let updateAlert = Alert(
+                            title: Text("发现新版本"),
+                            message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
+                            primaryButton: .default(Text("前往Testflight")) {
+                                UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
+                            },
+                            secondaryButton: .cancel(Text("取消")))
+                        alertToast.alert = updateAlert
+                    }
                 } label: {
                     Text("检查新版本...")
                 }
-                Button {
-                    
-                } label: {
-                    Text("加入QQ讨论群...")
-                }
+                Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
             } header: {
                 Text("关于")
             }
             
             Section {
-                SettingsInfoLabelView(title: "Token", message: "serverToken")
-                HStack {
-                    Text("缓存大小")
-                    Spacer()
-                    Text(cacheSize)
-                        .foregroundColor(.gray)
-                }
+                SettingsInfoLabelView(title: "Token", message: user.jwtToken)
+                    .lineLimit(1)
+                SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
                 Button {
-                    
+                    firstTime = true
+                    toastManager.showingTutorialReseted = true
                 } label: {
-                    Text("重置教程")
+                    if (!firstTime) {
+                        Text("重置教程")
+                    } else {
+                        Text("教程已重置")
+                    }
                 }
-                .foregroundColor(.red)
+                .disabled(firstTime)
+                .foregroundColor(firstTime ? .gray : .red)
                 Button {
                     let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
                         cacheController.clearCache()
@@ -151,7 +160,19 @@ struct Settings: View {
             alertToast.alert
         }
         .onAppear {
+            if (user.fishToken.isEmpty) {
+                user.shouldForwardToFish = false
+            }
             cacheSize = cacheController.getCacheSize()
+            Task {
+                do {
+                    let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
+                    let (data, _) = try await URLSession.shared.data(for: versionRequest)
+                    versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
+                } catch {
+                    versionData = .empty
+                }
+            }
         }
     }
 }
