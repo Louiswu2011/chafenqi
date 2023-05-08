@@ -160,7 +160,7 @@ struct SongDetailView: View {
                             Image(systemName: "arrowshape.turn.up.right")
                             Text("在Bilibili搜索谱面确认")
                         }
-                        .padding(.bottom)
+                        .padding(5)
                         .alert("选择难度", isPresented: $showingDiffSelection) {
                             ForEach(Array(level.enumerated()), id: \.offset) { index, level in
                                 Button {
@@ -179,7 +179,7 @@ struct SongDetailView: View {
                             Image(systemName: "arrowshape.turn.up.right")
                             Text("在Bilibili搜索谱面确认")
                         }
-                        .padding(.bottom)
+                        .padding(5)
                         .sheet(isPresented: $showingDiffSelectioniOS14) {
                             CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: level, diffs: diffArray))
                         }
@@ -195,12 +195,14 @@ struct SongDetailView: View {
                     
                     VStack(spacing: 5) {
                         if let song = maiSong {
-                            ForEach(maiScores, id: \.levelIndex) { entry in
-                                ScoreCardView(levelIndex: entry.levelIndex, maiSong: song, maiEntry: entry)
+                            ForEach(Array(song.level.enumerated()), id: \.offset) { index, _ in
+                                let entry = maiScores.filter { $0.levelIndex == index }.first
+                                ScoreCardView(levelIndex: index, maiSong: song, maiEntry: entry)
                             }
                         } else if let song = chuSong {
-                            ForEach(chuScores, id: \.levelIndex) { entry in
-                                ScoreCardView(levelIndex: entry.levelIndex, chuSong: song, chuEntry: entry)
+                            ForEach(Array(song.level.enumerated()), id: \.offset) { index, _ in
+                                let entry = chuScores.filter { $0.levelIndex == index }.first
+                                ScoreCardView(levelIndex: index, chuSong: song, chuEntry: entry)
                             }
                         }
                     }

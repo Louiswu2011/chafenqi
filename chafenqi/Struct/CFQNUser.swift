@@ -20,6 +20,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsChunithmChartSource") var chunithmChartSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsShouldForwardToFish") var shouldForwardToFish = true
+    @AppStorage("settingsCurrentMode") var currentMode = 0
     
     var maimai = Maimai()
     var chunithm = Chunithm()
@@ -29,9 +30,7 @@ class CFQNUser: ObservableObject {
     var fishUsername = ""
     
     var isPremium = false
-    
-    @Published var currentMode = 0
-    
+
     struct Maimai: Codable {
         struct Custom: Codable {
             var pastSlice: CFQMaimaiBestScoreEntries = []
@@ -350,6 +349,16 @@ extension CFQNUserError: CustomStringConvertible {
             return from + cause
         case .AssociationError:
             return "关联歌曲出现错误"
+        }
+    }
+}
+
+extension Int {
+    mutating func toggle() {
+        if (self == 1) {
+            self = 0
+        } else if (self == 0) {
+            self = 1
         }
     }
 }

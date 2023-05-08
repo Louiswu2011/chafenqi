@@ -33,7 +33,7 @@ struct HomeRecent: View {
                     ForEach(recommended, id: \.0) { identifier, entry in
                         let prompt = recommendPrompts[identifier]!
                         NavigationLink {
-                            
+                            RecentDetail(user: user, chuEntry: entry)
                         } label: {
                             HStack {
                                 SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
@@ -66,29 +66,33 @@ struct HomeRecent: View {
                     let recommended = expandMaimaiRecommended(orig: user.maimai.custom.recommended)
                     ForEach(recommended, id: \.0) { identifier, entry in
                         let prompt = recommendPrompts[identifier]!
-                        // TODO: Add detail view
-                        HStack {
-                            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
-                                .padding(.trailing, 5)
-                            Spacer()
-                            VStack {
-                                HStack {
-                                    Text(entry.timestamp.customDateString)
-                                    Spacer()
-                                    Text(prompt)
-                                        .bold()
-                                }
+                        NavigationLink {
+                            RecentDetail(user: user, maiEntry: entry)
+                        } label: {
+                            HStack {
+                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
+                                    .padding(.trailing, 5)
                                 Spacer()
-                                HStack(alignment: .bottom) {
-                                    Text(entry.title)
-                                        .font(.system(size: 17))
+                                VStack {
+                                    HStack {
+                                        Text(entry.timestamp.customDateString)
+                                        Spacer()
+                                        Text(prompt)
+                                            .bold()
+                                    }
                                     Spacer()
-                                    Text("\(entry.score, specifier: "%.4f")%")
-                                        .font(.system(size: 21))
-                                        .bold()
+                                    HStack(alignment: .bottom) {
+                                        Text(entry.title)
+                                            .font(.system(size: 17))
+                                        Spacer()
+                                        Text("\(entry.score, specifier: "%.4f")%")
+                                            .font(.system(size: 21))
+                                            .bold()
+                                    }
                                 }
                             }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             }

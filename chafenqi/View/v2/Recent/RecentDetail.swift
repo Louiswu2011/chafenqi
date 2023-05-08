@@ -37,262 +37,272 @@ struct RecentDetail: View {
     
     var body: some View {
         ScrollView {
-            VStack {
-                HStack(alignment: .bottom) {
-                    SongCoverView(coverURL: coverUrl, size: 120, cornerRadius: 10, withShadow: false)
-                }
-                VStack(alignment: .leading) {
-                    Spacer()
-                    Text(title)
-                        .font(.title)
-                        .bold()
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.8)
-                    Text(artist)
-                        .font(.title2)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                }
-                Spacer()
-            }
-            ZStack {
-                RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(diffColor.opacity(0.7))
-                
-                Text(playTime)
-                    .padding(3)
-            }
-            .padding(.bottom,5)
-            
-            if let entry = chuEntry {
-                HStack(alignment: .bottom) {
-                    Text(score)
-                        .font(.system(size: 30))
-                        .bold()
-                    
-                    Spacer()
-                    
-                    Text(entry.rankIndex)
-                        .font(.system(size: 20))
-                    
-                    Text(entry.fcombo.uppercased())
-                        .font(.system(size: 20))
-                }
-                .padding(.vertical, 5)
-                .padding(.horizontal)
-                
-                HStack {
+            if (isLoaded) {
+                VStack {
                     VStack {
-                        HStack {
-                            VStack{
-                                Text("Justice")
-                                Text("Critical")
-                                    .font(.system(size: 10))
+                        HStack(alignment: .bottom) {
+                            SongCoverView(coverURL: coverUrl, size: 120, cornerRadius: 10, withShadow: false)
+                            VStack(alignment: .leading) {
+                                Spacer()
+                                Text(title)
+                                    .font(.title)
+                                    .bold()
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.8)
+                                Text(artist)
+                                    .font(.title2)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.8)
                             }
                             Spacer()
-                            Text(entry.judges["critical"])
-                                .bold()
-                        }
-                        
-                        
-                        HStack {
-                            Text("Justice")
-                            Spacer()
-                            Text(entry.judges["justice"])
-                                .bold()
-                        }
-                        
-                        
-                        HStack {
-                            Text("Attack")
-                            Spacer()
-                            Text(entry.judges["attack"])
-                                .bold()
-                        }
-                        
-                        
-                        HStack {
-                            Text("Miss")
-                            Spacer()
-                            Text(entry.judges["miss"])
-                                .bold()
-                        }
-                        
-                    }
-                    .frame(width: chuniJudgeWidth)
-                    .padding(.trailing)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        HStack {
-                            Text("Tap")
-                            Spacer()
-                            Text(entry.notes["tap"])
-                        }
-                        HStack {
-                            Text("Hold")
-                            Spacer()
-                            Text(entry.notes["hold"])
-                        }
-                        HStack {
-                            Text("Slide")
-                            Spacer()
-                            Text(entry.notes["slide"])
-                        }
-                        HStack {
-                            Text("Air")
-                            Spacer()
-                            Text(entry.notes["air"])
-                        }
-                        HStack {
-                            Text("Flick")
-                            Spacer()
-                            Text(entry.notes["flick"])
                         }
                     }
-                }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 5)
-                .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
-                
-                NavigationLink {
-                    ChunithmDetailView(user: user, song: entry.associatedSong!)
-                } label: {
-                    Image(systemName: "arrowshape.turn.up.right")
-                    Text("前往歌曲详情")
-                }
-                .padding()
-                
-            } else if let entry = maiEntry {
-                HStack(alignment: .bottom) {
-                    Text(score)
-                        .font(.system(size: 30))
-                        .bold()
-                    
-                    Spacer()
-                    
-                    // TODO: Get rate
-                    Text(score)
-                        .font(.system(size: 20))
-                    
-                    // TODO: Get describing status
-                    Text(entry.fc)
-                        .font(.system(size: 20))
-                }
-                .padding()
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(maimaiLevelColor[entry.levelIndex]?.opacity(0.4))
-                    
-                    HStack(alignment: .bottom) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(" ")
-                            Text("Tap")
-                            Text("Hold")
-                            Text("Slide")
-                            Text("Touch")
-                            Text("Break")
-                        }
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(diffColor.opacity(0.7))
                         
-                        VStack(alignment: .center, spacing: 2) {
-                            HStack(alignment: .bottom) {
-                                VStack(spacing: 2) {
-                                    Text("Critical")
-                                        .font(.system(size: 15))
-                                    Text(maiTapArray[0])
-                                    Text(maiHoldArray[0])
-                                    Text(maiSlideArray[0])
-                                    Text(maiTouchArray[0])
-                                    Text(maiBreakArray[0])
+                        Text(playTime)
+                            .padding(3)
+                    }
+                    .padding(.bottom,5)
+                    
+                    if let entry = chuEntry {
+                        HStack(alignment: .bottom) {
+                            Text(score)
+                                .font(.system(size: 30))
+                                .bold()
+                            
+                            Spacer()
+                            
+                            // TODO: Display rank
+                            Text("\(entry.rankIndex)")
+                                .font(.system(size: 20))
+                            
+                            Text(entry.fcombo.uppercased())
+                                .font(.system(size: 20))
+                        }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal)
+                        
+                        HStack {
+                            VStack {
+                                HStack {
+                                    VStack{
+                                        Text("Justice")
+                                        Text("Critical")
+                                            .font(.system(size: 10))
+                                    }
+                                    Spacer()
+                                    Text("\(entry.judges["critical"] ?? 0)")
+                                        .bold()
                                 }
                                 
-                                VStack(spacing: 2) {
-                                    Text("Perfect")
-                                        .font(.system(size: 15))
-                                    Text(maiTapArray[1])
-                                    Text(maiHoldArray[1])
-                                    Text(maiSlideArray[1])
-                                    Text(maiTouchArray[1])
-                                    Text(maiBreakArray[1])
+                                
+                                HStack {
+                                    Text("Justice")
+                                    Spacer()
+                                    Text("\(entry.judges["justice"] ?? 0)")
+                                        .bold()
                                 }
                                 
-                                VStack(spacing: 2) {
-                                    Text("Great")
-                                        .font(.system(size: 15))
-                                    Text(maiTapArray[2])
-                                    Text(maiHoldArray[2])
-                                    Text(maiSlideArray[2])
-                                    Text(maiTouchArray[2])
-                                    Text(maiBreakArray[2])
+                                
+                                HStack {
+                                    Text("Attack")
+                                    Spacer()
+                                    Text("\(entry.judges["attack"] ?? 0)")
+                                        .bold()
                                 }
                                 
-                                VStack(spacing: 2) {
-                                    Text("Good")
-                                        .font(.system(size: 15))
-                                    Text(maiTapArray[3])
-                                    Text(maiHoldArray[3])
-                                    Text(maiSlideArray[3])
-                                    Text(maiTouchArray[3])
-                                    Text(maiBreakArray[3])
-                                }
                                 
-                                VStack(spacing: 2) {
+                                HStack {
                                     Text("Miss")
-                                        .font(.system(size: 15))
-                                    Text(maiTapArray[4])
-                                    Text(maiHoldArray[4])
-                                    Text(maiSlideArray[4])
-                                    Text(maiTouchArray[4])
-                                    Text(maiBreakArray[4])
+                                    Spacer()
+                                    Text("\(entry.judges["miss"] ?? 0)")
+                                        .bold()
                                 }
                                 
+                            }
+                            .frame(width: chuniJudgeWidth)
+                            .padding(.trailing)
+                            
+                            Spacer()
+                            
+                            VStack {
+                                HStack {
+                                    Text("Tap")
+                                    Spacer()
+                                    Text("\(entry.notes["tap"] ?? "0")")
+                                }
+                                HStack {
+                                    Text("Hold")
+                                    Spacer()
+                                    Text("\(entry.notes["hold"] ?? "0")")
+                                }
+                                HStack {
+                                    Text("Slide")
+                                    Spacer()
+                                    Text("\(entry.notes["slide"] ?? "0")")
+                                }
+                                HStack {
+                                    Text("Air")
+                                    Spacer()
+                                    Text("\(entry.notes["air"] ?? "0")")
+                                }
+                                HStack {
+                                    Text("Flick")
+                                    Spacer()
+                                    Text("\(entry.notes["flick"] ?? "0")")
+                                }
+                            }
+                        }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
+                        
+                        NavigationLink {
+                            SongDetailView(user: user, chuSong: entry.associatedSong!)
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.right")
+                            Text("前往歌曲详情")
+                        }
+                        .padding()
+                        
+                    } else if let entry = maiEntry {
+                        HStack(alignment: .bottom) {
+                            Text(score)
+                                .font(.system(size: 30))
+                                .bold()
+                            
+                            Spacer()
+                            
+                            // TODO: Get rate
+                            Text(score)
+                                .font(.system(size: 20))
+                            
+                            // TODO: Get describing status
+                            Text(entry.fc)
+                                .font(.system(size: 20))
+                        }
+                        .padding()
+                        
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 5)
+                                .foregroundColor(maimaiLevelColor[entry.levelIndex]?.opacity(0.4))
+                            VStack {
+                                HStack(alignment: .bottom) {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(" ")
+                                        Text("Tap")
+                                        Text("Hold")
+                                        Text("Slide")
+                                        Text("Touch")
+                                        Text("Break")
+                                    }
+                                    
+                                    VStack(alignment: .center, spacing: 2) {
+                                        HStack(alignment: .bottom) {
+                                            VStack(spacing: 2) {
+                                                Text("Critical")
+                                                    .font(.system(size: 15))
+                                                Text(maiTapArray[0])
+                                                Text(maiHoldArray[0])
+                                                Text(maiSlideArray[0])
+                                                Text(maiTouchArray[0])
+                                                Text(maiBreakArray[0])
+                                            }
+                                            
+                                            VStack(spacing: 2) {
+                                                Text("Perfect")
+                                                    .font(.system(size: 15))
+                                                Text(maiTapArray[1])
+                                                Text(maiHoldArray[1])
+                                                Text(maiSlideArray[1])
+                                                Text(maiTouchArray[1])
+                                                Text(maiBreakArray[1])
+                                            }
+                                            
+                                            VStack(spacing: 2) {
+                                                Text("Great")
+                                                    .font(.system(size: 15))
+                                                Text(maiTapArray[2])
+                                                Text(maiHoldArray[2])
+                                                Text(maiSlideArray[2])
+                                                Text(maiTouchArray[2])
+                                                Text(maiBreakArray[2])
+                                            }
+                                            
+                                            VStack(spacing: 2) {
+                                                Text("Good")
+                                                    .font(.system(size: 15))
+                                                Text(maiTapArray[3])
+                                                Text(maiHoldArray[3])
+                                                Text(maiSlideArray[3])
+                                                Text(maiTouchArray[3])
+                                                Text(maiBreakArray[3])
+                                            }
+                                            
+                                            VStack(spacing: 2) {
+                                                Text("Miss")
+                                                    .font(.system(size: 15))
+                                                Text(maiTapArray[4])
+                                                Text(maiHoldArray[4])
+                                                Text(maiSlideArray[4])
+                                                Text(maiTouchArray[4])
+                                                Text(maiBreakArray[4])
+                                            }
+                                            
+                                            
+                                        }
+                                    }
+                                }
                                 
+                                HStack {
+                                    Text("Combo")
+                                    Text(entry.maxCombo)
+                                }
+                                .padding(.top, 3)
+                            }
+                            .padding()
+                        }
+                        VStack {
+                            if(entry.matching[0] != "―") {
+                                HStack {
+                                    VStack(spacing: 5) {
+                                        Text("Player 2")
+                                        Text(entry.matching[0])
+                                    }
+                                    Spacer()
+                                    VStack(spacing: 5) {
+                                        Text("Player 3")
+                                        Text(entry.matching[1])
+                                    }
+                                    
+                                    
+                                    VStack(spacing: 5) {
+                                        Text("Player 4")
+                                        Text(entry.matching[2])
+                                    }
+                                }
                             }
                             
+                            HStack {
+                                Text("Sync")
+                                Text(entry.maxSync)
+                            }
+                            .padding(.top, 3)
                         }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(maimaiLevelColor[entry.levelIndex]?.opacity(0.4)))
+                        
+                        NavigationLink {
+                            SongDetailView(user: user, maiSong: entry.associatedSong!)
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.right")
+                            Text("前往歌曲详情")
+                        }
+                        .padding()
                     }
-                    .padding()
-                }
-                
-                if(entry.matching_1 != nil) {
-                    HStack {
-                        VStack(spacing: 5) {
-                            Text("Max Sync")
-                            Text(entry.maxSync)
-                        }
-                        
-                        Spacer()
-                        
-                        VStack(spacing: 5) {
-                            Text("Player 2")
-                            Text(entry.matching[0])
-                        }
-                        
-                        VStack(spacing: 5) {
-                            Text("Player 3")
-                            Text(entry.matching[1])
-                        }
-                        
-                        
-                        VStack(spacing: 5) {
-                            Text("Player 4")
-                            Text(entry.matching[2])
-                        }
-                        
-                    }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(maimaiLevelColor[entry.levelIndex]?.opacity(0.4)))
-                    
-                }
-                
-                NavigationLink {
-                    MaimaiDetailView(user: user, song: entry.associatedSong!)
-                } label: {
-                    Image(systemName: "arrowshape.turn.up.right")
-                    Text("前往歌曲详情")
                 }
                 .padding()
             }
@@ -302,6 +312,8 @@ struct RecentDetail: View {
             loadVar()
             isLoaded = true
         }
+        .navigationBarTitle("")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func loadVar() {
@@ -312,8 +324,9 @@ struct RecentDetail: View {
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
             self.score = "\(entry.score)"
-            chuniMaxCombo = Int(entry.judges["critical"])! + Int(entry.judges["justice"])! + Int(entry.judges["attack"])! + Int(entry.judges["miss"])!
-            chuniWidthArray = getWidthForChuniJudge()
+            self.diffColor = maimaiLevelColor[entry.levelIndex]!
+            self.chuniMaxCombo = entry.judges.values.reduce(0) { orig, next in orig + next}
+            self.chuniWidthArray = getWidthForChuniJudge()
         } else if let entry = maiEntry {
             self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
             self.title = entry.title
@@ -321,11 +334,12 @@ struct RecentDetail: View {
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
             self.score = "\(entry.score)%"
-            maiTapArray = entry.notes["tap"]?.components(separatedBy: ",") ?? []
-            maiHoldArray = entry.notes["hold"]?.components(separatedBy: ",") ?? []
-            maiSlideArray = entry.notes["slide"]?.components(separatedBy: ",") ?? []
-            maiTouchArray = entry.notes["touch"]?.components(separatedBy: ",") ?? []
-            maiBreakArray = entry.notes["break"]?.components(separatedBy: ",") ?? []
+            self.diffColor = chunithmLevelColor[entry.levelIndex]!
+            self.maiTapArray = entry.notes["tap"]!.components(separatedBy: ",")
+            self.maiHoldArray = entry.notes["hold"]!.components(separatedBy: ",")
+            self.maiSlideArray = entry.notes["slide"]!.components(separatedBy: ",")
+            self.maiTouchArray = entry.notes["touch"]!.components(separatedBy: ",")
+            self.maiBreakArray = entry.notes["break"]!.components(separatedBy: ",")
             for index in maiTouchArray.indices {
                 let element = maiTouchArray[index].trimmingCharacters(in: .whitespacesAndNewlines)
                 if (element == "") {
@@ -338,10 +352,10 @@ struct RecentDetail: View {
     func getWidthForChuniJudge() -> Array<CGFloat> {
         var array: Array<CGFloat> = []
         if let entry = chuEntry {
-            array.append(CGFloat(Float(entry.judges["critical"])! / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
-            array.append(CGFloat(Float(entry.judges["justice"])! / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
-            array.append(CGFloat((Float(entry.judges["attack"])! / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
-            array.append(CGFloat((Float(entry.judges["miss"])! / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
+            array.append(CGFloat(Float(entry.judges["critical"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
+            array.append(CGFloat(Float(entry.judges["justice"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
+            array.append(CGFloat((Float(entry.judges["attack"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
+            array.append(CGFloat((Float(entry.judges["miss"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
         }
         return array
     }

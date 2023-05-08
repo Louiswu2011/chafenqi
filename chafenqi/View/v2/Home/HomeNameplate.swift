@@ -76,7 +76,7 @@ struct HomeNameplate: View {
                             
                             Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
-                                    user.currentMode = 1 - user.currentMode
+                                    user.currentMode.toggle()
                                 }
                             } label: {
                                 HStack {
