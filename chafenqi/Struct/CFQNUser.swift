@@ -243,21 +243,7 @@ class CFQNUser: ObservableObject {
         self.chunithm = try await Chunithm(token: token)
         print("[CFQNUser] Fetched User Data.")
         
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
-                    self.maimai.best = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, bests: self.maimai.best)
-                    self.maimai.recent = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, recents: self.maimai.recent)
-                }
-            }
-            group.addTask {
-                if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
-                    self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, bests: self.chunithm.best)
-                    self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, recents: self.chunithm.recent)
-                    self.chunithm.rating = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, ratings: self.chunithm.rating)
-                }
-            }
-        }
+        await assignAssociatedSongs()
         print("[CFQNUser] Assigned Associated Song Data.")
         
         self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
@@ -309,12 +295,37 @@ class CFQNUser: ObservableObject {
         return failed
     }
     
-    func load(username: String, forceReload: Bool = false) async throws {
+    func login(username: String, forceReload: Bool = false) async throws {
+        let encoder = JSONEncoder()
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
 
         try await fetchUserData(token: self.jwtToken)
         self.username = username
 
+        if (!checkAssociated().isEmpty) {
+            throw CFQNUserError.AssociationError
+        }
+        
+        self.maimaiCache = try encoder.encode(self.maimai)
+        self.chunithmCache = try encoder.encode(self.chunithm)
+        print("[CFQNUser] Saved game data cache.")
+    }
+    
+    func loadFromCache() async throws {
+        let decoder = JSONDecoder()
+        
+        self.data = try await .loadFromCacheOrRefresh()
+        self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
+        self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
+        print("[CFQNUser] Loaded user cache.")
+        
+        await assignAssociatedSongs()
+        print("[CFQNUser] Assigned Associated Song Data.")
+        
+        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
+        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
+        print("[CFQNUser] Calculated Custom Values.")
+        
         if (!checkAssociated().isEmpty) {
             throw CFQNUserError.AssociationError
         }
@@ -330,6 +341,24 @@ class CFQNUser: ObservableObject {
         self.isPremium = false
         withAnimation {
             self.didLogin.toggle()
+        }
+    }
+    
+    func assignAssociatedSongs() async {
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
+                    self.maimai.best = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, bests: self.maimai.best)
+                    self.maimai.recent = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, recents: self.maimai.recent)
+                }
+            }
+            group.addTask {
+                if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
+                    self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, bests: self.chunithm.best)
+                    self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, recents: self.chunithm.recent)
+                    self.chunithm.rating = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, ratings: self.chunithm.rating)
+                }
+            }
         }
     }
 }

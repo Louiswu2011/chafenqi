@@ -11,18 +11,19 @@ struct HomeView: View {
     @ObservedObject var user: CFQNUser
     
     var body: some View {
-        ScrollView {
-            HomeNameplate(user: user)
-            HomeRecent(user: user)
-            
-        }
-        .navigationTitle("主页")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    Settings(user: user)
-                } label: {
-                    Image(systemName: "gear")
+        if (user.didLogin) {
+            ScrollView {
+                HomeNameplate(user: user)
+                HomeRecent(user: user)
+            }
+            .navigationTitle("主页")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        Settings(user: user)
+                    } label: {
+                        Image(systemName: "gear")
+                    }
                 }
             }
         }

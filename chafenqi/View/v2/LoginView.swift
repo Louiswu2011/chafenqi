@@ -89,7 +89,7 @@ struct LoginView: View {
                                     // TODO: Navigate to HomeView
                                     user.jwtToken = token
                                     print("[Login] Should force reload? \(shouldForceReload)")
-                                    try await user.load(username: account, forceReload: shouldForceReload)
+                                    try await user.login(username: account, forceReload: shouldForceReload)
                                     shouldForceReload = false
                                     print("[Login] Successfully logged in.")
                                     withAnimation(defaultAnimation) {
