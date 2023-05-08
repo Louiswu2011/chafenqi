@@ -28,6 +28,8 @@ struct SongItemView: View {
                 NavigationLink {
                     if let song = chuSong {
                         SongDetailView(user: user, chuSong: song)
+                    } else if let song = maiSong {
+                        SongDetailView(user: user, maiSong: song)
                     }
                 } label: {
                     HStack {

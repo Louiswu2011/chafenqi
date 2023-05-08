@@ -88,32 +88,32 @@ struct SongDetailView: View {
                     }
                     .padding(.horizontal)
                     
-                    HStack {
-                        Text("谱面预览")
-                            .font(.system(size: 20))
-                            .bold()
-                        Spacer()
-                        
-                        Picker(selectedDiff, selection: $selectedDiff) {
-                            ForEach(availableDiff, id: \.self) { diff in
-                                Text(diff)
-                            }
-                        }
-                        .onChange(of: selectedDiff) { tag in
-                            Task {
-                                do {
-                                    chartImage = UIImage()
-                                    let identifier = song.title
-                                    try await reloadChartImage(identifier: identifier, diff: selectedDiff)
-                                } catch {}
-                            }
-                        }
-                        .pickerStyle(.menu)
-                    }
-                    .padding(.top)
-                    .padding(.horizontal)
-                    
                     if (user.currentMode == 0) {
+                        HStack {
+                            Text("谱面预览")
+                                .font(.system(size: 20))
+                                .bold()
+                            Spacer()
+                            
+                            Picker(selectedDiff, selection: $selectedDiff) {
+                                ForEach(availableDiff, id: \.self) { diff in
+                                    Text(diff)
+                                }
+                            }
+                            .onChange(of: selectedDiff) { tag in
+                                Task {
+                                    do {
+                                        chartImage = UIImage()
+                                        let identifier = song.title
+                                        try await reloadChartImage(identifier: identifier, diff: selectedDiff)
+                                    } catch {}
+                                }
+                            }
+                            .pickerStyle(.menu)
+                        }
+                        .padding(.top)
+                        .padding(.horizontal)
+                        
                         ZStack {
                             RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
                                 .foregroundColor(Color.black)
