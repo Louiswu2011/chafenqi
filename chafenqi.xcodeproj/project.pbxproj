@@ -32,6 +32,11 @@
 		BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F3229B64DA2005D1C67 /* FilterExtension.swift */; };
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
 		BF426D302A08DE5400606799 /* SongDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF426D2F2A08DE5400606799 /* SongDetailView.swift */; };
+		BF45B1CC2A0960A50076E437 /* PlayerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */; };
+		BF45B1CE2A0961440076E437 /* TokenUploderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1CD2A0961440076E437 /* TokenUploderView.swift */; };
+		BF45B1D22A096D680076E437 /* HomeRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1D12A096D680076E437 /* HomeRating.swift */; };
+		BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1D42A096DC00076E437 /* RatingListView.swift */; };
+		BF45B1D72A096E800076E437 /* RatingBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1D62A096E800076E437 /* RatingBannerView.swift */; };
 		BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */; };
 		BF4886A8298DA4BB00D7F7D2 /* MaimaiMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */; };
 		BF533C9829BF093C003409AB /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF533C9729BF093C003409AB /* Comment.swift */; };
@@ -202,6 +207,11 @@
 		BF403F2E29B642F4005D1C67 /* RegexManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexManager.swift; sourceTree = "<group>"; };
 		BF403F3229B64DA2005D1C67 /* FilterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
 		BF426D2F2A08DE5400606799 /* SongDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDetailView.swift; sourceTree = "<group>"; };
+		BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfoView.swift; sourceTree = "<group>"; };
+		BF45B1CD2A0961440076E437 /* TokenUploderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUploderView.swift; sourceTree = "<group>"; };
+		BF45B1D12A096D680076E437 /* HomeRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRating.swift; sourceTree = "<group>"; };
+		BF45B1D42A096DC00076E437 /* RatingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingListView.swift; sourceTree = "<group>"; };
+		BF45B1D62A096E800076E437 /* RatingBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingBannerView.swift; sourceTree = "<group>"; };
 		BF4886A5298D841300D7F7D2 /* MaimaiDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDetailView.swift; sourceTree = "<group>"; };
 		BF4886A7298DA4BB00D7F7D2 /* MaimaiMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiMiniView.swift; sourceTree = "<group>"; };
 		BF533C9729BF093C003409AB /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -425,6 +435,23 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		BF45B1CA2A0960920076E437 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
+		BF45B1D32A096DB60076E437 /* Rating */ = {
+			isa = PBXGroup;
+			children = (
+				BF45B1D42A096DC00076E437 /* RatingListView.swift */,
+				BF45B1D62A096E800076E437 /* RatingBannerView.swift */,
+			);
+			path = Rating;
+			sourceTree = "<group>";
+		};
 		BF4C0141299223A800AAB11C /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,6 +636,8 @@
 		BFC860332A06B3E400E3A7CF /* v2 */ = {
 			isa = PBXGroup;
 			children = (
+				BF45B1D32A096DB60076E437 /* Rating */,
+				BF45B1CA2A0960920076E437 /* Info */,
 				BF8D2A7F2A06382800F60633 /* LoginView.swift */,
 				BFE075A52A0785B2005248A6 /* Settings */,
 				BFE075A42A0785AC005248A6 /* Updater */,
@@ -626,6 +655,7 @@
 				BFC860352A06B41000E3A7CF /* HomeNameplate.swift */,
 				BFE0759C2A0781E9005248A6 /* HomeView.swift */,
 				BFE0759E2A07845B005248A6 /* HomeRecent.swift */,
+				BF45B1D12A096D680076E437 /* HomeRating.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -662,6 +692,7 @@
 			isa = PBXGroup;
 			children = (
 				BF7872A62A07DC9C007243B3 /* Settings.swift */,
+				BF45B1CD2A0961440076E437 /* TokenUploderView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1042,6 +1073,7 @@
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
 				BFCF130D2A03A1C3000B2E0D /* CFQNUser.swift in Sources */,
 				BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */,
+				BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */,
 				BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */,
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
 				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,
@@ -1062,6 +1094,7 @@
 				BF74D20D29C387AE0099B427 /* CommentComposer.swift in Sources */,
 				BFBC5503298CEB5700A93918 /* MaimaiChartStat.swift in Sources */,
 				BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */,
+				BF45B1D72A096E800076E437 /* RatingBannerView.swift in Sources */,
 				BFFEEB1B2A081FCA001B15B7 /* SongItemView.swift in Sources */,
 				BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */,
 				BF8D2A852A063A9A00F60633 /* AlertToastModel.swift in Sources */,
@@ -1077,6 +1110,7 @@
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFCE1B2A29EE911600BFAA67 /* QuickActionService.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
+				BF45B1CC2A0960A50076E437 /* PlayerInfoView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,
 				BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */,
 				BFBC5505298D005900A93918 /* SongBasicView.swift in Sources */,
@@ -1084,6 +1118,7 @@
 				BFBC5507298D078000A93918 /* SongListView.swift in Sources */,
 				BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */,
 				BF8E054229A2A22300079A06 /* WelcomePage2View.swift in Sources */,
+				BF45B1D22A096D680076E437 /* HomeRating.swift in Sources */,
 				BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */,
 				BFFEEB192A081F5C001B15B7 /* SongTopView.swift in Sources */,
 				BFC256A929A7E35500B65CE7 /* ImageLoader.swift in Sources */,
@@ -1099,6 +1134,7 @@
 				BFE075A92A07B64B005248A6 /* RecentDetail.swift in Sources */,
 				BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */,
 				BFCF130B2A0390D1000B2E0D /* CFQServer.swift in Sources */,
+				BF45B1CE2A0961440076E437 /* TokenUploderView.swift in Sources */,
 				BF8D2A802A06382800F60633 /* LoginView.swift in Sources */,
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */,

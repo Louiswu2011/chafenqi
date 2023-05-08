@@ -244,15 +244,15 @@ struct CFQData: Codable {
             return r
         }
         
-        static func assignAssociated(songs: [ChunithmSongData], ratings: [RatingEntry]) -> [RatingEntry] {
+        static func assignAssociated(bests: CFQChunithmBestScoreEntries, ratings: [RatingEntry]) -> [RatingEntry] {
             var r = ratings
             for (i, entry) in r.enumerated() {
-                let searched = songs.first {
-                    String($0.musicId) == entry.idx
+                let searched = bests.first {
+                    $0.idx == entry.idx && $0.levelIndex == entry.levelIndex
                 }
                 if let song = searched {
                     var e = entry
-                    e.associatedSong = song
+                    e.associatedBestEntry = song
                     r[i] = e
                 }
             }
@@ -399,7 +399,7 @@ struct CFQData: Codable {
             var type: String
             var updatedAt: String
             var createdAt: String
-            var associatedSong: ChunithmSongData?
+            var associatedBestEntry: BestScoreEntry?
             
             enum CodingKeys: String, CodingKey {
                 case idx
@@ -497,12 +497,13 @@ struct CFQData: Codable {
     }
 }
 
-protocol CFQMaimaiRatingCalculatable {
+protocol CFQMaimaiCalculatable {
     var rating: Int { get }
+    var rateString: String { get }
     func getRating(constant: Double, achievements: Double) -> Int
 }
 
-extension CFQMaimaiRatingCalculatable {
+extension CFQMaimaiCalculatable {
     func getRating(constant: Double, achievements: Double) -> Int {
         let ratingDict = [
             100.5000...101.0000:14,
@@ -525,14 +526,57 @@ extension CFQMaimaiRatingCalculatable {
         let rating = Int((constant * min(achievements, 100.5) * factor / 100).rounded(.down))
         return rating
     }
+    
+    func getRateStringFromScore(_ score: Double) -> String {
+        switch (score) {
+        case ...49.9999:
+            return "D"
+        case 50.0000...59.0000:
+            return "C"
+        case 60.0000...69.9999:
+            return "B"
+        case 70.0000...74.9999:
+            return "BB"
+        case 75.0000...79.9999:
+            return "BBB"
+        case 80.0000...89.9999:
+            return "A"
+        case 90.0000...93.0000:
+            return "AA"
+        case 94.0000...96.9999:
+            return "AAA"
+        case 97.0000...97.9999:
+            return "S"
+        case 98.0000...98.9999:
+            return "S+"
+        case 99.0000...99.4999:
+            return "SS"
+        case 99.5000...99.9999:
+            return "SS+"
+        case 100.0000...100.4999:
+            return "SSS"
+        case 100.5000...:
+            return "SSS+"
+        default:
+            return "?"
+        }
+    }
+    
+    func getRateString(_ rate: String) -> String {
+        return rate.replacingOccurrences(of: "p", with: "+").uppercased()
+    }
 }
 
-extension CFQData.Maimai.BestScoreEntry: CFQMaimaiRatingCalculatable {
+extension CFQData.Maimai.BestScoreEntry: CFQMaimaiCalculatable {
+    var rateString: String {
+        getRateString(self.rate)
+    }
     var rating: Int {
         getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
     }
 }
-extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiRatingCalculatable {
+extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiCalculatable {
+    var rateString: String { getRateStringFromScore(self.score) }
     var levelIndex: Int {
         switch self.difficulty.lowercased() {
         case "basic":
@@ -553,12 +597,14 @@ extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiRatingCalculatable {
     }
 }
 
-protocol CFQChunithmRatingCalculatable {
+protocol CFQChunithmCalculatable {
     var rating: Double {get}
+    var grade: String {get}
     func getRating(constant: Double, score: Int) -> Double
+    func getGrade(_ score: Int) -> String
 }
 
-extension CFQChunithmRatingCalculatable {
+extension CFQChunithmCalculatable {
     func getRating(constant: Double, score: Int) -> Double {
         var rating: Double {
             switch (score) {
@@ -578,12 +624,44 @@ extension CFQChunithmRatingCalculatable {
         }
         return rating
     }
+    
+    func getGrade(_ score: Int) -> String {
+        switch (score) {
+        case ...499999:
+            return "D"
+        case 500000...599999:
+            return "C"
+        case 600000...699999:
+            return "B"
+        case 700000...799999:
+            return "BB"
+        case 800000...899999:
+            return "BBB"
+        case 900000...924999:
+            return "A"
+        case 925000...949999:
+            return "AA"
+        case 950000...974999:
+            return "AAA"
+        case 975000...999999:
+            return "S"
+        case 1000000...1007499:
+            return "SS"
+        case 1007500...1008999:
+            return "SSS"
+        case 1009000...:
+            return "SSS+"
+        default:
+            return "?"
+        }
+    }
 }
 
-extension CFQData.Chunithm.BestScoreEntry: CFQChunithmRatingCalculatable {
+extension CFQData.Chunithm.BestScoreEntry: CFQChunithmCalculatable {
+    var grade: String { getGrade(self.score) }
     var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
-extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmRatingCalculatable {
+extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmCalculatable {
     var levelIndex: Int {
         switch self.difficulty.lowercased() {
         case "basic":
@@ -598,10 +676,12 @@ extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmRatingCalculatable {
             return 4
         }
     }
+    var grade: String { getGrade(self.score) }
     var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
-extension CFQData.Chunithm.RatingEntry: CFQChunithmRatingCalculatable {
-    var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
+extension CFQData.Chunithm.RatingEntry: CFQChunithmCalculatable {
+    var grade: String { getGrade(self.score) }
+    var rating: Double { getRating(constant: self.associatedBestEntry!.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
 
 extension String {
@@ -609,7 +689,7 @@ extension String {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions.insert(.withFractionalSeconds)
         formatter.formatOptions.insert(.withInternetDateTime)
-        var date = formatter.date(from: self)
+        let date = formatter.date(from: self)
         if let date = date {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd hh:mm"

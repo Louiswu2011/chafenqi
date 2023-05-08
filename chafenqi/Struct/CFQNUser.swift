@@ -243,12 +243,7 @@ class CFQNUser: ObservableObject {
         self.chunithm = try await Chunithm(token: token)
         print("[CFQNUser] Fetched User Data.")
         
-        await assignAssociatedSongs()
-        print("[CFQNUser] Assigned Associated Song Data.")
-        
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
-        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
-        print("[CFQNUser] Calculated Custom Values.")
+        try await addAdditionalData()
         
         self.maimaiCache = try JSONEncoder().encode(self.maimai)
         self.chunithmCache = try JSONEncoder().encode(self.chunithm)
@@ -287,7 +282,7 @@ class CFQNUser: ObservableObject {
             }
         }
         for entry in self.chunithm.rating {
-            if (entry.associatedSong == nil) {
+            if (entry.associatedBestEntry == nil) {
                 failed.append("chunithm rating: " + entry.title)
             }
         }
@@ -319,16 +314,7 @@ class CFQNUser: ObservableObject {
         self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
         print("[CFQNUser] Loaded user cache.")
         
-        await assignAssociatedSongs()
-        print("[CFQNUser] Assigned Associated Song Data.")
-        
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
-        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
-        print("[CFQNUser] Calculated Custom Values.")
-        
-        if (!checkAssociated().isEmpty) {
-            throw CFQNUserError.AssociationError
-        }
+        try await addAdditionalData()
     }
     
     func logout() {
@@ -344,7 +330,7 @@ class CFQNUser: ObservableObject {
         }
     }
     
-    func assignAssociatedSongs() async {
+    func addAdditionalData() async throws {
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
@@ -356,10 +342,20 @@ class CFQNUser: ObservableObject {
                 if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
                     self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, bests: self.chunithm.best)
                     self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, recents: self.chunithm.recent)
-                    self.chunithm.rating = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, ratings: self.chunithm.rating)
+                    self.chunithm.rating = CFQChunithm.assignAssociated(bests: self.chunithm.best, ratings: self.chunithm.rating)
                 }
             }
         }
+        print("[CFQNUser] Assigned Associated Song Data.")
+        
+        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
+        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
+        print("[CFQNUser] Calculated Custom Values.")
+        
+        if (!checkAssociated().isEmpty) {
+            throw CFQNUserError.AssociationError
+        }
+        print("[CFQNUser] Association Assertion Passed.")
     }
 }
 

@@ -30,34 +30,41 @@ struct HomeNameplate: View {
                         Spacer()
                         
                         if(user.currentMode == 0) {
-                            Image("nameplate_penguin")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .padding(.trailing, 10)
-                                .frame(width: 110, height: 110)
-                                .contextMenu {
-                                    Button {
-                                        // TODO: Add custom avatar
-                                    } label: {
-                                        Image(systemName: "rectangle.on.rectangle.angled")
-                                        Text("照片图库")
+                            NavigationLink {
+                                PlayerInfoView()
+                            } label: {
+                                Image("nameplate_penguin")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .padding(.trailing, 10)
+                                    .frame(width: 110, height: 110)
+                                    .contextMenu {
+                                        Button {
+                                            // TODO: Add custom avatar
+                                        } label: {
+                                            Image(systemName: "rectangle.on.rectangle.angled")
+                                            Text("照片图库")
+                                        }
                                     }
-                                }
-                            
+                            }
                         } else {
-                            Image("nameplate_salt")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .padding(.trailing, 10)
-                                .frame(width: 110, height: 110)
-                                .contextMenu {
-                                    Button {
-                                        // TODO: Add custom avatar
-                                    } label: {
-                                        Image(systemName: "rectangle.on.rectangle.angled")
-                                        Text("照片图库")
+                            NavigationLink {
+                                PlayerInfoView()
+                            } label: {
+                                Image("nameplate_salt")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .padding(.trailing, 10)
+                                    .frame(width: 110, height: 110)
+                                    .contextMenu {
+                                        Button {
+                                            // TODO: Add custom avatar
+                                        } label: {
+                                            Image(systemName: "rectangle.on.rectangle.angled")
+                                            Text("照片图库")
+                                        }
                                     }
-                                }
+                            }
                         }
                     }
                 }

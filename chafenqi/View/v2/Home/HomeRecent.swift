@@ -13,94 +13,93 @@ struct HomeRecent: View {
     let prompt = ["最近一首", "新纪录", "高分"]
     
     var body: some View {
-        if (user.didLogin) {
-            VStack {
-                HStack {
-                    Text("最近动态")
-                        .font(.system(size: 20))
-                        .bold()
-                    Spacer()
-                    
-                    NavigationLink {
-                        RecentListView(user: user)
-                    } label: {
-                        Text("显示全部")
-                            .font(.system(size: 18))
+        VStack {
+            HStack {
+                Text("最近动态")
+                    .font(.system(size: 20))
+                    .bold()
+                Spacer()
+                
+                NavigationLink {
+                    RecentListView(user: user)
+                } label: {
+                    Text("显示全部")
+                        .font(.system(size: 18))
+                }
+            }
+            if (user.currentMode == 0) {
+                if (user.chunithm.isNotEmpty) {
+                    let recommended = expandChunithmRecommended(orig: user.chunithm.custom.recommended)
+                    ForEach(recommended, id: \.0) { identifier, entry in
+                        let prompt = recommendPrompts[identifier]!
+                        NavigationLink {
+                            RecentDetail(user: user, chuEntry: entry)
+                        } label: {
+                            HStack {
+                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
+                                    .padding(.trailing, 5)
+                                Spacer()
+                                VStack {
+                                    HStack {
+                                        Text(entry.timestamp.customDateString)
+                                        Spacer()
+                                        Text(prompt)
+                                            .bold()
+                                    }
+                                    Spacer()
+                                    HStack(alignment: .bottom) {
+                                        Text(entry.title)
+                                            .font(.system(size: 17))
+                                        Spacer()
+                                        Text("\(entry.score)")
+                                            .font(.system(size: 21))
+                                            .bold()
+                                    }
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
-                if (user.currentMode == 0) {
-                    if (user.chunithm.isNotEmpty) {
-                        let recommended = expandChunithmRecommended(orig: user.chunithm.custom.recommended)
-                        ForEach(recommended, id: \.0) { identifier, entry in
-                            let prompt = recommendPrompts[identifier]!
-                            NavigationLink {
-                                RecentDetail(user: user, chuEntry: entry)
-                            } label: {
-                                HStack {
-                                    SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
-                                        .padding(.trailing, 5)
-                                    Spacer()
-                                    VStack {
-                                        HStack {
-                                            Text(entry.timestamp.customDateString)
-                                            Spacer()
-                                            Text(prompt)
-                                                .bold()
-                                        }
+            } else {
+                if (user.maimai.isNotEmpty) {
+                    let recommended = expandMaimaiRecommended(orig: user.maimai.custom.recommended)
+                    ForEach(recommended, id: \.0) { identifier, entry in
+                        let prompt = recommendPrompts[identifier]!
+                        NavigationLink {
+                            RecentDetail(user: user, maiEntry: entry)
+                        } label: {
+                            HStack {
+                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
+                                    .padding(.trailing, 5)
+                                Spacer()
+                                VStack {
+                                    HStack {
+                                        Text(entry.timestamp.customDateString)
                                         Spacer()
-                                        HStack(alignment: .bottom) {
-                                            Text(entry.title)
-                                                .font(.system(size: 17))
-                                            Spacer()
-                                            Text("\(entry.score)")
-                                                .font(.system(size: 21))
-                                                .bold()
-                                        }
+                                        Text(prompt)
+                                            .bold()
+                                    }
+                                    Spacer()
+                                    HStack(alignment: .bottom) {
+                                        Text(entry.title)
+                                            .font(.system(size: 17))
+                                        Spacer()
+                                        Text("\(entry.score, specifier: "%.4f")%")
+                                            .font(.system(size: 21))
+                                            .bold()
                                     }
                                 }
                             }
-                            .buttonStyle(.plain)
                         }
-                    }
-                } else {
-                    if (user.maimai.isNotEmpty) {
-                        let recommended = expandMaimaiRecommended(orig: user.maimai.custom.recommended)
-                        ForEach(recommended, id: \.0) { identifier, entry in
-                            let prompt = recommendPrompts[identifier]!
-                            NavigationLink {
-                                RecentDetail(user: user, maiEntry: entry)
-                            } label: {
-                                HStack {
-                                    SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
-                                        .padding(.trailing, 5)
-                                    Spacer()
-                                    VStack {
-                                        HStack {
-                                            Text(entry.timestamp.customDateString)
-                                            Spacer()
-                                            Text(prompt)
-                                                .bold()
-                                        }
-                                        Spacer()
-                                        HStack(alignment: .bottom) {
-                                            Text(entry.title)
-                                                .font(.system(size: 17))
-                                            Spacer()
-                                            Text("\(entry.score, specifier: "%.4f")%")
-                                                .font(.system(size: 21))
-                                                .bold()
-                                        }
-                                    }
-                                }
-                            }
-                            .buttonStyle(.plain)
-                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
-            .padding(.horizontal)
         }
+        .padding(.horizontal)
     }
+    
     
     func expandChunithmRecommended(orig: [CFQChunithm.RecentScoreEntry: String]) -> [(String, CFQChunithm.RecentScoreEntry)] {
         var r: [CFQChunithm.RecentScoreEntry] = []

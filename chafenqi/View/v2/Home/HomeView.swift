@@ -15,6 +15,7 @@ struct HomeView: View {
             ScrollView {
                 HomeNameplate(user: user)
                 HomeRecent(user: user)
+                HomeRating(user: user)
             }
             .navigationTitle("主页")
             .toolbar {

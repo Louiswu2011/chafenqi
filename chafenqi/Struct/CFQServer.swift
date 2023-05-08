@@ -137,6 +137,7 @@ enum CFQServerError: Error, CaseIterable {
     case UserNotPremiumError
     case EntryNotFoundError
     case ServerDatabaseError
+    case CredentialsMismatchError
 }
 
 extension CFQServerError: CustomStringConvertible {
@@ -156,6 +157,8 @@ extension CFQServerError: CustomStringConvertible {
             return "非赞助用户"
         case .UsernameOccupiedError:
             return "用户名已存在"
+        case .CredentialsMismatchError:
+            return "用户名或密码错误"
         }
     }
 }
@@ -176,6 +179,8 @@ extension CFQServerError {
             return "NOT PREMIUM"
         case .UsernameOccupiedError:
             return "NOT UNIQUE"
+        case .CredentialsMismatchError:
+            return "MISMATCH"
         }
     }
 }
