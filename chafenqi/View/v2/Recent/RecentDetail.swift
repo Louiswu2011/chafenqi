@@ -77,7 +77,7 @@ struct RecentDetail: View {
                             Text(entry.grade)
                                 .font(.system(size: 20))
                             
-                            Text(entry.fcombo.uppercased())
+                            Text(entry.status)
                                 .font(.system(size: 20))
                         }
                         .padding(.vertical, 5)
@@ -177,8 +177,7 @@ struct RecentDetail: View {
                             Text(entry.rateString)
                                 .font(.system(size: 20))
                             
-                            // TODO: Get describing status
-                            Text(entry.fc.uppercased())
+                            Text(entry.status)
                                 .font(.system(size: 20))
                         }
                         .padding()

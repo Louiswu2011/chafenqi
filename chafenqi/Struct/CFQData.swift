@@ -500,7 +500,9 @@ struct CFQData: Codable {
 protocol CFQMaimaiCalculatable {
     var rating: Int { get }
     var rateString: String { get }
+    var status: String { get }
     func getRating(constant: Double, achievements: Double) -> Int
+    func getStatus(_ fc: String) -> String
 }
 
 extension CFQMaimaiCalculatable {
@@ -565,6 +567,10 @@ extension CFQMaimaiCalculatable {
     func getRateString(_ rate: String) -> String {
         return rate.replacingOccurrences(of: "p", with: "+").uppercased()
     }
+    
+    func getStatus(_ fc: String) -> String {
+        return fc.replacingOccurrences(of: "plus", with: "+").uppercased()
+    }
 }
 
 extension CFQData.Maimai.BestScoreEntry: CFQMaimaiCalculatable {
@@ -573,6 +579,9 @@ extension CFQData.Maimai.BestScoreEntry: CFQMaimaiCalculatable {
     }
     var rating: Int {
         getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
+    }
+    var status: String {
+        getStatus(self.fc)
     }
 }
 extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiCalculatable {
@@ -591,17 +600,21 @@ extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiCalculatable {
             return 4
         }
     }
-    
     var rating: Int {
         getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
+    }
+    var status: String {
+        getStatus(self.fc)
     }
 }
 
 protocol CFQChunithmCalculatable {
     var rating: Double {get}
     var grade: String {get}
+    var status: String {get}
     func getRating(constant: Double, score: Int) -> Double
     func getGrade(_ score: Int) -> String
+    func getDescribingStatus(_ fc: String) -> String
 }
 
 extension CFQChunithmCalculatable {
@@ -623,6 +636,15 @@ extension CFQChunithmCalculatable {
             }
         }
         return rating
+    }
+    
+    func getDescribingStatus(_ fc: String) -> String {
+        if (fc == "fullcombo") {
+            return "FC"
+        } else if (fc == "alljustice") {
+            return "AJ"
+        }
+        return ""
     }
     
     func getGrade(_ score: Int) -> String {
@@ -659,6 +681,7 @@ extension CFQChunithmCalculatable {
 
 extension CFQData.Chunithm.BestScoreEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
+    var status: String { getDescribingStatus(self.fcombo) }
     var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
 extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmCalculatable {
@@ -677,10 +700,12 @@ extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmCalculatable {
         }
     }
     var grade: String { getGrade(self.score) }
+    var status: String { getDescribingStatus(self.fcombo) }
     var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
 extension CFQData.Chunithm.RatingEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
+    var status: String { getDescribingStatus(self.associatedBestEntry!.fcombo) }
     var rating: Double { getRating(constant: self.associatedBestEntry!.associatedSong!.constant[self.levelIndex], score: self.score) }
 }
 
