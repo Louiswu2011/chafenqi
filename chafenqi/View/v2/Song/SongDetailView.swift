@@ -164,7 +164,7 @@ struct SongDetailView: View {
                         .alert("选择难度", isPresented: $showingDiffSelection) {
                             ForEach(Array(level.enumerated()), id: \.offset) { index, level in
                                 Button {
-                                    openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(diffArray[index]) chunithm".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                                    openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(diffArray[index]) \(user.currentMode == 0 ? "chunithm" : "maimai")".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
                                 } label: {
                                     Text("\(diffArray[index]) \(level)")
                                 }
@@ -181,7 +181,7 @@ struct SongDetailView: View {
                         }
                         .padding(5)
                         .sheet(isPresented: $showingDiffSelectioniOS14) {
-                            CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: level, diffs: diffArray))
+                            CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: level, diffs: diffArray, game: user.currentMode == 0 ? "chunithm" : "maimai"))
                         }
                     }
                     
@@ -266,11 +266,11 @@ struct SongDetailView: View {
         chartImageView = Image(uiImage: chartImage)
     }
     
-    func getDiffSelectionArray(levels: [String], diffs: [String]) -> [(title: String, action: (() -> Void)?)] {
+    func getDiffSelectionArray(levels: [String], diffs: [String], game: String) -> [(title: String, action: (() -> Void)?)] {
         var array: [(title: String, action: (() -> Void)?)] = []
         for (index, level) in levels.enumerated() {
             array.append(("\(diffs[index]) \(level)", {
-                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) chunithm".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) \(game)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
             }))
         }
         array.append(("取消", {
