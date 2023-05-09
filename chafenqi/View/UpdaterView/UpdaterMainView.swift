@@ -112,7 +112,7 @@ struct UpdaterMainView: View {
                     UpdaterHelpView(isShowingHelp: $isShowingHelp)
                 }
             }
-            .toast(isPresenting: $alertToast.show, tapToDismiss: true) {
+            .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
                 alertToast.toast
             }
         }

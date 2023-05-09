@@ -74,8 +74,7 @@ struct RecentDetail: View {
                             
                             Spacer()
                             
-                            // TODO: Display rank
-                            Text("\(entry.rankIndex)")
+                            Text(entry.grade)
                                 .font(.system(size: 20))
                             
                             Text(entry.fcombo.uppercased())
@@ -175,12 +174,11 @@ struct RecentDetail: View {
                             
                             Spacer()
                             
-                            // TODO: Get rate
-                            Text(score)
+                            Text(entry.rateString)
                                 .font(.system(size: 20))
                             
                             // TODO: Get describing status
-                            Text(entry.fc)
+                            Text(entry.fc.uppercased())
                                 .font(.system(size: 20))
                         }
                         .padding()

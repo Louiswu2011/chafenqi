@@ -149,7 +149,7 @@ struct Settings: View {
                 Text("高级")
             }
         }
-        .toast(isPresenting: $alertToast.show) {
+        .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
         }
         .alert(isPresented: $alertToast.alertShow) {
