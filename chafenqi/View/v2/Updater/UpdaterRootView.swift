@@ -11,6 +11,7 @@ struct UpdaterRootView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var service = TunnelManagerService.shared
     
+    
     var body: some View {
         VStack {
             if (service.manager != nil) {
@@ -24,6 +25,7 @@ struct UpdaterRootView: View {
         }
         .navigationTitle("传分")
         .navigationBarTitleDisplayMode(.inline)
+        
     }
     
     func loadProfileFromDevice() {

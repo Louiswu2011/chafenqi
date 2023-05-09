@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct UpdaterView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var service = TunnelManagerService.shared
-    @ObservedObject var toastManager = AlertToastManager.shared
+    @ObservedObject var alertToast = AlertToastModel.shared
     
     @State var isShowingAlert = false
     @State var isShowingConfig = false
@@ -170,7 +171,8 @@ struct UpdaterView: View {
         
         pasteboard.string = requestUrl
         
-        toastManager.showingUpdaterPasted = true
+        print("[Updater] Url copied.")
+        alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
     }
 }
 

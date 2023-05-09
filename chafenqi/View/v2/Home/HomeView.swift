@@ -45,7 +45,7 @@ struct HomeView: View {
                 }
             }
         }
-        .toast(isPresenting: $alertToast.show) {
+        .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
         }
     }

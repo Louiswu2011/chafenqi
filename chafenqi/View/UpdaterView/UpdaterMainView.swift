@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct UpdaterMainView: View {
     @ObservedObject var user: CFQUser
     @ObservedObject var service = TunnelManagerService.shared
-    @ObservedObject var toastManager = AlertToastManager.shared
+    @ObservedObject var alertToast = AlertToastModel.shared
     
     @State var isShowingAlert = false
     @State var isShowingConfig = false
@@ -111,6 +112,9 @@ struct UpdaterMainView: View {
                     UpdaterHelpView(isShowingHelp: $isShowingHelp)
                 }
             }
+            .toast(isPresenting: $alertToast.show, tapToDismiss: true) {
+                alertToast.toast
+            }
         }
         .onAppear {
             refreshStatus()
@@ -167,9 +171,8 @@ struct UpdaterMainView: View {
         let pasteboard = UIPasteboard.general
         let requestUrl = "http://43.139.107.206/upload_\(destination)?token=\(user.token)"
 
-        pasteboard.string = requestUrl
         
-        toastManager.showingUpdaterPasted = true
+        pasteboard.string = requestUrl
     }
 
 }

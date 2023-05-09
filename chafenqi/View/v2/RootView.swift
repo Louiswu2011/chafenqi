@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RootView: View {
     @ObservedObject var user: CFQNUser
+    @ObservedObject var alertToast = AlertToastModel.shared
     
     @State var loadingCache = false
     
@@ -51,6 +52,9 @@ struct RootView: View {
                         Image(systemName: "music.note.list")
                         Text("歌曲")
                     }
+                }
+                .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
+                    alertToast.toast
                 }
             } else {
                 LoginView(user: user)
