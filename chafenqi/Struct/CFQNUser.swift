@@ -160,10 +160,10 @@ class CFQNUser: ObservableObject {
                     orig + next.rating
                 } / 10.0).cut(remainingDigits: 2)
                 
-                let r1 = self.r10Slice.sorted {
+                let b1 = self.b30Slice.sorted {
                     $0.rating > $1.rating
                 }.first!
-                self.maxRating = ((self.b30 * 30.0 + r1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
+                self.maxRating = ((self.b30 * 30.0 + b1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
                 
                 var r = recent
                 if let max = (r.filter {
