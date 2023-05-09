@@ -98,6 +98,7 @@ struct Settings: View {
                 } label: {
                     Text("检查新版本...")
                 }
+                Link("请作者打一把中二", destination: URL(string: "https://afdian.net/a/chafenqi")!)
                 Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
             } header: {
                 Text("关于")
