@@ -58,6 +58,8 @@ struct HomeView: View {
                 refreshing = false
             } catch {
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
+                alertToast.toast = errToast
+                alertToast.show = true
             }
         }
     }

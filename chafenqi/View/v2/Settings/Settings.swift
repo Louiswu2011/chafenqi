@@ -19,6 +19,7 @@ struct Settings: View {
     
     @ObservedObject var user: CFQNUser
     
+    @State private var showingWelcome = false
     @State private var showingLoginView = false
     @State private var showingBuildNumber = false
     @State private var showingClearAlert = false
@@ -104,22 +105,16 @@ struct Settings: View {
                 Text("关于")
             }
             
+            Button {
+                showingWelcome = true
+            } label: {
+                Text("显示教程...")
+            }
+            
             Section {
                 SettingsInfoLabelView(title: "Token", message: user.jwtToken)
                     .lineLimit(1)
                 SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
-                Button {
-                    firstTime = true
-                    toastManager.showingTutorialReseted = true
-                } label: {
-                    if (!firstTime) {
-                        Text("重置教程")
-                    } else {
-                        Text("教程已重置")
-                    }
-                }
-                .disabled(firstTime)
-                .foregroundColor(firstTime ? .gray : .red)
                 Button {
                     let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
                         cacheController.clearCache()
@@ -173,6 +168,15 @@ struct Settings: View {
                 } catch {
                     versionData = .empty
                 }
+            }
+        }
+        .sheet(isPresented: $showingWelcome) {
+            if #available(iOS 15.0, *) {
+                WelcomeTabView(isShowingWelcome: $showingWelcome)
+                    .interactiveDismissDisabled(true)
+            } else {
+                WelcomeTabView(isShowingWelcome: $showingWelcome)
+                    .presentation(isModal: true)
             }
         }
     }
