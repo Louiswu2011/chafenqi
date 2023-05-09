@@ -26,6 +26,8 @@ class CFQNUser: ObservableObject {
     var chunithm = Chunithm()
     var data = CFQPersistentData()
     
+    var assertionFailedTried = false
+    
     @AppStorage("CFQUsername") var username = ""
     var fishUsername = ""
     
@@ -306,6 +308,19 @@ class CFQNUser: ObservableObject {
         print("[CFQNUser] Saved game data cache.")
     }
     
+    func logout() {
+        self.maimaiCache = Data()
+        self.chunithmCache = Data()
+        self.jwtToken = ""
+        self.fishToken = ""
+        self.username = ""
+        self.fishUsername = ""
+        self.isPremium = false
+        withAnimation {
+            self.didLogin.toggle()
+        }
+    }
+    
     func loadFromCache() async throws {
         let decoder = JSONDecoder()
         
@@ -317,16 +332,24 @@ class CFQNUser: ObservableObject {
         try await addAdditionalData()
     }
     
-    func logout() {
-        self.maimaiCache = Data()
-        self.chunithmCache = Data()
-        self.jwtToken = ""
-        self.fishToken = ""
-        self.username = ""
-        self.fishUsername = ""
-        self.isPremium = false
-        withAnimation {
-            self.didLogin.toggle()
+    func refresh() async throws {
+        do {
+            try await self.fetchUserData(token: self.jwtToken)
+            print("[CFQNUser] Refreshed game data.")
+        } catch CFQNUserError.AssociationError {
+            if (!self.assertionFailedTried) {
+                self.assertionFailedTried = true
+                self.data = try await .forceRefresh()
+                try await self.refresh()
+                print("[CFQNUser] Tried to reload song list.")
+            } else {
+                let decoder = JSONDecoder()
+                self.assertionFailedTried = false
+                print("[CFQNUser] Assertion failed, rolling back.")
+                self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
+                self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
+                try await addAdditionalData()
+            }
         }
     }
     

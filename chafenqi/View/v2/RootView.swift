@@ -16,8 +16,13 @@ struct RootView: View {
         VStack {
             if (loadingCache) {
                 VStack {
-                    Text("加载缓存中...")
-                        .padding()
+                    Image("Icon")
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(width: 100)
+                        .mask(RoundedRectangle(cornerRadius: 10))
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 3))
+                        .padding(.bottom)
                     ProgressView()
                 }
             } else if (user.didLogin) {
@@ -59,8 +64,8 @@ struct RootView: View {
                     try await user.loadFromCache()
                     withAnimation() {
                         user.didLogin = true
+                        loadingCache = false
                     }
-                    loadingCache = false
                 }
             }
         }
