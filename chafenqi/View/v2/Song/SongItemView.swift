@@ -21,6 +21,7 @@ struct SongItemView: View {
     @State var title = ""
     @State var artist = ""
     @State var strip = LevelStripView(mode: 0, levels: ["1", "2", "3", "4"])
+
     
     var body: some View {
         HStack {

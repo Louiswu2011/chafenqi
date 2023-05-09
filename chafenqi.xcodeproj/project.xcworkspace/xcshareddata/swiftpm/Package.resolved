@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "swiftlysearch",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thislooksfun/SwiftlySearch",
+      "state" : {
+        "branch" : "master",
+        "revision" : "2ce5dc30ee8fa12fe0dbb6e169825eb76e1c8fe2"
+      }
+    },
+    {
       "identity" : "swiftui-cached-async-image",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lorenzofiamingo/swiftui-cached-async-image",

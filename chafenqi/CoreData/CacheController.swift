@@ -14,11 +14,14 @@ class CacheController: ObservableObject {
     var container = NSPersistentContainer(name: "ImageCache")
     
     init() {
+        print("[CacheController] Initializing persistent stores...")
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("[CacheController] Container load failed: \(error)")
             }
+            print("[CacheController] Loaded store: \(storeDescription.description)")
         }
+        print(container.viewContext.name ?? "no name")
     }
     
     func getCacheSize() -> String {
