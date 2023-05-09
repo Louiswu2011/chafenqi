@@ -61,10 +61,15 @@ struct RootView: View {
                 // Already logged in
                 loadingCache = true
                 Task {
-                    try await user.loadFromCache()
-                    withAnimation() {
-                        user.didLogin = true
+                    do {
+                        try await user.loadFromCache()
+                        withAnimation() {
+                            user.didLogin = true
+                            loadingCache = false
+                        }
+                    } catch {
                         loadingCache = false
+                        user.didLogin = false
                     }
                 }
             }

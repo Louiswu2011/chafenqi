@@ -68,11 +68,11 @@ struct Settings: View {
                 if (user.shouldForwardToFish) {
                     SettingsInfoLabelView(title: "Token", message: user.fishToken)
                         .lineLimit(1)
-                    NavigationLink {
-                        TokenUploderView(user: user)
-                    } label: {
-                        Text("更新水鱼Token")
-                    }
+                }
+                NavigationLink {
+                    TokenUploderView(user: user)
+                } label: {
+                    Text("更新水鱼Token")
                 }
             } header: {
                 Text("传分")

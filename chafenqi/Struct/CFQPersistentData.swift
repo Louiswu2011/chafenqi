@@ -57,6 +57,11 @@ class CFQPersistentData: ObservableObject {
         
         var decoded = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
         decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
+        
+        let dlcPath = Bundle.main.url(forResource: "dlc", withExtension: "json")
+        let dlc = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: Data(contentsOf: dlcPath!))
+        decoded.append(contentsOf: dlc)
+        
         self.chunithm.loadedSongs = try JSONEncoder().encode(decoded)
         self.chunithm.songs = decoded
         

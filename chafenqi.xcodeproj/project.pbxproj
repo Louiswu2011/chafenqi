@@ -131,6 +131,7 @@
 		BFFEEB1B2A081FCA001B15B7 /* SongItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB1A2A081FCA001B15B7 /* SongItemView.swift */; };
 		BFFEEB1F2A0825B3001B15B7 /* ImageCache.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB1D2A0825B3001B15B7 /* ImageCache.xcdatamodeld */; };
 		BFFEEB212A0826A3001B15B7 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB202A0826A3001B15B7 /* CacheController.swift */; };
+		BFFF753E2A0A844200BB905D /* dlc.json in Resources */ = {isa = PBXBuildFile; fileRef = BFFF753D2A0A844200BB905D /* dlc.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -307,6 +308,7 @@
 		BFFEEB1A2A081FCA001B15B7 /* SongItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongItemView.swift; sourceTree = "<group>"; };
 		BFFEEB1E2A0825B3001B15B7 /* ImageCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageCache.xcdatamodel; sourceTree = "<group>"; };
 		BFFEEB202A0826A3001B15B7 /* CacheController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = "<group>"; };
+		BFFF753D2A0A844200BB905D /* dlc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dlc.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +414,7 @@
 		BF0CFD5F297B26D6003763E2 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BFFF753D2A0A844200BB905D /* dlc.json */,
 				BF0CFD60297B26E5003763E2 /* IdMap.json */,
 				BF571DAB29A91A2700702240 /* ChafenqiColor.swift */,
 			);
@@ -1014,6 +1017,7 @@
 				BF0A0BA9298C3E97008F9700 /* songListScreen.png in Resources */,
 				BF0A0BAD298C3E97008F9700 /* searchScreen.png in Resources */,
 				BF0A0BAA298C3E97008F9700 /* randomScreen.png in Resources */,
+				BFFF753E2A0A844200BB905D /* dlc.json in Resources */,
 				BFF353C829681F8E001392E5 /* Preview Assets.xcassets in Resources */,
 				BF0A0BAC298C3E97008F9700 /* detailScreen.png in Resources */,
 				BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */,

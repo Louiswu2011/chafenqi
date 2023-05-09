@@ -46,12 +46,13 @@ class CFQNUser: ObservableObject {
             init() {}
             
             init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries) {
+                guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
-                }.sorted { $0.rating > $1.rating }.prefix(upTo: 25))
+                }.sorted { $0.rating > $1.rating }.prefix(25))
                 self.currentSlice = Array(orig.filter { entry in
                     return entry.associatedSong!.basicInfo.isNew
-                }.sorted { $0.rating > $1.rating }.prefix(upTo: 15))
+                }.sorted { $0.rating > $1.rating }.prefix(15))
                 self.pastRating = self.pastSlice.reduce(0) { orig, next in
                     orig + next.rating
                 }
@@ -142,6 +143,7 @@ class CFQNUser: ObservableObject {
             
             init() {}
             init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries) {
+                guard !orig.isEmpty && !recent.isEmpty else { return }
                 self.b30Slice = orig.filter {
                     $0.type == "best"
                 }
@@ -373,9 +375,14 @@ class CFQNUser: ObservableObject {
         
         self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
         self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
+        self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
+        self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
+        print("\(self.maimai.info.nickname) \(self.chunithm.info.nickname)")
         print("[CFQNUser] Calculated Custom Values.")
         
-        if (!checkAssociated().isEmpty) {
+        let failed = checkAssociated()
+        if (!failed.isEmpty) {
+            print(failed)
             throw CFQNUserError.AssociationError
         }
         print("[CFQNUser] Association Assertion Passed.")
@@ -428,3 +435,11 @@ let recommendPrompts = [
     "NR": "新纪录",
     "RO": "最近一首"
 ]
+
+extension String {
+    func transformingHalfwidthFullwidth() -> String {
+        let str = NSMutableString(string: self)
+        CFStringTransform(str, nil, kCFStringTransformFullwidthHalfwidth, false)
+        return str as String
+    }
+}
