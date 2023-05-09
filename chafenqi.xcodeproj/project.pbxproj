@@ -50,6 +50,7 @@
 		BF572E1329A5E37A00E9811B /* RecentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1129A5E37A00E9811B /* RecentDetailView.swift */; };
 		BF572E1529A5E39D00E9811B /* ChunithmRecentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1429A5E39D00E9811B /* ChunithmRecentRecord.swift */; };
 		BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1629A5E3A700E9811B /* MaimaiRecentRecord.swift */; };
+		BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */ = {isa = PBXBuildFile; productRef = BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */; };
 		BF670DE529781B0100EA2CBB /* ChunithmMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */; };
 		BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6EB97F298A429B003A5604 /* FilterPanelView.swift */; };
 		BF74D20D29C387AE0099B427 /* CommentComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF74D20C29C387AE0099B427 /* CommentComposer.swift */; };
@@ -332,6 +333,7 @@
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
 				BF7872A32A07D70A007243B3 /* SwiftUICharts in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
+				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -890,6 +892,7 @@
 				BF42045729982705008C7E02 /* AlertToast */,
 				BF8D2A822A06395F00F60633 /* Crypto */,
 				BF7872A22A07D70A007243B3 /* SwiftUICharts */,
+				BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -974,6 +977,7 @@
 				BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				BF8D2A812A06395F00F60633 /* XCRemoteSwiftPackageReference "swift-crypto" */,
 				BF7872A12A07D70A007243B3 /* XCRemoteSwiftPackageReference "ChartView" */,
+				BF66DAF62A0A2FAF00EDB749 /* XCRemoteSwiftPackageReference "SwiftlySearch" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1655,6 +1659,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		BF66DAF62A0A2FAF00EDB749 /* XCRemoteSwiftPackageReference "SwiftlySearch" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/thislooksfun/SwiftlySearch";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		BF7872A12A07D70A007243B3 /* XCRemoteSwiftPackageReference "ChartView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AppPear/ChartView";
@@ -1686,6 +1698,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF66DAF62A0A2FAF00EDB749 /* XCRemoteSwiftPackageReference "SwiftlySearch" */;
+			productName = SwiftlySearch;
 		};
 		BF7872A22A07D70A007243B3 /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -29,8 +29,8 @@ struct LoginView: View {
     @State private var loginPrompt = "登录中"
     @State private var registerPrompt = "注册中"
     
-    @State var account: String = "louiswu2011"
-    @State var password: String = "bed200110"
+    @State var account: String = ""
+    @State var password: String = ""
     
     var body: some View {
         VStack {
