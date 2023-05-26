@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+
 class CFQNUser: ObservableObject {
     @Published var didLogin = false
     

@@ -43,6 +43,11 @@ struct Settings: View {
         Form {
             Section {
                 UserInfoWithAvatarView(user: user)
+                NavigationLink {
+                    RedeemView()
+                } label: {
+                    Text("兑换")
+                }
                 Button {
                     let logoutAlert = Alert(title: Text("确定要登出吗？"), primaryButton: .cancel(Text("取消")), secondaryButton: .default(Text("登出"), action: {
                         user.logout()

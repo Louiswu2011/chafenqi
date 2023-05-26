@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		677004212A20B9E6005BB69A /* RedeemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677004202A20B9E6005BB69A /* RedeemView.swift */; };
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
 		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
 		BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF068F712991856F008665E3 /* NetworkExtension.framework */; };
@@ -181,6 +182,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		677004202A20B9E6005BB69A /* RedeemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemView.swift; sourceTree = "<group>"; };
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
 		BF02B67C298AC26300F5234E /* SongRandomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRandomizerView.swift; sourceTree = "<group>"; };
 		BF068F6A2991855D008665E3 /* chafenqi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqi.entitlements; sourceTree = "<group>"; };
@@ -698,6 +700,7 @@
 			children = (
 				BF7872A62A07DC9C007243B3 /* Settings.swift */,
 				BF45B1CD2A0961440076E437 /* TokenUploderView.swift */,
+				677004202A20B9E6005BB69A /* RedeemView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1160,6 +1163,7 @@
 				BFFCE3AB29C8419F00893786 /* SponsorView.swift in Sources */,
 				BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */,
 				BF533C9829BF093C003409AB /* Comment.swift in Sources */,
+				677004212A20B9E6005BB69A /* RedeemView.swift in Sources */,
 				BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */,
 				BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */,
 				BF0D912E296C4B7F005DC8A3 /* ChunithmDetailView.swift in Sources */,
