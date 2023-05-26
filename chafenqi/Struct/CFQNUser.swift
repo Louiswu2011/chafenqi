@@ -108,6 +108,7 @@ class CFQNUser: ObservableObject {
         init(token: String) async throws {
             let server = CFQMaimaiServer(authToken: token)
             do {
+                
                 async let info = try server.fetchUserInfo()
                 async let best = try server.fetchBestEntries()
                 async let recent = try server.fetchRecentEntries()
@@ -125,6 +126,9 @@ class CFQNUser: ObservableObject {
             } catch CFQServerError.UserNotPremiumError {
                 self.delta = []
                 print("[CFQNUser] User is not premium, skipping maimai deltas.")
+            } catch {
+                self.delta = []
+                isNotEmpty = false
             }
         }
         
@@ -235,6 +239,10 @@ class CFQNUser: ObservableObject {
                 self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
                 print("[CFQNUser] User is not premium, skipping chunithm extras.")
+            } catch {
+                self.delta = []
+                self.extra = .empty
+                isNotEmpty = false
             }
         }
         
