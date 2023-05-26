@@ -7,7 +7,17 @@
 
 import SwiftUI
 
+let perks =
+"""
+通过兑换订阅服务，您可以获得以下功能：
+- 出勤数据记录
+- Rating历史趋势
+- 详细歌曲游玩记录
+- 独特的赞助者标志
+"""
+
 struct RedeemView: View {
+    
     @State var code = ""
     
     var body: some View {
@@ -24,10 +34,7 @@ struct RedeemView: View {
                     Text("兑换...")
                 }
             } footer: {
-                Text(
-                """
-                通过兑换订阅服务，您可以解锁以下功能：
-                """)
+                Text(perks)
             }
         }
         
