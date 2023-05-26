@@ -125,6 +125,9 @@ class CFQNUser: ObservableObject {
             } catch CFQServerError.UserNotPremiumError {
                 self.delta = []
                 print("[CFQNUser] User is not premium, skipping maimai deltas.")
+            } catch CFQServerError.EntryNotFoundError {
+                self.delta = []
+                isNotEmpty = false
             }
         }
         
@@ -235,6 +238,10 @@ class CFQNUser: ObservableObject {
                 self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
                 print("[CFQNUser] User is not premium, skipping chunithm extras.")
+            } catch CFQServerError.EntryNotFoundError {
+                self.delta = []
+                self.extra = []
+                isNotEmpty = false
             }
         }
         
