@@ -31,7 +31,7 @@ struct HomeNameplate: View {
                         
                         if(user.currentMode == 0) {
                             NavigationLink {
-                                PlayerInfoView()
+                                PlayerInfoView(user: user)
                             } label: {
                                 Image("nameplate_penguin")
                                     .resizable()
@@ -49,7 +49,7 @@ struct HomeNameplate: View {
                             }
                         } else {
                             NavigationLink {
-                                PlayerInfoView()
+                                PlayerInfoView(user: user)
                             } label: {
                                 Image("nameplate_salt")
                                     .resizable()

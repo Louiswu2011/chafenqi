@@ -8,6 +8,14 @@
 import Intents
 
 class BuildURLHandler: NSObject, BuildProxyURLIntentHandling {
+    func resolveForward(for intent: BuildProxyURLIntent, with completion: @escaping (INBooleanResolutionResult) -> Void) {
+        guard let forward = intent.forward else {
+            completion(INBooleanResolutionResult.needsValue())
+            return
+        }
+        completion(INBooleanResolutionResult.success(with: forward as! Bool))
+    }
+    
     func handle(intent: BuildProxyURLIntent, completion: @escaping (BuildProxyURLIntentResponse) -> Void) {
         if let token = intent.token {
             var uploadQuery = ""
@@ -20,8 +28,9 @@ class BuildURLHandler: NSObject, BuildProxyURLIntentHandling {
             case .maimai:
                 uploadQuery = "upload_maimai"
             }
+            let forward = intent.forward
             let response = BuildProxyURLIntentResponse(code: .success, userActivity: nil)
-            let url = "http://43.139.107.206/\(uploadQuery)?token=\(token)"
+            let url = "http://43.139.107.206:8083/\(uploadQuery)?jwt=\(token)&forwading=\(String(describing: forward))"
             response.url = url
             completion(response)
         }

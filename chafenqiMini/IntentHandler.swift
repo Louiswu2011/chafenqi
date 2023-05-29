@@ -23,7 +23,7 @@ class IntentHandler: INExtension, StartProxyIntentHandling, StopProxyIntentHandl
     }
     
     func handle(intent: FetchFishTokenIntent) async -> FetchFishTokenIntentResponse {
-        let savedToken = UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!.string(forKey: "userToken")
+        let savedToken = UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!.string(forKey: "JWT")
         guard let token = savedToken else {
             NSLog("Failed to retreive from user defaults")
             return FetchFishTokenIntentResponse(code: .failure, userActivity: nil)

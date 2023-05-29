@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct PlayerInfoView: View {
+    @ObservedObject var user: CFQNUser
+    
     var body: some View {
-        ScrollView {
-            Text("施工中")
+        Form {
+            Text("完成度")
         }
         .navigationTitle("玩家信息")
         .navigationBarTitleDisplayMode(.large)
@@ -19,6 +21,6 @@ struct PlayerInfoView: View {
 
 struct PlayerInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerInfoView()
+        PlayerInfoView(user: CFQNUser())
     }
 }

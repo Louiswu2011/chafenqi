@@ -53,11 +53,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>TZTSVY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21G419</string>
+	<string>22A400</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>14C18</string>
+	<string>14B47b</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>14.2</string>
+	<string>14.1</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -316,10 +316,10 @@
 			<key>INIntentKeyParameter</key>
 			<string>token</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>3</integer>
+			<integer>5</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
-				<key>token,destination</key>
+				<key>token,destination,forward</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
@@ -335,18 +335,20 @@
 			<string>BuildProxyURL</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
-				<key>token,destination</key>
+				<key>token,destination,forward</key>
 				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<true/>
 					<key>INIntentParameterCombinationSubtitle</key>
 					<string>获取通过查分器NEW代理上传分数的URL</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>Vu2oPT</string>
+					<string>NXnK8r</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
 					<string>构建URL</string>
 					<key>INIntentParameterCombinationTitleID</key>
-					<string>TNmYlU</string>
+					<string>tWuE8B</string>
 				</dict>
 			</dict>
 			<key>INIntentParameters</key>
@@ -355,7 +357,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>水鱼网Token</string>
+					<string>用户Token</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>U22fhk</string>
 					<key>INIntentParameterDisplayPriority</key>
@@ -387,7 +389,7 @@
 							<key>INIntentParameterPromptDialogCustom</key>
 							<true/>
 							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>请提供水鱼网Token</string>
+							<string>请提供用户Token</string>
 							<key>INIntentParameterPromptDialogFormatStringID</key>
 							<string>xMdtV2</string>
 							<key>INIntentParameterPromptDialogType</key>
@@ -475,6 +477,56 @@
 					<key>INIntentParameterType</key>
 					<string>Integer</string>
 				</dict>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>是否上传至水鱼网</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>AeRLR5</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>3</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataDefaultValue</key>
+						<true/>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>否</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>nD8KEz</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>是</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>YO2Iuf</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>forward</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>请选择是否一并上传至水鱼网</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>bpsrpD</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>5</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
 			</array>
 			<key>INIntentResponse</key>
 			<dict>
@@ -536,7 +588,7 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDescription</key>
-			<string>获取水鱼网Token，用于App代理上传分数。</string>
+			<string>获取查分器用户Token，用于App代理上传分数。</string>
 			<key>INIntentDescriptionID</key>
 			<string>UsdcSb</string>
 			<key>INIntentManagedParameterCombinations</key>
