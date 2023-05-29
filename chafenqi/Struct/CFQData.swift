@@ -207,7 +207,7 @@ struct CFQData: Codable {
             var dxScore: Int
             var achievement: Double
             var syncPoint: Int
-            var awakening: Int
+            var awakening: String
             var updatedAt: String
             var createdAt: String
         }

@@ -11,6 +11,8 @@ import SwiftlySearch
 struct SongTopView: View {
     @ObservedObject var user: CFQNUser
     
+    @State var filters = CFQFilterOptions()
+    
     @State var filteredMaiSongs: [MaimaiSongData] = []
     @State var filteredChuSongs: [ChunithmSongData] = []
     @State var searchText = ""
@@ -30,6 +32,8 @@ struct SongTopView: View {
                     }
                 }
                 .searchable(text: $searchText, prompt: Text("搜索标题/曲师"))
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
                 .onSubmit(of: .search) {
                     filterSongs()
                 }
@@ -61,6 +65,15 @@ struct SongTopView: View {
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    SongFilterOptionsView(filters: $filters)
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                }
+            }
+        }
         .navigationTitle("歌曲列表")
     }
     
@@ -74,6 +87,21 @@ struct SongTopView: View {
                     $0.basicInfo.artist.localizedCaseInsensitiveContains(searchText)
                 }
             }
+            
+            let levelIndices = filters.filterChuLevelToggles.trueIndices
+            let genreIndices = filters.filterChuGenreToggles.trueIndices
+            if !levelIndices.isEmpty {
+                filteredChuSongs = filteredChuSongs.filter { song in
+                    let levels = levelIndices.compactMap { CFQFilterOptions.levelOptions[$0] }
+                    return anyCommonElements(lhs: levels, rhs: song.level)
+                }
+            }
+            if !genreIndices.isEmpty {
+                filteredChuSongs = filteredChuSongs.filter { song in
+                    let genres = genreIndices.compactMap { CFQFilterOptions.chuGenreOptions[$0] }
+                    return genres.contains(song.basicInfo.genre)
+                }
+            }
         } else {
             if (searchText.isEmpty) {
                 filteredMaiSongs = user.data.maimai.songlist
@@ -83,7 +111,33 @@ struct SongTopView: View {
                     $0.basicInfo.artist.localizedCaseInsensitiveContains(searchText)
                 }
             }
+            
+            let levelIndices = filters.filterMaiLevelToggles.trueIndices
+            let genreIndices = filters.filterMaiGenreToggles.trueIndices
+            if !levelIndices.isEmpty {
+                filteredMaiSongs = filteredMaiSongs.filter { song in
+                    let levels = levelIndices.compactMap { CFQFilterOptions.levelOptions[$0] }
+                    return anyCommonElements(lhs: levels, rhs: song.level)
+                }
+            }
+            if !genreIndices.isEmpty {
+                filteredMaiSongs = filteredMaiSongs.filter { song in
+                    let genres = genreIndices.compactMap { CFQFilterOptions.maiGenreList[$0] }
+                    return genres.contains(song.basicInfo.genre)
+                }
+            }
         }
+    }
+    
+    func anyCommonElements <T, U> (lhs: T, rhs: U) -> Bool where T: Sequence, U: Sequence, T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
+        for lhsItem in lhs {
+            for rhsItem in rhs {
+                if lhsItem == rhsItem {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
 

@@ -13,6 +13,8 @@
 		6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6725EB062A2440AB00C1829A /* SwiftUICharts */; };
 		6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB082A244AE600C1829A /* PCDeltaChart.swift */; };
 		677004212A20B9E6005BB69A /* RedeemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677004202A20B9E6005BB69A /* RedeemView.swift */; };
+		67D622D32A247ADC00E7D70E /* SongFilterOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */; };
+		67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */; };
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
 		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
 		BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF068F712991856F008665E3 /* NetworkExtension.framework */; };
@@ -191,6 +193,8 @@
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
 		6725EB082A244AE600C1829A /* PCDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDeltaChart.swift; sourceTree = "<group>"; };
 		677004202A20B9E6005BB69A /* RedeemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemView.swift; sourceTree = "<group>"; };
+		67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFilterOptionsView.swift; sourceTree = "<group>"; };
+		67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQFilterOptions.swift; sourceTree = "<group>"; };
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
 		BF02B67C298AC26300F5234E /* SongRandomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRandomizerView.swift; sourceTree = "<group>"; };
 		BF068F6A2991855D008665E3 /* chafenqi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqi.entitlements; sourceTree = "<group>"; };
@@ -386,6 +390,14 @@
 			path = Charts;
 			sourceTree = "<group>";
 		};
+		67D622D42A248C1800E7D70E /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
 		BF02B67A298AC22100F5234E /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,6 +567,7 @@
 		BF7E251D296AAAB200169B57 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
+				67D622D42A248C1800E7D70E /* Filter */,
 				BF533C9629BF0932003409AB /* Comment */,
 				BFBC54FB298CEB1800A93918 /* Maimai */,
 				BFBC54FA298CEB0500A93918 /* Chunithm */,
@@ -701,6 +714,7 @@
 				BFFEEB182A081F5C001B15B7 /* SongTopView.swift */,
 				BFFEEB1A2A081FCA001B15B7 /* SongItemView.swift */,
 				BF426D2F2A08DE5400606799 /* SongDetailView.swift */,
+				67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */,
 			);
 			path = Song;
 			sourceTree = "<group>";
@@ -1116,6 +1130,7 @@
 				BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */,
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
 				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,
+				67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */,
 				6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */,
 				BFC860362A06B41000E3A7CF /* HomeNameplate.swift in Sources */,
 				BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */,
@@ -1188,6 +1203,7 @@
 				BF4886A6298D841300D7F7D2 /* MaimaiDetailView.swift in Sources */,
 				BFCE1B2C29EE93A600BFAA67 /* AppDelegate.swift in Sources */,
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
+				67D622D32A247ADC00E7D70E /* SongFilterOptionsView.swift in Sources */,
 				BFE6DE6629CADA2E00AEF950 /* RatingAnalysisView.swift in Sources */,
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,
 				6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */,
