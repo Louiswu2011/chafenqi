@@ -128,7 +128,8 @@ class CFQNUser: ObservableObject {
                 print("[CFQNUser] User is not premium, skipping maimai deltas.")
             } catch {
                 self.delta = []
-                isNotEmpty = false
+                print(error)
+                print("[CFQNUser] User is premium but maimai delta info is missing, skipping...")
             }
         }
         
@@ -242,7 +243,8 @@ class CFQNUser: ObservableObject {
             } catch {
                 self.delta = []
                 self.extra = .empty
-                isNotEmpty = false
+                print(error)
+                print("[CFQNUser] User is premium but chunithm delta/extra info is missing, skipping...")
             }
         }
         
@@ -382,19 +384,19 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Assigned Associated Song Data.")
         
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
-        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
-        self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
-        self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
-        print("\(self.maimai.info.nickname) \(self.chunithm.info.nickname)")
-        print("[CFQNUser] Calculated Custom Values.")
-        
         let failed = checkAssociated()
         if (!failed.isEmpty) {
             print(failed)
             throw CFQNUserError.AssociationError
         }
         print("[CFQNUser] Association Assertion Passed.")
+        
+        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
+        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
+        self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
+        self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
+        print("\(self.maimai.info.nickname) \(self.chunithm.info.nickname)")
+        print("[CFQNUser] Calculated Custom Values.")
     }
 }
 
