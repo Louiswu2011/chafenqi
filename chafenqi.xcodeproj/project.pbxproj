@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EAFE2A24400F00C1829A /* DeltaListView.swift */; };
+		6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB002A24401900C1829A /* DeltaDetailView.swift */; };
+		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
+		6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6725EB062A2440AB00C1829A /* SwiftUICharts */; };
+		6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB082A244AE600C1829A /* PCDeltaChart.swift */; };
 		677004212A20B9E6005BB69A /* RedeemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677004202A20B9E6005BB69A /* RedeemView.swift */; };
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
 		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
@@ -55,7 +60,6 @@
 		BF670DE529781B0100EA2CBB /* ChunithmMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670DE429781B0100EA2CBB /* ChunithmMiniView.swift */; };
 		BF6EB980298A429B003A5604 /* FilterPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6EB97F298A429B003A5604 /* FilterPanelView.swift */; };
 		BF74D20D29C387AE0099B427 /* CommentComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF74D20C29C387AE0099B427 /* CommentComposer.swift */; };
-		BF7872A32A07D70A007243B3 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = BF7872A22A07D70A007243B3 /* SwiftUICharts */; };
 		BF7872A72A07DC9C007243B3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7872A62A07DC9C007243B3 /* Settings.swift */; };
 		BF7872A92A07E515007243B3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7872A82A07E515007243B3 /* RootView.swift */; };
 		BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7B89DA29B7289C00E9ADA9 /* URLResponseExtension.swift */; };
@@ -182,6 +186,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6725EAFE2A24400F00C1829A /* DeltaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaListView.swift; sourceTree = "<group>"; };
+		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
+		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
+		6725EB082A244AE600C1829A /* PCDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDeltaChart.swift; sourceTree = "<group>"; };
 		677004202A20B9E6005BB69A /* RedeemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemView.swift; sourceTree = "<group>"; };
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
 		BF02B67C298AC26300F5234E /* SongRandomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRandomizerView.swift; sourceTree = "<group>"; };
@@ -335,10 +343,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
-				BF7872A32A07D70A007243B3 /* SwiftUICharts in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
+				6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +367,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6725EAFD2A243E5A00C1829A /* Delta */ = {
+			isa = PBXGroup;
+			children = (
+				6725EB022A24402600C1829A /* Charts */,
+				6725EAFE2A24400F00C1829A /* DeltaListView.swift */,
+				6725EB002A24401900C1829A /* DeltaDetailView.swift */,
+			);
+			path = Delta;
+			sourceTree = "<group>";
+		};
+		6725EB022A24402600C1829A /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				6725EB032A24403D00C1829A /* RatingDeltaChart.swift */,
+				6725EB082A244AE600C1829A /* PCDeltaChart.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		BF02B67A298AC22100F5234E /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +670,7 @@
 		BFC860332A06B3E400E3A7CF /* v2 */ = {
 			isa = PBXGroup;
 			children = (
+				6725EAFD2A243E5A00C1829A /* Delta */,
 				BF45B1D32A096DB60076E437 /* Rating */,
 				BF45B1CA2A0960920076E437 /* Info */,
 				BF8D2A7F2A06382800F60633 /* LoginView.swift */,
@@ -897,8 +925,8 @@
 				BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */,
 				BF42045729982705008C7E02 /* AlertToast */,
 				BF8D2A822A06395F00F60633 /* Crypto */,
-				BF7872A22A07D70A007243B3 /* SwiftUICharts */,
 				BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */,
+				6725EB062A2440AB00C1829A /* SwiftUICharts */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -982,8 +1010,8 @@
 				BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				BF8D2A812A06395F00F60633 /* XCRemoteSwiftPackageReference "swift-crypto" */,
-				BF7872A12A07D70A007243B3 /* XCRemoteSwiftPackageReference "ChartView" */,
 				BF66DAF62A0A2FAF00EDB749 /* XCRemoteSwiftPackageReference "SwiftlySearch" */,
+				6725EB052A2440AB00C1829A /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1088,6 +1116,7 @@
 				BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */,
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
 				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,
+				6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */,
 				BFC860362A06B41000E3A7CF /* HomeNameplate.swift in Sources */,
 				BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */,
 				BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */,
@@ -1146,9 +1175,11 @@
 				BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */,
 				BFCF130B2A0390D1000B2E0D /* CFQServer.swift in Sources */,
 				BF45B1CE2A0961440076E437 /* TokenUploderView.swift in Sources */,
+				6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */,
 				BF8D2A802A06382800F60633 /* LoginView.swift in Sources */,
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */,
+				6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
 				BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */,
 				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
@@ -1159,6 +1190,7 @@
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
 				BFE6DE6629CADA2E00AEF950 /* RatingAnalysisView.swift in Sources */,
 				BF8E054429A2A5FE00079A06 /* WelcomePage3View.swift in Sources */,
+				6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */,
 				BFE0759F2A07845B005248A6 /* HomeRecent.swift in Sources */,
 				BFFCE3AB29C8419F00893786 /* SponsorView.swift in Sources */,
 				BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */,
@@ -1659,6 +1691,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6725EB052A2440AB00C1829A /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/willdale/SwiftUICharts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast";
@@ -1673,14 +1713,6 @@
 			requirement = {
 				branch = master;
 				kind = branch;
-			};
-		};
-		BF7872A12A07D70A007243B3 /* XCRemoteSwiftPackageReference "ChartView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AppPear/ChartView";
-			requirement = {
-				kind = exactVersion;
-				version = "2.0.0-beta.2";
 			};
 		};
 		BF8D2A812A06395F00F60633 /* XCRemoteSwiftPackageReference "swift-crypto" */ = {
@@ -1702,6 +1734,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6725EB062A2440AB00C1829A /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6725EB052A2440AB00C1829A /* XCRemoteSwiftPackageReference "SwiftUICharts" */;
+			productName = SwiftUICharts;
+		};
 		BF42045729982705008C7E02 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */;
@@ -1711,11 +1748,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF66DAF62A0A2FAF00EDB749 /* XCRemoteSwiftPackageReference "SwiftlySearch" */;
 			productName = SwiftlySearch;
-		};
-		BF7872A22A07D70A007243B3 /* SwiftUICharts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF7872A12A07D70A007243B3 /* XCRemoteSwiftPackageReference "ChartView" */;
-			productName = SwiftUICharts;
 		};
 		BF8D2A822A06395F00F60633 /* Crypto */ = {
 			isa = XCSwiftPackageProductDependency;
