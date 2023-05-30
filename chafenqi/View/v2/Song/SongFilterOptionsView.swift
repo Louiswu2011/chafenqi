@@ -50,7 +50,11 @@ struct MultiplePickerView: View {
             }
         } label: {
             HStack {
-                Text(title)
+                if title == "MiLK PLUS" {
+                    Text("maimai MiLK PLUS")
+                } else {
+                    Text(title)
+                }
                 Spacer()
                 if !selectionState.trueIndices.isEmpty {
                     let trueIndicies = selectionState.trueIndices
