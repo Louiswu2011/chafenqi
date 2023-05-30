@@ -13,6 +13,7 @@
 		6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6725EB062A2440AB00C1829A /* SwiftUICharts */; };
 		6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB082A244AE600C1829A /* PCDeltaChart.swift */; };
 		677004212A20B9E6005BB69A /* RedeemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677004202A20B9E6005BB69A /* RedeemView.swift */; };
+		67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
 		67D622D32A247ADC00E7D70E /* SongFilterOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */; };
 		67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */; };
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
@@ -193,6 +194,7 @@
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
 		6725EB082A244AE600C1829A /* PCDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDeltaChart.swift; sourceTree = "<group>"; };
 		677004202A20B9E6005BB69A /* RedeemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemView.swift; sourceTree = "<group>"; };
+		67B202C02A260110005FD147 /* ChunithmMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmMusicData.swift; sourceTree = "<group>"; };
 		67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFilterOptionsView.swift; sourceTree = "<group>"; };
 		67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQFilterOptions.swift; sourceTree = "<group>"; };
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				BF7E251E296AAACE00169B57 /* ChunithmSongData.swift */,
 				BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */,
 				BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */,
+				67B202C02A260110005FD147 /* ChunithmMusicData.swift */,
 			);
 			path = Chunithm;
 			sourceTree = "<group>";
@@ -1125,6 +1128,7 @@
 				BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */,
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
 				BFCF130D2A03A1C3000B2E0D /* CFQNUser.swift in Sources */,
+				67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */,
 				BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */,
 				BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */,
 				BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */,
