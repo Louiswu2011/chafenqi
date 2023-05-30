@@ -28,6 +28,13 @@ struct CFQServer {
             let registerPayload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
             let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/register", payload: registerPayload)
         }
+        
+        static func checkPremium(username: String) async throws -> Bool {
+            let payload = try JSONSerialization.data(withJSONObject: ["username": username])
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/isPremium", payload: payload)
+            let responseCode = response.statusCode()
+            return responseCode == 200
+        }
     }
     
     struct Fish {

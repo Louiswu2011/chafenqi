@@ -412,6 +412,9 @@ class CFQNUser: ObservableObject {
         CFQFilterOptions.chuVersionOptions = self.chunithm.custom.versionList
         
         print("[CFQNUser] Calculated Custom Values.")
+        
+        self.isPremium = try await CFQUserServer.checkPremium(username: self.username)
+        print("[CFQNUser] Acquired premium status: \(isPremium.description)")
     }
 }
 
