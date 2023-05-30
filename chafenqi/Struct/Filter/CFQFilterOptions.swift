@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct CFQFilterOptions: Codable {
+struct CFQFilterOptions {
+    static let shared = CFQFilterOptions()
+    
     static var levelOptions: [String] {
         var options: [String] = []
         for i in 1...15 {
@@ -19,36 +21,15 @@ struct CFQFilterOptions: Codable {
         return options
     }
     
-    static let chuGenreOptions = [
-        "POPS & ANIME",
-        "niconico",
-        "\u{6771}\u{65b9}Project",
-        "VARIETY",
-        "イロドリミドリ",
-        "ゲキマイ",
-        "ORIGINAL"
-    ]
+    static var chuGenreOptions = [String]()
+    static var maiGenreOptions = [String]()
+    static var chuVersionOptions = [String]()
+    static var maiVersionOptions = [String]()
     
-    static let maiGenreOptions = [
-        "流行&动漫",
-        "niconico & VOCALOID",
-        "东方Project",
-        "其他游戏",
-        "舞萌",
-        "音击/中二节奏"
-    ]
-    
-    static let maiGenreList = [
-        "POPS\u{30a2}\u{30cb}\u{30e1}",
-        "niconicoボーカロイド",
-        "\u{6771}\u{65b9}Project",
-        "ゲームバラエティ",
-        "maimai",
-        "オンゲキCHUNITHM"
-    ]
-    
-    var filterMaiLevelToggles: [Bool] = .init(repeating: false, count: 23)
-    var filterChuLevelToggles: [Bool] = .init(repeating: false, count: 23)
-    var filterMaiGenreToggles: [Bool] = .init(repeating: false, count: 6)
-    var filterChuGenreToggles: [Bool] = .init(repeating: false, count: 7)
+    var filterMaiLevelToggles: [Bool] = []
+    var filterChuLevelToggles: [Bool] = []
+    var filterMaiGenreToggles: [Bool] = []
+    var filterChuGenreToggles: [Bool] = []
+    var filterMaiVersionToggles: [Bool] = []
+    var filterChuVersionToggles: [Bool] = []
 }

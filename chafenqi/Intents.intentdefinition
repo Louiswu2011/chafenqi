@@ -310,7 +310,7 @@
 			<key>INIntentDefaultImageName</key>
 			<string>Icon</string>
 			<key>INIntentDescription</key>
-			<string>构建通过查分器NEW代理上传分数的URL。需要提供水鱼网Token以及需要上传分数的游戏名，返回URL文本。必须在开启代理的情况下通过微信聊天窗口打开。</string>
+			<string>构建通过查分器NEW代理上传分数的URL。需要提供用户Token以及需要上传分数的游戏名，返回URL文本。必须在开启代理的情况下通过微信聊天窗口打开。</string>
 			<key>INIntentDescriptionID</key>
 			<string>7qhuIh</string>
 			<key>INIntentKeyParameter</key>

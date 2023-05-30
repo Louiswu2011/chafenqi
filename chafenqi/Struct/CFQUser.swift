@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@available(*, deprecated, message: "No longer used in v2. See CFQNUser instead.")
 class CFQUser: ObservableObject {
     @Published var didLogin = false
     

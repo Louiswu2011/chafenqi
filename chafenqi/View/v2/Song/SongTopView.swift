@@ -41,6 +41,7 @@ struct SongTopView: View {
                     filterSongs()
                 }
                 .onAppear {
+                    setupFilters()
                     filterSongs()
                 }
             } else {
@@ -61,6 +62,7 @@ struct SongTopView: View {
                     filterSongs()
                 }
                 .onAppear {
+                    setupFilters()
                     filterSongs()
                 }
             }
@@ -90,6 +92,7 @@ struct SongTopView: View {
             
             let levelIndices = filters.filterChuLevelToggles.trueIndices
             let genreIndices = filters.filterChuGenreToggles.trueIndices
+            let versionIndices = filters.filterChuVersionToggles.trueIndices
             if !levelIndices.isEmpty {
                 filteredChuSongs = filteredChuSongs.filter { song in
                     let levels = levelIndices.compactMap { CFQFilterOptions.levelOptions[$0] }
@@ -100,6 +103,12 @@ struct SongTopView: View {
                 filteredChuSongs = filteredChuSongs.filter { song in
                     let genres = genreIndices.compactMap { CFQFilterOptions.chuGenreOptions[$0] }
                     return genres.contains(song.basicInfo.genre)
+                }
+            }
+            if !versionIndices.isEmpty {
+                filteredChuSongs = filteredChuSongs.filter { song in
+                    let versions = versionIndices.compactMap { CFQFilterOptions.chuVersionOptions[$0] }
+                    return versions.contains(song.basicInfo.from)
                 }
             }
         } else {
@@ -114,6 +123,7 @@ struct SongTopView: View {
             
             let levelIndices = filters.filterMaiLevelToggles.trueIndices
             let genreIndices = filters.filterMaiGenreToggles.trueIndices
+            let versionIndices = filters.filterMaiVersionToggles.trueIndices
             if !levelIndices.isEmpty {
                 filteredMaiSongs = filteredMaiSongs.filter { song in
                     let levels = levelIndices.compactMap { CFQFilterOptions.levelOptions[$0] }
@@ -122,11 +132,27 @@ struct SongTopView: View {
             }
             if !genreIndices.isEmpty {
                 filteredMaiSongs = filteredMaiSongs.filter { song in
-                    let genres = genreIndices.compactMap { CFQFilterOptions.maiGenreList[$0] }
+                    let genres = genreIndices.compactMap { CFQFilterOptions.maiGenreOptions[$0] }
                     return genres.contains(song.basicInfo.genre)
                 }
             }
+            if !versionIndices.isEmpty {
+                filteredMaiSongs = filteredMaiSongs.filter { song in
+                    let versions = versionIndices.compactMap { CFQFilterOptions.maiVersionOptions[$0] }
+                    return versions.contains(song.basicInfo.from)
+                }
+            }
         }
+    }
+    
+    func setupFilters() {
+        guard filters.filterChuGenreToggles.isEmpty else { return }
+        filters.filterChuGenreToggles = .init(repeating: false, count: CFQFilterOptions.chuGenreOptions.count)
+        filters.filterMaiGenreToggles = .init(repeating: false, count: CFQFilterOptions.maiGenreOptions.count)
+        filters.filterChuVersionToggles = .init(repeating: false, count: CFQFilterOptions.chuVersionOptions.count)
+        filters.filterMaiVersionToggles = .init(repeating: false, count: CFQFilterOptions.maiVersionOptions.count)
+        filters.filterChuLevelToggles = .init(repeating: false, count: CFQFilterOptions.levelOptions.count)
+        filters.filterMaiLevelToggles = .init(repeating: false, count: CFQFilterOptions.levelOptions.count)
     }
     
     func anyCommonElements <T, U> (lhs: T, rhs: U) -> Bool where T: Sequence, U: Sequence, T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {

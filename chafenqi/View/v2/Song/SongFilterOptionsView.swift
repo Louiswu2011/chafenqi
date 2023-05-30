@@ -16,6 +16,7 @@ struct SongFilterOptionsView: View {
     
     var body: some View {
         let genreOptions = user.currentMode == 0 ? CFQFilterOptions.chuGenreOptions : CFQFilterOptions.maiGenreOptions
+        let versionOptions = user.currentMode == 0 ? CFQFilterOptions.chuVersionOptions : CFQFilterOptions.chuGenreOptions
         
         Form {
 //            Section {
@@ -27,8 +28,7 @@ struct SongFilterOptionsView: View {
             Section {
                 MultiplePickerView(title: "等级", options: CFQFilterOptions.levelOptions, selectionState: user.currentMode == 0 ? $filters.filterChuLevelToggles : $filters.filterMaiLevelToggles)
                 MultiplePickerView(title: "分类", options: genreOptions, selectionState: user.currentMode == 0 ? $filters.filterChuGenreToggles : $filters.filterMaiGenreToggles)
-            } header: {
-                Text("筛选")
+                MultiplePickerView(title: "版本", options: versionOptions, selectionState: user.currentMode == 0 ? $filters.filterChuVersionToggles : $filters.filterMaiVersionToggles)
             }
         }
         .navigationTitle("筛选")
