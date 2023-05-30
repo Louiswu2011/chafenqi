@@ -16,7 +16,7 @@ struct SongFilterOptionsView: View {
     
     var body: some View {
         let genreOptions = user.currentMode == 0 ? CFQFilterOptions.chuGenreOptions : CFQFilterOptions.maiGenreOptions
-        let versionOptions = user.currentMode == 0 ? CFQFilterOptions.chuVersionOptions : CFQFilterOptions.chuGenreOptions
+        let versionOptions = user.currentMode == 0 ? CFQFilterOptions.chuVersionOptions : CFQFilterOptions.maiVersionOptions
         
         Form {
 //            Section {
@@ -78,8 +78,13 @@ struct MultiplePickerItem: View {
             }
         } label: {
             HStack {
-                Text(option)
-                    .foregroundColor(.black)
+                if option == "MiLK PLUS" {
+                    Text("maimai MiLK PLUS")
+                        .foregroundColor(.black)
+                } else {
+                    Text(option)
+                        .foregroundColor(.black)
+                }
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark")
