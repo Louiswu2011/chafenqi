@@ -52,7 +52,7 @@ class CFQNUser: ObservableObject {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
-                }.sorted { $0.rating > $1.rating }.prefix(25))
+                }.sorted { $0.rating > $1.rating }.prefix(35))
                 self.currentSlice = Array(orig.filter { entry in
                     return entry.associatedSong!.basicInfo.isNew
                 }.sorted { $0.rating > $1.rating }.prefix(15))
@@ -263,19 +263,27 @@ class CFQNUser: ObservableObject {
     
     init() {}
     
-    func fetchUserData(token: String) async throws {
+    func fetchUserData(token: String, username: String) async throws {
         self.maimai = try await Maimai(token: token)
         self.chunithm = try await Chunithm(token: token)
         print("[CFQNUser] Fetched User Data.")
         
-        try await addAdditionalData()
+        try await addAdditionalData(username: username)
         
-        self.maimaiCache = try JSONEncoder().encode(self.maimai)
-        self.chunithmCache = try JSONEncoder().encode(self.chunithm)
-        print("[CFQNUser] Saved Data to Cache.")
+        let maiCache = try JSONEncoder().encode(self.maimai)
+        let chuCache = try JSONEncoder().encode(self.chunithm)
+        
+        DispatchQueue.main.async {
+            self.maimaiCache = maiCache
+            self.chunithmCache = chuCache
+            print("[CFQNUser] Saved Data to Cache.")
+        }
         
         do {
-            self.fishToken = try await CFQFishServer.fetchToken(authToken: token)
+            let token = try await CFQFishServer.fetchToken(authToken: token)
+            DispatchQueue.main.async {
+                self.fishToken = token
+            }
             print("[CFQNUser] Fetched Fish Token.")
         } catch CFQServerError.EntryNotFoundError {
             self.fishToken = ""
@@ -319,15 +327,21 @@ class CFQNUser: ObservableObject {
         let encoder = JSONEncoder()
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
 
-        try await fetchUserData(token: self.jwtToken)
-        self.username = username
+        try await fetchUserData(token: self.jwtToken, username: username)
 
         if (!checkAssociated().isEmpty) {
             throw CFQNUserError.AssociationError
         }
         
-        self.maimaiCache = try encoder.encode(self.maimai)
-        self.chunithmCache = try encoder.encode(self.chunithm)
+        let maiCache = try encoder.encode(self.maimai)
+        let chuCache = try encoder.encode(self.chunithm)
+        
+        DispatchQueue.main.async {
+            self.maimaiCache = maiCache
+            self.chunithmCache = chuCache
+            self.username = username
+        }
+        
         print("[CFQNUser] Saved game data cache.")
     }
     
@@ -352,12 +366,12 @@ class CFQNUser: ObservableObject {
         self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
         print("[CFQNUser] Loaded user cache.")
         
-        try await addAdditionalData()
+        try await addAdditionalData(username: self.username)
     }
     
     func refresh() async throws {
         do {
-            try await self.fetchUserData(token: self.jwtToken)
+            try await self.fetchUserData(token: self.jwtToken, username: self.username)
             print("[CFQNUser] Refreshed game data.")
         } catch CFQNUserError.AssociationError {
             if (!self.assertionFailedTried) {
@@ -371,12 +385,12 @@ class CFQNUser: ObservableObject {
                 print("[CFQNUser] Assertion failed, rolling back.")
                 self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
                 self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
-                try await addAdditionalData()
+                try await addAdditionalData(username: self.username)
             }
         }
     }
     
-    func addAdditionalData() async throws {
+    func addAdditionalData(username: String) async throws {
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
@@ -413,7 +427,7 @@ class CFQNUser: ObservableObject {
         
         print("[CFQNUser] Calculated Custom Values.")
         
-        self.isPremium = try await CFQUserServer.checkPremium(username: self.username)
+        self.isPremium = try await CFQUserServer.checkPremium(username: username)
         print("[CFQNUser] Acquired premium status: \(isPremium.description)")
     }
 }

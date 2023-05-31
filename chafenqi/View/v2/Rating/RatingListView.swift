@@ -44,7 +44,7 @@ struct MaimaiRatingListView: View {
             .padding(.bottom)
             
             HStack {
-                Text("旧曲 B25")
+                Text("旧曲 B35")
                     .font(.system(size: 20))
                     .bold()
                 Spacer()

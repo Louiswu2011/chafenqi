@@ -31,8 +31,9 @@ struct CFQServer {
         
         static func checkPremium(username: String) async throws -> Bool {
             let payload = try JSONSerialization.data(withJSONObject: ["username": username])
-            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/isPremium", payload: payload)
+            let (data, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/isPremium", payload: payload)
             let responseCode = response.statusCode()
+            print("[CFQServer] Premium checking return \(String(decoding: data, as: UTF8.self)), response code: \(responseCode)")
             return responseCode == 200
         }
     }
