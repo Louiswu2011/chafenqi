@@ -214,11 +214,11 @@ struct CFQData: Codable {
     }
     
     struct Chunithm: Codable {
-        static func assignAssociated(songs: [ChunithmSongData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
+        static func assignAssociated(songs: [ChunithmMusicData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
             var b = bests
             for (i,entry) in b.enumerated() {
                 let searched = songs.first {
-                    String($0.musicId) == entry.idx
+                    String($0.musicID) == entry.idx
                 }
                 if let song = searched {
                     var e = entry
@@ -229,16 +229,30 @@ struct CFQData: Codable {
             return b
         }
         
-        static func assignAssociated(songs: [ChunithmSongData], recents: [RecentScoreEntry]) -> [RecentScoreEntry] {
+        static func assignAssociated(songs: [ChunithmMusicData], recents: [RecentScoreEntry]) -> [RecentScoreEntry] {
             var r = recents
             for (i,entry) in r.enumerated() {
-                let searched = songs.first {
-                    String($0.musicId) == entry.idx
-                }
-                if let song = searched {
-                    var e = entry
-                    e.associatedSong = song
-                    r[i] = e
+                if entry.difficulty == "worldsend" {
+                    let filtered = songs.filter {
+                        $0.musicID >= 8000
+                    }
+                    let searched = filtered.first {
+                        String($0.title) == entry.title
+                    }
+                    if let song = searched {
+                        var e = entry
+                        e.associatedSong = song
+                        r[i] = e
+                    }
+                } else {
+                    let searched = songs.first {
+                        String($0.musicID) == entry.idx
+                    }
+                    if let song = searched {
+                        var e = entry
+                        e.associatedSong = song
+                        r[i] = e
+                    }
                 }
             }
             return r
@@ -291,7 +305,7 @@ struct CFQData: Codable {
             var fcombo: String = ""
             var fchain: String = ""
             var idx: String // Basically music id
-            var associatedSong: ChunithmSongData?
+            var associatedSong: ChunithmMusicData?
             var updatedAt: String
             var createdAt: String
             
@@ -335,7 +349,7 @@ struct CFQData: Codable {
             private var notes_slide: String
             private var notes_air: String
             private var notes_flick: String
-            var associatedSong: ChunithmSongData?
+            var associatedSong: ChunithmMusicData?
             var updatedAt: String
             var createdAt: String
             
@@ -682,7 +696,7 @@ extension CFQChunithmCalculatable {
 extension CFQData.Chunithm.BestScoreEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.fcombo) }
-    var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
+    var rating: Double { getRating(constant: self.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
 }
 extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmCalculatable {
     var levelIndex: Int {
@@ -701,12 +715,12 @@ extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmCalculatable {
     }
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.fcombo) }
-    var rating: Double { getRating(constant: self.associatedSong!.constant[self.levelIndex], score: self.score) }
+    var rating: Double { getRating(constant: self.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
 }
 extension CFQData.Chunithm.RatingEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.associatedBestEntry!.fcombo) }
-    var rating: Double { getRating(constant: self.associatedBestEntry!.associatedSong!.constant[self.levelIndex], score: self.score) }
+    var rating: Double { getRating(constant: self.associatedBestEntry!.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
 }
 
 extension String {

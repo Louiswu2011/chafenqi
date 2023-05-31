@@ -15,7 +15,7 @@ struct SongDetailView: View {
     @Environment(\.openURL) var openURL
     
     var maiSong: MaimaiSongData?
-    var chuSong: ChunithmSongData?
+    var chuSong: ChunithmMusicData?
     
     @State var finishedLoading = false
     
@@ -70,10 +70,17 @@ struct SongDetailView: View {
                     .padding(.top, 5.0)
                     
                     HStack {
-                        ForEach(Array(constant.enumerated()), id: \.offset) { index, value in
-                            Text("\(value, specifier: "%.1f")")
-                                .foregroundColor(chunithmLevelColor[index])
+                        if chuSong != nil && chuSong!.charts.worldsend.enabled {
+                            Text(chuSong!.charts.levels.last ?? "")
                                 .font(.title3)
+                        } else {
+                            ForEach(Array(constant.enumerated()), id: \.offset) { index, value in
+                                if value > 0.0 {
+                                    Text("\(value, specifier: "%.1f")")
+                                        .foregroundColor(chunithmLevelColor[index])
+                                        .font(.title3)
+                                }
+                            }
                         }
                         Spacer()
                         Text("BPM: \(bpm)")
@@ -200,9 +207,11 @@ struct SongDetailView: View {
                                 ScoreCardView(levelIndex: index, maiSong: song, maiEntry: entry)
                             }
                         } else if let song = chuSong {
-                            ForEach(Array(song.level.enumerated()), id: \.offset) { index, _ in
-                                let entry = chuScores.filter { $0.levelIndex == index }.first
-                                ScoreCardView(levelIndex: index, chuSong: song, chuEntry: entry)
+                            ForEach(Array(song.charts.levels.enumerated()), id: \.offset) { index, _ in
+                                if song.charts.enables[index] {
+                                    let entry = chuScores.filter { $0.levelIndex == index }.first
+                                    ScoreCardView(levelIndex: index, chuSong: song, chuEntry: entry)
+                                }
                             }
                         }
                     }
@@ -245,16 +254,16 @@ struct SongDetailView: View {
                 $0.levelIndex < $1.levelIndex
             }
         } else if let song = chuSong {
-            self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima"]
+            self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]
             self.title = song.title
-            self.artist = song.basicInfo.artist
-            self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(song.musicId))
-            self.level = song.level
-            self.constant = song.constant
-            self.bpm = song.basicInfo.bpm
-            self.from = song.basicInfo.from
+            self.artist = song.artist
+            self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(song.musicID))
+            self.level = song.charts.levels
+            self.constant = song.charts.constants
+            self.bpm = song.bpm
+            self.from = song.from
             self.chuScores = user.chunithm.best.filter {
-                $0.associatedSong!.musicId == song.musicId
+                $0.associatedSong!.musicID == song.musicID
             }.sorted {
                 $0.levelIndex < $1.levelIndex
             }
@@ -284,7 +293,7 @@ struct ScoreCardView: View {
     var levelIndex: Int
     
     var maiSong: MaimaiSongData?
-    var chuSong: ChunithmSongData?
+    var chuSong: ChunithmMusicData?
     
     var maiEntry: CFQMaimai.BestScoreEntry?
     var chuEntry: CFQChunithm.BestScoreEntry?
@@ -302,7 +311,8 @@ struct ScoreCardView: View {
         1: "Advanced",
         2: "Expert",
         3: "Master",
-        4: "Ultima"
+        4: "Ultima",
+        5: "World's End"
     ]
     
     var body: some View {

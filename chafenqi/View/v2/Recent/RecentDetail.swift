@@ -315,9 +315,9 @@ struct RecentDetail: View {
     
     func loadVar() {
         if let entry = chuEntry {
-            self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedSong!.musicId))
+            self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedSong!.musicID))
             self.title = entry.title
-            self.artist = entry.associatedSong!.basicInfo.artist
+            self.artist = entry.associatedSong!.artist
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
             self.score = "\(entry.score)"

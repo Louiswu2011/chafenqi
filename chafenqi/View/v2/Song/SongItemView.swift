@@ -15,7 +15,7 @@ struct SongItemView: View {
     @State var finishedLoading = false
     
     @State var maiSong: MaimaiSongData?
-    @State var chuSong: ChunithmSongData?
+    @State var chuSong: ChunithmMusicData?
     
     @State var requestURL = URL(string: "http://127.0.0.1")
     @State var title = ""
@@ -47,7 +47,13 @@ struct SongItemView: View {
                                 .font(.system(size: 15))
                                 .lineLimit(1)
                             Spacer()
-                            strip
+                            if chuSong != nil && chuSong!.charts.worldsend.enabled {
+                                Text(chuSong!.charts.levels.last ?? "")
+                                    .padding(.bottom, 5)
+                            } else {
+                                strip
+                                    .padding(.bottom, 5)
+                            }
                         }
                     }
                 }
@@ -68,10 +74,10 @@ struct SongItemView: View {
             artist = song.basicInfo.artist
             strip = LevelStripView(mode: 1, levels: song.level)
         } else if let song = chuSong {
-            requestURL = ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicId))
+            requestURL = ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicID))
             title = song.title
-            artist = song.basicInfo.artist
-            strip = LevelStripView(mode: 0, levels: song.level)
+            artist = song.artist
+            strip = LevelStripView(mode: 0, levels: song.charts.levels)
         }
     }
 }

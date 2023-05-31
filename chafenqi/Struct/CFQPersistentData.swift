@@ -16,13 +16,16 @@ class CFQPersistentData: ObservableObject {
     
     struct Chunithm {
         @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+        @AppStorage("loadedChunithmMusics") var loadedMusics: Data = Data()
         @AppStorage("chartIDMap") var mapData = Data()
         
         var songs: Array<ChunithmSongData> = []
+        var musics: Array<ChunithmMusicData> = []
         
         static func hasCache() -> Bool {
             @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
-            return !loadedSongs.isEmpty
+            @AppStorage("loadedChunithmMusics") var loadedMusics: Data = Data()
+            return !loadedSongs.isEmpty && !loadedMusics.isEmpty
         }
     }
     
@@ -45,6 +48,7 @@ class CFQPersistentData: ObservableObject {
     
     private func loadChunithm() async throws {
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
+        self.chunithm.musics = try JSONDecoder().decode(Array<ChunithmMusicData>.self, from: self.chunithm.loadedMusics)
         
         let path = Bundle.main.url(forResource: "IdMap", withExtension: "json")
         self.chunithm.mapData = try Data(contentsOf: path!)
@@ -52,8 +56,10 @@ class CFQPersistentData: ObservableObject {
     
     private func reloadChunithm() async throws {
         try await self.chunithm.loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
+        try await self.chunithm.loadedMusics = CFQChunithmServer.fetchMusicData()
         
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
+        self.chunithm.musics = try JSONDecoder().decode(Array<ChunithmMusicData>.self, from: self.chunithm.loadedMusics)
         
         var decoded = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
         decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }

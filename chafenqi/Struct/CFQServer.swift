@@ -97,6 +97,14 @@ struct CFQServer {
         func fetchRatingEntries() async throws -> CFQChunithmRatingEntries {
             try await fetchGameData(CFQChunithmRatingEntries.self, path: "api/chunithm/rating", authToken: authToken)
         }
+        static func fetchMusicData() async throws -> Data {
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/chunithm/music_data")
+            if resp.statusCode() == 200 && !data.isEmpty {
+                return data
+            } else {
+                throw CFQServerError.ServerDatabaseError
+            }
+        }
     }
     
     static func fetchFromServer(method: String, path: String, payload: Data = Data(), query: [URLQueryItem] = [], token: String = "") async throws -> (Data, URLResponse) {

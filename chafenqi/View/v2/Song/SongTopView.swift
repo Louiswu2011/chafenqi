@@ -14,7 +14,7 @@ struct SongTopView: View {
     @State var filters = CFQFilterOptions()
     
     @State var filteredMaiSongs: [MaimaiSongData] = []
-    @State var filteredChuSongs: [ChunithmSongData] = []
+    @State var filteredChuSongs: [ChunithmMusicData] = []
     @State var searchText = ""
     
     var body: some View {
@@ -22,7 +22,7 @@ struct SongTopView: View {
             if #available(iOS 15.0, *) {
                 List {
                     if (user.currentMode == 0) {
-                        ForEach(filteredChuSongs, id: \.musicId) { entry in
+                        ForEach(filteredChuSongs, id: \.musicID) { entry in
                             SongItemView(user: user, chuSong: entry)
                         }
                     } else {
@@ -48,7 +48,7 @@ struct SongTopView: View {
                 // Fallback on earlier versions
                 List {
                     if (user.currentMode == 0) {
-                        ForEach(filteredChuSongs, id: \.musicId) { entry in
+                        ForEach(filteredChuSongs, id: \.musicID) { entry in
                             SongItemView(user: user, chuSong: entry)
                         }
                     } else {
@@ -82,11 +82,11 @@ struct SongTopView: View {
     func filterSongs() {
         if (user.currentMode == 0) {
             if (searchText.isEmpty) {
-                filteredChuSongs = user.data.chunithm.songs
+                filteredChuSongs = user.data.chunithm.musics
             } else {
-                filteredChuSongs = user.data.chunithm.songs.filter {
+                filteredChuSongs = user.data.chunithm.musics.filter {
                     $0.title.localizedCaseInsensitiveContains(searchText) ||
-                    $0.basicInfo.artist.localizedCaseInsensitiveContains(searchText)
+                    $0.artist.localizedCaseInsensitiveContains(searchText)
                 }
             }
             
@@ -96,19 +96,19 @@ struct SongTopView: View {
             if !levelIndices.isEmpty {
                 filteredChuSongs = filteredChuSongs.filter { song in
                     let levels = levelIndices.compactMap { CFQFilterOptions.levelOptions[$0] }
-                    return anyCommonElements(lhs: levels, rhs: song.level)
+                    return anyCommonElements(lhs: levels, rhs: song.charts.levels)
                 }
             }
             if !genreIndices.isEmpty {
                 filteredChuSongs = filteredChuSongs.filter { song in
                     let genres = genreIndices.compactMap { CFQFilterOptions.chuGenreOptions[$0] }
-                    return genres.contains(song.basicInfo.genre)
+                    return genres.contains(song.genre)
                 }
             }
             if !versionIndices.isEmpty {
                 filteredChuSongs = filteredChuSongs.filter { song in
                     let versions = versionIndices.compactMap { CFQFilterOptions.chuVersionOptions[$0] }
-                    return versions.contains(song.basicInfo.from)
+                    return versions.contains(song.from)
                 }
             }
         } else {

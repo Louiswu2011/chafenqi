@@ -21,7 +21,8 @@ let chunithmLevelColor = [
     1: Color(red: 237, green: 123, blue: 33),
     2: Color(red: 205, green: 85, blue: 77),
     3: Color(red: 171, green: 104, blue: 249),
-    4: Color(red: 32, green: 32, blue: 32)
+    4: Color(red: 32, green: 32, blue: 32),
+    5: Color.white
 ]
 
 enum LoadStatus {

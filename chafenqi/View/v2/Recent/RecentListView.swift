@@ -19,7 +19,7 @@ struct RecentListView: View {
                             RecentDetail(user: user, chuEntry: entry)
                         } label: {
                             HStack {
-                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
+                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5)
                                     .padding(.trailing, 5)
                                 Spacer()
                                 VStack {

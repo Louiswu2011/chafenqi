@@ -400,8 +400,8 @@ class CFQNUser: ObservableObject {
             }
             group.addTask {
                 if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
-                    self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, bests: self.chunithm.best)
-                    self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.songs, recents: self.chunithm.recent)
+                    self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, bests: self.chunithm.best)
+                    self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, recents: self.chunithm.recent)
                     self.chunithm.rating = CFQChunithm.assignAssociated(bests: self.chunithm.best, ratings: self.chunithm.rating)
                 }
             }
