@@ -56,14 +56,26 @@ struct CFQFilterOptions {
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash",
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash PLUS"
     ]
+    static let sortOptions = [
+        "无",
+        "等级",
+        "定数",
+        "BPM"
+    ]
+    static let sortMethods = [
+        "升序",
+        "降序"
+    ]
     
     var filterMaiLevelToggles: [Bool] = []
     var filterMaiGenreToggles: [Bool] = []
     var filterMaiVersionToggles: [Bool] = []
+    var sortMaiSelection: String = "无"
     
     var filterChuGenreToggles: [Bool] = []
     var filterChuLevelToggles: [Bool] = []
     var filterChuVersionToggles: [Bool] = []
+    var sortChuSelection: String = "无"
     
     var excludeChuWEChart: Bool = true
 }

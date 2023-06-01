@@ -10,7 +10,6 @@ import SwiftUI
 struct SongFilterOptionsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var user = CFQNUser()
-    
     @State var hasAppeared = false
     @Binding var filters: CFQFilterOptions
     
@@ -19,12 +18,6 @@ struct SongFilterOptionsView: View {
         let versionOptions = user.currentMode == 0 ? CFQFilterOptions.chuVersionOptions : CFQFilterOptions.maiVersionOptions
         
         Form {
-//            Section {
-//
-//            } header: {
-//                Text("排序")
-//            }
-            
             Section {
                 MultiplePickerView(title: "等级", options: CFQFilterOptions.levelOptions, selectionState: user.currentMode == 0 ? $filters.filterChuLevelToggles : $filters.filterMaiLevelToggles)
                 MultiplePickerView(title: "分类", options: genreOptions, selectionState: user.currentMode == 0 ? $filters.filterChuGenreToggles : $filters.filterMaiGenreToggles)
@@ -32,7 +25,9 @@ struct SongFilterOptionsView: View {
             }
             
             Section {
-                Toggle("隐藏World's End谱面", isOn: $filters.excludeChuWEChart)
+                if user.currentMode == 0 {
+                    Toggle("隐藏World's End谱面", isOn: $filters.excludeChuWEChart)
+                }
             }
         }
         .navigationTitle("筛选")
