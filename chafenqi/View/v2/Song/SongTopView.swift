@@ -31,6 +31,7 @@ struct SongTopView: View {
                         }
                     }
                 }
+                .id("STVML")
                 .searchable(text: $searchText, prompt: Text("搜索标题/曲师"))
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled(true)
@@ -57,6 +58,7 @@ struct SongTopView: View {
                         }
                     }
                 }
+                .id("STVML")
                 .navigationBarSearch($searchText)
                 .onChange(of: searchText) { _ in
                     filterSongs()
