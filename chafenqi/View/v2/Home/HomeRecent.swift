@@ -50,6 +50,7 @@ struct HomeRecent: View {
                                     HStack(alignment: .bottom) {
                                         Text(entry.title)
                                             .font(.system(size: 17))
+                                            .lineLimit(2)
                                         Spacer()
                                         Text("\(entry.score)")
                                             .font(.system(size: 21))
@@ -84,6 +85,7 @@ struct HomeRecent: View {
                                     HStack(alignment: .bottom) {
                                         Text(entry.title)
                                             .font(.system(size: 17))
+                                            .lineLimit(2)
                                         Spacer()
                                         Text("\(entry.score, specifier: "%.4f")%")
                                             .font(.system(size: 21))
