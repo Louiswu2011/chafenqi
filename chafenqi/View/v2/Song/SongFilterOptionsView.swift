@@ -20,7 +20,7 @@ struct SongFilterOptionsView: View {
         
         Form {
 //            Section {
-//                Text("")
+//
 //            } header: {
 //                Text("排序")
 //            }
@@ -54,11 +54,8 @@ struct MultiplePickerView: View {
             }
         } label: {
             HStack {
-                if title == "MiLK PLUS" {
-                    Text("maimai MiLK PLUS")
-                } else {
-                    Text(title)
-                }
+                Text(title)
+                
                 Spacer()
                 if !selectionState.trueIndices.isEmpty {
                     let trueIndicies = selectionState.trueIndices
