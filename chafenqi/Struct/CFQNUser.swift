@@ -48,7 +48,7 @@ class CFQNUser: ObservableObject {
             
             init() {}
             
-            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries, songs: [MaimaiSongData]) {
+            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
@@ -95,10 +95,7 @@ class CFQNUser: ObservableObject {
                 if let nr = (r.filter {
                     $0.isNewRecord == 1
                 }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
-                
-                self.genreList = songs.compactMap { $0.basicInfo.genre }.uniqued().sorted()
-                self.versionList = songs.compactMap { $0.basicInfo.from }.uniqued().sorted()
-                
+
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
         }
@@ -155,7 +152,7 @@ class CFQNUser: ObservableObject {
             var versionList: [String] = []
             
             init() {}
-            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries, songs: [ChunithmSongData]) {
+            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries) {
                 guard !orig.isEmpty && !recent.isEmpty else { return }
                 self.b30Slice = orig.filter {
                     $0.type == "best"
@@ -210,8 +207,6 @@ class CFQNUser: ObservableObject {
                     $0.isNewRecord == 1
                 }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
                 
-                self.genreList = songs.compactMap { $0.basicInfo.genre }.uniqued().sorted()
-                self.versionList = songs.compactMap { $0.basicInfo.from }.uniqued().sorted()
                 print("[CFQNUser] Loaded chunithm Custom Data.")
             }
         }
@@ -415,15 +410,10 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Association Assertion Passed.")
         
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, songs: self.data.maimai.songlist)
-        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent, songs: self.data.chunithm.songs)
+        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
+        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
         self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
         self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
-        
-        CFQFilterOptions.maiGenreOptions = self.maimai.custom.genreList
-        CFQFilterOptions.maiVersionOptions = self.maimai.custom.versionList
-        CFQFilterOptions.chuGenreOptions = self.chunithm.custom.genreList
-        CFQFilterOptions.chuVersionOptions = self.chunithm.custom.versionList
         
         print("[CFQNUser] Calculated Custom Values.")
         

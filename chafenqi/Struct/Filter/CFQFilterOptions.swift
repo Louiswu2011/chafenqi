@@ -21,10 +21,41 @@ struct CFQFilterOptions {
         return options
     }
     
-    static var chuGenreOptions = [String]()
-    static var maiGenreOptions = [String]()
-    static var chuVersionOptions = [String]()
-    static var maiVersionOptions = [String]()
+    static let chuGenreOptions = ["ORIGINAL", "POPS & ANIME", "VARIETY", "niconico", "東方Project", "イロドリミドリ", "ゲキマイ"]
+    static let maiGenreOptions = ["maimai", "POPSアニメ", "ゲームバラエティ", "niconicoボーカロイド", "東方Project", "オンゲキCHUNITHM"]
+    static let chuVersionOptions = [
+        "CHUNITHM",
+        "CHUNITHM PLUS",
+        "CHUNITHM AIR",
+        "CHUNITHM AIR PLUS",
+        "CHUNITHM STAR",
+        "CHUNITHM STAR PLUS",
+        "CHUNITHM AMAZON",
+        "CHUNITHM AMAZON PLUS",
+        "CHUNITHM CRYSTAL",
+        "CHUNITHM CRYSTAL PLUS",
+        "CHUNITHM PARADISE",
+        "CHUNITHM PARADISE LOST",
+        "CHUNITHM NEW"
+    ]
+    static let maiVersionOptions = [
+        "maimai",
+        "maimai PLUS",
+        "maimai GreeN",
+        "maimai GreeN PLUS",
+        "maimai ORANGE",
+        "maimai ORANGE PLUS",
+        "maimai PiNK",
+        "maimai PiNK PLUS",
+        "maimai MURASAKI",
+        "maimai MURASAKI PLUS",
+        "maimai MILK",
+        "maimai MILK PLUS",
+        "maimai FiNALE",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059}",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash PLUS"
+    ]
     
     var filterMaiLevelToggles: [Bool] = []
     var filterChuLevelToggles: [Bool] = []
