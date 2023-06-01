@@ -444,9 +444,9 @@ struct CFQData: Codable {
             var trophies: [TrophyEntry]
             var mapIcons: [MapIconEntry]
             var tickets: [TicketEntry]
-            var collections: CollectionEntry
+            var collections: [CollectionEntry]
             
-            static let empty = ExtraEntry(nameplates: [], skills: [], characters: [], trophies: [], mapIcons: [], tickets: [], collections: CollectionEntry(charUrl: "", charName: "", charRank: "", charExp: 0.0, charIllust: "", ghost: 0, silver: 0, gold: 0, updatedAt: "", createdAt: ""))
+            static let empty = ExtraEntry(nameplates: [], skills: [], characters: [], trophies: [], mapIcons: [], tickets: [], collections: [])
             
             struct NameplateEntry: Codable {
                 var name: String

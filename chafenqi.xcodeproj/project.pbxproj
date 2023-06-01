@@ -12,6 +12,7 @@
 		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
 		6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6725EB062A2440AB00C1829A /* SwiftUICharts */; };
 		6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB082A244AE600C1829A /* PCDeltaChart.swift */; };
+		673B33152A286D9D00857FF0 /* HomeDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673B33142A286D9D00857FF0 /* HomeDelta.swift */; };
 		677004212A20B9E6005BB69A /* RedeemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677004202A20B9E6005BB69A /* RedeemView.swift */; };
 		67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
 		67D622D32A247ADC00E7D70E /* SongFilterOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */; };
@@ -193,6 +194,7 @@
 		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
 		6725EB082A244AE600C1829A /* PCDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDeltaChart.swift; sourceTree = "<group>"; };
+		673B33142A286D9D00857FF0 /* HomeDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDelta.swift; sourceTree = "<group>"; };
 		677004202A20B9E6005BB69A /* RedeemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemView.swift; sourceTree = "<group>"; };
 		67B202C02A260110005FD147 /* ChunithmMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmMusicData.swift; sourceTree = "<group>"; };
 		67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFilterOptionsView.swift; sourceTree = "<group>"; };
@@ -707,6 +709,7 @@
 				BFE0759C2A0781E9005248A6 /* HomeView.swift */,
 				BFE0759E2A07845B005248A6 /* HomeRecent.swift */,
 				BF45B1D12A096D680076E437 /* HomeRating.swift */,
+				673B33142A286D9D00857FF0 /* HomeDelta.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1131,6 +1134,7 @@
 				67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */,
 				BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */,
 				BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */,
+				673B33152A286D9D00857FF0 /* HomeDelta.swift in Sources */,
 				BF56C6FB2992C9280075BEF9 /* UpdaterMainView.swift in Sources */,
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
 				BF0A0BA1298C2D8A008F9700 /* SongCoverView.swift in Sources */,

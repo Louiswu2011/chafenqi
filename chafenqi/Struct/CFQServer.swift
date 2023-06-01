@@ -92,7 +92,7 @@ struct CFQServer {
             try await fetchGameData(CFQChunithmDeltaEntries.self, path: "api/chunithm/delta", authToken: authToken)
         }
         func fetchExtraEntries() async throws -> CFQChunithmExtraEntry {
-            try await fetchGameData(CFQChunithmExtraEntry.self, path: "api/chunithm/extra", authToken: authToken)
+            try await fetchGameData(CFQChunithmExtraEntry.self, path: "api/chunithm/extras", authToken: authToken)
         }
         func fetchRatingEntries() async throws -> CFQChunithmRatingEntries {
             try await fetchGameData(CFQChunithmRatingEntries.self, path: "api/chunithm/rating", authToken: authToken)
@@ -141,6 +141,8 @@ struct CFQServer {
     
     static func fetchGameData<T: Decodable>(_ type: T.Type, path: String, authToken: String) async throws -> T {
         let (data, _) = try await fetchFromServer(method: "GET", path: path, token: authToken)
+//        print(type.self)
+//        print(String(data: data, encoding: .utf8) ?? "")
         return try decoder.decode(T.self, from: data)
     }
 }

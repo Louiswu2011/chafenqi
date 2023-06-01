@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct DeltaDetailView: View {
+    @ObservedObject var user = CFQNUser()
+    
+    @State var deltaIndex = 0
+    
     let testRatingData: [(Double, String)] = [
         (2050, "5-20"),
         (2060, "5-21"),
@@ -27,22 +31,30 @@ struct DeltaDetailView: View {
         (163, "5-26")
     ]
     
+    @State var rating: String = ""
+    @State var ratingDelta: String = ""
+    @State var pc: String = ""
+    @State var pcDelta: String = ""
+    @State var ratingChartData: [(Double, String)] = []
+    @State var pcChartData: [(Double, String)] = []
+    
     @State var chartType = 0
     
     var body: some View {
         ScrollView {
             VStack {
                 HStack {
-                    DeltaTextBlock(title: "Rating", currentValue: "2111", deltaValue: "+21")
-                    DeltaTextBlock(title: "游玩次数", currentValue: "163", deltaValue: "+9")
+                    DeltaTextBlock(title: "Rating", currentValue: rating, deltaValue: ratingDelta)
+                        .padding(.trailing, 5)
+                    DeltaTextBlock(title: "游玩次数", currentValue: pc, deltaValue: pcDelta)
                     Spacer()
                 }
                 
                 if chartType == 0 {
-                    RatingDeltaChart(rawDataPoints: testRatingData)
+                    RatingDeltaChart(rawDataPoints: ratingChartData)
                         .frame(height: 250)
                 } else {
-                    PCDeltaChart(rawDataPoints: testPCData)
+                    PCDeltaChart(rawDataPoints: pcChartData)
                         .frame(height: 250)
                 }
                 
@@ -73,7 +85,93 @@ struct DeltaDetailView: View {
             }
             .padding()
         }
+        .onAppear {
+            loadVar()
+        }
     }
+    
+    func loadVar() {
+        if user.currentMode == 0 && user.chunithm.delta.count > 1 {
+            let latestDelta = user.chunithm.delta[deltaIndex]
+            rating = String(format: "%.2d", latestDelta.rating)
+            pc = "\(latestDelta.playCount)"
+            if deltaIndex == 0 {
+                ratingDelta = getRatingDelta(current: 0, past: 0)
+                pcDelta = getPCDelta(current: 0, past: 0)
+            } else {
+                let secondDelta = user.chunithm.delta[deltaIndex + 1]
+                ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
+                pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
+            }
+            let deltas = user.chunithm.delta.prefix(7)
+            for delta in deltas {
+                ratingChartData.append((delta.rating, convertDate(delta.createdAt)))
+                pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
+            }
+        } else if user.currentMode == 1 && user.maimai.delta.count > 1 {
+            let latestDelta = user.maimai.delta[deltaIndex]
+            rating = "\(latestDelta.rating)"
+            pc = "\(latestDelta.playCount)"
+            if deltaIndex == 0 {
+                ratingDelta = getRatingDelta(current: 0, past: 0)
+                pcDelta = getPCDelta(current: 0, past: 0)
+            } else {
+                let secondDelta = user.maimai.delta[deltaIndex - 1]
+                ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
+                pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
+            }
+            let deltas = user.maimai.delta.prefix(7)
+            for delta in deltas {
+                ratingChartData.append((Double(delta.rating), convertDate(delta.createdAt)))
+                pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
+            }
+        }
+    }
+    
+    func getRatingDelta(current lhs: Double, past rhs: Double) -> String {
+        let rawValue = lhs - rhs
+        if rawValue > 0 {
+            return "+" + String(format: "%.2d", rawValue)
+        } else if rawValue < 0 {
+            return String(format: "%.2d", rawValue)
+        } else {
+            return "\u{00b1}0"
+        }
+    }
+    
+    func getRatingDelta(current lhs: Int, past rhs: Int) -> String {
+        let rawValue = lhs - rhs
+        if rawValue > 0 {
+            return "+\(rawValue)"
+        } else if rawValue < 0 {
+            return "\(rawValue)"
+        } else {
+            return "\u{00b1}0"
+        }
+    }
+    
+    func getPCDelta(current lhs: Int, past rhs: Int) -> String {
+        let rawValue = lhs - rhs
+        if rawValue > 0 {
+            return "+\(rawValue)"
+        } else if rawValue < 0 {
+            return "\(rawValue)"
+        } else {
+            return "\u{00b1}0"
+        }
+    }
+    
+    func convertDate(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss.SSS Z"
+        if let date = dateFormatter.date(from: dateString) {
+            let mmddFormatter = DateFormatter()
+            mmddFormatter.dateFormat = "MM-dd"
+            return mmddFormatter.string(from: date)
+        }
+        return ""
+    }
+
 }
 
 struct DeltaTextBlock: View {
