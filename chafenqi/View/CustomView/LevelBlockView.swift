@@ -19,7 +19,7 @@ struct LevelStripView: View {
             LevelBlockView(color: levelColor[1]!, level: levels[1])
             LevelBlockView(color: levelColor[2]!, level: levels[2])
             LevelBlockView(color: levelColor[3]!, level: levels[3])
-            if (levels.count == 5) {
+            if (levels.count > 4 && levels[4] != "0") {
                 LevelBlockView(color: levelColor[4]!, level: levels[4])
             }
         }
