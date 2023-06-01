@@ -93,9 +93,9 @@ struct DeltaDetailView: View {
     func loadVar() {
         if user.currentMode == 0 && user.chunithm.delta.count > 1 {
             let latestDelta = user.chunithm.delta[deltaIndex]
-            rating = String(format: "%.2d", latestDelta.rating)
+            rating = String(format: "%.2f", latestDelta.rating)
             pc = "\(latestDelta.playCount)"
-            if deltaIndex == 0 {
+            if deltaIndex == user.chunithm.delta.count - 1 {
                 ratingDelta = getRatingDelta(current: 0, past: 0)
                 pcDelta = getPCDelta(current: 0, past: 0)
             } else {
@@ -112,11 +112,11 @@ struct DeltaDetailView: View {
             let latestDelta = user.maimai.delta[deltaIndex]
             rating = "\(latestDelta.rating)"
             pc = "\(latestDelta.playCount)"
-            if deltaIndex == 0 {
+            if deltaIndex == user.maimai.delta.count - 1 {
                 ratingDelta = getRatingDelta(current: 0, past: 0)
                 pcDelta = getPCDelta(current: 0, past: 0)
             } else {
-                let secondDelta = user.maimai.delta[deltaIndex - 1]
+                let secondDelta = user.maimai.delta[deltaIndex + 1]
                 ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
                 pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
             }
@@ -126,16 +126,18 @@ struct DeltaDetailView: View {
                 pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
             }
         }
+        ratingChartData.reverse()
+        pcChartData.reverse()
     }
     
     func getRatingDelta(current lhs: Double, past rhs: Double) -> String {
         let rawValue = lhs - rhs
         if rawValue > 0 {
-            return "+" + String(format: "%.2d", rawValue)
+            return "+" + String(format: "%.2f", rawValue)
         } else if rawValue < 0 {
-            return String(format: "%.2d", rawValue)
+            return String(format: "%.2f", rawValue)
         } else {
-            return "\u{00b1}0"
+            return "\u{00B1}0"
         }
     }
     
@@ -146,7 +148,7 @@ struct DeltaDetailView: View {
         } else if rawValue < 0 {
             return "\(rawValue)"
         } else {
-            return "\u{00b1}0"
+            return "\u{00B1}0"
         }
     }
     
@@ -157,7 +159,7 @@ struct DeltaDetailView: View {
         } else if rawValue < 0 {
             return "\(rawValue)"
         } else {
-            return "\u{00b1}0"
+            return "\u{00B1}0"
         }
     }
     

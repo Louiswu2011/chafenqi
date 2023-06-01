@@ -124,7 +124,7 @@ class CFQNUser: ObservableObject {
                 print(String(describing: error))
             }
             do {
-                self.delta = try await server.fetchDeltaEntries()
+                self.delta = try await server.fetchDeltaEntries().reversed()
             } catch CFQServerError.UserNotPremiumError {
                 self.delta = []
                 print("[CFQNUser] User is not premium, skipping maimai deltas.")
@@ -241,7 +241,7 @@ class CFQNUser: ObservableObject {
                 async let delta = try server.fetchDeltaEntries()
                 async let extra = try server.fetchExtraEntries()
                 
-                self.delta = try await delta
+                self.delta = try await delta.reversed()
                 self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
                 print("[CFQNUser] User is not premium, skipping chunithm extras.")

@@ -25,9 +25,9 @@ struct HomeView: View {
                     HomeNameplate(user: user)
                     HomeRecent(user: user)
                     HomeRating(user: user)
-//                    if user.isPremium {
-//                        HomeDelta(user: user)
-//                    }
+                    if user.isPremium {
+                        HomeDelta(user: user)
+                    }
                 }
                 .navigationTitle("主页")
                 .toolbar {

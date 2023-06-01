@@ -43,12 +43,12 @@ struct DeltaListView: View {
             HStack(spacing: 10) {
                 VStack(alignment: .leading) {
                     Text("平均游玩次数")
-                    Text("\(avgPlayCount)")
+                    Text("\(avgPlayCount, specifier: "%.2f")")
                         .font(.system(size: 20))
                 }
                 VStack(alignment: .leading) {
                     Text("近7次Rating平均增长")
-                    Text("\(avgRatingGrowth)")
+                    Text("\(avgRatingGrowth, specifier: "%.3f")")
                         .font(.system(size: 20))
                 }
                 Spacer()
