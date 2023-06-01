@@ -93,6 +93,11 @@ struct SongTopView: View {
             let levelIndices = filters.filterChuLevelToggles.trueIndices
             let genreIndices = filters.filterChuGenreToggles.trueIndices
             let versionIndices = filters.filterChuVersionToggles.trueIndices
+            if filters.excludeChuWEChart {
+                filteredChuSongs = filteredChuSongs.filter {
+                    $0.musicID < 8000
+                }
+            }
             if !levelIndices.isEmpty {
                 filteredChuSongs = filteredChuSongs.filter { song in
                     let levels = levelIndices.compactMap { CFQFilterOptions.levelOptions[$0] }

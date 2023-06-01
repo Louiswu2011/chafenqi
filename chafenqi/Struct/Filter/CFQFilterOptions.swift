@@ -63,4 +63,6 @@ struct CFQFilterOptions {
     var filterChuGenreToggles: [Bool] = []
     var filterMaiVersionToggles: [Bool] = []
     var filterChuVersionToggles: [Bool] = []
+    
+    var excludeChuWEChart: Bool = true
 }

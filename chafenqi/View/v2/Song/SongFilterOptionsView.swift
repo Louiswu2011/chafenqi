@@ -30,6 +30,10 @@ struct SongFilterOptionsView: View {
                 MultiplePickerView(title: "分类", options: genreOptions, selectionState: user.currentMode == 0 ? $filters.filterChuGenreToggles : $filters.filterMaiGenreToggles)
                 MultiplePickerView(title: "版本", options: versionOptions, selectionState: user.currentMode == 0 ? $filters.filterChuVersionToggles : $filters.filterMaiVersionToggles)
             }
+            
+            Section {
+                Toggle("隐藏World's End谱面", isOn: $filters.excludeChuWEChart)
+            }
         }
         .navigationTitle("筛选")
         .navigationBarTitleDisplayMode(.inline)
