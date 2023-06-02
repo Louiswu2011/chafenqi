@@ -11,25 +11,7 @@ struct DeltaDetailView: View {
     @ObservedObject var user = CFQNUser()
     
     @State var deltaIndex = 0
-    
-    let testRatingData: [(Double, String)] = [
-        (2050, "5-20"),
-        (2060, "5-21"),
-        (2063, "5-22"),
-        (2070, "5-23"),
-        (2075, "5-24"),
-        (2090, "5-25"),
-        (2111, "5-26")
-    ]
-    let testPCData: [(Double, String)] = [
-        (120, "5-20"),
-        (135, "5-21"),
-        (142, "5-22"),
-        (149, "5-23"),
-        (153, "5-24"),
-        (154, "5-25"),
-        (163, "5-26")
-    ]
+    @State var isLoaded = false
     
     @State var rating: String = ""
     @State var ratingDelta: String = ""
@@ -42,55 +24,60 @@ struct DeltaDetailView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
-                HStack {
-                    DeltaTextBlock(title: "Rating", currentValue: rating, deltaValue: ratingDelta)
-                        .padding(.trailing, 5)
-                    DeltaTextBlock(title: "游玩次数", currentValue: pc, deltaValue: pcDelta)
-                    Spacer()
-                }
-                
-                if chartType == 0 {
-                    RatingDeltaChart(rawDataPoints: ratingChartData)
-                        .frame(height: 250)
-                } else {
-                    PCDeltaChart(rawDataPoints: pcChartData)
-                        .frame(height: 250)
-                }
-                
-                Button {
-                    withAnimation(.spring()) {
-                        chartType = 1 - chartType
+            if isLoaded {
+                VStack {
+                    HStack {
+                        DeltaTextBlock(title: "Rating", currentValue: rating, deltaValue: ratingDelta)
+                            .padding(.trailing, 5)
+                        DeltaTextBlock(title: "游玩次数", currentValue: pc, deltaValue: pcDelta)
+                        Spacer()
                     }
-                } label: {
-                    Image(systemName: "arrow.left.arrow.right")
-                    Text("切换图表")
+                    
+                    if chartType == 0 {
+                        RatingDeltaChart(rawDataPoints: $ratingChartData)
+                            .frame(height: 250)
+                    } else {
+                        PCDeltaChart(rawDataPoints: $pcChartData)
+                            .frame(height: 250)
+                    }
+                    
+                    Button {
+                        withAnimation(.spring()) {
+                            chartType = 1 - chartType
+                        }
+                    } label: {
+                        Image(systemName: "arrow.left.arrow.right")
+                        Text("切换图表")
+                    }
+                    .padding()
+                    
+                    HStack {
+                        Text("游玩记录")
+                            .font(.system(size: 20))
+                            .bold()
+                        Spacer()
+                        NavigationLink {
+                            
+                        } label: {
+                            Text("显示全部")
+                        }
+                    }
+                    VStack {
+                        
+                    }
                 }
                 .padding()
-                
-                HStack {
-                    Text("游玩记录")
-                        .font(.system(size: 20))
-                        .bold()
-                    Spacer()
-                    NavigationLink {
-                        
-                    } label: {
-                        Text("显示全部")
-                    }
-                }
-                VStack {
-                    
-                }
             }
-            .padding()
         }
         .onAppear {
+            isLoaded = false
             loadVar()
         }
     }
     
     func loadVar() {
+        ratingChartData = []
+        pcChartData = []
         if user.currentMode == 0 && user.chunithm.delta.count > 1 {
             let latestDelta = user.chunithm.delta[deltaIndex]
             rating = String(format: "%.2f", latestDelta.rating)
@@ -103,7 +90,7 @@ struct DeltaDetailView: View {
                 ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
                 pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
             }
-            let deltas = user.chunithm.delta.prefix(7)
+            let deltas = user.chunithm.delta.suffix(from: deltaIndex).prefix(7).reversed()
             for delta in deltas {
                 ratingChartData.append((delta.rating, convertDate(delta.createdAt)))
                 pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
@@ -120,14 +107,13 @@ struct DeltaDetailView: View {
                 ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
                 pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
             }
-            let deltas = user.maimai.delta.prefix(7)
+            let deltas = user.maimai.delta.suffix(from: deltaIndex).prefix(7).reversed()
             for delta in deltas {
                 ratingChartData.append((Double(delta.rating), convertDate(delta.createdAt)))
                 pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
             }
         }
-        ratingChartData.reverse()
-        pcChartData.reverse()
+        isLoaded = true
     }
     
     func getRatingDelta(current lhs: Double, past rhs: Double) -> String {
@@ -166,10 +152,10 @@ struct DeltaDetailView: View {
     func convertDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss.SSS Z"
+        dateFormatter.locale = .autoupdatingCurrent
         if let date = dateFormatter.date(from: dateString) {
-            let mmddFormatter = DateFormatter()
-            mmddFormatter.dateFormat = "MM-dd"
-            return mmddFormatter.string(from: date)
+            dateFormatter.dateFormat = "MM-dd"
+            return dateFormatter.string(from: date)
         }
         return ""
     }

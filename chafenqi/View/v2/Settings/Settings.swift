@@ -232,7 +232,7 @@ struct UserInfoWithAvatarView: View {
                             .font(.system(size: 14))
                             .bold()
                     }
-                    .frame(width: 80, height: 20)
+                    .frame(width: 100, height: 20)
                     Text("至\(parsePremiumExpireDate())")
                         .font(.system(size: 12))
                 }

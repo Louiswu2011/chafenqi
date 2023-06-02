@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUICharts
 
 struct RatingDeltaChart: View {
-    @State var rawDataPoints = [(Double, String)]()
+    @Binding var rawDataPoints: [(Double, String)]
     
     var body: some View {
         let chartData = addDataPoints()
@@ -23,14 +23,17 @@ struct RatingDeltaChart: View {
                 .yAxisLabels(chartData: chartData)
                 .floatingInfoBox(chartData: chartData)
                 .headerBox(chartData: chartData)
-                .id("ratingDeltaChart")
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+                .id(UUID())
         }
     }
     
     func addDataPoints() -> LineChartData {
         var dataPoints = [LineChartDataPoint]()
         for (point, description) in rawDataPoints {
-            dataPoints.append(LineChartDataPoint(value: point, xAxisLabel: description))
+            dataPoints.append(LineChartDataPoint(value: point, xAxisLabel: description, description: description))
         }
         let data = LineDataSet(
             dataPoints: dataPoints,
@@ -44,16 +47,9 @@ struct RatingDeltaChart: View {
             infoBoxBorderColour: Color.primary,
             infoBoxBorderStyle: StrokeStyle(lineWidth: 1),
             markerType: .bottomLeading(attachment: .line(dot: .style(.init()))),
-            baseline: .minimumValue,
-            topLine: .maximumValue,
-            globalAnimation: .easeOut(duration: 0.3)
+            baseline: .zero,
+            topLine: .maximumValue
         )
         return LineChartData(dataSets: data, metadata: metadata, chartStyle: chartStyle)
-    }
-}
-
-struct RatingDeltaChart_Previews: PreviewProvider {
-    static var previews: some View {
-        DeltaDetailView()
     }
 }
