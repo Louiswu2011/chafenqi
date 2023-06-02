@@ -13,12 +13,15 @@ struct DeltaDetailView: View {
     @State var deltaIndex = 0
     @State var isLoaded = false
     
+    @State var dateString: String = ""
     @State var rating: String = ""
     @State var ratingDelta: String = ""
     @State var pc: String = ""
     @State var pcDelta: String = ""
     @State var ratingChartData: [(Double, String)] = []
     @State var pcChartData: [(Double, String)] = []
+    @State var chuLog: CFQChunithmRecentScoreEntries = []
+    @State var maiLog: CFQMaimaiRecentScoreEntries = []
     
     @State var chartType = 0
     
@@ -34,11 +37,13 @@ struct DeltaDetailView: View {
                     }
                     
                     if chartType == 0 {
-                        RatingDeltaChart(rawDataPoints: $ratingChartData)
-                            .frame(height: 250)
+                        RatingDeltaChart(rawDataPoints: $ratingChartData, isChunithm: user.currentMode == 0)
+                            .id(UUID())
+                            .frame(height: 270)
                     } else {
                         PCDeltaChart(rawDataPoints: $pcChartData)
-                            .frame(height: 250)
+                            .id(UUID())
+                            .frame(height: 270)
                     }
                     
                     Button {
@@ -57,13 +62,75 @@ struct DeltaDetailView: View {
                             .bold()
                         Spacer()
                         NavigationLink {
-                            
+                            if user.currentMode == 0 {
+                                DeltaPlayList(user: user, chuLog: chuLog)
+                            } else if user.currentMode == 1 {
+                                DeltaPlayList(user: user, maiLog: maiLog)
+                            }
                         } label: {
                             Text("显示全部")
                         }
                     }
                     VStack {
-                        
+                        if user.currentMode == 0 {
+                            ForEach(Array(chuLog.prefix(3)), id: \.timestamp) { entry in
+                                NavigationLink {
+                                    RecentDetail(user: user, chuEntry: entry)
+                                } label: {
+                                    HStack {
+                                        SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5)
+                                            .padding(.trailing, 5)
+                                        Spacer()
+                                        VStack {
+                                            HStack {
+                                                Text(entry.timestamp.customDateString)
+                                                Spacer()
+                                            }
+                                            Spacer()
+                                            HStack(alignment: .bottom) {
+                                                Text(entry.title)
+                                                    .font(.system(size: 17))
+                                                    .lineLimit(2)
+                                                Spacer()
+                                                Text("\(entry.score)")
+                                                    .font(.system(size: 21))
+                                                    .bold()
+                                            }
+                                        }
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        } else if user.currentMode == 1 {
+                            ForEach(Array(maiLog.prefix(3)), id: \.timestamp) { entry in
+                                NavigationLink {
+                                    RecentDetail(user: user, maiEntry: entry)
+                                } label: {
+                                    HStack {
+                                        SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
+                                            .padding(.trailing, 5)
+                                        Spacer()
+                                        VStack {
+                                            HStack {
+                                                Text(entry.timestamp.customDateString)
+                                                Spacer()
+                                            }
+                                            Spacer()
+                                            HStack(alignment: .bottom) {
+                                                Text(entry.title)
+                                                    .font(.system(size: 17))
+                                                    .lineLimit(2)
+                                                Spacer()
+                                                Text("\(entry.score, specifier: "%.4f")%")
+                                                    .font(.system(size: 21))
+                                                    .bold()
+                                            }
+                                        }
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
                     }
                 }
                 .padding()
@@ -73,6 +140,8 @@ struct DeltaDetailView: View {
             isLoaded = false
             loadVar()
         }
+        .navigationTitle(dateString)
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func loadVar() {
@@ -80,6 +149,7 @@ struct DeltaDetailView: View {
         pcChartData = []
         if user.currentMode == 0 && user.chunithm.delta.count > 1 {
             let latestDelta = user.chunithm.delta[deltaIndex]
+            dateString = latestDelta.createdAt.toDateString(format: "yyyy-MM-dd hh:mm")
             rating = String(format: "%.2f", latestDelta.rating)
             pc = "\(latestDelta.playCount)"
             if deltaIndex == user.chunithm.delta.count - 1 {
@@ -92,9 +162,11 @@ struct DeltaDetailView: View {
             }
             let deltas = user.chunithm.delta.suffix(from: deltaIndex).prefix(7).reversed()
             for delta in deltas {
-                ratingChartData.append((delta.rating, convertDate(delta.createdAt)))
-                pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
+                let date = convertDate(delta.createdAt)
+                ratingChartData.append((delta.rating, date))
+                pcChartData.append((Double(delta.playCount), date))
             }
+            chuLog = getChuPlaylist()
         } else if user.currentMode == 1 && user.maimai.delta.count > 1 {
             let latestDelta = user.maimai.delta[deltaIndex]
             rating = "\(latestDelta.rating)"
@@ -109,9 +181,11 @@ struct DeltaDetailView: View {
             }
             let deltas = user.maimai.delta.suffix(from: deltaIndex).prefix(7).reversed()
             for delta in deltas {
-                ratingChartData.append((Double(delta.rating), convertDate(delta.createdAt)))
-                pcChartData.append((Double(delta.playCount), convertDate(delta.createdAt)))
+                let date = convertDate(delta.createdAt)
+                ratingChartData.append((Double(delta.rating), date))
+                pcChartData.append((Double(delta.playCount), date))
             }
+            maiLog = getMaiPlaylist()
         }
         isLoaded = true
     }
@@ -150,14 +224,63 @@ struct DeltaDetailView: View {
     }
     
     func convertDate(_ dateString: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss.SSS Z"
-        dateFormatter.locale = .autoupdatingCurrent
-        if let date = dateFormatter.date(from: dateString) {
-            dateFormatter.dateFormat = "MM-dd"
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
+        if let date = formatter.date(from: dateString) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "M-d"
+            dateFormatter.locale = .autoupdatingCurrent
+            dateFormatter.timeZone = .autoupdatingCurrent
             return dateFormatter.string(from: date)
         }
         return ""
+    }
+    
+    func getChuPlaylist() -> CFQChunithmRecentScoreEntries {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
+        if let latestTimestamp = formatter.date(from: user.chunithm.delta[deltaIndex].createdAt)?.timeIntervalSince1970 {
+            var filtered = user.chunithm.recent
+            if deltaIndex == user.chunithm.delta.count - 1 {
+                // last
+                filtered = filtered.filter {
+                    (0...latestTimestamp).contains(TimeInterval($0.timestamp))
+                }
+            } else {
+                if let secondTimestamp = formatter.date(from: user.chunithm.delta[deltaIndex + 1].createdAt)?.timeIntervalSince1970 {
+                    filtered = filtered.filter {
+                        (secondTimestamp...latestTimestamp).contains(TimeInterval($0.timestamp))
+                    }
+                }
+            }
+            return filtered
+        }
+        return []
+    }
+    
+    func getMaiPlaylist() -> CFQMaimaiRecentScoreEntries {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
+        if let latestTimestamp = formatter.date(from: user.maimai.delta[deltaIndex].createdAt)?.timeIntervalSince1970 {
+            var filtered = user.maimai.recent
+            if deltaIndex == user.maimai.delta.count - 1 {
+                // last
+                filtered = filtered.filter {
+                    (0...latestTimestamp).contains(TimeInterval($0.timestamp))
+                }
+            } else {
+                if let secondTimestamp = formatter.date(from: user.maimai.delta[deltaIndex + 1].createdAt)?.timeIntervalSince1970 {
+                    filtered = filtered.filter {
+                        (secondTimestamp...latestTimestamp).contains(TimeInterval($0.timestamp))
+                    }
+                }
+            }
+            return filtered
+        }
+        return []
     }
 
 }

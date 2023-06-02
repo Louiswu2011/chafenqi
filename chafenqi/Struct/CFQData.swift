@@ -726,12 +726,27 @@ extension CFQData.Chunithm.RatingEntry: CFQChunithmCalculatable {
 extension String {
     var customDateString: String {
         let formatter = ISO8601DateFormatter()
-        formatter.formatOptions.insert(.withFractionalSeconds)
-        formatter.formatOptions.insert(.withInternetDateTime)
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
         let date = formatter.date(from: self)
         if let date = date {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd hh:mm"
+            formatter.timeZone = .autoupdatingCurrent
+            formatter.locale = .autoupdatingCurrent
+            return formatter.string(from: date)
+        }
+        return ""
+    }
+    
+    func toDateString(format: String) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
+        let date = formatter.date(from: self)
+        if let date = date {
+            let formatter = DateFormatter()
+            formatter.dateFormat = format
             formatter.timeZone = .autoupdatingCurrent
             formatter.locale = .autoupdatingCurrent
             return formatter.string(from: date)
@@ -745,6 +760,15 @@ extension Int {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         let formatter = DateFormatter()
         formatter.dateFormat = "yy-MM-dd hh:mm"
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.locale = .autoupdatingCurrent
+        return formatter.string(from: date)
+    }
+    
+    func toDateString(format: String) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(self))
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
         formatter.timeZone = .autoupdatingCurrent
         formatter.locale = .autoupdatingCurrent
         return formatter.string(from: date)

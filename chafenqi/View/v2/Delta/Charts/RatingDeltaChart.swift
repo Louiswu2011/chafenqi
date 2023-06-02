@@ -10,17 +10,18 @@ import SwiftUICharts
 
 struct RatingDeltaChart: View {
     @Binding var rawDataPoints: [(Double, String)]
+    @State var isChunithm = true
     
     var body: some View {
         let chartData = addDataPoints()
         VStack {
             LineChart(chartData: chartData)
                 .pointMarkers(chartData: chartData)
-                .touchOverlay(chartData: chartData)
+                .touchOverlay(chartData: chartData, specifier: isChunithm ? "%.2f" : "%.0f")
                 .xAxisGrid(chartData: chartData)
                 .xAxisLabels(chartData: chartData)
                 .yAxisGrid(chartData: chartData)
-                .yAxisLabels(chartData: chartData)
+                .yAxisLabels(chartData: chartData, specifier: isChunithm ? "%.2f" : "%.0f")
                 .floatingInfoBox(chartData: chartData)
                 .headerBox(chartData: chartData)
                 .transaction { transaction in

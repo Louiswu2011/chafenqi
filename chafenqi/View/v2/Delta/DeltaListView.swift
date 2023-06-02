@@ -58,8 +58,6 @@ struct DeltaListView: View {
                 Text("出勤记录")
                     .font(.system(size: 18))
                     .bold()
-                Spacer()
-                Text("收起")
             }
             .padding(.horizontal)
             if user.currentMode == 0 && user.chunithm.delta.count > 2 {
@@ -119,7 +117,7 @@ struct DeltaList: View {
                         DeltaDetailView(user: user, deltaIndex: index)
                     } label: {
                         HStack {
-                            Text(value.createdAt)
+                            Text(value.createdAt.toDateString(format: "yyyy-MM-dd hh:mm"))
                             Spacer()
                             Image(systemName: "chevron.right")
                         }
@@ -131,7 +129,7 @@ struct DeltaList: View {
                         DeltaDetailView(user: user, deltaIndex: index)
                     } label: {
                         HStack {
-                            Text(value.createdAt)
+                            Text(value.createdAt.toDateString(format: "yyyy-MM-dd hh:mm"))
                             Spacer()
                             Image(systemName: "chevron.right")
                         }
@@ -144,7 +142,8 @@ struct DeltaList: View {
                 }
             }
         }
-        .padding()
+        .padding(.top, 5)
+        .padding(.horizontal)
     }
 }
 
