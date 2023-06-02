@@ -154,10 +154,10 @@ struct HomeNameplate: View {
                                 HStack {
                                     if (user.currentMode == 0) {
                                         Text("更新于")
-                                        Text("\(user.chunithm.info.updatedAt.customDateString)")
+                                        Text("\(user.chunithm.info.updatedAt.toDateString(format: "MM-dd hh:mm"))")
                                     } else {
                                         Text("更新于")
-                                        Text("\(user.maimai.info.updatedAt.customDateString)")
+                                        Text("\(user.maimai.info.updatedAt.toDateString(format: "MM-dd hh:mm"))")
                                     }
                                 }
                             }

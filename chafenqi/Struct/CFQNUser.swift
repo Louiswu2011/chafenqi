@@ -424,6 +424,8 @@ class CFQNUser: ObservableObject {
         if self.isPremium {
             self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
         }
+        
+        sharedContainer.set(self.jwtToken, forKey: "JWT")
     }
 }
 
