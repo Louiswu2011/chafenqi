@@ -221,21 +221,31 @@ struct UserInfoWithAvatarView: View {
             }
             Spacer()
             if (user.isPremium) {
-                ZStack {
+                VStack {
                     HStack {
                         Image(systemName: "heart.fill")
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
                             .foregroundColor(.red)
-                            .padding(.vertical, 3)
+                            .padding(.vertical, 1)
                         Text("Sponsor")
                             .font(.system(size: 14))
                             .bold()
                     }
+                    .frame(width: 80, height: 20)
+                    Text("至\(parsePremiumExpireDate())")
+                        .font(.system(size: 12))
                 }
-                .frame(width: 80, height: 20)
             }
         }
+    }
+    
+    func parsePremiumExpireDate() -> String {
+        let date = Date(timeIntervalSince1970: user.premiumUntil)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd"
+        formatter.locale = .autoupdatingCurrent
+        return formatter.string(from: date)
     }
 }
 

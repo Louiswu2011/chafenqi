@@ -33,6 +33,7 @@ class CFQNUser: ObservableObject {
     var fishUsername = ""
     
     var isPremium = false
+    var premiumUntil: TimeInterval = 0
 
     struct Maimai: Codable {
         struct Custom: Codable {
@@ -419,6 +420,10 @@ class CFQNUser: ObservableObject {
         
         self.isPremium = try await CFQUserServer.checkPremium(username: username)
         print("[CFQNUser] Acquired premium status: \(isPremium.description)")
+        
+        if self.isPremium {
+            self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
+        }
     }
 }
 

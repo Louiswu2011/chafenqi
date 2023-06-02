@@ -40,6 +40,16 @@ struct CFQServer {
                 return false
             }
         }
+        
+        static func checkPremiumExpireTime(username: String) async throws -> Double {
+            let payload = try JSONSerialization.data(withJSONObject: ["username": username])
+            let (data, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/premiumTime", payload: payload)
+            if response.statusCode() == 200 {
+                return Double(String(decoding: data, as: UTF8.self)) ?? 0
+            } else {
+                return 0
+            }
+        }
     }
     
     struct Fish {
