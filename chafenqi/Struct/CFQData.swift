@@ -732,6 +732,8 @@ extension String {
         if let date = date {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd hh:mm"
+            formatter.timeZone = .autoupdatingCurrent
+            formatter.locale = .autoupdatingCurrent
             return formatter.string(from: date)
         }
         return ""
@@ -743,6 +745,8 @@ extension Int {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         let formatter = DateFormatter()
         formatter.dateFormat = "yy-MM-dd hh:mm"
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.locale = .autoupdatingCurrent
         return formatter.string(from: date)
     }
 }
