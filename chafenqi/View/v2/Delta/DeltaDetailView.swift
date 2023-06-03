@@ -18,8 +18,7 @@ struct DeltaDetailView: View {
     @State var ratingDelta: String = ""
     @State var pc: String = ""
     @State var pcDelta: String = ""
-    @State var ratingChartData: [(Double, String)] = []
-    @State var pcChartData: [(Double, String)] = []
+    
     @State var chuLog: CFQChunithmRecentScoreEntries = []
     @State var maiLog: CFQMaimaiRecentScoreEntries = []
     
@@ -35,26 +34,7 @@ struct DeltaDetailView: View {
                         DeltaTextBlock(title: "游玩次数", currentValue: pc, deltaValue: pcDelta)
                         Spacer()
                     }
-                    
-                    if chartType == 0 {
-                        RatingDeltaChart(rawDataPoints: $ratingChartData, isChunithm: user.currentMode == 0)
-                            .id(UUID())
-                            .frame(height: 270)
-                    } else {
-                        PCDeltaChart(rawDataPoints: $pcChartData)
-                            .id(UUID())
-                            .frame(height: 270)
-                    }
-                    
-                    Button {
-                        withAnimation(.spring()) {
-                            chartType = 1 - chartType
-                        }
-                    } label: {
-                        Image(systemName: "arrow.left.arrow.right")
-                        Text("切换图表")
-                    }
-                    .padding()
+                    .padding(.bottom)
                     
                     HStack {
                         Text("游玩记录")
@@ -145,8 +125,6 @@ struct DeltaDetailView: View {
     }
     
     func loadVar() {
-        ratingChartData = []
-        pcChartData = []
         if user.currentMode == 0 && user.chunithm.delta.count > 1 {
             let latestDelta = user.chunithm.delta[deltaIndex]
             dateString = latestDelta.createdAt.toDateString(format: "yyyy-MM-dd hh:mm")
@@ -160,12 +138,6 @@ struct DeltaDetailView: View {
                 ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
                 pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
             }
-            let deltas = user.chunithm.delta.suffix(from: deltaIndex).prefix(7).reversed()
-            for delta in deltas {
-                let date = convertDate(delta.createdAt)
-                ratingChartData.append((delta.rating, date))
-                pcChartData.append((Double(delta.playCount), date))
-            }
             chuLog = getChuPlaylist()
         } else if user.currentMode == 1 && user.maimai.delta.count > 1 {
             let latestDelta = user.maimai.delta[deltaIndex]
@@ -178,12 +150,6 @@ struct DeltaDetailView: View {
                 let secondDelta = user.maimai.delta[deltaIndex + 1]
                 ratingDelta = getRatingDelta(current: latestDelta.rating, past: secondDelta.rating)
                 pcDelta = getPCDelta(current: latestDelta.playCount, past: secondDelta.playCount)
-            }
-            let deltas = user.maimai.delta.suffix(from: deltaIndex).prefix(7).reversed()
-            for delta in deltas {
-                let date = convertDate(delta.createdAt)
-                ratingChartData.append((Double(delta.rating), date))
-                pcChartData.append((Double(delta.playCount), date))
             }
             maiLog = getMaiPlaylist()
         }

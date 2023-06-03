@@ -115,7 +115,7 @@ struct HomeRecent: View {
         for entry in r {
             recommended.append((orig[entry]!, entry))
         }
-        return Array(recommended.prefix(upTo: 3))
+        return Array(recommended.prefix(3))
     }
     
     func expandMaimaiRecommended(orig: [CFQMaimai.RecentScoreEntry: String]) -> [(String, CFQMaimai.RecentScoreEntry)] {
@@ -130,7 +130,7 @@ struct HomeRecent: View {
         for entry in r {
             recommended.append((orig[entry]!, entry))
         }
-        return Array(recommended.prefix(upTo: 3))
+        return Array(recommended.prefix(3))
     }
 }
 

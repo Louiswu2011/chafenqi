@@ -17,8 +17,6 @@ struct PCDeltaChart: View {
             LineChart(chartData: chartData)
                 .pointMarkers(chartData: chartData)
                 .touchOverlay(chartData: chartData)
-                .xAxisGrid(chartData: chartData)
-                .xAxisLabels(chartData: chartData)
                 .yAxisGrid(chartData: chartData)
                 .yAxisLabels(chartData: chartData)
                 .floatingInfoBox(chartData: chartData)
@@ -41,12 +39,12 @@ struct PCDeltaChart: View {
             pointStyle: .init(),
             style: .init(lineColour: .init(colour: .blue), lineType: .line)
         )
-        let metadata = ChartMetadata(title: "游玩次数", subtitle: "近7次上传")
+        let metadata = ChartMetadata(title: "游玩次数", subtitle: "全部数据")
         let chartStyle = LineChartStyle(
             infoBoxPlacement: .floating,
             infoBoxBorderColour: Color.primary,
             infoBoxBorderStyle: StrokeStyle(lineWidth: 1),
-            markerType: .bottomLeading(attachment: .line(dot: .style(.init()))),
+            markerType: .indicator(style: .init()),
             baseline: .zero,
             topLine: .maximumValue
         )
