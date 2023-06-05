@@ -45,7 +45,7 @@ struct PCDeltaChart: View {
             infoBoxBorderColour: Color.primary,
             infoBoxBorderStyle: StrokeStyle(lineWidth: 1),
             markerType: .indicator(style: .init()),
-            baseline: .zero,
+            baseline: .minimumValue,
             topLine: .maximumValue
         )
         return LineChartData(dataSets: data, metadata: metadata, chartStyle: chartStyle)

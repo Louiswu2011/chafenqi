@@ -242,7 +242,9 @@ class CFQNUser: ObservableObject {
                 async let delta = try server.fetchDeltaEntries()
                 async let extra = try server.fetchExtraEntries()
                 
-                self.delta = try await delta.reversed()
+                self.delta = try await delta.sorted {
+                    $0.createdAt.toDate()?.timeIntervalSince1970 ?? 0 > $1.createdAt.toDate()?.timeIntervalSince1970 ?? 0
+                }
                 self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
                 print("[CFQNUser] User is not premium, skipping chunithm extras.")
@@ -260,6 +262,13 @@ class CFQNUser: ObservableObject {
     init() {}
     
     func fetchUserData(token: String, username: String) async throws {
+        self.isPremium = try await CFQUserServer.checkPremium(username: username)
+        print("[CFQNUser] Acquired premium status: \(isPremium.description)")
+        
+        if self.isPremium {
+            self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
+        }
+        
         self.maimai = try await Maimai(token: token)
         self.chunithm = try await Chunithm(token: token)
         print("[CFQNUser] Fetched User Data.")
@@ -357,6 +366,13 @@ class CFQNUser: ObservableObject {
     func loadFromCache() async throws {
         let decoder = JSONDecoder()
         
+        self.isPremium = try await CFQUserServer.checkPremium(username: username)
+        print("[CFQNUser] Acquired premium status: \(isPremium.description)")
+        
+        if self.isPremium {
+            self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
+        }
+        
         self.data = try await .loadFromCacheOrRefresh()
         self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
         self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
@@ -417,13 +433,6 @@ class CFQNUser: ObservableObject {
         self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
         
         print("[CFQNUser] Calculated Custom Values.")
-        
-        self.isPremium = try await CFQUserServer.checkPremium(username: username)
-        print("[CFQNUser] Acquired premium status: \(isPremium.description)")
-        
-        if self.isPremium {
-            self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
-        }
         
         sharedContainer.set(self.jwtToken, forKey: "JWT")
     }

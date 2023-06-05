@@ -16,31 +16,32 @@ struct DeltaListView: View {
     @State var avgRatingGrowth: Double = 0
     @State var ratingChartData: [(Double, String)] = []
     @State var pcChartData: [(Double, String)] = []
-    @State var chuDayPlayData: [(CFQChunithmRecentScoreEntries, String)] = []
-    @State var maiDayPlayData: [(CFQMaimaiRecentScoreEntries, String)] = []
+    @State var chuDayPlayData = CFQChunithmDayRecords()
+    @State var maiDayPlayData = CFQMaimaiDayRecords()
 
     @State var isLoaded = false
+    @State var isRatingChart = false
     
     var body: some View {
         ScrollView {
             if isLoaded {
                 HStack(spacing: 10) {
                     VStack(alignment: .leading) {
-                        Text("上传次数")
-                        Text("\(deltaCount)")
+                        Text("出勤天数")
+                        Text("\(pcChartData.count)")
                             .font(.system(size: 25))
                             .bold()
                     }
                     VStack(alignment: .leading) {
                         Text("游玩次数")
-                        Text("\(playCount)")
+                        Text("\(deltaCount)")
                             .font(.system(size: 25))
                             .bold()
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
                         Text("估算花费")
-                        Text("¥\(playCount * 2)")
+                        Text("¥\(deltaCount * 2)")
                             .font(.system(size: 25))
                             .bold()
                     }
@@ -61,9 +62,30 @@ struct DeltaListView: View {
                     Spacer()
                 }
                 .padding([.horizontal, .bottom])
-                PCDeltaChart(rawDataPoints: $pcChartData)
-                    .padding(.horizontal)
-                    .padding(.bottom)
+                ZStack {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                    isRatingChart.toggle()
+                                }
+                            } label: {
+                                Image(systemName: "arrow.left.arrow.right")
+                                Text("切换图表")
+                            }
+                        }
+                        Spacer()
+                    }
+                    
+                    if isRatingChart {
+                        RatingDeltaChart(rawDataPoints: $ratingChartData)
+                    } else {
+                        PCDeltaChart(rawDataPoints: $pcChartData)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
                 HStack {
                     Text("出勤记录")
                         .font(.system(size: 18))
@@ -72,9 +94,9 @@ struct DeltaListView: View {
                 }
                 .padding(.horizontal)
                 if user.currentMode == 0 && user.chunithm.delta.count > 2 {
-                    DeltaList(user: user, chuDelta: user.chunithm.delta)
+                    DeltaList(user: user, chuDelta: chuDayPlayData)
                 } else if user.currentMode == 1 && user.maimai.delta.count > 2 {
-                    DeltaList(user: user, maiDelta: user.maimai.delta)
+                    DeltaList(user: user, maiDelta: maiDayPlayData)
                 } else {
                     DeltaList(user: user)
                 }
@@ -88,75 +110,56 @@ struct DeltaListView: View {
     }
     
     func loadVar() {
+        guard !isLoaded else { return }
         let chuDelta = user.chunithm.delta
         let maiDelta = user.maimai.delta
         ratingChartData = []
         pcChartData = []
         
         if user.currentMode == 0 && !chuDelta.isEmpty {
-            let latest7 = user.chunithm.delta.suffix(7)
+            chuDayPlayData = CFQChunithmDayRecords(recents: user.chunithm.recent, deltas: user.chunithm.delta)
+            let latest7 = chuDayPlayData.records.suffix(7)
             
-            deltaCount = user.chunithm.delta.count
+            deltaCount = chuDayPlayData.records.reduce(0) {
+                $0 + $1.recentEntries.count
+            }
             playCount = user.chunithm.info.playCount
             
-            if let latest = latest7.last {
-                if let first = latest7.first {
+            if let first = latest7.last?.latestDelta {
+                if let latest = latest7.first?.latestDelta {
                     avgRatingGrowth = (latest.rating - first.rating) / Double(latest7.count)
                 }
             }
             
-            let latestStamp = user.chunithm.recent.first?.timestamp ?? 0
-            var firstStamp = user.chunithm.recent.last?.timestamp ?? 0
-            var t = firstStamp
-            var dayPlayed = 0
-            while t <= latestStamp {
-                t += 86400
-                let playInDay = user.chunithm.recent.filter { entry in
-                    (firstStamp...t).contains(entry.timestamp)
-                }
-                if !playInDay.isEmpty {
-                    let dateString = firstStamp.toDateString(format: "MM-dd")
-                    chuDayPlayData.append((playInDay, dateString))
-                    dayPlayed += 1
-                }
-                firstStamp += 86400
-            }
-            avgPlayCount = Double(deltaCount) / Double(dayPlayed)
+            avgPlayCount = Double(deltaCount) / Double(chuDayPlayData.dayPlayed)
             
-            for datum in chuDayPlayData {
-                pcChartData.append((Double(datum.0.count), datum.1))
+            for datum in chuDayPlayData.records {
+                if let rating = datum.latestDelta?.rating {
+                    ratingChartData.append((Double(rating), datum.date.formatted(by: "MM-dd")))
+                }
+                pcChartData.append((Double(datum.recentEntries.count), datum.date.formatted(by: "MM-dd")))
             }
         } else if user.currentMode == 1 && !maiDelta.isEmpty {
-            let latest7 = user.maimai.delta.suffix(7)
+            maiDayPlayData = CFQMaimaiDayRecords(recents: user.maimai.recent, deltas: user.maimai.delta)
+            let latest7 = maiDayPlayData.records.suffix(7)
             
-            deltaCount = user.maimai.delta.count
+            deltaCount = maiDayPlayData.records.reduce(0) {
+                $0 + $1.recentEntries.count
+            }
             playCount = user.maimai.info.playCount
-            if let latest = latest7.last {
-                if let first = latest7.first {
+            if let first = latest7.last?.latestDelta {
+                if let latest = latest7.first?.latestDelta {
                     avgRatingGrowth = Double(latest.rating - first.rating) / Double(latest7.count)
                 }
             }
             
-            let latestStamp = user.maimai.recent.first?.timestamp ?? 0
-            var firstStamp = user.maimai.recent.last?.timestamp ?? 0
-            var t = firstStamp
-            var dayPlayed = 0
-            while t <= latestStamp {
-                t += 86400
-                let playInDay = user.maimai.recent.filter { entry in
-                    (firstStamp...t).contains(entry.timestamp)
-                }
-                if !playInDay.isEmpty {
-                    let dateString = firstStamp.toDateString(format: "MM-dd")
-                    maiDayPlayData.append((playInDay, dateString))
-                    dayPlayed += 1
-                }
-                firstStamp += 86400
-            }
-            avgPlayCount = Double(deltaCount) / Double(dayPlayed)
+            avgPlayCount = Double(deltaCount) / Double(maiDayPlayData.dayPlayed)
             
-            for datum in maiDayPlayData {
-                pcChartData.append((Double(datum.0.count), datum.1))
+            for datum in maiDayPlayData.records {
+                if let rating = datum.latestDelta?.rating {
+                    ratingChartData.append((Double(rating), datum.date.formatted(by: "MM-dd")))
+                }
+                pcChartData.append((Double(datum.recentEntries.count), datum.date.formatted(by: "MM-dd")))
             }
         }
         isLoaded = true
@@ -166,30 +169,30 @@ struct DeltaListView: View {
 struct DeltaList: View {
     @ObservedObject var user: CFQNUser
     
-    @State var chuDelta: CFQChunithmDeltaEntries?
-    @State var maiDelta: CFQMaimaiDeltaEntries?
+    @State var chuDelta: CFQChunithmDayRecords?
+    @State var maiDelta: CFQMaimaiDayRecords?
     
     var body: some View {
         VStack {
             if let deltas = chuDelta {
-                ForEach(Array(deltas.enumerated()), id: \.offset) { index, value in
+                ForEach(Array(deltas.records.reversed().enumerated()), id: \.offset) { index, value in
                     NavigationLink {
-                        DeltaDetailView(user: user, deltaIndex: index)
+                        DeltaDetailView(user: user, chuLog: value)
                     } label: {
                         HStack {
-                            Text(value.createdAt.toDateString(format: "yyyy-MM-dd hh:mm"))
+                            Text(value.date.formatted(by: "yyyy-MM-dd"))
                             Spacer()
                             Image(systemName: "chevron.right")
                         }
                     }
                 }
             } else if let deltas = maiDelta {
-                ForEach(Array(deltas.enumerated()), id: \.offset) { index, value in
+                ForEach(Array(deltas.records.reversed().enumerated()), id: \.offset) { index, value in
                     NavigationLink {
-                        DeltaDetailView(user: user, deltaIndex: index)
+                        DeltaDetailView(user: user, maiLog: value)
                     } label: {
                         HStack {
-                            Text(value.createdAt.toDateString(format: "yyyy-MM-dd hh:mm"))
+                            Text(value.date.formatted(by: "yyyy-MM-dd"))
                             Spacer()
                             Image(systemName: "chevron.right")
                         }

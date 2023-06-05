@@ -18,8 +18,6 @@ struct RatingDeltaChart: View {
             LineChart(chartData: chartData)
                 .pointMarkers(chartData: chartData)
                 .touchOverlay(chartData: chartData, specifier: isChunithm ? "%.2f" : "%.0f")
-                .xAxisGrid(chartData: chartData)
-                .xAxisLabels(chartData: chartData)
                 .yAxisGrid(chartData: chartData)
                 .yAxisLabels(chartData: chartData, specifier: isChunithm ? "%.2f" : "%.0f")
                 .floatingInfoBox(chartData: chartData)
@@ -42,13 +40,13 @@ struct RatingDeltaChart: View {
             pointStyle: .init(),
             style: .init(lineColour: .init(colour: .red), lineType: .line)
         )
-        let metadata = ChartMetadata(title: "Rating", subtitle: "近7次上传")
+        let metadata = ChartMetadata(title: "Rating", subtitle: "全部数据")
         let chartStyle = LineChartStyle(
             infoBoxPlacement: .floating,
             infoBoxBorderColour: Color.primary,
             infoBoxBorderStyle: StrokeStyle(lineWidth: 1),
             markerType: .bottomLeading(attachment: .line(dot: .style(.init()))),
-            baseline: .zero,
+            baseline: .minimumValue,
             topLine: .maximumValue
         )
         return LineChartData(dataSets: data, metadata: metadata, chartStyle: chartStyle)

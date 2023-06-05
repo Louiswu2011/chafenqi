@@ -210,6 +210,8 @@ struct CFQData: Codable {
             var awakening: String
             var updatedAt: String
             var createdAt: String
+            
+            static let empty = DeltaEntry(rating: 0, playCount: 0, stats: "", dxScore: 0, achievement: 0, syncPoint: 0, awakening: "", updatedAt: "", createdAt: "")
         }
     }
     
@@ -435,6 +437,8 @@ struct CFQData: Codable {
             var currentGold: Int
             var updatedAt: String
             var createdAt: String
+            
+            static let empty = DeltaEntry(rating: 0, overpower_raw: 0, overpower_percent: 0, playCount: 0, totalGold: 0, currentGold: 0, updatedAt: "", createdAt: "")
         }
         
         struct ExtraEntry: Codable {
@@ -753,6 +757,13 @@ extension String {
         }
         return ""
     }
+    
+    func toDate() -> Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
+        return formatter.date(from: self)
+    }
 }
 
 extension Int {
@@ -767,6 +778,21 @@ extension Int {
     
     func toDateString(format: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        formatter.timeZone = .autoupdatingCurrent
+        formatter.locale = .autoupdatingCurrent
+        return formatter.string(from: date)
+    }
+    
+    func toDate() -> Date {
+        Date(timeIntervalSince1970: TimeInterval(self))
+    }
+}
+
+extension Double {
+    func toDateString(format: String) -> String {
+        let date = Date(timeIntervalSince1970: self)
         let formatter = DateFormatter()
         formatter.dateFormat = format
         formatter.timeZone = .autoupdatingCurrent
