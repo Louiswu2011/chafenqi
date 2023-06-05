@@ -16,6 +16,8 @@ struct HomeNameplate: View {
     @State private var nameplateMaiColorTop = Color(red: 167, green: 243, blue: 254)
     @State private var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
     
+    @State private var updateTime = ""
+    
     var body: some View {
         VStack {
             ZStack {
@@ -152,12 +154,11 @@ struct HomeNameplate: View {
                                 Spacer()
                                 
                                 HStack {
-                                    if (user.currentMode == 0) {
-                                        Text("更新于")
-                                        Text("\(user.chunithm.info.updatedAt.toDateString(format: "MM-dd hh:mm"))")
+                                    Text("更新于")
+                                    if user.currentMode == 0 {
+                                        Text(getUpdateTime(user.chunithm.info.updatedAt))
                                     } else {
-                                        Text("更新于")
-                                        Text("\(user.maimai.info.updatedAt.toDateString(format: "MM-dd hh:mm"))")
+                                        Text(getUpdateTime(user.maimai.info.updatedAt))
                                     }
                                 }
                             }
@@ -171,6 +172,16 @@ struct HomeNameplate: View {
             }
         }
         .padding()
+    }
+    
+    func getUpdateTime(_ str: String) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFractionalSeconds, .withInternetDateTime, .withTimeZone]
+        formatter.timeZone = .autoupdatingCurrent
+        if let date = formatter.date(from: str) {
+            return date.formatted(by: "MM-dd hh:mm")
+        }
+        return ""
     }
     
     var gradient: LinearGradient {
