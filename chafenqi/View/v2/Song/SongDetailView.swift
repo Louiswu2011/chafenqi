@@ -159,7 +159,8 @@ struct SongDetailView: View {
                         .padding(.bottom)
                     }
                     
-                    let diffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
+                    let maiDiffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
+                    let chuDiffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]
                     if #available(iOS 15.0, *) {
                         Button {
                             showingDiffSelection.toggle()
@@ -170,10 +171,12 @@ struct SongDetailView: View {
                         .padding(5)
                         .alert("选择难度", isPresented: $showingDiffSelection) {
                             ForEach(Array(level.enumerated()), id: \.offset) { index, level in
-                                Button {
-                                    openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(diffArray[index]) \(user.currentMode == 0 ? "chunithm" : "maimai")".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
-                                } label: {
-                                    Text("\(diffArray[index]) \(level)")
+                                if level != "" && level != "0" {
+                                    Button {
+                                        openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(user.currentMode == 0 ? chuDiffArray[index] : maiDiffArray[index]) \(user.currentMode == 0 ? "chunithm" : "maimai")".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                                    } label: {
+                                        Text("\(user.currentMode == 0 ? chuDiffArray[index] : maiDiffArray[index]) \(level)")
+                                    }
                                 }
                             }
                             Button("取消", role: .cancel) {}
@@ -188,7 +191,7 @@ struct SongDetailView: View {
                         }
                         .padding(5)
                         .sheet(isPresented: $showingDiffSelectioniOS14) {
-                            CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: level, diffs: diffArray, game: user.currentMode == 0 ? "chunithm" : "maimai"))
+                            CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: level, diffs: user.currentMode == 0 ? chuDiffArray : maiDiffArray, game: user.currentMode == 0 ? "chunithm" : "maimai"))
                         }
                     }
                     
@@ -278,9 +281,11 @@ struct SongDetailView: View {
     func getDiffSelectionArray(levels: [String], diffs: [String], game: String) -> [(title: String, action: (() -> Void)?)] {
         var array: [(title: String, action: (() -> Void)?)] = []
         for (index, level) in levels.enumerated() {
-            array.append(("\(diffs[index]) \(level)", {
-                openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) \(game)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
-            }))
+            if level != "" && level != "0" {
+                array.append(("\(diffs[index]) \(level)", {
+                    openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) \(game)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                }))
+            }
         }
         array.append(("取消", {
             
