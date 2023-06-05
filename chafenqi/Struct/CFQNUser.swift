@@ -22,6 +22,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsShouldForwardToFish") var shouldForwardToFish = true
     @AppStorage("settingsCurrentMode") var currentMode = 0
+    @AppStorage("settingsPricePerGame") var pricePerGame = ""
     
     var maimai = Maimai()
     var chunithm = Chunithm()

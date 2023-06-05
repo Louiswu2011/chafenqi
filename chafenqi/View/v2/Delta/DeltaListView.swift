@@ -41,7 +41,7 @@ struct DeltaListView: View {
                     Spacer()
                     VStack(alignment: .trailing) {
                         Text("估算花费")
-                        Text("¥\(deltaCount * 2)")
+                        Text("¥\(Double(deltaCount) * (Double(user.pricePerGame) ?? 2), specifier: "%.2f")")
                             .font(.system(size: 25))
                             .bold()
                     }

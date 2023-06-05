@@ -84,6 +84,18 @@ struct Settings: View {
             }
             
             Section {
+                HStack {
+                    Text("单局金额")
+                    Spacer()
+                    TextField("默认为2元一局", text: $user.pricePerGame)
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                }
+            } header: {
+                Text("出勤记录")
+            }
+            
+            Section {
                 NavigationLink {
                     SponsorView()
                 } label: {
