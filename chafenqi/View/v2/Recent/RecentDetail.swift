@@ -74,8 +74,7 @@ struct RecentDetail: View {
                             
                             Spacer()
                             
-                            Text(entry.grade)
-                                .font(.system(size: 20))
+                            GradeBadgeView(grade: entry.grade)
                             
                             Text(entry.status)
                                 .font(.system(size: 20))
@@ -168,14 +167,13 @@ struct RecentDetail: View {
                         
                     } else if let entry = maiEntry {
                         HStack(alignment: .bottom) {
-                            Text(score)
+                            Text("\(entry.score, specifier: "%.4f")%")
                                 .font(.system(size: 30))
                                 .bold()
                             
                             Spacer()
                             
-                            Text(entry.rateString)
-                                .font(.system(size: 20))
+                            GradeBadgeView(grade: entry.rateString)
                             
                             Text(entry.status)
                                 .font(.system(size: 20))
