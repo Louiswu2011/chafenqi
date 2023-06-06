@@ -11,17 +11,19 @@ struct HomeDelta: View {
     @ObservedObject var user = CFQNUser()
     
     var body: some View {
-        HStack {
-            Text("出勤记录")
-                .font(.system(size: 20))
-                .bold()
-            Spacer()
-            
-            NavigationLink {
-                DeltaListView(user: user)
-            } label: {
-                Text("显示全部")
-                    .font(.system(size: 18))
+        VStack {
+            HStack {
+                Text("出勤记录")
+                    .font(.system(size: 20))
+                    .bold()
+                Spacer()
+                
+                NavigationLink {
+                    DeltaListView(user: user)
+                } label: {
+                    Text("显示全部")
+                        .font(.system(size: 18))
+                }
             }
         }
         .padding()

@@ -50,23 +50,19 @@ struct HomeNameplate: View {
                                     }
                             }
                         } else {
-                            NavigationLink {
-                                PlayerInfoView(user: user)
-                            } label: {
-                                Image("nameplate_salt")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .padding(.trailing, 10)
-                                    .frame(width: 110, height: 110)
-                                    .contextMenu {
-                                        Button {
-                                            // TODO: Add custom avatar
-                                        } label: {
-                                            Image(systemName: "rectangle.on.rectangle.angled")
-                                            Text("照片图库")
-                                        }
+                            Image("nameplate_salt")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .padding(.trailing, 10)
+                                .frame(width: 110, height: 110)
+                                .contextMenu {
+                                    Button {
+                                        // TODO: Add custom avatar
+                                    } label: {
+                                        Image(systemName: "rectangle.on.rectangle.angled")
+                                        Text("照片图库")
                                     }
-                            }
+                                }
                         }
                     }
                 }
