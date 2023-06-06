@@ -13,6 +13,7 @@
 		6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6725EB062A2440AB00C1829A /* SwiftUICharts */; };
 		6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB082A244AE600C1829A /* PCDeltaChart.swift */; };
 		673B33152A286D9D00857FF0 /* HomeDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673B33142A286D9D00857FF0 /* HomeDelta.swift */; };
+		676317582A2EE2C300693E4B /* SettingsHomeArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676317572A2EE2C300693E4B /* SettingsHomeArrangement.swift */; };
 		677004212A20B9E6005BB69A /* RedeemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677004202A20B9E6005BB69A /* RedeemView.swift */; };
 		67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1E94B2A29E1C700DC41D0 /* DeltaPlayList.swift */; };
 		67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
@@ -197,6 +198,7 @@
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
 		6725EB082A244AE600C1829A /* PCDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDeltaChart.swift; sourceTree = "<group>"; };
 		673B33142A286D9D00857FF0 /* HomeDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDelta.swift; sourceTree = "<group>"; };
+		676317572A2EE2C300693E4B /* SettingsHomeArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHomeArrangement.swift; sourceTree = "<group>"; };
 		677004202A20B9E6005BB69A /* RedeemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemView.swift; sourceTree = "<group>"; };
 		67B1E94B2A29E1C700DC41D0 /* DeltaPlayList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaPlayList.swift; sourceTree = "<group>"; };
 		67B202C02A260110005FD147 /* ChunithmMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmMusicData.swift; sourceTree = "<group>"; };
@@ -755,6 +757,7 @@
 				BF7872A62A07DC9C007243B3 /* Settings.swift */,
 				BF45B1CD2A0961440076E437 /* TokenUploderView.swift */,
 				677004202A20B9E6005BB69A /* RedeemView.swift */,
+				676317572A2EE2C300693E4B /* SettingsHomeArrangement.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1150,6 +1153,7 @@
 				BF56C6F92992C72F0075BEF9 /* UpdaterWelcomeView.swift in Sources */,
 				BFC256AB29A7E37E00B65CE7 /* ImageCache.swift in Sources */,
 				BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */,
+				676317582A2EE2C300693E4B /* SettingsHomeArrangement.swift in Sources */,
 				BF9E9C4C29BA48780011C2B1 /* RecentSpotlightView.swift in Sources */,
 				BF7872A92A07E515007243B3 /* RootView.swift in Sources */,
 				BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */,

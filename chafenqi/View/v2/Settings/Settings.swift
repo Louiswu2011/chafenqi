@@ -59,11 +59,15 @@ struct Settings: View {
                 .foregroundColor(.red)
             }
             
-//            Section {
-//                SettingsInfoLabelView(title: "当前数据来源", message: "")
-//            } header: {
-//                Text("常规")
-//            }
+            Section {
+                NavigationLink {
+                    SettingsHomeArrangement()
+                } label: {
+                    Text("排序")
+                }
+            } header: {
+                Text("主页")
+            }
             
             Section {
                 Toggle(isOn: $user.shouldForwardToFish.animation()) {

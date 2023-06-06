@@ -12,6 +12,8 @@ struct HomeView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
+    @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
+    
     @State var refreshing = false
     
     var body: some View {
@@ -23,10 +25,19 @@ struct HomeView: View {
             } else if (user.didLogin) {
                 ScrollView {
                     HomeNameplate(user: user)
-                    HomeRecent(user: user)
-                    HomeRating(user: user)
-                    if user.isPremium {
-                        HomeDelta(user: user)
+                    ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
+                        switch value {
+                        case "最近动态":
+                            HomeRecent(user: user)
+                        case "Rating分析":
+                            HomeRating(user: user)
+                        case "出勤记录":
+                            if user.isPremium {
+                                HomeDelta(user: user)
+                            }
+                        default:
+                            Spacer()
+                        }
                     }
                 }
                 .navigationTitle("主页")

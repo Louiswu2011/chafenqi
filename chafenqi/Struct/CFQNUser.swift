@@ -23,6 +23,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsShouldForwardToFish") var shouldForwardToFish = true
     @AppStorage("settingsCurrentMode") var currentMode = 0
     @AppStorage("settingsPricePerGame") var pricePerGame = ""
+    @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
     
     var maimai = Maimai()
     var chunithm = Chunithm()
