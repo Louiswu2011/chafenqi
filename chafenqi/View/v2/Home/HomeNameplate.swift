@@ -175,7 +175,7 @@ struct HomeNameplate: View {
         formatter.formatOptions = [.withFractionalSeconds, .withInternetDateTime, .withTimeZone]
         formatter.timeZone = .autoupdatingCurrent
         if let date = formatter.date(from: str) {
-            return date.formatted(by: "MM-dd hh:mm")
+            return date.formatted(by: "MM-dd HH:mm")
         }
         return ""
     }

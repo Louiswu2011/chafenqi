@@ -735,7 +735,7 @@ extension String {
         let date = formatter.date(from: self)
         if let date = date {
             let formatter = DateFormatter()
-            formatter.dateFormat = "MM-dd hh:mm"
+            formatter.dateFormat = "MM-dd HH:mm"
             formatter.timeZone = .autoupdatingCurrent
             formatter.locale = .autoupdatingCurrent
             return formatter.string(from: date)
@@ -770,7 +770,7 @@ extension Int {
     var customDateString: String {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         let formatter = DateFormatter()
-        formatter.dateFormat = "yy-MM-dd hh:mm"
+        formatter.dateFormat = "yy-MM-dd HH:mm"
         formatter.timeZone = .autoupdatingCurrent
         formatter.locale = .autoupdatingCurrent
         return formatter.string(from: date)
