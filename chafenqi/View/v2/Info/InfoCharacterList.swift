@@ -44,6 +44,7 @@ struct InfoCharacterItem: View {
                     Spacer()
                     if character.current == 1 {
                         Text("当前角色")
+                            .bold()
                     }
                     Text("LV \(character.rank)")
                 }

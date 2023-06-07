@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		670EBC1B2A3022DB00D32723 /* InfoCharacterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */; };
+		670EBC1D2A3026B000D32723 /* InfoSkillList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1C2A3026B000D32723 /* InfoSkillList.swift */; };
 		6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EAFE2A24400F00C1829A /* DeltaListView.swift */; };
 		6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB002A24401900C1829A /* DeltaDetailView.swift */; };
 		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
@@ -196,6 +197,7 @@
 
 /* Begin PBXFileReference section */
 		670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCharacterList.swift; sourceTree = "<group>"; };
+		670EBC1C2A3026B000D32723 /* InfoSkillList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSkillList.swift; sourceTree = "<group>"; };
 		6725EAFE2A24400F00C1829A /* DeltaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaListView.swift; sourceTree = "<group>"; };
 		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 			children = (
 				BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */,
 				670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */,
+				670EBC1C2A3026B000D32723 /* InfoSkillList.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -1144,6 +1147,7 @@
 				BF9C37A229C6E3D2003341C9 /* RatingDetailView.swift in Sources */,
 				BFBC54F3298CE5F300A93918 /* MaimaiDataGrabber.swift in Sources */,
 				BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */,
+				670EBC1D2A3026B000D32723 /* InfoSkillList.swift in Sources */,
 				BFECEC73297D37E600D2F383 /* SongChartView.swift in Sources */,
 				BFCF130D2A03A1C3000B2E0D /* CFQNUser.swift in Sources */,
 				67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */,

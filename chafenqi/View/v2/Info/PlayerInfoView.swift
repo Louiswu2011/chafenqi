@@ -126,11 +126,15 @@ struct PlayerInfoView: View {
                                     .bold()
                             }
                         }
-                        HStack {
-                            Text("技能")
-                            Spacer()
-                            Text("\(skillCount)")
-                                .bold()
+                        NavigationLink {
+                            InfoSkillList(skills: user.chunithm.extra.skills)
+                        } label: {
+                            HStack {
+                                Text("技能")
+                                Spacer()
+                                Text("\(skillCount)")
+                                    .bold()
+                            }
                         }
                     }
                     HStack {
