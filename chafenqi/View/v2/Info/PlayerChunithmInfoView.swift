@@ -8,7 +8,7 @@
 import SwiftUI
 import CachedAsyncImage
 
-struct PlayerInfoView: View {
+struct PlayerChunithmInfoView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
     
@@ -230,6 +230,6 @@ struct PlayerInfoView: View {
 
 struct PlayerInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerInfoView(user: CFQNUser())
+        PlayerChunithmInfoView(user: CFQNUser())
     }
 }

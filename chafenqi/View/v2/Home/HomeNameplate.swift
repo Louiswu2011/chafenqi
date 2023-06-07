@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeNameplate: View {
+    @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
     
     @State private var nameplateChuniColorTop = Color(red: 254, green: 241, blue: 65)
@@ -33,7 +34,7 @@ struct HomeNameplate: View {
                         
                         if(user.currentMode == 0) {
                             NavigationLink {
-                                PlayerInfoView(user: user)
+                                PlayerChunithmInfoView(user: user)
                             } label: {
                                 Image("nameplate_penguin")
                                     .resizable()
@@ -50,19 +51,23 @@ struct HomeNameplate: View {
                                     }
                             }
                         } else {
-                            Image("nameplate_salt")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .padding(.trailing, 10)
-                                .frame(width: 110, height: 110)
-                                .contextMenu {
-                                    Button {
-                                        // TODO: Add custom avatar
-                                    } label: {
-                                        Image(systemName: "rectangle.on.rectangle.angled")
-                                        Text("照片图库")
+                            NavigationLink {
+                                PlayerMaimaiInfoView(user: user)
+                            } label: {
+                                Image("nameplate_salt")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .padding(.trailing, 10)
+                                    .frame(width: 110, height: 110)
+                                    .contextMenu {
+                                        Button {
+                                            // TODO: Add custom avatar
+                                        } label: {
+                                            Image(systemName: "rectangle.on.rectangle.angled")
+                                            Text("照片图库")
+                                        }
                                     }
-                                }
+                            }
                         }
                     }
                 }

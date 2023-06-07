@@ -45,6 +45,9 @@ class CFQNUser: ObservableObject {
             var currentRating = 0
             var rawRating = 0
             
+            var rankCounter = [0, 0, 0, 0, 0, 0, 0]
+            var statusCounter = [0, 0, 0, 0, 0]
+            
             var recommended: [CFQMaimai.RecentScoreEntry: String] = [:]
             var genreList: [String] = []
             var versionList: [String] = []
@@ -98,6 +101,37 @@ class CFQNUser: ObservableObject {
                 if let nr = (r.filter {
                     $0.isNewRecord == 1
                 }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
+                
+                for entry in orig {
+                    switch entry.score {
+                    case 100.5...101:
+                        rankCounter[0] += 1
+                    case 100.0...100.4999:
+                        rankCounter[1] += 1
+                    case 99.5...99.9999:
+                        rankCounter[2] += 1
+                    case 99.0...99.4999:
+                        rankCounter[3] += 1
+                    case 98.0...98.9999:
+                        rankCounter[4] += 1
+                    case 97.0...97.9999:
+                        rankCounter[5] += 1
+                    default:
+                        rankCounter[6] += 1
+                    }
+                    switch entry.fc {
+                    case "app":
+                        statusCounter[0] += 1
+                    case "ap":
+                        statusCounter[1] += 1
+                    case "fcp":
+                        statusCounter[2] += 1
+                    case "fc":
+                        statusCounter[3] += 1
+                    default:
+                        statusCounter[4] += 1
+                    }
+                }
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }

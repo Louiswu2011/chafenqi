@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		670EBC1B2A3022DB00D32723 /* InfoCharacterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */; };
 		670EBC1D2A3026B000D32723 /* InfoSkillList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1C2A3026B000D32723 /* InfoSkillList.swift */; };
+		670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */; };
 		6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EAFE2A24400F00C1829A /* DeltaListView.swift */; };
 		6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB002A24401900C1829A /* DeltaDetailView.swift */; };
 		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
@@ -48,7 +49,7 @@
 		BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F3229B64DA2005D1C67 /* FilterExtension.swift */; };
 		BF42045829982705008C7E02 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BF42045729982705008C7E02 /* AlertToast */; };
 		BF426D302A08DE5400606799 /* SongDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF426D2F2A08DE5400606799 /* SongDetailView.swift */; };
-		BF45B1CC2A0960A50076E437 /* PlayerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */; };
+		BF45B1CC2A0960A50076E437 /* PlayerChunithmInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1CB2A0960A50076E437 /* PlayerChunithmInfoView.swift */; };
 		BF45B1CE2A0961440076E437 /* TokenUploderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1CD2A0961440076E437 /* TokenUploderView.swift */; };
 		BF45B1D22A096D680076E437 /* HomeRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1D12A096D680076E437 /* HomeRating.swift */; };
 		BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45B1D42A096DC00076E437 /* RatingListView.swift */; };
@@ -198,6 +199,7 @@
 /* Begin PBXFileReference section */
 		670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCharacterList.swift; sourceTree = "<group>"; };
 		670EBC1C2A3026B000D32723 /* InfoSkillList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSkillList.swift; sourceTree = "<group>"; };
+		670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMaimaiInfoView.swift; sourceTree = "<group>"; };
 		6725EAFE2A24400F00C1829A /* DeltaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaListView.swift; sourceTree = "<group>"; };
 		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
@@ -239,7 +241,7 @@
 		BF403F2E29B642F4005D1C67 /* RegexManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexManager.swift; sourceTree = "<group>"; };
 		BF403F3229B64DA2005D1C67 /* FilterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
 		BF426D2F2A08DE5400606799 /* SongDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDetailView.swift; sourceTree = "<group>"; };
-		BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfoView.swift; sourceTree = "<group>"; };
+		BF45B1CB2A0960A50076E437 /* PlayerChunithmInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerChunithmInfoView.swift; sourceTree = "<group>"; };
 		BF45B1CD2A0961440076E437 /* TokenUploderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUploderView.swift; sourceTree = "<group>"; };
 		BF45B1D12A096D680076E437 /* HomeRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRating.swift; sourceTree = "<group>"; };
 		BF45B1D42A096DC00076E437 /* RatingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingListView.swift; sourceTree = "<group>"; };
@@ -501,9 +503,10 @@
 		BF45B1CA2A0960920076E437 /* Info */ = {
 			isa = PBXGroup;
 			children = (
-				BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */,
+				BF45B1CB2A0960A50076E437 /* PlayerChunithmInfoView.swift */,
 				670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */,
 				670EBC1C2A3026B000D32723 /* InfoSkillList.swift */,
+				670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -1169,6 +1172,7 @@
 				BFF353F32968533B001392E5 /* CutCircularProgressView.swift in Sources */,
 				BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */,
 				BF572E1229A5E37A00E9811B /* RecentBasicView.swift in Sources */,
+				670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */,
 				BFFEEB1F2A0825B3001B15B7 /* ImageCache.xcdatamodeld in Sources */,
 				BFEF7EDE298A856E00F87ACC /* ToolView.swift in Sources */,
 				BF9E9C4A29BA3A6C0011C2B1 /* NamePlateView.swift in Sources */,
@@ -1195,7 +1199,7 @@
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFCE1B2A29EE911600BFAA67 /* QuickActionService.swift in Sources */,
 				BFB3A29C298F7BAD00C8C3BF /* LevelBlockView.swift in Sources */,
-				BF45B1CC2A0960A50076E437 /* PlayerInfoView.swift in Sources */,
+				BF45B1CC2A0960A50076E437 /* PlayerChunithmInfoView.swift in Sources */,
 				BF8E054629A2A9D400079A06 /* WelcomeEndPageView.swift in Sources */,
 				BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */,
 				BFBC5505298D005900A93918 /* SongBasicView.swift in Sources */,

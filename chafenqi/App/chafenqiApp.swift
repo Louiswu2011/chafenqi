@@ -24,7 +24,7 @@ let sharedContainer = UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!
 struct chafenqiApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    @StateObject var user = CFQUser.loadFromCache()
+    // @StateObject var user = CFQUser.loadFromCache()
     @StateObject var newUser = CFQNUser()
     
     @State var currentTab: TabIdentifier = .home

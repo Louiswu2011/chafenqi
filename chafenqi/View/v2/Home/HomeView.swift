@@ -9,6 +9,7 @@ import SwiftUI
 import AlertToast
 
 struct HomeView: View {
+    @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
