@@ -191,6 +191,8 @@ struct PlayerInfoView: View {
                 charName = currentAvatar.charName
                 charLevel = currentAvatar.charRank
                 charProgress = currentAvatar.charExp
+            } else {
+                avatarUrlString = "https://chunithm.wahlap.com/mobile/img/71e1e250b22e2f4f.png"
             }
             if let currentSkill = user.chunithm.extra.skills.first(where: {
                 $0.current == 1
