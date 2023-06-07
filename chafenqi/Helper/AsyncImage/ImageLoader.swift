@@ -17,7 +17,7 @@ class ImageLoader: ObservableObject {
     
     private(set) var isLoading = false
     
-    private let url: URL
+    @State private var url: URL
     private var cancellable: AnyCancellable?
     
     private static let imageProcessingQueue = DispatchQueue(label: "image-processing")
