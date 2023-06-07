@@ -12,9 +12,15 @@ struct HomeView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
+    @State private var versionData = ClientVersionData.empty
+    
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
     
     @State var refreshing = false
+    @State var dismissed = false
+    
+    var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
     var body: some View {
         VStack {
@@ -59,8 +65,33 @@ struct HomeView: View {
                 }
             }
         }
+        .onAppear {
+            Task {
+                do {
+                    let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
+                    let (data, _) = try await URLSession.shared.data(for: versionRequest)
+                    versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
+                    if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) && !dismissed {
+                        let updateAlert = Alert(
+                            title: Text("发现新版本"),
+                            message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
+                            primaryButton: .default(Text("前往Testflight")) {
+                                UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
+                            },
+                            secondaryButton: .cancel(Text("取消")))
+                        dismissed = true
+                        alertToast.alert = updateAlert
+                    }
+                } catch {
+                    versionData = .empty
+                }
+            }
+        }
         .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
+        }
+        .alert(isPresented: $alertToast.alertShow) {
+            alertToast.alert
         }
     }
     
