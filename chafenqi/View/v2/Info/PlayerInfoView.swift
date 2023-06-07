@@ -116,11 +116,15 @@ struct PlayerInfoView: View {
                     .padding(.bottom, 15)
                     
                     HStack {
-                        HStack {
-                            Text("角色")
-                            Spacer()
-                            Text("\(charCount)")
-                                .bold()
+                        NavigationLink {
+                            InfoCharacterList(characters: user.chunithm.extra.characters)
+                        } label: {
+                            HStack {
+                                Text("角色")
+                                Spacer()
+                                Text("\(charCount)")
+                                    .bold()
+                            }
                         }
                         HStack {
                             Text("技能")

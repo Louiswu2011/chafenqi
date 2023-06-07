@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		670EBC1B2A3022DB00D32723 /* InfoCharacterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */; };
 		6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EAFE2A24400F00C1829A /* DeltaListView.swift */; };
 		6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB002A24401900C1829A /* DeltaDetailView.swift */; };
 		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
@@ -194,6 +195,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCharacterList.swift; sourceTree = "<group>"; };
 		6725EAFE2A24400F00C1829A /* DeltaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaListView.swift; sourceTree = "<group>"; };
 		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				BF45B1CB2A0960A50076E437 /* PlayerInfoView.swift */,
+				670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -1217,6 +1220,7 @@
 				BF8D2A802A06382800F60633 /* LoginView.swift in Sources */,
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				BF9CEFB82992C00700658724 /* UpdaterRouterView.swift in Sources */,
+				670EBC1B2A3022DB00D32723 /* InfoCharacterList.swift in Sources */,
 				6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
 				BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */,
