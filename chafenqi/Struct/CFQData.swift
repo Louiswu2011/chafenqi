@@ -639,6 +639,12 @@ extension CFQChunithmCalculatable {
     func getRating(constant: Double, score: Int) -> Double {
         var rating: Double {
             switch (score) {
+            case 800000...899999:
+                return (constant - 5.0) / 2
+            case 900000...924999:
+                return constant - 5.0
+            case 925000...974999:
+                return constant - 3.0
             case 975000...999999:
                 return constant + Double(score - 975000) / 2500 * 0.1
             case 1000000...1004999:
