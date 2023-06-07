@@ -34,84 +34,86 @@ struct PlayerMaimaiInfoView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 5) {
-                AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
-                    ProgressView()
-                }, image: { img in
-                    Image(uiImage: img)
-                        .resizable()
-                })
-                .aspectRatio(1, contentMode: .fit)
-                .mask(RoundedRectangle(cornerRadius: 5))
-                .frame(width: 200)
-                .padding(.bottom)
-                
-                
-                HStack {
-                    Text("Rating")
-                    Spacer()
-                    Text("\(user.maimai.info.rating)")
-                        .bold()
-                    Text("(MAX: \(user.maimai.info.maxRating))")
-                }
-                HStack {
-                    Text("称号")
-                    Spacer()
-                    Text(user.maimai.info.trophy)
-                        .bold()
-                }
-                HStack {
-                    Text("游玩次数")
-                    Spacer()
-                    Text("\(user.maimai.info.playCount)")
-                        .bold()
-                }
-                HStack {
-                    Text("觉醒数")
-                    Spacer()
-                    Text("\(user.maimai.info.star)")
-                        .bold()
-                }
-            }
-            .padding()
-            
-            HStack(alignment: .top) {
-                let rankData = makeRankData()
-                let statusData = makeStatusData()
-                VStack {
-                    PieChart(chartData: rankData)
-                        .touchOverlay(chartData: rankData)
-                        .headerBox(chartData: rankData)
-                        .frame(width: 150, height: 150)
-                        .id(rankData.id)
-                        .padding(.bottom)
+            if user.isPremium {
+                VStack(spacing: 5) {
+                    AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
+                        ProgressView()
+                    }, image: { img in
+                        Image(uiImage: img)
+                            .resizable()
+                    })
+                    .aspectRatio(1, contentMode: .fit)
+                    .mask(RoundedRectangle(cornerRadius: 5))
+                    .frame(width: 200)
+                    .padding(.bottom)
                     
-                    ForEach(rankData.dataSets.dataPoints, id: \.id) { point in
-                        HStack {
-                            Text(point.description ?? "")
-                            Spacer()
-                            Text("\(point.value, specifier: "%.0f")")
+                    
+                    HStack {
+                        Text("Rating")
+                        Spacer()
+                        Text("\(user.maimai.info.rating)")
+                            .bold()
+                        Text("(MAX: \(user.maimai.info.maxRating))")
+                    }
+                    HStack {
+                        Text("称号")
+                        Spacer()
+                        Text(user.maimai.info.trophy)
+                            .bold()
+                    }
+                    HStack {
+                        Text("游玩次数")
+                        Spacer()
+                        Text("\(user.maimai.info.playCount)")
+                            .bold()
+                    }
+                    HStack {
+                        Text("觉醒数")
+                        Spacer()
+                        Text("\(user.maimai.info.star)")
+                            .bold()
+                    }
+                }
+                .padding()
+                
+                HStack(alignment: .top) {
+                    let rankData = makeRankData()
+                    let statusData = makeStatusData()
+                    VStack {
+                        PieChart(chartData: rankData)
+                            .touchOverlay(chartData: rankData)
+                            .headerBox(chartData: rankData)
+                            .frame(width: 150, height: 150)
+                            .id(rankData.id)
+                            .padding(.bottom)
+                        
+                        ForEach(rankData.dataSets.dataPoints, id: \.id) { point in
+                            HStack {
+                                Text(point.description ?? "")
+                                Spacer()
+                                Text("\(point.value, specifier: "%.0f")")
+                            }
+                        }
+                    }
+                    VStack {
+                        PieChart(chartData: statusData)
+                            .touchOverlay(chartData: statusData)
+                            .headerBox(chartData: statusData)
+                            .frame(width: 150, height: 150)
+                            .id(statusData.id)
+                            .padding(.bottom)
+                        
+                        ForEach(statusData.dataSets.dataPoints, id: \.id) { point in
+                            HStack {
+                                Text(point.description ?? "")
+                                Spacer()
+                                Text("\(point.value, specifier: "%.0f")")
+                            }
                         }
                     }
                 }
-                VStack {
-                    PieChart(chartData: statusData)
-                        .touchOverlay(chartData: statusData)
-                        .headerBox(chartData: statusData)
-                        .frame(width: 150, height: 150)
-                        .id(statusData.id)
-                        .padding(.bottom)
-                    
-                    ForEach(statusData.dataSets.dataPoints, id: \.id) { point in
-                        HStack {
-                            Text(point.description ?? "")
-                            Spacer()
-                            Text("\(point.value, specifier: "%.0f")")
-                        }
-                    }
-                }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle("玩家信息")
         .navigationBarTitleDisplayMode(.large)

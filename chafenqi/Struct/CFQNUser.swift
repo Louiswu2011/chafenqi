@@ -24,6 +24,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsCurrentMode") var currentMode = 0
     @AppStorage("settingsPricePerGame") var pricePerGame = ""
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
+    @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
     
     var maimai = Maimai()
     var chunithm = Chunithm()

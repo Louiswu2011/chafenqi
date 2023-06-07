@@ -99,7 +99,7 @@ struct HomeRecent: View {
                 }
             }
         }
-        .padding(.horizontal)
+        .padding()
     }
     
     

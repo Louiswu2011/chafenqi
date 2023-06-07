@@ -60,6 +60,7 @@ struct Settings: View {
             }
             
             Section {
+                Toggle("显示距上次出勤天数", isOn: $user.showDaysSinceLastPlayed)
                 NavigationLink {
                     SettingsHomeArrangement()
                 } label: {

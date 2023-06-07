@@ -19,6 +19,7 @@ struct HomeView: View {
     
     @State var refreshing = false
     @State var dismissed = false
+    @State var daysSinceLastPlayed = 0
     
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
@@ -32,6 +33,10 @@ struct HomeView: View {
             } else if (user.didLogin) {
                 ScrollView {
                     HomeNameplate(user: user)
+                    if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
+                        Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
+                            .bold()
+                    }
                     ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
                         switch value {
                         case "最近动态":
@@ -67,6 +72,16 @@ struct HomeView: View {
             }
         }
         .onAppear {
+            var maiDay = 0
+            var chuDay = 0
+            if let recentOne = user.maimai.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
+                maiDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
+            }
+            if let recentOne = user.chunithm.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
+                chuDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
+            }
+            daysSinceLastPlayed = min(maiDay, chuDay)
+            
             Task {
                 do {
                     let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
