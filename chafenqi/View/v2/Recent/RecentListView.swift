@@ -78,6 +78,7 @@ struct RecentListView: View {
             .padding()
         }
         .navigationTitle("最近动态")
+        .id(UUID())
     }
     
     

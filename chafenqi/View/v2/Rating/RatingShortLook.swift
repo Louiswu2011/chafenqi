@@ -23,6 +23,7 @@ struct RatingShortLook: View {
     @State var chuEntry: CFQChunithm.RatingEntry?
     @State var maiEntry: CFQMaimai.BestScoreEntry?
     
+    @State var indexText = ""
     @State var constant = ""
     @State var title = ""
     @State var grade = ""
@@ -31,6 +32,9 @@ struct RatingShortLook: View {
     
     @State var coverUrl: URL
     @State var id: Int = 0
+
+    let chuniGradient = [Color(red: 254, green: 241, blue: 65), Color(red: 243, green: 200, blue: 48)]
+    let maiGradient = [Color(red: 167, green: 243, blue: 254), Color(red: 93, green: 166, blue: 247)]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -54,7 +58,7 @@ struct RatingShortLook: View {
                         shrink()
                     }
             )
-            .frame(height: 60)
+            .frame(height: 55)
             
             withAnimation {
                 getImage()
@@ -65,7 +69,7 @@ struct RatingShortLook: View {
             if list.isEmpty && heights.isEmpty {
                 for j in 0...length - 1 {
                     heights.append(CGFloat(1))
-                    list.append(RatingPreviewBar(id: j, screen: screen, color: .init(red: .random(in: 0...255), green: .random(in: 0...255), blue: .random(in: 0...255)), height: $heights[j], length: length))
+                    list.append(RatingPreviewBar(id: j, screen: screen, color: user.currentMode == 0 ? getColor(from: chuniGradient[1], to: chuniGradient[0], ratio: Double(j + 1) / Double(length)) : getColor(from: maiGradient[1], to: maiGradient[0], ratio: Double(j + 1) / Double(length)), height: $heights[j], length: length))
                 }
             }
             selectedIndex = 0
@@ -119,6 +123,7 @@ struct RatingShortLook: View {
             if user.currentMode == 0 {
                 chuEntry = user.chunithm.rating[selectedIndex]
                 if let entry = chuEntry {
+                    indexText = "#\(selectedIndex + 1)"
                     coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: entry.idx)
                     constant = String(format: "%.1f", entry.associatedBestEntry!.associatedSong!.charts.constants[entry.levelIndex])
                     rating = String(format: "%.2f", entry.rating)
@@ -127,18 +132,36 @@ struct RatingShortLook: View {
                     title = entry.title
                 }
             } else if user.currentMode == 1 {
-                maiEntry = user.maimai.custom.pastSlice[selectedIndex]
-                if let entry = maiEntry {
-                    coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
-                    constant = String(format: "%.1f", entry.associatedSong!.constant[entry.levelIndex])
-                    rating = String(entry.rating)
-                    grade = entry.getRateString(entry.rate)
-                    score = String(format: "%.4f", entry.score) + "%"
-                    title = entry.title
+                let pastCount = user.maimai.custom.pastSlice.count
+                let currentCount = user.maimai.custom.currentSlice.count
+                if (0...pastCount - 1).contains(selectedIndex) {
+                    // Past
+                    maiEntry = user.maimai.custom.pastSlice[selectedIndex]
+                    if let entry = maiEntry {
+                        indexText = "旧曲 #\(selectedIndex + 1)"
+                        coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
+                        constant = String(format: "%.1f", entry.associatedSong!.constant[entry.levelIndex])
+                        rating = String(entry.rating)
+                        grade = entry.getRateString(entry.rate)
+                        score = String(format: "%.4f", entry.score) + "%"
+                        title = entry.title
+                    }
+                } else if (pastCount...pastCount + currentCount - 1).contains(selectedIndex) {
+                    // Current
+                    maiEntry = user.maimai.custom.currentSlice[selectedIndex - user.maimai.custom.pastSlice.count]
+                    if let entry = maiEntry {
+                        indexText = "新曲 #\(selectedIndex - pastCount + 1)"
+                        coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
+                        constant = String(format: "%.1f", entry.associatedSong!.constant[entry.levelIndex])
+                        rating = String(entry.rating)
+                        grade = entry.getRateString(entry.rate)
+                        score = String(format: "%.4f", entry.score) + "%"
+                        title = entry.title
+                    }
                 }
+                
             }
         }
-        print("[RatingShortLook] Current cover url:", coverUrl)
     }
     
     @ViewBuilder
@@ -165,11 +188,9 @@ struct RatingShortLook: View {
                     VStack(alignment: .leading) {
                         HStack {
                             let constant = constant
-                            Text("#\(min(max(selectedIndex + 1, 1), length))")
-                                .frame(width: 35, alignment: .leading)
+                            Text(indexText)
                             Text("\(constant)/\(rating)")
                                 .bold()
-                                .frame(width: 120, alignment: .leading)
                         }
                         Spacer()
                         Text("\(title)")
@@ -191,6 +212,19 @@ struct RatingShortLook: View {
         }
         .frame(height: 60)
         .buttonStyle(.plain)
+    }
+    
+    func getColor(from: Color, to: Color, ratio: Double) -> Color {
+        if let from = from.cgColor?.components {
+            if let to = to.cgColor?.components {
+                let r = from[0] + (to[0] - from[0]) * ratio
+                let g = from[1] + (to[1] - from[1]) * ratio
+                let b = from[2] + (to[2] - from[2]) * ratio
+                let a = from[3] + (to[3] - from[3]) * ratio
+                return Color.init(red: r, green: g, blue: b, opacity: a)
+            }
+        }
+        return .clear
     }
 }
 
@@ -219,3 +253,4 @@ struct RatingPreviewBar: View, Hashable, Equatable {
             .scaleEffect(y: height, anchor: .bottom)
     }
 }
+
