@@ -58,6 +58,7 @@ class CFQNUser: ObservableObject {
             init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
+                    print(entry.title)
                     return !entry.associatedSong!.basicInfo.isNew
                 }.sorted { $0.rating > $1.rating }.prefix(35))
                 self.currentSlice = Array(orig.filter { entry in
@@ -336,13 +337,25 @@ class CFQNUser: ObservableObject {
     func checkAssociated() -> [String] {
         var failed: [String] = []
         
+        let deletedTitle = ["秒針を噛む", "おジャ魔女カーニバル!!", "君の知らない物語", "ディカディズム", "39", "Pretender", "ノーポイッ!", "弱虫モンブラン", "Arty Party", "麒麟", "紅蓮華", "冬のこもりうた", "妄想感傷代償連盟", "ストリーミングハート", "共感覚おばけ", "ミラクル・ショッピング", "Our Fighting", "町かどタンジェント"]
+        
         for entry in self.maimai.best {
-            if (entry.associatedSong == nil) {
+            if deletedTitle.contains(entry.title) {
+                self.maimai.best = self.maimai.best.filter {
+                    $0.title != entry.title
+                }
+                print("[CFQNUser] Detected deleted song: \(entry.title)")
+            } else if (entry.associatedSong == nil) {
                 failed.append("maimai best: " + entry.title)
             }
         }
         for entry in self.maimai.recent {
-            if (entry.associatedSong == nil) {
+            if deletedTitle.contains(entry.title) {
+                self.maimai.recent = self.maimai.recent.filter {
+                    $0.title != entry.title
+                }
+                print("[CFQNUser] Detected deleted song: \(entry.title)")
+            } else if (entry.associatedSong == nil) {
                 failed.append("maimai recent: " + entry.title)
             }
         }

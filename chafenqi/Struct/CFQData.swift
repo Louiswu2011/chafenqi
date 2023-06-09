@@ -20,7 +20,7 @@ struct CFQData: Codable {
                 if (entry.title == "D✪N’T ST✪P R✪CKIN’") {
                     var e = entry
                     e.associatedSong = songs.first {
-                        $0.musicId == "364" && $0.type == entry.type
+                        $0.musicId == "299" && $0.type == entry.type
                     }
                     b[i] = e
                 } else {
