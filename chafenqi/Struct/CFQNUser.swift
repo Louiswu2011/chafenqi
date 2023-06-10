@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import OneSignal
 
 class CFQNUser: ObservableObject {
     @Published var didLogin = false
@@ -485,6 +485,9 @@ class CFQNUser: ObservableObject {
         print("[CFQNUser] Calculated Custom Values.")
         
         sharedContainer.set(self.jwtToken, forKey: "JWT")
+        print("[CFQNUser] Shared jwt token.")
+        
+        OneSignal.setExternalUserId(self.username)
     }
 }
 

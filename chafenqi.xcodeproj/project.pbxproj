@@ -26,6 +26,9 @@
 		67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */; };
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
 		BF02B67D298AC26300F5234E /* SongRandomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B67C298AC26300F5234E /* SongRandomizerView.swift */; };
+		BF0431842A34274A00577E6F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0431832A34274A00577E6F /* NotificationService.swift */; };
+		BF0431882A34274A00577E6F /* chafenqiNotifier.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BF0431812A34274A00577E6F /* chafenqiNotifier.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BF04318E2A3427E900577E6F /* OneSignal in Frameworks */ = {isa = PBXBuildFile; productRef = BF04318D2A3427E900577E6F /* OneSignal */; };
 		BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF068F712991856F008665E3 /* NetworkExtension.framework */; };
 		BF068F752991856F008665E3 /* UpdaterTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF068F742991856F008665E3 /* UpdaterTunnelProvider.swift */; };
 		BF068F7A2991856F008665E3 /* updater.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BF068F6F2991856F008665E3 /* updater.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -151,6 +154,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BF0431862A34274A00577E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFF353B529681F8D001392E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF0431802A34274A00577E6F;
+			remoteInfo = chafenqiNotifier;
+		};
 		BF068F782991856F008665E3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFF353B529681F8D001392E5 /* Project object */;
@@ -189,6 +199,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				BFEF2E9229EDCA0400EFF455 /* chafenqiMini.appex in Embed Foundation Extensions */,
+				BF0431882A34274A00577E6F /* chafenqiNotifier.appex in Embed Foundation Extensions */,
 				BF068F7A2991856F008665E3 /* updater.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -215,6 +226,10 @@
 		67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQFilterOptions.swift; sourceTree = "<group>"; };
 		BF02B678298A96E400F5234E /* BorderCalcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCalcView.swift; sourceTree = "<group>"; };
 		BF02B67C298AC26300F5234E /* SongRandomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRandomizerView.swift; sourceTree = "<group>"; };
+		BF0431812A34274A00577E6F /* chafenqiNotifier.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = chafenqiNotifier.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF0431832A34274A00577E6F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		BF0431852A34274A00577E6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF04318F2A342A0400577E6F /* chafenqiNotifier.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqiNotifier.entitlements; sourceTree = "<group>"; };
 		BF068F6A2991855D008665E3 /* chafenqi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqi.entitlements; sourceTree = "<group>"; };
 		BF068F6F2991856F008665E3 /* updater.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = updater.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF068F712991856F008665E3 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
@@ -344,6 +359,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BF04317E2A34274A00577E6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BF068F6C2991856F008665E3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -369,6 +391,7 @@
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 				6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */,
+				BF04318E2A3427E900577E6F /* OneSignal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +460,16 @@
 				BF02B67C298AC26300F5234E /* SongRandomizerView.swift */,
 			);
 			path = ToolboxView;
+			sourceTree = "<group>";
+		};
+		BF0431822A34274A00577E6F /* chafenqiNotifier */ = {
+			isa = PBXGroup;
+			children = (
+				BF04318F2A342A0400577E6F /* chafenqiNotifier.entitlements */,
+				BF0431832A34274A00577E6F /* NotificationService.swift */,
+				BF0431852A34274A00577E6F /* Info.plist */,
+			);
+			path = chafenqiNotifier;
 			sourceTree = "<group>";
 		};
 		BF068F702991856F008665E3 /* Frameworks */ = {
@@ -806,6 +839,7 @@
 				BFF353DA29681F8E001392E5 /* chafenqiUITests */,
 				BF068F732991856F008665E3 /* updater */,
 				BFEF2E8C29EDCA0400EFF455 /* chafenqiMini */,
+				BF0431822A34274A00577E6F /* chafenqiNotifier */,
 				BF068F702991856F008665E3 /* Frameworks */,
 				BFF353BE29681F8D001392E5 /* Products */,
 			);
@@ -819,6 +853,7 @@
 				BFF353D729681F8E001392E5 /* chafenqiUITests.xctest */,
 				BF068F6F2991856F008665E3 /* updater.appex */,
 				BFEF2E8A29EDCA0400EFF455 /* chafenqiMini.appex */,
+				BF0431812A34274A00577E6F /* chafenqiNotifier.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -910,6 +945,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BF0431802A34274A00577E6F /* chafenqiNotifier */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF0431892A34274A00577E6F /* Build configuration list for PBXNativeTarget "chafenqiNotifier" */;
+			buildPhases = (
+				BF04317D2A34274A00577E6F /* Sources */,
+				BF04317E2A34274A00577E6F /* Frameworks */,
+				BF04317F2A34274A00577E6F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = chafenqiNotifier;
+			productName = chafenqiNotifier;
+			productReference = BF0431812A34274A00577E6F /* chafenqiNotifier.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BF068F6E2991856F008665E3 /* updater */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BF068F7B2991856F008665E3 /* Build configuration list for PBXNativeTarget "updater" */;
@@ -960,6 +1012,7 @@
 			dependencies = (
 				BF068F792991856F008665E3 /* PBXTargetDependency */,
 				BFEF2E9129EDCA0400EFF455 /* PBXTargetDependency */,
+				BF0431872A34274A00577E6F /* PBXTargetDependency */,
 			);
 			name = chafenqi;
 			packageProductDependencies = (
@@ -968,6 +1021,7 @@
 				BF8D2A822A06395F00F60633 /* Crypto */,
 				BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */,
 				6725EB062A2440AB00C1829A /* SwiftUICharts */,
+				BF04318D2A3427E900577E6F /* OneSignal */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -1019,6 +1073,9 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					BF0431802A34274A00577E6F = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					BF068F6E2991856F008665E3 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -1053,6 +1110,7 @@
 				BF8D2A812A06395F00F60633 /* XCRemoteSwiftPackageReference "swift-crypto" */,
 				BF66DAF62A0A2FAF00EDB749 /* XCRemoteSwiftPackageReference "SwiftlySearch" */,
 				6725EB052A2440AB00C1829A /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
+				BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1063,11 +1121,19 @@
 				BFF353D629681F8E001392E5 /* chafenqiUITests */,
 				BF068F6E2991856F008665E3 /* updater */,
 				BFEF2E8929EDCA0400EFF455 /* chafenqiMini */,
+				BF0431802A34274A00577E6F /* chafenqiNotifier */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BF04317F2A34274A00577E6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BF068F6D2991856F008665E3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1116,6 +1182,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BF04317D2A34274A00577E6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF0431842A34274A00577E6F /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BF068F6B2991856F008665E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1276,6 +1350,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BF0431872A34274A00577E6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF0431802A34274A00577E6F /* chafenqiNotifier */;
+			targetProxy = BF0431862A34274A00577E6F /* PBXContainerItemProxy */;
+		};
 		BF068F792991856F008665E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BF068F6E2991856F008665E3 /* updater */;
@@ -1299,6 +1378,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		BF04318A2A34274A00577E6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = chafenqiNotifier/chafenqiNotifier.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CYVRCL87U4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chafenqiNotifier/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = chafenqiNotifier;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.chafenqiNotifier;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BF04318B2A34274A00577E6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = chafenqiNotifier/chafenqiNotifier.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CYVRCL87U4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chafenqiNotifier/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = chafenqiNotifier;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.chafenqiNotifier;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		BF068F7C2991856F008665E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1686,6 +1821,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BF0431892A34274A00577E6F /* Build configuration list for PBXNativeTarget "chafenqiNotifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF04318A2A34274A00577E6F /* Debug */,
+				BF04318B2A34274A00577E6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BF068F7B2991856F008665E3 /* Build configuration list for PBXNativeTarget "updater" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1751,6 +1895,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OneSignal/OneSignal-XCFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast";
@@ -1790,6 +1942,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6725EB052A2440AB00C1829A /* XCRemoteSwiftPackageReference "SwiftUICharts" */;
 			productName = SwiftUICharts;
+		};
+		BF04318D2A3427E900577E6F /* OneSignal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
+			productName = OneSignal;
 		};
 		BF42045729982705008C7E02 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
