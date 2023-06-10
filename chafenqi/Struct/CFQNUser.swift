@@ -397,6 +397,8 @@ class CFQNUser: ObservableObject {
             self.username = username
         }
         
+        OneSignal.setExternalUserId(username)
+        
         print("[CFQNUser] Saved game data cache.")
     }
     
@@ -411,6 +413,8 @@ class CFQNUser: ObservableObject {
         withAnimation {
             self.didLogin.toggle()
         }
+        
+        OneSignal.removeExternalUserId()
     }
     
     func loadFromCache() async throws {
@@ -486,8 +490,6 @@ class CFQNUser: ObservableObject {
         
         sharedContainer.set(self.jwtToken, forKey: "JWT")
         print("[CFQNUser] Shared jwt token.")
-        
-        OneSignal.setExternalUserId(self.username)
     }
 }
 
