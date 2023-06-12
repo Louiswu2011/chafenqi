@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import OneSignal
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) var context
@@ -81,6 +82,8 @@ struct HomeView: View {
                 chuDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
             }
             daysSinceLastPlayed = min(maiDay, chuDay)
+            
+            OneSignal.setExternalUserId(user.username)
             
             Task {
                 do {
