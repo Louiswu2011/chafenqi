@@ -54,7 +54,9 @@ struct CFQFilterOptions {
         "maimai FiNALE",
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059}",
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash",
-        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash PLUS"
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash PLUS",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} UNiVERSE",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} FESTiVAL"
     ]
     static let sortOptions = [
         "无",
