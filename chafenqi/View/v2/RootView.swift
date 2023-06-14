@@ -36,6 +36,7 @@ struct RootView: View {
                         Text("主页")
                     }
                     .tag(TabIdentifier.home)
+                    .navigationViewStyle(.stack)
                     
                     NavigationView {
                         UpdaterRootView(user: user)
@@ -44,6 +45,7 @@ struct RootView: View {
                         Image(systemName: "paperplane")
                         Text("传分")
                     }
+                    .navigationViewStyle(.stack)
                     
                     NavigationView {
                         SongTopView(user: user)
