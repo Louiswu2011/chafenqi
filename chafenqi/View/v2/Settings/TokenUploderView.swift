@@ -41,7 +41,7 @@ struct TokenUploderView: View {
             Section {
                 Button {
                     guard !username.isEmpty && !password.isEmpty else {
-                        let emptyToast = AlertToast(displayMode: .alert, type: .error(.red), title: "用户名或密码不能为空")
+                        let emptyToast = AlertToast(displayMode: .hud, type: .error(.red), title: "用户名或密码不能为空")
                         alertToast.toast = emptyToast
                         return
                     }
@@ -104,10 +104,10 @@ struct TokenUploderView: View {
             
             presentationMode.wrappedValue.dismiss()
         } catch CFQServerError.CredentialsMismatchError {
-            let mismatchToast = AlertToast(displayMode: .alert, type: .error(.red), title: "用户名或密码错误")
+            let mismatchToast = AlertToast(displayMode: .hud, type: .error(.red), title: "用户名或密码错误")
             alertToast.toast = mismatchToast
         } catch {
-            let unknownToast = AlertToast(displayMode: .alert, type: .error(.red), title: "未知错误", subTitle: error.localizedDescription)
+            let unknownToast = AlertToast(displayMode: .hud, type: .error(.red), title: "未知错误", subTitle: error.localizedDescription)
             alertToast.toast = unknownToast
         }
         fetching = false

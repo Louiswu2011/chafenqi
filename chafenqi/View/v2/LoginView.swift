@@ -193,7 +193,7 @@ struct LoginView: View {
             alertToast.toast = err.alertToast()
             return ""
         } catch {
-            alertToast.toast = AlertToast(displayMode: .alert, type: .error(.red), title: "发生未知错误")
+            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "发生未知错误")
             return ""
         }
     }
@@ -208,13 +208,13 @@ struct LoginView: View {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "发生错误", subTitle: "用户名已被占用")
                 return false
             }
-            alertToast.toast = AlertToast(displayMode: .alert, type: .complete(.green), title: "注册成功")
+            alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "注册成功")
             return true
         } catch let err as CFQServerError {
             alertToast.toast = err.alertToast()
             return false
         } catch {
-            alertToast.toast = AlertToast(displayMode: .alert, type: .error(.red), title: "发生未知错误")
+            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "发生未知错误")
             return false
         }
     }
