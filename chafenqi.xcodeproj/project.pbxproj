@@ -1444,7 +1444,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.chafenqiNotifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1472,7 +1472,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi.chafenqiNotifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1725,6 +1725,7 @@
 				INFOPLIST_FILE = chafenqi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "查分器不会收集任何地理信息，请拒绝此请求。";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "查分器需要访问您的照片图库以储存图片。";
 				INFOPLIST_KEY_NSSiriUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1767,6 +1768,7 @@
 				INFOPLIST_FILE = chafenqi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "查分器NEW";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "查分器不会收集任何地理信息，请拒绝此请求。";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "查分器需要访问您的照片图库以储存图片。";
 				INFOPLIST_KEY_NSSiriUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
