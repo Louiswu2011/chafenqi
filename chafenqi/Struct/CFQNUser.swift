@@ -58,7 +58,6 @@ class CFQNUser: ObservableObject {
             init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
-                    print(entry.title)
                     return !entry.associatedSong!.basicInfo.isNew
                 }.sorted { $0.rating > $1.rating }.prefix(35))
                 self.currentSlice = Array(orig.filter { entry in

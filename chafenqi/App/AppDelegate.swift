@@ -30,7 +30,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
            // Remove this method to stop OneSignal Debugging
-           OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
+           // OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
             
            OneSignal.initWithLaunchOptions(launchOptions)
            OneSignal.setAppId("61d8cb1c-6de2-4b50-af87-f419b2d24ece")
