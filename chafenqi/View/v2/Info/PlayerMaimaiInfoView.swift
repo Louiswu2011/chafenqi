@@ -120,7 +120,7 @@ struct PlayerMaimaiInfoView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5)
                                         .foregroundColor(.green)
-                                    Label("称号一览", systemImage: "trophy.fill")
+                                    Label("称号一览", systemImage: "checkmark.seal.fill")
                                         .font(.system(size: 18, weight: .heavy))
                                         .foregroundColor(.white)
                                         .padding(5)
