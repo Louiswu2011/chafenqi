@@ -80,10 +80,8 @@ struct MultiplePickerItem: View {
             HStack {
                 if option == "MiLK PLUS" {
                     Text("maimai MiLK PLUS")
-                        .foregroundColor(.black)
                 } else {
                     Text(option)
-                        .foregroundColor(.black)
                 }
                 Spacer()
                 if isSelected {
@@ -91,7 +89,7 @@ struct MultiplePickerItem: View {
                 }
             }
         }
-        // .buttonStyle(.plain)
+        .buttonStyle(.plain)
     }
 }
 
