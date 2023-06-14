@@ -53,7 +53,6 @@ struct PlayerMaimaiInfoView: View {
                         Spacer()
                         Text("\(user.maimai.info.rating)")
                             .bold()
-                        Text("(MAX: \(user.maimai.info.maxRating))")
                     }
                     HStack {
                         Text("称号")

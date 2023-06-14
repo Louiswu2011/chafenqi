@@ -213,6 +213,59 @@ struct CFQData: Codable {
             
             static let empty = DeltaEntry(rating: 0, playCount: 0, stats: "", dxScore: 0, achievement: 0, syncPoint: 0, awakening: "", updatedAt: "", createdAt: "")
         }
+        
+        struct ExtraEntry: Codable {
+            var avatars: [AvatarEntry]
+            var nameplates: [NameplateEntry]
+            var characters: [CharacterEntry]
+            var trophies: [TrophyEntry]
+            var frames: [FrameEntry]
+            var partners: [PartnerEntry]
+            
+            static let empty = ExtraEntry(avatars: [], nameplates: [], characters: [], trophies: [], frames: [], partners: [])
+            
+            struct AvatarEntry: Codable {
+                var name: String
+                var description: String
+                var image: String
+                var area: String
+                var selected: Int
+            }
+            struct NameplateEntry: Codable {
+                var name: String
+                var description: String
+                var image: String
+                var area: String
+                var selected: Int
+            }
+            struct CharacterEntry: Codable {
+                var name: String
+                var description: String
+                var image: String
+                var area: String
+                var level: String
+                var selected: Int
+            }
+            struct TrophyEntry: Codable {
+                var name: String
+                var description: String
+                var type: String
+                var selected: Int
+            }
+            struct FrameEntry: Codable {
+                var name: String
+                var description: String
+                var image: String
+                var area: String
+                var selected: Int
+            }
+            struct PartnerEntry: Codable {
+                var name: String
+                var description: String
+                var image: String
+                var selected: Int
+            }
+        }
     }
     
     struct Chunithm: Codable {
