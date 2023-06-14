@@ -142,6 +142,7 @@ class CFQNUser: ObservableObject {
         var best: CFQMaimaiBestScoreEntries = []
         var recent: CFQMaimaiRecentScoreEntries = []
         var delta: CFQMaimaiDeltaEntries = []
+        var extra: CFQMaimaiExtraEntry = .empty
         var custom: Custom = Custom()
         var isNotEmpty: Bool = false
         
@@ -163,13 +164,16 @@ class CFQNUser: ObservableObject {
             }
             do {
                 self.delta = try await server.fetchDeltaEntries().reversed()
+                self.extra = try await server.fetchExtraEntry()
             } catch CFQServerError.UserNotPremiumError {
                 self.delta = []
-                print("[CFQNUser] User is not premium, skipping maimai deltas.")
+                self.extra = .empty
+                print("[CFQNUser] User is not premium, skipping maimai deltas/extras.")
             } catch {
                 self.delta = []
+                self.extra = .empty
                 print(error)
-                print("[CFQNUser] User is premium but maimai delta info is missing, skipping...")
+                print("[CFQNUser] User is premium but maimai delta/extra info is missing, skipping...")
             }
         }
         

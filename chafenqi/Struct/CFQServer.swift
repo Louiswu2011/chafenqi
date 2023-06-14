@@ -84,6 +84,9 @@ struct CFQServer {
         func fetchDeltaEntries() async throws -> CFQMaimaiDeltaEntries {
             try await fetchGameData(CFQMaimaiDeltaEntries.self, path: "api/maimai/delta", authToken: authToken)
         }
+        func fetchExtraEntry() async throws -> CFQMaimaiExtraEntry {
+            try await fetchGameData(CFQMaimaiExtraEntry.self, path: "api/maimai/extra", authToken: authToken)
+        }
     }
     
     struct Chunithm {

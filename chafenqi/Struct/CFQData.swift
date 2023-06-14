@@ -863,6 +863,7 @@ typealias CFQMaimaiUserInfo = CFQMaimai.UserInfo
 typealias CFQMaimaiBestScoreEntries = [CFQMaimai.BestScoreEntry]
 typealias CFQMaimaiRecentScoreEntries = [CFQMaimai.RecentScoreEntry]
 typealias CFQMaimaiDeltaEntries = [CFQMaimai.DeltaEntry]
+typealias CFQMaimaiExtraEntry = CFQMaimai.ExtraEntry
 
 typealias CFQChunithm = CFQData.Chunithm
 typealias CFQChunithmUserInfo = CFQChunithm.UserInfo
