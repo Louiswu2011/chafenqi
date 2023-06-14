@@ -192,7 +192,7 @@ struct PlayerChunithmInfoView: View {
     }
     
     func loadVar() {
-        guard user.isPremium else { return }
+        guard user.isPremium && !user.chunithm.extra.collections.isEmpty else { return }
         if user.currentMode == 0 {
             if let currentAvatar = user.chunithm.extra.collections.last {
                 avatarUrlString = currentAvatar.charUrl

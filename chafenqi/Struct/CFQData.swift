@@ -785,6 +785,12 @@ extension CFQData.Chunithm.RatingEntry: CFQChunithmCalculatable {
 }
 
 extension String {
+    var significance: Int {
+        return ["NORMAL", "BRONZE", "SILVER", "GOLD", "RAINBOW"].firstIndex(of: self) ?? -1
+    }
+}
+
+extension String {
     var customDateString: String {
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = .autoupdatingCurrent

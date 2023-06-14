@@ -32,48 +32,150 @@ struct PlayerMaimaiInfoView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
     
+    @State private var currentLoadout: [CFQMaimaiExtraEntry.CharacterEntry] = []
+    @State private var charImg = UIImage()
+    @State private var nameplateImg = UIImage()
+    
     var body: some View {
         ScrollView {
-            if user.isPremium {
+            if user.isPremium && !user.maimai.extra.nameplates.isEmpty {
                 VStack(spacing: 5) {
-                    AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
-                        ProgressView()
-                    }, image: { img in
-                        Image(uiImage: img)
-                            .resizable()
-                    })
-                    .aspectRatio(1, contentMode: .fit)
-                    .mask(RoundedRectangle(cornerRadius: 5))
-                    .frame(width: 200)
-                    .padding(.bottom)
+                    ZStack {
+                        VStack(alignment: .trailing) {
+                            AsyncImage(url: URL(string: user.maimai.extra.nameplates.first { $0.selected == 1 }!.image)!, context: context, placeholder: {
+                                ProgressView()
+                            }, image: { img in
+                                let _ = DispatchQueue.main.async {
+                                    nameplateImg = img
+                                }
+                                Image(uiImage: img)
+                                    .resizable()
+                            })
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 60)
+                            .contextMenu {
+                                Button {
+                                    UIImageWriteToSavedPhotosAlbum(nameplateImg, nil, nil, nil)
+                                } label: {
+                                    Label("保存到相册", systemImage: "square.and.arrow.down")
+                                }
+                            }
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .trailing) {
+                                    HStack {
+                                        Text("Rating")
+                                        Text("\(user.maimai.info.rating)")
+                                            .bold()
+                                    }
+                                    HStack {
+                                        Text("游玩次数")
+                                        Text("\(user.maimai.info.playCount)")
+                                            .bold()
+                                    }
+                                }
+                            }
+                        }
+                        
+                        HStack {
+                            AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
+                                ProgressView()
+                            }, image: { img in
+                                let _ = DispatchQueue.main.async {
+                                    charImg = img
+                                }
+                                Image(uiImage: img)
+                                    .resizable()
+                            })
+                            .aspectRatio(contentMode: .fill)
+                            .shadow(color: .gray.opacity(0.8), radius: 5, x: 5, y: -5)
+                            .frame(width: 175)
+                            .contextMenu {
+                                Button {
+                                    UIImageWriteToSavedPhotosAlbum(charImg, nil, nil, nil)
+                                } label: {
+                                    Label("保存到相册", systemImage: "square.and.arrow.down")
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                    .padding(.bottom, 25)
                     
+                    if !currentLoadout.isEmpty {
+                        HStack() {
+                            ForEach(currentLoadout, id: \.name) { char in
+                                CharacterCapsule(imageURL: char.image, level: char.level)
+                            }
+                        }
+                        .padding(.bottom, 25)
+                    }
                     
-                    HStack {
-                        Text("Rating")
-                        Spacer()
-                        Text("\(user.maimai.info.rating)")
-                            .bold()
+                    VStack {
+                        HStack {
+                            NavigationLink {
+                                InfoMaimaiTrophyList(list: user.maimai.extra.trophies)
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .foregroundColor(.green)
+                                    Label("称号一览", systemImage: "trophy.fill")
+                                        .font(.system(size: 18, weight: .heavy))
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                }
+                            }
+                            NavigationLink {
+                                InfoMaimaiCharacterList(list: user.maimai.extra.characters)
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .foregroundColor(.red)
+                                    Label("角色一览", systemImage: "person.2.fill")
+                                        .font(.system(size: 18, weight: .heavy))
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                }
+                            }
+                        }
+                        .frame(height: 40)
+                        HStack {
+                            NavigationLink {
+                                InfoMaimaiNameplateList(list: user.maimai.extra.nameplates)
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .foregroundColor(.orange)
+                                    Label("姓名框一览", systemImage: "photo.on.rectangle.angled")
+                                        .font(.system(size: 18, weight: .heavy))
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                }
+                            }
+                            NavigationLink {
+                                InfoMaimaiFrameList(list: user.maimai.extra.frames)
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .foregroundColor(.blue)
+                                    Label("底板一览", systemImage: "rectangle.stack.fill")
+                                        .font(.system(size: 18, weight: .heavy))
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                }
+                            }
+                        }
+                        .frame(height: 40)
                     }
-                    HStack {
-                        Text("称号")
-                        Spacer()
-                        Text(user.maimai.info.trophy)
-                            .bold()
-                    }
-                    HStack {
-                        Text("游玩次数")
-                        Spacer()
-                        Text("\(user.maimai.info.playCount)")
-                            .bold()
-                    }
-                    HStack {
-                        Text("觉醒数")
-                        Spacer()
-                        Text("\(user.maimai.info.star)")
-                            .bold()
-                    }
+                    
                 }
                 .padding()
+                .onAppear {
+                    currentLoadout = user.maimai.extra.characters.filter {
+                        $0.selected == 1 && $0.image != user.maimai.info.charUrl
+                    }
+                }
                 
                 HStack(alignment: .top) {
                     let rankData = makeRankData()
