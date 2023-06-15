@@ -64,3 +64,9 @@ extension ChunithmMusicData.Charts {
         [basic.charter ?? "", advanced.charter ?? "", expert.charter ?? "", master.charter ?? "", ultima.charter ?? "", worldsend.charter ?? ""]
     }
 }
+
+extension ChunithmMusicData {
+    var coverURL: URL {
+        return ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(self.musicID))
+    }
+}

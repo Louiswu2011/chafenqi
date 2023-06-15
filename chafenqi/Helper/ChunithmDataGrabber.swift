@@ -94,10 +94,6 @@ struct ChunithmDataGrabber {
     }
     
     static func getSongCoverUrl(source: Int, musicId: String) -> URL {
-        if (source == 0) {
-            return URL(string: "https://raw.githubusercontent.com/Louiswu2011/Chunithm-Song-Cover/main/images/\(musicId).png")!
-        } else {
-            return URL(string: "http://43.139.107.206/chunithm/cover?mid=\(musicId)")!
-        }
+        return URL(string: "http://43.139.107.206/chunithm/cover?mid=\(musicId)")!
     }
 }

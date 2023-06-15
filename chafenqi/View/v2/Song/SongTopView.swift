@@ -72,6 +72,13 @@ struct SongTopView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
+                    RandomSongView(user: user)
+                } label: {
+                    Image(systemName: "dice")
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
                     SongFilterOptionsView(filters: $filters)
                 } label: {
                     Image(systemName: "line.3.horizontal.decrease.circle")

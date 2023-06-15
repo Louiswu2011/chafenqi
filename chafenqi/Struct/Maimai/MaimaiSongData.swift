@@ -83,3 +83,9 @@ struct MaimaiSongData: Codable, Hashable, Comparable {
         }
     }
 }
+
+extension MaimaiSongData {
+    var coverURL: URL {
+        return MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: self.musicId))
+    }
+}
