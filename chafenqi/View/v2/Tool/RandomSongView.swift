@@ -20,54 +20,37 @@ struct RandomSongView: View {
     @State private var currentMaiSong: MaimaiSongData?
     @State private var currentChuSong: ChunithmMusicData?
     
-    @State private var displayingChuSheet = false
-    @State private var displayingMaiSheet = false
-    
     var body: some View {
         VStack {
             if user.currentMode == 0 {
                 CardStack(
-                    direction: FourDirections.direction,
+                    direction: LeftRight.direction,
                     data: chuSongs,
                     onSwipe: { data, direction in
                         appendChunithm(1)
-                        if direction == .top {
-                            currentChuSong = data
-                            displayingChuSheet.toggle()
-                        }
                     },
                     content: { data, direction, isOnTop in
-                        SongThumbnailView(coverURL: data.coverURL, mode: 0, title: data.title, artist: data.artist, levels: data.charts.levels)
+                        SongThumbnailView(user: user, chuSong: data, coverURL: data.coverURL, mode: 0, title: data.title, artist: data.artist, levels: data.charts.levels)
+                            
                     })
                 .scaledToFill()
                 .padding()
                 .id(refreshTokenC)
-                .sheet(isPresented: $displayingChuSheet) {
-                    SongDetailView(user: user, chuSong: currentChuSong)
-                        .padding(.top)
-                }
             } else if user.currentMode == 1 {
                 CardStack(
                     direction: FourDirections.direction,
                     data: maiSongs,
                     onSwipe: { data, direction in
                         appendMaimai(1)
-                        if direction == .top {
-                            currentMaiSong = data
-                            displayingMaiSheet.toggle()
-                        }
                     },
                     content: { data, direction, isOnTop in
-                        SongThumbnailView(coverURL: data.coverURL, mode: 1, title: data.title, artist: data.basicInfo.artist, levels: data.level)
+                        SongThumbnailView(user: user, maiSong: data, coverURL: data.coverURL, mode: 1, title: data.title, artist: data.basicInfo.artist, levels: data.level)
                     })
                 .scaledToFit()
                 .padding()
                 .id(refreshTokenM)
-                .sheet(isPresented: $displayingMaiSheet) {
-                    SongDetailView(user: user, maiSong: currentMaiSong)
-                        .padding(.top)
-                }
             }
+            Spacer()
         }
         .navigationTitle("随机歌曲")
         .navigationBarTitleDisplayMode(.inline)
@@ -94,6 +77,10 @@ struct RandomSongView: View {
 struct SongThumbnailView: View {
     @Environment(\.managedObjectContext) var context
     
+    @ObservedObject var user: CFQNUser
+    @State var chuSong: ChunithmMusicData?
+    @State var maiSong: MaimaiSongData?
+    
     @State var coverURL: URL
     @State var mode: Int
     @State var title: String
@@ -102,13 +89,36 @@ struct SongThumbnailView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: coverURL, context: context, placeholder: {
-                ProgressView()
-                    .clipped()
-            }, image: { img in
-                Image(uiImage: img)
-                    .resizable()
-            })
+            ZStack {
+                AsyncImage(url: coverURL, context: context, placeholder: {
+                    ProgressView()
+                        .clipped()
+                }, image: { img in
+                    Image(uiImage: img)
+                        .resizable()
+                })
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        NavigationLink {
+                            if let song = chuSong {
+                                SongDetailView(user: user, chuSong: song)
+                            } else if let song = maiSong {
+                                SongDetailView(user: user, maiSong: song)
+                            }
+                        } label: {
+                            Image(systemName: "arrowshape.turn.up.right.circle")
+                                .resizable()
+                                .foregroundColor(.blue)
+                                .frame(width: 30, height: 30)
+                                .background(Circle().fill(.white))
+                        }
+                    }
+                    Spacer()
+                }
+                .padding()
+            }
             .clipped()
             .aspectRatio(contentMode: .fill)
             HStack {
