@@ -60,6 +60,8 @@ class CFQUser: ObservableObject {
             var avgAchievement = 0.0
             var nationalRanking = 0
             var recentSong: Array<MaimaiSongData?> = []
+            var overwrittenCharacter: CFQMaimai.ExtraEntry.CharacterEntry = .empty
+            var overwrittenNameplate: CFQMaimai.ExtraEntry.NameplateEntry = .empty
             
             var lastUpdateDate = ""
         }

@@ -237,6 +237,8 @@ struct CFQData: Codable {
                 var image: String
                 var area: String
                 var selected: Int
+                
+                static let empty = NameplateEntry(name: "", description: "", image: "", area: "", selected: -1)
             }
             struct CharacterEntry: Codable {
                 var name: String
@@ -245,6 +247,8 @@ struct CFQData: Codable {
                 var area: String
                 var level: String
                 var selected: Int
+                
+                static let empty = CharacterEntry(name: "", description: "", image: "", area: "", level: "", selected: -1)
             }
             struct TrophyEntry: Codable {
                 var name: String

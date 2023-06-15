@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct InfoMaimaiCharacterList: View {
-    @Environment(\.managedObjectContext) var context
     var list: [CFQMaimai.ExtraEntry.CharacterEntry]
     
     @State var group = [String: [CFQMaimai.ExtraEntry.CharacterEntry]]()
@@ -18,26 +17,7 @@ struct InfoMaimaiCharacterList: View {
             ForEach(Array(group.keys).sorted(), id: \.hashValue) { area in
                 Section {
                     ForEach(group[area]!, id: \.image) { char in
-                        HStack {
-                            AsyncImage(url: URL(string: char.image)!, context: context, placeholder: {
-                                ProgressView()
-                            }, image: { img in
-                                Image(uiImage: img)
-                                    .resizable()
-                            })
-                            .aspectRatio(contentMode: .fit)
-                            .mask(RoundedRectangle(cornerRadius: 5))
-                            .frame(width: 60, height: 60)
-                            
-                            VStack {
-                                HStack {
-                                    Text(char.name)
-                                        .bold()
-                                    Spacer()
-                                    Text(char.level)
-                                }
-                            }
-                        }
+                        InfoMaimaiCharacterEntry(char: char)
                     }
                 } header: {
                     Text(area)
@@ -50,6 +30,35 @@ struct InfoMaimaiCharacterList: View {
             group = Dictionary(grouping: list, by: {
                 $0.area
             })
+        }
+    }
+}
+
+
+struct InfoMaimaiCharacterEntry: View {
+    @Environment(\.managedObjectContext) var context
+    var char: CFQMaimai.ExtraEntry.CharacterEntry
+    
+    var body: some View {
+        HStack {
+            AsyncImage(url: URL(string: char.image)!, context: context, placeholder: {
+                ProgressView()
+            }, image: { img in
+                Image(uiImage: img)
+                    .resizable()
+            })
+            .aspectRatio(contentMode: .fit)
+            .mask(RoundedRectangle(cornerRadius: 5))
+            .frame(width: 60, height: 60)
+            
+            VStack {
+                HStack {
+                    Text(char.name)
+                        .bold()
+                    Spacer()
+                    Text(char.level)
+                }
+            }
         }
     }
 }

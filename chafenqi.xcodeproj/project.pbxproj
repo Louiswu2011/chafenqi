@@ -28,6 +28,7 @@
 		67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1E94B2A29E1C700DC41D0 /* DeltaPlayList.swift */; };
 		67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
 		67BA854F2A2D82DA00C0B0EA /* CFQAuxData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BA854E2A2D82DA00C0B0EA /* CFQAuxData.swift */; };
+		67C434D82A3AA9B700202605 /* CardStack in Frameworks */ = {isa = PBXBuildFile; productRef = 67C434D72A3AA9B700202605 /* CardStack */; };
 		67D622D32A247ADC00E7D70E /* SongFilterOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */; };
 		67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D622D52A248C2800E7D70E /* CFQFilterOptions.swift */; };
 		BF02B679298A96E400F5234E /* BorderCalcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF02B678298A96E400F5234E /* BorderCalcView.swift */; };
@@ -398,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
+				67C434D82A3AA9B700202605 /* CardStack in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
@@ -470,6 +472,24 @@
 				670EBC1C2A3026B000D32723 /* InfoSkillList.swift */,
 			);
 			path = ChunithmList;
+			sourceTree = "<group>";
+		};
+		67C434D92A3AAA2A00202605 /* v1 */ = {
+			isa = PBXGroup;
+			children = (
+				BF9C37A029C6E3BF003341C9 /* RatingView */,
+				BF8E053E29A295D000079A06 /* WelcomeView */,
+				BF9CEFB62992BFD800658724 /* UpdaterView */,
+				BF02B67B298AC23B00F5234E /* ToolboxView */,
+				BF02B67A298AC22100F5234E /* CustomView */,
+				BFEF7EDC298A851100F87ACC /* TopView */,
+				BF6EB981298A42A2003A5604 /* PanelView */,
+				BF55004B29818D8D004072A0 /* ScoreView */,
+				BF670DE629781B0E00EA2CBB /* SongView */,
+				BFF353C229681F8D001392E5 /* MainView.swift */,
+				BFFCE3AA29C8419F00893786 /* SponsorView.swift */,
+			);
+			path = v1;
 			sourceTree = "<group>";
 		};
 		67D622D42A248C1800E7D70E /* Filter */ = {
@@ -785,13 +805,13 @@
 				6725EAFD2A243E5A00C1829A /* Delta */,
 				BF45B1D32A096DB60076E437 /* Rating */,
 				BF45B1CA2A0960920076E437 /* Info */,
-				BF8D2A7F2A06382800F60633 /* LoginView.swift */,
 				BFE075A52A0785B2005248A6 /* Settings */,
 				BFE075A42A0785AC005248A6 /* Updater */,
 				BFE075A32A0785A2005248A6 /* Recent */,
 				BFE075A22A078583005248A6 /* Song */,
 				BFC860342A06B3F600E3A7CF /* Home */,
 				BF7872A82A07E515007243B3 /* RootView.swift */,
+				BF8D2A7F2A06382800F60633 /* LoginView.swift */,
 			);
 			path = v2;
 			sourceTree = "<group>";
@@ -948,18 +968,8 @@
 		BFF353EA296831EE001392E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				67C434D92A3AAA2A00202605 /* v1 */,
 				BFC860332A06B3E400E3A7CF /* v2 */,
-				BF9C37A029C6E3BF003341C9 /* RatingView */,
-				BF8E053E29A295D000079A06 /* WelcomeView */,
-				BF9CEFB62992BFD800658724 /* UpdaterView */,
-				BF02B67B298AC23B00F5234E /* ToolboxView */,
-				BF02B67A298AC22100F5234E /* CustomView */,
-				BFEF7EDC298A851100F87ACC /* TopView */,
-				BF6EB981298A42A2003A5604 /* PanelView */,
-				BF55004B29818D8D004072A0 /* ScoreView */,
-				BF670DE629781B0E00EA2CBB /* SongView */,
-				BFF353C229681F8D001392E5 /* MainView.swift */,
-				BFFCE3AA29C8419F00893786 /* SponsorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1064,6 +1074,7 @@
 				6725EB062A2440AB00C1829A /* SwiftUICharts */,
 				BF04318D2A3427E900577E6F /* OneSignal */,
 				6757B2022A399577005701A5 /* ColorKit */,
+				67C434D72A3AA9B700202605 /* CardStack */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -1154,6 +1165,7 @@
 				6725EB052A2440AB00C1829A /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
 				BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */,
 				6757B2012A399577005701A5 /* XCRemoteSwiftPackageReference "ColorKit" */,
+				67C434D62A3AA9B700202605 /* XCRemoteSwiftPackageReference "SwiftUI-CardStackView" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1955,6 +1967,14 @@
 				kind = branch;
 			};
 		};
+		67C434D62A3AA9B700202605 /* XCRemoteSwiftPackageReference "SwiftUI-CardStackView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dadalar/SwiftUI-CardStackView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.6;
+			};
+		};
 		BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/OneSignal/OneSignal-XCFramework";
@@ -2007,6 +2027,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6757B2012A399577005701A5 /* XCRemoteSwiftPackageReference "ColorKit" */;
 			productName = ColorKit;
+		};
+		67C434D72A3AA9B700202605 /* CardStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 67C434D62A3AA9B700202605 /* XCRemoteSwiftPackageReference "SwiftUI-CardStackView" */;
+			productName = CardStack;
 		};
 		BF04318D2A3427E900577E6F /* OneSignal */ = {
 			isa = XCSwiftPackageProductDependency;
