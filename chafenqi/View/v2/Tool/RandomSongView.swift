@@ -33,7 +33,7 @@ struct RandomSongView: View {
                         SongThumbnailView(user: user, chuSong: data, coverURL: data.coverURL, mode: 0, title: data.title, artist: data.artist, levels: data.charts.levels)
                             
                     })
-                .scaledToFill()
+                .scaledToFit()
                 .padding()
                 .id(refreshTokenC)
             } else if user.currentMode == 1 {
