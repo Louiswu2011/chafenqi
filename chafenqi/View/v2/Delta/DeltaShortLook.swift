@@ -96,9 +96,9 @@ struct DeltaShortLook: View {
     // MARK: playLength Conversion
     func getPlayLengthString() -> String {
         let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .positional
-        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .abbreviated
+        formatter.allowedUnits = [.hour, .minute]
         formatter.zeroFormattingBehavior = .pad
-        return formatter.string(from: TimeInterval(playLength)) ?? "00:00:00"
+        return formatter.string(from: TimeInterval(playLength)) ?? "00:00"
     }
 }
