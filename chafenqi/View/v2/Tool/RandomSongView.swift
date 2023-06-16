@@ -126,9 +126,11 @@ struct SongThumbnailView: View {
                     Text(title)
                         .bold()
                         .lineLimit(1)
+                        .foregroundColor(.black)
                     Text(artist)
                         .font(.caption)
                         .lineLimit(1)
+                        .foregroundColor(.black)
                 }
                 Spacer()
                 LevelStripView(mode: mode, levels: levels)
