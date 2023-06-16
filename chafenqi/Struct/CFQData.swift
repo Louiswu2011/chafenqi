@@ -644,6 +644,7 @@ extension CFQMaimaiCalculatable {
     }
     
     func getStatus(_ fc: String) -> String {
+        if fc.contains("dummy") { return "" }
         return fc.replacingOccurrences(of: "plus", with: "+").uppercased()
     }
 }
