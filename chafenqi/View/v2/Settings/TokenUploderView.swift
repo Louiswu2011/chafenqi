@@ -84,7 +84,7 @@ struct TokenUploderView: View {
             
             request.httpMethod = "POST"
             request.httpBody = bodyData
-            request.setValue("\(data!.count)", forHTTPHeaderField: "Content-Length")
+            request.setValue("\(bodyData.count)", forHTTPHeaderField: "Content-Length")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
             let (_, response) = try await URLSession.shared.data(for: request)

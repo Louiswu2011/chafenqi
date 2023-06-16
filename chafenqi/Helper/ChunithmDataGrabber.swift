@@ -63,7 +63,7 @@ struct ChunithmDataGrabber {
         
         request.httpMethod = "POST"
         request.httpBody = payload
-        request.setValue("\(data!.count)", forHTTPHeaderField: "Content-Length")
+        request.setValue("\(payload.count)", forHTTPHeaderField: "Content-Length")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         

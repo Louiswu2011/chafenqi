@@ -262,3 +262,22 @@ struct Settings_Previews: PreviewProvider {
         Settings(user: CFQNUser())
     }
 }
+
+struct ClientVersionData: Codable {
+    var major: String = ""
+    var minor: String = ""
+    
+    var majorBeta: String = ""
+    var minorBeta: String = ""
+    
+    var currentLeadingBranch: String = ""
+    
+    static let empty = ClientVersionData()
+    init() { self.major = "empty" }
+    
+    func hasNewVersion(major: String, minor: String) -> Bool {
+        let localMinor = Int(minor) ?? 0
+        let remoteMinor = Int(self.minor) ?? 0
+        return localMinor < remoteMinor
+    }
+}

@@ -361,3 +361,13 @@ struct RecentDetail_Previews: PreviewProvider {
         RecentDetail(user: CFQNUser())
     }
 }
+
+extension CGFloat {
+    func cap(at: CGFloat) -> CGFloat {
+        return self > at ? at : self
+    }
+    
+    func asFloat() -> Float {
+        return Float(self)
+    }
+}

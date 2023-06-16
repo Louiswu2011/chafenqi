@@ -10,9 +10,7 @@ import SwiftUI
 struct UpdaterHelpView: View {
     @Binding var isShowingHelp: Bool
     
-    var body: some View {
-        let width: CGFloat = 350
-        
+    var body: some View {      
         // TODO: Fix Multiline issue
         VStack(alignment: .center) {
             Text("传分器帮助")

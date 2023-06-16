@@ -111,7 +111,7 @@ struct SongDetailView: View {
                                 Task {
                                     do {
                                         chartImage = UIImage()
-                                        let identifier = song.title
+                                        let identifier = title
                                         try await reloadChartImage(identifier: identifier, diff: selectedDiff)
                                     } catch {}
                                 }
@@ -283,7 +283,7 @@ struct SongDetailView: View {
         for (index, level) in levels.enumerated() {
             if level != "" && level != "0" {
                 array.append(("\(diffs[index]) \(level)", {
-                    openURL(URL(string: "bilibili://search?keyword=" + ("\(song.title) \(diffs[index]) \(game)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                    openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(diffs[index]) \(game)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
                 }))
             }
         }
