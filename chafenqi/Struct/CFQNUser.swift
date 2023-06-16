@@ -22,7 +22,8 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
     @AppStorage("settingsShouldForwardToFish") var shouldForwardToFish = true
     @AppStorage("settingsCurrentMode") var currentMode = 0
-    @AppStorage("settingsPricePerGame") var pricePerGame = ""
+    @AppStorage("settingsChunithmPricePerTrack") var chuPricePerTrack = ""
+    @AppStorage("settingsMaimaiPricePerTrack") var maiPricePerTrack = ""
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
     

@@ -89,9 +89,17 @@ struct Settings: View {
             
             Section {
                 HStack {
-                    Text("单局金额")
+                    Text("舞萌DX单曲金额")
                     Spacer()
-                    TextField("默认为2元一局", text: $user.pricePerGame)
+                    TextField("默认为1元一曲", text: $user.maiPricePerTrack)
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                }
+                
+                HStack {
+                    Text("中二节奏单曲金额")
+                    Spacer()
+                    TextField("默认为1元一曲", text: $user.chuPricePerTrack)
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
                 }
