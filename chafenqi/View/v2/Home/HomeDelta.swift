@@ -25,6 +25,14 @@ struct HomeDelta: View {
                         .font(.system(size: 18))
                 }
             }
+            
+            if user.currentMode == 0 {
+                DeltaShortLook(user: user)
+                    .padding(.top, 5)
+            } else if user.currentMode == 1 {
+                DeltaShortLook(user: user)
+                    .padding(.top, 5)
+            }
         }
         .padding()
     }
