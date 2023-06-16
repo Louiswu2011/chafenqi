@@ -357,6 +357,8 @@ struct ClientVersionData: Codable {
     init() { self.major = "empty" }
     
     func hasNewVersion(major: String, minor: String) -> Bool {
-        self.major != major || self.minor != minor
+        let localMinor = Int(minor) ?? 0
+        let remoteMinor = Int(self.minor) ?? 0
+        return localMinor < remoteMinor
     }
 }
