@@ -15,6 +15,8 @@ struct RecentDetail: View {
     var chuEntry: CFQChunithm.RecentScoreEntry?
     var maiEntry: CFQMaimai.RecentScoreEntry?
     
+    @State var hideSongInfo = false
+    
     @State var coverUrl = URL(string: "http://127.0.0.1")!
     @State var title = ""
     @State var artist = ""
@@ -157,13 +159,15 @@ struct RecentDetail: View {
                         .background(RoundedRectangle(cornerRadius: 5)
                             .foregroundColor(chunithmLevelColor[3]!.opacity(0.4)))
                         
-                        NavigationLink {
-                            SongDetailView(user: user, chuSong: entry.associatedSong!)
-                        } label: {
-                            Image(systemName: "arrowshape.turn.up.right")
-                            Text("前往歌曲详情")
+                        if !hideSongInfo {
+                            NavigationLink {
+                                SongDetailView(user: user, chuSong: entry.associatedSong!)
+                            } label: {
+                                Image(systemName: "arrowshape.turn.up.right")
+                                Text("前往歌曲详情")
+                            }
+                            .padding()
                         }
-                        .padding()
                         
                     } else if let entry = maiEntry {
                         HStack(alignment: .bottom) {
@@ -290,13 +294,15 @@ struct RecentDetail: View {
                         .background(RoundedRectangle(cornerRadius: 5)
                             .foregroundColor(maimaiLevelColor[entry.levelIndex]?.opacity(0.4)))
                         
-                        NavigationLink {
-                            SongDetailView(user: user, maiSong: entry.associatedSong!)
-                        } label: {
-                            Image(systemName: "arrowshape.turn.up.right")
-                            Text("前往歌曲详情")
+                        if !hideSongInfo {
+                            NavigationLink {
+                                SongDetailView(user: user, maiSong: entry.associatedSong!)
+                            } label: {
+                                Image(systemName: "arrowshape.turn.up.right")
+                                Text("前往歌曲详情")
+                            }
+                            .padding()
                         }
-                        .padding()
                     }
                 }
                 .padding()

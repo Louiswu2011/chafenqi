@@ -18,28 +18,7 @@ struct RecentListView: View {
                         NavigationLink {
                             RecentDetail(user: user, chuEntry: entry)
                         } label: {
-                            HStack {
-                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5)
-                                    .padding(.trailing, 5)
-                                Spacer()
-                                VStack {
-                                    HStack {
-                                        Text(entry.timestamp.customDateString)
-                                        Spacer()
-                                        // TODO: Add badges here
-                                    }
-                                    Spacer()
-                                    HStack(alignment: .bottom) {
-                                        Text(entry.title)
-                                            .font(.system(size: 17))
-                                            .lineLimit(2)
-                                        Spacer()
-                                        Text("\(entry.score)")
-                                            .font(.system(size: 21))
-                                            .bold()
-                                    }
-                                }
-                            }
+                            ChunithmRecentEntryView(user: user, entry: entry)
                         }
                         .buttonStyle(.plain)
                     }
@@ -48,28 +27,7 @@ struct RecentListView: View {
                         NavigationLink {
                             RecentDetail(user: user, maiEntry: entry)
                         } label: {
-                            HStack {
-                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
-                                    .padding(.trailing, 5)
-                                Spacer()
-                                VStack {
-                                    HStack {
-                                        Text(entry.timestamp.customDateString)
-                                        Spacer()
-                                        // TODO: Add badges here
-                                    }
-                                    Spacer()
-                                    HStack(alignment: .bottom) {
-                                        Text(entry.title)
-                                            .font(.system(size: 17))
-                                            .lineLimit(2)
-                                        Spacer()
-                                        Text("\(entry.score, specifier: "%.4f")%")
-                                            .font(.system(size: 21))
-                                            .bold()
-                                    }
-                                }
-                            }
+                            MaimaiRecentEntryView(user: user, entry: entry)
                         }
                         .buttonStyle(.plain)
                     }
@@ -81,7 +39,66 @@ struct RecentListView: View {
         .id(UUID())
     }
     
+}
+
+struct MaimaiRecentEntryView: View {
+    @ObservedObject var user: CFQNUser
+    var entry: CFQMaimai.RecentScoreEntry
     
+    var body: some View {
+        HStack {
+            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
+                .padding(.trailing, 5)
+            Spacer()
+            VStack {
+                HStack {
+                    Text(entry.timestamp.customDateString)
+                    Spacer()
+                    // TODO: Add badges here
+                }
+                Spacer()
+                HStack(alignment: .bottom) {
+                    Text(entry.title)
+                        .font(.system(size: 17))
+                        .lineLimit(2)
+                    Spacer()
+                    Text("\(entry.score, specifier: "%.4f")%")
+                        .font(.system(size: 21))
+                        .bold()
+                }
+            }
+        }
+    }
+}
+
+struct ChunithmRecentEntryView: View {
+    @ObservedObject var user: CFQNUser
+    var entry: CFQChunithm.RecentScoreEntry
+    
+    var body: some View {
+        HStack {
+            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5)
+                .padding(.trailing, 5)
+            Spacer()
+            VStack {
+                HStack {
+                    Text(entry.timestamp.customDateString)
+                    Spacer()
+                    // TODO: Add badges here
+                }
+                Spacer()
+                HStack(alignment: .bottom) {
+                    Text(entry.title)
+                        .font(.system(size: 17))
+                        .lineLimit(2)
+                    Spacer()
+                    Text("\(entry.score)")
+                        .font(.system(size: 21))
+                        .bold()
+                }
+            }
+        }
+    }
 }
 
 struct RecentListView_Previews: PreviewProvider {

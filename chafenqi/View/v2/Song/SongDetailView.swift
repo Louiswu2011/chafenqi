@@ -207,13 +207,13 @@ struct SongDetailView: View {
                         if let song = maiSong {
                             ForEach(Array(song.level.enumerated()), id: \.offset) { index, _ in
                                 let entry = maiScores.filter { $0.levelIndex == index }.first
-                                ScoreCardView(levelIndex: index, maiSong: song, maiEntry: entry)
+                                ScoreCardView(user: user, levelIndex: index, maiSong: song, maiEntry: entry)
                             }
                         } else if let song = chuSong {
                             ForEach(Array(song.charts.levels.enumerated()), id: \.offset) { index, _ in
                                 if song.charts.enables[index] {
                                     let entry = chuScores.filter { $0.levelIndex == index }.first
-                                    ScoreCardView(levelIndex: index, chuSong: song, chuEntry: entry)
+                                    ScoreCardView(user: user, levelIndex: index, chuSong: song, chuEntry: entry)
                                 }
                             }
                         }
@@ -295,13 +295,19 @@ struct SongDetailView: View {
 }
 
 struct ScoreCardView: View {
-    var levelIndex: Int
+    @ObservedObject var user: CFQNUser
+    @State var levelIndex: Int
     
-    var maiSong: MaimaiSongData?
-    var chuSong: ChunithmMusicData?
+    @State var maiSong: MaimaiSongData?
+    @State var chuSong: ChunithmMusicData?
     
-    var maiEntry: CFQMaimai.BestScoreEntry?
-    var chuEntry: CFQChunithm.BestScoreEntry?
+    @State var maiEntry: CFQMaimai.BestScoreEntry?
+    @State var chuEntry: CFQChunithm.BestScoreEntry?
+    
+    @State var maiRecords: [CFQMaimai.RecentScoreEntry]?
+    @State var chuRecords: [CFQChunithm.RecentScoreEntry]?
+    
+    @State var expanded = false
     
     let maimaiLevelLabel = [
         0: "Basic",
@@ -325,21 +331,46 @@ struct ScoreCardView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(maimaiLevelColor[levelIndex]?.opacity(0.9))
-                
+
                 HStack {
                     Text(maimaiLevelLabel[levelIndex]!)
                     Spacer()
                     if let entry = maiEntry {
                         Text("\(entry.score, specifier: "%.4f")%")
                             .bold()
+                        if let maiRecords = maiRecords {
+                            if !maiRecords.isEmpty {
+                                NavigationLink {
+                                    ScrollView {
+                                        ForEach(maiRecords, id: \.timestamp) { record in
+                                            NavigationLink {
+                                                RecentDetail(user: user, maiEntry: record, hideSongInfo: true)
+                                            } label: {
+                                                MaimaiRecentEntryView(user: user, entry: record)
+                                            }
+                                            .buttonStyle(.plain)
+                                        }
+                                        .padding()
+                                    }
+                                    .navigationTitle("游玩记录")
+                                    .navigationBarTitleDisplayMode(.inline)
+                                } label: {
+                                    Image(systemName: "chevron.right")
+                                }
+                            }
+                        }
                     } else {
                         Text("尚未游玩")
                             .bold()
                     }
                 }
+                
                 .padding()
             }
             .padding(.horizontal)
+            .onAppear {
+                loadVar()
+            }
         } else if let song = chuSong {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
@@ -351,6 +382,27 @@ struct ScoreCardView: View {
                     if let entry = chuEntry {
                         Text("\(entry.score)")
                             .bold()
+                        if let chuRecords = chuRecords {
+                            if !chuRecords.isEmpty {
+                                NavigationLink {
+                                    ScrollView {
+                                        ForEach(chuRecords, id: \.timestamp) { record in
+                                            NavigationLink {
+                                                RecentDetail(user: user, chuEntry: record, hideSongInfo: true)
+                                            } label: {
+                                                ChunithmRecentEntryView(user: user, entry: record)
+                                            }
+                                            .buttonStyle(.plain)
+                                        }
+                                        .padding()
+                                    }
+                                    .navigationTitle("游玩记录")
+                                    .navigationBarTitleDisplayMode(.inline)
+                                } label: {
+                                    Image(systemName: "chevron.right")
+                                }
+                            }
+                        }
                     } else {
                         Text("尚未游玩")
                             .bold()
@@ -359,6 +411,21 @@ struct ScoreCardView: View {
                 .padding()
             }
             .padding(.horizontal)
+            .onAppear {
+                loadVar()
+            }
+        }
+    }
+    
+    func loadVar() {
+        if let song = maiSong {
+            maiRecords = user.maimai.recent.filter {
+                $0.associatedSong!.musicId == song.musicId && $0.levelIndex == self.levelIndex
+            }
+        } else if let song = chuSong {
+            chuRecords = user.chunithm.recent.filter {
+                $0.associatedSong!.musicID == song.musicID && $0.levelIndex == self.levelIndex
+            }
         }
     }
 }
