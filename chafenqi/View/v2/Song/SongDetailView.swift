@@ -339,21 +339,9 @@ struct ScoreCardView: View {
                         Text("\(entry.score, specifier: "%.4f")%")
                             .bold()
                         if let maiRecords = maiRecords {
-                            if !maiRecords.isEmpty {
+                            if !maiRecords.isEmpty && user.isPremium {
                                 NavigationLink {
-                                    ScrollView {
-                                        ForEach(maiRecords, id: \.timestamp) { record in
-                                            NavigationLink {
-                                                RecentDetail(user: user, maiEntry: record, hideSongInfo: true)
-                                            } label: {
-                                                MaimaiRecentEntryView(user: user, entry: record)
-                                            }
-                                            .buttonStyle(.plain)
-                                        }
-                                        .padding()
-                                    }
-                                    .navigationTitle("游玩记录")
-                                    .navigationBarTitleDisplayMode(.inline)
+                                    SongEntryListView(user: user, maiRecords: maiRecords)
                                 } label: {
                                     Image(systemName: "chevron.right")
                                 }
@@ -383,21 +371,9 @@ struct ScoreCardView: View {
                         Text("\(entry.score)")
                             .bold()
                         if let chuRecords = chuRecords {
-                            if !chuRecords.isEmpty {
+                            if !chuRecords.isEmpty && user.isPremium {
                                 NavigationLink {
-                                    ScrollView {
-                                        ForEach(chuRecords, id: \.timestamp) { record in
-                                            NavigationLink {
-                                                RecentDetail(user: user, chuEntry: record, hideSongInfo: true)
-                                            } label: {
-                                                ChunithmRecentEntryView(user: user, entry: record)
-                                            }
-                                            .buttonStyle(.plain)
-                                        }
-                                        .padding()
-                                    }
-                                    .navigationTitle("游玩记录")
-                                    .navigationBarTitleDisplayMode(.inline)
+                                    SongEntryListView(user: user, chuRecords: chuRecords)
                                 } label: {
                                     Image(systemName: "chevron.right")
                                 }

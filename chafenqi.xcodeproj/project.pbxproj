@@ -75,6 +75,8 @@
 		BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF571DAB29A91A2700702240 /* ChafenqiColor.swift */; };
 		BF572E1529A5E39D00E9811B /* ChunithmRecentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1429A5E39D00E9811B /* ChunithmRecentRecord.swift */; };
 		BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF572E1629A5E3A700E9811B /* MaimaiRecentRecord.swift */; };
+		BF57F3782A3EB0CB00E9BE6A /* SongEntryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57F3772A3EB0CB00E9BE6A /* SongEntryListView.swift */; };
+		BF57F37B2A3EB2C200E9BE6A /* SongScoreTrendChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57F37A2A3EB2C200E9BE6A /* SongScoreTrendChart.swift */; };
 		BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */ = {isa = PBXBuildFile; productRef = BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */; };
 		BF7872A72A07DC9C007243B3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7872A62A07DC9C007243B3 /* Settings.swift */; };
 		BF7872A92A07E515007243B3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7872A82A07E515007243B3 /* RootView.swift */; };
@@ -258,6 +260,8 @@
 		BF571DAB29A91A2700702240 /* ChafenqiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafenqiColor.swift; sourceTree = "<group>"; };
 		BF572E1429A5E39D00E9811B /* ChunithmRecentRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunithmRecentRecord.swift; sourceTree = "<group>"; };
 		BF572E1629A5E3A700E9811B /* MaimaiRecentRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaimaiRecentRecord.swift; sourceTree = "<group>"; };
+		BF57F3772A3EB0CB00E9BE6A /* SongEntryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEntryListView.swift; sourceTree = "<group>"; };
+		BF57F37A2A3EB2C200E9BE6A /* SongScoreTrendChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongScoreTrendChart.swift; sourceTree = "<group>"; };
 		BF7872A62A07DC9C007243B3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BF7872A82A07E515007243B3 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		BF7B89DA29B7289C00E9ADA9 /* URLResponseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseExtension.swift; sourceTree = "<group>"; };
@@ -561,6 +565,14 @@
 			path = Comment;
 			sourceTree = "<group>";
 		};
+		BF57F3792A3EB2A400E9BE6A /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				BF57F37A2A3EB2C200E9BE6A /* SongScoreTrendChart.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		BF7E251D296AAAB200169B57 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,12 +676,14 @@
 		BFE075A22A078583005248A6 /* Song */ = {
 			isa = PBXGroup;
 			children = (
+				BF57F3792A3EB2A400E9BE6A /* Charts */,
 				6786F0AE2A3C62BF00CE90C2 /* SongChartView.swift */,
 				6786F0AA2A3C629F00CE90C2 /* SongCoverView.swift */,
 				BFFEEB182A081F5C001B15B7 /* SongTopView.swift */,
 				BFFEEB1A2A081FCA001B15B7 /* SongItemView.swift */,
 				BF426D2F2A08DE5400606799 /* SongDetailView.swift */,
 				67D622D22A247ADC00E7D70E /* SongFilterOptionsView.swift */,
+				BF57F3772A3EB0CB00E9BE6A /* SongEntryListView.swift */,
 			);
 			path = Song;
 			sourceTree = "<group>";
@@ -1106,6 +1120,7 @@
 				BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */,
 				673B33152A286D9D00857FF0 /* HomeDelta.swift in Sources */,
 				BF21A71F2997787D00292193 /* MaimaiPlayerRating.swift in Sources */,
+				BF57F3782A3EB0CB00E9BE6A /* SongEntryListView.swift in Sources */,
 				67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */,
 				6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */,
 				6786F0BA2A3C636300CE90C2 /* CommentComposer.swift in Sources */,
@@ -1128,6 +1143,7 @@
 				BFBC5503298CEB5700A93918 /* MaimaiChartStat.swift in Sources */,
 				BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */,
 				BF45B1D72A096E800076E437 /* RatingBannerView.swift in Sources */,
+				BF57F37B2A3EB2C200E9BE6A /* SongScoreTrendChart.swift in Sources */,
 				BFFEEB1B2A081FCA001B15B7 /* SongItemView.swift in Sources */,
 				BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */,
 				BF8D2A852A063A9A00F60633 /* AlertToastModel.swift in Sources */,
