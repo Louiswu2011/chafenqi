@@ -68,7 +68,7 @@ struct TokenUploderView: View {
         }
         .navigationTitle("登录到水鱼网")
         .navigationBarTitleDisplayMode(.inline)
-        .toast(isPresenting: $alertToast.show, duration: 0.5, tapToDismiss: true) {
+        .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
         }
     }

@@ -43,7 +43,7 @@ struct Settings: View {
             Section {
                 UserInfoWithAvatarView(user: user)
                 NavigationLink {
-                    RedeemView()
+                    RedeemView(user: user)
                 } label: {
                     Text("订阅兑换")
                 }

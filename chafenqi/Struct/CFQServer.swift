@@ -50,6 +50,12 @@ struct CFQServer {
                 return 0
             }
         }
+        
+        static func redeem(username: String, code: String) async throws -> Bool {
+            let payload = try JSONSerialization.data(withJSONObject: ["username": username, "code": code])
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/redeemCode", payload: payload)
+            return response.statusCode() == 200
+        }
     }
     
     struct Fish {

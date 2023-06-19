@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 let perks =
 """
@@ -22,33 +23,63 @@ let perks =
 """
 
 struct RedeemView: View {
+    @ObservedObject var user: CFQNUser
     
+    @State var toastModel = AlertToastModel.shared
     @State var code = ""
+    @State var isVerifying = false
+    
+    let successToast = AlertToast(displayMode: .hud, type: .complete(.green), title: "兑换成功", subTitle: "重新登录即可生效")
+    let failureToast = AlertToast(displayMode: .hud, type: .error(.red), title: "兑换码无效", subTitle: "请检查是否输入错误")
     
     var body: some View {
         Form {
             Section {
                 TextField("输入兑换码", text: $code)
                     .autocapitalization(.none)
-                
             }
             Section {
                 Button {
-                    
+                    toastModel.show = false
+                    isVerifying.toggle()
+                    Task {
+                        await verify()
+                    }
                 } label: {
-                    Text("兑换")
+                    HStack {
+                        Text("兑换")
+                        if isVerifying {
+                            Spacer()
+                            ProgressView()
+                        }
+                    }
                 }
+                .disabled(isVerifying)
                 Link("获取兑换码...", destination: URL(string: "https://afdian.net/a/chafenqi")!)
             } footer: {
                 Text(perks)
             }
         }
-        
+        .navigationTitle("订阅兑换")
+        .navigationBarTitleDisplayMode(.inline)
+        .toast(isPresenting: $toastModel.show, duration: 1, tapToDismiss: true) {
+            toastModel.toast
+        }
+    }
+    
+    // MARK: Verify Code
+    func verify() async {
+        do {
+            let result = try await CFQUserServer.redeem(username: user.username, code: code)
+            if result {
+                toastModel.toast = successToast
+            } else {
+                toastModel.toast = failureToast
+            }
+        } catch {
+            toastModel.toast = failureToast
+        }
+        isVerifying = false
     }
 }
 
-struct RedeemView_Previews: PreviewProvider {
-    static var previews: some View {
-        RedeemView()
-    }
-}

@@ -12,7 +12,7 @@ import AlertToast
 class AlertToastModel: ObservableObject {
     @Published var show = false
     
-    @Published var toast = AlertToast(displayMode: .hud, type: .error(.red), title: ""){
+    @Published var toast = AlertToast(displayMode: .hud, type: .regular){
         didSet {
             show.toggle()
         }
