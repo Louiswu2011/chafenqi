@@ -51,6 +51,7 @@ struct SongEntryListView: View {
     }
     
     func loadVar() {
+        guard historyData.isEmpty else { return }
         if let maiRecords = maiRecords {
             maiRecords.sorted {
                 $0.timestamp < $1.timestamp
