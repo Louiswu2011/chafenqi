@@ -18,6 +18,7 @@ struct UpdaterRootView: View {
                 UpdaterView(user: user)
             } else {
                 UpdaterWelcomeView()
+                // UpdaterQRCodeView(maiStr: "afbfdahfdaytjhfdnvfsnuafbfdahfdaytjhfdnvfsnuafbfdahfdaytjhfdnvfsnu", chuStr: "afbfdahfdaytjhfdnvfsnutgrsatdvatersadafbfdahfdaytjhfdnvfsnuafbfdahfdaytjhfdnvfsnu")
             }
         }
         .onAppear {

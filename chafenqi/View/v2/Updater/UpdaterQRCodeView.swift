@@ -10,27 +10,36 @@ import AlertToast
 
 struct UpdaterQRCodeView: View {
     @State private var toastModel = AlertToastModel.shared
+    @State private var selectedMode = 1
+    
+    var nameplateChuniColorBottom = Color(red: 243, green: 200, blue: 48)
+    var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
     
     var maiStr = ""
     var chuStr = ""
     
     var body: some View {
         VStack {
-            VStack {
+            TabView(selection: $selectedMode) {
                 VStack {
                     QRCode(string: maiStr, overlayImage: "Icon")
+                        .padding(.bottom)
                     Text("舞萌DX")
+                        .foregroundColor(nameplateMaiColorBottom)
                         .bold()
                 }
-                .padding(.top, 30)
-                .padding(.bottom, 30)
+                .tag(1)
                 
                 VStack {
                     QRCode(string: chuStr, overlayImage: "Icon")
+                        .padding(.bottom)
                     Text("中二节奏")
+                        .foregroundColor(nameplateChuniColorBottom)
                         .bold()
                 }
+                .tag(0)
             }
+            .tabViewStyle(.page(indexDisplayMode: .always))
             Spacer()
             Link("打开微信扫一扫", destination: URL(string: "weixin://scanqrcode")!)
                 .padding(.bottom, 10)
@@ -58,7 +67,7 @@ struct UpdaterQRCodeView: View {
     }
     
     func snapshotThenSave() {
-        let snapshotView = QRCodeSnapshot(maiStr: maiStr, chuStr: chuStr)
+        let snapshotView = selectedMode == 0 ? QRCodeSnapshot(chuStr: chuStr) : QRCodeSnapshot(maiStr: maiStr)
         let image = snapshotView.snapshot()
         
         let imageSaver = ImageSaver()
@@ -100,30 +109,34 @@ struct QRCode: View {
 
 // MARK: Snapshot View
 struct QRCodeSnapshot: View {
-    var maiStr: String
-    var chuStr: String
+    var maiStr: String = ""
+    var chuStr: String = ""
     
     var nameplateChuniColorBottom = Color(red: 243, green: 200, blue: 48)
     var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
     
     var body: some View {
         VStack {
-            VStack {
-                QRCode(string: maiStr, overlayImage: "Icon")
-                Text("舞萌DX")
-                    .foregroundColor(nameplateMaiColorBottom)
-                    .bold()
+            if !maiStr.isEmpty {
+                VStack {
+                    QRCode(string: maiStr, overlayImage: "Icon")
+                    Text("舞萌DX")
+                        .foregroundColor(nameplateMaiColorBottom)
+                        .bold()
                     
+                }
             }
-            .padding(.bottom, 30)
             
-            VStack {
-                QRCode(string: chuStr, overlayImage: "Icon")
-                Text("中二节奏")
-                    .foregroundColor(nameplateChuniColorBottom)
-                    .bold()
+            if !chuStr.isEmpty {
+                VStack {
+                    QRCode(string: chuStr, overlayImage: "Icon")
+                    Text("中二节奏")
+                        .foregroundColor(nameplateChuniColorBottom)
+                        .bold()
+                }
             }
         }
+        .padding(20)
         .edgesIgnoringSafeArea(.all)
     }
 }
