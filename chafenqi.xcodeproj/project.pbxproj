@@ -10,6 +10,7 @@
 		670EBC1B2A3022DB00D32723 /* InfoCharacterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */; };
 		670EBC1D2A3026B000D32723 /* InfoSkillList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1C2A3026B000D32723 /* InfoSkillList.swift */; };
 		670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */; };
+		671F3B0D2A413E7B002D6C8F /* UpdaterQRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671F3B0C2A413E7B002D6C8F /* UpdaterQRCodeView.swift */; };
 		6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EAFE2A24400F00C1829A /* DeltaListView.swift */; };
 		6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB002A24401900C1829A /* DeltaDetailView.swift */; };
 		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
@@ -194,6 +195,7 @@
 		670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCharacterList.swift; sourceTree = "<group>"; };
 		670EBC1C2A3026B000D32723 /* InfoSkillList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSkillList.swift; sourceTree = "<group>"; };
 		670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMaimaiInfoView.swift; sourceTree = "<group>"; };
+		671F3B0C2A413E7B002D6C8F /* UpdaterQRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterQRCodeView.swift; sourceTree = "<group>"; };
 		6725EAFE2A24400F00C1829A /* DeltaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaListView.swift; sourceTree = "<group>"; };
 		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
@@ -704,6 +706,7 @@
 				6786F0B02A3C630300CE90C2 /* UpdaterHelpView.swift */,
 				BFFEEB122A081C96001B15B7 /* UpdaterRootView.swift */,
 				BFFEEB142A081CC5001B15B7 /* UpdaterView.swift */,
+				671F3B0C2A413E7B002D6C8F /* UpdaterQRCodeView.swift */,
 			);
 			path = Updater;
 			sourceTree = "<group>";
@@ -1108,6 +1111,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				671F3B0D2A413E7B002D6C8F /* UpdaterQRCodeView.swift in Sources */,
 				BFE0759D2A0781E9005248A6 /* HomeView.swift in Sources */,
 				BF426D302A08DE5400606799 /* SongDetailView.swift in Sources */,
 				BFCA383229770851008E30F1 /* CFQError.swift in Sources */,

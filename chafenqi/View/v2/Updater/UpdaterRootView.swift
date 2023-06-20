@@ -45,3 +45,5 @@ struct UpdaterRootView_Previews: PreviewProvider {
         UpdaterRootView(user: CFQNUser())
     }
 }
+
+

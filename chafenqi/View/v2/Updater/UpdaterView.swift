@@ -7,18 +7,20 @@
 
 import SwiftUI
 import AlertToast
+import CoreImage.CIFilterBuiltins
 
 struct UpdaterView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var service = TunnelManagerService.shared
     @ObservedObject var alertToast = AlertToastModel.shared
     
-    @State var isShowingAlert = false
-    @State var isShowingConfig = false
-    @State var isShowingHelp = false
+    @State private var isShowingAlert = false
+    @State private var isShowingConfig = false
+    @State private var isShowingHelp = false
+    @State private var isShowingQRCode = false
     
-    @State var isProxyOn = false
-    @State var proxyStatus = ""
+    @State private var isProxyOn = false
+    @State private var proxyStatus = ""
     
     @State private var observers = [AnyObject]()
     
@@ -90,6 +92,12 @@ struct UpdaterView: View {
                 }
                 .disabled(!user.didLogin)
                 
+                Button {
+                    isShowingQRCode.toggle()
+                } label: {
+                    Text("二维码...")
+                }
+                
             } footer: {
                 if (user.didLogin) {
                     Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
@@ -116,6 +124,9 @@ struct UpdaterView: View {
         .onAppear {
             refreshStatus()
             registerObserver()
+        }
+        .sheet(isPresented: $isShowingQRCode) {
+            UpdaterQRCodeView(maiStr: makeUrl(mode: 1), chuStr: makeUrl(mode: 0))
         }
         
     }
@@ -164,20 +175,40 @@ struct UpdaterView: View {
     }
     
     func copyUrlToClipboard(mode: Int) {
-        let destination = mode == 0 ? "chunithm" : "maimai"
         let pasteboard = UIPasteboard.general
-        let forwarding = user.shouldForwardToFish ? 1 : 0
-        let requestUrl = "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)&forwarding=\(forwarding)"
-        
-        pasteboard.string = requestUrl
+        pasteboard.string = makeUrl(mode: mode)
         
         print("[Updater] Url copied.")
         alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
+    }
+    
+    func makeUrl(mode: Int) -> String {
+        let destination = mode == 0 ? "chunithm" : "maimai"
+        let forwarding = user.shouldForwardToFish ? 1 : 0
+        return "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)&forwarding=\(forwarding)"
     }
 }
 
 struct UpdaterView_Previews: PreviewProvider {
     static var previews: some View {
         UpdaterView(user: CFQNUser())
+    }
+}
+
+extension String {
+    func makeQRCode(correctionLevel: String = "M") -> UIImage {
+        let context = CIContext()
+        let filter = CIFilter.qrCodeGenerator()
+        
+        filter.message = Data(self.utf8)
+        filter.correctionLevel = correctionLevel
+        
+        if let outputImage = filter.outputImage?.transformed(by: CGAffineTransform(scaleX: 6, y: 6)) {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgimg)
+            }
+        }
+
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
 }
