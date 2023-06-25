@@ -168,7 +168,7 @@ struct PlayerMaimaiInfoView: View {
                         }
                         .frame(height: 40)
                         NavigationLink {
-                            
+                            InfoMaimaiClearList(user: user)
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5)
@@ -179,6 +179,7 @@ struct PlayerMaimaiInfoView: View {
                                     .padding(5)
                             }
                         }
+                        .frame(height: 40)
                     }
                     
                 }

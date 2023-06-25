@@ -7,65 +7,149 @@
 
 import SwiftUI
 
+let clearListColors: [Color] = [maiRankHex[0], .pink, .green, .blue, .red, .purple, .gray]
+
+
 struct InfoMaimaiClearList: View {
+    @ObservedObject var user: CFQNUser
+    
+    @State private var isLoading = true
+    @State private var currentLevel = 20
+    @State private var currentRatio = [Double]()
+    @State private var currentFold = [Bool]()
+    @State private var info = CFQMaimaiLevelRecords()
     
     var body: some View {
         ScrollView {
-            HStack(alignment: .bottom) {
-                Text("等级")
-                Text("14")
-                    .bold()
-                    .font(.system(size: 25))
-                Spacer()
-            }
-            .padding()
-            
-            MaimaiClearBarView()
-                .frame(height: 25)
-                .mask(RoundedRectangle(cornerRadius: 5))
-                .padding([.bottom, .horizontal])
-            HStack {
-                ForEach(Array(maiRankDesc.enumerated()), id: \.offset) { index, string in
-                    Circle()
-                        .foregroundColor(maiRankHex[index])
-                        .frame(width: 8)
-                    Text(string)
+            if !isLoading {
+                HStack(alignment: .bottom) {
+                    Text("等级")
+                    Text("\(CFQMaimaiLevelRecords.maiLevelStrings[currentLevel])")
+                        .bold()
+                        .font(.system(size: 25))
+                    Spacer()
+                    Button {
+                        if currentLevel < 22 {
+                            withAnimation {
+                                currentLevel += 1
+                                currentRatio = info.levels[currentLevel].ratios
+                                currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                    }
+                    .padding(.trailing, 20)
+                    Button {
+                        if currentLevel > 0 {
+                            withAnimation {
+                                currentLevel -= 1
+                                currentRatio = info.levels[currentLevel].ratios
+                                currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "minus")
+                            .frame(width: 15, height: 15)
+                    }
                 }
-            }
-            .padding(.bottom)
-            HStack {
-                Text("歌曲列表")
-                    .bold()
-                Spacer()
-                Text("SSS+")
-            }
-            .padding(.horizontal)
-            VStack {
+                .padding()
                 
+                MaimaiClearBarView(datas: $currentRatio)
+                    .frame(height: 25)
+                    .mask(RoundedRectangle(cornerRadius: 5))
+                    .padding([.bottom, .horizontal])
+                HStack {
+                    ForEach(Array(maiRankDesc.enumerated()), id: \.offset) { index, string in
+                        Circle()
+                            .foregroundColor(clearListColors[index])
+                            .frame(width: 8)
+                        Text(string)
+                    }
+                }
+                .padding(.bottom)
+                
+                let levelInfo = info.levels[currentLevel]
+                ForEach(Array(maiRankDesc.enumerated()), id: \.offset) { index, rankString in
+                    let gradeInfo = info.levels[currentLevel].grades[index]
+                    if gradeInfo.count != 0 {
+                        HStack {
+                            Text(rankString)
+                                .bold()
+                            Text("\(gradeInfo.count)/\(levelInfo.count)")
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                    currentFold[index].toggle()
+                                }
+                            } label: {
+                                Text(currentFold[index] ? "展开" : "收起")
+                            }
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, 5)
+                        if !currentFold[index] {
+                            VStack {
+                                ForEach(gradeInfo.songs, id: \.idx) { song in
+                                    MaimaiBestEntryBannerView(song: song)
+                                        .padding(.horizontal)
+                                }
+                                .id(currentLevel)
+                            }
+                        }
+                    }
+                }
+                .id(currentLevel)
+            }
+        }
+        .onAppear {
+            isLoading = true
+            info = CFQMaimaiLevelRecords(best: user.maimai.best)
+            withAnimation {
+                currentRatio = info.levels[currentLevel].ratios
+                currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+            }
+            isLoading = false
+        }
+        .navigationTitle("歌曲完成度")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct MaimaiBestEntryBannerView: View {
+    var song: CFQMaimai.BestScoreEntry
+    
+    var body: some View {
+        HStack {
+            SongCoverView(coverURL: song.associatedSong!.coverURL, size: 50, cornerRadius: 5)
+            VStack(alignment: .leading) {
+                Text("\(song.associatedSong!.constant[song.levelIndex], specifier: "%.1f")/\(song.rating)")
+                Spacer()
+                HStack {
+                    Text(song.title)
+                        .lineLimit(1)
+                    Spacer()
+                    Text("\(song.score, specifier: "%.4f")%")
+                        .bold()
+                }
             }
         }
     }
 }
 
-struct InfoMaimaiClearList_Previews: PreviewProvider {
-    static var previews: some View {
-        InfoMaimaiClearList()
-    }
-}
-
 struct MaimaiClearBarView: View {
-    var data = [0.003, 0.017, 0.08, 0.09, 0.11, 0.13, 0.27]
+    @Binding var datas: [Double]
     
     var body: some View {
         GeometryReader { geo in
             HStack(spacing: 0) {
-                ForEach(Array(data.enumerated()), id: \.offset) { index, dataPoint in
+                ForEach(Array(datas.enumerated()), id: \.offset) { index, dataPoint in
                     Rectangle()
-                        .foregroundColor(maiRankHex[index])
+                        .foregroundColor(clearListColors[index])
                         .frame(width: geo.size.width * dataPoint)
                 }
-                Rectangle()
-                    .foregroundColor(.gray)
             }
         }
     }

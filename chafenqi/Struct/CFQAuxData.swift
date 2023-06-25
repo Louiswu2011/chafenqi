@@ -160,6 +160,61 @@ struct CFQChunithmDayRecords {
     }
 }
 
+struct CFQMaimaiLevelRecords {
+    static let clearAchievements = [100.5...101.00, 100.0...100.4999, 99.5...99.9999, 99.0...99.4999, 98.0...98.9999, 97.0...97.9999, 0.0...96.9999]
+    static var maiLevelStrings: [String] {
+        var strings = [String]()
+        for i in 1...15 {
+            strings.append("\(i)")
+            if (7...14).contains(i) {
+                strings.append("\(i)+")
+            }
+        }
+        return strings
+    }
+    
+    struct CFQMaimaiLevelRecord {
+        struct CFQMaimaiGradeRecord {
+            var count: Int = 0
+            var songs: CFQMaimaiBestScoreEntries = []
+            
+            init(range: ClosedRange<Double>, best: CFQMaimaiBestScoreEntries) {
+                songs = best.filter {
+                    range.contains($0.score)
+                }
+                count = songs.count
+            }
+        }
+        
+        var count: Int = 0
+        var levelString: String = ""
+        var grades: [CFQMaimaiGradeRecord] = []
+        var ratios: [Double] = []
+        
+        init(index: Int, best: CFQMaimaiBestScoreEntries) {
+            let songs = best.filter {
+                $0.level == CFQMaimaiLevelRecords.maiLevelStrings[index]
+            }
+            for range in CFQMaimaiLevelRecords.clearAchievements {
+                grades.append(CFQMaimaiGradeRecord(range: range, best: songs))
+            }
+            self.count = songs.count
+            self.ratios = grades.compactMap { Double($0.count) / Double(self.count) }
+            self.levelString = CFQMaimaiLevelRecords.maiLevelStrings[index]
+        }
+    }
+    
+    var levels: [CFQMaimaiLevelRecord] = []
+    
+    init(best: CFQMaimaiBestScoreEntries) {
+        for level in CFQMaimaiLevelRecords.maiLevelStrings.indices {
+            levels.append(CFQMaimaiLevelRecord(index: level, best: best))
+        }
+    }
+    
+    init() {}
+}
+
 extension Date {
     func formatted(by: String) -> String {
         let f = DateFormatter()
