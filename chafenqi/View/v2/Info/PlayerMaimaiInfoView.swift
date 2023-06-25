@@ -167,6 +167,18 @@ struct PlayerMaimaiInfoView: View {
                             }
                         }
                         .frame(height: 40)
+                        NavigationLink {
+                            
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(.pink)
+                                Label("歌曲完成度", systemImage: "chart.pie.fill")
+                                    .font(.system(size: 18, weight: .heavy))
+                                    .foregroundColor(.white)
+                                    .padding(5)
+                            }
+                        }
                     }
                     
                 }

@@ -602,6 +602,9 @@ extension CFQMaimaiCalculatable {
         }
         let rating = Int((constant * min(achievements, 100.5) * factor / 100).rounded(.down))
         return rating
+        
+        // 312.59488896
+        // 324.1728
     }
     
     func getRateStringFromScore(_ score: Double) -> String {

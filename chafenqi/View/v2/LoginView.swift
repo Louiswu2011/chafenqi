@@ -33,154 +33,173 @@ struct LoginView: View {
     @State var password: String = ""
     
     var body: some View {
-        VStack {
-            Image("Icon")
-                .resizable()
-                .aspectRatio(1, contentMode: .fit)
-                .frame(width: 100)
-                .mask(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 3))
-                .padding(.bottom)
-            
-            HStack {
-                Spacer()
-                Text(getTitleText(state: state))
-                    .font(.title)
-                    .bold()
-                    .frame(alignment: .center)
-                    .padding(.bottom, 20)
-                Spacer()
-            }
-            
-            switch (state) {
-            case .loginPending, .registerPending:
-                VStack(spacing: 15) {
+        ZStack {
+            if (state == .loginPending || state == .registerPending) && !shouldForceReload {
+                VStack {
                     HStack {
-                        TextField("用户名", text: $account)
-                            .autocorrectionDisabled(true)
-                            .autocapitalization(.none)
+                        Button {
+                            shouldForceReload = true
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已重置歌曲列表")
+                        } label: {
+                            Text("重置歌曲列表")
+                        }
+                        .foregroundColor(.red)
+                        Spacer()
                     }
-                    HStack {
-                        SecureField("密码", text: $password)
-                    }
+                    Spacer()
                 }
-                .padding(.horizontal, 30)
-                .padding(.bottom, 20)
-            case .loginRequesting, .registerRequesting:
-                EmptyView()
+                .padding()
             }
             
-            switch(state) {
-            case .loginPending:
-                Button {
-                    // Login Action
-                    guard (!account.isEmpty && !password.isEmpty) else {
-                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "用户名或密码不能为空")
-                        alertToast.show = true
-                        return
+            VStack {
+                Image("Icon")
+                    .resizable()
+                    .aspectRatio(1, contentMode: .fit)
+                    .frame(width: 100)
+                    .mask(RoundedRectangle(cornerRadius: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 3))
+                    .padding(.bottom)
+                
+                HStack {
+                    Spacer()
+                    Text(getTitleText(state: state))
+                        .font(.title)
+                        .bold()
+                        .frame(alignment: .center)
+                        .padding(.bottom, 20)
+                    Spacer()
+                }
+                
+                switch (state) {
+                case .loginPending, .registerPending:
+                    VStack(spacing: 15) {
+                        HStack {
+                            TextField("用户名", text: $account)
+                                .autocorrectionDisabled(true)
+                                .autocapitalization(.none)
+                        }
+                        HStack {
+                            SecureField("密码", text: $password)
+                        }
                     }
-                    withAnimation(defaultAnimation) {
-                        loginPrompt = "登录中"
-                        state = .loginRequesting
-                        self.task = Task {
-                            do {
-                                let token = await login(username: account, password: password)
-                                if (!token.isEmpty) {
-                                    // TODO: Navigate to HomeView
-                                    user.jwtToken = token
-                                    print("[Login] Should force reload? \(shouldForceReload)")
-                                    try await user.login(username: account, forceReload: shouldForceReload)
-                                    shouldForceReload = false
-                                    print("[Login] Successfully logged in.")
-                                    withAnimation(defaultAnimation) {
-                                        user.didLogin = true
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 20)
+                case .loginRequesting, .registerRequesting:
+                    EmptyView()
+                }
+                
+                switch(state) {
+                case .loginPending:
+                    Button {
+                        // Login Action
+                        guard (!account.isEmpty && !password.isEmpty) else {
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "用户名或密码不能为空")
+                            alertToast.show = true
+                            return
+                        }
+                        withAnimation(defaultAnimation) {
+                            loginPrompt = "登录中"
+                            state = .loginRequesting
+                            self.task = Task {
+                                do {
+                                    let token = await login(username: account, password: password)
+                                    if (!token.isEmpty) {
+                                        // TODO: Navigate to HomeView
+                                        user.jwtToken = token
+                                        print("[Login] Should force reload? \(shouldForceReload)")
+                                        try await user.login(username: account, forceReload: shouldForceReload)
+                                        shouldForceReload = false
+                                        print("[Login] Successfully logged in.")
+                                        withAnimation(defaultAnimation) {
+                                            user.didLogin = true
+                                        }
+                                    } else {
+                                        alertToast.show = true
+                                        state = .loginPending
                                     }
-                                } else {
+                                } catch {
+                                    switch error {
+                                    case CFQNUserError.LoadingError(cause: let cause, _):
+                                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "网络连接错误", subTitle: cause)
+                                    default:
+                                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载错误", subTitle: String(describing: error))
+                                    }
                                     alertToast.show = true
                                     state = .loginPending
                                 }
-                            } catch {
-                                switch error {
-                                case CFQNUserError.LoadingError(cause: let cause, _):
-                                    alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "网络连接错误", subTitle: cause)
-                                default:
-                                    alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载错误", subTitle: String(describing: error))
-                                }
-                                alertToast.show = true
-                                state = .loginPending
                             }
                         }
+                    } label: {
+                        Text("登录")
+                            .font(.system(size: 20))
                     }
-                } label: {
-                    Text("登录")
-                        .font(.system(size: 20))
-                }
-                .padding(.bottom)
-                Button {
-                    state = .registerPending
-                } label: {
-                    Text("注册新账号")
-                        .font(.system(size: 15))
-                }
-            case .registerPending:
-                Button {
-                    // Register Action
-                    guard (!account.isEmpty && !password.isEmpty) else {
-                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "用户名或密码不能为空")
-                        alertToast.show = true
-                        return
-                    }
-                    guard checkPasswordValidity(password: password) else {
-                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "密码长度必须为8位以上", subTitle: "且包含字母和数字")
-                        alertToast.show = true
-                        return
-                    }
-                    withAnimation(defaultAnimation) {
-                        registerPrompt = "注册中"
-                        state = .registerRequesting
-                        self.task = Task {
-                            do {
-                                let success = await register(username: account, password: password)
-                                alertToast.show = true
-                                if (success) {
-                                    // Auto login
-                                    state = .loginPending
-                                } else {
-                                    // Fallback to register state
-                                    state = .registerPending
-                                }
-                            }
-                        }
-                    }
-                } label: {
-                    Text("注册")
-                        .font(.system(size: 20))
-                }
-                .padding(.bottom)
-                Button {
-                    state = .loginPending
-                } label: {
-                    Text("返回")
-                        .font(.system(size: 15))
-                }
-            case .loginRequesting, .registerRequesting:
-                ProgressView()
                     .padding(.bottom)
-                Button {
-                    withAnimation(defaultAnimation) {
-                        state = .loginPending
-                        self.task?.cancel()
+                    Button {
+                        state = .registerPending
+                    } label: {
+                        Text("注册新账号")
+                            .font(.system(size: 15))
                     }
-                } label: {
-                    Text("取消")
+                case .registerPending:
+                    Button {
+                        // Register Action
+                        guard (!account.isEmpty && !password.isEmpty) else {
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "用户名或密码不能为空")
+                            alertToast.show = true
+                            return
+                        }
+                        guard checkPasswordValidity(password: password) else {
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "密码长度必须为8位以上", subTitle: "且包含字母和数字")
+                            alertToast.show = true
+                            return
+                        }
+                        withAnimation(defaultAnimation) {
+                            registerPrompt = "注册中"
+                            state = .registerRequesting
+                            self.task = Task {
+                                do {
+                                    let success = await register(username: account, password: password)
+                                    alertToast.show = true
+                                    if (success) {
+                                        // Auto login
+                                        state = .loginPending
+                                    } else {
+                                        // Fallback to register state
+                                        state = .registerPending
+                                    }
+                                }
+                            }
+                        }
+                    } label: {
+                        Text("注册")
+                            .font(.system(size: 20))
+                    }
+                    .padding(.bottom)
+                    Button {
+                        state = .loginPending
+                    } label: {
+                        Text("返回")
+                            .font(.system(size: 15))
+                    }
+                case .loginRequesting, .registerRequesting:
+                    ProgressView()
+                        .padding(.bottom)
+                    Button {
+                        withAnimation(defaultAnimation) {
+                            state = .loginPending
+                            self.task?.cancel()
+                        }
+                    } label: {
+                        Text("取消")
+                    }
                 }
+                
+                
             }
-            
-            
-        }
-        .padding()
-        .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
-            alertToast.toast
+            .padding()
+            .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
+                alertToast.toast
+            }
         }
         
     }
