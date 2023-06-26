@@ -77,7 +77,7 @@ struct ChunithmRatingBannerView: View {
                         let constant = entry.associatedBestEntry!.associatedSong!.charts.constants[entry.associatedBestEntry!.levelIndex]
                         Text("#\(index)")
                             .frame(width: 35, alignment: .leading)
-                        Text("\(constant, specifier: "%.1f")/\(entry.rating, specifier: "%.2f")")
+                        Text("\(constant, specifier: "%.1f")/\((entry.rating * 100).rounded(.down) / 100, specifier: "%.2f")")
                             .bold()
                             .frame(width: 90, alignment: .leading)
                     }
