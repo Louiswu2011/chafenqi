@@ -22,7 +22,7 @@ struct CFQFilterOptions {
     }
     
     static let chuGenreOptions = ["ORIGINAL", "POPS & ANIME", "VARIETY", "niconico", "東方Project", "イロドリミドリ", "ゲキマイ"]
-    static let maiGenreOptions = ["maimai", "POPSアニメ", "ゲームバラエティ", "niconicoボーカロイド", "東方Project", "オンゲキCHUNITHM"]
+    static let maiGenreOptions = ["\u{821e}\u{840c}", "\u{6d41}\u{884c}&\u{52a8}\u{6f2b}", "\u{5176}\u{4ed6}\u{6e38}\u{620f}", "niconico & VOCALOID", "\u{4e1c}\u{65b9}Project", "\u{97f3}\u{51fb}&\u{4e2d}\u{4e8c}\u{8282}\u{594f}"]
     static let chuVersionOptions = [
         "CHUNITHM",
         "CHUNITHM PLUS",
