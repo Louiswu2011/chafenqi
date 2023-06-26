@@ -54,9 +54,12 @@ class CFQNUser: ObservableObject {
             var genreList: [String] = []
             var versionList: [String] = []
             
+            var levelRecords = CFQMaimaiLevelRecords()
+            
             init() {}
             
-            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries) {
+            // MARK: Maimai Custom Data Init
+            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries, list: [MaimaiSongData]) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
@@ -134,6 +137,8 @@ class CFQNUser: ObservableObject {
                         statusCounter[4] += 1
                     }
                 }
+                
+                self.levelRecords = CFQMaimaiLevelRecords(songs: list, best: orig)
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
@@ -485,7 +490,7 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Association Assertion Passed.")
         
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent)
+        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist)
         self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
         self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
         self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()

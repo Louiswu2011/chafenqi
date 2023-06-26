@@ -72,41 +72,48 @@ struct InfoMaimaiClearList: View {
                 .padding(.bottom)
                 
                 let levelInfo = info.levels[currentLevel]
-                ForEach(Array(maiRankDesc.enumerated()), id: \.offset) { index, rankString in
-                    let gradeInfo = info.levels[currentLevel].grades[index]
-                    if gradeInfo.count != 0 {
-                        HStack {
-                            Text(rankString)
-                                .bold()
-                            Text("\(gradeInfo.count)/\(levelInfo.count)")
-                            Spacer()
-                            Button {
-                                withAnimation {
-                                    currentFold[index].toggle()
+                LazyVStack {
+                    ForEach(Array(maiRankDesc.enumerated()), id: \.offset) { index, rankString in
+                        let gradeInfo = info.levels[currentLevel].grades[index]
+                        if gradeInfo.count != 0 {
+                            HStack {
+                                Text(rankString)
+                                    .bold()
+                                Text("\(gradeInfo.count)/\(levelInfo.count)")
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        currentFold[index].toggle()
+                                    }
+                                } label: {
+                                    Text(currentFold[index] ? "展开" : "收起")
                                 }
-                            } label: {
-                                Text(currentFold[index] ? "展开" : "收起")
                             }
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom, 5)
-                        if !currentFold[index] {
-                            VStack {
-                                ForEach(gradeInfo.songs, id: \.idx) { song in
-                                    MaimaiBestEntryBannerView(song: song)
-                                        .padding(.horizontal)
+                            .padding(.horizontal)
+                            .padding(.bottom, 5)
+                            if !currentFold[index] {
+                                VStack {
+                                    ForEach(gradeInfo.songs, id: \.idx) { song in
+                                        MaimaiBestEntryBannerView(song: song)
+                                            .padding(.horizontal)
+                                    }
+                                    //                                if !levelInfo.noRecordSongs.isEmpty && index == 6 {
+                                    //                                    ForEach(levelInfo.noRecordSongs, id: \.musicId) { song in
+                                    //                                        MaimaiBestEntryBannerView(data: song, levelIndex: currentLevel)
+                                    //                                            .padding(.horizontal)
+                                    //                                    }
+                                    //                                }
                                 }
-                                .id(currentLevel)
                             }
                         }
                     }
+                    .id(UUID())
                 }
-                .id(currentLevel)
             }
         }
         .onAppear {
             isLoading = true
-            info = CFQMaimaiLevelRecords(best: user.maimai.best)
+            info = user.maimai.custom.levelRecords
             withAnimation {
                 currentRatio = info.levels[currentLevel].ratios
                 currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
@@ -116,26 +123,69 @@ struct InfoMaimaiClearList: View {
         .navigationTitle("歌曲完成度")
         .navigationBarTitleDisplayMode(.inline)
     }
+    
+    func setCurrentLevelIndex(to index: Int) {
+        currentLevel = index
+        let currenInfo = info.levels[currentLevel]
+        currentRatio = currenInfo.ratios
+        if !currenInfo.noRecordSongs.isEmpty {
+            
+        }
+        currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+    }
 }
 
 struct MaimaiBestEntryBannerView: View {
-    var song: CFQMaimai.BestScoreEntry
+    var song: CFQMaimai.BestScoreEntry?
+    var data: MaimaiSongData?
+    var levelIndex: Int?
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: song.associatedSong!.coverURL, size: 50, cornerRadius: 5)
-            VStack(alignment: .leading) {
-                Text("\(song.associatedSong!.constant[song.levelIndex], specifier: "%.1f")/\(song.rating)")
-                Spacer()
-                HStack {
-                    Text(song.title)
-                        .lineLimit(1)
+            if let song = data {
+                SongCoverView(coverURL: song.coverURL, size: 50, cornerRadius: 5)
+                VStack(alignment: .leading) {
+                    Text("\(constantByLevelIndex(from: song), specifier: "%.1f")")
                     Spacer()
-                    Text("\(song.score, specifier: "%.4f")%")
-                        .bold()
+                    HStack {
+                        Text(song.title)
+                            .lineLimit(1)
+                        Spacer()
+                        Text("暂未游玩")
+                            .bold()
+                    }
+                }
+            } else if let song = song {
+                SongCoverView(coverURL: song.associatedSong!.coverURL, size: 50, cornerRadius: 5)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("\(song.associatedSong!.constant[song.levelIndex], specifier: "%.1f")/\(song.rating)")
+                        Spacer()
+                        // Text(diff(of: song))
+                    }
+                    Spacer()
+                    HStack {
+                        Text(song.title)
+                            .lineLimit(1)
+                        Spacer()
+                        Text("\(song.score, specifier: "%.4f")%")
+                            .bold()
+                    }
                 }
             }
         }
+    }
+    
+    func constantByLevelIndex(from song: MaimaiSongData) -> Double {
+        let string = CFQMaimaiLevelRecords.maiLevelStrings[levelIndex ?? 0]
+        let idx = song.level.firstIndex(of: string) ?? 0
+        return song.constant[idx]
+    }
+    
+    func diff(of entry: CFQMaimai.BestScoreEntry) -> String {
+        let string = entry.level
+        let idx = entry.associatedSong!.level.firstIndex(of: string) ?? 0
+        return ["BASIC", "ADVANCED", "EXPERT", "MASTER", "Re:MASTER"][idx]
     }
 }
 
@@ -150,6 +200,8 @@ struct MaimaiClearBarView: View {
                         .foregroundColor(clearListColors[index])
                         .frame(width: geo.size.width * dataPoint)
                 }
+                Rectangle()
+                    .foregroundColor(.gray)
             }
         }
     }

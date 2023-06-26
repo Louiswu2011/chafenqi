@@ -125,6 +125,7 @@ struct LoginView: View {
                                         alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载错误", subTitle: String(describing: error))
                                     }
                                     alertToast.show = true
+                                    print(error)
                                     state = .loginPending
                                 }
                             }

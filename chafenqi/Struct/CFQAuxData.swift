@@ -160,7 +160,7 @@ struct CFQChunithmDayRecords {
     }
 }
 
-struct CFQMaimaiLevelRecords {
+struct CFQMaimaiLevelRecords: Codable {
     static let clearAchievements = [100.5...101.00, 100.0...100.4999, 99.5...99.9999, 99.0...99.4999, 98.0...98.9999, 97.0...97.9999, 0.0...96.9999]
     static var maiLevelStrings: [String] {
         var strings = [String]()
@@ -173,8 +173,8 @@ struct CFQMaimaiLevelRecords {
         return strings
     }
     
-    struct CFQMaimaiLevelRecord {
-        struct CFQMaimaiGradeRecord {
+    struct CFQMaimaiLevelRecord: Codable {
+        struct CFQMaimaiGradeRecord: Codable {
             var count: Int = 0
             var songs: CFQMaimaiBestScoreEntries = []
             
@@ -189,26 +189,34 @@ struct CFQMaimaiLevelRecords {
         var count: Int = 0
         var levelString: String = ""
         var grades: [CFQMaimaiGradeRecord] = []
+        var noRecordSongs: [MaimaiSongData] = []
         var ratios: [Double] = []
         
-        init(index: Int, best: CFQMaimaiBestScoreEntries) {
+        init(index: Int, best: CFQMaimaiBestScoreEntries, songData: [MaimaiSongData]) {
             let songs = best.filter {
                 $0.level == CFQMaimaiLevelRecords.maiLevelStrings[index]
+            }
+            self.levelString = CFQMaimaiLevelRecords.maiLevelStrings[index]
+            let playedIdList = songs.compactMap { $0.associatedSong!.musicId }
+            let filteredData = songData.filter {
+                $0.level.contains(levelString)
+            }
+            self.noRecordSongs = filteredData.filter {
+                !playedIdList.contains($0.musicId)
             }
             for range in CFQMaimaiLevelRecords.clearAchievements {
                 grades.append(CFQMaimaiGradeRecord(range: range, best: songs))
             }
-            self.count = songs.count
+            self.count = filteredData.count
             self.ratios = grades.compactMap { Double($0.count) / Double(self.count) }
-            self.levelString = CFQMaimaiLevelRecords.maiLevelStrings[index]
         }
     }
     
     var levels: [CFQMaimaiLevelRecord] = []
     
-    init(best: CFQMaimaiBestScoreEntries) {
+    init(songs: [MaimaiSongData], best: CFQMaimaiBestScoreEntries) {
         for level in CFQMaimaiLevelRecords.maiLevelStrings.indices {
-            levels.append(CFQMaimaiLevelRecord(index: level, best: best))
+            levels.append(CFQMaimaiLevelRecord(index: level, best: best, songData: songs))
         }
     }
     
