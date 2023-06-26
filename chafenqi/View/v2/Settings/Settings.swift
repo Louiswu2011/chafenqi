@@ -45,7 +45,7 @@ struct Settings: View {
                 NavigationLink {
                     RedeemView(user: user)
                 } label: {
-                    Text("订阅兑换")
+                    Text("兑换会员")
                 }
                 Button {
                     let logoutAlert = Alert(title: Text("确定要登出吗？"), primaryButton: .cancel(Text("取消")), secondaryButton: .default(Text("登出"), action: {

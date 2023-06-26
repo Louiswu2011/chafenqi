@@ -39,9 +39,9 @@ struct LoginView: View {
                     HStack {
                         Button {
                             shouldForceReload = true
-                            alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已重置歌曲列表")
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已重置持久化数据")
                         } label: {
-                            Text("重置歌曲列表")
+                            Text("重置")
                         }
                         .foregroundColor(.red)
                         Spacer()
@@ -241,13 +241,9 @@ struct LoginView: View {
     
     func getTitleText(state: LoginState) -> String {
         switch(state) {
-        case .loginPending:
+        case .loginPending, .loginRequesting:
             return "登录到查分器"
-        case .registerPending:
-            return "注册查分器账号"
-        case .loginRequesting:
-            return "登录到查分器"
-        case .registerRequesting:
+        case .registerPending, .registerRequesting:
             return "注册查分器账号"
         }
     }
