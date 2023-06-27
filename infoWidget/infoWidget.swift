@@ -11,11 +11,11 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), mode: 0)
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+        let entry = SimpleEntry(date: Date(), configuration: configuration, mode: 0)
         completion(entry)
     }
 
@@ -26,7 +26,7 @@ struct Provider: IntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+            let entry = SimpleEntry(date: entryDate, configuration: configuration, mode: 0)
             entries.append(entry)
         }
 
@@ -38,6 +38,7 @@ struct Provider: IntentTimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
+    let mode: Int
 }
 
 struct infoWidgetEntryView : View {
@@ -52,93 +53,86 @@ struct infoWidgetEntryView : View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-            
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("salt")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 110)
-                        .shadow(radius: 5)
-                }
-            }
-            
+            LinearGradient(colors: entry.mode == 0 ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+
             VStack {
                 HStack {
-                    Text("Username")
+                    Text("LOUISE")
                         .bold()
-                        .padding(.bottom, 1)
                     Spacer()
+//                    Text("你已经有5天没出勤啦！")
+//                        .font(.system(size: 15))
+//                        .padding(.trailing, 5)
                 }
                 .padding([.top, .leading])
                 
                 HStack {
-                    VStack {
-                        Text("1000")
-                            .bold()
-                        Text("游玩次数")
-                    }
-                    .padding(5)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 80)
-                    )
-                    .frame(width: 80)
-                    VStack {
-                        Text("16161")
-                            .bold()
-                        Text("Rating")
-                    }
-                    .padding(5)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 80)
-                    )
-                    .frame(width: 80)
-                    VStack {
-                        Text("06/27")
-                            .bold()
-                        Text("最近更新")
-                    }
-                    .padding(5)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 80)
-                    )
-                    .frame(width: 80)
+                    WidgetInfoBox(content: "16161", title: "Rating")
+                    WidgetInfoBox(content: "1000", title: "游玩次数")
+                    WidgetInfoBox(content: "06/28", title: "最近更新")
                     Spacer()
                 }
                 .padding(.horizontal)
                 
                 Spacer()
             }
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Image(entry.mode == 0 ? "penguin" : "salt")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 105)
+                        .shadow(radius: 3, x: 4, y: 4)
+                }
+            }
         }
         
     }
 }
 
+struct WidgetInfoBox: View {
+    var content: String
+    var title: String
+    
+    var body: some View {
+        VStack {
+            Text(content)
+                .font(.system(size: 15))
+                .bold()
+            Text(title)
+                .font(.system(size: 10))
+        }
+        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 5)
+                .fill(Color.gray.opacity(0.25))
+                .frame(width: 70)
+                .shadow(radius: 2, x: 2, y: 2)
+        )
+        .frame(width: 70)
+        
+    }
+}
+
 struct infoWidget: Widget {
-    let kind: String = "infoWidget"
+    let kind: String = "userInfoWidget"
 
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             infoWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("玩家信息")
+        .description("此小组件将显示您的玩家信息和概况")
         .supportedFamilies([.systemMedium])
     }
 }
 
 struct infoWidget_Previews: PreviewProvider {
     static var previews: some View {
-        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), mode: 1))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
