@@ -27,6 +27,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>BuildProxyURLIntent</string>
+		<string>ConfigurationIntent</string>
 		<string>FetchFishTokenIntent</string>
 		<string>StartProxyIntent</string>
 		<string>StopProxyIntent</string>

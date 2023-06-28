@@ -11,34 +11,41 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), mode: 0)
+        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty)
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration, mode: 0)
+        let entry = SimpleEntry(date: Date(), configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm)
         completion(entry)
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration, mode: 0)
-            entries.append(entry)
+        
+        Task {
+            do {
+                try await UserInfoFetcher.refreshData()
+                let entry = SimpleEntry(date: currentDate, configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm)
+                let timeline = Timeline(entries: [entry], policy: .atEnd)
+                completion(timeline)
+            } catch {
+                var mai = Maimai.empty
+                var chu = Chunithm.empty
+                mai.nickname = "刷新失败"
+                chu.nickname = "刷新失败"
+                let timeline = Timeline(entries: [SimpleEntry(date: currentDate, configuration: configuration, maimai: mai, chunithm: chu)], policy: .atEnd)
+                completion(timeline)
+            }
         }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
-    let mode: Int
+    let maimai: Maimai
+    let chunithm: Chunithm
 }
 
 struct infoWidgetEntryView : View {
@@ -50,26 +57,28 @@ struct infoWidgetEntryView : View {
     
     var nameplateMaiColorTop = Color(red: 167, green: 243, blue: 254)
     var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
+    
+    @State private var username = ""
+    @State private var rating = ""
+    @State private var lastUpdate = ""
+    @State private var playCount = ""
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: entry.mode == 0 ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+            LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
 
             VStack {
                 HStack {
-                    Text("LOUISE")
+                    Text(username)
                         .bold()
                     Spacer()
-//                    Text("你已经有5天没出勤啦！")
-//                        .font(.system(size: 15))
-//                        .padding(.trailing, 5)
                 }
                 .padding([.top, .leading])
                 
                 HStack {
-                    WidgetInfoBox(content: "16161", title: "Rating")
-                    WidgetInfoBox(content: "1000", title: "游玩次数")
-                    WidgetInfoBox(content: "06/28", title: "最近更新")
+                    WidgetInfoBox(content: rating, title: "Rating")
+                    WidgetInfoBox(content: playCount, title: "游玩次数")
+                    WidgetInfoBox(content: lastUpdate, title: "最近更新")
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -81,7 +90,7 @@ struct infoWidgetEntryView : View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Image(entry.mode == 0 ? "penguin" : "salt")
+                    Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 105)
@@ -89,7 +98,39 @@ struct infoWidgetEntryView : View {
                 }
             }
         }
-        
+        .onAppear {
+            if entry.configuration.currentMode == .chunithm {
+                rating = String(format: "%.2f", entry.chunithm.rating)
+                username = transformingHalfwidthFullwidth(entry.chunithm.nickname)
+                playCount = "\(entry.chunithm.playCount)"
+                lastUpdate = toDateString(entry.chunithm.updatedAt, format: "MM-dd")
+            } else {
+                rating = String(entry.maimai.rating)
+                username = transformingHalfwidthFullwidth(entry.maimai.nickname)
+                playCount = "\(entry.maimai.playCount)"
+                lastUpdate = toDateString(entry.maimai.updatedAt, format: "MM-dd")
+            }
+        }
+    }
+    
+    func toDateString(_ string: String, format: String) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFractionalSeconds, .withInternetDateTime, .withTimeZone]
+        formatter.timeZone = .autoupdatingCurrent
+        if let date = formatter.date(from: string) {
+            let f = DateFormatter()
+            f.dateFormat = "MM-dd"
+            f.timeZone = .autoupdatingCurrent
+            f.locale = .autoupdatingCurrent
+            return f.string(from: date)
+        }
+        return ""
+    }
+    
+    func transformingHalfwidthFullwidth(_ string: String) -> String {
+        let str = NSMutableString(string: string)
+        CFStringTransform(str, nil, kCFStringTransformFullwidthHalfwidth, false)
+        return str as String
     }
 }
 
@@ -132,7 +173,7 @@ struct infoWidget: Widget {
 
 struct infoWidget_Previews: PreviewProvider {
     static var previews: some View {
-        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), mode: 1))
+        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

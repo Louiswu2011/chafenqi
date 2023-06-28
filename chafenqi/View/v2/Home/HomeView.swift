@@ -8,6 +8,7 @@
 import SwiftUI
 import AlertToast
 import OneSignal
+import WidgetKit
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) var context
@@ -120,6 +121,7 @@ struct HomeView: View {
             do {
                 try await user.refresh()
                 refreshing = false
+                WidgetCenter.shared.reloadAllTimelines()
             } catch {
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
                 alertToast.toast = errToast

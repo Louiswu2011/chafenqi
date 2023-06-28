@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NetworkExtension
+import WidgetKit
 
 var credits = """
 特别感谢：
@@ -75,6 +76,8 @@ struct chafenqiApp: App {
                     switch newValue {
                     case .active:
                         performActionIfNeeded()
+                    case .background:
+                        WidgetCenter.shared.reloadAllTimelines()
                     default:
                         break
                     }
