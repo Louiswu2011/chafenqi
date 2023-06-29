@@ -18,10 +18,13 @@ struct HomeView: View {
     @State private var versionData = ClientVersionData.empty
     
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
+    @AppStorage("CFQUsername") var username = ""
     
     @State var refreshing = false
     @State var dismissed = false
     @State var daysSinceLastPlayed = 0
+    
+    @State var firstLaunch = true
     
     var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
@@ -105,6 +108,11 @@ struct HomeView: View {
                 } catch {
                     versionData = .empty
                 }
+                
+                if firstLaunch {
+                    syncToWidget()
+                    firstLaunch = false
+                }
             }
         }
         .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
@@ -121,12 +129,24 @@ struct HomeView: View {
             do {
                 try await user.refresh()
                 refreshing = false
-                WidgetCenter.shared.reloadAllTimelines()
+                syncToWidget()
             } catch {
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
                 alertToast.toast = errToast
                 alertToast.show = true
             }
+        }
+    }
+    
+    func syncToWidget() {
+        DispatchQueue.main.async {
+            do {
+                try WidgetDataController.shared.save(data: WidgetData(username: username, isPremium: user.isPremium, maimaiInfo: user.maimai.info, chunithmInfo: user.chunithm.info), context: WidgetDataController.shared.container.viewContext)
+            } catch {
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "同步小组件失败")
+                print(error)
+            }
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
 }

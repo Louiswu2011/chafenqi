@@ -11,11 +11,11 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty, error: "")
+        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), error: "")
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm, error: "")
+        let entry = SimpleEntry(date: Date(), configuration: configuration, maimai: UserInfoFetcher.maimai, chunithm: UserInfoFetcher.chunithm, error: "")
         completion(entry)
     }
 
@@ -26,27 +26,25 @@ struct Provider: IntentTimelineProvider {
         Task {
             do {
                 try await UserInfoFetcher.refreshData()
-                let entry = SimpleEntry(date: currentDate, configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm, error: "未出现错误")
+                let entry = SimpleEntry(date: currentDate, configuration: configuration, isPremium: UserInfoFetcher.isPremium, maimai: UserInfoFetcher.maimai, chunithm: UserInfoFetcher.chunithm, error: "no error")
                 let timeline = Timeline(entries: [entry], policy: .atEnd)
                 completion(timeline)
             } catch {
-                var mai = Maimai.empty
-                var chu = Chunithm.empty
-                mai.nickname = "刷新失败"
-                chu.nickname = "刷新失败"
-                let timeline = Timeline(entries: [SimpleEntry(date: currentDate, configuration: configuration, maimai: mai, chunithm: chu, error: UserInfoFetcher.lastErrorCause + error.localizedDescription)], policy: .atEnd)
+                let timeline = Timeline(entries: [SimpleEntry(date: currentDate, configuration: configuration, error: error.localizedDescription)], policy: .atEnd)
                 completion(timeline)
+                
             }
         }
     }
 }
 
 struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let configuration: ConfigurationIntent
-    let maimai: Maimai
-    let chunithm: Chunithm
-    let error: String
+    var date: Date
+    var configuration: ConfigurationIntent
+    var isPremium: Bool = false
+    var maimai: CFQMaimai.UserInfo? = nil
+    var chunithm: CFQChunithm.UserInfo? = nil
+    var error: String
 }
 
 struct infoWidgetEntryView : View {
@@ -72,7 +70,12 @@ struct infoWidgetEntryView : View {
     var body: some View {
         ZStack {
             if entry.configuration.debugMode == 1 {
-                Text(entry.error)
+                VStack {
+                    Text("error: \(entry.error)")
+                    Text("isPremium: \(entry.isPremium ? "yes" : "no")")
+                    Text("maimai: \(entry.maimai != nil ? "yes" : "no")")
+                    Text("chuni: \(entry.chunithm != nil ? "yes" : "no")")
+                }
             } else {
                 if size == .systemMedium {
                     LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
@@ -157,27 +160,31 @@ struct infoWidgetEntryView : View {
         }
         .onAppear {
             if entry.configuration.currentMode == .chunithm {
-                rating = String(format: "%.2f", entry.chunithm.rating)
-                username = transformingHalfwidthFullwidth(entry.chunithm.nickname)
-                playCount = "\(entry.chunithm.playCount)"
-                lastUpdate = toDateString(entry.chunithm.updatedAt, format: "MM-dd")
-//                if let chu = entry.chuRecent {
-//                    hasRecent = true
-//                    cover = UserInfoFetcher.cachedChunithmCover
-//                    title = chu.title
-//                    score = String(chu.score)
-//                }
+                if let chunithm = entry.chunithm {
+                    rating = String(format: "%.2f", chunithm.rating)
+                    username = transformingHalfwidthFullwidth(chunithm.nickname)
+                    playCount = "\(chunithm.playCount)"
+                    lastUpdate = toDateString(chunithm.updatedAt, format: "MM-dd")
+                    //                if let chu = entry.chuRecent {
+                    //                    hasRecent = true
+                    //                    cover = UserInfoFetcher.cachedChunithmCover
+                    //                    title = chu.title
+                    //                    score = String(chu.score)
+                    //                }
+                }
             } else {
-                rating = String(entry.maimai.rating)
-                username = transformingHalfwidthFullwidth(entry.maimai.nickname)
-                playCount = "\(entry.maimai.playCount)"
-                lastUpdate = toDateString(entry.maimai.updatedAt, format: "MM-dd")
-//                if let mai = entry.maiRecent {
-//                    hasRecent = true
-//                    cover = UserInfoFetcher.cachedMaimaiCover
-//                    title = mai.title
-//                    score = String(format: "%.4f", mai.score) + "%"
-//                }
+                if let maimai = entry.maimai {
+                    rating = String(maimai.rating)
+                    username = transformingHalfwidthFullwidth(maimai.nickname)
+                    playCount = "\(maimai.playCount)"
+                    lastUpdate = toDateString(maimai.updatedAt, format: "MM-dd")
+                    //                if let mai = entry.maiRecent {
+                    //                    hasRecent = true
+                    //                    cover = UserInfoFetcher.cachedMaimaiCover
+                    //                    title = mai.title
+                    //                    score = String(format: "%.4f", mai.score) + "%"
+                    //                }
+                }
             }
         }
     }
@@ -242,7 +249,7 @@ struct infoWidget: Widget {
 
 struct infoWidget_Previews: PreviewProvider {
     static var previews: some View {
-        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty, error: ""))
+        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), error: ""))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

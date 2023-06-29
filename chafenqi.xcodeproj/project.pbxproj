@@ -152,6 +152,12 @@
 		BFF353D229681F8E001392E5 /* chafenqiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353D129681F8E001392E5 /* chafenqiTests.swift */; };
 		BFF353DC29681F8E001392E5 /* chafenqiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353DB29681F8E001392E5 /* chafenqiUITests.swift */; };
 		BFF353DE29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353DD29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift */; };
+		BFF4B7C52A4DEB400080C6FC /* WidgetDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */; };
+		BFF4B7C82A4DEB4E0080C6FC /* WidgetData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */; };
+		BFF4B7CB2A4DED330080C6FC /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */; };
+		BFF4B7CC2A4DEF7D0080C6FC /* WidgetData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */; };
+		BFF4B7CD2A4DEF800080C6FC /* WidgetDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */; };
+		BFF4B7CE2A4DEF8C0080C6FC /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */; };
 		BFFEEB132A081C96001B15B7 /* UpdaterRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB122A081C96001B15B7 /* UpdaterRootView.swift */; };
 		BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB142A081CC5001B15B7 /* UpdaterView.swift */; };
 		BFFEEB192A081F5C001B15B7 /* SongTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB182A081F5C001B15B7 /* SongTopView.swift */; };
@@ -360,6 +366,9 @@
 		BFF353D729681F8E001392E5 /* chafenqiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = chafenqiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF353DB29681F8E001392E5 /* chafenqiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiUITests.swift; sourceTree = "<group>"; };
 		BFF353DD29681F8E001392E5 /* chafenqiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataController.swift; sourceTree = "<group>"; };
+		BFF4B7C72A4DEB4E0080C6FC /* WidgetData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WidgetData.xcdatamodel; sourceTree = "<group>"; };
+		BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
 		BFFEEB122A081C96001B15B7 /* UpdaterRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterRootView.swift; sourceTree = "<group>"; };
 		BFFEEB142A081CC5001B15B7 /* UpdaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterView.swift; sourceTree = "<group>"; };
 		BFFEEB182A081F5C001B15B7 /* SongTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTopView.swift; sourceTree = "<group>"; };
@@ -657,6 +666,7 @@
 		BF7E251D296AAAB200169B57 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
+				BFF4B7C92A4DED100080C6FC /* Widget */,
 				67D622D42A248C1800E7D70E /* Filter */,
 				BF533C9629BF0932003409AB /* Comment */,
 				BFBC54FB298CEB1800A93918 /* Maimai */,
@@ -910,11 +920,21 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		BFF4B7C92A4DED100080C6FC /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
 		BFFEEB1C2A0825A5001B15B7 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */,
 				BFFEEB1D2A0825B3001B15B7 /* ImageCache.xcdatamodeld */,
 				BFFEEB202A0826A3001B15B7 /* CacheController.swift */,
+				BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1198,6 +1218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				672230A02A4C30640096710A /* UserInfoFetcher.swift in Sources */,
+				BFF4B7CE2A4DEF8C0080C6FC /* WidgetData.swift in Sources */,
 				67FE568C2A4D84020086C335 /* MaimaiDataGrabber.swift in Sources */,
 				67E95F792A4ACCAC004134C8 /* infoWidgetBundle.swift in Sources */,
 				67E95F802A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */,
@@ -1210,8 +1231,10 @@
 				672230A12A4C31980096710A /* URLResponseExtension.swift in Sources */,
 				67FE56902A4D84440086C335 /* ChunithmUserData.swift in Sources */,
 				67FE56892A4D83ED0086C335 /* MaimaiSongData.swift in Sources */,
+				BFF4B7CC2A4DEF7D0080C6FC /* WidgetData.xcdatamodeld in Sources */,
 				67E95F7B2A4ACCAC004134C8 /* infoWidget.swift in Sources */,
 				67FE568B2A4D83FF0086C335 /* ChunithmDataGrabber.swift in Sources */,
+				BFF4B7CD2A4DEF800080C6FC /* WidgetDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1271,6 +1294,7 @@
 				BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */,
 				6786F0B12A3C630300CE90C2 /* UpdaterHelpView.swift in Sources */,
 				676317582A2EE2C300693E4B /* SettingsHomeArrangement.swift in Sources */,
+				BFF4B7CB2A4DED330080C6FC /* WidgetData.swift in Sources */,
 				6757B20F2A39BB75005701A5 /* InfoMaimaiFrameList.swift in Sources */,
 				6786F0AD2A3C62AA00CE90C2 /* SponsorView.swift in Sources */,
 				6786F0A12A3C3BC300CE90C2 /* DeltaShortLook.swift in Sources */,
@@ -1313,6 +1337,7 @@
 				6757B2002A39928C005701A5 /* CharacterCapsule.swift in Sources */,
 				BF3C3EA729997385001959E5 /* AlertToastManager.swift in Sources */,
 				BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */,
+				BFF4B7C52A4DEB400080C6FC /* WidgetDataController.swift in Sources */,
 				BFFEEB132A081C96001B15B7 /* UpdaterRootView.swift in Sources */,
 				BFE075A92A07B64B005248A6 /* RecentDetail.swift in Sources */,
 				672230752A4C2BDA0096710A /* UserInfoFetcher.swift in Sources */,
@@ -1329,6 +1354,7 @@
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
 				BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */,
 				6757B20D2A39B937005701A5 /* InfoMaimaiNameplateList.swift in Sources */,
+				BFF4B7C82A4DEB4E0080C6FC /* WidgetData.xcdatamodeld in Sources */,
 				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
 				BFFEEB212A0826A3001B15B7 /* CacheController.swift in Sources */,
 				BFCE1B2C29EE93A600BFAA67 /* AppDelegate.swift in Sources */,
@@ -2095,6 +2121,16 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
+		BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BFF4B7C72A4DEB4E0080C6FC /* WidgetData.xcdatamodel */,
+			);
+			currentVersion = BFF4B7C72A4DEB4E0080C6FC /* WidgetData.xcdatamodel */;
+			path = WidgetData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		BFFEEB1D2A0825B3001B15B7 /* ImageCache.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
