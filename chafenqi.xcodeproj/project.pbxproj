@@ -60,6 +60,15 @@
 		67E95F802A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 67E95F7C2A4ACCAC004134C8 /* infoWidget.intentdefinition */; };
 		67E95F812A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 67E95F7C2A4ACCAC004134C8 /* infoWidget.intentdefinition */; };
 		67E95F842A4ACCAC004134C8 /* infoWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 67E95F742A4ACCAB004134C8 /* infoWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		67FE56882A4D83CD0086C335 /* CFQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3190B2A02ED140042B5FB /* CFQData.swift */; };
+		67FE56892A4D83ED0086C335 /* MaimaiSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC5500298CEB4C00A93918 /* MaimaiSongData.swift */; };
+		67FE568A2A4D83F20086C335 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
+		67FE568B2A4D83FF0086C335 /* ChunithmDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */; };
+		67FE568C2A4D84020086C335 /* MaimaiDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */; };
+		67FE568D2A4D841E0086C335 /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
+		67FE568E2A4D84210086C335 /* ChunithmSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E251E296AAACE00169B57 /* ChunithmSongData.swift */; };
+		67FE568F2A4D842B0086C335 /* DataTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7BC69A297C3365003A67B0 /* DataTool.swift */; };
+		67FE56902A4D84440086C335 /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BF0431842A34274A00577E6F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0431832A34274A00577E6F /* NotificationService.swift */; };
 		BF0431882A34274A00577E6F /* chafenqiNotifier.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BF0431812A34274A00577E6F /* chafenqiNotifier.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BF04318E2A3427E900577E6F /* OneSignal in Frameworks */ = {isa = PBXBuildFile; productRef = BF04318D2A3427E900577E6F /* OneSignal */; };
@@ -1189,11 +1198,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				672230A02A4C30640096710A /* UserInfoFetcher.swift in Sources */,
+				67FE568C2A4D84020086C335 /* MaimaiDataGrabber.swift in Sources */,
 				67E95F792A4ACCAC004134C8 /* infoWidgetBundle.swift in Sources */,
 				67E95F802A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */,
+				67FE568A2A4D83F20086C335 /* ChunithmMusicData.swift in Sources */,
+				67FE568F2A4D842B0086C335 /* DataTool.swift in Sources */,
+				67FE56882A4D83CD0086C335 /* CFQData.swift in Sources */,
 				672230A22A4C31A80096710A /* CFQError.swift in Sources */,
+				67FE568D2A4D841E0086C335 /* ChunithmUserScoreData.swift in Sources */,
+				67FE568E2A4D84210086C335 /* ChunithmSongData.swift in Sources */,
 				672230A12A4C31980096710A /* URLResponseExtension.swift in Sources */,
+				67FE56902A4D84440086C335 /* ChunithmUserData.swift in Sources */,
+				67FE56892A4D83ED0086C335 /* MaimaiSongData.swift in Sources */,
 				67E95F7B2A4ACCAC004134C8 /* infoWidget.swift in Sources */,
+				67FE568B2A4D83FF0086C335 /* ChunithmDataGrabber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

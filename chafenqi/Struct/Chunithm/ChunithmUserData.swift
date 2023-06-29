@@ -245,3 +245,9 @@ struct ScoreEntry: Codable, Hashable {
         case level, score, title
     }
 }
+
+extension Double {
+    func cut(remainingDigits: Int) -> Double {
+        return floor(self * pow(10, Double(remainingDigits))) / pow(10, Double(remainingDigits))
+    }
+}

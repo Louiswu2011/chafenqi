@@ -498,6 +498,8 @@ class CFQNUser: ObservableObject {
         print("[CFQNUser] Calculated Custom Values.")
         
         sharedContainer.set(self.jwtToken, forKey: "JWT")
+        try sharedContainer.set(PropertyListEncoder().encode(self.maimai.recent[0]), forKey: "maimaiRecentOne")
+        try sharedContainer.set(PropertyListEncoder().encode(self.chunithm.recent[0]), forKey: "chunithmRecentOne")
         print("[CFQNUser] Shared jwt token.")
     }
 }

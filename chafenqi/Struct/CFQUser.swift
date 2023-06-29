@@ -295,11 +295,7 @@ extension Int {
     }
 }
 
-extension Double {
-    func cut(remainingDigits: Int) -> Double {
-        return floor(self * pow(10, Double(remainingDigits))) / pow(10, Double(remainingDigits))
-    }
-}
+
 
 extension Array<MaimaiRecentRecord> {
     func getLatestNewRecord() -> (Int?, MaimaiRecentRecord?) {
