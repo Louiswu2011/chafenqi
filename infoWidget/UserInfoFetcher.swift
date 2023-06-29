@@ -53,6 +53,8 @@ struct UserInfoFetcher {
     static var cachedChunithm = Chunithm.empty
     static var cachedMaimaiRecentOne: CFQMaimai.RecentScoreEntry?
     static var cachedChunithmRecentOne: CFQChunithm.RecentScoreEntry?
+    static var cachedMaimaiRecentOneSong: MaimaiSongData?
+    static var cachedChunithmRecentOneSong: ChunithmMusicData?
     static var cachedMaimaiCover = UIImage()
     static var cachedChunithmCover = UIImage()
     
@@ -71,17 +73,6 @@ struct UserInfoFetcher {
         refreshJwtToken()
         self.cachedMaimai = try await fetchGameData(Maimai.self, path: "api/maimai/info")
         self.cachedChunithm = try await fetchGameData(Chunithm.self, path: "api/chunithm/info")
-        self.cachedMaimaiRecentOne = try PropertyListDecoder().decode(CFQMaimai.RecentScoreEntry.self, from: UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!.object(forKey: "maimaiRecentOne") as! Data)
-        self.cachedChunithmRecentOne = try PropertyListDecoder().decode(CFQChunithm.RecentScoreEntry.self, from: UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!.object(forKey: "chunithmRecentOne") as! Data)
-        
-        if let mai = self.cachedMaimaiRecentOne {
-            let (data, _) = try await session.data(from: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: mai.associatedSong!.musicId)))
-            self.cachedMaimaiCover = UIImage(data: data) ?? UIImage()
-        }
-        if let chu = self.cachedChunithmRecentOne {
-            let (data, _) = try await session.data(from: ChunithmDataGrabber.getSongCoverUrl(source: 0, musicId: String(chu.associatedSong!.musicID)))
-            self.cachedChunithmCover = UIImage(data: data) ?? UIImage()
-        }
     }
     
     static func fetchFromServer(path: String) async throws -> (Data, URLResponse) {

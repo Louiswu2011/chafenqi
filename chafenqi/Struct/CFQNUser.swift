@@ -499,7 +499,9 @@ class CFQNUser: ObservableObject {
         
         sharedContainer.set(self.jwtToken, forKey: "JWT")
         try sharedContainer.set(PropertyListEncoder().encode(self.maimai.recent[0]), forKey: "maimaiRecentOne")
-        try sharedContainer.set(PropertyListEncoder().encode(self.chunithm.recent[0]), forKey: "chunithmRecentOne")
+        try sharedContainer.set(PropertyListEncoder().encode(self.chunithm.recent[0].associatedSong!), forKey: "chunithmRecentOne")
+        try sharedContainer.set(PropertyListEncoder().encode(self.maimai.recent[0]), forKey: "maimaiRecentOneSong")
+        try sharedContainer.set(PropertyListEncoder().encode(self.chunithm.recent[0].associatedSong!), forKey: "chunithmRecentOneSong")
         print("[CFQNUser] Shared jwt token.")
     }
 }

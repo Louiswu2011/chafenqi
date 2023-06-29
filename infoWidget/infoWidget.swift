@@ -26,7 +26,7 @@ struct Provider: IntentTimelineProvider {
         Task {
             do {
                 try await UserInfoFetcher.refreshData()
-                let entry = SimpleEntry(date: currentDate, configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm, error: "")
+                let entry = SimpleEntry(date: currentDate, configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm, error: "未出现错误")
                 let timeline = Timeline(entries: [entry], policy: .atEnd)
                 completion(timeline)
             } catch {
@@ -46,8 +46,6 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationIntent
     let maimai: Maimai
     let chunithm: Chunithm
-    let maiRecent: CFQMaimai.RecentScoreEntry? = nil
-    let chuRecent: CFQChunithm.RecentScoreEntry? = nil
     let error: String
 }
 
@@ -95,24 +93,24 @@ struct infoWidgetEntryView : View {
                         }
                         .padding(.horizontal)
                         
-                        if hasRecent {
-                            HStack {
-                                Image(uiImage: cover)
-                                    .resizable()
-                                    .aspectRatio(1, contentMode: .fit)
-                                    .frame(width: 30)
-                                    .mask(RoundedRectangle(cornerRadius: 5))
-                                    .shadow(radius: 2, x: 2, y: 2)
-                                
-                                Text(title)
-                                    .frame(maxWidth: 150)
-                                    .lineLimit(1)
-                                Text(score)
-                                    .bold()
-                                Spacer()
-                            }
-                            .padding([.leading, .top])
-                        }
+//                        if hasRecent {
+//                            HStack {
+//                                Image(uiImage: cover)
+//                                    .resizable()
+//                                    .aspectRatio(1, contentMode: .fit)
+//                                    .frame(width: 30)
+//                                    .mask(RoundedRectangle(cornerRadius: 5))
+//                                    .shadow(radius: 2, x: 2, y: 2)
+//
+//                                Text(title)
+//                                    .frame(maxWidth: 150)
+//                                    .lineLimit(1)
+//                                Text(score)
+//                                    .bold()
+//                                Spacer()
+//                            }
+//                            .padding([.leading, .top])
+//                        }
                         
                         Spacer()
                     }
@@ -163,23 +161,23 @@ struct infoWidgetEntryView : View {
                 username = transformingHalfwidthFullwidth(entry.chunithm.nickname)
                 playCount = "\(entry.chunithm.playCount)"
                 lastUpdate = toDateString(entry.chunithm.updatedAt, format: "MM-dd")
-                if let chu = entry.chuRecent {
-                    hasRecent = true
-                    cover = UserInfoFetcher.cachedChunithmCover
-                    title = chu.title
-                    score = String(chu.score)
-                }
+//                if let chu = entry.chuRecent {
+//                    hasRecent = true
+//                    cover = UserInfoFetcher.cachedChunithmCover
+//                    title = chu.title
+//                    score = String(chu.score)
+//                }
             } else {
                 rating = String(entry.maimai.rating)
                 username = transformingHalfwidthFullwidth(entry.maimai.nickname)
                 playCount = "\(entry.maimai.playCount)"
                 lastUpdate = toDateString(entry.maimai.updatedAt, format: "MM-dd")
-                if let mai = entry.maiRecent {
-                    hasRecent = true
-                    cover = UserInfoFetcher.cachedMaimaiCover
-                    title = mai.title
-                    score = String(format: "%.4f", mai.score) + "%"
-                }
+//                if let mai = entry.maiRecent {
+//                    hasRecent = true
+//                    cover = UserInfoFetcher.cachedMaimaiCover
+//                    title = mai.title
+//                    score = String(format: "%.4f", mai.score) + "%"
+//                }
             }
         }
     }
