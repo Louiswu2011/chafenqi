@@ -51,6 +51,8 @@ struct UserInfoFetcher {
     static var cachedMaimai = Maimai.empty
     static var cachedChunithm = Chunithm.empty
     
+    static var lastErrorCause = ""
+    
     static var session = URLSession.shared
     static var decoder = JSONDecoder()
     
@@ -76,6 +78,7 @@ struct UserInfoFetcher {
         }
         let (data, response) = try await URLSession.shared.data(for: request)
         if response.statusCode() != 200 {
+            self.lastErrorCause = "token: \(jwtToken)\nresponse: \(response.statusCode())\nerror: "
             throw CFQError.invalidResponseError(response: String(decoding: data, as: UTF8.self) + "\(response.statusCode())")
         }
         return (data, response)

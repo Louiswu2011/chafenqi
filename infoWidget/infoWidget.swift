@@ -11,11 +11,11 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty)
+        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty, error: "")
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm)
+        let entry = SimpleEntry(date: Date(), configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm, error: "")
         completion(entry)
     }
 
@@ -26,7 +26,7 @@ struct Provider: IntentTimelineProvider {
         Task {
             do {
                 try await UserInfoFetcher.refreshData()
-                let entry = SimpleEntry(date: currentDate, configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm)
+                let entry = SimpleEntry(date: currentDate, configuration: configuration, maimai: UserInfoFetcher.cachedMaimai, chunithm: UserInfoFetcher.cachedChunithm, error: "")
                 let timeline = Timeline(entries: [entry], policy: .atEnd)
                 completion(timeline)
             } catch {
@@ -34,7 +34,7 @@ struct Provider: IntentTimelineProvider {
                 var chu = Chunithm.empty
                 mai.nickname = "刷新失败"
                 chu.nickname = "刷新失败"
-                let timeline = Timeline(entries: [SimpleEntry(date: currentDate, configuration: configuration, maimai: mai, chunithm: chu)], policy: .atEnd)
+                let timeline = Timeline(entries: [SimpleEntry(date: currentDate, configuration: configuration, maimai: mai, chunithm: chu, error: UserInfoFetcher.lastErrorCause + error.localizedDescription)], policy: .atEnd)
                 completion(timeline)
             }
         }
@@ -46,6 +46,7 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationIntent
     let maimai: Maimai
     let chunithm: Chunithm
+    let error: String
 }
 
 struct infoWidgetEntryView : View {
@@ -65,36 +66,40 @@ struct infoWidgetEntryView : View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-
-            VStack {
-                HStack {
-                    Text(username)
-                        .bold()
+            if entry.configuration.debugMode == 1 {
+                Text(entry.error)
+            } else {
+                LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                
+                VStack {
+                    HStack {
+                        Text(username)
+                            .bold()
+                        Spacer()
+                    }
+                    .padding([.top, .leading])
+                    
+                    HStack {
+                        WidgetInfoBox(content: rating, title: "Rating")
+                        WidgetInfoBox(content: playCount, title: "游玩次数")
+                        WidgetInfoBox(content: lastUpdate, title: "最近更新")
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    
                     Spacer()
                 }
-                .padding([.top, .leading])
                 
-                HStack {
-                    WidgetInfoBox(content: rating, title: "Rating")
-                    WidgetInfoBox(content: playCount, title: "游玩次数")
-                    WidgetInfoBox(content: lastUpdate, title: "最近更新")
+                VStack {
                     Spacer()
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 105)
-                        .shadow(radius: 3, x: 4, y: 4)
+                    HStack {
+                        Spacer()
+                        Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 105)
+                            .shadow(radius: 3, x: 4, y: 4)
+                    }
                 }
             }
         }
@@ -173,7 +178,7 @@ struct infoWidget: Widget {
 
 struct infoWidget_Previews: PreviewProvider {
     static var previews: some View {
-        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty))
+        infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty, error: ""))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
