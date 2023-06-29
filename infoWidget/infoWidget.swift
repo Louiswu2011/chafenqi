@@ -64,41 +64,70 @@ struct infoWidgetEntryView : View {
     @State private var lastUpdate = ""
     @State private var playCount = ""
 
+    @ViewBuilder
     var body: some View {
         ZStack {
             if entry.configuration.debugMode == 1 {
                 Text(entry.error)
             } else {
-                LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-                
-                VStack {
-                    HStack {
-                        Text(username)
-                            .bold()
+                if size == .systemMedium {
+                    LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                    
+                    VStack {
+                        HStack {
+                            Text(username)
+                                .bold()
+                            Spacer()
+                        }
+                        .padding([.top, .leading])
+                        
+                        HStack {
+                            WidgetInfoBox(content: rating, title: "Rating")
+                            WidgetInfoBox(content: playCount, title: "游玩次数")
+                            WidgetInfoBox(content: lastUpdate, title: "最近更新")
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        
                         Spacer()
                     }
-                    .padding([.top, .leading])
                     
-                    HStack {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 105)
+                                .shadow(radius: 3, x: 4, y: 4)
+                        }
+                    }
+                } else if size == .systemSmall {
+                    LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(username)
+                                .bold()
+                            Spacer()
+                        }
+                        
                         WidgetInfoBox(content: rating, title: "Rating")
                         WidgetInfoBox(content: playCount, title: "游玩次数")
-                        WidgetInfoBox(content: lastUpdate, title: "最近更新")
-                        Spacer()
                     }
-                    .padding(.horizontal)
+                    .padding(.leading)
                     
-                    Spacer()
-                }
-                
-                VStack {
-                    Spacer()
-                    HStack {
+                    VStack {
                         Spacer()
-                        Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 105)
-                            .shadow(radius: 3, x: 4, y: 4)
+                        HStack {
+                            Spacer()
+                            Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 85)
+                                .shadow(radius: 3, x: 4, y: 4)
+                        }
                     }
                 }
             }
@@ -172,14 +201,14 @@ struct infoWidget: Widget {
         }
         .configurationDisplayName("玩家信息")
         .description("此小组件将显示您的玩家信息和概况")
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemMedium, .systemSmall])
     }
 }
 
 struct infoWidget_Previews: PreviewProvider {
     static var previews: some View {
         infoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), maimai: Maimai.empty, chunithm: Chunithm.empty, error: ""))
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
 
