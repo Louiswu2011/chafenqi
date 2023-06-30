@@ -6,21 +6,20 @@
 //
 
 import Foundation
-import SwiftUI
+import CoreData
 
 struct UserInfoFetcher {
-    @FetchRequest(sortDescriptors: []) static var infos: FetchedResults<WidgetUser>
-    
     static let decoder = JSONDecoder()
     
     static var isPremium = false
     static var maimai: CFQMaimai.UserInfo?
     static var chunithm: CFQChunithm.UserInfo?
 
+
     static func refreshData() async throws {
         if let currentUser = UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")?.string(forKey: "currentUser") {
             NSLog("[CFQWidget] Current user: " + currentUser)
-            let info = try WidgetDataController.shared.fetchBy(username: currentUser)
+            let info = try self.fetchBy(username: currentUser)
             if let info = info {
                 self.isPremium = info.isPremium
                 NSLog("[CFQWidget] Premium: " + (isPremium ? "true" : "false"))
@@ -32,5 +31,13 @@ struct UserInfoFetcher {
                 }
             }
         }
+    }
+    
+    static func fetchBy(username: String) throws -> WidgetUser? {
+        let predicate = NSPredicate(format: "username == %@", username)
+        let request = WidgetUser.fetchRequest()
+        request.predicate = predicate
+        let entries = try WidgetDataController.shared.container.viewContext.fetch(request)
+        return entries.first
     }
 }

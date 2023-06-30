@@ -17,6 +17,11 @@ class WidgetDataController {
     
     init() {
         print("[WidgetDataController] Initializing persistent stores...")
+        let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.nltv.chafenqi.shared")
+        let storeURL = containerURL?.appendingPathComponent("WidgetData.sqlite")
+        let description = NSPersistentStoreDescription(url: storeURL!)
+        
+        container.persistentStoreDescriptions = [description]
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
@@ -33,15 +38,9 @@ class WidgetDataController {
         widgetData.maimai = try encoder.encode(data.maimaiInfo)
         widgetData.chunithm = try encoder.encode(data.chunithmInfo)
         
-        print("[WidgetDataController] Saved widget data of", widgetData.username!)
-        try self.container.viewContext.save()
-    }
-    
-    func fetchBy(username: String) throws -> WidgetUser? {
-        let fetchRequest: NSFetchRequest<WidgetUser>
-        fetchRequest = WidgetUser.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "username = %@", username)
-        let objects = try self.container.viewContext.fetch(fetchRequest)
-        return objects.first
+        if self.container.viewContext.hasChanges {
+            print("[WidgetDataController] Saving widget data of", widgetData.username!)
+            try self.container.viewContext.save()
+        }
     }
 }
