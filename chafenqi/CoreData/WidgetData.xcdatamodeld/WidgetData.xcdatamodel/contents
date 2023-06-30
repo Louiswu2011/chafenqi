@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G419" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="WidgetUser" representedClassName="WidgetUser" syncable="YES" codeGenerationType="class">
+        <attribute name="chuCover" optional="YES" attributeType="Binary"/>
         <attribute name="chunithm" optional="YES" attributeType="Binary"/>
+        <attribute name="chuRecentOne" optional="YES" attributeType="Binary"/>
         <attribute name="configuration" optional="YES" attributeType="Binary"/>
         <attribute name="custom" optional="YES" attributeType="Binary"/>
         <attribute name="isPremium" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="maiCover" optional="YES" attributeType="Binary"/>
         <attribute name="maimai" optional="YES" attributeType="Binary"/>
+        <attribute name="maiRecentOne" optional="YES" attributeType="Binary"/>
         <attribute name="username" attributeType="String"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

@@ -139,9 +139,9 @@ struct HomeView: View {
     }
     
     func syncToWidget() {
-        DispatchQueue.main.async {
+        Task {
             do {
-                try WidgetDataController.shared.save(data: WidgetData(username: username, isPremium: user.isPremium, maimaiInfo: user.maimai.info, chunithmInfo: user.chunithm.info), context: WidgetDataController.shared.container.viewContext)
+                try await WidgetDataController.shared.save(data: user.makeWidgetData(), context: WidgetDataController.shared.container.viewContext)
             } catch {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "同步小组件失败")
                 print(error)

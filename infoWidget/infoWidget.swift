@@ -26,7 +26,17 @@ struct Provider: IntentTimelineProvider {
         Task {
             do {
                 try await UserInfoFetcher.refreshData()
-                let entry = SimpleEntry(date: currentDate, configuration: configuration, isPremium: UserInfoFetcher.isPremium, maimai: UserInfoFetcher.maimai, chunithm: UserInfoFetcher.chunithm, error: "no error")
+                let entry = SimpleEntry(
+                    date: currentDate,
+                    configuration: configuration,
+                    isPremium: UserInfoFetcher.isPremium,
+                    maimai: UserInfoFetcher.maimai,
+                    chunithm: UserInfoFetcher.chunithm,
+                    maiRecentOne: UserInfoFetcher.maiRecentOne,
+                    chuRecentOne: UserInfoFetcher.chuRecentOne,
+                    maiCover: UserInfoFetcher.cachedMaiCover,
+                    chuCover: UserInfoFetcher.cachedChuCover,
+                    error: "no error")
                 let timeline = Timeline(entries: [entry], policy: .atEnd)
                 completion(timeline)
             } catch {
@@ -44,6 +54,10 @@ struct SimpleEntry: TimelineEntry {
     var isPremium: Bool = false
     var maimai: CFQMaimai.UserInfo? = nil
     var chunithm: CFQChunithm.UserInfo? = nil
+    var maiRecentOne: CFQMaimai.RecentScoreEntry? = nil
+    var chuRecentOne: CFQChunithm.RecentScoreEntry? = nil
+    var maiCover: Data = Data()
+    var chuCover: Data = Data()
     var error: String
 }
 
@@ -73,8 +87,9 @@ struct infoWidgetEntryView : View {
                 VStack {
                     Text("error: \(entry.error)")
                     Text("isPremium: \(entry.isPremium ? "yes" : "no")")
-                    Text("maimai: \(entry.maimai != nil ? "yes" : "no")")
-                    Text("chuni: \(entry.chunithm != nil ? "yes" : "no")")
+                    Text("game: \(entry.maimai != nil ? "yes" : "no"), \(entry.chunithm != nil ? "yes" : "no")")
+                    Text("recent: \(entry.maiRecentOne != nil ? "yes" : "no"), \(entry.chuRecentOne != nil ? "yes" : "no")")
+                    Text("cover: \(entry.maiCover.count), \(entry.chuCover.count)")
                 }
             } else {
                 if size == .systemMedium {
@@ -96,24 +111,30 @@ struct infoWidgetEntryView : View {
                         }
                         .padding(.horizontal)
                         
-//                        if hasRecent {
-//                            HStack {
-//                                Image(uiImage: cover)
-//                                    .resizable()
-//                                    .aspectRatio(1, contentMode: .fit)
-//                                    .frame(width: 30)
-//                                    .mask(RoundedRectangle(cornerRadius: 5))
-//                                    .shadow(radius: 2, x: 2, y: 2)
-//
-//                                Text(title)
-//                                    .frame(maxWidth: 150)
-//                                    .lineLimit(1)
-//                                Text(score)
-//                                    .bold()
-//                                Spacer()
-//                            }
-//                            .padding([.leading, .top])
-//                        }
+                        if hasRecent {
+                            HStack {
+                                Image(uiImage: cover)
+                                    .resizable()
+                                    .aspectRatio(1, contentMode: .fit)
+                                    .frame(width: 40)
+                                    .mask(RoundedRectangle(cornerRadius: 5))
+                                    .shadow(radius: 2, x: 2, y: 2)
+
+                                VStack(alignment: .leading) {
+                                    Text(title)
+                                        .frame(maxWidth: 160)
+                                        .lineLimit(1)
+                                        .font(.system(size: 13))
+                                    Text(score)
+                                        .bold()
+                                        .font(.system(size: 15))
+                                }
+                                Spacer()
+                            }
+                            .frame(height: 40)
+                            .padding([.leading])
+                            .padding(.top, 7)
+                        }
                         
                         Spacer()
                     }
@@ -165,12 +186,12 @@ struct infoWidgetEntryView : View {
                     username = transformingHalfwidthFullwidth(chunithm.nickname)
                     playCount = "\(chunithm.playCount)"
                     lastUpdate = toDateString(chunithm.updatedAt, format: "MM-dd")
-                    //                if let chu = entry.chuRecent {
-                    //                    hasRecent = true
-                    //                    cover = UserInfoFetcher.cachedChunithmCover
-                    //                    title = chu.title
-                    //                    score = String(chu.score)
-                    //                }
+                    if let chu = entry.chuRecentOne {
+                        hasRecent = true
+                        cover = UIImage(data: entry.chuCover) ?? UIImage()
+                        title = chu.title
+                        score = String(chu.score)
+                    }
                 }
             } else {
                 if let maimai = entry.maimai {
@@ -178,12 +199,12 @@ struct infoWidgetEntryView : View {
                     username = transformingHalfwidthFullwidth(maimai.nickname)
                     playCount = "\(maimai.playCount)"
                     lastUpdate = toDateString(maimai.updatedAt, format: "MM-dd")
-                    //                if let mai = entry.maiRecent {
-                    //                    hasRecent = true
-                    //                    cover = UserInfoFetcher.cachedMaimaiCover
-                    //                    title = mai.title
-                    //                    score = String(format: "%.4f", mai.score) + "%"
-                    //                }
+                    if let mai = entry.maiRecentOne {
+                        hasRecent = true
+                        cover = UIImage(data: entry.maiCover) ?? UIImage()
+                        title = mai.title
+                        score = String(format: "%.4f", mai.score) + "%"
+                    }
                 }
             }
         }

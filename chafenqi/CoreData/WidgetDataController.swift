@@ -37,6 +37,10 @@ class WidgetDataController {
         widgetData.isPremium = data.isPremium
         widgetData.maimai = try encoder.encode(data.maimaiInfo)
         widgetData.chunithm = try encoder.encode(data.chunithmInfo)
+        widgetData.maiRecentOne = try encoder.encode(data.maiRecentOne)
+        widgetData.chuRecentOne = try encoder.encode(data.chuRecentOne)
+        widgetData.maiCover = data.maiCover
+        widgetData.chuCover = data.chuCover
         
         if self.container.viewContext.hasChanges {
             print("[WidgetDataController] Saving widget data of", widgetData.username!)

@@ -58,7 +58,7 @@ class CFQNUser: ObservableObject {
             
             init() {}
             
-            // MARK: Maimai Custom Data Init
+            // MARK: Maimai Custom Init
             init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries, list: [MaimaiSongData]) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
@@ -200,6 +200,8 @@ class CFQNUser: ObservableObject {
             var versionList: [String] = []
             
             init() {}
+            
+            // MARK: Chunithm Custom Init
             init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries) {
                 guard !orig.isEmpty && !recent.isEmpty else { return }
                 self.b30Slice = orig.filter {
@@ -465,6 +467,7 @@ class CFQNUser: ObservableObject {
         }
     }
     
+    // MARK: Post-Init
     func addAdditionalData(username: String) async throws {
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
@@ -503,6 +506,34 @@ class CFQNUser: ObservableObject {
         print("[CFQNUser] Set jwt token and username to \(self.username).")
     
         
+    }
+    
+    func makeWidgetData() async throws -> WidgetData {
+        var maiCover = Data()
+        var chuCover = Data()
+        
+        if let maiFirst = self.maimai.recent.first {
+            let (data, _) = try await URLSession.shared.data(from: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: maiFirst.associatedSong!.musicId)))
+            maiCover = data
+        }
+        if let chuFirst = self.chunithm.recent.first {
+            let (data, _) = try await URLSession.shared.data(from: ChunithmDataGrabber.getSongCoverUrl(source: 0, musicId: String(chuFirst.associatedSong!.musicID)))
+            chuCover = data
+        }
+        
+        print("[CFQNUser] Fetched recent images: \(maiCover.count), \(chuCover.count)")
+        
+        let data = WidgetData(
+            username: self.username,
+            isPremium: self.isPremium,
+            maimaiInfo: self.maimai.info,
+            chunithmInfo: self.chunithm.info,
+            maiRecentOne: self.maimai.recent.first,
+            chuRecentOne: self.chunithm.recent.first,
+            chuCover: chuCover,
+            maiCover: maiCover)
+        
+        return data
     }
 }
 

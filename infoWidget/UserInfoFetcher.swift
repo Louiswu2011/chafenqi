@@ -6,14 +6,21 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
 
 struct UserInfoFetcher {
     static let decoder = JSONDecoder()
+    static let session = URLSession.shared
     
     static var isPremium = false
     static var maimai: CFQMaimai.UserInfo?
     static var chunithm: CFQChunithm.UserInfo?
+    static var maiRecentOne: CFQMaimai.RecentScoreEntry?
+    static var chuRecentOne: CFQChunithm.RecentScoreEntry?
+    
+    static var cachedMaiCover = Data()
+    static var cachedChuCover = Data()
 
 
     static func refreshData() async throws {
@@ -29,6 +36,16 @@ struct UserInfoFetcher {
                 if let chuData = info.chunithm {
                     self.chunithm = try decoder.decode(CFQChunithm.UserInfo.self, from: chuData)
                 }
+                if let maiRecentOne = info.maiRecentOne {
+                    NSLog("[CFQWidget] Found maimai recent data")
+                    self.maiRecentOne = try decoder.decode(CFQMaimai.RecentScoreEntry.self, from: maiRecentOne)
+                }
+                if let chuRecentOne = info.chuRecentOne {
+                    NSLog("[CFQWidget] Found chunithm recent data")
+                    self.chuRecentOne = try decoder.decode(CFQChunithm.RecentScoreEntry.self, from: chuRecentOne)
+                }
+                self.cachedMaiCover = info.maiCover ?? Data()
+                self.cachedChuCover = info.chuCover ?? Data()
             }
         }
     }
@@ -41,3 +58,5 @@ struct UserInfoFetcher {
         return entries.first
     }
 }
+
+
