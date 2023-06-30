@@ -522,12 +522,12 @@ class CFQNUser: ObservableObject {
         }
         
         print("[CFQNUser] Fetched recent images: \(maiCover.count), \(chuCover.count)")
-        
+
         let data = WidgetData(
             username: self.username,
             isPremium: self.isPremium,
-            maimaiInfo: self.maimai.info,
-            chunithmInfo: self.chunithm.info,
+            maimaiInfo: self.maimai.isNotEmpty ? self.maimai.info : nil,
+            chunithmInfo: self.chunithm.isNotEmpty ? self.chunithm.info : nil,
             maiRecentOne: self.maimai.recent.first,
             chuRecentOne: self.chunithm.recent.first,
             chuCover: chuCover,

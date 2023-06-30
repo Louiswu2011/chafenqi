@@ -35,10 +35,22 @@ class WidgetDataController {
         let widgetData = WidgetUser(context: self.container.viewContext)
         widgetData.username = data.username
         widgetData.isPremium = data.isPremium
-        widgetData.maimai = try encoder.encode(data.maimaiInfo)
-        widgetData.chunithm = try encoder.encode(data.chunithmInfo)
-        widgetData.maiRecentOne = try encoder.encode(data.maiRecentOne)
-        widgetData.chuRecentOne = try encoder.encode(data.chuRecentOne)
+        widgetData.maimai = nil
+        widgetData.chunithm = nil
+        widgetData.chuRecentOne = nil
+        widgetData.maiRecentOne = nil
+        if let data = data.maimaiInfo {
+            widgetData.maimai = try encoder.encode(data)
+        }
+        if let data = data.chunithmInfo {
+            widgetData.chunithm = try encoder.encode(data)
+        }
+        if let data = data.maiRecentOne {
+            widgetData.maiRecentOne = try encoder.encode(data)
+        }
+        if let data = data.chuRecentOne {
+            widgetData.chuRecentOne = try encoder.encode(data)
+        }
         widgetData.maiCover = data.maiCover
         widgetData.chuCover = data.chuCover
         

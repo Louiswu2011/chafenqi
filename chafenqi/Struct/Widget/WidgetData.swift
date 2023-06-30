@@ -15,8 +15,8 @@ struct WidgetData {
     var username: String
     var isPremium: Bool
     
-    var maimaiInfo: CFQMaimai.UserInfo
-    var chunithmInfo: CFQChunithm.UserInfo
+    var maimaiInfo: CFQMaimai.UserInfo?
+    var chunithmInfo: CFQChunithm.UserInfo?
     
     var maiRecentOne: CFQMaimai.RecentScoreEntry?
     var chuRecentOne: CFQChunithm.RecentScoreEntry?

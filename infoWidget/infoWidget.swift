@@ -41,6 +41,7 @@ struct Provider: IntentTimelineProvider {
                 completion(timeline)
             } catch {
                 let timeline = Timeline(entries: [SimpleEntry(date: currentDate, configuration: configuration, error: error.localizedDescription)], policy: .atEnd)
+                NSLog("[InfoWidget] Error: " + String(describing: error))
                 completion(timeline)
                 
             }
