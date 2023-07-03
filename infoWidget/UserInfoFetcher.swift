@@ -31,18 +31,34 @@ struct UserInfoFetcher {
                 self.isPremium = info.isPremium
                 NSLog("[CFQWidget] Premium: " + (isPremium ? "true" : "false"))
                 if let maiData = info.maimai {
-                    self.maimai = try decoder.decode(CFQMaimai.UserInfo.self, from: maiData)
+                    do {
+                        self.maimai = try decoder.decode(CFQMaimai.UserInfo.self, from: maiData)
+                    } catch {
+                        self.maimai = nil
+                    }
                 }
                 if let chuData = info.chunithm {
-                    self.chunithm = try decoder.decode(CFQChunithm.UserInfo.self, from: chuData)
+                    do {
+                        self.chunithm = try decoder.decode(CFQChunithm.UserInfo.self, from: chuData)
+                    } catch {
+                        self.chunithm = nil
+                    }
                 }
                 if let maiRecentOne = info.maiRecentOne {
-                    NSLog("[CFQWidget] Found maimai recent data")
-                    self.maiRecentOne = try decoder.decode(CFQMaimai.RecentScoreEntry.self, from: maiRecentOne)
+                    do {
+                        self.maiRecentOne = try decoder.decode(CFQMaimai.RecentScoreEntry.self, from: maiRecentOne)
+                        NSLog("[CFQWidget] Found maimai recent data")
+                    } catch {
+                        self.maiRecentOne = nil
+                    }
                 }
                 if let chuRecentOne = info.chuRecentOne {
-                    NSLog("[CFQWidget] Found chunithm recent data")
-                    self.chuRecentOne = try decoder.decode(CFQChunithm.RecentScoreEntry.self, from: chuRecentOne)
+                    do {
+                        self.chuRecentOne = try decoder.decode(CFQChunithm.RecentScoreEntry.self, from: chuRecentOne)
+                        NSLog("[CFQWidget] Found chunithm recent data")
+                    } catch {
+                        self.chuRecentOne = nil
+                    }
                 }
                 self.cachedMaiCover = info.maiCover ?? Data()
                 self.cachedChuCover = info.chuCover ?? Data()

@@ -508,6 +508,7 @@ class CFQNUser: ObservableObject {
         
     }
     
+    // MARK: Make Widget
     func makeWidgetData() async throws -> WidgetData {
         var maiCover = Data()
         var chuCover = Data()
