@@ -22,6 +22,9 @@ struct UpdaterView: View {
     @State private var isProxyOn = false
     @State private var proxyStatus = ""
     
+    @State private var chuniAvg = ""
+    @State private var maiAvg = ""
+    
     @State private var observers = [AnyObject]()
     
     @State private var startProxyActivity = "StartProxyIntent"
@@ -48,10 +51,11 @@ struct UpdaterView: View {
                             stopProxyByUser()
                         }
                     }
-                    
                 }
             } header: {
                 Text("连接")
+            } footer: {
+                Text("今日平均传分用时:\n中二节奏:\(chuniAvg.isEmpty ? "暂无数据" : chuniAvg)\n舞萌DX:\(maiAvg.isEmpty ? "暂无数据" : maiAvg)\n\n数据仅供参考")
             }
             
             Section {
@@ -124,11 +128,23 @@ struct UpdaterView: View {
         .onAppear {
             refreshStatus()
             registerObserver()
+            loadVar()
         }
         .sheet(isPresented: $isShowingQRCode) {
             UpdaterQRCodeView(maiStr: makeUrl(mode: 1), chuStr: makeUrl(mode: 0))
         }
         
+    }
+    
+    func loadVar() {
+        Task {
+            do {
+                chuniAvg = try await CFQStatsServer.getAvgUploadTime(for: 0)
+                maiAvg = try await CFQStatsServer.getAvgUploadTime(for: 1)
+            } catch {
+                
+            }
+        }
     }
     
     func registerObserver() {
