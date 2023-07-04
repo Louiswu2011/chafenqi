@@ -71,6 +71,14 @@ struct CFQServer {
         }
     }
     
+    struct Stats {
+        static func getAvgUploadTime(for mode: Int) async throws -> String {
+            let payload = try JSONSerialization.data(withJSONObject: ["type": mode])
+            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/stats/upload_time", payload: payload)
+            return String(decoding: data, as: UTF8.self)
+        }
+    }
+    
     struct Maimai {
         var authToken: String
         
@@ -242,3 +250,4 @@ typealias CFQUserServer = CFQServer.User
 typealias CFQFishServer = CFQServer.Fish
 typealias CFQMaimaiServer = CFQServer.Maimai
 typealias CFQChunithmServer = CFQServer.Chunithm
+typealias CFQStatsServer = CFQServer.Stats
