@@ -212,7 +212,7 @@ struct infoWidgetEntryView : View {
     }
     
     func toDateString(_ string: String) -> String {
-        let formatter = DateTool.shared.formatter
+        let formatter = DateTool.shared.updateFormatter
         if let date = formatter.date(from: string) {
             let f = DateTool.shared.premiumTransformer
             return f.string(from: date)
