@@ -135,9 +135,9 @@ struct DeltaListView: View {
             
             for datum in chuDayPlayData.records {
                 if let rating = datum.latestDelta?.rating {
-                    ratingChartData.append((Double(rating), datum.date.formatted(by: "MM-dd")))
+                    ratingChartData.append((Double(rating), DateTool.shared.premiumTransformer.string(from: datum.date)))
                 }
-                pcChartData.append((Double(datum.recentEntries.count), datum.date.formatted(by: "MM-dd")))
+                pcChartData.append((Double(datum.recentEntries.count), DateTool.shared.premiumTransformer.string(from: datum.date)))
             }
         } else if user.currentMode == 1 && !maiDelta.isEmpty {
             maiDayPlayData = CFQMaimaiDayRecords(recents: user.maimai.recent, deltas: user.maimai.delta)
@@ -157,9 +157,9 @@ struct DeltaListView: View {
             
             for datum in maiDayPlayData.records {
                 if let rating = datum.latestDelta?.rating {
-                    ratingChartData.append((Double(rating), datum.date.formatted(by: "MM-dd")))
+                    ratingChartData.append((Double(rating), DateTool.shared.premiumTransformer.string(from: datum.date)))
                 }
-                pcChartData.append((Double(datum.recentEntries.count), datum.date.formatted(by: "MM-dd")))
+                pcChartData.append((Double(datum.recentEntries.count), DateTool.shared.premiumTransformer.string(from: datum.date)))
             }
         }
         isLoaded = true
@@ -180,7 +180,7 @@ struct DeltaList: View {
                         DeltaDetailView(user: user, chuLog: value)
                     } label: {
                         HStack {
-                            Text(value.date.formatted(by: "yyyy-MM-dd"))
+                            Text(DateTool.shared.yyyymmddTransformer.string(from: value.date))
                             Spacer()
                             Image(systemName: "chevron.right")
                         }
@@ -192,7 +192,7 @@ struct DeltaList: View {
                         DeltaDetailView(user: user, maiLog: value)
                     } label: {
                         HStack {
-                            Text(value.date.formatted(by: "yyyy-MM-dd"))
+                            Text(DateTool.shared.yyyymmddTransformer.string(from: value.date))
                             Spacer()
                             Image(systemName: "chevron.right")
                         }

@@ -40,3 +40,4 @@ func getCoverNumber(id: String) -> String {
         return String(format: "%04d", Int(id)!)
     }
 }
+

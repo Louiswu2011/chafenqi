@@ -186,7 +186,7 @@ struct infoWidgetEntryView : View {
                     rating = String(format: "%.2f", chunithm.rating)
                     username = transformingHalfwidthFullwidth(chunithm.nickname)
                     playCount = "\(chunithm.playCount)"
-                    lastUpdate = toDateString(chunithm.updatedAt, format: "MM-dd")
+                    lastUpdate = toDateString(chunithm.updatedAt)
                     if let chu = entry.chuRecentOne {
                         hasRecent = true
                         cover = UIImage(data: entry.chuCover) ?? UIImage()
@@ -199,7 +199,7 @@ struct infoWidgetEntryView : View {
                     rating = String(maimai.rating)
                     username = transformingHalfwidthFullwidth(maimai.nickname)
                     playCount = "\(maimai.playCount)"
-                    lastUpdate = toDateString(maimai.updatedAt, format: "MM-dd")
+                    lastUpdate = toDateString(maimai.updatedAt)
                     if let mai = entry.maiRecentOne {
                         hasRecent = true
                         cover = UIImage(data: entry.maiCover) ?? UIImage()
@@ -211,15 +211,10 @@ struct infoWidgetEntryView : View {
         }
     }
     
-    func toDateString(_ string: String, format: String) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFractionalSeconds, .withInternetDateTime, .withTimeZone]
-        formatter.timeZone = .autoupdatingCurrent
+    func toDateString(_ string: String) -> String {
+        let formatter = DateTool.shared.formatter
         if let date = formatter.date(from: string) {
-            let f = DateFormatter()
-            f.dateFormat = "MM-dd"
-            f.timeZone = .autoupdatingCurrent
-            f.locale = .autoupdatingCurrent
+            let f = DateTool.shared.premiumTransformer
             return f.string(from: date)
         }
         return ""

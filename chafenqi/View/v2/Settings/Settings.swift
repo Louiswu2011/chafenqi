@@ -259,9 +259,7 @@ struct UserInfoWithAvatarView: View {
     
     func parsePremiumExpireDate() -> String {
         let date = Date(timeIntervalSince1970: user.premiumUntil)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd"
-        formatter.locale = .autoupdatingCurrent
+        let formatter = DateTool.shared.premiumTransformer
         return formatter.string(from: date)
     }
 }

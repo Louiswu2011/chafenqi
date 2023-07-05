@@ -798,61 +798,33 @@ extension String {
     }
 }
 
+
 extension String {
     var customDateString: String {
-        let formatter = ISO8601DateFormatter()
-        formatter.timeZone = .autoupdatingCurrent
-        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
-        let date = formatter.date(from: self)
-        if let date = date {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM-dd HH:mm"
-            formatter.timeZone = .autoupdatingCurrent
-            formatter.locale = .autoupdatingCurrent
-            return formatter.string(from: date)
-        }
-        return ""
+        DateTool.defaultDateString(from: self)
     }
     
     func toDateString(format: String) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.timeZone = .autoupdatingCurrent
-        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
-        let date = formatter.date(from: self)
-        if let date = date {
-            let formatter = DateFormatter()
-            formatter.dateFormat = format
-            formatter.timeZone = .autoupdatingCurrent
-            formatter.locale = .autoupdatingCurrent
-            return formatter.string(from: date)
-        }
-        return ""
+        DateTool.toDateString(from: self, format: format)
     }
     
     func toDate() -> Date? {
-        let formatter = ISO8601DateFormatter()
-        formatter.timeZone = .autoupdatingCurrent
-        formatter.formatOptions = [.withColonSeparatorInTimeZone, .withSpaceBetweenDateAndTime, .withFractionalSeconds, .withInternetDateTime]
-        return formatter.date(from: self)
+        DateTool.toDate(from: self)
     }
 }
 
 extension Int {
     var customDateString: String {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
-        let formatter = DateFormatter()
+        let formatter = DateTool.shared.intTransformer
         formatter.dateFormat = "yy-MM-dd HH:mm"
-        formatter.timeZone = .autoupdatingCurrent
-        formatter.locale = .autoupdatingCurrent
         return formatter.string(from: date)
     }
     
     func toDateString(format: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
-        let formatter = DateFormatter()
+        let formatter = DateTool.shared.freeTransformer
         formatter.dateFormat = format
-        formatter.timeZone = .autoupdatingCurrent
-        formatter.locale = .autoupdatingCurrent
         return formatter.string(from: date)
     }
     
@@ -864,10 +836,8 @@ extension Int {
 extension Double {
     func toDateString(format: String) -> String {
         let date = Date(timeIntervalSince1970: self)
-        let formatter = DateFormatter()
+        let formatter = DateTool.shared.freeTransformer
         formatter.dateFormat = format
-        formatter.timeZone = .autoupdatingCurrent
-        formatter.locale = .autoupdatingCurrent
         return formatter.string(from: date)
     }
 }

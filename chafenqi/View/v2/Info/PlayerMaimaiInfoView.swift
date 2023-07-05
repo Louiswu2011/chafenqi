@@ -35,10 +35,22 @@ struct PlayerMaimaiInfoView: View {
     @State private var currentLoadout: [CFQMaimaiExtraEntry.CharacterEntry] = []
     @State private var charImg = UIImage()
     @State private var nameplateImg = UIImage()
+    @State private var frameImg = UIImage()
     
     var body: some View {
         ScrollView {
             if user.isPremium && !user.maimai.extra.nameplates.isEmpty {
+//                AsyncImage(url: URL(string: user.maimai.extra.frames.first { $0.selected  == 1 }!.image)!, context: context, placeholder: {
+//                    ProgressView()
+//                }, image: { img in
+//                    let _ = DispatchQueue.main.async {
+//                        frameImg = img
+//                    }
+//                    Image(uiImage: img)
+//                        .resizable()
+//                })
+//                .aspectRatio(contentMode: .fit)
+//                .mask(RoundedRectangle(cornerRadius: 15))
                 VStack(spacing: 5) {
                     ZStack {
                         VStack(alignment: .trailing) {
@@ -75,6 +87,12 @@ struct PlayerMaimaiInfoView: View {
                                             .bold()
                                     }
                                 }
+                                .padding(5)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .foregroundColor(.white.opacity(0.8))
+                                )
+                                .padding(5)
                             }
                         }
                         

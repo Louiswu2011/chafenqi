@@ -69,7 +69,7 @@ struct DeltaShortLook: View {
             if let chuLast = CFQChunithmDayRecords(recents: user.chunithm.recent, deltas: user.chunithm.delta).records.last {
                 self.chuLast = chuLast
                 playCount = chuLast.recentEntries.count
-                playDate = chuLast.date.formatted(by: "yyyy-MM-dd")
+                playDate = DateTool.shared.yyyymmddTransformer.string(from: chuLast.date)
                 avgScore = String(format: "%.0f", (chuLast.recentEntries.reduce(0) { $0 + Double($1.score) }) / Double(playCount))
                 if let first = chuLast.recentEntries.first {
                     if let last = chuLast.recentEntries.last {
@@ -82,7 +82,7 @@ struct DeltaShortLook: View {
             if let maiLast = CFQMaimaiDayRecords(recents: user.maimai.recent, deltas: user.maimai.delta).records.last {
                 self.maiLast = maiLast
                 playCount = maiLast.recentEntries.count
-                playDate = maiLast.date.formatted(by: "yyyy-MM-dd")
+                playDate = DateTool.shared.yyyymmddTransformer.string(from: maiLast.date)
                 avgScore = String(format: "%.4f", (maiLast.recentEntries.reduce(0) { $0 + $1.score }) / Double(playCount)) + "%"
                 if let first = maiLast.recentEntries.first {
                     if let last = maiLast.recentEntries.last {

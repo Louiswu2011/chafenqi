@@ -223,14 +223,4 @@ struct CFQMaimaiLevelRecords: Codable {
     init() {}
 }
 
-extension Date {
-    func formatted(by: String) -> String {
-        let f = DateFormatter()
-        f.dateFormat = by
-        f.timeZone = .autoupdatingCurrent
-        f.locale = .autoupdatingCurrent
-        return f.string(from: self)
-    }
-}
-
 typealias CFQMaimaiDayEntry = (CFQMaimaiRecentScoreEntries, Date)

@@ -45,7 +45,7 @@ struct ChunithmRecentRecord: Codable {
     
     func getDateString() -> String {
 //        let style = Date.VerbatimFormatStyle(format: "\(year: .defaultDigits)/\(month: .twoDigits)/\(day: .twoDigits) \(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .oneBased)):\(minute: .twoDigits)", timeZone: .autoupdatingCurrent, calendar: .autoupdatingCurrent)
-        let formatter = DateFormatter()
+        let formatter = DateTool.shared.intTransformer
         formatter.dateFormat = "yyyy/MM/dd HH:mm"
         
         return formatter.string(from: getDate())

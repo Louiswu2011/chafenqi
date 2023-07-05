@@ -176,13 +176,7 @@ struct HomeNameplate: View {
     }
     
     func getUpdateTime(_ str: String) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFractionalSeconds, .withInternetDateTime, .withTimeZone]
-        formatter.timeZone = .autoupdatingCurrent
-        if let date = formatter.date(from: str) {
-            return date.formatted(by: "MM-dd HH:mm")
-        }
-        return ""
+        DateTool.updateDateString(from: str)
     }
     
     var gradient: LinearGradient {

@@ -79,7 +79,7 @@ struct HomeView: View {
         // .id(UUID())
         .onAppear {
             if firstLaunch {
-                Task {
+                Task { 
                     await checkVersion()
                     syncToWidget()
                     loadDays()
@@ -149,10 +149,10 @@ struct HomeView: View {
         var maiDay = 0
         var chuDay = 0
         if let recentOne = user.maimai.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
-            maiDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
+            maiDay = (Int(Date().timeIntervalSince1970) - recentOne.timestamp) / 86400
         }
         if let recentOne = user.chunithm.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
-            chuDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
+            chuDay = (Int(Date().timeIntervalSince1970) - recentOne.timestamp) / 86400
         }
         daysSinceLastPlayed = min(maiDay, chuDay)
     }
