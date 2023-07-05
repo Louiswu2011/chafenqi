@@ -55,7 +55,7 @@ struct UpdaterView: View {
             } header: {
                 Text("连接")
             } footer: {
-                Text("今日平均传分用时:\n中二节奏:\(chuniAvg.isEmpty ? "暂无数据" : chuniAvg)\n舞萌DX:\(maiAvg.isEmpty ? "暂无数据" : maiAvg)\n\n数据仅供参考")
+                Text("今日平均传分用时:\n中二节奏: \(chuniAvg.isEmpty || chuniAvg.starts(with: "-") ? "暂无数据" : chuniAvg)\n舞萌DX: \(maiAvg.isEmpty || maiAvg.starts(with: "-") ? "暂无数据" : maiAvg)")
             }
             
             Section {
