@@ -76,41 +76,15 @@ struct HomeView: View {
                 }
             }
         }
+        // .id(UUID())
         .onAppear {
-            var maiDay = 0
-            var chuDay = 0
-            if let recentOne = user.maimai.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
-                maiDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
-            }
-            if let recentOne = user.chunithm.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
-                chuDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
-            }
-            daysSinceLastPlayed = min(maiDay, chuDay)
-            
-            OneSignal.setExternalUserId(user.username)
-            
             Task {
-                do {
-                    let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
-                    let (data, _) = try await URLSession.shared.data(for: versionRequest)
-                    versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
-                    if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) && !dismissed {
-                        let updateAlert = Alert(
-                            title: Text("发现新版本"),
-                            message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
-                            primaryButton: .default(Text("前往Testflight")) {
-                                UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
-                            },
-                            secondaryButton: .cancel(Text("取消")))
-                        dismissed = true
-                        alertToast.alert = updateAlert
-                    }
-                } catch {
-                    versionData = .empty
-                }
-                
                 if firstLaunch {
+                    await checkVersion()
                     syncToWidget()
+                    loadDays()
+                    
+                    OneSignal.setExternalUserId(user.username)
                     firstLaunch = false
                 }
             }
@@ -148,6 +122,39 @@ struct HomeView: View {
             }
             WidgetCenter.shared.reloadAllTimelines()
         }
+    }
+    
+    func checkVersion() async {
+        do {
+            let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
+            let (data, _) = try await URLSession.shared.data(for: versionRequest)
+            versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
+            if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) && !dismissed {
+                let updateAlert = Alert(
+                    title: Text("发现新版本"),
+                    message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
+                    primaryButton: .default(Text("前往Testflight")) {
+                        UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
+                    },
+                    secondaryButton: .cancel(Text("取消")))
+                dismissed = true
+                alertToast.alert = updateAlert
+            }
+        } catch {
+            versionData = .empty
+        }
+    }
+    
+    func loadDays() {
+        var maiDay = 0
+        var chuDay = 0
+        if let recentOne = user.maimai.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
+            maiDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
+        }
+        if let recentOne = user.chunithm.recent.sorted(by: { $0.timestamp > $1.timestamp }).first {
+            chuDay = Calendar.current.dateComponents([.day], from: recentOne.timestamp.toDate(), to: Date()).day ?? 0
+        }
+        daysSinceLastPlayed = min(maiDay, chuDay)
     }
 }
 

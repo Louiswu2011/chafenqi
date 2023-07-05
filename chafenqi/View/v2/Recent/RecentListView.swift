@@ -11,29 +11,26 @@ struct RecentListView: View {
     @ObservedObject var user: CFQNUser
     
     var body: some View {
-        ScrollView {
-            VStack {
-                if (user.currentMode == 0) {
-                    ForEach(user.chunithm.recent, id: \.timestamp) { entry in
-                        NavigationLink {
-                            RecentDetail(user: user, chuEntry: entry)
-                        } label: {
-                            ChunithmRecentEntryView(user: user, entry: entry)
-                        }
-                        .buttonStyle(.plain)
+        Form {
+            if (user.currentMode == 0) {
+                ForEach(Array(user.chunithm.recent.prefix(30)), id: \.timestamp) { entry in
+                    NavigationLink {
+                        RecentDetail(user: user, chuEntry: entry)
+                    } label: {
+                        ChunithmRecentEntryView(user: user, entry: entry)
                     }
-                } else {
-                    ForEach(user.maimai.recent, id: \.timestamp) { entry in
-                        NavigationLink {
-                            RecentDetail(user: user, maiEntry: entry)
-                        } label: {
-                            MaimaiRecentEntryView(user: user, entry: entry)
-                        }
-                        .buttonStyle(.plain)
+                    .buttonStyle(.plain)
+                }
+            } else {
+                ForEach(Array(user.maimai.recent.prefix(30)), id: \.timestamp) { entry in
+                    NavigationLink {
+                        RecentDetail(user: user, maiEntry: entry)
+                    } label: {
+                        MaimaiRecentEntryView(user: user, entry: entry)
                     }
+                    .buttonStyle(.plain)
                 }
             }
-            .padding()
         }
         .navigationTitle("最近动态")
         .id(UUID())
@@ -60,14 +57,15 @@ struct MaimaiRecentEntryView: View {
                 HStack(alignment: .bottom) {
                     Text(entry.title)
                         .font(.system(size: 17))
-                        .lineLimit(2)
+                        .lineLimit(1)
                     Spacer()
                     Text("\(entry.score, specifier: "%.4f")%")
-                        .font(.system(size: 21))
+                        .font(.system(size: 17))
                         .bold()
                 }
             }
         }
+        .frame(height: 65)
     }
 }
 
@@ -90,14 +88,15 @@ struct ChunithmRecentEntryView: View {
                 HStack(alignment: .bottom) {
                     Text(entry.title)
                         .font(.system(size: 17))
-                        .lineLimit(2)
+                        .lineLimit(1)
                     Spacer()
                     Text("\(entry.score)")
-                        .font(.system(size: 21))
+                        .font(.system(size: 17))
                         .bold()
                 }
             }
         }
+        .frame(height: 65)
     }
 }
 

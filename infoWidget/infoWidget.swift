@@ -123,7 +123,7 @@ struct infoWidgetEntryView : View {
 
                                 VStack(alignment: .leading) {
                                     Text(title)
-                                        .frame(maxWidth: 160)
+                                        .frame(maxWidth: 160, alignment: .leading)
                                         .lineLimit(1)
                                         .font(.system(size: 13))
                                     Text(score)

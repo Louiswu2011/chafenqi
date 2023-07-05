@@ -22,6 +22,7 @@
 		6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB032A24403D00C1829A /* RatingDeltaChart.swift */; };
 		6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6725EB062A2440AB00C1829A /* SwiftUICharts */; };
 		6725EB092A244AE600C1829A /* PCDeltaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6725EB082A244AE600C1829A /* PCDeltaChart.swift */; };
+		6731D5A92A553F6F00DF1DF9 /* SettingsWidgetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6731D5A82A553F6F00DF1DF9 /* SettingsWidgetConfig.swift */; };
 		673B33152A286D9D00857FF0 /* HomeDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673B33142A286D9D00857FF0 /* HomeDelta.swift */; };
 		6757B2002A39928C005701A5 /* CharacterCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757B1FF2A39928C005701A5 /* CharacterCapsule.swift */; };
 		6757B2032A399577005701A5 /* ColorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6757B2022A399577005701A5 /* ColorKit */; };
@@ -241,6 +242,7 @@
 		6725EB002A24401900C1829A /* DeltaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaDetailView.swift; sourceTree = "<group>"; };
 		6725EB032A24403D00C1829A /* RatingDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDeltaChart.swift; sourceTree = "<group>"; };
 		6725EB082A244AE600C1829A /* PCDeltaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDeltaChart.swift; sourceTree = "<group>"; };
+		6731D5A82A553F6F00DF1DF9 /* SettingsWidgetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWidgetConfig.swift; sourceTree = "<group>"; };
 		673B33142A286D9D00857FF0 /* HomeDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDelta.swift; sourceTree = "<group>"; };
 		6757B1FF2A39928C005701A5 /* CharacterCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCapsule.swift; sourceTree = "<group>"; };
 		6757B2082A39B5EC005701A5 /* InfoMaimaiCharacterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMaimaiCharacterList.swift; sourceTree = "<group>"; };
@@ -809,6 +811,7 @@
 				BF45B1CD2A0961440076E437 /* TokenUploderView.swift */,
 				677004202A20B9E6005BB69A /* RedeemView.swift */,
 				676317572A2EE2C300693E4B /* SettingsHomeArrangement.swift */,
+				6731D5A82A553F6F00DF1DF9 /* SettingsWidgetConfig.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1362,6 +1365,7 @@
 				6757B2092A39B5EC005701A5 /* InfoMaimaiCharacterList.swift in Sources */,
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
 				67D622D32A247ADC00E7D70E /* SongFilterOptionsView.swift in Sources */,
+				6731D5A92A553F6F00DF1DF9 /* SettingsWidgetConfig.swift in Sources */,
 				67BA854F2A2D82DA00C0B0EA /* CFQAuxData.swift in Sources */,
 				671192822A495E9E00BCE0B9 /* PerkSheetView.swift in Sources */,
 				6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */,

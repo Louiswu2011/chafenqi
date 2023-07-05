@@ -19,28 +19,30 @@ struct SongCoverView: View {
     var switchShadowColor = false
     
     var body: some View {
-        
-        if (withShadow) {
-            AsyncImage(url: coverURL, context: context, placeholder: {
-                ProgressView()
-            }, image: {
-                Image(uiImage: $0)
-                    .resizable()
-            })
-            // .scaledToFill()
-            .frame(width: size, height: size)
-            .cornerRadius(cornerRadius)
-            .shadow(color: switchShadowColor ? (colorScheme == .dark ? Color.white.opacity(0.33) : Color.black.opacity(0.33)) : Color.black.opacity(0.33), radius: 5)
-        } else {
-            AsyncImage(url: coverURL, context: context, placeholder: {
-                ProgressView()
-            }, image: {
-                Image(uiImage: $0)
-                    .resizable()
-            })
-            // .scaledToFill()
-            .frame(width: size, height: size)
-            .cornerRadius(cornerRadius)
+        ZStack {
+            if (withShadow) {
+                AsyncImage(url: coverURL, context: context, placeholder: {
+                    ProgressView()
+                }, image: {
+                    Image(uiImage: $0)
+                        .resizable()
+                })
+                // .scaledToFill()
+                .frame(width: size, height: size)
+                .cornerRadius(cornerRadius)
+                .shadow(color: switchShadowColor ? (colorScheme == .dark ? Color.white.opacity(0.33) : Color.black.opacity(0.33)) : Color.black.opacity(0.33), radius: 5)
+            } else {
+                AsyncImage(url: coverURL, context: context, placeholder: {
+                    ProgressView()
+                }, image: {
+                    Image(uiImage: $0)
+                        .resizable()
+                })
+                // .scaledToFill()
+                .frame(width: size, height: size)
+                .cornerRadius(cornerRadius)
+            }
         }
+        .id(UUID())
     }
 }

@@ -39,6 +39,7 @@ class WidgetDataController {
         widgetData.chunithm = nil
         widgetData.chuRecentOne = nil
         widgetData.maiRecentOne = nil
+        widgetData.custom = nil
         if let data = data.maimaiInfo {
             widgetData.maimai = try encoder.encode(data)
         }
@@ -50,6 +51,9 @@ class WidgetDataController {
         }
         if let data = data.chuRecentOne {
             widgetData.chuRecentOne = try encoder.encode(data)
+        }
+        if let data = data.custom {
+            widgetData.custom = try encoder.encode(data)
         }
         widgetData.maiCover = data.maiCover
         widgetData.chuCover = data.chuCover

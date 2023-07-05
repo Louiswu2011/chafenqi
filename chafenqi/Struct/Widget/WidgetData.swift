@@ -8,8 +8,17 @@
 import Foundation
 
 struct WidgetData {
-    struct Customization {
+    struct Customization: Codable {
+        enum Module: Codable {
+            case playCount, rating, lastUpload
+        }
         
+        var charUrl: String?
+        var bgUrl: String?
+        
+        var smallModuleList: [Module]?
+        var mediumModuleList: [Module]?
+        var bigModuleList: [Module]?
     }
     
     var username: String
@@ -23,4 +32,6 @@ struct WidgetData {
     
     var chuCover: Data?
     var maiCover: Data?
+    
+    var custom: Customization?
 }

@@ -65,6 +65,11 @@ struct Settings: View {
                 } label: {
                     Text("排序")
                 }
+//                NavigationLink {
+//                    SettingsWidgetConfig(user: user)
+//                } label: {
+//                    Text("小组件")
+//                }
             } header: {
                 Text("主页")
             }

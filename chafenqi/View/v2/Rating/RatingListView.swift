@@ -12,17 +12,16 @@ struct RatingListView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
-                if (user.currentMode == 0 && user.chunithm.isNotEmpty) {
-                    ChunithmRatingListView(user: user)
-                } else if (user.currentMode == 1 && user.maimai.isNotEmpty) {
-                    MaimaiRatingListView(user: user)
-                }
+            if (user.currentMode == 0 && user.chunithm.isNotEmpty) {
+                ChunithmRatingListView(user: user)
+                    .padding()
+            } else if (user.currentMode == 1 && user.maimai.isNotEmpty) {
+                MaimaiRatingListView(user: user)
+                    .padding()
             }
-            .padding()
-            .navigationTitle("Rating列表")
-            .navigationBarTitleDisplayMode(.large)
         }
+        .navigationTitle("Rating列表")
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 
@@ -59,7 +58,7 @@ struct MaimaiRatingListView: View {
             .padding(.bottom)
             
             if (!pastFold) {
-                VStack(spacing: 15) {
+                LazyVStack(spacing: 15) {
                     ForEach(Array(user.maimai.custom.pastSlice.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, maiSong: entry.associatedSong!)
@@ -87,7 +86,7 @@ struct MaimaiRatingListView: View {
             .padding(.bottom)
             
             if (!currentFold) {
-                VStack(spacing: 15) {
+                LazyVStack(spacing: 15) {
                     ForEach(Array(user.maimai.custom.currentSlice.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, maiSong: entry.associatedSong!)
@@ -136,7 +135,7 @@ struct ChunithmRatingListView: View {
             .padding(.bottom)
             
             if(!bestFold) {
-                VStack(spacing: 15) {
+                LazyVStack(spacing: 15) {
                     ForEach(Array(user.chunithm.custom.b30Slice.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, chuSong: entry.associatedBestEntry!.associatedSong!)
@@ -164,7 +163,7 @@ struct ChunithmRatingListView: View {
             .padding(.bottom)
             
             if(!recentFold) {
-                VStack(spacing: 15) {
+                LazyVStack(spacing: 15) {
                     ForEach(Array(user.chunithm.custom.r10Slice.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, chuSong: entry.associatedBestEntry!.associatedSong!)

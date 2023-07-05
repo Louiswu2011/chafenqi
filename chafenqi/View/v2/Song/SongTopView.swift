@@ -31,7 +31,6 @@ struct SongTopView: View {
                         }
                     }
                 }
-                .id("STVML")
                 .searchable(text: $searchText, prompt: Text("搜索标题/曲师"))
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled(true)
@@ -51,14 +50,15 @@ struct SongTopView: View {
                     if (user.currentMode == 0) {
                         ForEach(filteredChuSongs, id: \.musicID) { entry in
                             SongItemView(user: user, chuSong: entry)
+                                .id(UUID())
                         }
                     } else {
                         ForEach(filteredMaiSongs, id: \.musicId) { entry in
                             SongItemView(user: user, maiSong: entry)
+                                .id(UUID())
                         }
                     }
                 }
-                .id("STVML")
                 .navigationBarSearch($searchText)
                 .onChange(of: searchText) { _ in
                     filterSongs()
