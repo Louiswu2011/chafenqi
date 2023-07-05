@@ -27,16 +27,16 @@ struct Settings: View {
     
     @State private var versionData = ClientVersionData.empty
     
-    let iOSVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
+    @State private var iOSVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
     
-    var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
-    var chunithmChartSourceOptions = [0: "sdvx.in", 1: "NLServer"]
-    var maimaiSourceOptions = [0: "Diving-Fish"]
-    var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
-    var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-    var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+    @State private var chunithmSourceOptions = [0: "Github", 1: "NLServer"]
+    @State private var chunithmChartSourceOptions = [0: "sdvx.in", 1: "NLServer"]
+    @State private var maimaiSourceOptions = [0: "Diving-Fish"]
+    @State private var modeOptions = [0: "中二节奏NEW", 1: "舞萌DX"]
+    @State private var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    @State private var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
-    @State var cacheSize = ""
+    @State private var cacheSize = "加载中..."
     
     var body: some View {
         Form {
@@ -66,7 +66,7 @@ struct Settings: View {
                     Text("排序")
                 }
 //                NavigationLink {
-//                    SettingsWidgetConfig(user: user)
+//                    SettingsWidgetConfig()
 //                } label: {
 //                    Text("小组件")
 //                }
@@ -144,8 +144,10 @@ struct Settings: View {
                 SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
                 Button {
                     let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
-                        cacheController.clearCache()
-                        cacheSize = cacheController.getCacheSize()
+                        DispatchQueue.main.async {
+                            cacheController.clearCache()
+                            cacheSize = cacheController.getCacheSize()
+                        }
                     }))
                     alertToast.alert = purgeCacheAlert
                 } label: {
@@ -186,7 +188,9 @@ struct Settings: View {
             if (user.fishToken.isEmpty) {
                 user.shouldForwardToFish = false
             }
-            cacheSize = cacheController.getCacheSize()
+            DispatchQueue.main.async {
+                cacheSize = cacheController.getCacheSize()
+            }
             Task {
                 do {
                     let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)

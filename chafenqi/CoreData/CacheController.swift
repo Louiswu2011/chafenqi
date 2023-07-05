@@ -35,6 +35,7 @@ class CacheController: ObservableObject {
                 }
             } catch {
                 print("[CacheController] Failed to calculate cache size: \(error.localizedDescription)")
+                return "加载出错"
             }
         }
         let bcf = ByteCountFormatter()
