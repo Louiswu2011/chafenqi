@@ -26,8 +26,8 @@ struct HomeView: View {
     
     @State var firstLaunch = true
     
-    var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-    var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+    @State var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    @State var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
     var body: some View {
         VStack {
@@ -78,8 +78,8 @@ struct HomeView: View {
         }
         // .id(UUID())
         .onAppear {
-            Task {
-                if firstLaunch {
+            if firstLaunch {
+                Task {
                     await checkVersion()
                     syncToWidget()
                     loadDays()

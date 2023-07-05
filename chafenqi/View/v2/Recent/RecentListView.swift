@@ -10,10 +10,18 @@ import SwiftUI
 struct RecentListView: View {
     @ObservedObject var user: CFQNUser
     
+    @State private var pageAvailable: Int = 1
+    @State private var currentPage: Int = 1
+    
+    @State private var maiSlice = CFQMaimaiRecentScoreEntries()
+    @State private var chuSlice = CFQChunithmRecentScoreEntries()
+    
+    @State private var loaded = false
+    
     var body: some View {
         Form {
             if (user.currentMode == 0) {
-                ForEach(Array(user.chunithm.recent.prefix(30)), id: \.timestamp) { entry in
+                ForEach(chuSlice, id: \.timestamp) { entry in
                     NavigationLink {
                         RecentDetail(user: user, chuEntry: entry)
                     } label: {
@@ -22,7 +30,7 @@ struct RecentListView: View {
                     .buttonStyle(.plain)
                 }
             } else {
-                ForEach(Array(user.maimai.recent.prefix(30)), id: \.timestamp) { entry in
+                ForEach(maiSlice, id: \.timestamp) { entry in
                     NavigationLink {
                         RecentDetail(user: user, maiEntry: entry)
                     } label: {
@@ -32,8 +40,53 @@ struct RecentListView: View {
                 }
             }
         }
+        .onAppear {
+            if !loaded {
+                let entryCount = user.currentMode == 0 ? user.chunithm.recent.count : user.maimai.recent.count
+                pageAvailable = entryCount / 30
+                currentPage = 0
+                
+                if maiSlice.isEmpty && user.currentMode == 1 {
+                    maiSlice = Array(user.maimai.recent.prefix(30))
+                } else if chuSlice.isEmpty && user.currentMode == 0 {
+                    chuSlice = Array(user.chunithm.recent.prefix(30))
+                }
+                loaded = true
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    offsetPage(by: -1)
+                } label: {
+                    Image(systemName: "arrow.left")
+                }
+                .disabled(currentPage == 0)
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Text("\(currentPage + 1) / \(pageAvailable + 1)")
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    offsetPage(by: 1)
+                } label: {
+                    Image(systemName: "arrow.right")
+                }
+                .disabled(currentPage == pageAvailable)
+            }
+        }
         .navigationTitle("最近动态")
-        .id(UUID())
+        .navigationBarTitleDisplayMode(.large)
+        .id(currentPage)
+    }
+    
+    func offsetPage(by value: Int) {
+        currentPage += value
+        if user.currentMode == 0 {
+            chuSlice = Array(user.chunithm.recent[(currentPage * 30)...].prefix(30))
+        } else if user.currentMode == 1 {
+            maiSlice = Array(user.maimai.recent[(currentPage * 30)...].prefix(30))
+        }
     }
     
 }
