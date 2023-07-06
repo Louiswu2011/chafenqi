@@ -21,6 +21,8 @@ struct UserInfoFetcher {
     
     static var cachedMaiCover = Data()
     static var cachedChuCover = Data()
+    
+    static var custom: WidgetData.Customization?
 
 
     static func refreshData() async throws {
@@ -58,6 +60,14 @@ struct UserInfoFetcher {
                         NSLog("[CFQWidget] Found chunithm recent data")
                     } catch {
                         self.chuRecentOne = nil
+                    }
+                }
+                if let custom = info.custom {
+                    do {
+                        self.custom = try decoder.decode(WidgetData.Customization.self, from: custom)
+                        NSLog("[CFQWidget] Found customization data")
+                    } catch {
+                        self.custom = nil
                     }
                 }
                 self.cachedMaiCover = info.maiCover ?? Data()

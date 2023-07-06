@@ -48,6 +48,7 @@
 		6786F0BA2A3C636300CE90C2 /* CommentComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6786F0B72A3C636300CE90C2 /* CommentComposer.swift */; };
 		6786F0BC2A3C637800CE90C2 /* GradeBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6786F0BB2A3C637800CE90C2 /* GradeBadgeView.swift */; };
 		6786F0BE2A3C640C00CE90C2 /* UpdaterWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6786F0BD2A3C640C00CE90C2 /* UpdaterWelcomeView.swift */; };
+		67ABBA442A56C6E800DA154A /* InfoWidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABBA422A56C6E800DA154A /* InfoWidgetEntryView.swift */; };
 		67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1E94B2A29E1C700DC41D0 /* DeltaPlayList.swift */; };
 		67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
 		67BA854F2A2D82DA00C0B0EA /* CFQAuxData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BA854E2A2D82DA00C0B0EA /* CFQAuxData.swift */; };
@@ -268,6 +269,7 @@
 		6786F0B72A3C636300CE90C2 /* CommentComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentComposer.swift; sourceTree = "<group>"; };
 		6786F0BB2A3C637800CE90C2 /* GradeBadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeBadgeView.swift; sourceTree = "<group>"; };
 		6786F0BD2A3C640C00CE90C2 /* UpdaterWelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdaterWelcomeView.swift; sourceTree = "<group>"; };
+		67ABBA422A56C6E800DA154A /* InfoWidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWidgetEntryView.swift; sourceTree = "<group>"; };
 		67B1E94B2A29E1C700DC41D0 /* DeltaPlayList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaPlayList.swift; sourceTree = "<group>"; };
 		67B202C02A260110005FD147 /* ChunithmMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmMusicData.swift; sourceTree = "<group>"; };
 		67BA854E2A2D82DA00C0B0EA /* CFQAuxData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQAuxData.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 				67E95F7D2A4ACCAC004134C8 /* Assets.xcassets */,
 				67E95F7F2A4ACCAC004134C8 /* Info.plist */,
 				672230742A4C2BDA0096710A /* UserInfoFetcher.swift */,
+				67ABBA422A56C6E800DA154A /* InfoWidgetEntryView.swift */,
 			);
 			path = infoWidget;
 			sourceTree = "<group>";
@@ -1241,6 +1244,7 @@
 				67FE56892A4D83ED0086C335 /* MaimaiSongData.swift in Sources */,
 				BFF4B7CC2A4DEF7D0080C6FC /* WidgetData.xcdatamodeld in Sources */,
 				67E95F7B2A4ACCAC004134C8 /* infoWidget.swift in Sources */,
+				67ABBA442A56C6E800DA154A /* InfoWidgetEntryView.swift in Sources */,
 				67FE568B2A4D83FF0086C335 /* ChunithmDataGrabber.swift in Sources */,
 				BFF4B7CD2A4DEF800080C6FC /* WidgetDataController.swift in Sources */,
 			);

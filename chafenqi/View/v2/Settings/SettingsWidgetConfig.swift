@@ -17,6 +17,8 @@ struct SettingsWidgetConfig: View {
     
     @State var smallChar: WidgetCharacterOption = .defaultChar
     @State var mediumChar: WidgetCharacterOption = .defaultChar
+    
+    @State var currentPreivewType: WidgetPreviewTypeOption = .maimai
 
     enum WidgetBackgroundOption: String, CaseIterable, Identifiable, Hashable {
         var id: Self {
@@ -38,18 +40,37 @@ struct SettingsWidgetConfig: View {
         case defaultChar = "默认"
     }
     
+    enum WidgetPreviewTypeOption: String, CaseIterable, Identifiable, Hashable {
+        var id : Self {
+            return self
+        }
+        
+        case chunithm = "中二节奏NEW"
+        case maimai = "舞萌DX"
+    }
+    
     var body: some View {
         Form {
-            Toggle(isOn: $customization.animation()) {
-                Text("自定义小组件")
+            Section {
+                Toggle(isOn: $customization.animation()) {
+                    Text("自定义小组件")
+                }
+            } footer: {
+                Text("自定义功能目前仅对订阅会员开放")
             }
             
             if customization {
                 Section {
+                    Picker("预览类型", selection: $currentPreivewType) {
+                        ForEach(WidgetPreviewTypeOption.allCases) { value in
+                            Text(value.rawValue)
+                                .tag(value)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    
                     VStack(alignment: .center) {
-                        //
-                        // Place preview here
-                        //
+                        // Preview
                         TabView {
                             RoundedRectangle(cornerRadius: 15)
                                 .frame(width: 141, height: 141)
@@ -58,16 +79,6 @@ struct SettingsWidgetConfig: View {
                                 .frame(width: 305.5, height: 141)
                         }
                         .tabViewStyle(.page(indexDisplayMode: .automatic))
-                        HStack {
-                            Button {
-                                
-                            } label: {
-                                HStack {
-                                    Image(systemName: "arrow.left.arrow.right")
-                                    Text("切换游戏")
-                                }
-                            }
-                        }
                     }
                     .frame(height: 190)
                     
@@ -87,7 +98,21 @@ struct SettingsWidgetConfig: View {
                 }
                 
                 Section {
-                    
+                    NavigationLink {
+                        
+                    } label: {
+                        Text("信息模块")
+                    }
+                } header: {
+                    Text("2x2")
+                }
+                
+                Section {
+                    NavigationLink {
+                        
+                    } label: {
+                        Text("信息模块")
+                    }
                 } header: {
                     Text("2x4")
                 }
@@ -95,6 +120,15 @@ struct SettingsWidgetConfig: View {
         }
         .navigationTitle("小组件")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Text("应用")
+                }
+            }
+        }
     }
 }
 
