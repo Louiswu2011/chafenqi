@@ -121,10 +121,11 @@ struct LoginView: View {
                                     switch error {
                                     case CFQNUserError.LoadingError(cause: let cause, _):
                                         alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "网络连接错误", subTitle: cause)
+                                    case CFQNUserError.AssociationError(in: let list):
+                                        alertToast.alert = Alert(title: Text("关联歌曲出错"), message: Text("未在歌曲列表中找到以下歌曲：\n" + list.joined(separator: "\n")))
                                     default:
                                         alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载错误", subTitle: String(describing: error))
                                     }
-                                    alertToast.show = true
                                     print(error)
                                     state = .loginPending
                                 }
@@ -200,6 +201,9 @@ struct LoginView: View {
             .padding()
             .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
                 alertToast.toast
+            }
+            .alert(isPresented: $alertToast.alertShow) {
+                alertToast.alert
             }
         }
         

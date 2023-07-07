@@ -394,10 +394,6 @@ class CFQNUser: ObservableObject {
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
 
         try await fetchUserData(token: self.jwtToken, username: username)
-
-        if (!checkAssociated().isEmpty) {
-            throw CFQNUserError.AssociationError
-        }
         
         let maiCache = try encoder.encode(self.maimai)
         let chuCache = try encoder.encode(self.chunithm)
@@ -489,7 +485,7 @@ class CFQNUser: ObservableObject {
         let failed = checkAssociated()
         if (!failed.isEmpty) {
             print(failed)
-            throw CFQNUserError.AssociationError
+            throw CFQNUserError.AssociationError(in: failed)
         }
         print("[CFQNUser] Association Assertion Passed.")
         
@@ -541,7 +537,7 @@ class CFQNUser: ObservableObject {
 enum CFQNUserError: Error {
     case SavingError(cause: String, from: String)
     case LoadingError(cause: String, from: String)
-    case AssociationError
+    case AssociationError(in: [String])
 }
 
 extension CFQNUserError: CustomStringConvertible {

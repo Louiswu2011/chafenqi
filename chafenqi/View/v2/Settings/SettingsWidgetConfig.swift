@@ -101,7 +101,7 @@ struct SettingsWidgetConfig: View {
                     NavigationLink {
                         
                     } label: {
-                        Text("信息模块")
+                        Text("排序")
                     }
                 } header: {
                     Text("2x2")
@@ -111,7 +111,7 @@ struct SettingsWidgetConfig: View {
                     NavigationLink {
                         
                     } label: {
-                        Text("信息模块")
+                        Text("排序")
                     }
                 } header: {
                     Text("2x4")
