@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsWidgetConfig: View {
-    // @ObservedObject var user: CFQNUser
+    @ObservedObject var user: CFQNUser
     
     @State var customization = true
     
@@ -19,6 +19,8 @@ struct SettingsWidgetConfig: View {
     @State var mediumChar: WidgetCharacterOption = .defaultChar
     
     @State var currentPreivewType: WidgetPreviewTypeOption = .maimai
+    
+    @State var currentWidgetSettings: WidgetData.Customization?
 
     enum WidgetBackgroundOption: String, CaseIterable, Identifiable, Hashable {
         var id: Self {
@@ -118,6 +120,13 @@ struct SettingsWidgetConfig: View {
                 }
             }
         }
+        .onAppear {
+            do {
+                currentWidgetSettings = try JSONDecoder().decode(WidgetData.Customization.self, from: user.widgetCustom)
+            } catch {
+                currentWidgetSettings = WidgetData.Customization()
+            }
+        }
         .navigationTitle("小组件")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -130,6 +139,10 @@ struct SettingsWidgetConfig: View {
             }
         }
     }
+    
+    func loadSettings() {
+        
+    }
 }
 
 struct WidgetPreview {
@@ -138,6 +151,6 @@ struct WidgetPreview {
 
 struct SettingsWidgetConfig_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsWidgetConfig()
+        SettingsWidgetConfig(user: CFQNUser())
     }
 }

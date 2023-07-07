@@ -33,41 +33,33 @@ struct HomeNameplate: View {
                         Spacer()
                         
                         if(user.currentMode == 0) {
-                            NavigationLink {
-                                PlayerChunithmInfoView(user: user)
-                            } label: {
-                                Image("nameplate_penguin")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .padding(.trailing, 10)
-                                    .frame(width: 110, height: 110)
-                                    .contextMenu {
-                                        Button {
-                                            // TODO: Add custom avatar
-                                        } label: {
-                                            Image(systemName: "rectangle.on.rectangle.angled")
-                                            Text("照片图库")
-                                        }
+                            Image("nameplate_penguin")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .padding(.trailing, 10)
+                                .frame(width: 110, height: 110)
+                                .contextMenu {
+                                    Button {
+                                        // TODO: Add custom avatar
+                                    } label: {
+                                        Image(systemName: "rectangle.on.rectangle.angled")
+                                        Text("照片图库")
                                     }
-                            }
+                                }
                         } else {
-                            NavigationLink {
-                                PlayerMaimaiInfoView(user: user)
-                            } label: {
-                                Image("nameplate_salt")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .padding(.trailing, 10)
-                                    .frame(width: 110, height: 110)
-                                    .contextMenu {
-                                        Button {
-                                            // TODO: Add custom avatar
-                                        } label: {
-                                            Image(systemName: "rectangle.on.rectangle.angled")
-                                            Text("照片图库")
-                                        }
+                            Image("nameplate_salt")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .padding(.trailing, 10)
+                                .frame(width: 110, height: 110)
+                                .contextMenu {
+                                    Button {
+                                        // TODO: Add custom avatar
+                                    } label: {
+                                        Image(systemName: "rectangle.on.rectangle.angled")
+                                        Text("照片图库")
                                     }
-                            }
+                                }
                         }
                     }
                 }
@@ -84,15 +76,21 @@ struct HomeNameplate: View {
                             
                             Spacer()
                             
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.15)) {
-                                    user.currentMode.toggle()
+                            NavigationLink {
+                                if user.isPremium {
+                                    if user.currentMode == 0 {
+                                        PlayerChunithmInfoView(context: _context, user: user)
+                                    } else if user.currentMode == 1 {
+                                        PlayerMaimaiInfoView(context: _context, user: user)
+                                    }
+                                } else {
+                                    NotPremiumView()
                                 }
                             } label: {
                                 HStack {
-                                    Text("切换游戏")
+                                    Text("玩家信息")
+                                    Image(systemName: "person.crop.square")
                                         .font(.system(size: 16))
-                                    Image(systemName: "arrow.left.arrow.right")
                                 }
                             }
                         }

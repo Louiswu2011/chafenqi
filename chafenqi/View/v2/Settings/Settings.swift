@@ -53,7 +53,7 @@ struct Settings: View {
                     }))
                     alertToast.alert = logoutAlert
                 } label: {
-                    Text("登出...")
+                    Text("登出")
                 }
                 .foregroundColor(.red)
             }
@@ -66,7 +66,11 @@ struct Settings: View {
                     Text("排序")
                 }
 //                NavigationLink {
-//                    SettingsWidgetConfig()
+//                    if user.isPremium {
+//                        SettingsWidgetConfig()
+//                    } else {
+//                        NotPremiumView()
+//                    }
 //                } label: {
 //                    Text("小组件")
 //                }
@@ -131,7 +135,7 @@ struct Settings: View {
                         alertToast.alert = updateAlert
                     }
                 } label: {
-                    Text("检查新版本...")
+                    Text("检查新版本")
                 }
                 Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
             } header: {
@@ -151,7 +155,7 @@ struct Settings: View {
                     }))
                     alertToast.alert = purgeCacheAlert
                 } label: {
-                    Text("清空缓存...")
+                    Text("清空缓存")
                 }
                 .foregroundColor(.red)
                 Button {
@@ -161,19 +165,19 @@ struct Settings: View {
                     }))
                     alertToast.alert = refreshAlert
                 } label: {
-                    Text("刷新歌曲列表...")
+                    Text("刷新歌曲列表")
                 }
                 .foregroundColor(.red)
-                Button {
-                    let eraseAlert = Alert(title: Text("确定要清空吗？"), message: Text("将登出并清空所有游戏数据，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
-                        user.logout()
-                        // TODO: Add erase function
-                    }))
-                    alertToast.alert = eraseAlert
-                } label: {
-                    Text("清空游戏数据...")
-                }
-                .foregroundColor(.red)
+//                Button {
+//                    let eraseAlert = Alert(title: Text("确定要清空吗？"), message: Text("将登出并清空所有游戏数据，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
+//                        user.logout()
+//                        // TODO: Add erase function
+//                    }))
+//                    alertToast.alert = eraseAlert
+//                } label: {
+//                    Text("清空游戏数据...")
+//                }
+//                .foregroundColor(.red)
             } header: {
                 Text("高级")
             }
@@ -234,7 +238,8 @@ struct UserInfoWithAvatarView: View {
                 Text(user.username)
                     .bold()
                     .font(.system(size: 20))
-                Text("📮")
+                Text("订阅有效至\(parsePremiumExpireDate())")
+                    .font(.system(size: 12))
             }
             Spacer()
             if (user.isPremium) {
@@ -250,8 +255,6 @@ struct UserInfoWithAvatarView: View {
                             .bold()
                     }
                     .frame(width: 100, height: 20)
-                    Text("至\(parsePremiumExpireDate())")
-                        .font(.system(size: 12))
                 }
             }
         }
@@ -259,7 +262,7 @@ struct UserInfoWithAvatarView: View {
     
     func parsePremiumExpireDate() -> String {
         let date = Date(timeIntervalSince1970: user.premiumUntil)
-        let formatter = DateTool.shared.premiumTransformer
+        let formatter = DateTool.shared.yyyymmddTransformer
         return formatter.string(from: date)
     }
 }

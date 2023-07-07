@@ -12,8 +12,8 @@ struct PerkSheetView: View {
     @State private var title = ""
     @State private var description = ""
     
-    let names = ["playerinfo", "delta", "history", "quicklook"]
-    let altNames = ["alt_playerinfo", "alt_delta", "", ""]
+    let names = ["playerinfo", "delta", "history"]
+    let altNames = ["alt_playerinfo", "alt_delta", ""]
     
     var body: some View {
         VStack {
@@ -51,9 +51,6 @@ struct PerkSheetView: View {
                 case "playerinfo":
                     title = perks_playerInfo_title
                     description = perks_playerInfo_description
-                case "quicklook":
-                    title = perks_quicklook_title
-                    description = perks_quicklook_description
                 default:
                     break
                 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		670269AD2A57B1BA00F4BA4A /* NotPremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670269AC2A57B1BA00F4BA4A /* NotPremiumView.swift */; };
 		670EBC1B2A3022DB00D32723 /* InfoCharacterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */; };
 		670EBC1D2A3026B000D32723 /* InfoSkillList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1C2A3026B000D32723 /* InfoSkillList.swift */; };
 		670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */; };
@@ -234,6 +235,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		670269AC2A57B1BA00F4BA4A /* NotPremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotPremiumView.swift; sourceTree = "<group>"; };
 		670EBC1A2A3022DB00D32723 /* InfoCharacterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCharacterList.swift; sourceTree = "<group>"; };
 		670EBC1C2A3026B000D32723 /* InfoSkillList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSkillList.swift; sourceTree = "<group>"; };
 		670EBC1E2A30541900D32723 /* PlayerMaimaiInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMaimaiInfoView.swift; sourceTree = "<group>"; };
@@ -450,6 +452,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		670269AE2A57DB0800F4BA4A /* Premium */ = {
+			isa = PBXGroup;
+			children = (
+				670269AC2A57B1BA00F4BA4A /* NotPremiumView.swift */,
+			);
+			path = Premium;
+			sourceTree = "<group>";
+		};
 		671192802A495AA100BCE0B9 /* PerksPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +754,7 @@
 		BFC860332A06B3E400E3A7CF /* v2 */ = {
 			isa = PBXGroup;
 			children = (
+				670269AE2A57DB0800F4BA4A /* Premium */,
 				6786F0B42A3C635D00CE90C2 /* Comment */,
 				67C434DA2A3AAABA00202605 /* Tool */,
 				6757B1FE2A39927D005701A5 /* Custom */,
@@ -1339,6 +1350,7 @@
 				6786F0B82A3C636300CE90C2 /* CommentDetail.swift in Sources */,
 				BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */,
 				BF7BC69B297C3365003A67B0 /* DataTool.swift in Sources */,
+				670269AD2A57B1BA00F4BA4A /* NotPremiumView.swift in Sources */,
 				BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */,
 				BF45B1D22A096D680076E437 /* HomeRating.swift in Sources */,
 				BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */,

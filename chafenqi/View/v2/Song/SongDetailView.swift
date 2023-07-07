@@ -339,9 +339,13 @@ struct ScoreCardView: View {
                         Text("\(entry.score, specifier: "%.4f")%")
                             .bold()
                         if let maiRecords = maiRecords {
-                            if !maiRecords.isEmpty && user.isPremium {
+                            if !maiRecords.isEmpty {
                                 NavigationLink {
-                                    SongEntryListView(user: user, maiRecords: maiRecords)
+                                    if user.isPremium {
+                                        SongEntryListView(user: user, maiRecords: maiRecords)
+                                    } else {
+                                        NotPremiumView()
+                                    }
                                 } label: {
                                     Image(systemName: "chevron.right")
                                 }
@@ -371,9 +375,13 @@ struct ScoreCardView: View {
                         Text("\(entry.score)")
                             .bold()
                         if let chuRecords = chuRecords {
-                            if !chuRecords.isEmpty && user.isPremium {
+                            if !chuRecords.isEmpty {
                                 NavigationLink {
-                                    SongEntryListView(user: user, chuRecords: chuRecords)
+                                    if user.isPremium {
+                                        SongEntryListView(user: user, chuRecords: chuRecords)
+                                    } else {
+                                        NotPremiumView()
+                                    }
                                 } label: {
                                     Image(systemName: "chevron.right")
                                 }

@@ -16,6 +16,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("Fish") var fishToken = ""
     @AppStorage("MaimaiCache") var maimaiCache = Data()
     @AppStorage("ChunithmCache") var chunithmCache = Data()
+    @AppStorage("widgetCustomization") var widgetCustom = Data()
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsChunithmChartSource") var chunithmChartSource = 1
@@ -528,7 +529,8 @@ class CFQNUser: ObservableObject {
             maiRecentOne: self.maimai.recent.first,
             chuRecentOne: self.chunithm.recent.first,
             chuCover: chuCover,
-            maiCover: maiCover)
+            maiCover: maiCover,
+            custom: widgetCustom)
         
         return data
     }

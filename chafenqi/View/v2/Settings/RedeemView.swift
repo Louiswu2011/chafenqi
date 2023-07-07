@@ -59,8 +59,8 @@ struct RedeemView: View {
             
             Section {
                 Link("获取兑换码...", destination: URL(string: "https://afdian.net/a/chafenqi")!)
-                Button {
-                    isShowingPreview.toggle()
+                NavigationLink {
+                    NotPremiumView()
                 } label: {
                     Text("了解详细功能...")
                 }

@@ -13,8 +13,10 @@ struct WidgetData {
             case playCount, rating, lastUpload
         }
         
-        var charUrl: String?
-        var bgUrl: String?
+        var maiCharUrl: String?
+        var maiBgUrl: String?
+        var chuCharUrl: String?
+        var chuBgUrl: String?
         
         var smallModuleList: [Module]?
         var mediumModuleList: [Module]?
@@ -33,5 +35,5 @@ struct WidgetData {
     var chuCover: Data?
     var maiCover: Data?
     
-    var custom: Customization?
+    var custom: Data?
 }

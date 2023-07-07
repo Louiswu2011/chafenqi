@@ -60,6 +60,15 @@ struct HomeView: View {
                 .navigationTitle("主页")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                user.currentMode.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "arrow.left.arrow.right")
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
                             Settings(user: user)
                         } label: {
