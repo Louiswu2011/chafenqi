@@ -149,7 +149,7 @@ struct DeltaListView: View {
             playCount = user.maimai.info.playCount
             if let first = latest7.last?.latestDelta {
                 if let latest = latest7.first?.latestDelta {
-                    avgRatingGrowth = Double(latest.rating - first.rating) / Double(latest7.count)
+                    avgRatingGrowth = Double(first.rating - latest.rating) / Double(latest7.count)
                 }
             }
             

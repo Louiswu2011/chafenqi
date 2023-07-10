@@ -159,7 +159,7 @@ struct DeltaDetailView: View {
             if let latestDelta = log.latestDelta {
                 rating = String(format: "%.2f", latestDelta.rating)
                 pc = String(describing: latestDelta.playCount)
-                ratingDelta = log.hasDelta ? String(format: "%.2f", log.ratingDelta) : ""
+                ratingDelta = log.hasDelta ? String(log.ratingDelta) : ""
                 pcDelta = log.hasDelta ? String(log.pcDelta) : ""
                 
                 if log.ratingDelta == 0 {

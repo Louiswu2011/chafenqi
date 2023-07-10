@@ -57,8 +57,6 @@ struct SettingsWidgetConfig: View {
                 Toggle(isOn: $customization.animation()) {
                     Text("自定义小组件")
                 }
-            } footer: {
-                Text("自定义功能目前仅对订阅会员开放")
             }
             
             if customization {
@@ -90,6 +88,7 @@ struct SettingsWidgetConfig: View {
                                 .tag(value)
                         }
                     }
+                    
                     
                     Picker("人物", selection: $smallChar) {
                         ForEach(WidgetCharacterOption.allCases) { value in
@@ -129,15 +128,6 @@ struct SettingsWidgetConfig: View {
         }
         .navigationTitle("小组件")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    
-                } label: {
-                    Text("应用")
-                }
-            }
-        }
     }
     
     func loadSettings() {

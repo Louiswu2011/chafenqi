@@ -49,9 +49,7 @@ struct HomeView: View {
                         case "Rating分析":
                             HomeRating(user: user)
                         case "出勤记录":
-                            if user.isPremium {
-                                HomeDelta(user: user)
-                            }
+                            HomeDelta(user: user)
                         default:
                             Spacer()
                         }

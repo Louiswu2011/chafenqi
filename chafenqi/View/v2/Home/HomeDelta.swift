@@ -19,19 +19,25 @@ struct HomeDelta: View {
                 Spacer()
                 
                 NavigationLink {
-                    DeltaListView(user: user)
+                    if user.isPremium {
+                        DeltaListView(user: user)
+                    } else {
+                        NotPremiumView()
+                    }
                 } label: {
                     Text("显示全部")
                         .font(.system(size: 18))
                 }
             }
             
-            if user.currentMode == 0 {
-                DeltaShortLook(user: user)
-                    .padding(.top, 5)
-            } else if user.currentMode == 1 {
-                DeltaShortLook(user: user)
-                    .padding(.top, 5)
+            if user.isPremium {
+                if user.currentMode == 0 {
+                    DeltaShortLook(user: user)
+                        .padding(.top, 5)
+                } else if user.currentMode == 1 {
+                    DeltaShortLook(user: user)
+                        .padding(.top, 5)
+                }
             }
         }
         .padding()
