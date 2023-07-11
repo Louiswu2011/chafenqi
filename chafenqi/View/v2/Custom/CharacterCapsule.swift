@@ -13,6 +13,7 @@ struct CharacterCapsule: View {
     @State var imageURL: String
     @State var level: String
     
+    @State var image = UIImage()
     @State var dominantColors: [UIColor] = []
     @State var didLoad = false
     
@@ -28,6 +29,7 @@ struct CharacterCapsule: View {
                     }, image: { img in
                         let _ = DispatchQueue.main.async {
                             loadImage(img: img)
+                            self.image = img
                         }
                         Image(uiImage: img)
                             .resizable()
@@ -40,6 +42,13 @@ struct CharacterCapsule: View {
                     .mask(Circle())
                     .frame(width: 70, height: 70)
                     .padding(.top, 5)
+                    .contextMenu {
+                        Button {
+                            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                        } label: {
+                            Label("保存到相册", systemImage: "square.and.arrow.down")
+                        }
+                    }
                     Spacer()
                     Text(level)
                         .bold()
