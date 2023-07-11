@@ -157,7 +157,7 @@ struct DeltaDetailView: View {
             }
         } else if let log = maiLog {
             if let latestDelta = log.latestDelta {
-                rating = String(format: "%.2f", latestDelta.rating)
+                rating = String(latestDelta.rating)
                 pc = String(describing: latestDelta.playCount)
                 ratingDelta = log.hasDelta ? String(log.ratingDelta) : ""
                 pcDelta = log.hasDelta ? String(log.pcDelta) : ""
