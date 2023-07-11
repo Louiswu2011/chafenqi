@@ -39,18 +39,29 @@ struct InfoMaimaiCharacterEntry: View {
     @Environment(\.managedObjectContext) var context
     var char: CFQMaimai.ExtraEntry.CharacterEntry
     
+    @State var image = UIImage()
+    
     var body: some View {
         HStack {
             AsyncImage(url: URL(string: char.image)!, context: context, placeholder: {
                 ProgressView()
             }, image: { img in
+                let _ = DispatchQueue.main.async {
+                    self.image = img
+                }
                 Image(uiImage: img)
                     .resizable()
             })
             .aspectRatio(contentMode: .fit)
             .mask(RoundedRectangle(cornerRadius: 5))
             .frame(width: 60, height: 60)
-            
+            .contextMenu {
+                Button {
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                } label: {
+                    Label("保存到相册", systemImage: "square.and.arrow.down")
+                }
+            }
             VStack {
                 HStack {
                     Text(char.name)

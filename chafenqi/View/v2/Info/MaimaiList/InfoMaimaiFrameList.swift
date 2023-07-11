@@ -18,19 +18,7 @@ struct InfoMaimaiFrameList: View {
             ForEach(Array(group.keys).sorted(), id: \.hashValue) { area in
                 Section {
                     ForEach(group[area]!, id: \.image) { frame in
-                        VStack {
-                            AsyncImage(url: URL(string: frame.image)!, context: context, placeholder: {
-                                ProgressView()
-                            }, image: { img in
-                                Image(uiImage: img)
-                                    .resizable()
-                                
-                            })
-                            .aspectRatio(contentMode: .fit)
-                            Text(frame.name)
-                                .bold()
-                            Text(frame.description)
-                        }
+                        InfoMaimaiFrameEntry(frame: frame)
                     }
                 } header: {
                     Text(area)
@@ -43,6 +31,36 @@ struct InfoMaimaiFrameList: View {
             group = Dictionary(grouping: list, by: {
                 $0.area
             })
+        }
+    }
+}
+
+struct InfoMaimaiFrameEntry: View {
+    @Environment(\.managedObjectContext) var context
+    var frame: CFQMaimaiExtraEntry.FrameEntry
+    
+    @State var image = UIImage()
+    
+    var body: some View {
+        VStack {
+            AsyncImage(url: URL(string: frame.image)!, context: context, placeholder: {
+                ProgressView()
+            }, image: { img in
+                Image(uiImage: img)
+                    .resizable()
+                
+            })
+            .aspectRatio(contentMode: .fit)
+            .contextMenu {
+                Button {
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                } label: {
+                    Label("保存到相册", systemImage: "square.and.arrow.down")
+                }
+            }
+            Text(frame.name)
+                .bold()
+            Text(frame.description)
         }
     }
 }
