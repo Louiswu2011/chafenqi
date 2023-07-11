@@ -46,7 +46,7 @@ struct NotPremiumView: View {
                     
                     PremiumInfoBlock(
                         imageSystemName: "wrench.and.screwdriver.fill",
-                        title: "小组件自定义",
+                        title: "小组件自定义（开发中）",
                         message: "用已获得的角色、称号、底板等装饰桌面小组件")
                     
                     PremiumInfoBlock(

@@ -114,7 +114,6 @@ struct HomeView: View {
             } catch {
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
                 alertToast.toast = errToast
-                alertToast.show = true
             }
         }
     }
@@ -124,7 +123,7 @@ struct HomeView: View {
             do {
                 try await WidgetDataController.shared.save(data: user.makeWidgetData(), context: WidgetDataController.shared.container.viewContext)
             } catch {
-                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "同步小组件失败")
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "同步小组件失败", subTitle: error.localizedDescription)
                 print(error)
             }
             WidgetCenter.shared.reloadAllTimelines()

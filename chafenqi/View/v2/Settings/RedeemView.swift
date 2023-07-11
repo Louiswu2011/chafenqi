@@ -62,7 +62,7 @@ struct RedeemView: View {
                 NavigationLink {
                     NotPremiumView()
                 } label: {
-                    Text("了解详细功能...")
+                    Text("了解详细功能")
                 }
             } footer: {
                 Text(perks)
