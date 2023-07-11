@@ -12,11 +12,13 @@ struct SettingsWidgetConfig: View {
     
     @State var customization = true
     
-    @State var smallBackground: WidgetBackgroundOption = .defaultBg
-    @State var mediumBackground: WidgetBackgroundOption = .defaultBg
+    @State var maiSmallBackground: WidgetBackgroundOption = .defaultBg
+    @State var chuSmallBackground: WidgetBackgroundOption = .defaultBg
+    // @State var mediumBackground: WidgetBackgroundOption = .defaultBg
     
-    @State var smallChar: WidgetCharacterOption = .defaultChar
-    @State var mediumChar: WidgetCharacterOption = .defaultChar
+    @State var maiSmallChar: WidgetCharacterOption = .defaultChar
+    @State var chuSmallChar: WidgetCharacterOption = .defaultChar
+    // @State var mediumChar: WidgetCharacterOption = .defaultChar
     
     @State var currentPreivewType: WidgetPreviewTypeOption = .maimai
     
@@ -82,15 +84,20 @@ struct SettingsWidgetConfig: View {
                     }
                     .frame(height: 190)
                     
-                    Picker("背景", selection: $smallBackground) {
+                    Picker("背景", selection: currentPreivewType == .maimai ? $maiSmallBackground : $chuSmallBackground) {
                         ForEach(WidgetBackgroundOption.allCases) { value in
                             Text(value.rawValue)
                                 .tag(value)
                         }
                     }
+                    if currentPreivewType == .maimai && maiSmallBackground == .custom {
+                        
+                    } else if currentPreivewType == .chunithm && chuSmallBackground == .custom {
+                        
+                    }
                     
                     
-                    Picker("人物", selection: $smallChar) {
+                    Picker("人物", selection: currentPreivewType == .maimai ? $maiSmallChar : $chuSmallChar) {
                         ForEach(WidgetCharacterOption.allCases) { value in
                             Text(value.rawValue)
                                 .tag(value)
