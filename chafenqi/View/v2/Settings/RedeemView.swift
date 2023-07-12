@@ -31,7 +31,7 @@ struct RedeemView: View {
     @State var isVerifying = false
     @State var isShowingPreview = false
     
-    let successToast = AlertToast(displayMode: .hud, type: .complete(.green), title: "兑换成功", subTitle: "重新登录即可生效")
+    let successToast = AlertToast(displayMode: .hud, type: .complete(.green), title: "兑换成功", subTitle: "刷新即可生效")
     let failureToast = AlertToast(displayMode: .hud, type: .error(.red), title: "兑换码无效", subTitle: "请检查是否输入错误")
     
     var body: some View {
