@@ -29,12 +29,14 @@ struct LoginView: View {
     @State private var loginPrompt = "登录中"
     @State private var registerPrompt = "注册中"
     
+    @State private var assertionFailureRetried = false
+    
     @State var account: String = ""
     @State var password: String = ""
     
     var body: some View {
         ZStack {
-            if (state == .loginPending || state == .registerPending) && !shouldForceReload {
+            if (state == .loginPending || state == .registerPending) {
                 VStack {
                     HStack {
                         Button {
@@ -101,34 +103,7 @@ struct LoginView: View {
                             loginPrompt = "登录中"
                             state = .loginRequesting
                             self.task = Task {
-                                do {
-                                    let token = await login(username: account, password: password)
-                                    if (!token.isEmpty) {
-                                        // TODO: Navigate to HomeView
-                                        user.jwtToken = token
-                                        print("[Login] Should force reload? \(shouldForceReload)")
-                                        try await user.login(username: account, forceReload: shouldForceReload)
-                                        shouldForceReload = false
-                                        print("[Login] Successfully logged in.")
-                                        withAnimation(defaultAnimation) {
-                                            user.didLogin = true
-                                        }
-                                    } else {
-                                        alertToast.show = true
-                                        state = .loginPending
-                                    }
-                                } catch {
-                                    switch error {
-                                    case CFQNUserError.LoadingError(cause: let cause, _):
-                                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "网络连接错误", subTitle: cause)
-                                    case CFQNUserError.AssociationError(in: let list):
-                                        alertToast.alert = Alert(title: Text("关联歌曲出错"), message: Text("未在歌曲列表中找到以下歌曲：\n" + list.joined(separator: "\n")))
-                                    default:
-                                        alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载错误", subTitle: String(describing: error))
-                                    }
-                                    print(error)
-                                    state = .loginPending
-                                }
+                                await attemptLogin()
                             }
                         }
                     } label: {
@@ -207,6 +182,45 @@ struct LoginView: View {
             }
         }
         
+    }
+    
+    func attemptLogin() async {
+        do {
+            let token = await login(username: account, password: password)
+            if (!token.isEmpty) {
+                user.jwtToken = token
+                print("[Login] Should force reload? \(shouldForceReload)")
+                try await user.login(username: account, forceReload: shouldForceReload)
+                shouldForceReload = false
+                print("[Login] Successfully logged in.")
+                withAnimation(defaultAnimation) {
+                    user.didLogin = true
+                }
+            } else {
+                state = .loginPending
+            }
+        } catch {
+            switch error {
+            case CFQNUserError.LoadingError(cause: let cause, _):
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "网络连接错误", subTitle: cause)
+            case CFQNUserError.AssociationError(in: let list):
+                if assertionFailureRetried {
+                    alertToast.alert = Alert(title: Text("关联歌曲出错"), message: Text("未在歌曲列表中找到以下歌曲：\n" + list.uniqued().joined(separator: "\n")))
+                    assertionFailureRetried = false
+                } else {
+                    assertionFailureRetried = true
+                    alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "关联歌曲出错", subTitle: "尝试修复中...")
+                    loginPrompt = "重试中"
+                    shouldForceReload = true
+                    await attemptLogin()
+                }
+
+            default:
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载错误", subTitle: String(describing: error))
+            }
+            print(error)
+            state = .loginPending
+        }
     }
     
     func login(username: String, password: String) async -> String {
