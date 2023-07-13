@@ -50,6 +50,20 @@ struct ChunithmMusicData: Hashable, Equatable, Codable {
     var charts: Charts
 }
 
+extension ChunithmMusicData.Charts.Chart {
+    func getNumericLevel(for level: String) -> Double {
+        var numericLevel: Double = Double(level.replacingOccurrences(of: "+", with: "")) ?? 0.0
+        if level.contains("+") {
+            numericLevel += 0.5
+        }
+        return numericLevel
+    }
+    
+    var numericLevel: Double {
+        getNumericLevel(for: self.level)
+    }
+}
+
 extension ChunithmMusicData.Charts {
     var enables: [Bool] {
         [basic.enabled, advanced.enabled, expert.enabled, master.enabled, ultima.enabled, worldsend.enabled]
@@ -57,11 +71,29 @@ extension ChunithmMusicData.Charts {
     var levels: [String] {
         [basic.level, advanced.level, expert.level, master.level, ultima.level, worldsend.enabled ? "\(worldsend.wetype ?? "") ⭐️\(worldsend.wediff)" : ""]
     }
+    var numericLevels: [Double] {
+        [basic.numericLevel, expert.numericLevel, master.numericLevel, ultima.numericLevel]
+    }
     var constants: [Double] {
         [basic.constant, advanced.constant, expert.constant, master.constant, ultima.constant, worldsend.constant]
     }
     var charters: [String] {
         [basic.charter ?? "", advanced.charter ?? "", expert.charter ?? "", master.charter ?? "", ultima.charter ?? "", worldsend.charter ?? ""]
+    }
+    
+    func getChartFromLabel(_ string: String) -> Chart {
+        switch string {
+        case "Basic":
+            return self.basic
+        case "Advanced":
+            return self.advanced
+        case "expert":
+            return self.expert
+        case "master":
+            return self.master
+        default:
+            return self.ultima
+        }
     }
 }
 

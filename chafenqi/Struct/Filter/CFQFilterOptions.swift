@@ -7,6 +7,50 @@
 
 import Foundation
 
+enum CFQSortKey: String, CaseIterable, Identifiable, Hashable {
+    var id: Self {
+        return self
+    }
+    
+    case level = "等级"
+    case constant = "定数"
+    case bpm = "BPM"
+}
+
+enum CFQMaimaiSortDifficulty: String, CaseIterable, Identifiable, Hashable {
+    var id: Self {
+        return self
+    }
+    
+    case basic = "Basic"
+    case advanced = "Advanced"
+    case expert = "Expert"
+    case master = "Master"
+    case remaster = "Re:Master"
+}
+
+enum CFQChunithmSortDifficulty: String, CaseIterable, Identifiable, Hashable {
+    var id: Self {
+        return self
+    }
+    
+    case basic = "Basic"
+    case advanced = "Advanced"
+    case expert = "Expert"
+    case master = "Master"
+    case ultima = "Ultima"
+}
+
+enum CFQSortMethod: String, CaseIterable, Identifiable, Hashable {
+    var id: Self {
+        return self
+    }
+    
+    case ascent = "升序"
+    case descent = "降序"
+    case random = "乱序"
+}
+
 struct CFQFilterOptions {
     static let shared = CFQFilterOptions()
     
@@ -59,26 +103,25 @@ struct CFQFilterOptions {
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} UNiVERSE PLUS",
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} FESTiVAL"
     ]
-    static let sortOptions = [
-        "无",
-        "等级",
-        "定数",
-        "BPM"
-    ]
-    static let sortMethods = [
-        "升序",
-        "降序"
-    ]
     
     var filterMaiLevelToggles: [Bool] = []
     var filterMaiGenreToggles: [Bool] = []
     var filterMaiVersionToggles: [Bool] = []
-    var sortMaiSelection: String = "无"
+    
+    var sortMai: Bool = false
+    var sortMaiKey: CFQSortKey = .constant
+    var sortMaiMethod: CFQSortMethod = .descent
+    var sortMaiDiff: CFQMaimaiSortDifficulty = .master
     
     var filterChuGenreToggles: [Bool] = []
     var filterChuLevelToggles: [Bool] = []
     var filterChuVersionToggles: [Bool] = []
-    var sortChuSelection: String = "无"
+    
+    var sortChu: Bool = false
+    var sortChuKey: CFQSortKey = .constant
+    var sortChuMethod: CFQSortMethod = .descent
+    var sortChuDiff: CFQChunithmSortDifficulty = .master
     
     var excludeChuWEChart: Bool = true
+    var hideUnplayChart: Bool = false
 }

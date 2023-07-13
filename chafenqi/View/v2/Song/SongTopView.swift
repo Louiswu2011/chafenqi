@@ -98,6 +98,12 @@ struct SongTopView: View {
                     $0.artist.localizedCaseInsensitiveContains(searchText)
                 }
             }
+            if filters.hideUnplayChart {
+                let playedMusicIDs = user.chunithm.best.compactMap { $0.associatedSong!.musicID }
+                filteredChuSongs = filteredChuSongs.filter {
+                    playedMusicIDs.contains($0.musicID)
+                }
+            }
             
             let levelIndices = filters.filterChuLevelToggles.trueIndices
             let genreIndices = filters.filterChuGenreToggles.trueIndices
@@ -125,6 +131,39 @@ struct SongTopView: View {
                     return versions.contains(song.from)
                 }
             }
+            
+            if filters.sortChu {
+                if filters.sortChuMethod == .random {
+                    filteredChuSongs.shuffle()
+                } else {
+                    switch filters.sortChuKey {
+                    case .level:
+                        filteredChuSongs.sort {
+                            if filters.sortChuMethod == .descent {
+                                return $0.charts.getChartFromLabel(filters.sortChuDiff.rawValue).numericLevel > $1.charts.getChartFromLabel(filters.sortChuDiff.rawValue).numericLevel
+                            } else {
+                                return $0.charts.getChartFromLabel(filters.sortChuDiff.rawValue).numericLevel < $1.charts.getChartFromLabel(filters.sortChuDiff.rawValue).numericLevel
+                            }
+                        }
+                    case .constant:
+                        filteredChuSongs.sort {
+                            if filters.sortChuMethod == .descent {
+                                return $0.charts.getChartFromLabel(filters.sortChuDiff.rawValue).constant > $1.charts.getChartFromLabel(filters.sortChuDiff.rawValue).constant
+                            } else {
+                                return $0.charts.getChartFromLabel(filters.sortChuDiff.rawValue).constant < $1.charts.getChartFromLabel(filters.sortChuDiff.rawValue).constant
+                            }
+                        }
+                    case .bpm:
+                        filteredChuSongs.sort {
+                            if filters.sortChuMethod == .descent {
+                                return $0.bpm > $1.bpm
+                            } else {
+                                return $0.bpm < $1.bpm
+                            }
+                        }
+                    }
+                }
+            }
         } else {
             if (searchText.isEmpty) {
                 filteredMaiSongs = user.data.maimai.songlist
@@ -132,6 +171,13 @@ struct SongTopView: View {
                 filteredMaiSongs = user.data.maimai.songlist.filter {
                     $0.title.localizedCaseInsensitiveContains(searchText) ||
                     $0.basicInfo.artist.localizedCaseInsensitiveContains(searchText)
+                }
+            }
+            
+            if filters.hideUnplayChart {
+                let playedMusicIds = user.maimai.best.compactMap { $0.associatedSong!.musicId }
+                filteredMaiSongs = filteredMaiSongs.filter {
+                    playedMusicIds.contains($0.musicId)
                 }
             }
             
@@ -154,6 +200,39 @@ struct SongTopView: View {
                 filteredMaiSongs = filteredMaiSongs.filter { song in
                     let versions = versionIndices.compactMap { CFQFilterOptions.maiVersionOptions[$0] }
                     return versions.contains(song.basicInfo.from)
+                }
+            }
+            
+            if filters.sortMai {
+                if filters.sortMaiMethod == .random {
+                    filteredMaiSongs.shuffle()
+                } else {
+                    switch filters.sortMaiKey {
+                    case .level:
+                        filteredMaiSongs.sort {
+                            if filters.sortMaiMethod == .descent {
+                                return $0.getNumericLevelByLabel(filters.sortMaiDiff.rawValue) > $1.getNumericLevelByLabel(filters.sortMaiDiff.rawValue)
+                            } else {
+                                return $0.getNumericLevelByLabel(filters.sortMaiDiff.rawValue) < $1.getNumericLevelByLabel(filters.sortMaiDiff.rawValue)
+                            }
+                        }
+                    case .constant:
+                        filteredMaiSongs.sort {
+                            if filters.sortMaiMethod == .descent {
+                                return $0.constant[$0.levelLabeltoLevelIndex(filters.sortMaiDiff.rawValue)] > $1.constant[$1.levelLabeltoLevelIndex(filters.sortMaiDiff.rawValue)]
+                            } else {
+                                return $0.constant[$0.levelLabeltoLevelIndex(filters.sortMaiDiff.rawValue)] < $1.constant[$1.levelLabeltoLevelIndex(filters.sortMaiDiff.rawValue)]
+                            }
+                        }
+                    case .bpm:
+                        filteredMaiSongs.sort {
+                            if filters.sortMaiMethod == .descent {
+                                return $0.basicInfo.bpm > $1.basicInfo.bpm
+                            } else {
+                                return $0.basicInfo.bpm < $1.basicInfo.bpm
+                            }
+                        }
+                    }
                 }
             }
         }

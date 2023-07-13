@@ -22,15 +22,56 @@ struct SongFilterOptionsView: View {
                 MultiplePickerView(title: "等级", options: CFQFilterOptions.levelOptions, selectionState: user.currentMode == 0 ? $filters.filterChuLevelToggles : $filters.filterMaiLevelToggles)
                 MultiplePickerView(title: "分类", options: genreOptions, selectionState: user.currentMode == 0 ? $filters.filterChuGenreToggles : $filters.filterMaiGenreToggles)
                 MultiplePickerView(title: "版本", options: versionOptions, selectionState: user.currentMode == 0 ? $filters.filterChuVersionToggles : $filters.filterMaiVersionToggles)
+            } header: {
+                Text("筛选")
             }
             
             Section {
+                Toggle("启用排序", isOn: user.currentMode == 0 ? $filters.sortChu.animation() : $filters.sortMai.animation())
+                if (user.currentMode == 0 && filters.sortChu) || (user.currentMode == 1 && filters.sortMai) {
+                    Picker("方向", selection: user.currentMode == 0 ? $filters.sortChuMethod : $filters.sortMaiMethod) {
+                        ForEach(CFQSortMethod.allCases) { value in
+                            Text(value.rawValue)
+                                .tag(value)
+                        }
+                    }
+                    Picker("项目", selection: user.currentMode == 0 ? $filters.sortChuKey : $filters.sortMaiKey) {
+                        ForEach(CFQSortKey.allCases) { value in
+                            Text(value.rawValue)
+                                .tag(value)
+                        }
+                    }
+                    
+                    if (user.currentMode == 0 && filters.sortChuKey != .bpm) || (user.currentMode == 1 && filters.sortMaiKey != .bpm) {
+                        if user.currentMode == 0 {
+                            Picker("难度", selection: $filters.sortChuDiff) {
+                                ForEach(CFQChunithmSortDifficulty.allCases) { value in
+                                    Text(value.rawValue)
+                                        .tag(value)
+                                }
+                            }
+                        } else if user.currentMode == 1 {
+                            Picker("难度", selection: $filters.sortMaiDiff) {
+                                ForEach(CFQMaimaiSortDifficulty.allCases) { value in
+                                    Text(value.rawValue)
+                                        .tag(value)
+                                }
+                            }
+                        }
+                    }
+                }
+            } header: {
+                Text("排序")
+            }
+            
+            Section {
+                Toggle("隐藏未游玩歌曲", isOn: $filters.hideUnplayChart)
                 if user.currentMode == 0 {
                     Toggle("隐藏World's End谱面", isOn: $filters.excludeChuWEChart)
                 }
             }
         }
-        .navigationTitle("筛选")
+        .navigationTitle("筛选和排序")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

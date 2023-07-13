@@ -82,6 +82,51 @@ struct MaimaiSongData: Codable, Hashable, Comparable {
             return Color.purple
         }
     }
+    
+    func getNumericLevelByLabel(_ string: String) -> Double {
+        func getNumericLevel(for level: String) -> Double {
+            var numericLevel: Double = Double(level.replacingOccurrences(of: "+", with: "")) ?? 0.0
+            if level.contains("+") {
+                numericLevel += 0.5
+            }
+            return numericLevel
+        }
+        switch string {
+        case "Basic":
+            return getNumericLevel(for: self.level[0])
+        case "Advanced":
+            return getNumericLevel(for: self.level[1])
+        case "expert":
+            return getNumericLevel(for: self.level[2])
+        case "master":
+            return getNumericLevel(for: self.level[3])
+        default:
+            if self.level.count < 5 {
+                return 0.0
+            } else {
+                return getNumericLevel(for: self.level[4])
+            }
+        }
+    }
+    
+    func levelLabeltoLevelIndex(_ label: String) -> Int {
+        switch label {
+        case "Basic":
+            return 0
+        case "Advanced":
+            return 1
+        case "expert":
+            return 2
+        case "master":
+            return 3
+        default:
+            if self.level.count < 5 {
+                return 0
+            } else {
+                return 4
+            }
+        }
+    }
 }
 
 extension MaimaiSongData {
