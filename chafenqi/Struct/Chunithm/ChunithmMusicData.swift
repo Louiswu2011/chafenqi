@@ -87,9 +87,9 @@ extension ChunithmMusicData.Charts {
             return self.basic
         case "Advanced":
             return self.advanced
-        case "expert":
+        case "Expert":
             return self.expert
-        case "master":
+        case "Master":
             return self.master
         default:
             return self.ultima

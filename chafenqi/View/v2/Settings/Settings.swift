@@ -238,8 +238,10 @@ struct UserInfoWithAvatarView: View {
                 Text(user.username)
                     .bold()
                     .font(.system(size: 20))
-                Text("订阅有效至\(parsePremiumExpireDate())")
-                    .font(.system(size: 12))
+                if user.isPremium {
+                    Text("订阅有效至\(parsePremiumExpireDate())")
+                        .font(.system(size: 12))
+                }
             }
             Spacer()
             if (user.isPremium) {

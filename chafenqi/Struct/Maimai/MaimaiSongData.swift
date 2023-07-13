@@ -96,9 +96,9 @@ struct MaimaiSongData: Codable, Hashable, Comparable {
             return getNumericLevel(for: self.level[0])
         case "Advanced":
             return getNumericLevel(for: self.level[1])
-        case "expert":
+        case "Expert":
             return getNumericLevel(for: self.level[2])
-        case "master":
+        case "Master":
             return getNumericLevel(for: self.level[3])
         default:
             if self.level.count < 5 {
