@@ -331,15 +331,15 @@ struct ScoreCardView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(maimaiLevelColor[levelIndex]?.opacity(0.9))
-
-                HStack {
-                    Text(maimaiLevelLabel[levelIndex]!)
-                    Spacer()
-                    if let entry = maiEntry {
-                        Text("\(entry.score, specifier: "%.4f")%")
-                            .bold()
-                        if let maiRecords = maiRecords {
-                            if !maiRecords.isEmpty {
+                
+                VStack {
+                    HStack {
+                        Text(maimaiLevelLabel[levelIndex]!)
+                        Spacer()
+                        if let entry = maiEntry {
+                            Text("\(entry.score, specifier: "%.4f")%")
+                                .bold()
+                            if let maiRecords = maiRecords {
                                 NavigationLink {
                                     if user.isPremium {
                                         SongEntryListView(user: user, maiRecords: maiRecords)
@@ -347,19 +347,34 @@ struct ScoreCardView: View {
                                         NotPremiumView()
                                     }
                                 } label: {
-                                    Image(systemName: "chevron.right")
+                                    Image(systemName: "info.circle")
                                 }
+                                .disabled(maiRecords.isEmpty)
                             }
+                        } else {
+                            Text("尚未游玩")
+                                .bold()
                         }
-                    } else {
-                        Text("尚未游玩")
-                            .bold()
+                    }
+                    .padding()
+                    
+                    if expanded {
+                        HStack {
+                            Text("定数：\(song.constant[levelIndex], specifier: "%.1f")")
+                            Spacer()
+                            Text("谱师：\(song.charts[levelIndex].charter)")
+                                .lineLimit(1)
+                        }
+                        .padding([.horizontal, .bottom])
                     }
                 }
-                
-                .padding()
             }
             .padding(.horizontal)
+            .onTapGesture {
+                withAnimation {
+                    expanded.toggle()
+                }
+            }
             .onAppear {
                 loadVar()
             }
@@ -367,15 +382,14 @@ struct ScoreCardView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(chunithmLevelColor[levelIndex]?.opacity(0.9))
-                
-                HStack {
-                    Text(chunithmLevelLabel[levelIndex]!)
-                    Spacer()
-                    if let entry = chuEntry {
-                        Text("\(entry.score)")
-                            .bold()
-                        if let chuRecords = chuRecords {
-                            if !chuRecords.isEmpty {
+                VStack {
+                    HStack {
+                        Text(chunithmLevelLabel[levelIndex]!)
+                        Spacer()
+                        if let entry = chuEntry {
+                            Text("\(entry.score)")
+                                .bold()
+                            if let chuRecords = chuRecords {
                                 NavigationLink {
                                     if user.isPremium {
                                         SongEntryListView(user: user, chuRecords: chuRecords)
@@ -383,18 +397,34 @@ struct ScoreCardView: View {
                                         NotPremiumView()
                                     }
                                 } label: {
-                                    Image(systemName: "chevron.right")
+                                    Image(systemName: "info.circle")
                                 }
+                                .disabled(chuRecords.isEmpty)
                             }
+                        } else {
+                            Text("尚未游玩")
+                                .bold()
                         }
-                    } else {
-                        Text("尚未游玩")
-                            .bold()
+                    }
+                    .padding()
+                    
+                    if expanded {
+                        HStack {
+                            Text("定数：\(song.charts.constants[levelIndex], specifier: "%.1f")")
+                            Spacer()
+                            Text("谱师:\(song.charts.charters[levelIndex])")
+                                .lineLimit(1)
+                        }
+                        .padding([.horizontal, .bottom])
                     }
                 }
-                .padding()
             }
             .padding(.horizontal)
+            .onTapGesture {
+                withAnimation {
+                    expanded.toggle()
+                }
+            }
             .onAppear {
                 loadVar()
             }
@@ -413,6 +443,7 @@ struct ScoreCardView: View {
         }
     }
 }
+
 
 struct SongDetailView_Previews: PreviewProvider {
     static var previews: some View {

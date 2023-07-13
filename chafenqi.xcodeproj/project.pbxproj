@@ -65,6 +65,7 @@
 		67E95F802A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 67E95F7C2A4ACCAC004134C8 /* infoWidget.intentdefinition */; };
 		67E95F812A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 67E95F7C2A4ACCAC004134C8 /* infoWidget.intentdefinition */; };
 		67E95F842A4ACCAC004134C8 /* infoWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 67E95F742A4ACCAB004134C8 /* infoWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		67ED31202A5F98F1003907DE /* CustomContextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ED311F2A5F98F1003907DE /* CustomContextPreview.swift */; };
 		67FE56882A4D83CD0086C335 /* CFQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3190B2A02ED140042B5FB /* CFQData.swift */; };
 		67FE56892A4D83ED0086C335 /* MaimaiSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC5500298CEB4C00A93918 /* MaimaiSongData.swift */; };
 		67FE568A2A4D83F20086C335 /* ChunithmMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B202C02A260110005FD147 /* ChunithmMusicData.swift */; };
@@ -287,6 +288,7 @@
 		67E95F7D2A4ACCAC004134C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		67E95F7F2A4ACCAC004134C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67E95F882A4ACCBD004134C8 /* infoWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = infoWidgetExtension.entitlements; sourceTree = "<group>"; };
+		67ED311F2A5F98F1003907DE /* CustomContextPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContextPreview.swift; sourceTree = "<group>"; };
 		BF0431812A34274A00577E6F /* chafenqiNotifier.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = chafenqiNotifier.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF0431832A34274A00577E6F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		BF0431852A34274A00577E6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 				6786F0B22A3C631300CE90C2 /* TextInfoView.swift */,
 				6786F0A82A3C624000CE90C2 /* LevelBlockView.swift */,
 				6757B1FF2A39928C005701A5 /* CharacterCapsule.swift */,
+				67ED311F2A5F98F1003907DE /* CustomContextPreview.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1323,6 +1326,7 @@
 				6786F0A12A3C3BC300CE90C2 /* DeltaShortLook.swift in Sources */,
 				BF7872A92A07E515007243B3 /* RootView.swift in Sources */,
 				6786F0BC2A3C637800CE90C2 /* GradeBadgeView.swift in Sources */,
+				67ED31202A5F98F1003907DE /* CustomContextPreview.swift in Sources */,
 				BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */,
 				6786F0AF2A3C62BF00CE90C2 /* SongChartView.swift in Sources */,
 				670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */,
