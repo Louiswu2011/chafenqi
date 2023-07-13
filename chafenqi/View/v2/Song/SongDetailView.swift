@@ -525,13 +525,13 @@ struct SongCardMaimaiLossesView: View {
                     Text("\(data.possibleBreakLosses[1])")
                         .font(.system(size: 15))
                 }
-                
+                Spacer()
                 VStack {
                     Text("SSS/+容错")
                         .bold()
                     Text("-\(data.lossUntilSSS, specifier: "%.1f") / -\(data.lossUntilSSSPlus, specifier: "%.1f")")
                 }
-                
+                Spacer()
                 VStack {
                     Text("50落/Great比")
                         .bold()
