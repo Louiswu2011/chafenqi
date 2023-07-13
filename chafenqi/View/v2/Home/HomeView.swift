@@ -131,6 +131,7 @@ struct HomeView: View {
     }
     
     func checkVersion() async {
+        guard bundleBuildNumber != "83" else { return }
         do {
             let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
             let (data, _) = try await URLSession.shared.data(for: versionRequest)

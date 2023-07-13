@@ -332,7 +332,7 @@ struct ScoreCardView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(maimaiLevelColor[levelIndex]?.opacity(0.9))
                 
-                VStack {
+                VStack(spacing: 10) {
                     HStack {
                         Text(maimaiLevelLabel[levelIndex]!)
                         Spacer()
@@ -356,18 +356,16 @@ struct ScoreCardView: View {
                                 .bold()
                         }
                     }
-                    .padding()
                     
                     if expanded {
-                        HStack {
-                            Text("定数：\(song.constant[levelIndex], specifier: "%.1f")")
-                            Spacer()
-                            Text("谱师：\(song.charts[levelIndex].charter)")
-                                .lineLimit(1)
-                        }
-                        .padding([.horizontal, .bottom])
+                        SongCardExpandedView(
+                            constant: song.constant[levelIndex],
+                            charter: song.charts[levelIndex].charter,
+                            data: song.charts[levelIndex]
+                        )
                     }
                 }
+                .padding()
             }
             .padding(.horizontal)
             .onTapGesture {
@@ -406,18 +404,15 @@ struct ScoreCardView: View {
                                 .bold()
                         }
                     }
-                    .padding()
                     
                     if expanded {
-                        HStack {
-                            Text("定数：\(song.charts.constants[levelIndex], specifier: "%.1f")")
-                            Spacer()
-                            Text("谱师:\(song.charts.charters[levelIndex])")
-                                .lineLimit(1)
-                        }
-                        .padding([.horizontal, .bottom])
+                        SongCardExpandedView(
+                            constant: song.charts.constants[levelIndex],
+                            charter: song.charts.charters[levelIndex]
+                        )
                     }
                 }
+                .padding()
             }
             .padding(.horizontal)
             .onTapGesture {
@@ -439,6 +434,109 @@ struct ScoreCardView: View {
         } else if let song = chuSong {
             chuRecords = user.chunithm.recent.filter {
                 $0.associatedSong!.musicID == song.musicID && $0.levelIndex == self.levelIndex
+            }
+        }
+    }
+}
+
+struct SongCardExpandedView: View {
+    var constant: Double
+    var charter: String
+    
+    var data: MaimaiSongData.MaimaiSongChartData?
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("定数：\(constant, specifier: "%.1f")")
+                Spacer()
+                Text("谱师:\(charter)")
+                    .lineLimit(1)
+            }
+            if let data = data {
+                SongCardMaimaiLossesView(data: data)
+                    .padding(.top)
+            }
+        }
+    }
+}
+
+struct SongCardMaimaiLossesView: View {
+    var data: MaimaiSongData.MaimaiSongChartData
+    
+    let noteTypes = ["Tap", "Hold", "Slide", "Touch"]
+    let judgeTypes = ["Great", "Good", "Miss"]
+    
+    var body: some View {
+        VStack {
+            HStack {
+                VStack(alignment: .leading) {
+                    Spacer()
+                    ForEach(Array(noteTypes.enumerated()), id: \.offset) { index, noteType in
+                        if index == 3 && !data.possibleNormalLosses[3].isEmpty {
+                            Text(noteType)
+                                .bold()
+                        } else if index != 3 {
+                            Text(noteType)
+                                .bold()
+                        }
+                    }
+                }
+                Spacer()
+                
+                ForEach(Array(judgeTypes.enumerated()), id: \.offset) { index, judgeType in
+                    VStack(alignment: .trailing) {
+                        Text(judgeType)
+                            .bold()
+                        ForEach(data.possibleNormalLosses.indices, id: \.self) { innerIndex in
+                            if !data.possibleNormalLosses[innerIndex].isEmpty && index < data.possibleNormalLosses.count - 1 {
+                                Text(data.possibleNormalLosses[innerIndex][index])
+                            }
+                        }
+                    }
+                }
+            }
+            
+            HStack {
+                Text("Break")
+                    .bold()
+                Spacer()
+                VStack {
+                    Text("\(data.possibleBreakLosses[2]) ~")
+                        .font(.system(size: 15))
+                    Text("\(data.possibleBreakLosses[4])")
+                        .font(.system(size: 15))
+                }
+                VStack {
+                    Text("\(data.possibleBreakLosses[5])")
+                }
+                VStack {
+                    Text("\(data.possibleBreakLosses[6])")
+                }
+            }
+            .padding(.bottom ,5)
+            
+            HStack {
+                VStack {
+                    Text("50/100落")
+                        .bold()
+                    Text("\(data.possibleBreakLosses[0]) /")
+                        .font(.system(size: 15))
+                    Text("\(data.possibleBreakLosses[1])")
+                        .font(.system(size: 15))
+                }
+                
+                VStack {
+                    Text("SSS/+容错")
+                        .bold()
+                    Text("-\(data.lossUntilSSS, specifier: "%.1f") / -\(data.lossUntilSSSPlus, specifier: "%.1f")")
+                }
+                
+                VStack {
+                    Text("50落/Great比")
+                        .bold()
+                    Text("\(data.breakToGreatRatio, specifier: "%.1f")")
+                }
             }
         }
     }
