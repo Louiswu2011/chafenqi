@@ -470,7 +470,7 @@ struct SongCardMaimaiLossesView: View {
     var body: some View {
         VStack {
             HStack {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 5) {
                     Spacer()
                     ForEach(Array(noteTypes.enumerated()), id: \.offset) { index, noteType in
                         if index == 3 && !data.possibleNormalLosses[3].isEmpty {
@@ -485,7 +485,7 @@ struct SongCardMaimaiLossesView: View {
                 Spacer()
                 
                 ForEach(Array(judgeTypes.enumerated()), id: \.offset) { index, judgeType in
-                    VStack(alignment: .trailing) {
+                    VStack(alignment: .trailing, spacing: 5) {
                         Text(judgeType)
                             .bold()
                         ForEach(data.possibleNormalLosses.indices, id: \.self) { innerIndex in

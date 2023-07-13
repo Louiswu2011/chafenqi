@@ -189,68 +189,105 @@ struct RecentDetail: View {
                                 .foregroundColor(maimaiLevelColor[entry.levelIndex]?.opacity(0.4))
                             VStack {
                                 HStack(alignment: .bottom) {
-                                    VStack(alignment: .leading, spacing: 2) {
+                                    VStack(alignment: .leading) {
                                         Text(" ")
                                         Text("Tap")
+                                            .bold()
+//                                        Text(" ")
+//                                            .font(.system(size: 10))
                                         Text("Hold")
+                                            .bold()
+//                                        Text(" ")
+//                                            .font(.system(size: 10))
                                         Text("Slide")
-                                        Text("Touch")
+                                            .bold()
+//                                        Text(" ")
+//                                            .font(.system(size: 10))
+                                        if entry.type == "DX" {
+                                            Text("Touch")
+                                                .bold()
+//                                            Text(" ")
+//                                                .font(.system(size: 10))
+                                        }
                                         Text("Break")
+                                            .bold()
                                     }
-                                    
-                                    VStack(alignment: .center, spacing: 2) {
-                                        HStack(alignment: .bottom) {
-                                            VStack(spacing: 2) {
-                                                Text("Critical")
-                                                    .font(.system(size: 15))
-                                                Text(maiTapArray[0])
-                                                Text(maiHoldArray[0])
-                                                Text(maiSlideArray[0])
-                                                Text(maiTouchArray[0])
-                                                Text(maiBreakArray[0])
+                                    Spacer()
+                                    VStack {
+                                        HStack {
+                                            let judgeTypes = ["Critical", "Perfect", "Great", "Good", "Miss"]
+                                            ForEach(maiTapArray.indices) { index in
+                                                let normalLoss = entry.associatedSong!.charts[entry.levelIndex].errors[0]
+                                                let breakLoss = entry.associatedSong!.charts[entry.levelIndex].errors[1]
+                                                let losses = [2: 0.2, 3: 0.5, 4: 1]
+                                                VStack(alignment: .trailing) {
+                                                    Text(judgeTypes[index])
+                                                        .bold()
+                                                        .font(.system(size: 13))
+                                                    
+                                                    if let tap = Int(maiTapArray[index]) {
+                                                        Text("\(tap)")
+//                                                        if index >= 2 && tap != 0 {
+//                                                            Text("(-\(Double(tap) * normalLoss * losses[index]!, specifier: "%.2f")%)")
+//                                                                .font(.system(size: 10))
+//                                                        } else {
+//                                                            Text(" ")
+//                                                                .font(.system(size: 10))
+//                                                        }
+                                                    } else {
+                                                        Text("-")
+                                                    }
+                                                    
+                                                    
+                                                    if let hold = Int(maiHoldArray[index]) {
+                                                        Text("\(hold)")
+//                                                        if index >= 2 && hold != 0 {
+//                                                            Text("(-\(Double(hold) * normalLoss * 2 * losses[index]!, specifier: "%.2f")%)")
+//                                                                .font(.system(size: 10))
+//                                                        } else {
+//                                                            Text(" ")
+//                                                                .font(.system(size: 10))
+//                                                        }
+                                                        
+                                                    } else {
+                                                        Text("-")
+                                                    }
+                                                    
+                                                    if let slide = Int(maiSlideArray[index]) {
+                                                        Text("\(slide)")
+//                                                        if index >= 2 && slide != 0 {
+//                                                            Text("(-\(Double(slide) * normalLoss * 3 * losses[index]!, specifier: "%.2f")%)")
+//                                                                .font(.system(size: 10))
+//                                                        } else {
+//                                                            Text(" ")
+//                                                                .font(.system(size: 10))
+//                                                        }
+                                                    } else {
+                                                        Text("-")
+                                                    }
+                                                    
+                                                    if entry.type == "DX" {
+                                                        if let touch = Int(maiTouchArray[index]) {
+                                                            Text("\(touch)")
+//                                                            if index >= 2 && touch != 0 {
+//                                                                Text("(-\(Double(touch) * normalLoss * losses[index]!, specifier: "%.2f")%)")
+//                                                                    .font(.system(size: 10))
+//                                                            } else {
+//                                                                Text(" ")
+//                                                                    .font(.system(size: 10))
+//                                                            }
+                                                        } else {
+                                                            Text("-")
+                                                        }
+                                                    }
+                                                    
+                                                    if let b = Int(maiBreakArray[index]) {
+                                                        Text("\(b)")
+                                                    } else {
+                                                        Text("-")
+                                                    }
+                                                }
                                             }
-                                            
-                                            VStack(spacing: 2) {
-                                                Text("Perfect")
-                                                    .font(.system(size: 15))
-                                                Text(maiTapArray[1])
-                                                Text(maiHoldArray[1])
-                                                Text(maiSlideArray[1])
-                                                Text(maiTouchArray[1])
-                                                Text(maiBreakArray[1])
-                                            }
-                                            
-                                            VStack(spacing: 2) {
-                                                Text("Great")
-                                                    .font(.system(size: 15))
-                                                Text(maiTapArray[2])
-                                                Text(maiHoldArray[2])
-                                                Text(maiSlideArray[2])
-                                                Text(maiTouchArray[2])
-                                                Text(maiBreakArray[2])
-                                            }
-                                            
-                                            VStack(spacing: 2) {
-                                                Text("Good")
-                                                    .font(.system(size: 15))
-                                                Text(maiTapArray[3])
-                                                Text(maiHoldArray[3])
-                                                Text(maiSlideArray[3])
-                                                Text(maiTouchArray[3])
-                                                Text(maiBreakArray[3])
-                                            }
-                                            
-                                            VStack(spacing: 2) {
-                                                Text("Miss")
-                                                    .font(.system(size: 15))
-                                                Text(maiTapArray[4])
-                                                Text(maiHoldArray[4])
-                                                Text(maiSlideArray[4])
-                                                Text(maiTouchArray[4])
-                                                Text(maiBreakArray[4])
-                                            }
-                                            
-                                            
                                         }
                                     }
                                 }
