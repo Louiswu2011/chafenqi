@@ -27,6 +27,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsMaimaiPricePerTrack") var maiPricePerTrack = ""
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
+    @AppStorage("settingsAutoRedirectToWeChat") var proxyAutoJump = false
     
     var maimai = Maimai()
     var chunithm = Chunithm()

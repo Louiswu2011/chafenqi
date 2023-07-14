@@ -14,6 +14,8 @@ struct UpdaterView: View {
     @ObservedObject var service = TunnelManagerService.shared
     @ObservedObject var alertToast = AlertToastModel.shared
     
+    @Environment(\.openURL) var openURL
+    
     @State private var isShowingAlert = false
     @State private var isShowingConfig = false
     @State private var isShowingHelp = false
@@ -57,8 +59,42 @@ struct UpdaterView: View {
             } footer: {
                 Text("今日平均传分用时:\n中二节奏: \(chuniAvg.isEmpty || chuniAvg.starts(with: "-") ? "暂无数据" : chuniAvg)\n舞萌DX: \(maiAvg.isEmpty || maiAvg.starts(with: "-") ? "暂无数据" : maiAvg)")
             }
+
+            Section {
+                if (user.didLogin) {
+                    TextInfoView(text: "当前账号", info: user.username)
+                }
+                
+                Button {
+                    copyUrlToClipboard(mode: 0)
+                } label: {
+                    Text("复制中二节奏链接")
+                }
+                .disabled(!user.didLogin)
+                
+                Button {
+                    copyUrlToClipboard(mode: 1)
+                } label: {
+                    Text("复制舞萌DX链接")
+                }
+                .disabled(!user.didLogin)
+                
+                Button {
+                    isShowingQRCode.toggle()
+                } label: {
+                    Text("生成二维码")
+                }
+                
+            } footer: {
+                Text("为了保证您的数据安全，请勿将上传链接或二维码分享给任何人")
+                    .multilineTextAlignment(.leading)
+            }
             
             Section {
+                Toggle(isOn: $user.proxyAutoJump) {
+                    Text("自动跳转到微信")
+                }
+                
                 Button {
                     isShowingAlert.toggle()
                 } label: {
@@ -71,45 +107,8 @@ struct UpdaterView: View {
                           primaryButton: .cancel(Text("取消")),
                           secondaryButton: .destructive(Text("卸载")){ removeProxyProfile() })
                 }
-                
-                
             } header: {
                 Text("设置")
-            }
-            
-            Section {
-                if (user.didLogin) {
-                    TextInfoView(text: "当前账号", info: user.username)
-                }
-                
-                Button {
-                    copyUrlToClipboard(mode: 0)
-                } label: {
-                    Text("上传中二节奏分数...")
-                }
-                .disabled(!user.didLogin)
-                
-                Button {
-                    copyUrlToClipboard(mode: 1)
-                } label: {
-                    Text("上传舞萌DX分数...")
-                }
-                .disabled(!user.didLogin)
-                
-                Button {
-                    isShowingQRCode.toggle()
-                } label: {
-                    Text("二维码...")
-                }
-                
-            } footer: {
-                if (user.didLogin) {
-                    Text("请将剪贴板的内容复制到微信任意聊天窗口后发送并打开")
-                        .multilineTextAlignment(.leading)
-                } else {
-                    Text("请在设置中登录查分器账号后再上传分数")
-                        .multilineTextAlignment(.leading)
-                }
             }
             
             Section {
@@ -132,6 +131,9 @@ struct UpdaterView: View {
         }
         .sheet(isPresented: $isShowingQRCode) {
             UpdaterQRCodeView(maiStr: makeUrl(mode: 1), chuStr: makeUrl(mode: 0))
+        }
+        .toast(isPresenting: $alertToast.show) {
+            alertToast.toast
         }
         
     }
@@ -182,6 +184,9 @@ struct UpdaterView: View {
     func refreshStatus() {
         self.proxyStatus = service.manager?.connection.status.description ?? "未知状态"
         self.isProxyOn = service.manager?.connection.status != .disconnected && service.manager?.connection.status != .invalid
+        if self.service.manager?.connection.status == .connected && user.proxyAutoJump {
+            openURL.callAsFunction(URL(string: "weixin://scanqrcode")!)
+        }
     }
     
     func removeProxyProfile() {
