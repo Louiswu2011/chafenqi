@@ -58,7 +58,7 @@ struct DeltaDetailView: View {
                     VStack {
                         if user.currentMode == 0 {
                             if let chuLog = chuLog {
-                                ForEach(Array(chuLog.recentEntries.prefix(3)), id: \.timestamp) { entry in
+                                ForEach(Array(chuLog.recentEntries.prefix(6)), id: \.timestamp) { entry in
                                     NavigationLink {
                                         RecentDetail(user: user, chuEntry: entry)
                                     } label: {
@@ -89,7 +89,7 @@ struct DeltaDetailView: View {
                             }
                         } else if user.currentMode == 1 {
                             if let maiLog = maiLog {
-                                ForEach(Array(maiLog.recentEntries.prefix(3)), id: \.timestamp) { entry in
+                                ForEach(Array(maiLog.recentEntries.prefix(6)), id: \.timestamp) { entry in
                                     NavigationLink {
                                         RecentDetail(user: user, maiEntry: entry)
                                     } label: {
