@@ -40,6 +40,8 @@ class CFQNUser: ObservableObject {
     
     var isPremium = false
     var premiumUntil: TimeInterval = 0
+    
+    @Published var loadPrompt = ""
 
     struct Maimai: Codable {
         struct Custom: Codable {
@@ -313,6 +315,7 @@ class CFQNUser: ObservableObject {
     init() {}
     
     func fetchUserData(token: String, username: String) async throws {
+        publishLoadStatus("查询订阅状态...")
         self.isPremium = try await CFQUserServer.checkPremium(username: username)
         print("[CFQNUser] Acquired premium status: \(isPremium.description)")
         
@@ -320,12 +323,17 @@ class CFQNUser: ObservableObject {
             self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
         }
         
+        publishLoadStatus("获取舞萌DX数据...")
         self.maimai = try await Maimai(token: token)
+        
+        publishLoadStatus("获取中二节奏数据...")
         self.chunithm = try await Chunithm(token: token)
         print("[CFQNUser] Fetched User Data.")
         
         try await addAdditionalData(username: username)
         
+        
+        publishLoadStatus("更新本地缓存...")
         let maiCache = try JSONEncoder().encode(self.maimai)
         let chuCache = try JSONEncoder().encode(self.chunithm)
         
@@ -336,6 +344,7 @@ class CFQNUser: ObservableObject {
         }
         
         do {
+            publishLoadStatus("获取水鱼网Token...")
             let token = try await CFQFishServer.fetchToken(authToken: token)
             DispatchQueue.main.async {
                 self.fishToken = token
@@ -392,19 +401,10 @@ class CFQNUser: ObservableObject {
     }
     
     func login(username: String, forceReload: Bool = false) async throws {
-        let encoder = JSONEncoder()
+        publishLoadStatus("检查持久化数据...")
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
 
         try await fetchUserData(token: self.jwtToken, username: username)
-        
-        let maiCache = try encoder.encode(self.maimai)
-        let chuCache = try encoder.encode(self.chunithm)
-        
-        DispatchQueue.main.async {
-            self.maimaiCache = maiCache
-            self.chunithmCache = chuCache
-            self.username = username
-        }
         
         OneSignal.setExternalUserId(username)
         
@@ -429,13 +429,15 @@ class CFQNUser: ObservableObject {
     func loadFromCache() async throws {
         let decoder = JSONDecoder()
         
-        self.isPremium = try await CFQUserServer.checkPremium(username: username)
+        publishLoadStatus("查询订阅状态...")
+        self.isPremium = try await CFQUserServer.checkPremium(username: self.username)
         print("[CFQNUser] Acquired premium status: \(isPremium.description)")
         
         if self.isPremium {
-            self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: username)
+            self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: self.username)
         }
         
+        publishLoadStatus("加载本地缓存...")
         self.data = try await .loadFromCacheOrRefresh()
         self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
         self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
@@ -467,6 +469,7 @@ class CFQNUser: ObservableObject {
     
     // MARK: Post-Init
     func addAdditionalData(username: String) async throws {
+        publishLoadStatus("关联歌曲信息...")
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
@@ -491,17 +494,18 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Association Assertion Passed.")
         
+        publishLoadStatus("加载用户数据...")
         self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist)
         self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
         self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
         self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
-        
         print("[CFQNUser] Calculated Custom Values.")
         
+        publishLoadStatus("同步本地存储...")
         sharedContainer.set(self.jwtToken, forKey: "JWT")
-        sharedContainer.set(self.username, forKey: "currentUser")
+        sharedContainer.set(username, forKey: "currentUser")
         sharedContainer.synchronize()
-        print("[CFQNUser] Set jwt token and username to \(self.username).")
+        print("[CFQNUser] Set jwt token and username to \(username).")
     
         
     }
@@ -534,6 +538,12 @@ class CFQNUser: ObservableObject {
             custom: widgetCustom)
         
         return data
+    }
+    
+    func publishLoadStatus(_ string: String) {
+        DispatchQueue.main.async {
+            self.loadPrompt = string
+        }
     }
 }
 

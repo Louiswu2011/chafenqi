@@ -159,7 +159,7 @@ struct LoginView: View {
                             .font(.system(size: 15))
                     }
                 case .loginRequesting, .registerRequesting:
-                    ProgressView()
+                    ProgressView(user.loadPrompt)
                         .padding(.bottom)
                     Button {
                         withAnimation(defaultAnimation) {
@@ -196,6 +196,7 @@ struct LoginView: View {
                 withAnimation(defaultAnimation) {
                     user.didLogin = true
                 }
+                user.username = account
             } else {
                 state = .loginPending
             }

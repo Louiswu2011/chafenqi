@@ -24,7 +24,7 @@ struct RootView: View {
                         .mask(RoundedRectangle(cornerRadius: 10))
                         .overlay(RoundedRectangle(cornerRadius: 10).stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 3))
                         .padding(.bottom)
-                    ProgressView()
+                    ProgressView(user.loadPrompt)
                 }
             } else if (user.didLogin) {
                 TabView {
@@ -74,6 +74,7 @@ struct RootView: View {
                             loadingCache = false
                         }
                     } catch {
+                        print("[LoginView] Cannot load cache for", user.username, error)
                         loadingCache = false
                         user.didLogin = false
                     }

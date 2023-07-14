@@ -33,7 +33,7 @@ struct HomeView: View {
         VStack {
             if (refreshing) {
                 VStack {
-                    ProgressView("刷新中...")
+                    ProgressView(user.loadPrompt)
                 }
             } else if (user.didLogin) {
                 ScrollView {
@@ -112,6 +112,7 @@ struct HomeView: View {
                 refreshing = false
                 syncToWidget()
             } catch {
+                print("[HomeView] Error refreshing record for", user.username, error)
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
                 alertToast.toast = errToast
             }
