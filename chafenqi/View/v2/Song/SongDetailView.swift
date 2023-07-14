@@ -497,11 +497,6 @@ struct SongCardChunithmLossesView: View {
                         .bold()
                     Text("\(2500 / entry.losses[1], specifier: "%.1f") / \(1000 / entry.losses[1], specifier: "%.0f")")
                 }
-                HStack {
-                    Text("J/A比")
-                        .bold()
-                    Text("\(entry.losses[1] / entry.losses[0], specifier: "%.1f") : 1")
-                }
             }
         }
         .padding(.top, 5)
