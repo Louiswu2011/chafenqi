@@ -785,6 +785,15 @@ extension CFQData.Chunithm.RecentScoreEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.fcombo) }
     var rating: Double { getRating(constant: self.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
+    
+    var losses: [Double] {
+        let combo = self.judges.values.reduce(0) { $0 + $1 }
+        let unit = 10000 / Double(combo)
+        let jLoss = unit
+        let aLoss = 51 * unit
+        let mLoss = 101 * unit
+        return [jLoss, aLoss, mLoss]
+    }
 }
 extension CFQData.Chunithm.RatingEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
@@ -840,6 +849,11 @@ extension Double {
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
+}
+
+extension StringProtocol {
+    var firstUppercased: String { prefix(1).uppercased() + dropFirst() }
+    var firstCapitalized: String { prefix(1).capitalized + dropFirst() }
 }
 
 typealias CFQMaimai = CFQData.Maimai

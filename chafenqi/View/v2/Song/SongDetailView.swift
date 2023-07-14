@@ -406,10 +406,18 @@ struct ScoreCardView: View {
                     }
                     
                     if expanded {
-                        SongCardExpandedView(
-                            constant: song.charts.constants[levelIndex],
-                            charter: song.charts.charters[levelIndex]
-                        )
+                        if let entry = chuRecords?.first { $0.levelIndex == levelIndex } {
+                            SongCardExpandedView(
+                                constant: song.charts.constants[levelIndex],
+                                charter: song.charts.charters[levelIndex],
+                                chuEntry: entry
+                            )
+                        } else {
+                            SongCardExpandedView(
+                                constant: song.charts.constants[levelIndex],
+                                charter: song.charts.charters[levelIndex]
+                            )
+                        }
                     }
                 }
                 .padding()
@@ -444,6 +452,7 @@ struct SongCardExpandedView: View {
     var charter: String
     
     var data: MaimaiSongData.MaimaiSongChartData?
+    var chuEntry: CFQChunithm.RecentScoreEntry?
     
     var body: some View {
         VStack {
@@ -453,11 +462,49 @@ struct SongCardExpandedView: View {
                 Text("谱师:\(charter)")
                     .lineLimit(1)
             }
+            .padding(.top, 5)
             if let data = data {
                 SongCardMaimaiLossesView(data: data)
-                    .padding(.top)
+            } else if let entry = chuEntry {
+                SongCardChunithmLossesView(entry: entry)
             }
         }
+    }
+}
+
+struct SongCardChunithmLossesView: View {
+    var entry: CFQChunithm.RecentScoreEntry
+    
+    var body: some View {
+        HStack {
+            let judges = ["justice", "attack", "miss"]
+            VStack(alignment: .leading) {
+                
+                ForEach(Array(judges.enumerated()), id: \.offset) { index, type in
+                    HStack {
+                        Text(type.firstUppercased)
+                            .bold()
+                        Text("-\(entry.losses[index], specifier: "%.0f")")
+                    }
+                }
+                
+                
+            }
+            Spacer()
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("SSS/+容错")
+                        .bold()
+                    Text("\(2500 / entry.losses[1], specifier: "%.1f") / \(1000 / entry.losses[1], specifier: "%.0f")")
+                }
+                HStack {
+                    Text("J/A比")
+                        .bold()
+                    Text("\(entry.losses[1] / entry.losses[0], specifier: "%.1f") : 1")
+                }
+            }
+        }
+        .padding(.top, 5)
     }
 }
 

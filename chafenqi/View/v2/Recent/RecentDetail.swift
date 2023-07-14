@@ -97,30 +97,23 @@ struct RecentDetail: View {
                                         .bold()
                                 }
                                 
-                                
-                                HStack {
-                                    Text("Justice")
-                                    Spacer()
-                                    Text("\(entry.judges["justice"] ?? 0)")
-                                        .bold()
+                                let judges = ["justice", "attack", "miss"]
+                                ForEach(Array(judges.enumerated()), id: \.offset) { index, type in
+                                    HStack {
+                                        if let judge = entry.judges[type] {
+                                            Text(type.firstUppercased)
+                                            Spacer()
+                                            VStack(alignment: .trailing) {
+                                                Text("\(judge)")
+                                                    .bold()
+                                                if judge > 0 {
+                                                    Text("(-\(entry.losses[index] * Double(judge), specifier: "%.0f"))")
+                                                        .font(.system(size: 12))
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                
-                                
-                                HStack {
-                                    Text("Attack")
-                                    Spacer()
-                                    Text("\(entry.judges["attack"] ?? 0)")
-                                        .bold()
-                                }
-                                
-                                
-                                HStack {
-                                    Text("Miss")
-                                    Spacer()
-                                    Text("\(entry.judges["miss"] ?? 0)")
-                                        .bold()
-                                }
-                                
                             }
                             .frame(width: chuniJudgeWidth)
                             .padding(.trailing)
