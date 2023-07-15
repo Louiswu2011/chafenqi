@@ -123,6 +123,7 @@
 		BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
 		BFA3190C2A02ED140042B5FB /* CFQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3190B2A02ED140042B5FB /* CFQData.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
+		BFB57B772A62FA26007DA4BC /* UserLinkOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */; };
 		BFBC54F3298CE5F300A93918 /* MaimaiDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */; };
 		BFBC54FD298CEB2D00A93918 /* MaimaiPlayerProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54FC298CEB2D00A93918 /* MaimaiPlayerProfile.swift */; };
 		BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54FE298CEB4000A93918 /* MaimaiPlayerRecord.swift */; };
@@ -339,6 +340,7 @@
 		BF8D2A842A063A9A00F60633 /* AlertToastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastModel.swift; sourceTree = "<group>"; };
 		BF9CEFB92992C03500658724 /* TunnelManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelManagerService.swift; sourceTree = "<group>"; };
 		BFA3190B2A02ED140042B5FB /* CFQData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQData.swift; sourceTree = "<group>"; };
+		BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLinkOptionView.swift; sourceTree = "<group>"; };
 		BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDataGrabber.swift; sourceTree = "<group>"; };
 		BFBC54FC298CEB2D00A93918 /* MaimaiPlayerProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiPlayerProfile.swift; sourceTree = "<group>"; };
 		BFBC54FE298CEB4000A93918 /* MaimaiPlayerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiPlayerRecord.swift; sourceTree = "<group>"; };
@@ -719,6 +721,14 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		BFB57B752A62F742007DA4BC /* User */ = {
+			isa = PBXGroup;
+			children = (
+				BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		BFBC54FA298CEB0500A93918 /* Chunithm */ = {
 			isa = PBXGroup;
 			children = (
@@ -826,6 +836,7 @@
 		BFE075A52A0785B2005248A6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				BFB57B752A62F742007DA4BC /* User */,
 				671192802A495AA100BCE0B9 /* PerksPreview */,
 				6786F0AC2A3C62AA00CE90C2 /* SponsorView.swift */,
 				BF7872A62A07DC9C007243B3 /* Settings.swift */,
@@ -1344,6 +1355,7 @@
 				6763175A2A2F111400693E4B /* RatingShortLook.swift in Sources */,
 				67C434DC2A3AAAC600202605 /* RandomSongView.swift in Sources */,
 				BF3739C529C4F47B002825B4 /* CFQPersistentData.swift in Sources */,
+				BFB57B772A62FA26007DA4BC /* UserLinkOptionView.swift in Sources */,
 				67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */,
 				BFBC5501298CEB4C00A93918 /* MaimaiSongData.swift in Sources */,
 				BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */,

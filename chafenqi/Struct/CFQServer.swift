@@ -56,6 +56,21 @@ struct CFQServer {
             let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/redeemCode", payload: payload)
             return response.statusCode() == 200
         }
+        
+        static func fetchUserOptions(authToken: String) async throws -> CFQUserOptions {
+            let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/options", token: authToken)
+            if response.statusCode() == 200 {
+                return try CFQServer.decoder.decode(CFQUserOptions.self, from: data)
+            } else {
+                return CFQUserOptions()
+            }
+        }
+        
+        static func uploadUserOptions(options: CFQUserOptions, authToken: String) async throws -> Bool {
+            let payload = try CFQServer.encoder.encode(options)
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/options", payload: payload, token: authToken)
+            return response.statusCode() == 200
+        }
     }
     
     struct Fish {

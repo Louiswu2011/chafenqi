@@ -43,6 +43,11 @@ struct Settings: View {
             Section {
                 UserInfoWithAvatarView(user: user)
                 NavigationLink {
+                    UserLinkOptionView(user: user)
+                } label: {
+                    Text("帐号关联")
+                }
+                NavigationLink {
                     RedeemView(user: user)
                 } label: {
                     Text("兑换会员")
@@ -205,6 +210,8 @@ struct Settings: View {
                 }
             }
         }
+        .navigationTitle("设置")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
