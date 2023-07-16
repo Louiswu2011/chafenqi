@@ -64,7 +64,7 @@ struct PlayerMaimaiInfoView: View {
                                     .resizable()
                             })
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 60)
+                            .frame(maxHeight: 60)
                             .contextMenu {
                                 Button {
                                     UIImageWriteToSavedPhotosAlbum(nameplateImg, nil, nil, nil)
@@ -108,7 +108,7 @@ struct PlayerMaimaiInfoView: View {
                             })
                             .aspectRatio(contentMode: .fill)
                             .shadow(color: .gray.opacity(0.8), radius: 5, x: 5, y: -5)
-                            .frame(width: 175)
+                            .frame(maxWidth: 175)
                             .contextMenu {
                                 Button {
                                     UIImageWriteToSavedPhotosAlbum(charImg, nil, nil, nil)
@@ -157,7 +157,7 @@ struct PlayerMaimaiInfoView: View {
                                 }
                             }
                         }
-                        .frame(height: 40)
+                        .frame(maxHeight: 40)
                         HStack {
                             NavigationLink {
                                 InfoMaimaiNameplateList(list: user.maimai.extra.nameplates)
@@ -184,7 +184,7 @@ struct PlayerMaimaiInfoView: View {
                                 }
                             }
                         }
-                        .frame(height: 40)
+                        .frame(maxHeight: 40)
                         NavigationLink {
                             InfoMaimaiClearList(user: user)
                         } label: {
@@ -197,7 +197,7 @@ struct PlayerMaimaiInfoView: View {
                                     .padding(5)
                             }
                         }
-                        .frame(height: 40)
+                        .frame(maxHeight: 40)
                     }
                     
                 }
