@@ -12,6 +12,7 @@ struct UserLinkOptionView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
+    @State private var isLoading = true
     @State private var options = CFQUserOptions()
     @State private var bind: String = ""
     
@@ -21,10 +22,14 @@ struct UserLinkOptionView: View {
                 HStack {
                     Text("当前QQ号")
                     Spacer()
-                    if options.bindQQ == 0 {
+                    if isLoading {
+                        ProgressView()
+                    } else if options.bindQQ == 0 {
                         Text("暂未绑定")
+                            .foregroundColor(.gray)
                     } else {
                         Text(verbatim: "\(options.bindQQ)")
+                            .foregroundColor(.gray)
                     }
                 }
             }
@@ -37,11 +42,7 @@ struct UserLinkOptionView: View {
                 Button {
                     uploadOptions()
                 } label: {
-                    HStack {
-                        Text("绑定QQ号")
-                        Spacer()
-                        ProgressView()
-                    }
+                    Text("绑定QQ号")
                 }
             } footer: {
                 Text("""
@@ -56,6 +57,7 @@ struct UserLinkOptionView: View {
             alertToast.toast
         }
         .onAppear {
+            isLoading = true
             loadOptions()
         }
     }
@@ -68,9 +70,14 @@ struct UserLinkOptionView: View {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据加载失败")
             }
         }
+        isLoading = false
     }
     
     func uploadOptions() {
+        guard bind.isNumeric() else {
+            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "QQ号不能为空")
+            return
+        }
         Task {
             do {
                 let payload = CFQUserOptions(

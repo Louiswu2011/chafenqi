@@ -282,6 +282,10 @@ extension String {
     func isAlphanumeric() -> Bool {
         return self.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil && self != ""
     }
+    
+    func isNumeric() -> Bool {
+        return self.rangeOfCharacter(from: CharacterSet.decimalDigits) == nil && self != ""
+    }
 
     func isAlphanumeric(ignoreDiacritics: Bool = false) -> Bool {
         if ignoreDiacritics {
