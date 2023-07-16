@@ -84,10 +84,6 @@ struct Settings: View {
             }
             
             Section {
-                Toggle(isOn: $user.shouldForwardToFish.animation()) {
-                    Text("上传到水鱼网")
-                }
-                .disabled(user.fishToken.isEmpty)
                 if (user.shouldForwardToFish) {
                     SettingsInfoLabelView(title: "Token", message: user.fishToken)
                         .lineLimit(1)

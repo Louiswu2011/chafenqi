@@ -79,7 +79,7 @@ class CFQNUser: ObservableObject {
                 }
                 self.rawRating = self.pastRating + self.currentRating
                 
-                var r = recent
+                var r = recent.prefix(30)
                 if let max = (r.filter {
                     $0.fc == "applus"
                 }.first) {
@@ -229,7 +229,7 @@ class CFQNUser: ObservableObject {
                 }.first!
                 self.maxRating = ((self.b30 * 30.0 + b1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
                 
-                var r = recent
+                var r = recent.prefix(30)
                 if let max = (r.filter {
                     $0.score == 1010000
                 }.first) {

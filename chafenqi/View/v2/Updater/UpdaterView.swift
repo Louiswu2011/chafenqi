@@ -61,10 +61,6 @@ struct UpdaterView: View {
             }
 
             Section {
-                if (user.didLogin) {
-                    TextInfoView(text: "当前账号", info: user.username)
-                }
-                
                 Button {
                     copyUrlToClipboard(mode: 0)
                 } label: {
@@ -91,6 +87,11 @@ struct UpdaterView: View {
             }
             
             Section {
+                Toggle(isOn: $user.shouldForwardToFish.animation()) {
+                    Text("上传到水鱼网")
+                }
+                .disabled(user.fishToken.isEmpty)
+                
                 Toggle(isOn: $user.proxyAutoJump) {
                     Text("自动跳转到微信")
                 }
