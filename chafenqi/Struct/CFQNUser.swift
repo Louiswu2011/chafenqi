@@ -240,7 +240,7 @@ class CFQNUser: ObservableObject {
                 if let ap = (r.filter {
                     $0.fcombo == "alljustice"
                 }.first) {
-                    recommended[ap] = "AP"
+                    recommended[ap] = "AJ"
                     r.removeAll { $0.timestamp == ap.timestamp }
                 }
                 if let fc = (r.filter {
@@ -579,6 +579,7 @@ extension Int {
 let recommendWeights = [
     "MAX": 20, // AP+ / AJC
     "AP": 10,
+    "AJ": 10,
     "FC": 9, // FC/FS/FC+/FS+/FDX
     "HS": 7, // Highscore
     "NR": 8, // New Record
@@ -588,6 +589,7 @@ let recommendWeights = [
 let recommendPrompts = [
     "MAX": "理论值",
     "AP": "AP",
+    "AJ": "AJ",
     "FC": "FC",
     "HS": "高分",
     "NR": "新纪录",
