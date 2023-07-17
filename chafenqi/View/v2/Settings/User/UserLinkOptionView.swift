@@ -23,7 +23,8 @@ struct UserLinkOptionView: View {
                     Text("当前QQ号")
                     Spacer()
                     if isLoading {
-                        ProgressView()
+                        Text("加载中...")
+                            .foregroundColor(.gray)
                     } else if options.bindQQ == 0 {
                         Text("暂未绑定")
                             .foregroundColor(.gray)
@@ -74,8 +75,12 @@ struct UserLinkOptionView: View {
     }
     
     func uploadOptions() {
-        guard bind.isNumeric() else {
+        guard !bind.isEmpty else {
             alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "QQ号不能为空")
+            return
+        }
+        guard bind.isNumber else {
+            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "QQ号格式错误")
             return
         }
         Task {

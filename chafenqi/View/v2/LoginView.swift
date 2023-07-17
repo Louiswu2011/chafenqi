@@ -283,8 +283,9 @@ extension String {
         return self.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil && self != ""
     }
     
-    func isNumeric() -> Bool {
-        return self.rangeOfCharacter(from: CharacterSet.decimalDigits) == nil && self != ""
+    var isNumber: Bool {
+        let chars = CharacterSet(charactersIn: "0123456789")
+        return CharacterSet(charactersIn: self).isSubset(of: chars)
     }
 
     func isAlphanumeric(ignoreDiacritics: Bool = false) -> Bool {
