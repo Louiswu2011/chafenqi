@@ -46,7 +46,7 @@ struct UserLinkOptionView: View {
                 }
             } footer: {
                 Text("""
-绑定QQ号即视为同意千雪Bot查询您的以下信息:
+绑定QQ号即视为同意Chieri Bot查询您的以下信息:
 - 中二节奏B30/R10数据
 """)
             }
