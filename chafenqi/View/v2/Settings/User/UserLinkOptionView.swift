@@ -13,6 +13,7 @@ struct UserLinkOptionView: View {
     @ObservedObject var alertToast = AlertToastModel.shared
     
     @State private var isLoading = true
+    @State private var isUploading = false
     @State private var options = CFQUserOptions()
     @State private var bind: String = ""
     
@@ -23,8 +24,9 @@ struct UserLinkOptionView: View {
                     Text("当前QQ号")
                     Spacer()
                     if isLoading {
-                        Text("加载中...")
-                            .foregroundColor(.gray)
+//                        Text("加载中...")
+//                            .foregroundColor(.gray)
+                        ProgressView()
                     } else if options.bindQQ == 0 {
                         Text("暂未绑定")
                             .foregroundColor(.gray)
@@ -43,8 +45,13 @@ struct UserLinkOptionView: View {
                 Button {
                     uploadOptions()
                 } label: {
-                    Text("绑定QQ号")
+                    if isUploading {
+                        ProgressView()
+                    } else {
+                        Text("绑定QQ号")
+                    }
                 }
+                .disabled(isUploading)
             } footer: {
                 Text("""
 绑定QQ号即视为同意Chieri Bot查询您的以下信息:
@@ -70,8 +77,8 @@ struct UserLinkOptionView: View {
             } catch {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据加载失败")
             }
+            isLoading = false
         }
-        isLoading = false
     }
     
     func uploadOptions() {
@@ -83,6 +90,7 @@ struct UserLinkOptionView: View {
             alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "QQ号格式错误")
             return
         }
+        isUploading = true
         Task {
             do {
                 let payload = CFQUserOptions(
@@ -98,6 +106,7 @@ struct UserLinkOptionView: View {
             } catch {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据上传失败")
             }
+            isUploading = false
         }
     }
 }
