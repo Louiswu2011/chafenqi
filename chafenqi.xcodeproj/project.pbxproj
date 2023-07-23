@@ -136,6 +136,7 @@
 		BFC860362A06B41000E3A7CF /* HomeNameplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC860352A06B41000E3A7CF /* HomeNameplate.swift */; };
 		BFCA383229770851008E30F1 /* CFQError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA383129770851008E30F1 /* CFQError.swift */; };
 		BFCCA5C32A6D884700FB360A /* InfoChunithmTrophyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCCA5C22A6D884700FB360A /* InfoChunithmTrophyList.swift */; };
+		BFCCA5C52A6D8DC100FB360A /* InfoChunithmNameplateList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCCA5C42A6D8DC100FB360A /* InfoChunithmNameplateList.swift */; };
 		BFCE1B2529EE591C00BFAA67 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
 		BFCE1B2829EE70EC00BFAA67 /* BuildURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */; };
 		BFCE1B2A29EE911600BFAA67 /* QuickActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCE1B2929EE911600BFAA67 /* QuickActionService.swift */; };
@@ -354,6 +355,7 @@
 		BFC860352A06B41000E3A7CF /* HomeNameplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNameplate.swift; sourceTree = "<group>"; };
 		BFCA383129770851008E30F1 /* CFQError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQError.swift; sourceTree = "<group>"; };
 		BFCCA5C22A6D884700FB360A /* InfoChunithmTrophyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChunithmTrophyList.swift; sourceTree = "<group>"; };
+		BFCCA5C42A6D8DC100FB360A /* InfoChunithmNameplateList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChunithmNameplateList.swift; sourceTree = "<group>"; };
 		BFCE1B2629EE622200BFAA67 /* chafenqiMini.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chafenqiMini.entitlements; sourceTree = "<group>"; };
 		BFCE1B2729EE70EC00BFAA67 /* BuildURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildURLHandler.swift; sourceTree = "<group>"; };
 		BFCE1B2929EE911600BFAA67 /* QuickActionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionService.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				670EBC1A2A3022DB00D32723 /* InfoChunithmCharacterList.swift */,
 				670EBC1C2A3026B000D32723 /* InfoChunithmSkillList.swift */,
 				BFCCA5C22A6D884700FB360A /* InfoChunithmTrophyList.swift */,
+				BFCCA5C42A6D8DC100FB360A /* InfoChunithmNameplateList.swift */,
 			);
 			path = ChunithmList;
 			sourceTree = "<group>";
@@ -1362,6 +1365,7 @@
 				67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */,
 				BFBC5501298CEB4C00A93918 /* MaimaiSongData.swift in Sources */,
 				BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */,
+				BFCCA5C52A6D8DC100FB360A /* InfoChunithmNameplateList.swift in Sources */,
 				BF571DAC29A91A2700702240 /* ChafenqiColor.swift in Sources */,
 				BFCE1B2A29EE911600BFAA67 /* QuickActionService.swift in Sources */,
 				670FC5FA2A556DF900C10C73 /* DateTool.swift in Sources */,

@@ -11,7 +11,7 @@ struct InfoMaimaiNameplateList: View {
     @Environment(\.managedObjectContext) var context
     var list: [CFQMaimai.ExtraEntry.NameplateEntry]
     
-    @State private var image = UIImage()
+    @State private var image = [String: UIImage]()
     
     var body: some View {
         Form {
@@ -21,7 +21,7 @@ struct InfoMaimaiNameplateList: View {
                         ProgressView()
                     }, image: { img in
                         let _ = DispatchQueue.main.async {
-                            self.image = img
+                            self.image[nameplate.image] = img
                         }
                         Image(uiImage: img)
                             .resizable()
@@ -31,7 +31,9 @@ struct InfoMaimaiNameplateList: View {
                     .frame(height: 60)
                     .contextMenu {
                         Button {
-                            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                            if let image = self.image[nameplate.image] {
+                                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                            }
                         } label: {
                             Label("保存到相册", systemImage: "square.and.arrow.down")
                         }
@@ -42,7 +44,7 @@ struct InfoMaimaiNameplateList: View {
                 }
             }
         }
-        .navigationTitle("姓名框一览")
+        .navigationTitle("名牌版一览")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
