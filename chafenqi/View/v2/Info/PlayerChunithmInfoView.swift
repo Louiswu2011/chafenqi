@@ -38,6 +38,8 @@ struct PlayerChunithmInfoView: View {
     @State private var overpowerPercent = 0.0
     @State private var charProgress = 0.0
     
+    @State private var avatarImg = UIImage()
+    
     
     var body: some View {
         ScrollView {
@@ -45,11 +47,21 @@ struct PlayerChunithmInfoView: View {
                 AsyncImage(url: URL(string: avatarUrlString)!, context: context, placeholder: {
                     ProgressView()
                 }, image: { img in
+                    let _ = DispatchQueue.main.async {
+                        self.avatarImg = img
+                    }
                     Image(uiImage: img)
                         .resizable()
                 })
                 .aspectRatio(1, contentMode: .fit)
                 .frame(width: 250)
+                .contextMenu {
+                    Button {
+                        UIImageWriteToSavedPhotosAlbum(avatarImg, nil, nil, nil)
+                    } label: {
+                        Label("保存到相册", systemImage: "square.and.arrow.down")
+                    }
+                }
                 
                 VStack(spacing: 5) {
                     Text(charName)
