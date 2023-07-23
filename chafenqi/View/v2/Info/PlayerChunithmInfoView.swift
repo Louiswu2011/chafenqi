@@ -156,11 +156,15 @@ struct PlayerChunithmInfoView: View {
                             Text("\(nameplateCount)")
                                 .bold()
                         }
-                        HStack {
-                            Text("称号")
-                            Spacer()
-                            Text("\(trophyCount)")
-                                .bold()
+                        NavigationLink {
+                            InfoChunithmTrophyList(list: user.chunithm.extra.trophies)
+                        } label: {
+                            HStack {
+                                Text("称号")
+                                Spacer()
+                                Text("\(trophyCount)")
+                                    .bold()
+                            }
                         }
                     }
                     HStack {

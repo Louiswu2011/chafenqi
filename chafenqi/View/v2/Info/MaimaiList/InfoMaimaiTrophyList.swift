@@ -11,6 +11,14 @@ struct InfoMaimaiTrophyList: View {
     @Environment(\.managedObjectContext) var context
     var list: [CFQMaimai.ExtraEntry.TrophyEntry]
     
+    let typeStrings = [
+        "NORMAL": "普通称号",
+        "BRONZE": "铜称号",
+        "SILVER": "银称号",
+        "GOLD": "金称号",
+        "RAINBOW": "彩虹称号"
+    ]
+    
     @State var group = [String: [CFQMaimai.ExtraEntry.TrophyEntry]]()
     
     var body: some View {
@@ -32,7 +40,7 @@ struct InfoMaimaiTrophyList: View {
                         }
                     }
                 } header: {
-                    Text(type)
+                    Text("\(typeStrings[type] ?? "普通称号") 共\(group[type]?.count ?? 0)个")
                 }
             }
             

@@ -805,6 +805,10 @@ extension String {
     var significance: Int {
         return ["NORMAL", "BRONZE", "SILVER", "GOLD", "RAINBOW"].firstIndex(of: self) ?? -1
     }
+    
+    var chunithmTrophySignificance: Int {
+        return ["normal", "copper", "silver", "gold", "platinum"].firstIndex(of: self) ?? -1
+    }
 }
 
 
