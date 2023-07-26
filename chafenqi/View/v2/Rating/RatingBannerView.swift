@@ -77,7 +77,7 @@ struct ChunithmRatingBannerView: View {
                         let constant = entry.associatedBestEntry!.associatedSong!.charts.constants[entry.associatedBestEntry!.levelIndex]
                         Text("#\(index)")
                             .frame(width: 35, alignment: .leading)
-                        Text("\(constant, specifier: "%.1f")/\(entry.rating.cut(remainingDigits: 2), specifier: "%.2f")")
+                        Text("\(constant, specifier: "%.1f")/\(DataTool.shared.numberFormatter.string(from: entry.rating as NSNumber) ?? "0.00")")
                             .bold()
                             .frame(width: 90, alignment: .leading)
                     }

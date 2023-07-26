@@ -9,6 +9,18 @@ import Foundation
 
 let difficulty = ["Expert": "exp", "Master": "mst", "Ultima": "ult"]
 
+class DataTool {
+    static let shared = DataTool()
+    
+    let numberFormatter = NumberFormatter()
+    
+    init() {
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.roundingMode = .down
+    }
+}
+
 func getMaxRatingPossible(songList: Set<ChunithmSongData>) -> Double {
     var max = 0.0
     
