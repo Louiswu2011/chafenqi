@@ -74,11 +74,9 @@ struct SettingsWidgetConfig: View {
                     VStack(alignment: .center) {
                         // Preview
                         TabView {
-                            RoundedRectangle(cornerRadius: 15)
-                                .frame(width: 141, height: 141)
+                            WidgetMediumPreview()
                             
-                            RoundedRectangle(cornerRadius: 15)
-                                .frame(width: 305.5, height: 141)
+                            WidgetLargePreview()
                         }
                         .tabViewStyle(.page(indexDisplayMode: .automatic))
                     }
@@ -142,8 +140,20 @@ struct SettingsWidgetConfig: View {
     }
 }
 
-struct WidgetPreview {
-    
+struct WidgetMediumPreview: View {
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 15)
+                .frame(width: 141, height: 141)
+        }
+    }
+}
+
+struct WidgetLargePreview: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 15)
+            .frame(width: 305.5, height: 141)
+    }
 }
 
 struct SettingsWidgetConfig_Previews: PreviewProvider {
