@@ -427,6 +427,7 @@ class CFQNUser: ObservableObject {
     }
     
     func loadFromCache() async throws {
+        let start = Date().timeIntervalSince1970
         let decoder = JSONDecoder()
         
         publishLoadStatus("查询订阅状态...")
@@ -444,6 +445,8 @@ class CFQNUser: ObservableObject {
         print("[CFQNUser] Loaded user cache.")
         
         try await addAdditionalData(username: self.username)
+        let end = Date().timeIntervalSince1970
+        print("[CFQNUser] Loaded cache in \(end - start)s.")
     }
     
     func refresh() async throws {
@@ -504,10 +507,7 @@ class CFQNUser: ObservableObject {
         publishLoadStatus("同步本地存储...")
         sharedContainer.set(self.jwtToken, forKey: "JWT")
         sharedContainer.set(username, forKey: "currentUser")
-        sharedContainer.synchronize()
         print("[CFQNUser] Set jwt token and username to \(username).")
-    
-        
     }
     
     // MARK: Make Widget
