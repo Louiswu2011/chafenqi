@@ -37,6 +37,10 @@ struct HomeView: View {
                 }
             } else if (user.didLogin) {
                 ScrollView {
+                    PullToRefresh(coordinateSpaceName: "pull") {
+                        refresh()
+                    }
+                    
                     HomeNameplate(user: user)
                     if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
                         Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
@@ -55,9 +59,10 @@ struct HomeView: View {
                         }
                     }
                 }
+                .coordinateSpace(name: "pull")
                 .navigationTitle("主页")
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: .navigationBarLeading) {
                         Button {
                             withAnimation(.easeInOut(duration: 0.15)) {
                                 user.currentMode.toggle()
@@ -71,13 +76,6 @@ struct HomeView: View {
                             Settings(user: user)
                         } label: {
                             Image(systemName: "gear")
-                        }
-                    }
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            refresh()
-                        } label: {
-                            Image(systemName: "arrow.clockwise")
                         }
                     }
                 }
@@ -171,5 +169,41 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(user: CFQNUser())
+    }
+}
+
+struct PullToRefresh: View {
+    var coordinateSpaceName: String
+    var onRefresh: ()->Void
+    
+    @State var needRefresh: Bool = false
+    
+    var body: some View {
+        GeometryReader { geo in
+            if (geo.frame(in: .named(coordinateSpaceName)).midY > 60) {
+                Spacer()
+                    .onAppear {
+                        needRefresh = true
+                    }
+            } else if (geo.frame(in: .named(coordinateSpaceName)).maxY < 40) {
+                Spacer()
+                    .onAppear {
+                        if needRefresh {
+                            needRefresh = false
+                            onRefresh()
+                        }
+                    }
+            }
+            HStack {
+                Spacer()
+                if needRefresh {
+                    Text("松开以刷新...")
+                        .foregroundColor(.gray)
+                } else {
+                    
+                }
+                Spacer()
+            }
+        }.padding(.top, -100)
     }
 }
