@@ -36,6 +36,8 @@ struct Settings: View {
     @State private var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     @State private var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
+    @State private var shouldOpenMiniGame = false
+    
     @State private var cacheSize = "加载中..."
     
     var body: some View {
@@ -123,7 +125,18 @@ struct Settings: View {
                 } label: {
                     Text("鸣谢")
                 }
-                SettingsInfoLabelView(title: "版本", message: "\(bundleVersion) Build \(bundleBuildNumber)")
+                ZStack {
+                    SettingsInfoLabelView(title: "版本", message: "\(bundleVersion) Build \(bundleBuildNumber)")
+                        .onTapGesture(count: 5) {
+                            shouldOpenMiniGame.toggle()
+                        }
+                    NavigationLink(
+                        destination: ClickGameView(),
+                        isActive: $shouldOpenMiniGame) {
+                            EmptyView()
+                        }
+                        .hidden()
+                }
                 Button {
                     if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) {
                         let updateAlert = Alert(
