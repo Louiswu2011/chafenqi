@@ -20,6 +20,8 @@ struct ClickGameView: View {
     @State private var avgDuration: TimeInterval = .infinity
     @State private var previousInstant: TimeInterval = 0
     
+    var minimumClickToActivate = 16
+    
     var body: some View {
         ZStack {
             Color.orange
@@ -79,7 +81,7 @@ struct ClickGameView: View {
             } else {
                 minimumDuration = min(duration, minimumDuration)
                 
-                if clickCount > 4 {
+                if clickCount >= minimumClickToActivate {
                     maximumSpeed = max(getCurrentSpeed(), maximumSpeed)
                 }
                 if clickCount > 1 {
@@ -91,8 +93,8 @@ struct ClickGameView: View {
     }
     
     func getCurrentSpeed() -> Double {
-        let slice = durations.suffix(4)
-        return slice.count < 4 ? 0 : 15 / (slice.reduce(0) { $0 + $1 } / Double(slice.count))
+        let slice = durations.suffix(minimumClickToActivate)
+        return slice.count < minimumClickToActivate ? 0 : 15 / (slice.reduce(0) { $0 + $1 } / Double(slice.count))
     }
     
     func resetStats() {
