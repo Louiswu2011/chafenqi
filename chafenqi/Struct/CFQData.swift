@@ -240,7 +240,7 @@ struct CFQData: Codable {
                 
                 static let empty = NameplateEntry(name: "", description: "", image: "", area: "", selected: -1)
             }
-            struct CharacterEntry: Codable {
+            struct CharacterEntry: Codable, Equatable {
                 var name: String
                 var description: String
                 var image: String
@@ -256,7 +256,7 @@ struct CFQData: Codable {
                 var type: String
                 var selected: Int
             }
-            struct FrameEntry: Codable {
+            struct FrameEntry: Codable, Equatable {
                 var name: String
                 var description: String
                 var image: String
@@ -509,7 +509,7 @@ struct CFQData: Codable {
             
             static let empty = ExtraEntry(nameplates: [], skills: [], characters: [], trophies: [], mapIcons: [], tickets: [], collections: [])
             
-            struct NameplateEntry: Codable {
+            struct NameplateEntry: Codable, Equatable {
                 var name: String
                 var url: String
                 var current: Int
@@ -525,7 +525,7 @@ struct CFQData: Codable {
                 var updatedAt: String
                 var createdAt: String
             }
-            struct CharacterEntry: Codable {
+            struct CharacterEntry: Codable, Equatable {
                 var name: String
                 var url: String
                 var rank: String
