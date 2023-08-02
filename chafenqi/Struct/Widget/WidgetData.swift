@@ -15,8 +15,10 @@ struct WidgetData {
         
         var maiCharUrl: String?
         var maiBgUrl: String?
+        var maiColor: [[CGFloat]]?
         var chuCharUrl: String?
         var chuBgUrl: String?
+        var chuColor: [[CGFloat]]?
         
         var smallModuleList: [Module]?
         var mediumModuleList: [Module]?

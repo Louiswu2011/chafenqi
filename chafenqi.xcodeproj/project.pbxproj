@@ -121,6 +121,9 @@
 		BF8D2A832A06395F00F60633 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = BF8D2A822A06395F00F60633 /* Crypto */; };
 		BF8D2A852A063A9A00F60633 /* AlertToastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D2A842A063A9A00F60633 /* AlertToastModel.swift */; };
 		BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
+		BF9E520F2A77E26B008D7C01 /* WidgetPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E520E2A77E26B008D7C01 /* WidgetPreviews.swift */; };
+		BF9E52112A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E52102A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift */; };
+		BF9E52132A77E336008D7C01 /* WidgetOptionPickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E52122A77E336008D7C01 /* WidgetOptionPickers.swift */; };
 		BFA133262A7556ED00593C7B /* ClickGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA133252A7556ED00593C7B /* ClickGameView.swift */; };
 		BFA3190C2A02ED140042B5FB /* CFQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3190B2A02ED140042B5FB /* CFQData.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
@@ -342,6 +345,9 @@
 		BF8D2A7F2A06382800F60633 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF8D2A842A063A9A00F60633 /* AlertToastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastModel.swift; sourceTree = "<group>"; };
 		BF9CEFB92992C03500658724 /* TunnelManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelManagerService.swift; sourceTree = "<group>"; };
+		BF9E520E2A77E26B008D7C01 /* WidgetPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPreviews.swift; sourceTree = "<group>"; };
+		BF9E52102A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCustomSelectionViews.swift; sourceTree = "<group>"; };
+		BF9E52122A77E336008D7C01 /* WidgetOptionPickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetOptionPickers.swift; sourceTree = "<group>"; };
 		BFA133252A7556ED00593C7B /* ClickGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickGameView.swift; sourceTree = "<group>"; };
 		BFA3190B2A02ED140042B5FB /* CFQData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQData.swift; sourceTree = "<group>"; };
 		BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLinkOptionView.swift; sourceTree = "<group>"; };
@@ -729,6 +735,17 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		BF9E520D2A77E255008D7C01 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				6731D5A82A553F6F00DF1DF9 /* SettingsWidgetConfig.swift */,
+				BF9E520E2A77E26B008D7C01 /* WidgetPreviews.swift */,
+				BF9E52102A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift */,
+				BF9E52122A77E336008D7C01 /* WidgetOptionPickers.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
 		BFA133242A7556DF00593C7B /* Easter */ = {
 			isa = PBXGroup;
 			children = (
@@ -853,6 +870,7 @@
 		BFE075A52A0785B2005248A6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				BF9E520D2A77E255008D7C01 /* Widget */,
 				BFB57B752A62F742007DA4BC /* User */,
 				671192802A495AA100BCE0B9 /* PerksPreview */,
 				6786F0AC2A3C62AA00CE90C2 /* SponsorView.swift */,
@@ -860,7 +878,6 @@
 				BF45B1CD2A0961440076E437 /* TokenUploderView.swift */,
 				677004202A20B9E6005BB69A /* RedeemView.swift */,
 				676317572A2EE2C300693E4B /* SettingsHomeArrangement.swift */,
-				6731D5A82A553F6F00DF1DF9 /* SettingsWidgetConfig.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1351,6 +1368,7 @@
 				BFF4B7CB2A4DED330080C6FC /* WidgetData.swift in Sources */,
 				6757B20F2A39BB75005701A5 /* InfoMaimaiFrameList.swift in Sources */,
 				6786F0AD2A3C62AA00CE90C2 /* SponsorView.swift in Sources */,
+				BF9E52112A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift in Sources */,
 				6786F0A12A3C3BC300CE90C2 /* DeltaShortLook.swift in Sources */,
 				BF7872A92A07E515007243B3 /* RootView.swift in Sources */,
 				6786F0BC2A3C637800CE90C2 /* GradeBadgeView.swift in Sources */,
@@ -1418,6 +1436,7 @@
 				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
 				BFFEEB212A0826A3001B15B7 /* CacheController.swift in Sources */,
 				BFCE1B2C29EE93A600BFAA67 /* AppDelegate.swift in Sources */,
+				BF9E52132A77E336008D7C01 /* WidgetOptionPickers.swift in Sources */,
 				6786F0AB2A3C629F00CE90C2 /* SongCoverView.swift in Sources */,
 				6757B2092A39B5EC005701A5 /* InfoMaimaiCharacterList.swift in Sources */,
 				BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */,
@@ -1425,6 +1444,7 @@
 				6731D5A92A553F6F00DF1DF9 /* SettingsWidgetConfig.swift in Sources */,
 				67BA854F2A2D82DA00C0B0EA /* CFQAuxData.swift in Sources */,
 				671192822A495E9E00BCE0B9 /* PerkSheetView.swift in Sources */,
+				BF9E520F2A77E26B008D7C01 /* WidgetPreviews.swift in Sources */,
 				6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */,
 				BFE0759F2A07845B005248A6 /* HomeRecent.swift in Sources */,
 				6786F0B32A3C631300CE90C2 /* TextInfoView.swift in Sources */,

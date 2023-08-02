@@ -24,8 +24,8 @@ struct UpdaterView: View {
     @State private var isProxyOn = false
     @State private var proxyStatus = ""
     
-    @State private var chuniAvg = ""
-    @State private var maiAvg = ""
+    @State private var chuniAvg = "加载中..."
+    @State private var maiAvg = "加载中..."
     
     @State private var observers = [AnyObject]()
     
@@ -54,10 +54,29 @@ struct UpdaterView: View {
                         }
                     }
                 }
+                
+                HStack {
+                    Text("舞萌DX")
+                    Spacer()
+                    if maiAvg == "加载中..." {
+                        ProgressView()
+                    } else {
+                        Text(maiAvg)
+                            .foregroundColor(.gray)
+                    }
+                }
+                HStack {
+                    Text("中二节奏")
+                    Spacer()
+                    if chuniAvg == "加载中..." {
+                        ProgressView()
+                    } else {
+                        Text(chuniAvg)
+                            .foregroundColor(.gray)
+                    }
+                }
             } header: {
                 Text("连接")
-            } footer: {
-                Text("今日平均传分用时:\n中二节奏: \(chuniAvg.isEmpty || chuniAvg.starts(with: "-") ? "暂无数据" : chuniAvg)\n舞萌DX: \(maiAvg.isEmpty || maiAvg.starts(with: "-") ? "暂无数据" : maiAvg)")
             }
 
             Section {
@@ -142,12 +161,39 @@ struct UpdaterView: View {
     func loadVar() {
         Task {
             do {
-                chuniAvg = try await String(format: "%.2f" ,Double(CFQStatsServer.getAvgUploadTime(for: 0))!) + "s"
-                maiAvg = try await String(format: "%.2f" ,Double(CFQStatsServer.getAvgUploadTime(for: 1))!) + "s"
+                try await makeServerStatusText()
             } catch {
-                
+                print(error)
+                chuniAvg = "暂无数据"
+                maiAvg = "暂无数据"
             }
         }
+    }
+    
+    func makeServerStatusText() async throws {
+        let chuni = try await Double(CFQStatsServer.getAvgUploadTime(for: 0))!
+        let mai = try await Double(CFQStatsServer.getAvgUploadTime(for: 1))!
+        
+        func makeStatusString(with time: Double) -> String {
+            switch time {
+            case ...0:
+                return "暂无数据"
+            case 0...45:
+                return "畅通 (\(String(format: "%.2f", time))s)"
+            case 45...120:
+                return "缓慢 (\(String(format: "%.2f", time))s)"
+            case 120...300:
+                return "拥堵 (\(String(format: "%.2f", time))s)"
+            case 300...:
+                return "严重拥堵 (\(String(format: "%.2f", time))s)"
+            default:
+                return "暂无数据"
+            }
+        }
+        
+        chuniAvg = makeStatusString(with: chuni)
+        maiAvg = makeStatusString(with: mai)
+        print("[Updater] Fetched average update time:", chuni, mai)
     }
     
     func registerObserver() {
