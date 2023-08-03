@@ -54,7 +54,13 @@ struct UpdaterView: View {
                         }
                     }
                 }
+                // TextInfoView(text: "免登录传分", info: "无效")
                 
+            } header: {
+                Text("连接")
+            }
+            
+            Section {
                 HStack {
                     Text("舞萌DX")
                     Spacer()
@@ -76,7 +82,7 @@ struct UpdaterView: View {
                     }
                 }
             } header: {
-                Text("连接")
+                Text("服务器状态")
             }
 
             Section {
@@ -193,7 +199,7 @@ struct UpdaterView: View {
         
         chuniAvg = makeStatusString(with: chuni)
         maiAvg = makeStatusString(with: mai)
-        print("[Updater] Fetched average update time:", chuni, mai)
+        // print("[Updater] Fetched average update time:", chuni, mai)
     }
     
     func registerObserver() {

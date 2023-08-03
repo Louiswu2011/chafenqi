@@ -54,6 +54,7 @@ struct CFQMaimaiDayRecords {
                 record.recentEntries = playInDay
                 
                 // Filter delta logs
+                // TODO: Fix slow toDate() function call
                 let latestDelta = deltas.filter { entry in
                     if let timestamp = entry.createdAt.toDate()?.timeIntervalSince1970 {
                         return (truncatedFirstStamp...t).contains(timestamp)
