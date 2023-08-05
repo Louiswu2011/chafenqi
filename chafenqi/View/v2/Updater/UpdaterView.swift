@@ -20,6 +20,7 @@ struct UpdaterView: View {
     @State private var isShowingConfig = false
     @State private var isShowingHelp = false
     @State private var isShowingQRCode = false
+    @State private var isShowingBind = false
     
     @State private var isProxyOn = false
     @State private var proxyStatus = ""
@@ -154,9 +155,23 @@ struct UpdaterView: View {
             refreshStatus()
             registerObserver()
             loadVar()
+            
+            if user.fishToken.isEmpty {
+                if user.proxyShouldPromptLinking {
+                    alertToast.alert = Alert(title: Text("提示"),
+                                             message: Text("您当前暂未绑定水鱼账号，将无法同步数据到水鱼网。是否现在进行绑定？\n\n（稍后可以在设置 - 更新水鱼Token中绑定）"),
+                                             primaryButton: .cancel(Text("不再提醒"), action: { self.user.proxyShouldPromptLinking = false }),
+                                             secondaryButton: .default(Text("绑定"), action: { self.isShowingBind.toggle() }))
+                }
+            } else {
+                user.proxyShouldPromptLinking = false
+            }
         }
         .sheet(isPresented: $isShowingQRCode) {
             UpdaterQRCodeView(maiStr: makeUrl(mode: 1), chuStr: makeUrl(mode: 0))
+        }
+        .sheet(isPresented: $isShowingBind) {
+            TokenUploderView(user: user)
         }
         .toast(isPresenting: $alertToast.show) {
             alertToast.toast
