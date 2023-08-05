@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RatingListView: View {
+    @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
+//    @State var screenshotMaker: ScreenshotMaker?
     
     var body: some View {
         ScrollView {
@@ -20,8 +22,20 @@ struct RatingListView: View {
                     .padding()
             }
         }
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button {
+//                    UIImageWriteToSavedPhotosAlbum(self.snapshotWithContext(context), nil, nil, nil)
+//                } label: {
+//                    Image(systemName: "square.and.arrow.up")
+//                }
+//            }
+//        }
         .navigationTitle("Rating列表")
         .navigationBarTitleDisplayMode(.large)
+//        .screenshotView { maker in
+//            self.screenshotMaker = maker
+//        }
     }
 }
 

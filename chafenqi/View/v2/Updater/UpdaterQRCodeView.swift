@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import CoreData
 
 struct UpdaterQRCodeView: View {
     @State private var toastModel = AlertToastModel.shared
@@ -68,7 +69,7 @@ struct UpdaterQRCodeView: View {
     
     func snapshotThenSave() {
         let snapshotView = selectedMode == 0 ? QRCodeSnapshot(chuStr: chuStr) : QRCodeSnapshot(maiStr: maiStr)
-        let image = snapshotView.snapshot()
+        let image = snapshotView.snapshotSelf()
         
         let imageSaver = ImageSaver()
         imageSaver.successHandler = {
@@ -144,24 +145,6 @@ struct QRCodeSnapshot: View {
 struct UpdaterQRCode_Previews: PreviewProvider {
     static var previews: some View {
         UpdaterQRCodeView(maiStr: "testString1testString1testString1testString1testString1testString1", chuStr: "testString2testString2testString2testString2testString2testString2testString2")
-    }
-}
-
-// MARK: View Extension
-extension View {
-    func snapshot() -> UIImage {
-        let controller = UIHostingController(rootView: self)
-        let view = controller.view
-
-        let targetSize = controller.view.intrinsicContentSize
-        view?.bounds = CGRect(origin: .zero, size: targetSize)
-        view?.backgroundColor = .clear
-
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
-
-        return renderer.image { _ in
-            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
-        }
     }
 }
 
