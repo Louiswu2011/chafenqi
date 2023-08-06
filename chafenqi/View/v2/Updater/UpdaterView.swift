@@ -56,9 +56,12 @@ struct UpdaterView: View {
                     }
                 }
                 // TextInfoView(text: "免登录传分", info: "无效")
-                
-            } header: {
-                Text("连接")
+                Button {
+                    
+                } label: {
+                    Text("免登录传分（🚧施工中）")
+                }
+                .disabled(true)
             }
             
             Section {
