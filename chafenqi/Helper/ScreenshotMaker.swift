@@ -37,13 +37,9 @@ class ScreenshotMaker: UIView {
               let containerSuperview = containerView.superview else { return nil }
         let renderer = UIGraphicsImageRenderer(bounds: containerView.frame)
         return renderer.image { (context) in
+            containerSuperview.backgroundColor = .white
             containerSuperview.layer.render(in: context.cgContext)
         }
-//        UIGraphicsBeginImageContextWithOptions(containerSuperview.bounds.size, false, UIScreen.main.scale)
-//        containerSuperview.drawHierarchy(in: containerSuperview.bounds, afterScreenUpdates: true)
-//        let snapshot = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        return snapshot
     }
 }
 
