@@ -91,16 +91,16 @@ struct UpdaterView: View {
 
             Section {
                 Button {
-                    copyUrlToClipboard(mode: 0)
+                    copyUrlToClipboard(mode: 1)
                 } label: {
-                    Text("复制中二节奏链接")
+                    Text("复制舞萌DX链接")
                 }
                 .disabled(!user.didLogin)
                 
                 Button {
-                    copyUrlToClipboard(mode: 1)
+                    copyUrlToClipboard(mode: 0)
                 } label: {
-                    Text("复制舞萌DX链接")
+                    Text("复制中二节奏链接")
                 }
                 .disabled(!user.didLogin)
                 

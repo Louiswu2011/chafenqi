@@ -472,7 +472,7 @@ class CFQNUser: ObservableObject {
     }
     
     // MARK: Post-Init
-    func addAdditionalData(username: String) async throws {
+    func addAdditionalData(username: String, skipCustomLoading: Bool = false) async throws {
         publishLoadStatus("关联歌曲信息...")
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
@@ -498,12 +498,14 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Association Assertion Passed.")
         
-        publishLoadStatus("加载用户数据...")
-        self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist)
-        self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
-        self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
-        self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
-        print("[CFQNUser] Calculated Custom Values.")
+        if !skipCustomLoading {
+            publishLoadStatus("加载用户数据...")
+            self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist)
+            self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
+            self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
+            self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
+            print("[CFQNUser] Calculated Custom Values.")
+        }
         
         publishLoadStatus("同步本地存储...")
         sharedContainer.set(self.jwtToken, forKey: "JWT")
