@@ -40,7 +40,7 @@ struct UpdaterView: View {
         Form {
             Section {
                 HStack {
-                    Text("状态")
+                    Text("开关")
                     Spacer()
                     Toggle(isOn: $isProxyOn) {
                         Text(proxyStatus)
