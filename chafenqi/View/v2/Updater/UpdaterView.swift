@@ -55,6 +55,7 @@ struct UpdaterView: View {
                         }
                     }
                 }
+                TextInfoView(text: "状态", info: "未开始传分")
                 // TextInfoView(text: "免登录传分", info: "无效")
                 Button {
                     
