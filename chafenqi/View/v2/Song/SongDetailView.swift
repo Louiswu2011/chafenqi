@@ -468,7 +468,7 @@ struct SongCardExpandedView: View {
                 Text("谱师:\(charter)")
                     .lineLimit(1)
             }
-            .padding(.top, 5)
+            .padding(.vertical, 5)
             if let data = data {
                 SongCardMaimaiLossesView(data: data)
             } else if let entry = chuEntry {
@@ -618,7 +618,7 @@ struct SongCommentScrollView: View {
                         $0.timestamp > $1.timestamp
                     }.prefix(3), id: \.id) { comment in
                         CommentCell(comment: comment)
-                            .background(RoundedRectangle(cornerRadius: 10).fill(.gray.opacity(0.1)))
+                            .background(RoundedRectangle(cornerRadius: 10).fill(.gray.opacity(0.15)))
                     }
                 }
             }
