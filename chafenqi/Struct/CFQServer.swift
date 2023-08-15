@@ -95,16 +95,28 @@ struct CFQServer {
     }
     
     struct Comment {
-        static func loadComments(mode: Int, musicId: Int) async throws {
-            
+        static func loadComments(mode: Int, musicId: Int) async throws -> [UserComment] {
+            let payload = try JSONSerialization.data(withJSONObject: ["musicId": musicId, "musicFrom": mode])
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/comment/fetch", payload: payload)
+            return try CFQServer.decoder.decode(Array<UserComment>.self, from: data)
         }
         
-        static func postComment(content: String, mode: Int, musicId: Int) async throws {
-            
+        static func postComment(authToken: String, content: String, mode: Int, musicId: Int, reply: Int = -1) async throws -> Bool {
+            let payload = try JSONSerialization.data(withJSONObject: [
+                "content": content,
+                "musicId": musicId,
+                "musicFrom": mode,
+                "reply": reply
+            ] as [String : Any])
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/comment/post", payload: payload, token: authToken)
+            print(response)
+            return response.statusCode() == 200
         }
         
-        static func deleteComment(commentId: Int) async throws {
-            
+        static func deleteComment(authToken: String, commentId: Int) async throws -> Bool {
+            let payload = try JSONSerialization.data(withJSONObject: ["id": commentId])
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/comment/delete", payload: payload, token: authToken)
+            return response.statusCode() == 200
         }
     }
     

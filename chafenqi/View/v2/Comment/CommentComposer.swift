@@ -9,18 +9,16 @@ import SwiftUI
 
 struct CommentComposerView: View {
     @ObservedObject var toastManager = AlertToastManager.shared
-    @ObservedObject var user: CFQUser
+    @ObservedObject var user: CFQNUser
     
-    @State var comments = []
-    @State var from: Int
+    var musicId = 0
+    var musicFrom = 0
     @State var message = ""
-    @State var replyComment: Comment? = nil
+    // @State var replyComment: Comment? = nil
     
     @Binding var showingComposer: Bool
     
     var body: some View {
-        let displayName = user.nickname.isEmpty ? user.username : user.nickname
-        
         NavigationView {
             VStack(alignment: .leading) {
                 TextField("在这里输入你的评论...", text: $message)
@@ -28,7 +26,7 @@ struct CommentComposerView: View {
                     .multilineTextAlignment(.leading)
                     .autocapitalization(.none)
                 Spacer()
-                Text("将以\(displayName)的身份发布，请文明发言")
+                Text("将以\(user.username)的身份发布，请文明发言")
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
             }
@@ -38,20 +36,17 @@ struct CommentComposerView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        let reply = replyComment?.uid
                         Task {
-                            let result = await CommentHelper.postComment(
-                                message: message,
-                                sender: user.username,
-                                nickname: user.nickname,
-                                mode: user.currentMode,
-                                musicId: from,
-                                reply: reply ?? -1
-                            )
-                            if (result) {
-                                // toastManager.showingCommentPostSucceed.toggle()
-                                
-                                showingComposer.toggle()
+                            do {
+                                let result = try await CFQCommentServer.postComment(authToken: user.jwtToken, content: message, mode: musicFrom, musicId: musicId)
+                                if (result) {
+                                    showingComposer.toggle()
+                                } else {
+                                    print("[CommentComposer] Failed to post comment.")
+                                }
+                            } catch {
+                                // TODO: Error handling
+                                print(error)
                             }
                         }
                     } label: {

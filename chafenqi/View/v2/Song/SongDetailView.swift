@@ -218,6 +218,12 @@ struct SongDetailView: View {
                             }
                         }
                     }
+                    
+                    if let song = maiSong {
+                        SongCommentScrollView(user: user, musicId: Int(song.musicId) ?? 0, musicFrom: 1)
+                    } else if let song = chuSong {
+                        SongCommentScrollView(user: user, musicId: song.musicID, musicFrom: 0)
+                    }
                 }
             }
         }
@@ -406,7 +412,7 @@ struct ScoreCardView: View {
                     }
                     
                     if expanded {
-                        if let entry = chuRecords?.first { $0.levelIndex == levelIndex } {
+                        if let entry = chuRecords?.first(where: { $0.levelIndex == levelIndex }) {
                             SongCardExpandedView(
                                 constant: song.charts.constants[levelIndex],
                                 charter: song.charts.charters[levelIndex],
@@ -585,6 +591,12 @@ struct SongCardMaimaiLossesView: View {
 }
 
 struct SongCommentScrollView: View {
+    var user: CFQNUser
+    var musicId: Int
+    var musicFrom: Int
+    
+    @State var comments: Array<UserComment> = []
+    
     var body: some View {
         VStack {
             HStack {
@@ -593,17 +605,27 @@ struct SongCommentScrollView: View {
                     .bold()
                 Spacer()
                 NavigationLink {
-                    
+                    CommentDetail(user: user, musicId: musicId, musicFrom: musicFrom, comments: comments)
                 } label: {
                     Text("显示全部")
                 }
+                // .disabled(comments.isEmpty)
             }
             .padding(.bottom)
             ScrollView(.horizontal) {
-                
+                ForEach(comments.sorted {
+                    $0.timestamp > $1.timestamp
+                }.prefix(3), id: \.id) { comment in
+                    CommentCell(comment: comment)
+                }
             }
         }
         .padding()
+        .onAppear {
+            Task {
+                comments = try await CFQCommentServer.loadComments(mode: musicFrom, musicId: musicId)
+            }
+        }
     }
 }
 

@@ -8,26 +8,24 @@
 import SwiftUI
 
 struct CommentCell: View {
-    @State var comment: Comment
+    @State var comment: UserComment
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                let displayName = comment.nickname.isEmpty ? comment.sender : comment.nickname
-                
-                Text(displayName)
+                Text(comment.username)
                     .font(.system(size: 15))
                     .bold()
                     .lineLimit(1)
                 Spacer()
-                Text(comment.getDateString())
+                Text(comment.dateString)
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
             }
             .padding(.horizontal)
             .padding(.top)
             
-            Text(comment.message)
+            Text(comment.content)
                 .multilineTextAlignment(.leading)
                 .lineLimit(2)
                 .padding(.horizontal, 20)
@@ -39,6 +37,6 @@ struct CommentCell: View {
 
 struct CommentCell_Previews: PreviewProvider {
     static var previews: some View {
-        CommentCell(comment: Comment.shared)
+        CommentCell(comment: UserComment.shared)
     }
 }
