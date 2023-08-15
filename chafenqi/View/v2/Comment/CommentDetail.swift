@@ -49,8 +49,11 @@ struct CommentDetail: View {
                                         .foregroundColor(.gray)
                                     
                                 }
-                                .padding(.vertical)
+                                .padding(.vertical, 10)
                                 
+                                Text(comment.content)
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.bottom, 10)
                             }
                             .contextMenu {
                                 Button {

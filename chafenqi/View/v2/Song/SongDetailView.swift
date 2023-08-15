@@ -611,12 +611,15 @@ struct SongCommentScrollView: View {
                 }
                 // .disabled(comments.isEmpty)
             }
-            .padding(.bottom)
+            .padding(.bottom, 5)
             ScrollView(.horizontal) {
-                ForEach(comments.sorted {
-                    $0.timestamp > $1.timestamp
-                }.prefix(3), id: \.id) { comment in
-                    CommentCell(comment: comment)
+                HStack {
+                    ForEach(comments.sorted {
+                        $0.timestamp > $1.timestamp
+                    }.prefix(3), id: \.id) { comment in
+                        CommentCell(comment: comment)
+                            .background(RoundedRectangle(cornerRadius: 10).fill(.gray.opacity(0.1)))
+                    }
                 }
             }
         }
