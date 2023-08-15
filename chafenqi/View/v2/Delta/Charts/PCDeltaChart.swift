@@ -10,21 +10,35 @@ import SwiftUICharts
 
 struct PCDeltaChart: View {
     @Binding var rawDataPoints: [(Double, String)]
+    @Binding var shouldShowMarkers: Bool
     
     var body: some View {
         let chartData = addDataPoints()
         VStack {
-            LineChart(chartData: chartData)
-                .pointMarkers(chartData: chartData)
-                .touchOverlay(chartData: chartData)
-                .yAxisGrid(chartData: chartData)
-                .yAxisLabels(chartData: chartData)
-                .floatingInfoBox(chartData: chartData)
-                .headerBox(chartData: chartData)
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
-                .id(UUID())
+            if shouldShowMarkers {
+                LineChart(chartData: chartData)
+                    .pointMarkers(chartData: chartData)
+                    .touchOverlay(chartData: chartData)
+                    .yAxisGrid(chartData: chartData)
+                    .yAxisLabels(chartData: chartData)
+                    .floatingInfoBox(chartData: chartData)
+                    .headerBox(chartData: chartData)
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
+                    .id(UUID())
+            } else {
+                LineChart(chartData: chartData)
+                    .touchOverlay(chartData: chartData)
+                    .yAxisGrid(chartData: chartData)
+                    .yAxisLabels(chartData: chartData)
+                    .floatingInfoBox(chartData: chartData)
+                    .headerBox(chartData: chartData)
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
+                    .id(UUID())
+            }
         }
     }
     
@@ -37,7 +51,7 @@ struct PCDeltaChart: View {
             dataPoints: dataPoints,
             legendTitle: "次数",
             pointStyle: .init(),
-            style: .init(lineColour: .init(colour: .blue), lineType: .line)
+            style: .init(lineColour: .init(colour: .blue), lineType: .curvedLine)
         )
         let metadata = ChartMetadata(title: "游玩次数", subtitle: "全部数据")
         let chartStyle = LineChartStyle(

@@ -18,6 +18,7 @@ struct DeltaListView: View {
     @State var pcChartData: [(Double, String)] = []
     @State var chuDayPlayData = CFQChunithmDayRecords()
     @State var maiDayPlayData = CFQMaimaiDayRecords()
+    @State var shouldShowMarkers = true
 
     @State var isLoaded = false
     @State var isRatingChart = false
@@ -79,9 +80,9 @@ struct DeltaListView: View {
                     }
                     
                     if isRatingChart {
-                        RatingDeltaChart(rawDataPoints: $ratingChartData)
+                        RatingDeltaChart(rawDataPoints: $ratingChartData, shouldShowMarkers: $shouldShowMarkers)
                     } else {
-                        PCDeltaChart(rawDataPoints: $pcChartData)
+                        PCDeltaChart(rawDataPoints: $pcChartData, shouldShowMarkers: $shouldShowMarkers)
                     }
                 }
                 .padding(.horizontal)
@@ -104,6 +105,15 @@ struct DeltaListView: View {
         }
         .onAppear {
             loadVar()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    shouldShowMarkers.toggle()
+                } label: {
+                    Image(systemName: shouldShowMarkers ? "eye" : "eye.slash")
+                }
+            }
         }
         .navigationTitle("上传记录")
         .navigationBarTitleDisplayMode(.inline)
