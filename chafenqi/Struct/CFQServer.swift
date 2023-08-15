@@ -94,6 +94,20 @@ struct CFQServer {
         }
     }
     
+    struct Comment {
+        static func loadComments(mode: Int, musicId: Int) async throws {
+            
+        }
+        
+        static func postComment(content: String, mode: Int, musicId: Int) async throws {
+            
+        }
+        
+        static func deleteComment(commentId: Int) async throws {
+            
+        }
+    }
+    
     struct Maimai {
         var authToken: String
         
@@ -266,3 +280,4 @@ typealias CFQFishServer = CFQServer.Fish
 typealias CFQMaimaiServer = CFQServer.Maimai
 typealias CFQChunithmServer = CFQServer.Chunithm
 typealias CFQStatsServer = CFQServer.Stats
+typealias CFQCommentServer = CFQServer.Comment

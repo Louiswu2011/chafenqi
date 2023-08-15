@@ -584,6 +584,28 @@ struct SongCardMaimaiLossesView: View {
     }
 }
 
+struct SongCommentScrollView: View {
+    var body: some View {
+        VStack {
+            HStack {
+                Text("评论")
+                    .font(.system(size: 20))
+                    .bold()
+                Spacer()
+                NavigationLink {
+                    
+                } label: {
+                    Text("显示全部")
+                }
+            }
+            .padding(.bottom)
+            ScrollView(.horizontal) {
+                
+            }
+        }
+        .padding()
+    }
+}
 
 struct SongDetailView_Previews: PreviewProvider {
     static var previews: some View {
