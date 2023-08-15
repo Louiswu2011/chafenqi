@@ -94,6 +94,6 @@ struct ChunithmDataGrabber {
     }
     
     static func getSongCoverUrl(source: Int, musicId: String) -> URL {
-        return URL(string: "http://43.139.107.206/chunithm/cover?mid=\(musicId)")!
+        return URL(string: "http://43.139.107.206:8083/api/chunithm/cover?musicId=\(musicId)")!
     }
 }
