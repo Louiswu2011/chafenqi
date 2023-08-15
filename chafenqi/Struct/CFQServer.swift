@@ -71,11 +71,6 @@ struct CFQServer {
             let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/options", payload: payload, token: authToken)
             return response.statusCode() == 200
         }
-        
-        static func checkUploadStatus(authToken: String) async throws -> String {
-            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/uploadStatus", token: authToken)
-            return ""
-        }
     }
     
     struct Fish {
@@ -96,6 +91,12 @@ struct CFQServer {
             let payload = try JSONSerialization.data(withJSONObject: ["type": mode])
             let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/stats/upload_time", payload: payload)
             return String(decoding: data, as: UTF8.self)
+        }
+        
+        static func checkUploadStatus(authToken: String) async throws -> [Int] {
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/upload_status", token: authToken)
+            let decoded = try CFQServer.decoder.decode(Dictionary<String, Int>.self, from: data)
+            return [decoded["chu"] ?? -1, decoded["mai"] ?? -1]
         }
     }
     

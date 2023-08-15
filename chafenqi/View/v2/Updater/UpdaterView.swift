@@ -33,6 +33,9 @@ struct UpdaterView: View {
     @State private var startProxyActivity = "StartProxyIntent"
     @State private var stopProxyActivity = "StopProxyIntent"
     
+    @State private var statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
+    @State private var uploadStatus = "未开始上传"
+    
     let shortcutPath = "http://43.139.107.206/chafenqi/shortcut".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
     let shortcutName = "一键传分".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
     
@@ -55,7 +58,16 @@ struct UpdaterView: View {
                         }
                     }
                 }
-                TextInfoView(text: "状态", info: "未开始传分")
+                TextInfoView(text: "状态", info: uploadStatus)
+                    .onReceive(statusCheckTimer) { time in
+                        Task {
+                            let status = try await makeUploadStatusText()
+                            DispatchQueue.main.async {
+                                uploadStatus = status
+                            }
+                            print("[Updater] Got update status from server: ", status)
+                        }
+                    }
                 // TextInfoView(text: "免登录传分", info: "无效")
                 Button {
                     
@@ -170,6 +182,11 @@ struct UpdaterView: View {
             } else {
                 user.proxyShouldPromptLinking = false
             }
+            
+            statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
+        }
+        .onDisappear {
+            statusCheckTimer.upstream.connect().cancel()
         }
         .sheet(isPresented: $isShowingQRCode) {
             UpdaterQRCodeView(maiStr: makeUrl(mode: 1), chuStr: makeUrl(mode: 0))
@@ -279,6 +296,52 @@ struct UpdaterView: View {
         let destination = mode == 0 ? "chunithm" : "maimai"
         let forwarding = user.shouldForwardToFish ? 1 : 0
         return "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)&forwarding=\(forwarding)"
+    }
+    
+    func makeUploadStatusText() async throws -> String {
+        let status = try await CFQStatsServer.checkUploadStatus(authToken: user.jwtToken)
+        var string = ""
+        switch status[0] {
+        case 0:
+            string += "中二节奏：认证中"
+        case 1:
+            string += "中二节奏：更新最好成绩"
+        case 2:
+            string += "中二节奏：更新最近记录"
+        case 3:
+            string += "中二节奏：更新玩家信息"
+        case 4:
+            string += "中二节奏：更新出勤记录"
+        case 5:
+            string += "中二节奏：更新收藏品信息"
+        case 6:
+            string += "中二节奏：更新Rating列表"
+        default:
+            break
+        }
+        if !string.isEmpty {
+            string += " "
+        }
+        switch status[1] {
+        case 0:
+            string += "舞萌DX：认证中"
+        case 1:
+            string += "舞萌DX：更新玩家信息"
+        case 2:
+            string += "舞萌DX：更新出勤记录"
+        case 3:
+            string += "舞萌DX：更新收藏品信息"
+        case 4:
+            string += "舞萌DX：更新最好成绩"
+        case 5:
+            string += "舞萌DX：更新最近记录"
+        default:
+            break
+        }
+        if string.isEmpty {
+            string = "未开始上传"
+        }
+        return string
     }
 }
 
