@@ -58,17 +58,22 @@ struct UpdaterView: View {
                         }
                     }
                 }
-                TextInfoView(text: "状态", info: uploadStatus)
-                    .onReceive(statusCheckTimer) { time in
-                        Task {
-                            let status = try await makeUploadStatusText()
-                            DispatchQueue.main.async {
-                                uploadStatus = status
+                HStack {
+                    Text("状态")
+                    Spacer()
+                    Text(uploadStatus)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.trailing)
+                        .onReceive(statusCheckTimer) { time in
+                            Task {
+                                let status = try await makeUploadStatusText()
+                                DispatchQueue.main.async {
+                                    uploadStatus = status
+                                }
+                                print("[Updater] Got update status from server: ", status)
                             }
-                            print("[Updater] Got update status from server: ", status)
                         }
-                    }
-                // TextInfoView(text: "免登录传分", info: "无效")
+                }
                 Button {
                     
                 } label: {
@@ -320,7 +325,7 @@ struct UpdaterView: View {
             break
         }
         if !string.isEmpty {
-            string += " "
+            string += "\n"
         }
         switch status[1] {
         case 0:
