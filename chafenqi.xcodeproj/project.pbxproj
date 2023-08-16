@@ -1531,7 +1531,7 @@
 				CODE_SIGN_ENTITLEMENTS = infoWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = infoWidget/Info.plist;
@@ -1561,7 +1561,7 @@
 				CODE_SIGN_ENTITLEMENTS = infoWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = CYVRCL87U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = infoWidget/Info.plist;
