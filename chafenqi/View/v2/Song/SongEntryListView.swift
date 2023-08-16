@@ -15,10 +15,12 @@ struct SongEntryListView: View {
     @State var maiRecords: CFQMaimaiRecentScoreEntries?
     @State var chuRecords: CFQChunithmRecentScoreEntries?
     
+    @State var shouldShowPointMarkers: Bool = true
+    
     var body: some View {
         ScrollView {
             if let maiRecords = maiRecords {
-                SongScoreTrendChart(rawDataPoints: $historyData, mode: 1)
+                SongScoreTrendChart(rawDataPoints: $historyData, mode: 1, shouldShowPointMarkers: $shouldShowPointMarkers)
                     .padding()
                 ForEach(maiRecords, id: \.timestamp) { record in
                     NavigationLink {
@@ -30,7 +32,7 @@ struct SongEntryListView: View {
                 }
                 .padding(.horizontal)
             } else if let chuRecords = chuRecords {
-                SongScoreTrendChart(rawDataPoints: $historyData, mode: 0)
+                SongScoreTrendChart(rawDataPoints: $historyData, mode: 0, shouldShowPointMarkers: $shouldShowPointMarkers)
                     .padding()
                 ForEach(chuRecords, id: \.timestamp) { record in
                     NavigationLink {
@@ -45,6 +47,15 @@ struct SongEntryListView: View {
         }
         .navigationTitle("游玩记录")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    shouldShowPointMarkers.toggle()
+                } label: {
+                    Image(systemName: shouldShowPointMarkers ? "eye" : "eye.slash")
+                }
+            }
+        }
         .onAppear {
             loadVar()
         }
