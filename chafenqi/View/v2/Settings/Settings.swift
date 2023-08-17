@@ -151,7 +151,7 @@ struct Settings: View {
                 } label: {
                     Text("检查新版本")
                 }
-                Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=704639070&key=7a59abc8ca0e11d70e5d2c50b6740a59546c94d5dd082328e4790911bed67bd1&card_type=group&source=external&jump_from=webapi")!)
+                Link("加入QQ讨论群", destination: URL(string: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=706609485&authSig=MyMU8skdQzrZ0b7ClNlpboBonHCMzO4H3qROrB274Sel+Y89lxrBKGUoja2y/Ri7&card_type=group&source=external&jump_from=webapi")!)
             } header: {
                 Text("关于")
             }
