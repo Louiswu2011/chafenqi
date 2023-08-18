@@ -211,7 +211,7 @@ struct Settings: View {
             }
             Task {
                 do {
-                    let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/version")!)
+                    let versionRequest = URLRequest(url: URL(string: "http://43.139.107.206:8083/api/stats/version")!)
                     let (data, _) = try await URLSession.shared.data(for: versionRequest)
                     versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
                 } catch {

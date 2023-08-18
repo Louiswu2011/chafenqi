@@ -44,11 +44,12 @@ struct SponsorView: View {
         .onAppear {
             Task {
                 do {
-                    let request = URLRequest(url: URL(string: "http://43.139.107.206/chafenqi/sponsor")!)
+                    let request = URLRequest(url: URL(string: "http://43.139.107.206:8083/chafenqi/sponsor")!)
                     let (data, _) = try await URLSession.shared.data(for: request)
                     sponsorList = try JSONDecoder().decode(Array<String>.self, from: data)
                     sponsorList.reverse()
                 } catch {
+                    print(error)
                     sponsorList.append("加载出错")
                 }
             }
