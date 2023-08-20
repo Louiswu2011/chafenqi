@@ -36,9 +36,6 @@ struct UpdaterView: View {
     @State private var statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
     @State private var uploadStatus = "未开始上传"
     
-    let shortcutPath = "http://43.139.107.206/chafenqi/shortcut".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-    let shortcutName = "一键传分".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-    
     var body: some View {
         Form {
             Section {
@@ -160,7 +157,11 @@ struct UpdaterView: View {
             }
             
             Section {
-                Link("添加到快捷指令", destination: URL(string: "shortcuts://import-shortcut?url=\(shortcutPath)&name=\(shortcutName)&silent=true")!)
+                Button {
+                    alertToast.alert = Alert(title: Text("提示"), message: Text("请前往QQ群文件下载\"oneclick.shortcut\"并导入到快捷指令中使用。"))
+                } label: {
+                    Text("添加到快捷指令")
+                }
                 
                 Button {
                     isShowingHelp.toggle()
