@@ -476,16 +476,26 @@ class CFQNUser: ObservableObject {
         publishLoadStatus("关联歌曲信息...")
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
-                if (self.maimai.isNotEmpty && !self.data.maimai.songlist.isEmpty) {
-                    self.maimai.best = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, bests: self.maimai.best)
-                    self.maimai.recent = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, recents: self.maimai.recent)
+                if (!self.data.maimai.songlist.isEmpty) {
+                    if (!self.maimai.best.isEmpty) {
+                        self.maimai.best = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, bests: self.maimai.best)
+                    }
+                    if (!self.maimai.recent.isEmpty) {
+                        self.maimai.recent = CFQMaimai.assignAssociated(songs: self.data.maimai.songlist, recents: self.maimai.recent)
+                    }
                 }
             }
             group.addTask {
-                if (self.chunithm.isNotEmpty && !self.data.chunithm.songs.isEmpty) {
-                    self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, bests: self.chunithm.best)
-                    self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, recents: self.chunithm.recent)
-                    self.chunithm.rating = CFQChunithm.assignAssociated(bests: self.chunithm.best, ratings: self.chunithm.rating)
+                if (!self.data.chunithm.songs.isEmpty) {
+                    if (!self.chunithm.best.isEmpty) {
+                        self.chunithm.best = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, bests: self.chunithm.best)
+                    }
+                    if (!self.chunithm.recent.isEmpty) {
+                        self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, recents: self.chunithm.recent)
+                    }
+                    if (!self.chunithm.rating.isEmpty) {
+                        self.chunithm.rating = CFQChunithm.assignAssociated(bests: self.chunithm.best, ratings: self.chunithm.rating)
+                    }
                 }
             }
         }
