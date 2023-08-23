@@ -198,7 +198,7 @@ struct SongTopView: View {
             }
             if !versionIndices.isEmpty {
                 filteredMaiSongs = filteredMaiSongs.filter { song in
-                    let versions = versionIndices.compactMap { CFQFilterOptions.maiVersionOptions[$0] }
+                    let versions = versionIndices.compactMap { CFQFilterOptions.maiVersionOptions[$0] == "maimai MiLK PLUS" ? "MiLK PLUS" : CFQFilterOptions.maiVersionOptions[$0] }
                     return versions.contains(song.basicInfo.from)
                 }
             }
