@@ -23,6 +23,7 @@ struct Settings: View {
     @State private var showingBuildNumber = false
     @State private var showingClearAlert = false
     @State private var showingNewVersionAlert = false
+    @State private var showingJWT = false
     @State private var loading = false
     
     @State private var versionData = ClientVersionData.empty
@@ -157,8 +158,16 @@ struct Settings: View {
             }
             
             Section {
-                SettingsInfoLabelView(title: "Token", message: user.jwtToken)
-                    .lineLimit(1)
+                HStack {
+                    Text("Token")
+                    Spacer()
+                    Text(showingJWT ? user.jwtToken : "点击显示")
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            showingJWT.toggle()
+                        }
+                }
+                    
                 SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
                 Button {
                     let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
