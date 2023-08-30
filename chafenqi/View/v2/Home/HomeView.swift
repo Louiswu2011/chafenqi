@@ -37,10 +37,6 @@ struct HomeView: View {
                 }
             } else if (user.didLogin) {
                 ScrollView {
-                    PullToRefresh(coordinateSpaceName: "pull") {
-                        refresh()
-                    }
-                    
                     HomeNameplate(user: user)
                     if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
                         Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
@@ -62,6 +58,13 @@ struct HomeView: View {
                 .coordinateSpace(name: "pull")
                 .navigationTitle("主页")
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            refresh()
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                        }
+                    }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
                             withAnimation(.easeInOut(duration: 0.15)) {
@@ -104,11 +107,15 @@ struct HomeView: View {
     }
     
     func refresh() {
-        refreshing = true
+        withAnimation(.easeInOut(duration: 0.15)) {
+            refreshing = true
+        }
         Task {
             do {
                 try await user.refresh()
-                refreshing = false
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    refreshing = false
+                }
                 syncToWidget()
             } catch {
                 print("[HomeView] Error refreshing record for", user.username, error)
@@ -170,41 +177,5 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(user: CFQNUser())
-    }
-}
-
-struct PullToRefresh: View {
-    var coordinateSpaceName: String
-    var onRefresh: ()->Void
-    
-    @State var needRefresh: Bool = false
-    
-    var body: some View {
-        GeometryReader { geo in
-            if (geo.frame(in: .named(coordinateSpaceName)).midY > 60) {
-                Spacer()
-                    .onAppear {
-                        needRefresh = true
-                    }
-            } else if (geo.frame(in: .named(coordinateSpaceName)).maxY < 40) {
-                Spacer()
-                    .onAppear {
-                        if needRefresh {
-                            needRefresh = false
-                            onRefresh()
-                        }
-                    }
-            }
-            HStack {
-                Spacer()
-                if needRefresh {
-                    Text("松开以刷新...")
-                        .foregroundColor(.gray)
-                } else {
-                    
-                }
-                Spacer()
-            }
-        }.padding(.top, -100)
     }
 }
