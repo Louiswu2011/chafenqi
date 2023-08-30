@@ -9,6 +9,7 @@ import SwiftUI
 import AlertToast
 import OneSignal
 import WidgetKit
+import SwiftUIBackports
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) var context
@@ -31,10 +32,8 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            if (refreshing) {
-                VStack {
-                    ProgressView(user.loadPrompt)
-                }
+            if refreshing {
+                ProgressView(user.loadPrompt)
             } else if (user.didLogin) {
                 ScrollView {
                     HomeNameplate(user: user)
@@ -60,13 +59,6 @@ struct HomeView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
-                            refresh()
-                        } label: {
-                            Image(systemName: "arrow.clockwise")
-                        }
-                    }
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
                             withAnimation(.easeInOut(duration: 0.15)) {
                                 user.currentMode.toggle()
                             }
@@ -81,6 +73,9 @@ struct HomeView: View {
                             Image(systemName: "gear")
                         }
                     }
+                }
+                .backport.refreshable {
+                    await refresh()
                 }
             }
         }

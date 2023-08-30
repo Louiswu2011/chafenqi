@@ -156,6 +156,7 @@
 		BFE205E22A8B8538002AC527 /* UserComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE205E12A8B8538002AC527 /* UserComment.swift */; };
 		BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */; };
 		BFE9A6822A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */; };
+		BFE9A6852A9FBEE900B7AC55 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = BFE9A6842A9FBEE900B7AC55 /* SwiftUIBackports */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
@@ -457,6 +458,7 @@
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 				6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */,
 				6757B2032A399577005701A5 /* ColorKit in Frameworks */,
+				BFE9A6852A9FBEE900B7AC55 /* SwiftUIBackports in Frameworks */,
 				BF04318E2A3427E900577E6F /* OneSignal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1123,6 +1125,7 @@
 				BF04318D2A3427E900577E6F /* OneSignal */,
 				6757B2022A399577005701A5 /* ColorKit */,
 				67C434D72A3AA9B700202605 /* CardStack */,
+				BFE9A6842A9FBEE900B7AC55 /* SwiftUIBackports */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -1217,6 +1220,7 @@
 				BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */,
 				6757B2012A399577005701A5 /* XCRemoteSwiftPackageReference "ColorKit" */,
 				67C434D62A3AA9B700202605 /* XCRemoteSwiftPackageReference "SwiftUI-CardStackView" */,
+				BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -2177,6 +2181,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shaps80/SwiftUIBackports.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2219,6 +2231,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
 			productName = CachedAsyncImage;
+		};
+		BFE9A6842A9FBEE900B7AC55 /* SwiftUIBackports */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */;
+			productName = SwiftUIBackports;
 		};
 /* End XCSwiftPackageProductDependency section */
 
