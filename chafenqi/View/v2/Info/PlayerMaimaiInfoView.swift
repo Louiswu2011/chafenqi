@@ -245,6 +245,9 @@ struct PlayerMaimaiInfoView: View {
                     }
                 }
                 .padding()
+            } else {
+                Text("用户数据不完整，请尝试重新上传数据。")
+                    .padding()
             }
         }
         .navigationTitle("玩家信息")
