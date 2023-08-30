@@ -71,12 +71,6 @@ struct UpdaterView: View {
                             }
                         }
                 }
-                Button {
-                    
-                } label: {
-                    Text("免登录传分（🚧施工中）")
-                }
-                .disabled(true)
             }
             
             Section {
