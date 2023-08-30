@@ -63,11 +63,7 @@ struct UpdaterView: View {
                         .multilineTextAlignment(.trailing)
                         .onReceive(statusCheckTimer) { time in
                             Task {
-                                let status = try await makeUploadStatusText()
-                                DispatchQueue.main.async {
-                                    uploadStatus = status
-                                }
-                                print("[Updater] Got update status from server: ", status)
+                                try await updateUploadStatus()
                             }
                         }
                 }
@@ -204,12 +200,21 @@ struct UpdaterView: View {
         Task {
             do {
                 try await makeServerStatusText()
+                try await updateUploadStatus()
             } catch {
                 print(error)
                 chuniAvg = "暂无数据"
                 maiAvg = "暂无数据"
             }
         }
+    }
+    
+    func updateUploadStatus() async throws {
+        let status = try await makeUploadStatusText()
+        DispatchQueue.main.async {
+            self.uploadStatus = status
+        }
+        print("[Updater] Got update status from server: ", status)
     }
     
     func makeServerStatusText() async throws {
