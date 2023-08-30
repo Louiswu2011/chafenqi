@@ -14,7 +14,7 @@ struct InfoMaimaiClearList: View {
     @ObservedObject var user: CFQNUser
     
     @State private var isLoading = true
-    @State private var currentLevel = 20
+    @State private var currentLevel = 18
     @State private var currentRatio = [Double]()
     @State private var currentFold = [Bool]()
     @State private var info = CFQMaimaiLevelRecords()
@@ -29,6 +29,20 @@ struct InfoMaimaiClearList: View {
                         .font(.system(size: 25))
                     Spacer()
                     Button {
+                        if currentLevel > 0 {
+                            withAnimation {
+                                currentLevel -= 1
+                                currentRatio = info.levels[currentLevel].ratios
+                                currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "minus")
+                            .frame(width: 15, height: 15)
+                    }
+                    .padding(.trailing, 20)
+                    .disabled(currentLevel <= 0)
+                    Button {
                         if currentLevel < 22 {
                             withAnimation {
                                 currentLevel += 1
@@ -41,19 +55,7 @@ struct InfoMaimaiClearList: View {
                             .resizable()
                             .frame(width: 15, height: 15)
                     }
-                    .padding(.trailing, 20)
-                    Button {
-                        if currentLevel > 0 {
-                            withAnimation {
-                                currentLevel -= 1
-                                currentRatio = info.levels[currentLevel].ratios
-                                currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "minus")
-                            .frame(width: 15, height: 15)
-                    }
+                    .disabled(currentLevel >= 22)
                 }
                 .padding()
                 
