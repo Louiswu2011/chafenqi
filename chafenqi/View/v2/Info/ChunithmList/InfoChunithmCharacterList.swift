@@ -12,8 +12,12 @@ struct InfoCharacterList: View {
     
     var body: some View {
         Form {
-            ForEach(characters, id: \.name) { char in
-                InfoCharacterItem(character: char)
+            Section {
+                ForEach(characters, id: \.name) { char in
+                    InfoCharacterItem(character: char)
+                }
+            } header: {
+                Text("共\(characters.count)名角色")
             }
         }
         .navigationTitle("角色列表")

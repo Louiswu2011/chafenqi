@@ -172,17 +172,25 @@ struct PlayerChunithmInfoView: View {
                         }
                     }
                     HStack {
-                        HStack {
-                            Text("功能票")
-                            Spacer()
-                            Text("\(ticketCount)")
-                                .bold()
+                        NavigationLink {
+                            InfoChunithmTicketList(tickets: user.chunithm.extra.tickets)
+                        } label: {
+                            HStack {
+                                Text("功能票")
+                                Spacer()
+                                Text("\(ticketCount)")
+                                    .bold()
+                            }
                         }
-                        HStack {
-                            Text("地图头像")
-                            Spacer()
-                            Text("\(mapIconCount)")
-                                .bold()
+                        NavigationLink {
+                            InfoChunithmMapIconList(mapIcons: user.chunithm.extra.mapIcons)
+                        } label: {
+                            HStack {
+                                Text("地图头像")
+                                Spacer()
+                                Text("\(mapIconCount)")
+                                    .bold()
+                            }
                         }
                     }
                     

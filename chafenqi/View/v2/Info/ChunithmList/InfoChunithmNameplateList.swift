@@ -15,39 +15,43 @@ struct InfoChunithmNameplateList: View {
     
     var body: some View {
         Form {
-            ForEach(list, id: \.url) { nameplate in
-                HStack {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        AsyncImage(url: URL(string: nameplate.url)!, context: context, placeholder: {
-                            ProgressView()
-                        }, image: { img in
-                            let _ = DispatchQueue.main.async {
-                                self.image[nameplate.url] = img
-                            }
-                            Image(uiImage: img)
-                                .resizable()
-                            
-                        })
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 60)
-                        .contextMenu {
-                            Button {
-                                if let image = self.image[nameplate.url] {
-                                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            Section {
+                ForEach(list, id: \.url) { nameplate in
+                    HStack {
+                        Spacer()
+                        VStack(alignment: .center) {
+                            AsyncImage(url: URL(string: nameplate.url)!, context: context, placeholder: {
+                                ProgressView()
+                            }, image: { img in
+                                let _ = DispatchQueue.main.async {
+                                    self.image[nameplate.url] = img
                                 }
-                            } label: {
-                                Label("保存到相册", systemImage: "square.and.arrow.down")
+                                Image(uiImage: img)
+                                    .resizable()
+                                
+                            })
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 60)
+                            .contextMenu {
+                                Button {
+                                    if let image = self.image[nameplate.url] {
+                                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                    }
+                                } label: {
+                                    Label("保存到相册", systemImage: "square.and.arrow.down")
+                                }
                             }
+                            Text(nameplate.name)
+                                .bold()
                         }
-                        Text(nameplate.name)
-                            .bold()
+                        Spacer()
                     }
-                    Spacer()
                 }
+            } header: {
+                Text("共\(list.count)个名牌版")
             }
         }
-        .navigationTitle("姓名框一览")
+        .navigationTitle("名牌版一览")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

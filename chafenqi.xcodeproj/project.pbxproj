@@ -154,6 +154,8 @@
 		BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A62A07B642005248A6 /* RecentListView.swift */; };
 		BFE075A92A07B64B005248A6 /* RecentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A82A07B64B005248A6 /* RecentDetail.swift */; };
 		BFE205E22A8B8538002AC527 /* UserComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE205E12A8B8538002AC527 /* UserComment.swift */; };
+		BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */; };
+		BFE9A6822A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */; };
 		BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */; };
 		BFEB5AEB29897E1C005646AA /* ChunithmUserScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */; };
 		BFECEC6C297D286A00D2F383 /* ChartImageGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */; };
@@ -380,6 +382,8 @@
 		BFE075A62A07B642005248A6 /* RecentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentListView.swift; sourceTree = "<group>"; };
 		BFE075A82A07B64B005248A6 /* RecentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetail.swift; sourceTree = "<group>"; };
 		BFE205E12A8B8538002AC527 /* UserComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserComment.swift; sourceTree = "<group>"; };
+		BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChunithmTicketList.swift; sourceTree = "<group>"; };
+		BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChunithmMapIconList.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmUserData.swift; sourceTree = "<group>"; };
 		BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunithmUserScoreData.swift; sourceTree = "<group>"; };
 		BFECEC6B297D286A00D2F383 /* ChartImageGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartImageGrabber.swift; sourceTree = "<group>"; };
@@ -543,6 +547,8 @@
 				670EBC1C2A3026B000D32723 /* InfoChunithmSkillList.swift */,
 				BFCCA5C22A6D884700FB360A /* InfoChunithmTrophyList.swift */,
 				BFCCA5C42A6D8DC100FB360A /* InfoChunithmNameplateList.swift */,
+				BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */,
+				BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */,
 			);
 			path = ChunithmList;
 			sourceTree = "<group>";
@@ -1384,6 +1390,7 @@
 				67ED31202A5F98F1003907DE /* CustomContextPreview.swift in Sources */,
 				BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */,
 				6786F0AF2A3C62BF00CE90C2 /* SongChartView.swift in Sources */,
+				BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */,
 				670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */,
 				BFFEEB1F2A0825B3001B15B7 /* ImageCache.xcdatamodeld in Sources */,
 				BF572E1529A5E39D00E9811B /* ChunithmRecentRecord.swift in Sources */,
@@ -1419,6 +1426,7 @@
 				BFEB5AE9298937E8005646AA /* ChunithmUserData.swift in Sources */,
 				BFFEEB192A081F5C001B15B7 /* SongTopView.swift in Sources */,
 				BFC256A929A7E35500B65CE7 /* ImageLoader.swift in Sources */,
+				BFE9A6822A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift in Sources */,
 				BF7872A72A07DC9C007243B3 /* Settings.swift in Sources */,
 				6757B20B2A39B7D6005701A5 /* InfoMaimaiTrophyList.swift in Sources */,
 				BF7E2522296AAD1A00169B57 /* ChunithmDataGrabber.swift in Sources */,
