@@ -76,6 +76,9 @@ struct SettingsWidgetConfig: View {
     @State private var maiChar: WidgetCharacterOption = .defaultChar
     @State private var chuChar: WidgetCharacterOption = .defaultChar
     
+    @State private var maiDarkMode = false
+    @State private var chuDarkMode = false
+    
     @State private var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
     @State private var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
     
@@ -85,7 +88,7 @@ struct SettingsWidgetConfig: View {
     @State private var currentPreviewType: WidgetPreviewTypeOption = .maimai
     @State private var currentPreviewSize: WidgetPreviewSizeOption = .medium
     
-    @State var currentWidgetSettings = WidgetData.Customization()
+    @Binding var currentWidgetSettings: WidgetData.Customization
     
     var body: some View {
         Form {
@@ -95,7 +98,7 @@ struct SettingsWidgetConfig: View {
                 }
             }
             
-            if customization {
+            if customization && didLoad {
                 Section {
                     Picker("预览类型", selection: $currentPreviewType) {
                         ForEach(WidgetPreviewTypeOption.allCases) { value in
@@ -126,9 +129,11 @@ struct SettingsWidgetConfig: View {
                     
                     WidgetCharPicker(user: user, currentPreviewType: $currentPreviewType, maiChar: $maiChar, chuChar: $chuChar, selectedMaiChar: $selectedMaiChar, selectedChuChar: $selectedChuChar, currentWidgetSettings: $currentWidgetSettings)
                     
+                    Toggle("深色模式", isOn: currentPreviewType == .chunithm ? $chuDarkMode : $maiDarkMode)
+                    
                 }
                 .onChange(of: currentWidgetSettings) { newValue in
-                    print("widget settings changed")
+                    saveSettings()
                 }
                 
                 Section {
@@ -154,11 +159,7 @@ struct SettingsWidgetConfig: View {
         }
         .onAppear {
             guard !didLoad else { return }
-            do {
-                currentWidgetSettings = try JSONDecoder().decode(WidgetData.Customization.self, from: user.widgetCustom)
-            } catch {
-                currentWidgetSettings = WidgetData.Customization()
-            }
+            loadSettings()
             didLoad = true
         }
         .navigationTitle("小组件")
@@ -208,18 +209,61 @@ struct SettingsWidgetConfig: View {
     }
     
     func loadSettings() {
+        if let char = currentWidgetSettings.maiCharUrl, let first = user.maimai.extra.characters.first(where: { $0.selected == 1 }), char == first.image {
+            maiChar = .captain
+        } else if currentWidgetSettings.maiCharUrl != nil {
+            maiChar = .custom
+        } else {
+            maiChar = .defaultChar
+        }
+        if let bg = currentWidgetSettings.maiBgUrl, let current = user.maimai.extra.frames.first(where: { $0.selected == 1 }), bg == current.image {
+            maiBackground = .plate
+        } else if currentWidgetSettings.maiBgUrl != nil {
+            maiBackground = .custom
+        } else {
+            maiBackground = .defaultBg
+        }
+        if let colors = currentWidgetSettings.maiColor {
+            if colors.count > 1 {
+                maiMediumBackground = .gradient
+            } else {
+                maiMediumBackground = .color
+            }
+        } else {
+            maiMediumBackground = .defaultBg
+        }
         
+        if let char = currentWidgetSettings.chuCharUrl, let first = user.chunithm.extra.characters.first(where: { $0.current == 1 }), char == first.url {
+            chuChar = .captain
+        } else if currentWidgetSettings.chuCharUrl != nil {
+            chuChar = .custom
+        } else {
+            chuChar = .defaultChar
+        }
+        if let bg = currentWidgetSettings.chuBgUrl, let first = user.chunithm.extra.nameplates.first(where: { $0.current == 1 }), bg == first.url {
+            chuBackground = .plate
+        } else if currentWidgetSettings.chuBgUrl != nil {
+            chuBackground = .custom
+        } else {
+            chuBackground = .defaultBg
+        }
+        if let colors = currentWidgetSettings.chuColor {
+            if colors.count > 1 {
+                chuMediumBackground = .gradient
+            } else {
+                chuMediumBackground = .color
+            }
+        } else {
+            chuMediumBackground = .defaultBg
+        }
     }
     
     func saveSettings() {
-        
-    }
-}
-
-struct SettingsWidgetConfig_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            SettingsWidgetConfig(user: CFQNUser())
+        do {
+            user.widgetCustom = try JSONEncoder().encode(currentWidgetSettings)
+        } catch {
+            // TODO: Add error toast
         }
     }
 }
+

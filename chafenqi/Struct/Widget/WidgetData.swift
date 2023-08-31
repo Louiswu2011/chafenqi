@@ -13,6 +13,7 @@ struct WidgetData {
             case playCount, rating, lastUpload
         }
         
+        var maiCharType: Int?
         var maiCharUrl: String?
         var maiBgUrl: String?
         var maiColor: [[CGFloat]]?

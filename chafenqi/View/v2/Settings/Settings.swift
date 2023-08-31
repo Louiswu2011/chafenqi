@@ -40,6 +40,7 @@ struct Settings: View {
     @State private var shouldOpenMiniGame = false
     
     @State private var cacheSize = "加载中..."
+    @State private var widgetData = WidgetData.Customization()
     
     var body: some View {
         Form {
@@ -75,7 +76,7 @@ struct Settings: View {
                 }
                 NavigationLink {
                     if user.isPremium {
-                        SettingsWidgetConfig(user: user)
+                        SettingsWidgetConfig(user: user, currentWidgetSettings: $widgetData)
                     } else {
                         NotPremiumView()
                     }
@@ -226,6 +227,11 @@ struct Settings: View {
                 } catch {
                     versionData = .empty
                 }
+            }
+            do {
+                widgetData = try JSONDecoder().decode(WidgetData.Customization.self, from: user.widgetCustom)
+            } catch {
+                
             }
         }
         .navigationTitle("设置")

@@ -151,7 +151,7 @@ struct WidgetLargeBgPicker: View {
                 }
             }
         }
-        if currentPreviewType == .maimai {
+        if currentPreviewType == .maimai && maiBackground != .defaultBg {
             HStack {
                 Text("模糊度")
                 Spacer()
@@ -163,7 +163,7 @@ struct WidgetLargeBgPicker: View {
             .onChange(of: maiBgBlur) { newValue in
                 currentWidgetSettings.maiBgBlur = newValue
             }
-        } else if currentPreviewType == .chunithm {
+        } else if currentPreviewType == .chunithm && chuBackground != .defaultBg {
             HStack {
                 Text("模糊度")
                 Spacer()

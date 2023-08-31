@@ -95,7 +95,6 @@ struct infoWidgetEntryView : View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 105)
-                                .shadow(radius: 3, x: 4, y: 4)
                         }
                     }
                 } else if size == .systemSmall {
