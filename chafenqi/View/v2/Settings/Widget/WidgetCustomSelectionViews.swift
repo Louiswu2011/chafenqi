@@ -108,6 +108,7 @@ struct WidgetCharCustomSelectionView: View {
                         .padding(.vertical, 5)
                     }
                     .frame(height: 60)
+                    .contentShape(Rectangle())
                     .onTapGesture {
                         selectedChuChar = character
                         presentationMode.wrappedValue.dismiss()

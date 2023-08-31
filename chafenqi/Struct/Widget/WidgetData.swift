@@ -8,7 +8,7 @@
 import Foundation
 
 struct WidgetData {
-    struct Customization: Codable {
+    struct Customization: Codable, Equatable {
         enum Module: Codable {
             case playCount, rating, lastUpload
         }
@@ -16,9 +16,11 @@ struct WidgetData {
         var maiCharUrl: String?
         var maiBgUrl: String?
         var maiColor: [[CGFloat]]?
+        var maiBgBlur: Double?
         var chuCharUrl: String?
         var chuBgUrl: String?
         var chuColor: [[CGFloat]]?
+        var chuBgBlur: Double?
         
         var smallModuleList: [Module]?
         var mediumModuleList: [Module]?

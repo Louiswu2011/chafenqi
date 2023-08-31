@@ -108,10 +108,10 @@ struct SettingsWidgetConfig: View {
                     VStack(alignment: .center) {
                         // Preview
                         TabView(selection: $currentPreviewSize) {
-                            WidgetMediumPreview(previewType: currentPreviewType, config: currentWidgetSettings)
+                            WidgetMediumPreview(previewType: currentPreviewType, config: $currentWidgetSettings)
                                 .tag(WidgetPreviewSizeOption.medium)
                             
-                            WidgetLargePreview(previewType: currentPreviewType, config: currentWidgetSettings)
+                            WidgetLargePreview(previewType: currentPreviewType, config: $currentWidgetSettings)
                                 .tag(WidgetPreviewSizeOption.large)
                         }
                         .tabViewStyle(.page(indexDisplayMode: .automatic))
@@ -126,6 +126,9 @@ struct SettingsWidgetConfig: View {
                     
                     WidgetCharPicker(user: user, currentPreviewType: $currentPreviewType, maiChar: $maiChar, chuChar: $chuChar, selectedMaiChar: $selectedMaiChar, selectedChuChar: $selectedChuChar, currentWidgetSettings: $currentWidgetSettings)
                     
+                }
+                .onChange(of: currentWidgetSettings) { newValue in
+                    print("widget settings changed")
                 }
                 
                 Section {

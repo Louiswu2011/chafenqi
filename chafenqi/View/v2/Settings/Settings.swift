@@ -73,15 +73,15 @@ struct Settings: View {
                 } label: {
                     Text("排序")
                 }
-//                NavigationLink {
-//                    if user.isPremium {
-//                        SettingsWidgetConfig(user: user)
-//                    } else {
-//                        NotPremiumView()
-//                    }
-//                } label: {
-//                    Text("小组件")
-//                }
+                NavigationLink {
+                    if user.isPremium {
+                        SettingsWidgetConfig(user: user)
+                    } else {
+                        NotPremiumView()
+                    }
+                } label: {
+                    Text("小组件")
+                }
             } header: {
                 Text("主页")
             }

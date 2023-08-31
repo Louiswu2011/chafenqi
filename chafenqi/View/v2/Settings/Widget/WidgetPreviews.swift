@@ -17,11 +17,11 @@ struct WidgetMediumPreview: View {
     @Environment(\.managedObjectContext) var context
     
     var previewType: WidgetPreviewTypeOption
-    @State var config: WidgetData.Customization
+    @Binding var config: WidgetData.Customization
     
     var body: some View {
         ZStack {
-            WidgetPreviewBackground(previewType: previewType, config: config, size: 0)
+            WidgetPreviewBackground(previewType: previewType, config: $config, size: 0)
         }
         .frame(width: 141, height: 141)
     }
@@ -31,11 +31,11 @@ struct WidgetLargePreview: View {
     @Environment(\.managedObjectContext) var context
     
     var previewType: WidgetPreviewTypeOption
-    @State var config: WidgetData.Customization
+    @Binding var config: WidgetData.Customization
     
     var body: some View {
         ZStack {
-            WidgetPreviewBackground(previewType: previewType, config: config, size: 1)
+            WidgetPreviewBackground(previewType: previewType, config: $config, size: 1)
         }
         .frame(width: 305.5, height: 141)
     }
@@ -45,21 +45,22 @@ struct WidgetPreviewBackground: View {
     @Environment(\.managedObjectContext) var context
     
     var previewType: WidgetPreviewTypeOption
-    @State var config: WidgetData.Customization
+    @Binding var config: WidgetData.Customization
     var size: Int
     
     var body: some View {
         Group {
             if previewType == .chunithm {
-                if !(config.chuBgUrl ?? "").isEmpty {
+                if !(config.chuBgUrl ?? "").isEmpty && size == 1 {
                     AsyncImage(url: URL(string: config.chuBgUrl!)!, context: context, placeholder: {
                         ProgressView()
                     }, image: { image in
                         Image(uiImage: image)
                             .resizable()
                     })
+                    .blur(radius: config.chuBgBlur ?? 0.0)
                     .aspectRatio(contentMode: .fill)
-                } else if !(config.chuColor ?? []).isEmpty {
+                } else if !(config.chuColor ?? []).isEmpty && size == 0 {
                     if let colors = config.chuColor {
                         LinearGradient(
                             colors:
@@ -78,15 +79,16 @@ struct WidgetPreviewBackground: View {
                     LinearGradient(colors: previewType == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
                 }
             } else if previewType == .maimai {
-                if !(config.maiBgUrl ?? "").isEmpty {
+                if !(config.maiBgUrl ?? "").isEmpty && size == 1 {
                     AsyncImage(url: URL(string: config.maiBgUrl!)!, context: context, placeholder: {
                         ProgressView()
                     }, image: { image in
                         Image(uiImage: image)
                             .resizable()
                     })
+                    .blur(radius: config.maiBgBlur ?? 0.0)
                     .aspectRatio(contentMode: .fill)
-                } else if !(config.maiColor ?? []).isEmpty {
+                } else if !(config.maiColor ?? []).isEmpty && size == 0 {
                     if let colors = config.maiColor {
                         LinearGradient(
                             colors:

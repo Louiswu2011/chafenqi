@@ -88,6 +88,11 @@ struct WidgetLargeBgPicker: View {
     @Binding var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
     @Binding var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
     
+    @State var maiBgBlur: Double = 0.0
+    @State var chuBgBlur: Double = 0.0
+    
+    let blurUpperbound = 10.0
+    
     @Binding var currentWidgetSettings: WidgetData.Customization
     
     var body: some View {
@@ -120,6 +125,7 @@ struct WidgetLargeBgPicker: View {
                     Spacer()
                     Text("\(selectedMaiBg?.name ?? "")")
                         .foregroundColor(.gray)
+                        .lineLimit(1)
                 }
             }
             .onChange(of: selectedMaiBg) { bg in
@@ -136,12 +142,38 @@ struct WidgetLargeBgPicker: View {
                     Spacer()
                     Text("\(selectedChuBg?.name ?? "")")
                         .foregroundColor(.gray)
+                        .lineLimit(1)
                 }
             }
             .onChange(of: selectedChuBg) { bg in
                 if let selected = bg {
                     currentWidgetSettings.chuBgUrl = selected.url
                 }
+            }
+        }
+        if currentPreviewType == .maimai {
+            HStack {
+                Text("模糊度")
+                Spacer()
+                Slider(value: $maiBgBlur, in: 0.0...blurUpperbound)
+            }
+            .onAppear {
+                maiBgBlur = currentWidgetSettings.maiBgBlur ?? 0.0
+            }
+            .onChange(of: maiBgBlur) { newValue in
+                currentWidgetSettings.maiBgBlur = newValue
+            }
+        } else if currentPreviewType == .chunithm {
+            HStack {
+                Text("模糊度")
+                Spacer()
+                Slider(value: $chuBgBlur, in: 0.0...blurUpperbound)
+            }
+            .onAppear {
+                chuBgBlur = currentWidgetSettings.chuBgBlur ?? 0.0
+            }
+            .onChange(of: chuBgBlur) { newValue in
+                currentWidgetSettings.chuBgBlur = newValue
             }
         }
     }
@@ -198,6 +230,7 @@ struct WidgetCharPicker: View {
                     Spacer()
                     Text("\(selectedMaiChar?.name ?? "")")
                         .foregroundColor(.gray)
+                        .lineLimit(1)
                 }
             }
         } else if currentPreviewType == .chunithm && chuChar == .custom {
@@ -209,6 +242,7 @@ struct WidgetCharPicker: View {
                     Spacer()
                     Text("\(selectedChuChar?.name ?? "")")
                         .foregroundColor(.gray)
+                        .lineLimit(1)
                 }
             }
         }
