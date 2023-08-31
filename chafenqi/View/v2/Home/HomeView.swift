@@ -108,15 +108,15 @@ struct HomeView: View {
         Task {
             do {
                 try await user.refresh()
-                withAnimation(.easeInOut(duration: 0.15)) {
-                    refreshing = false
-                }
                 syncToWidget()
             } catch {
                 print("[HomeView] Error refreshing record for", user.username, error)
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
                 alertToast.toast = errToast
             }
+        }
+        withAnimation(.easeInOut(duration: 0.15)) {
+            refreshing = false
         }
     }
     
