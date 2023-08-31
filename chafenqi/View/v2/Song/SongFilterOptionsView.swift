@@ -129,6 +129,7 @@ struct MultiplePickerItem: View {
                     Image(systemName: "checkmark")
                 }
             }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
