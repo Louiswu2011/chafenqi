@@ -23,10 +23,19 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>43.139.107.206</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>BuildProxyURLIntent</string>
+		<string>ConfigurationIntent</string>
 		<string>FetchFishTokenIntent</string>
 		<string>StartProxyIntent</string>
 		<string>StopProxyIntent</string>
@@ -41,6 +50,10 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>OneClickUpload</string>
 		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 </dict>
 </plist>

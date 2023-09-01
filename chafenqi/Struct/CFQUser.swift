@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@available(*, deprecated, message: "No longer used in v2. See CFQNUser instead.")
 class CFQUser: ObservableObject {
     @Published var didLogin = false
     
@@ -59,6 +60,8 @@ class CFQUser: ObservableObject {
             var avgAchievement = 0.0
             var nationalRanking = 0
             var recentSong: Array<MaimaiSongData?> = []
+            var overwrittenCharacter: CFQMaimai.ExtraEntry.CharacterEntry = .empty
+            var overwrittenNameplate: CFQMaimai.ExtraEntry.NameplateEntry = .empty
             
             var lastUpdateDate = ""
         }
@@ -292,11 +295,7 @@ extension Int {
     }
 }
 
-extension Double {
-    func cut(remainingDigits: Int) -> Double {
-        return floor(self * pow(10, Double(remainingDigits))) / pow(10, Double(remainingDigits))
-    }
-}
+
 
 extension Array<MaimaiRecentRecord> {
     func getLatestNewRecord() -> (Int?, MaimaiRecentRecord?) {

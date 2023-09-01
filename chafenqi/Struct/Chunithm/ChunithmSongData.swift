@@ -8,6 +8,7 @@
 import Foundation
 
 struct ChunithmSongData: Hashable, Equatable, Codable, Comparable {
+    
     static func < (lhs: ChunithmSongData, rhs: ChunithmSongData) -> Bool {
         return lhs.musicId < rhs.musicId
     }

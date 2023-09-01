@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NetworkExtension
+import WidgetKit
 
 var credits = """
 特别感谢：
@@ -24,7 +25,8 @@ let sharedContainer = UserDefaults(suiteName: "group.com.nltv.chafenqi.shared")!
 struct chafenqiApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    @StateObject var user = CFQUser.loadFromCache()
+    // @StateObject var user = CFQUser.loadFromCache()
+    @StateObject var newUser = CFQNUser()
     
     @State var currentTab: TabIdentifier = .home
     @State var shouldRefresh = false
@@ -33,9 +35,12 @@ struct chafenqiApp: App {
     
     @Environment(\.scenePhase) var scenePhase
     
+    let cacheController = CacheController.shared
+    
     var body: some Scene {
         WindowGroup {
-            MainView(user: user, currentTab: $currentTab)
+            RootView(user: newUser)
+                .environment(\.managedObjectContext, cacheController.container.viewContext)
                 .onOpenURL { url in
                     if let identifier = url.tabIdentifier {
                         currentTab = identifier
@@ -71,6 +76,8 @@ struct chafenqiApp: App {
                     switch newValue {
                     case .active:
                         performActionIfNeeded()
+                    case .background:
+                        WidgetCenter.shared.reloadAllTimelines()
                     default:
                         break
                     }
@@ -110,7 +117,7 @@ struct chafenqiApp: App {
 }
 
 enum TabIdentifier: Hashable {
-    case home, recent, list, tool
+    case home, recent, list, tool, upload
 }
 
 enum UrlAction: Hashable {
@@ -139,6 +146,7 @@ extension URL {
         case "recent": return .recent
         case "list": return .list
         case "tool": return .tool
+        case "upload": return .upload
         default: return nil
         }
     }

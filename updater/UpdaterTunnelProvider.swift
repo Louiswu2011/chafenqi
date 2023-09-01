@@ -18,7 +18,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         NSLog("Starting Tunnel...")
         
-        let port = 8998
+        let port = 8999
         
         let settings = self.initUpdaterSettings(host: "43.139.107.206", port: port)
         self.setTunnelNetworkSettings(settings) { error in
@@ -30,7 +30,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
                 NSLog("Setting endpoint...")
                 // let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
                 // NSLog("Connecting to local server...")
-                let endpoint = NWHostEndpoint(hostname: "43.139.107.206", port: "8998")
+                let endpoint = NWHostEndpoint(hostname: "43.139.107.206", port: "8999")
                 self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
                 NSLog("Connected to NLTV server.")
                 completionHandler(nil)

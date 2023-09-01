@@ -41,8 +41,7 @@ struct MaimaiRecentRecord: Codable {
     }
     
     func getDateString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+        let formatter = DateTool.shared.intTransformer
         
         return formatter.string(from: getDate())
     }

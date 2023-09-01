@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "No longer used in v2. See UserComment instead.")
 struct Comment: Codable {
     var message: String
     var sender: String

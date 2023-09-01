@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 import SwiftUI
 
 struct AsyncImage<Placeholder: View>: View {
@@ -15,12 +16,13 @@ struct AsyncImage<Placeholder: View>: View {
         
         init(
             url: URL,
+            context: NSManagedObjectContext,
             @ViewBuilder placeholder: () -> Placeholder,
             @ViewBuilder image: @escaping (UIImage) -> Image = Image.init(uiImage:)
         ) {
             self.placeholder = placeholder()
             self.image = image
-            _loader = StateObject(wrappedValue: ImageLoader(url: url, cache: Environment(\.imageCache).wrappedValue))
+            _loader = StateObject(wrappedValue: ImageLoader(url: url, context: context))
         }
         
         var body: some View {

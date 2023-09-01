@@ -16,13 +16,16 @@ class CFQPersistentData: ObservableObject {
     
     struct Chunithm {
         @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
+        @AppStorage("loadedChunithmMusics") var loadedMusics: Data = Data()
         @AppStorage("chartIDMap") var mapData = Data()
         
         var songs: Array<ChunithmSongData> = []
+        var musics: Array<ChunithmMusicData> = []
         
         static func hasCache() -> Bool {
             @AppStorage("loadedChunithmSongs") var loadedSongs: Data = Data()
-            return !loadedSongs.isEmpty
+            @AppStorage("loadedChunithmMusics") var loadedMusics: Data = Data()
+            return !loadedSongs.isEmpty && !loadedMusics.isEmpty
         }
     }
     
@@ -45,6 +48,7 @@ class CFQPersistentData: ObservableObject {
     
     private func loadChunithm() async throws {
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
+        self.chunithm.musics = try JSONDecoder().decode(Array<ChunithmMusicData>.self, from: self.chunithm.loadedMusics)
         
         let path = Bundle.main.url(forResource: "IdMap", withExtension: "json")
         self.chunithm.mapData = try Data(contentsOf: path!)
@@ -52,11 +56,23 @@ class CFQPersistentData: ObservableObject {
     
     private func reloadChunithm() async throws {
         try await self.chunithm.loadedSongs = JSONEncoder().encode(ChunithmDataGrabber.getSongDataSetFromServer())
-
+        try await self.chunithm.loadedMusics = CFQChunithmServer.fetchMusicData()
+        
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
+        self.chunithm.musics = try JSONDecoder().decode(Array<ChunithmMusicData>.self, from: self.chunithm.loadedMusics)
+        
+        // Block newest & hottest musics
+        self.chunithm.musics = self.chunithm.musics.filter {
+            CFQFilterOptions.chuVersionOptions.contains($0.from)
+        }
         
         var decoded = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
         decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
+        
+        let dlcPath = Bundle.main.url(forResource: "dlc", withExtension: "json")
+        let dlc = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: Data(contentsOf: dlcPath!))
+        decoded.append(contentsOf: dlc)
+        
         self.chunithm.loadedSongs = try JSONEncoder().encode(decoded)
         self.chunithm.songs = decoded
         
@@ -100,17 +116,23 @@ class CFQPersistentData: ObservableObject {
     }
     
     static func loadFromCacheOrRefresh() async throws -> CFQPersistentData {
-        
         let data = CFQPersistentData()
         if (Maimai.hasCache() && Chunithm.hasCache()) {
             try await data.loadFromCache()
             data.shouldReload = false
-            print("Persistent data cache loaded.")
+            print("[CFQPersistentData] Persistent data cache loaded.")
             return data
         } else {
             try await data.update()
-            print("Persistent data downloaded.")
+            print("[CFQPersistentData] Persistent data downloaded.")
             return data
         }
+    }
+    
+    static func forceRefresh() async throws -> CFQPersistentData {
+        let data = CFQPersistentData()
+        try await data.update()
+        print("[CFQPersistentData] Persistent data downloaded.")
+        return data
     }
 }

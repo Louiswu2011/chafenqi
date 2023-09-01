@@ -7,21 +7,24 @@
 
 import Combine
 import UIKit
+import SwiftUI
+import CoreData
 
 class ImageLoader: ObservableObject {
     @Published var image: UIImage?
     
+    private var viewContext: NSManagedObjectContext
+    
     private(set) var isLoading = false
     
-    private let url: URL
-    private var cache: ImageCache?
+    @State private var url: URL
     private var cancellable: AnyCancellable?
     
     private static let imageProcessingQueue = DispatchQueue(label: "image-processing")
     
-    init(url: URL, cache: ImageCache? = nil) {
+    init(url: URL, cache: ImageCache? = nil, context: NSManagedObjectContext) {
         self.url = url
-        self.cache = cache
+        self.viewContext = context
     }
     
     deinit {
@@ -31,8 +34,14 @@ class ImageLoader: ObservableObject {
     func load() {
         guard !isLoading else { return }
 
-        if let image = cache?[url] {
-            self.image = image
+        let fetchRequest = CoverCache.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", url.absoluteString)
+        let matches = try? viewContext.fetch(fetchRequest)
+        if let match = matches?.first?.image {
+            let img = UIImage(data: match)
+            self.image = img
+            isLoading = false
+            // print("[ImageLoader] Read from cache.")
             return
         }
         
@@ -40,12 +49,14 @@ class ImageLoader: ObservableObject {
             .map { UIImage(data: $0.data) }
             .replaceError(with: nil)
             .handleEvents(receiveSubscription: { [weak self] _ in self?.onStart() },
-                          receiveOutput: { [weak self] in self?.cache($0) },
+                          receiveOutput: { [weak self] in self?.saveToCache($0) },
                           receiveCompletion: { [weak self] _ in self?.onFinish() },
                           receiveCancel: { [weak self] in self?.onFinish() })
             .subscribe(on: Self.imageProcessingQueue)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.image = $0 }
+            .sink {
+                [weak self] in self?.image = $0
+            }
     }
     
     func cancel() {
@@ -60,7 +71,18 @@ class ImageLoader: ObservableObject {
         isLoading = false
     }
     
-    private func cache(_ image: UIImage?) {
-        image.map { cache?[url] = $0 }
+    private func saveToCache(_ image: UIImage?) {
+        if let image = image {
+            let pngData = image.pngData()!
+            let cacheItem = CoverCache(context: viewContext)
+            cacheItem.imageUrl = self.url.absoluteString
+            cacheItem.image = pngData
+            do {
+                try viewContext.save()
+                print("[ImageLoader] Saved \(self.url.absoluteString) to cache.")
+            } catch {
+                print("[ImageLoader] Failed to save cache: \(error.localizedDescription)")
+            }
+        }
     }
 }

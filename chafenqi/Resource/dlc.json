@@ -1,0 +1,54 @@
+[
+{
+    "id": 2021,
+    "title": "拝啓、桜舞い散るこの日に",
+    "ds": [
+        3, 6, 9.5, 12.5
+    ],
+    "level": [
+        "3", "6", "9+", "12+"
+    ],
+    "cids": [
+        9999, 9998, 9997, 9996
+    ],
+    "charts": [
+        { "combo": 576, "charter": "-" },
+        { "combo": 825, "charter": "-" },
+        { "combo": 1056, "charter": "アミノハバキリ" },
+        { "combo": 1539, "charter": "Redarrow" }
+    ],
+    "basic_info": {
+        "title": "拝啓、桜舞い散るこの日に",
+      "artist": "まふまふ",
+      "genre": "niconico",
+      "bpm": 186,
+      "from": "CHUNITHM NEW"
+    }
+},
+    {
+        "id": 1054,
+        "title": "サクリファイス",
+        "ds": [
+            3, 7, 9.5, 13.4
+        ],
+        "level": [
+            "3", "7", "9+", "13"
+        ],
+        "cids": [
+            9995, 9994, 9993, 9992
+        ],
+        "charts": [
+            { "combo": 633, "charter": "-" },
+            { "combo": 916, "charter": "-" },
+            { "combo": 1303, "charter": "Redarrow" },
+            { "combo": 1898, "charter": "écologie" }
+        ],
+        "basic_info": {
+            "title": "サクリファイス",
+          "artist": "まふまふ",
+          "genre": "niconico",
+          "bpm": 192,
+          "from": "CHUNITHM PARADISE LOST"
+        }
+    }
+]
