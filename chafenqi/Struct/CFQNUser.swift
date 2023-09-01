@@ -527,7 +527,7 @@ class CFQNUser: ObservableObject {
     func makeWidgetData() async throws -> WidgetData {
         var maiCover = Data()
         var chuCover = Data()
-        
+
         if let maiFirst = self.maimai.recent.first {
             let (data, _) = try await URLSession.shared.data(from: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: maiFirst.associatedSong!.musicId)))
             maiCover = data
@@ -539,7 +539,7 @@ class CFQNUser: ObservableObject {
         
         print("[CFQNUser] Fetched recent images: \(maiCover.count), \(chuCover.count)")
 
-        let data = WidgetData(
+        var data = WidgetData(
             username: self.username,
             isPremium: self.isPremium,
             maimaiInfo: self.maimai.isNotEmpty ? self.maimai.info : nil,
@@ -548,7 +548,31 @@ class CFQNUser: ObservableObject {
             chuRecentOne: self.chunithm.recent.first,
             chuCover: chuCover,
             maiCover: maiCover,
-            custom: widgetCustom)
+            custom: try JSONDecoder().decode(WidgetData.Customization.self, from: widgetCustom))
+        
+        if isPremium {
+            let custom = try JSONDecoder().decode(WidgetData.Customization.self, from: widgetCustom)
+            
+            if let chuCharUrlString = custom.chuCharUrl, let chuCharUrl = URL(string: chuCharUrlString) {
+                let (chuCharData, _) = try await URLSession.shared.data(from: chuCharUrl)
+                data.chuChar = chuCharData
+            }
+            
+            if let chuBgUrlString = custom.chuBgUrl, let chuBgUrl = URL(string: chuBgUrlString) {
+                let (chuBgData, _) = try await URLSession.shared.data(from: chuBgUrl)
+                data.chuBg = chuBgData
+            }
+            
+            if let maiCharUrlString = custom.maiCharUrl, let maiCharUrl = URL(string: maiCharUrlString) {
+                let (maiCharData, _) = try await URLSession.shared.data(from: maiCharUrl)
+                data.maiChar = maiCharData
+            }
+            
+            if let maiBgUrlString = custom.maiBgUrl, let maiBgUrl = URL(string: maiBgUrlString) {
+                let (maiBgData, _) = try await URLSession.shared.data(from: maiBgUrl)
+                data.maiBg = maiBgData
+            }
+        }
         
         return data
     }

@@ -39,6 +39,10 @@ class WidgetDataController {
         widgetData.chunithm = nil
         widgetData.chuRecentOne = nil
         widgetData.maiRecentOne = nil
+        widgetData.chuChar = nil
+        widgetData.chuBg = nil
+        widgetData.maiChar = nil
+        widgetData.maiBg = nil
         widgetData.custom = nil
         if let data = data.maimaiInfo {
             widgetData.maimai = try encoder.encode(data)
@@ -57,6 +61,10 @@ class WidgetDataController {
         }
         widgetData.maiCover = data.maiCover
         widgetData.chuCover = data.chuCover
+        widgetData.maiBg = data.maiBg
+        widgetData.chuBg = data.chuBg
+        widgetData.maiChar = data.maiChar
+        widgetData.chuChar = data.chuChar
         
         if self.container.viewContext.hasChanges {
             print("[WidgetDataController] Saving widget data of", widgetData.username!)

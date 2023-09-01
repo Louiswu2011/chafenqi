@@ -36,6 +36,10 @@ struct Provider: IntentTimelineProvider {
                     chuRecentOne: UserInfoFetcher.chuRecentOne,
                     maiCover: UserInfoFetcher.cachedMaiCover,
                     chuCover: UserInfoFetcher.cachedChuCover,
+                    maiBg: UserInfoFetcher.cachedMaiBg,
+                    chuBg: UserInfoFetcher.cachedChuBg,
+                    maiChar: UserInfoFetcher.cachedMaiChar,
+                    chuChar: UserInfoFetcher.cachedChuChar,
                     custom: UserInfoFetcher.custom,
                     error: "no error")
                 let timeline = Timeline(entries: [entry], policy: .atEnd)
@@ -60,6 +64,10 @@ struct SimpleEntry: TimelineEntry {
     var chuRecentOne: CFQChunithm.RecentScoreEntry? = nil
     var maiCover: Data = Data()
     var chuCover: Data = Data()
+    var maiBg: Data = Data()
+    var chuBg: Data = Data()
+    var maiChar: Data = Data()
+    var chuChar: Data = Data()
     var custom: WidgetData.Customization? = nil
     var error: String
 }

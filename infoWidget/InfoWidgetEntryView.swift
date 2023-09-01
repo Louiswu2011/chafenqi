@@ -41,20 +41,39 @@ struct infoWidgetEntryView : View {
                 }
             } else {
                 if size == .systemMedium {
-                    LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                    let color: Color = entry.configuration.currentMode == .chunithm ? (entry.custom?.darkModes[0] ?? false ? .white : .black) : (entry.custom?.darkModes[2] ?? false ? .white : .black)
+                    
+                    if let custom = entry.custom {
+                        let bg = entry.configuration.currentMode == .chunithm ? entry.chuBg : entry.maiBg
+                        if let image = UIImage(data: bg) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .blur(radius: entry.configuration.currentMode == .chunithm ? custom.chuBgBlur ?? 0.0 : custom.maiBgBlur ?? 0.0)
+                                .frame(width: 305.5)
+                        } else {
+                            LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                        }
+                    } else {
+                        LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                    }
                     
                     VStack {
                         HStack {
                             Text(username)
                                 .bold()
+                                .foregroundColor(color)
                             Spacer()
                         }
                         .padding([.top, .leading])
                         
                         HStack {
                             WidgetInfoBox(content: rating, title: "Rating")
+                                .foregroundColor(color)
                             WidgetInfoBox(content: playCount, title: "游玩次数")
+                                .foregroundColor(color)
                             WidgetInfoBox(content: lastUpdate, title: "最近更新")
+                                .foregroundColor(color)
                             Spacer()
                         }
                         .padding(.horizontal)
@@ -67,15 +86,17 @@ struct infoWidgetEntryView : View {
                                     .frame(width: 40)
                                     .mask(RoundedRectangle(cornerRadius: 5))
                                     .shadow(radius: 2, x: 2, y: 2)
-
+                                
                                 VStack(alignment: .leading) {
                                     Text(title)
                                         .frame(maxWidth: 160, alignment: .leading)
                                         .lineLimit(1)
                                         .font(.system(size: 13))
+                                        .foregroundColor(color)
                                     Text(score)
                                         .bold()
                                         .font(.system(size: 15))
+                                        .foregroundColor(color)
                                 }
                                 Spacer()
                             }
@@ -83,7 +104,6 @@ struct infoWidgetEntryView : View {
                             .padding([.leading])
                             .padding(.top, 7)
                         }
-                        
                         Spacer()
                     }
                     
@@ -91,24 +111,75 @@ struct infoWidgetEntryView : View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 105)
+                            Group {
+                                if entry.custom != nil {
+                                    if entry.configuration.currentMode == .chunithm {
+                                        if let image = UIImage(data: entry.chuChar) {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                        } else {
+                                            Image("penguin")
+                                                .resizable()
+                                        }
+                                    } else {
+                                        if let image = UIImage(data: entry.maiChar) {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                        } else {
+                                            Image("salt")
+                                                .resizable()
+                                        }
+                                    }
+                                } else {
+                                    Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
+                                        .resizable()
+                                }
+                            }
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 105)
                         }
                     }
                 } else if size == .systemSmall {
-                    LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                    if let custom = entry.custom, let colors = entry.configuration.currentMode == .chunithm ? custom.chuColor : custom.maiColor {
+                        LinearGradient(
+                            colors:
+                                [Color(red: Double(colors.first?[0] ?? 0),
+                                       green: Double(colors.first?[1] ?? 0),
+                                       blue: Double(colors.first?[2] ?? 0),
+                                       opacity: Double(colors.first?[3] ?? 0)),
+                                 Color(red: Double(colors.last?[0] ?? 0),
+                                       green: Double(colors.last?[1] ?? 0),
+                                       blue: Double(colors.last?[2] ?? 0),
+                                       opacity: Double(colors.last?[3] ?? 0))],
+                            startPoint: .top,
+                            endPoint: .bottom)
+                    } else {
+                        LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                    }
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(username)
-                                .bold()
+                            if let custom = entry.custom {
+                                Text(username)
+                                    .bold()
+                                    .foregroundColor(entry.configuration.currentMode == .chunithm ? (custom.darkModes[1] ? .white : .black) : (custom.darkModes[3] ? .white : .black))
+                            } else {
+                                Text(username)
+                                    .bold()
+                            }
                             Spacer()
                         }
                         
-                        WidgetInfoBox(content: rating, title: "Rating")
-                        WidgetInfoBox(content: playCount, title: "游玩次数")
+                        if let custom = entry.custom {
+                            Group {
+                                WidgetInfoBox(content: rating, title: "Rating")
+                                WidgetInfoBox(content: playCount, title: "游玩次数")
+                            }
+                            .foregroundColor(entry.configuration.currentMode == .chunithm ? (custom.darkModes[1] ? .white : .black) : (custom.darkModes[3] ? .white : .black))
+                        } else {
+                            WidgetInfoBox(content: rating, title: "Rating")
+                            WidgetInfoBox(content: playCount, title: "游玩次数")
+                        }
                     }
                     .padding(.leading)
                     
@@ -116,11 +187,32 @@ struct infoWidgetEntryView : View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 85)
-                                .shadow(radius: 3, x: 4, y: 4)
+                            Group {
+                                if entry.custom != nil {
+                                    if entry.configuration.currentMode == .chunithm {
+                                        if let image = UIImage(data: entry.chuChar) {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                        } else {
+                                            Image("penguin")
+                                                .resizable()
+                                        }
+                                    } else {
+                                        if let image = UIImage(data: entry.maiChar) {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                        } else {
+                                            Image("salt")
+                                                .resizable()
+                                        }
+                                    }
+                                } else {
+                                    Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
+                                        .resizable()
+                                }
+                            }
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 85)
                         }
                     }
                 }

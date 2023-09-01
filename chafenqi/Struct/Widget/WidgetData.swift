@@ -40,8 +40,13 @@ struct WidgetData {
     var maiRecentOne: CFQMaimai.RecentScoreEntry?
     var chuRecentOne: CFQChunithm.RecentScoreEntry?
     
+    var chuChar: Data?
+    var chuBg: Data?
     var chuCover: Data?
+    
+    var maiChar: Data?
+    var maiBg: Data?
     var maiCover: Data?
     
-    var custom: Data?
+    var custom: Customization?
 }

@@ -21,6 +21,10 @@ struct UserInfoFetcher {
     
     static var cachedMaiCover = Data()
     static var cachedChuCover = Data()
+    static var cachedMaiBg = Data()
+    static var cachedChuBg = Data()
+    static var cachedMaiChar = Data()
+    static var cachedChuChar = Data()
     
     static var custom: WidgetData.Customization?
 
@@ -62,16 +66,21 @@ struct UserInfoFetcher {
                         self.chuRecentOne = nil
                     }
                 }
-                if let custom = info.custom {
+                if let custom = info.custom, isPremium {
                     do {
                         self.custom = try decoder.decode(WidgetData.Customization.self, from: custom)
                         NSLog("[CFQWidget] Found customization data")
                     } catch {
                         self.custom = nil
+                        NSLog("[CFQWidget] Customization data not found or parse error: \(error)")
                     }
                 }
                 self.cachedMaiCover = info.maiCover ?? Data()
                 self.cachedChuCover = info.chuCover ?? Data()
+                self.cachedMaiBg = info.maiBg ?? Data()
+                self.cachedChuBg = info.chuBg ?? Data()
+                self.cachedMaiChar = info.maiChar ?? Data()
+                self.cachedChuChar = info.chuChar ?? Data()
             }
         }
     }

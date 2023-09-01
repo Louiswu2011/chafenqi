@@ -132,8 +132,8 @@ struct SettingsWidgetConfig: View {
                     Toggle("深色背景", isOn: currentPreviewType == .chunithm ? (currentPreviewSize == .large ? $currentWidgetSettings.darkModes[0] : $currentWidgetSettings.darkModes[1]) : (currentPreviewSize == .large ? $currentWidgetSettings.darkModes[2] : $currentWidgetSettings.darkModes[3]))
                 }
                 .onChange(of: currentWidgetSettings) { newValue in
+                    guard !didChange else { return }
                     didChange = true
-                    saveSettings()
                 }
                 
                 Section {
@@ -162,16 +162,25 @@ struct SettingsWidgetConfig: View {
             loadSettings()
             didLoad = true
         }
-        .onDisappear {
-            guard didChange else { return }
-            Task {
-                do {
-                    try await WidgetDataController.shared.save(data: user.makeWidgetData(), context: WidgetDataController.shared.container.viewContext)
-                } catch {
-                    print(error)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    saveSettings()
+                    Task {
+                        do {
+                            try user.widgetCustom = JSONEncoder().encode(currentWidgetSettings)
+                            try await WidgetDataController.shared.save(data: user.makeWidgetData(), context: WidgetDataController.shared.container.viewContext)
+                        } catch {
+                            print(error)
+                        }
+                        WidgetCenter.shared.reloadAllTimelines()
+                        print("[WidgetSettings] Committed changes to widget center.")
+                    }
+                    didChange = false
+                } label: {
+                    Text("应用")
                 }
-                WidgetCenter.shared.reloadAllTimelines()
-                print("[WidgetSettings] Committed changes to widget center.")
+                .disabled(!didChange)
             }
         }
         .navigationTitle("小组件")
