@@ -1,12 +1,12 @@
 # 中二节奏/舞萌DX查分器（暂定）
-**QQ交流群号：704639070**
+**QQ交流群号：706609485**
 
-用Swift实现的轻量级查分器，支持iOS15及以上。
+用Swift实现的轻量级查分器，支持iOS14及以上。
 
 <p>
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/homeScreen.png" width="230">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/detailScreen.png" width="230">
-<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/songListScreen.png" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/newHome.PNG" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/ratingDetail.PNG" width="230">
+<img src="https://raw.githubusercontent.com/Louiswu2011/chafenqi/main/Screenshot/newRecent.PNG" width="230">
   </p>
 
 ## 主要功能

@@ -36,16 +36,18 @@ struct ChartImageGrabber {
         }
         
         do {
-            let barImage = try await downloadImageFromUrl(url: barURL!)
-            let bgImage = try await downloadImageFromUrl(url: bgURL!)
-            let chartImage = try await downloadImageFromUrl(url: chartURL!)
+            async let barImage = try downloadImageFromUrl(url: barURL!)
+            async let bgImage = try downloadImageFromUrl(url: bgURL!)
+            async let chartImage = try downloadImageFromUrl(url: chartURL!)
             
-            UIGraphicsBeginImageContext(barImage.size)
+            let images = try await [barImage, bgImage, chartImage]
+            
+            UIGraphicsBeginImageContext(images[0].size)
 
-            let areaSize = CGRect(x: 0, y: 0, width: barImage.size.width, height: barImage.size.height)
-            barImage.draw(in: areaSize)
-            bgImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
-            chartImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
+            let areaSize = CGRect(x: 0, y: 0, width: images[0].size.width, height: images[0].size.height)
+            images[0].draw(in: areaSize)
+            images[1].draw(in: areaSize, blendMode: .normal, alpha: 1.0)
+            images[2].draw(in: areaSize, blendMode: .normal, alpha: 1.0)
 
             let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
