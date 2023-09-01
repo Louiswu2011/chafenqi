@@ -31,6 +31,23 @@ struct WidgetMediumBgPicker: View {
                     .tag(value)
             }
         }
+        .onAppear {
+            if currentPreviewType == .maimai, maiMediumBackground != .defaultBg, let colors = currentWidgetSettings.maiColor {
+                if colors.count > 1 {
+                    maiGradientStartColor = Color(red: colors[0][0], green: colors[0][1], blue: colors[0][2], opacity: colors[0][3])
+                    maiGradientStopColor = Color(red: colors[1][0], green: colors[1][1], blue: colors[1][2], opacity: colors[1][3])
+                } else {
+                    maiBgColor = Color(red: colors[0][0], green: colors[0][1], blue: colors[0][2], opacity: colors[0][3])
+                }
+            } else if currentPreviewType == .chunithm, chuMediumBackground != .defaultBg, let colors = currentWidgetSettings.chuColor {
+                if colors.count > 1 {
+                    chuGradientStartColor = Color(red: colors[0][0], green: colors[0][1], blue: colors[0][2], opacity: colors[0][3])
+                    chuGradientStopColor = Color(red: colors[1][0], green: colors[1][1], blue: colors[1][2], opacity: colors[1][3])
+                } else {
+                    chuBgColor = Color(red: colors[0][0], green: colors[0][1], blue: colors[0][2], opacity: colors[0][3])
+                }
+            }
+        }
         if currentPreviewType == .maimai {
             if maiMediumBackground == .color {
                 ColorPicker(selection: $maiBgColor) {

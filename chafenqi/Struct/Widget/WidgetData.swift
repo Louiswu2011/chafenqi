@@ -26,6 +26,9 @@ struct WidgetData {
         var smallModuleList: [Module]?
         var mediumModuleList: [Module]?
         var bigModuleList: [Module]?
+        
+        // chu big, chu small, mai big, mai small
+        var darkModes: [Bool] = [false, false, false, false]
     }
     
     var username: String

@@ -18,12 +18,13 @@ struct WidgetMediumPreview: View {
     
     var previewType: WidgetPreviewTypeOption
     @Binding var config: WidgetData.Customization
+    var user: CFQNUser
     
     var body: some View {
         ZStack {
             WidgetPreviewBackground(previewType: previewType, config: $config, size: 0)
             WidgetPreviewCharacter(previewType: previewType, config: $config, size: 0)
-            WidgetPreviewInfo(previewType: previewType, config: $config, size: 0)
+            WidgetPreviewInfo(previewType: previewType, config: $config, size: 0, user: user)
         }
         .frame(width: 141, height: 141)
     }
@@ -34,12 +35,13 @@ struct WidgetLargePreview: View {
     
     var previewType: WidgetPreviewTypeOption
     @Binding var config: WidgetData.Customization
+    var user: CFQNUser
     
     var body: some View {
         ZStack {
             WidgetPreviewBackground(previewType: previewType, config: $config, size: 1)
             WidgetPreviewCharacter(previewType: previewType, config: $config, size: 1)
-            WidgetPreviewInfo(previewType: previewType, config: $config, size: 1)
+            WidgetPreviewInfo(previewType: previewType, config: $config, size: 1, user: user)
         }
         .frame(width: 305.5, height: 141)
     }
@@ -87,21 +89,26 @@ struct WidgetPreviewInfo: View {
     var previewType: WidgetPreviewTypeOption
     @Binding var config: WidgetData.Customization
     var size: Int
+    var user: CFQNUser
     
     var body: some View {
         if size == 1 {
             VStack {
                 HStack {
-                    Text("用户名")
+                    Text(previewType == .chunithm ? user.chunithm.info.nickname : user.maimai.info.nickname)
                         .bold()
+                        .foregroundColor(previewType == .chunithm ? (config.darkModes[0] ? .white : .black) : (config.darkModes[2] ? .white : .black))
                     Spacer()
                 }
                 .padding([.top, .leading])
                 
                 HStack {
-                    WidgetInfoBox(content: "", title: "Rating")
-                    WidgetInfoBox(content: "", title: "游玩次数")
-                    WidgetInfoBox(content: "", title: "最近更新")
+                    Group {
+                        WidgetInfoBox(content: previewType == .chunithm ? String(format: "%.2f", user.chunithm.info.rating) : String(user.maimai.info.rating), title: "Rating")
+                        WidgetInfoBox(content: previewType == .chunithm ? String(user.chunithm.info.playCount) : String(user.maimai.info.playCount), title: "游玩次数")
+                        WidgetInfoBox(content: previewType == .chunithm ? toDateString(user.chunithm.info.updatedAt) : toDateString(user.maimai.info.updatedAt), title: "最近更新")
+                    }
+                    .foregroundColor(previewType == .chunithm ? (config.darkModes[0] ? .white : .black) : (config.darkModes[2] ? .white : .black))
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -110,16 +117,28 @@ struct WidgetPreviewInfo: View {
         } else {
             VStack(alignment: .leading) {
                 HStack {
-                    Text("用户名")
+                    Text(previewType == .chunithm ? user.chunithm.info.nickname : user.maimai.info.nickname)
                         .bold()
+                        .foregroundColor(previewType == .chunithm ? (config.darkModes[1] ? .white : .black) : (config.darkModes[3] ? .white : .black))
                     Spacer()
                 }
-                
-                WidgetInfoBox(content: "", title: "Rating")
-                WidgetInfoBox(content: "", title: "游玩次数")
+                Group {
+                    WidgetInfoBox(content: previewType == .chunithm ? String(format: "%.2f", user.chunithm.info.rating) : String(user.maimai.info.rating), title: "Rating")
+                    WidgetInfoBox(content: previewType == .chunithm ? String(user.chunithm.info.playCount) : String(user.maimai.info.playCount), title: "游玩次数")
+                }
+                .foregroundColor(previewType == .chunithm ? (config.darkModes[1] ? .white : .black) : (config.darkModes[3] ? .white : .black))
             }
             .padding(.leading)
         }
+    }
+    
+    func toDateString(_ string: String) -> String {
+        let formatter = DateTool.shared.updateFormatter
+        if let date = formatter.date(from: string) {
+            let f = DateTool.shared.premiumTransformer
+            return f.string(from: date)
+        }
+        return ""
     }
 }
 
@@ -141,7 +160,7 @@ struct WidgetPreviewBackground: View {
                             .resizable()
                     })
                     .blur(radius: config.chuBgBlur ?? 0.0)
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: .fit)
                 } else if let colors = config.chuColor, !colors.isEmpty, size == 0 {
                     LinearGradient(
                         colors:

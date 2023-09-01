@@ -76,9 +76,6 @@ struct SettingsWidgetConfig: View {
     @State private var maiChar: WidgetCharacterOption = .defaultChar
     @State private var chuChar: WidgetCharacterOption = .defaultChar
     
-    @State private var maiDarkMode = false
-    @State private var chuDarkMode = false
-    
     @State private var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
     @State private var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
     
@@ -111,10 +108,10 @@ struct SettingsWidgetConfig: View {
                     VStack(alignment: .center) {
                         // Preview
                         TabView(selection: $currentPreviewSize) {
-                            WidgetMediumPreview(previewType: currentPreviewType, config: $currentWidgetSettings)
+                            WidgetMediumPreview(previewType: currentPreviewType, config: $currentWidgetSettings, user: user)
                                 .tag(WidgetPreviewSizeOption.medium)
                             
-                            WidgetLargePreview(previewType: currentPreviewType, config: $currentWidgetSettings)
+                            WidgetLargePreview(previewType: currentPreviewType, config: $currentWidgetSettings, user: user)
                                 .tag(WidgetPreviewSizeOption.large)
                         }
                         .tabViewStyle(.page(indexDisplayMode: .automatic))
@@ -129,8 +126,8 @@ struct SettingsWidgetConfig: View {
                     
                     WidgetCharPicker(user: user, currentPreviewType: $currentPreviewType, maiChar: $maiChar, chuChar: $chuChar, selectedMaiChar: $selectedMaiChar, selectedChuChar: $selectedChuChar, currentWidgetSettings: $currentWidgetSettings)
                     
-                    Toggle("深色模式", isOn: currentPreviewType == .chunithm ? $chuDarkMode : $maiDarkMode)
                     
+                    Toggle("深色背景", isOn: currentPreviewType == .chunithm ? (currentPreviewSize == .large ? $currentWidgetSettings.darkModes[0] : $currentWidgetSettings.darkModes[1]) : (currentPreviewSize == .large ? $currentWidgetSettings.darkModes[2] : $currentWidgetSettings.darkModes[3]))
                 }
                 .onChange(of: currentWidgetSettings) { newValue in
                     saveSettings()
