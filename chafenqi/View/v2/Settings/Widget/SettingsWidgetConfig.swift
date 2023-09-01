@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import WidgetKit
 
 enum WidgetBackgroundOption: String, CaseIterable, Identifiable, Hashable {
     var id: Self {
@@ -61,6 +62,7 @@ struct SettingsWidgetConfig: View {
     
     @State private var didLoad = false
     @State private var customization = true
+    @State private var didChange = false
     
     @State private var maiBackground: WidgetBackgroundOption = .defaultBg
     @State private var chuBackground: WidgetBackgroundOption = .defaultBg
@@ -130,6 +132,7 @@ struct SettingsWidgetConfig: View {
                     Toggle("深色背景", isOn: currentPreviewType == .chunithm ? (currentPreviewSize == .large ? $currentWidgetSettings.darkModes[0] : $currentWidgetSettings.darkModes[1]) : (currentPreviewSize == .large ? $currentWidgetSettings.darkModes[2] : $currentWidgetSettings.darkModes[3]))
                 }
                 .onChange(of: currentWidgetSettings) { newValue in
+                    didChange = true
                     saveSettings()
                 }
                 
@@ -158,6 +161,18 @@ struct SettingsWidgetConfig: View {
             guard !didLoad else { return }
             loadSettings()
             didLoad = true
+        }
+        .onDisappear {
+            guard didChange else { return }
+            Task {
+                do {
+                    try await WidgetDataController.shared.save(data: user.makeWidgetData(), context: WidgetDataController.shared.container.viewContext)
+                } catch {
+                    print(error)
+                }
+                WidgetCenter.shared.reloadAllTimelines()
+                print("[WidgetSettings] Committed changes to widget center.")
+            }
         }
         .navigationTitle("小组件")
         .navigationBarTitleDisplayMode(.inline)
@@ -257,6 +272,7 @@ struct SettingsWidgetConfig: View {
     
     func saveSettings() {
         do {
+            print("[WidgetSettings] Saved settings.")
             user.widgetCustom = try JSONEncoder().encode(currentWidgetSettings)
         } catch {
             // TODO: Add error toast
