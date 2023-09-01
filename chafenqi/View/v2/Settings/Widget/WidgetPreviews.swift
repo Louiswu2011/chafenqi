@@ -67,6 +67,7 @@ struct WidgetPreviewCharacter: View {
                             .resizable()
                     })
                     .aspectRatio(contentMode: .fit)
+                    .mask(RoundedRectangle(cornerRadius: 5))
                     .frame(width: size == 0 ? 85 : 105)
                 } else if previewType == .maimai, let charUrlString = config.maiCharUrl, let charUrl = URL(string: charUrlString) {
                     AsyncImage(url: charUrl, context: context, placeholder: {
