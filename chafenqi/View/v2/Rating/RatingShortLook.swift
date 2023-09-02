@@ -133,6 +133,8 @@ struct RatingShortLook: View {
                 }
             } else if user.currentMode == 1 {
                 let pastCount = user.maimai.custom.pastSlice.count
+                
+                guard pastCount >= 1 else { return }
                 let currentCount = user.maimai.custom.currentSlice.count
                 if (0...pastCount - 1).contains(selectedIndex) {
                     // Past
