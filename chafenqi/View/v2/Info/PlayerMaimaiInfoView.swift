@@ -97,25 +97,34 @@ struct PlayerMaimaiInfoView: View {
                         }
                         
                         HStack {
-                            AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
-                                ProgressView()
-                            }, image: { img in
-                                let _ = DispatchQueue.main.async {
-                                    charImg = img
+                            if let charUrl = URL(string: user.maimai.info.charUrl) {
+                                AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
+                                    ProgressView()
+                                }, image: { img in
+                                    let _ = DispatchQueue.main.async {
+                                        charImg = img
+                                    }
+                                    Image(uiImage: img)
+                                        .resizable()
+                                })
+                                .aspectRatio(contentMode: .fill)
+                                .shadow(color: .gray.opacity(0.8), radius: 5, x: 5, y: -5)
+                                .frame(maxWidth: 175)
+                                .contextMenu {
+                                    Button {
+                                        UIImageWriteToSavedPhotosAlbum(charImg, nil, nil, nil)
+                                    } label: {
+                                        Label("保存到相册", systemImage: "square.and.arrow.down")
+                                    }
                                 }
-                                Image(uiImage: img)
+                            } else {
+                                Image("nameplate_salt")
                                     .resizable()
-                            })
-                            .aspectRatio(contentMode: .fill)
-                            .shadow(color: .gray.opacity(0.8), radius: 5, x: 5, y: -5)
-                            .frame(maxWidth: 175)
-                            .contextMenu {
-                                Button {
-                                    UIImageWriteToSavedPhotosAlbum(charImg, nil, nil, nil)
-                                } label: {
-                                    Label("保存到相册", systemImage: "square.and.arrow.down")
-                                }
+                                    .aspectRatio(contentMode: .fill)
+                                    .shadow(color: .gray.opacity(0.8), radius: 5, x: 5, y: -5)
+                                    .frame(maxWidth: 175)
                             }
+                            
                             Spacer()
                         }
                     }
