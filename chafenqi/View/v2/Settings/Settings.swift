@@ -170,6 +170,11 @@ struct Settings: View {
                 }
                     
                 SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
+                NavigationLink {
+                    LogView()
+                } label: {
+                    Text("调试输出")
+                }
                 Button {
                     let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
                         DispatchQueue.main.async {

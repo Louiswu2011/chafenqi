@@ -118,39 +118,5 @@ struct CommentHelper {
             return false
         }
     }
-    
-    static func getComments(mode: Int, musicId: Int) async -> Array<Comment> {
-        let url = URL(string: "http://43.139.107.206/comment")!
-        let body = ["mode": mode, "musicId": musicId]
-
-        return await postWithPayload(url: url, postBody: body)
-    }
-    
-    static func getComments(by: String) async -> Array<Comment> {
-        let url = URL(string: "http://43.139.107.206/comment/by")!
-        let body = ["sender": by]
-        
-        return await postWithPayload(url: url, postBody: body)
-    }
-    
-    static private func postWithPayload(url: URL, postBody: Dictionary<AnyHashable, AnyHashable>) async -> Array<Comment> {
-        do {
-            var request = URLRequest(url: url)
-
-            request.httpMethod = "POST"
-            request.httpBody = try JSONSerialization.data(withJSONObject: postBody)
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let (data, response) = try await URLSession.shared.data(for: request)
-            if (response.statusCode() != 200) {
-                return []
-            }
-            
-            return try JSONDecoder().decode(Array<Comment>.self, from: data)
-        } catch {
-            print(error)
-            return []
-        }
-    }
 }
 

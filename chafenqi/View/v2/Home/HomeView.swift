@@ -75,6 +75,11 @@ struct HomeView: View {
                     }
                 }
                 .backport.refreshable {
+                    DispatchQueue.main.async {
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            refreshing = true
+                        }
+                    }
                     await refresh()
                 }
             }
@@ -102,9 +107,6 @@ struct HomeView: View {
     }
     
     func refresh() {
-        withAnimation(.easeInOut(duration: 0.15)) {
-            refreshing = true
-        }
         Task {
             do {
                 try await user.refresh()
@@ -114,9 +116,11 @@ struct HomeView: View {
                 let errToast = AlertToast(displayMode: .hud, type: .error(.red), title: "加载出错", subTitle: error.localizedDescription)
                 alertToast.toast = errToast
             }
-        }
-        withAnimation(.easeInOut(duration: 0.15)) {
-            refreshing = false
+            DispatchQueue.main.async {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    refreshing = false
+                }
+            }
         }
     }
     
