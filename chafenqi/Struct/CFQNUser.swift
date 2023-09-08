@@ -548,29 +548,34 @@ class CFQNUser: ObservableObject {
             chuRecentOne: self.chunithm.recent.first,
             chuCover: chuCover,
             maiCover: maiCover,
-            custom: try JSONDecoder().decode(WidgetData.Customization.self, from: widgetCustom))
+            custom: nil)
         
         if isPremium {
-            let custom = try JSONDecoder().decode(WidgetData.Customization.self, from: widgetCustom)
-            
-            if let chuCharUrlString = custom.chuCharUrl, let chuCharUrl = URL(string: chuCharUrlString) {
-                let (chuCharData, _) = try await URLSession.shared.data(from: chuCharUrl)
-                data.chuChar = chuCharData
-            }
-            
-            if let chuBgUrlString = custom.chuBgUrl, let chuBgUrl = URL(string: chuBgUrlString) {
-                let (chuBgData, _) = try await URLSession.shared.data(from: chuBgUrl)
-                data.chuBg = chuBgData
-            }
-            
-            if let maiCharUrlString = custom.maiCharUrl, let maiCharUrl = URL(string: maiCharUrlString) {
-                let (maiCharData, _) = try await URLSession.shared.data(from: maiCharUrl)
-                data.maiChar = maiCharData
-            }
-            
-            if let maiBgUrlString = custom.maiBgUrl, let maiBgUrl = URL(string: maiBgUrlString) {
-                let (maiBgData, _) = try await URLSession.shared.data(from: maiBgUrl)
-                data.maiBg = maiBgData
+            do {
+                let custom = try JSONDecoder().decode(WidgetData.Customization.self, from: widgetCustom)
+                data.custom = custom
+                
+                if let chuCharUrlString = custom.chuCharUrl, let chuCharUrl = URL(string: chuCharUrlString) {
+                    let (chuCharData, _) = try await URLSession.shared.data(from: chuCharUrl)
+                    data.chuChar = chuCharData
+                }
+                
+                if let chuBgUrlString = custom.chuBgUrl, let chuBgUrl = URL(string: chuBgUrlString) {
+                    let (chuBgData, _) = try await URLSession.shared.data(from: chuBgUrl)
+                    data.chuBg = chuBgData
+                }
+                
+                if let maiCharUrlString = custom.maiCharUrl, let maiCharUrl = URL(string: maiCharUrlString) {
+                    let (maiCharData, _) = try await URLSession.shared.data(from: maiCharUrl)
+                    data.maiChar = maiCharData
+                }
+                
+                if let maiBgUrlString = custom.maiBgUrl, let maiBgUrl = URL(string: maiBgUrlString) {
+                    let (maiBgData, _) = try await URLSession.shared.data(from: maiBgUrl)
+                    data.maiBg = maiBgData
+                }
+            } catch {
+                data.custom = nil
             }
         }
         
