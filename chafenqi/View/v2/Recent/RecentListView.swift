@@ -97,7 +97,7 @@ struct MaimaiRecentEntryView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: entry.associatedSong!.musicId)), size: 65, cornerRadius: 5)
+            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: entry.associatedSong!.musicId)), size: 65, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Spacer()
             VStack {
@@ -128,7 +128,7 @@ struct ChunithmRecentEntryView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5)
+            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Spacer()
             VStack {

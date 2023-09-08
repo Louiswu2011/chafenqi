@@ -28,7 +28,7 @@ struct MaimaiRatingBannerView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 50, cornerRadius: 5)
+            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 50, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Group {
                 VStack(alignment: .leading) {
@@ -69,7 +69,7 @@ struct ChunithmRatingBannerView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedBestEntry!.associatedSong!.musicID)), size: 50, cornerRadius: 5)
+            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedBestEntry!.associatedSong!.musicID)), size: 50, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Group {
                 VStack(alignment: .leading) {

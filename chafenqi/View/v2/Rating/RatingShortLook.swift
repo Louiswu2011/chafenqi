@@ -176,15 +176,37 @@ struct RatingShortLook: View {
             }
         } label: {
             HStack {
-                AsyncImage(url: coverUrl, context: context, placeholder: {
-                    ProgressView()
-                }, image: { img in
-                    Image(uiImage: img)
-                        .resizable()
-                })
-                .aspectRatio(1, contentMode: .fit)
-                .mask(RoundedRectangle(cornerRadius: 5))
-                .id(coverUrl.hashValue)
+                ZStack {
+                    AsyncImage(url: coverUrl, context: context, placeholder: {
+                        ProgressView()
+                    }, image: { img in
+                        Image(uiImage: img)
+                            .resizable()
+                    })
+                    .aspectRatio(1, contentMode: .fit)
+                    .mask(RoundedRectangle(cornerRadius: 5))
+                    .id(coverUrl.hashValue)
+                    
+                    if let entry = chuEntry {
+                        let color = chunithmLevelColor[entry.levelIndex]
+                        VStack {
+                            Spacer()
+                            RoundedRectangle(cornerRadius: 5)
+                                .frame(width: 36, height: 5)
+                                .foregroundColor(color)
+                        }
+                        .padding(5)
+                    } else if let entry = maiEntry {
+                        let color = maimaiLevelColor[entry.levelIndex]
+                        VStack {
+                            Spacer()
+                            RoundedRectangle(cornerRadius: 5)
+                                .frame(width: 36, height: 5)
+                                .foregroundColor(color)
+                        }
+                        .padding(5)
+                    }
+                }
                 
                 Group {
                     VStack(alignment: .leading) {

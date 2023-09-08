@@ -17,6 +17,7 @@ struct SongCoverView: View {
     var cornerRadius: CGFloat
     var withShadow = true
     var switchShadowColor = false
+    var diffColor: Color?
     
     var body: some View {
         ZStack {
@@ -41,6 +42,16 @@ struct SongCoverView: View {
                 // .scaledToFill()
                 .frame(width: size, height: size)
                 .cornerRadius(cornerRadius)
+            }
+            
+            if let color = diffColor {
+                VStack {
+                    Spacer()
+                    RoundedRectangle(cornerRadius: 5)
+                        .frame(width: size * 0.6, height: size * 0.07)
+                        .foregroundColor(color)
+                }
+                .padding(5)
             }
         }
         .id(UUID())
