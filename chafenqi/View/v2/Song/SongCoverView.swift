@@ -47,7 +47,7 @@ struct SongCoverView: View {
             
             if let color = diffColor {
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(color, lineWidth: 2)
+                    .strokeBorder(color, lineWidth: 2)
                     .frame(width: size, height: size)
             }
         }

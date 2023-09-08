@@ -190,12 +190,12 @@ struct RatingShortLook: View {
                     if let entry = chuEntry {
                         let color = chunithmLevelColor[entry.levelIndex]
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(color ?? Color.white, lineWidth: 2)
+                            .strokeBorder(color ?? Color.white, lineWidth: 2)
                             .frame(width: 60, height: 60)
                     } else if let entry = maiEntry {
                         let color = maimaiLevelColor[entry.levelIndex]
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(color ?? Color.white, lineWidth: 2)
+                            .strokeBorder(color ?? Color.white, lineWidth: 2)
                             .frame(width: 60, height: 60)
                     }
                 }
