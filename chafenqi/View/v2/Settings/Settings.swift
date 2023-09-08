@@ -149,6 +149,8 @@ struct Settings: View {
                             },
                             secondaryButton: .cancel(Text("取消")))
                         alertToast.alert = updateAlert
+                    } else {
+                        alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已是最新版本")
                     }
                 } label: {
                     Text("检查新版本")
