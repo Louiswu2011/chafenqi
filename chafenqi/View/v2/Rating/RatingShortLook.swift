@@ -189,22 +189,14 @@ struct RatingShortLook: View {
                     
                     if let entry = chuEntry {
                         let color = chunithmLevelColor[entry.levelIndex]
-                        VStack {
-                            Spacer()
-                            RoundedRectangle(cornerRadius: 5)
-                                .frame(width: 36, height: 5)
-                                .foregroundColor(color)
-                        }
-                        .padding(5)
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(color ?? Color.white, lineWidth: 2)
+                            .frame(width: 60, height: 60)
                     } else if let entry = maiEntry {
                         let color = maimaiLevelColor[entry.levelIndex]
-                        VStack {
-                            Spacer()
-                            RoundedRectangle(cornerRadius: 5)
-                                .frame(width: 36, height: 5)
-                                .foregroundColor(color)
-                        }
-                        .padding(5)
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(color ?? Color.white, lineWidth: 2)
+                            .frame(width: 60, height: 60)
                     }
                 }
                 

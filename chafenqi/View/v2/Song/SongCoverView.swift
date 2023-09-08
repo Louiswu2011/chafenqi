@@ -44,14 +44,11 @@ struct SongCoverView: View {
                 .cornerRadius(cornerRadius)
             }
             
+            
             if let color = diffColor {
-                VStack {
-                    Spacer()
-                    RoundedRectangle(cornerRadius: 5)
-                        .frame(width: size * 0.6, height: size * 0.07)
-                        .foregroundColor(color)
-                }
-                .padding(5)
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(color, lineWidth: 2)
+                    .frame(width: size, height: size)
             }
         }
         .id(UUID())

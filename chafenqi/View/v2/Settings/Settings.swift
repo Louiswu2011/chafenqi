@@ -273,9 +273,15 @@ struct UserInfoWithAvatarView: View {
             VStack(alignment: .leading) {
                 Text(user.username)
                     .bold()
+                    .scaledToFit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.1)
                     .font(.system(size: 20))
                 if user.isPremium {
                     Text("订阅有效至\(parsePremiumExpireDate())")
+                        .lineLimit(1)
+                        .scaledToFit()
+                        .minimumScaleFactor(0.1)
                         .font(.system(size: 12))
                 }
             }
