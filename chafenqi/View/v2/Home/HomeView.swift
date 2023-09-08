@@ -35,52 +35,26 @@ struct HomeView: View {
             if refreshing {
                 ProgressView(user.loadPrompt)
             } else if (user.didLogin) {
-                ScrollView {
-                    HomeNameplate(user: user)
-                    if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
-                        Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
-                            .bold()
-                    }
-                    ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
-                        switch value {
-                        case "最近动态":
-                            HomeRecent(user: user)
-                        case "Rating分析":
-                            HomeRating(user: user)
-                        case "出勤记录":
-                            HomeDelta(user: user)
-                        default:
-                            Spacer()
-                        }
-                    }
-                }
-                .coordinateSpace(name: "pull")
-                .navigationTitle("主页")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.15)) {
-                                user.currentMode.toggle()
+                if #available(iOS 15.0, *) {
+                    HomeScrollView(user: user, daysSinceLastPlayed: daysSinceLastPlayed, homeArrangement: homeArrangement)
+                        .refreshable {
+                            DispatchQueue.main.async {
+                                withAnimation(.easeInOut(duration: 0.15)) {
+                                    refreshing = true
+                                }
                             }
-                        } label: {
-                            Image(systemName: "arrow.left.arrow.right")
+                            refresh()
                         }
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink {
-                            Settings(user: user)
-                        } label: {
-                            Image(systemName: "gear")
+                } else {
+                    HomeScrollView(user: user, daysSinceLastPlayed: daysSinceLastPlayed, homeArrangement: homeArrangement)
+                        .backport.refreshable {
+                            DispatchQueue.main.async {
+                                withAnimation(.easeInOut(duration: 0.15)) {
+                                    refreshing = true
+                                }
+                            }
+                            await refresh()
                         }
-                    }
-                }
-                .backport.refreshable {
-                    DispatchQueue.main.async {
-                        withAnimation(.easeInOut(duration: 0.15)) {
-                            refreshing = true
-                        }
-                    }
-                    await refresh()
                 }
             }
         }
@@ -171,7 +145,53 @@ struct HomeView: View {
     }
 }
 
-
+struct HomeScrollView: View {
+    var user: CFQNUser
+    var daysSinceLastPlayed: Int
+    var homeArrangement: String
+    
+    var body: some View {
+        ScrollView {
+            HomeNameplate(user: user)
+            if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
+                Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
+                    .bold()
+            }
+            ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
+                switch value {
+                case "最近动态":
+                    HomeRecent(user: user)
+                case "Rating分析":
+                    HomeRating(user: user)
+                case "出勤记录":
+                    HomeDelta(user: user)
+                default:
+                    Spacer()
+                }
+            }
+        }
+        .coordinateSpace(name: "pull")
+        .navigationTitle("主页")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.15)) {
+                        user.currentMode.toggle()
+                    }
+                } label: {
+                    Image(systemName: "arrow.left.arrow.right")
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    Settings(user: user)
+                } label: {
+                    Image(systemName: "gear")
+                }
+            }
+        }
+    }
+}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
