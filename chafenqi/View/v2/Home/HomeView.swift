@@ -30,31 +30,116 @@ struct HomeView: View {
     @State var bundleVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     @State var bundleBuildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     
+    
     var body: some View {
         VStack {
             if refreshing {
                 ProgressView(user.loadPrompt)
             } else if (user.didLogin) {
-                if #available(iOS 15.0, *) {
-                    HomeScrollView(user: user, daysSinceLastPlayed: daysSinceLastPlayed, homeArrangement: homeArrangement)
-                        .refreshable {
-                            DispatchQueue.main.async {
+                if #available(iOS 15, *) {
+                    ScrollView {
+                        HomeNameplate(user: user)
+                        if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
+                            Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
+                                .bold()
+                        }
+                        ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
+                            switch value {
+                            case "最近动态":
+                                HomeRecent(user: user)
+                            case "Rating分析":
+                                HomeRating(user: user)
+                            case "出勤记录":
+                                HomeDelta(user: user)
+                            default:
+                                Spacer()
+                            }
+                        }
+                    }
+                    .navigationTitle("主页")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
-                                    refreshing = true
+                                    user.currentMode.toggle()
+                                }
+                            } label: {
+                                Image(systemName: "arrow.left.arrow.right")
+                            }
+                        }
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
+                                refresh()
+                            } label: {
+                                if user.shouldShowRefreshButton {
+                                    Image(systemName: "arrow.counterclockwise")
                                 }
                             }
-                            refresh()
+                            .disabled(!user.shouldShowRefreshButton)
                         }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink {
+                                Settings(user: user)
+                            } label: {
+                                Image(systemName: "gear")
+                            }
+                        }
+                    }
+                    .refreshable {
+                        refresh()
+                    }
                 } else {
-                    HomeScrollView(user: user, daysSinceLastPlayed: daysSinceLastPlayed, homeArrangement: homeArrangement)
-                        .backport.refreshable {
-                            DispatchQueue.main.async {
+                    ScrollView {
+                        HomeNameplate(user: user)
+                        if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
+                            Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
+                                .bold()
+                        }
+                        ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
+                            switch value {
+                            case "最近动态":
+                                HomeRecent(user: user)
+                            case "Rating分析":
+                                HomeRating(user: user)
+                            case "出勤记录":
+                                HomeDelta(user: user)
+                            default:
+                                Spacer()
+                            }
+                        }
+                    }
+                    .navigationTitle("主页")
+                    .backport.refreshable(action: {
+                        await refresh()
+                    })
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
-                                    refreshing = true
+                                    user.currentMode.toggle()
+                                }
+                            } label: {
+                                Image(systemName: "arrow.left.arrow.right")
+                            }
+                        }
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
+                                refresh()
+                            } label: {
+                                if user.shouldShowRefreshButton {
+                                    Image(systemName: "arrow.counterclockwise")
                                 }
                             }
-                            await refresh()
+                            .disabled(!user.shouldShowRefreshButton)
                         }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink {
+                                Settings(user: user)
+                            } label: {
+                                Image(systemName: "gear")
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -81,6 +166,11 @@ struct HomeView: View {
     }
     
     func refresh() {
+        DispatchQueue.main.async {
+            withAnimation(.easeInOut(duration: 0.15)) {
+                refreshing = true
+            }
+        }
         Task {
             do {
                 try await user.refresh()
@@ -142,54 +232,6 @@ struct HomeView: View {
             chuDay = (Int(Date().timeIntervalSince1970) - recentOne.timestamp) / 86400
         }
         daysSinceLastPlayed = min(maiDay, chuDay)
-    }
-}
-
-struct HomeScrollView: View {
-    var user: CFQNUser
-    var daysSinceLastPlayed: Int
-    var homeArrangement: String
-    
-    var body: some View {
-        ScrollView {
-            HomeNameplate(user: user)
-            if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
-                Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
-                    .bold()
-            }
-            ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
-                switch value {
-                case "最近动态":
-                    HomeRecent(user: user)
-                case "Rating分析":
-                    HomeRating(user: user)
-                case "出勤记录":
-                    HomeDelta(user: user)
-                default:
-                    Spacer()
-                }
-            }
-        }
-        .coordinateSpace(name: "pull")
-        .navigationTitle("主页")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    withAnimation(.easeInOut(duration: 0.15)) {
-                        user.currentMode.toggle()
-                    }
-                } label: {
-                    Image(systemName: "arrow.left.arrow.right")
-                }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    Settings(user: user)
-                } label: {
-                    Image(systemName: "gear")
-                }
-            }
-        }
     }
 }
 

@@ -69,6 +69,7 @@ struct Settings: View {
             
             Section {
                 Toggle("显示距上次出勤天数", isOn: $user.showDaysSinceLastPlayed)
+                Toggle("显示刷新按钮", isOn: $user.shouldShowRefreshButton)
                 NavigationLink {
                     SettingsHomeArrangement()
                 } label: {

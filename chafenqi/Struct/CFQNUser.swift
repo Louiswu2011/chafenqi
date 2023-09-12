@@ -29,6 +29,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
     @AppStorage("settingsAutoRedirectToWeChat") var proxyAutoJump = false
     @AppStorage("settingsShouldPromptDFishLinking") var proxyShouldPromptLinking = true
+    @AppStorage("settingsShowRefreshButton") var shouldShowRefreshButton = false
     
     var maimai = Maimai()
     var chunithm = Chunithm()
