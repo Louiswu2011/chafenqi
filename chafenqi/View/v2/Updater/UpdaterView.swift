@@ -71,6 +71,39 @@ struct UpdaterView: View {
             
             Section {
                 HStack {
+                    Text("状态")
+                    Spacer()
+                    Text("TBD")
+                        .foregroundColor(.gray)
+                }
+                Button {
+                    Task {
+                        do {
+                            try await CFQServer.triggerUpload(game: .Maimai, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
+                        } catch {
+                            
+                        }
+                    }
+                } label: {
+                    Text("舞萌DX")
+                }
+                Button {
+                    Task {
+                        do {
+                            try await CFQServer.triggerUpload(game: .Chunithm, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
+                        } catch {
+                            
+                        }
+                    }
+                } label: {
+                    Text("中二节奏")
+                }
+            } header: {
+                Text("快速上传")
+            }
+            
+            Section {
+                HStack {
                     Text("舞萌DX")
                     Spacer()
                     if maiAvg == "加载中..." {

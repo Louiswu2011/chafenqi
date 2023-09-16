@@ -10,6 +10,11 @@ import Crypto
 import AlertToast
 
 struct CFQServer {
+    enum GameType {
+        case Maimai
+        case Chunithm
+    }
+    
     static let session = URLSession(configuration: .default)
     static let encoder = JSONEncoder()
     static let decoder = JSONDecoder()
@@ -221,6 +226,16 @@ struct CFQServer {
 //        print(type.self)
 //        print(String(data: data, encoding: .utf8) ?? "")
         return try decoder.decode(T.self, from: data)
+    }
+    
+    static func triggerUpload(game: GameType, authToken: String, forwarding: Bool) async throws {
+        let queries = [URLQueryItem(name: "jwt", value: authToken), URLQueryItem(name: "forwarding", value: forwarding ? "1" : "0")]
+        switch game {
+        case .Chunithm:
+            let _ = try await fetchFromServer(method: "GET", path: "upload_chunithm", query: queries)
+        case .Maimai:
+            let _ = try await fetchFromServer(method: "GET", path: "upload_maimai", query: queries)
+        }
     }
 }
 
