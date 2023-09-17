@@ -67,6 +67,8 @@ struct UpdaterView: View {
                             }
                         }
                 }
+            } header: {
+                Text("代理")
             }
             
             Section {
