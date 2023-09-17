@@ -10,9 +10,13 @@ import Crypto
 import AlertToast
 
 struct CFQServer {
-    enum GameType {
-        case Maimai
-        case Chunithm
+    enum GameType: String, Hashable, CaseIterable, Identifiable {
+        var id: Self {
+            return self
+        }
+        
+        case Maimai = "舞萌DX"
+        case Chunithm = "中二节奏NEW"
     }
     
     static let session = URLSession(configuration: .default)
@@ -85,7 +89,7 @@ struct CFQServer {
         
         static func fetchIsUploading(game: GameType, authToken: String) async throws -> Bool {
             let query = [URLQueryItem(name: "dest", value: game == .Chunithm ? "0" : "1")]
-            let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/isUploading", query: query, token: authToken)
+            let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/isUploading", query: query, token: authToken, shouldThrowByCode: false)
             return response.statusCode() == 200
         }
     }
@@ -201,7 +205,7 @@ struct CFQServer {
         }
     }
     
-    static func fetchFromServer(method: String, path: String, payload: Data = Data(), query: [URLQueryItem] = [], token: String = "") async throws -> (Data, URLResponse) {
+    static func fetchFromServer(method: String, path: String, payload: Data = Data(), query: [URLQueryItem] = [], token: String = "", shouldThrowByCode: Bool = true) async throws -> (Data, URLResponse) {
         guard method == "GET" || method == "POST" else { throw CFQServerError.InvalidParameterError }
         var url = URLComponents(string: "http://43.139.107.206:8083/" + path)!
         if !query.isEmpty {
@@ -218,7 +222,9 @@ struct CFQServer {
             request.setValue("bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         let (data, response) = try await session.data(for: request)
-        let _ = try throwByCode(data: data, response: response)
+        if shouldThrowByCode {
+            let _ = try throwByCode(data: data, response: response)
+        }
         return (data, response)
     }
     
@@ -241,13 +247,8 @@ struct CFQServer {
     }
     
     static func triggerUpload(game: GameType, authToken: String, forwarding: Bool) async throws {
-        let queries = [URLQueryItem(name: "jwt", value: authToken), URLQueryItem(name: "forwarding", value: forwarding ? "1" : "0")]
-        switch game {
-        case .Chunithm:
-            let _ = try await fetchFromServer(method: "GET", path: "upload_chunithm", query: queries)
-        case .Maimai:
-            let _ = try await fetchFromServer(method: "GET", path: "upload_maimai", query: queries)
-        }
+        let payload = try JSONSerialization.data(withJSONObject: ["dest": game == .Chunithm ? "0" : "1", "forwarding": forwarding ? "1" : "0"])
+        let _ = try await fetchFromServer(method: "POST", path: "api/quick_upload", payload: payload, token: authToken)
     }
 }
 

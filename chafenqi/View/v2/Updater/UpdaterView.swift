@@ -36,6 +36,10 @@ struct UpdaterView: View {
     @State private var statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
     @State private var uploadStatus = "未开始上传"
     
+    @State private var quickUploadDestination = CFQServer.GameType.Maimai
+    @State private var maiCookieStatus = "加载中..."
+    @State private var chuCookieStatus = "加载中..."
+    
     var body: some View {
         Form {
             Section {
@@ -72,33 +76,24 @@ struct UpdaterView: View {
             }
             
             Section {
+                Picker("游戏", selection: $quickUploadDestination) {
+                    ForEach(CFQServer.GameType.allCases) { value in
+                        Text(value.rawValue)
+                            .tag(value)
+                    }
+                }
                 HStack {
-                    Text("状态")
+                    Text("缓存状态")
                     Spacer()
-                    Text("TBD")
+                    Text(quickUploadDestination == .Maimai ? maiCookieStatus : chuCookieStatus)
                         .foregroundColor(.gray)
                 }
                 Button {
                     Task {
-                        do {
-                            try await CFQServer.triggerUpload(game: .Maimai, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
-                        } catch {
-                            
-                        }
+                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
                     }
                 } label: {
-                    Text("舞萌DX")
-                }
-                Button {
-                    Task {
-                        do {
-                            try await CFQServer.triggerUpload(game: .Chunithm, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
-                        } catch {
-                            
-                        }
-                    }
-                } label: {
-                    Text("中二节奏")
+                    Text("开始上传")
                 }
             } header: {
                 Text("快速上传")
@@ -236,11 +231,31 @@ struct UpdaterView: View {
             do {
                 try await makeServerStatusText()
                 try await updateUploadStatus()
+                try await updateCookieStatus()
             } catch {
                 print(error)
                 chuniAvg = "暂无数据"
                 maiAvg = "暂无数据"
             }
+        }
+    }
+    
+    func updateCookieStatus() async throws {
+        maiCookieStatus = try await CFQUserServer.fetchCookieStatus(game: .Maimai, authToken: user.jwtToken) ? "好" : "无数据"
+        chuCookieStatus = try await CFQUserServer.fetchCookieStatus(game: .Chunithm, authToken: user.jwtToken) ? "好" : "无数据"
+    }
+    
+    func triggerQuickUpload(destination: CFQServer.GameType, authToken: String, forwarding: Bool) async {
+        do {
+            if !(try await CFQUserServer.fetchIsUploading(game: destination, authToken: authToken)) {
+                try await CFQServer.triggerUpload(game: destination, authToken: authToken, forwarding: forwarding)
+                alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已开始上传", subTitle: "请留意App通知")
+            } else {
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.yellow), title: "上传失败", subTitle: "您有正在进行的上传任务，请稍后")
+            }
+        } catch {
+            print("[Updater] Perform quick upload failed", error)
+            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "上传失败", subTitle: "无法启动快速上传服务")
         }
     }
     
