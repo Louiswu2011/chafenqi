@@ -76,6 +76,12 @@ struct CFQServer {
             let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/options", payload: payload, token: authToken)
             return response.statusCode() == 200
         }
+        
+        static func fetchCookieStatus(game: GameType, authToken: String) async throws -> Bool {
+            let query = [URLQueryItem(name: "dest", value: game == .Chunithm ? "0" : "1")]
+            let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/hasCache", query: query, token: authToken)
+            return response.statusCode() == 200
+        }
     }
     
     struct Fish {
