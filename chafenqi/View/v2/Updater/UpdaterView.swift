@@ -374,7 +374,7 @@ struct UpdaterView: View {
         default:
             break
         }
-        if !string.isEmpty {
+        if status[1] != -1 {
             string += "\n"
         }
         switch status[1] {
