@@ -80,7 +80,8 @@ struct CFQFilterOptions {
         "CHUNITHM CRYSTAL PLUS",
         "CHUNITHM PARADISE",
         "CHUNITHM PARADISE LOST",
-        "CHUNITHM NEW"
+        "CHUNITHM NEW",
+        "CHUNITHM NEW PLUS"
     ]
     static let maiVersionOptions = [
         "maimai",
