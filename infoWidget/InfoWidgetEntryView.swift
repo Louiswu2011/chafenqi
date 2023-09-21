@@ -59,6 +59,39 @@ struct infoWidgetEntryView : View {
                     }
                     
                     VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Group {
+                                if entry.custom != nil {
+                                    if entry.configuration.currentMode == .chunithm {
+                                        if let image = UIImage(data: entry.chuChar) {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                        } else {
+                                            Image("penguin")
+                                                .resizable()
+                                        }
+                                    } else {
+                                        if let image = UIImage(data: entry.maiChar) {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                        } else {
+                                            Image("salt")
+                                                .resizable()
+                                        }
+                                    }
+                                } else {
+                                    Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
+                                        .resizable()
+                                }
+                            }
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 105)
+                        }
+                    }
+                    
+                    VStack {
                         HStack {
                             Text(username)
                                 .bold()
@@ -106,39 +139,6 @@ struct infoWidgetEntryView : View {
                         }
                         Spacer()
                     }
-                    
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            Group {
-                                if entry.custom != nil {
-                                    if entry.configuration.currentMode == .chunithm {
-                                        if let image = UIImage(data: entry.chuChar) {
-                                            Image(uiImage: image)
-                                                .resizable()
-                                        } else {
-                                            Image("penguin")
-                                                .resizable()
-                                        }
-                                    } else {
-                                        if let image = UIImage(data: entry.maiChar) {
-                                            Image(uiImage: image)
-                                                .resizable()
-                                        } else {
-                                            Image("salt")
-                                                .resizable()
-                                        }
-                                    }
-                                } else {
-                                    Image(entry.configuration.currentMode == .chunithm ? "penguin" : "salt")
-                                        .resizable()
-                                }
-                            }
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 105)
-                        }
-                    }
                 } else if size == .systemSmall {
                     if let custom = entry.custom, let colors = entry.configuration.currentMode == .chunithm ? custom.chuColor : custom.maiColor {
                         LinearGradient(
@@ -156,32 +156,6 @@ struct infoWidgetEntryView : View {
                     } else {
                         LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
                     }
-                    
-                    VStack(alignment: .leading) {
-                        HStack {
-                            if let custom = entry.custom {
-                                Text(username)
-                                    .bold()
-                                    .foregroundColor(entry.configuration.currentMode == .chunithm ? (custom.darkModes[1] ? .white : .black) : (custom.darkModes[3] ? .white : .black))
-                            } else {
-                                Text(username)
-                                    .bold()
-                            }
-                            Spacer()
-                        }
-                        
-                        if let custom = entry.custom {
-                            Group {
-                                WidgetInfoBox(content: rating, title: "Rating")
-                                WidgetInfoBox(content: playCount, title: "游玩次数")
-                            }
-                            .foregroundColor(entry.configuration.currentMode == .chunithm ? (custom.darkModes[1] ? .white : .black) : (custom.darkModes[3] ? .white : .black))
-                        } else {
-                            WidgetInfoBox(content: rating, title: "Rating")
-                            WidgetInfoBox(content: playCount, title: "游玩次数")
-                        }
-                    }
-                    .padding(.leading)
                     
                     VStack {
                         Spacer()
@@ -215,6 +189,32 @@ struct infoWidgetEntryView : View {
                             .frame(width: 85)
                         }
                     }
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            if let custom = entry.custom {
+                                Text(username)
+                                    .bold()
+                                    .foregroundColor(entry.configuration.currentMode == .chunithm ? (custom.darkModes[1] ? .white : .black) : (custom.darkModes[3] ? .white : .black))
+                            } else {
+                                Text(username)
+                                    .bold()
+                            }
+                            Spacer()
+                        }
+                        
+                        if let custom = entry.custom {
+                            Group {
+                                WidgetInfoBox(content: rating, title: "Rating")
+                                WidgetInfoBox(content: playCount, title: "游玩次数")
+                            }
+                            .foregroundColor(entry.configuration.currentMode == .chunithm ? (custom.darkModes[1] ? .white : .black) : (custom.darkModes[3] ? .white : .black))
+                        } else {
+                            WidgetInfoBox(content: rating, title: "Rating")
+                            WidgetInfoBox(content: playCount, title: "游玩次数")
+                        }
+                    }
+                    .padding(.leading)
                 }
             }
         }
