@@ -82,6 +82,7 @@ struct infoWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             infoWidgetEntryView(entry: entry)
         }
+        .contentMarginsDisabledIfAvailable()
         .configurationDisplayName("玩家信息")
         .description("此小组件将显示您的玩家信息和概况")
         .supportedFamilies([.systemMedium, .systemSmall])
@@ -98,5 +99,15 @@ struct infoWidget_Previews: PreviewProvider {
 extension Color {
     init(red: Int, green: Int, blue: Int){
         self.init(red: Double(red) / 255, green: Double(green) / 255, blue: Double(blue) / 255)
+    }
+}
+
+extension WidgetConfiguration {
+    func contentMarginsDisabledIfAvailable() -> some WidgetConfiguration {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return self.contentMarginsDisabled()
+        } else {
+            return self
+        }
     }
 }
