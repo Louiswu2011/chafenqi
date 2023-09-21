@@ -61,11 +61,6 @@ class CFQPersistentData: ObservableObject {
         self.chunithm.songs = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
         self.chunithm.musics = try JSONDecoder().decode(Array<ChunithmMusicData>.self, from: self.chunithm.loadedMusics)
         
-        // Block newest & hottest musics
-        self.chunithm.musics = self.chunithm.musics.filter {
-            CFQFilterOptions.chuVersionOptions.contains($0.from)
-        }
-        
         var decoded = try JSONDecoder().decode(Array<ChunithmSongData>.self, from: self.chunithm.loadedSongs)
         decoded = decoded.filter { $0.constant != [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] && $0.constant != [0.0] }
         
