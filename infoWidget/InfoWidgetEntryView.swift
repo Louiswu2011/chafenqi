@@ -50,7 +50,6 @@ struct infoWidgetEntryView : View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .blur(radius: entry.configuration.currentMode == .chunithm ? custom.chuBgBlur ?? 0.0 : custom.maiBgBlur ?? 0.0)
-                                .frame(width: 305.5)
                         } else {
                             LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
                         }
