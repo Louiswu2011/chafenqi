@@ -230,12 +230,16 @@ struct UpdaterView: View {
         Task {
             do {
                 try await makeServerStatusText()
+            } catch {
+                chuniAvg = "暂无数据"
+                maiAvg = "暂无数据"
+            }
+            
+            do {
                 try await updateUploadStatus()
                 try await updateCookieStatus()
             } catch {
                 print(error)
-                chuniAvg = "暂无数据"
-                maiAvg = "暂无数据"
             }
         }
     }
