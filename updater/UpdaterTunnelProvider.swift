@@ -37,9 +37,6 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
                 self.sendPackets()
             }
         }
-        
-        
-        
     }
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {

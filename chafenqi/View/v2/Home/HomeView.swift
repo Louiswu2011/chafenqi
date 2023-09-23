@@ -150,12 +150,12 @@ struct HomeView: View {
                     await checkVersion()
                     syncToWidget()
                     
+                    loadDays()
+                    
                     OneSignal.setExternalUserId(user.username)
                     firstLaunch = false
                 }
             }
-            
-            loadDays()
         }
         .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
