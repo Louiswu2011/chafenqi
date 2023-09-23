@@ -12,7 +12,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     
     override init() {
         NSLog("PTP init.")
-        super .init()
+        super.init()
     }
 
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
@@ -68,8 +68,8 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
             for packet in packets {
                 strongSelf.connection.write(packet, completionHandler: { error in
                     if error != nil {
-                        // NSLog("Sent failed.")
-                        // NSLog(error!.localizedDescription)
+                        NSLog("Sent failed.")
+                        NSLog(error!.localizedDescription)
                     } else {
                         // NSLog("Sent packet.")
                     }
