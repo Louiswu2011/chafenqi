@@ -14,6 +14,7 @@ struct TokenUploderView: View {
     @ObservedObject var alertToast = AlertToastModel.shared
     
     @State var fetching = false
+    @State var testing = false
     
     @State var username: String = ""
     @State var password: String = ""
@@ -57,6 +58,29 @@ struct TokenUploderView: View {
                         }
                     }
                 }
+                .disabled(fetching)
+                
+                Button {
+                    testing = true
+                    Task {
+                        let result = await user.testFishToken()
+                        if result {
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "Token有效")
+                        } else {
+                            alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "Token已失效", subTitle: "请重新获取水鱼Token")
+                        }
+                        testing = false
+                    }
+                } label: {
+                    HStack {
+                        Text("验证Token")
+                        Spacer()
+                        if testing {
+                            ProgressView()
+                        }
+                    }
+                }
+                .disabled(user.fishToken.isEmpty || testing)
             } footer: {
                 Text("""
                 查分器NEW不会存储您的用户名和密码，仅保留Token作上传用。

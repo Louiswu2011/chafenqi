@@ -207,6 +207,7 @@ struct UpdaterView: View {
                 }
             } else {
                 user.proxyShouldPromptLinking = false
+                validateFishToken()
             }
             
             statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
@@ -237,9 +238,26 @@ struct UpdaterView: View {
             
             do {
                 try await updateUploadStatus()
+            } catch {
+                print(error)
+            }
+            
+            do {
                 try await updateCookieStatus()
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    func validateFishToken() {
+        Task {
+            let result = await user.testFishToken()
+            if !result {
+                alertToast.alert = Alert(title: Text("提示"),
+                                         message: Text("您的水鱼网Token已过期。是否现在更新Token？\n\n（稍后可以前往设置 - 更新水鱼Token手动更新）"),
+                                         primaryButton: .cancel(Text("忽略"), action: { self.user.proxyShouldPromptLinking = false }),
+                                         secondaryButton: .default(Text("更新"), action: { self.isShowingBind.toggle() }))
             }
         }
     }
@@ -268,7 +286,7 @@ struct UpdaterView: View {
         DispatchQueue.main.async {
             self.uploadStatus = status
         }
-        print("[Updater] Got update status from server: ", status)
+        // print("[Updater] Got update status from server: ", status)
     }
     
     func makeServerStatusText() async throws {

@@ -588,6 +588,22 @@ class CFQNUser: ObservableObject {
             self.loadPrompt = string
         }
     }
+    
+    func testFishToken() async -> Bool {
+        do {
+            let url = URL(string: "https://www.diving-fish.com/api/maimaidxprober/player/profile")!
+            var request = URLRequest(url: url)
+            
+            request.httpMethod = "GET"
+            request.setValue("jwt_token=\(fishToken)", forHTTPHeaderField: "Cookie")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
+            let (_, response) = try await URLSession.shared.data(for: request)
+            return response.statusCode() == 200
+        } catch {
+            return false
+        }
+    }
 }
 
 enum CFQNUserError: Error {
