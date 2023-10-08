@@ -37,19 +37,30 @@ func getMaxRatingPossible(songList: Set<ChunithmSongData>) -> Double {
 
 
 func getCoverNumber(id: String) -> String {
-    if let id = Double(id) {
-        if (1e4...11e3).contains(id) {
-            let pad = id - 1e4
-            return String(String(String(Int(pad)).reversed()).padding(toLength: 5, withPad: "0", startingAt: 0).reversed())
+    print("from", id)
+    if let id = Int(id) {
+        if (10000...11000).contains(id) {
+            let pad = id - 10000
+            var padded = String(pad)
+            while padded.count < 5 {
+                padded = "0" + padded
+            }
+            print("to", padded)
+            return padded
+        } else if id < 10000 {
+            var padded = String(id)
+            while padded.count < 5 {
+                padded = "0" + padded
+            }
+            print("to", padded)
+            return padded
         } else {
-            return String(String(String(Int(id)).reversed()).padding(toLength: 5, withPad: "0", startingAt: 0).reversed())
+            print("to", String(id))
+            return String(id)
         }
-    }
-    
-    if (id.count == 5) {
-        return String(id[id.index(after: id.startIndex)..<id.endIndex])
     } else {
-        return String(format: "%04d", Int(id)!)
+        print("to", id)
+        return id
     }
 }
 
