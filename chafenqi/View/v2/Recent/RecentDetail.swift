@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import CoreData
+import AlertToast
 
 struct RecentDetail: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var context
     
     @ObservedObject var user: CFQNUser
+    @ObservedObject var alertToast = AlertToastModel.shared
     
     var chuEntry: CFQChunithm.RecentScoreEntry?
     var maiEntry: CFQMaimai.RecentScoreEntry?
@@ -105,6 +108,9 @@ struct RecentDetail: View {
         .sheet(isPresented: $isShareSheetShowing) {
             ActivityViewController(activityItems: ["\(title) \(score)", screenshotImage])
         }
+        .toast(isPresenting: $alertToast.show) {
+            alertToast.toast
+        }
     }
     
     func loadVar() {
@@ -153,6 +159,10 @@ struct RecentDetail: View {
 }
 
 struct RecentBaseDetail: View {
+    @Environment(\.managedObjectContext) var context
+    
+    @ObservedObject var alertToast = AlertToastModel.shared
+    
     var coverUrl: URL
     var title: String
     var score: String
@@ -175,6 +185,21 @@ struct RecentBaseDetail: View {
         VStack {
             HStack(alignment: .bottom) {
                 SongCoverView(coverURL: coverUrl, size: 120, cornerRadius: 10, withShadow: false)
+                    .contextMenu {
+                        Button {
+                            Task {
+                                let fetchRequest = CoverCache.fetchRequest()
+                                fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", coverUrl.absoluteString)
+                                let matches = try? context.fetch(fetchRequest)
+                                if let match = matches?.first?.image, let image = UIImage(data: match) {
+                                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                    alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "保存成功")
+                                }
+                            }
+                        } label: {
+                            Label("保存到相册", systemImage: "square.and.arrow.down")
+                        }
+                    }
                 VStack(alignment: .leading) {
                     Spacer()
                     Text(title)
@@ -182,6 +207,14 @@ struct RecentBaseDetail: View {
                         .bold()
                         .lineLimit(2)
                         .minimumScaleFactor(0.8)
+                        .contextMenu {
+                            Button {
+                                UIPasteboard.general.string = title
+                                alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
+                            } label: {
+                                Text("复制")
+                            }
+                        }
                     Text(artist)
                         .font(.title2)
                         .lineLimit(1)
@@ -190,6 +223,7 @@ struct RecentBaseDetail: View {
                 Spacer()
             }
         }
+        
         ZStack {
             RoundedRectangle(cornerRadius: 5)
                 .foregroundColor(diffColor.opacity(0.7))

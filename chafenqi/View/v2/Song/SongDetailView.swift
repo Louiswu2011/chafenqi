@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import CoreData
+import AlertToast
 
 struct SongDetailView: View {
     @ObservedObject var user: CFQNUser
+    @ObservedObject var alertToast = AlertToastModel.shared
     
     @Environment(\.managedObjectContext) var context
     @Environment(\.colorScheme) var colorScheme
@@ -41,6 +44,8 @@ struct SongDetailView: View {
     @State var showingDiffSelection = false
     @State var showingDiffSelectioniOS14 = false
     
+    @State var coverImg: UIImage = UIImage()
+    
     var body: some View {
         ScrollView {
             if finishedLoading {
@@ -50,6 +55,21 @@ struct SongDetailView: View {
                             .overlay(RoundedRectangle(cornerRadius: 10)
                                 .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                             .padding(.leading)
+                            .contextMenu {
+                                Button {
+                                    Task {
+                                        let fetchRequest = CoverCache.fetchRequest()
+                                        fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", coverUrl.absoluteString)
+                                        let matches = try? context.fetch(fetchRequest)
+                                        if let match = matches?.first?.image, let image = UIImage(data: match) {
+                                            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                            alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "保存成功")
+                                        }
+                                    }
+                                } label: {
+                                    Label("保存到相册", systemImage: "square.and.arrow.down")
+                                }
+                            }
                         VStack(alignment: .leading) {
                             Spacer()
                             Text(title)
@@ -57,6 +77,14 @@ struct SongDetailView: View {
                                 .bold()
                                 .lineLimit(2)
                                 .minimumScaleFactor(0.8)
+                                .contextMenu {
+                                    Button {
+                                        UIPasteboard.general.string = title
+                                        alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已复制到剪贴板")
+                                    } label: {
+                                        Text("复制")
+                                    }
+                                }
                             
                             Text(artist)
                                 .font(.title2)
@@ -229,6 +257,9 @@ struct SongDetailView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toast(isPresenting: $alertToast.show) {
+            alertToast.toast
+        }
         .onAppear {
             finishedLoading = false
             Task {
