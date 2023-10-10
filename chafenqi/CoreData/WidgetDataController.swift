@@ -66,9 +66,9 @@ class WidgetDataController {
         widgetData.maiChar = data.maiChar
         widgetData.chuChar = data.chuChar
         
-//        if self.container.viewContext.hasChanges {
-//            print("[WidgetDataController] Saving widget data of", widgetData.username ?? "unknown user")
-//            try self.container.viewContext.save()
-//        }
+        if self.container.viewContext.hasChanges {
+            print("[WidgetDataController] Saving widget data of", widgetData.username ?? "unknown user")
+            try self.container.viewContext.save()
+        }
     }
 }

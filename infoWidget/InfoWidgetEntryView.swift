@@ -13,12 +13,6 @@ struct infoWidgetEntryView : View {
     @Environment(\.widgetFamily) var size
     var entry: Provider.Entry
     
-    var nameplateChuniColorTop = Color(red: 254, green: 241, blue: 65)
-    var nameplateChuniColorBottom = Color(red: 243, green: 200, blue: 48)
-    
-    var nameplateMaiColorTop = Color(red: 167, green: 243, blue: 254)
-    var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
-    
     @State private var username = ""
     @State private var rating = ""
     @State private var lastUpdate = ""
@@ -42,20 +36,6 @@ struct infoWidgetEntryView : View {
             } else {
                 if size == .systemMedium {
                     let color: Color = entry.configuration.currentMode == .chunithm ? (entry.custom?.darkModes[0] ?? false ? .white : .black) : (entry.custom?.darkModes[2] ?? false ? .white : .black)
-                    
-                    if let custom = entry.custom {
-                        let bg = entry.configuration.currentMode == .chunithm ? entry.chuBg : entry.maiBg
-                        if let image = UIImage(data: bg) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .blur(radius: entry.configuration.currentMode == .chunithm ? custom.chuBgBlur ?? 0.0 : custom.maiBgBlur ?? 0.0)
-                        } else {
-                            LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-                        }
-                    } else {
-                        LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-                    }
                     
                     VStack {
                         Spacer()
@@ -139,23 +119,6 @@ struct infoWidgetEntryView : View {
                         Spacer()
                     }
                 } else if size == .systemSmall {
-                    if let custom = entry.custom, let colors = entry.configuration.currentMode == .chunithm ? custom.chuColor : custom.maiColor {
-                        LinearGradient(
-                            colors:
-                                [Color(red: Double(colors.first?[0] ?? 0),
-                                       green: Double(colors.first?[1] ?? 0),
-                                       blue: Double(colors.first?[2] ?? 0),
-                                       opacity: Double(colors.first?[3] ?? 0)),
-                                 Color(red: Double(colors.last?[0] ?? 0),
-                                       green: Double(colors.last?[1] ?? 0),
-                                       blue: Double(colors.last?[2] ?? 0),
-                                       opacity: Double(colors.last?[3] ?? 0))],
-                            startPoint: .top,
-                            endPoint: .bottom)
-                    } else {
-                        LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-                    }
-                    
                     VStack {
                         Spacer()
                         HStack {
@@ -246,6 +209,7 @@ struct infoWidgetEntryView : View {
                 }
             }
         }
+        .widgetBackground(WidgetBackgroundView(entry: entry))
     }
     
     func toDateString(_ string: String) -> String {
@@ -261,6 +225,53 @@ struct infoWidgetEntryView : View {
         let str = NSMutableString(string: string)
         CFStringTransform(str, nil, kCFStringTransformFullwidthHalfwidth, false)
         return str as String
+    }
+}
+
+struct WidgetBackgroundView: View {
+    var entry: Provider.Entry
+    
+    var nameplateChuniColorTop = Color(red: 254, green: 241, blue: 65)
+    var nameplateChuniColorBottom = Color(red: 243, green: 200, blue: 48)
+    
+    var nameplateMaiColorTop = Color(red: 167, green: 243, blue: 254)
+    var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
+    
+    @Environment(\.widgetFamily) var size
+    
+    var body: some View {
+        if size == .systemMedium {
+            if let custom = entry.custom {
+                let bg = entry.configuration.currentMode == .chunithm ? entry.chuBg : entry.maiBg
+                if let image = UIImage(data: bg) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .blur(radius: entry.configuration.currentMode == .chunithm ? custom.chuBgBlur ?? 0.0 : custom.maiBgBlur ?? 0.0)
+                } else {
+                    LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+                }
+            } else {
+                LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+            }
+        } else if size == .systemSmall {
+            if let custom = entry.custom, let colors = entry.configuration.currentMode == .chunithm ? custom.chuColor : custom.maiColor {
+                LinearGradient(
+                    colors:
+                        [Color(red: Double(colors.first?[0] ?? 0),
+                               green: Double(colors.first?[1] ?? 0),
+                               blue: Double(colors.first?[2] ?? 0),
+                               opacity: Double(colors.first?[3] ?? 0)),
+                         Color(red: Double(colors.last?[0] ?? 0),
+                               green: Double(colors.last?[1] ?? 0),
+                               blue: Double(colors.last?[2] ?? 0),
+                               opacity: Double(colors.last?[3] ?? 0))],
+                    startPoint: .top,
+                    endPoint: .bottom)
+            } else {
+                LinearGradient(colors: entry.configuration.currentMode == .chunithm ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
+            }
+        }
     }
 }
 
@@ -286,4 +297,16 @@ struct WidgetInfoBox: View {
         .frame(width: 70)
         
     }
+}
+
+extension View {
+    func widgetBackground(_ backgroundView: some View) -> some View {
+            if #available(iOSApplicationExtension 17.0, *) {
+                return containerBackground(for: .widget) {
+                    backgroundView
+                }
+            } else {
+                return background(backgroundView)
+            }
+        }
 }
