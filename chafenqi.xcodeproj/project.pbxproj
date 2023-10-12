@@ -111,6 +111,7 @@
 		BF57F3782A3EB0CB00E9BE6A /* SongEntryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57F3772A3EB0CB00E9BE6A /* SongEntryListView.swift */; };
 		BF57F37B2A3EB2C200E9BE6A /* SongScoreTrendChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57F37A2A3EB2C200E9BE6A /* SongScoreTrendChart.swift */; };
 		BF5F2ABB2A7ED38B001F92C9 /* ShareSheetMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F2ABA2A7ED38B001F92C9 /* ShareSheetMaker.swift */; };
+		BF62E44B2AD7EAEE00292A62 /* UserRecord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BF62E4492AD7EAEE00292A62 /* UserRecord.xcdatamodeld */; };
 		BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */ = {isa = PBXBuildFile; productRef = BF66DAF72A0A2FAF00EDB749 /* SwiftlySearch */; };
 		BF7872A72A07DC9C007243B3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7872A62A07DC9C007243B3 /* Settings.swift */; };
 		BF7872A92A07E515007243B3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7872A82A07E515007243B3 /* RootView.swift */; };
@@ -346,6 +347,7 @@
 		BF57F3772A3EB0CB00E9BE6A /* SongEntryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEntryListView.swift; sourceTree = "<group>"; };
 		BF57F37A2A3EB2C200E9BE6A /* SongScoreTrendChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongScoreTrendChart.swift; sourceTree = "<group>"; };
 		BF5F2ABA2A7ED38B001F92C9 /* ShareSheetMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetMaker.swift; sourceTree = "<group>"; };
+		BF62E44A2AD7EAEE00292A62 /* UserRecord.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UserRecord.xcdatamodel; sourceTree = "<group>"; };
 		BF7872A62A07DC9C007243B3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BF7872A82A07E515007243B3 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		BF7B89DA29B7289C00E9ADA9 /* URLResponseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseExtension.swift; sourceTree = "<group>"; };
@@ -1033,6 +1035,7 @@
 				BFFEEB1D2A0825B3001B15B7 /* ImageCache.xcdatamodeld */,
 				BFFEEB202A0826A3001B15B7 /* CacheController.swift */,
 				BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */,
+				BF62E4492AD7EAEE00292A62 /* UserRecord.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1405,6 +1408,7 @@
 				6786F0BC2A3C637800CE90C2 /* GradeBadgeView.swift in Sources */,
 				67ED31202A5F98F1003907DE /* CustomContextPreview.swift in Sources */,
 				BFBC54FF298CEB4000A93918 /* MaimaiPlayerRecord.swift in Sources */,
+				BF62E44B2AD7EAEE00292A62 /* UserRecord.xcdatamodeld in Sources */,
 				6786F0AF2A3C62BF00CE90C2 /* SongChartView.swift in Sources */,
 				BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */,
 				670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */,
@@ -2256,6 +2260,16 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
+		BF62E4492AD7EAEE00292A62 /* UserRecord.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BF62E44A2AD7EAEE00292A62 /* UserRecord.xcdatamodel */,
+			);
+			currentVersion = BF62E44A2AD7EAEE00292A62 /* UserRecord.xcdatamodel */;
+			path = UserRecord.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

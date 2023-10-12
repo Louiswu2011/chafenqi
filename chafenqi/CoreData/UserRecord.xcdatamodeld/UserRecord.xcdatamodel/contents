@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="MaimaiBest" representedClassName="MaimaiBest" syncable="YES" codeGenerationType="class">
+        <attribute name="achievements" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dxScore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fc" optional="YES" attributeType="String"/>
+        <attribute name="fs" optional="YES" attributeType="String"/>
+        <attribute name="level" optional="YES" attributeType="String"/>
+        <attribute name="level_index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rate" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="MaimaiRecent" representedClassName="MaimaiRecent" syncable="YES" codeGenerationType="class">
+        <attribute name="achievements" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="difficulty" optional="YES" attributeType="String"/>
+        <attribute name="dxScore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fc" optional="YES" attributeType="String"/>
+        <attribute name="fs" optional="YES" attributeType="String"/>
+        <attribute name="isNewRecord" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="matching_1" optional="YES" attributeType="String"/>
+        <attribute name="matching_2" optional="YES" attributeType="String"/>
+        <attribute name="matching_3" optional="YES" attributeType="String"/>
+        <attribute name="maxCombo" optional="YES" attributeType="String"/>
+        <attribute name="maxSync" optional="YES" attributeType="String"/>
+        <attribute name="notes_break" optional="YES" attributeType="String"/>
+        <attribute name="notes_hold" optional="YES" attributeType="String"/>
+        <attribute name="notes_slide" optional="YES" attributeType="String"/>
+        <attribute name="notes_tap" optional="YES" attributeType="String"/>
+        <attribute name="notes_touch" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+</model>
