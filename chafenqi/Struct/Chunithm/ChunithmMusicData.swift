@@ -95,6 +95,10 @@ extension ChunithmMusicData.Charts {
             return self.ultima
         }
     }
+    
+    func getChartFromIndex(_ index: Int) -> Chart {
+        return [self.basic, self.advanced, self.expert, self.master, self.ultima][index]
+    }
 }
 
 extension ChunithmMusicData {

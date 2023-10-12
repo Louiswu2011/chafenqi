@@ -205,10 +205,12 @@ class CFQNUser: ObservableObject {
             var genreList: [String] = []
             var versionList: [String] = []
             
+            var levelRecords = CFQChunithmLevelRecords()
+            
             init() {}
             
             // MARK: Chunithm Custom Init
-            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries) {
+            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries, best: CFQChunithmBestScoreEntries, list: [ChunithmMusicData]) {
                 guard !orig.isEmpty && !recent.isEmpty else { return }
                 self.b30Slice = orig.filter {
                     $0.type == "best"
@@ -262,6 +264,8 @@ class CFQNUser: ObservableObject {
                 if let nr = (r.filter {
                     $0.isNewRecord == 1
                 }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
+                
+                levelRecords = CFQChunithmLevelRecords(songs: list, best: best)
                 
                 print("[CFQNUser] Loaded chunithm Custom Data.")
             }
@@ -512,7 +516,7 @@ class CFQNUser: ObservableObject {
         if !skipCustomLoading {
             publishLoadStatus("加载用户数据...")
             self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist)
-            self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent)
+            self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent, best: self.chunithm.best, list: self.data.chunithm.musics)
             self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
             self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
             print("[CFQNUser] Calculated Custom Values.")

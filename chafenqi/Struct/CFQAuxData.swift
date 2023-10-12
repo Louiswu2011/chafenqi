@@ -224,4 +224,49 @@ struct CFQMaimaiLevelRecords: Codable {
     init() {}
 }
 
+struct CFQChunithmLevelRecords: Codable {
+    static var chuLevelStrings: [String] {
+        var strings = [String]()
+        for i in 1...15 {
+            strings.append("\(i)")
+            if (7...14).contains(i) {
+                strings.append("\(i)+")
+            }
+        }
+        return strings
+    }
+    
+    var levels: [CFQChunithmLevelRecord] = []
+    
+    struct CFQChunithmLevelRecord: Codable {
+        var count: Int = 0
+        var levelString: String = ""
+        // var grades: [CFQMaimaiGradeRecord] = []
+        var noRecordSongs: [ChunithmMusicData] = []
+        var ratios: [Double] = []
+        
+        init(level: String, best: CFQChunithmBestScoreEntries, songData: [ChunithmMusicData]) {
+            self.levelString = level
+            let songs = best.filter {
+                $0.associatedSong!.charts.getChartFromIndex($0.levelIndex).level == level
+            }
+            let playedIdList = songs.compactMap { $0.associatedSong!.musicID }
+            let filteredData = songData.filter {
+                $0.charts.levels.contains(levelString)
+            }
+            self.noRecordSongs = filteredData.filter {
+                !playedIdList.contains($0.musicID)
+            }
+        }
+    }
+    
+    init(songs: [ChunithmMusicData], best: CFQChunithmBestScoreEntries) {
+        for level in CFQChunithmLevelRecords.chuLevelStrings {
+            levels.append(CFQChunithmLevelRecord(level: level, best: best, songData: songs))
+        }
+    }
+    
+    init() {}
+}
+
 typealias CFQMaimaiDayEntry = (CFQMaimaiRecentScoreEntries, Date)
