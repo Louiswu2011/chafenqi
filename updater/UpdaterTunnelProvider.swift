@@ -7,6 +7,21 @@
 
 import NetworkExtension
 
+extension NWTCPConnectionState: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .cancelled: return "Cancelled"
+        case .connected: return "Connected"
+        case .connecting: return "Connecting"
+        case .disconnected: return "Disconnected"
+        case .invalid: return "Invalid"
+        case .waiting: return "Waiting"
+        @unknown default:
+            return "Unknown State"
+        }
+    }
+}
+
 class UpdaterTunnelProvider: NEPacketTunnelProvider {
     var connection = NWTCPConnection()
     
@@ -28,12 +43,13 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
                 completionHandler(e)
             } else {
                 NSLog("Setting endpoint...")
-                // let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
-                // NSLog("Connecting to local server...")
                 let endpoint = NWHostEndpoint(hostname: "43.139.107.206", port: "8999")
                 self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
-                NSLog("Connected to NLTV server.")
+                
+                while self.connection.state != .connected {}
+                NSLog("Connected to NLTV server. Status: \(self.connection.state.description)")
                 completionHandler(nil)
+                
                 self.sendPackets()
             }
         }
@@ -44,6 +60,8 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
         NSLog("Stopping Tunnel...")
         completionHandler()
     }
+    
+    
     
     override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
         // Add code here to handle the message.
@@ -62,21 +80,28 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     }
     
     private func sendPackets() {
-        packetFlow.readPackets { [weak self] (packets, protocols) in
+        packetFlow.readPacketObjects { [weak self] (packetObjects) in
             guard let strongSelf = self else { return }
+            defer { strongSelf.sendPackets() }
             
-            for packet in packets {
-                strongSelf.connection.write(packet, completionHandler: { error in
-                    if error != nil {
-                        NSLog("Sent failed.")
-                        NSLog(error!.localizedDescription)
-                    } else {
-                        // NSLog("Sent packet.")
-                    }
-                })
+            for packetObject in packetObjects {
+                NSLog("[Updater] Packet: \(packetObject.data.map { String(format: "%02hhx", $0) }.joined())")
+                strongSelf.sendSingleTCPPacket(provider: strongSelf, packet: packetObject)
             }
-            strongSelf.sendPackets()
         }
+    }
+    
+    private func sendSingleTCPPacket(provider: UpdaterTunnelProvider, packet: NEPacket) {
+        NSLog("connection: \(connection.state.description), target: \(connection.endpoint), isViable: \(connection.isViable), hasBetterPath: \(connection.hasBetterPath)")
+        self.connection.write(packet.data, completionHandler: { error in
+            if error != nil {
+                NSLog("[Updater] Packet failed to send. Size: \(packet.data.count), sa_family: \(packet.protocolFamily)")
+                // provider.connection = NWTCPConnection(upgradeFor: provider.connection)
+                // self.sendSinglePacket(provider: provider, packet: packet)
+            } else {
+                NSLog("Sent packet.")
+            }
+        })
     }
     
     private func initUpdaterSettings(host: String, port: Int) -> NEPacketTunnelNetworkSettings {
@@ -107,6 +132,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
             NEIPv4Route(destinationAddress: "172.16.0.0", subnetMask: "255.240.0.0")
         ]
         settings.ipv4Settings = ipv4Settings
+        settings.ipv6Settings = nil
         
         settings.mtu = 1500
         
