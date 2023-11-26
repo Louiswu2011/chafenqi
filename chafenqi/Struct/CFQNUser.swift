@@ -292,6 +292,9 @@ class CFQNUser: ObservableObject {
                 self.best = try await best
                 self.recent = try await recent
                 self.rating = try await rating
+                
+                hideWorldsEnd()
+                
                 isNotEmpty = true
             } catch {
                 print("[CFQNUser] No chunithm game data from server.")
@@ -316,6 +319,15 @@ class CFQNUser: ObservableObject {
         }
         
         init() {}
+        
+        mutating func hideWorldsEnd() {
+            self.best.removeAll {
+                $0.idx == "1"
+            }
+            self.recent.removeAll {
+                $0.idx == "1"
+            }
+        }
     }
     
     init() {}
