@@ -375,47 +375,24 @@ class CFQNUser: ObservableObject {
     }
     
     func checkAssociated() -> [String] {
-        var failed: [String] = []
-        
-        let deletedTitle = ["秒針を噛む", "おジャ魔女カーニバル!!", "君の知らない物語", "ディカディズム", "39", "Pretender", "ノーポイッ!", "弱虫モンブラン", "Arty Party", "麒麟", "紅蓮華", "冬のこもりうた", "妄想感傷代償連盟", "ストリーミングハート", "共感覚おばけ", "ミラクル・ショッピング", "Our Fighting", "町かどタンジェント"]
-        
-        for entry in self.maimai.best {
-            if deletedTitle.contains(entry.title) {
-                self.maimai.best = self.maimai.best.filter {
-                    $0.title != entry.title
-                }
-                print("[CFQNUser] Detected deleted song: \(entry.title)")
-            } else if (entry.associatedSong == nil) {
-                failed.append("maimai best: " + entry.title)
-            }
+        self.maimai.best = self.maimai.best.filter {
+            $0.associatedSong != nil
         }
-        for entry in self.maimai.recent {
-            if deletedTitle.contains(entry.title) {
-                self.maimai.recent = self.maimai.recent.filter {
-                    $0.title != entry.title
-                }
-                print("[CFQNUser] Detected deleted song: \(entry.title)")
-            } else if (entry.associatedSong == nil) {
-                failed.append("maimai recent: " + entry.title)
-            }
-        }
-        for entry in self.chunithm.best {
-            if (entry.associatedSong == nil) {
-                failed.append("chunithm best: " + entry.title)
-            }
-        }
-        for entry in self.chunithm.recent {
-            if (entry.associatedSong == nil) {
-                failed.append("chunithm recent: " + entry.title)
-            }
-        }
-        for entry in self.chunithm.rating {
-            if (entry.associatedBestEntry == nil) {
-                failed.append("chunithm rating: " + entry.title)
-            }
+        self.maimai.recent = self.maimai.recent.filter {
+            $0.associatedSong != nil
         }
         
-        return failed
+        self.chunithm.best = self.chunithm.best.filter {
+            $0.associatedSong != nil
+        }
+        self.chunithm.recent = self.chunithm.recent.filter {
+            $0.associatedSong != nil
+        }
+        self.chunithm.rating = self.chunithm.rating.filter {
+            $0.associatedBestEntry != nil
+        }
+        
+        return []
     }
     
     func login(username: String, forceReload: Bool = false) async throws {
