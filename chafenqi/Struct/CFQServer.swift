@@ -168,6 +168,15 @@ struct CFQServer {
         func fetchExtraEntry() async throws -> CFQMaimaiExtraEntry {
             try await fetchGameData(CFQMaimaiExtraEntry.self, path: "api/maimai/extra", authToken: authToken)
         }
+        
+        static func fetchMusicData() async throws -> Data {
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/maimai/music_data")
+            if resp.statusCode() == 200 && !data.isEmpty {
+                return data
+            } else {
+                throw CFQServerError.ServerDatabaseError
+            }
+        }
     }
     
     struct Chunithm {

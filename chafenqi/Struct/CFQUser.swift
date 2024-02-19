@@ -85,7 +85,6 @@ class CFQUser: ObservableObject {
     private func calculateMaimaiData() {
         let songlist = self.data.maimai.songlist
         let records = self.maimai!.record.records
-        let ranking = self.data.maimai.ranking
         
         let pastSlice = self.maimai!.record.getPastSlice(songData: songlist)
         let currentSlice = self.maimai!.record.getCurrentSlice(songData: songlist)
@@ -105,13 +104,6 @@ class CFQUser: ObservableObject {
         self.maimai!.custom.avgAchievement = records.reduce(0.0) {
             $0 + $1.achievements / Double(records.count)
         }
-        
-        let sortedRanking = ranking.sorted {
-            $0.rating > $1.rating
-        }
-        self.maimai!.custom.nationalRanking = (sortedRanking.firstIndex(where: {
-            $0.username == self.maimai!.profile.username
-        }) ?? -1) + 1
         
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
@@ -153,22 +145,6 @@ class CFQUser: ObservableObject {
         // Removing nil(World's End) entries for now
         self.chunithm!.recent = self.chunithm!.recent.filter {
             $0.diff != "worldsend"
-        }
-        
-        
-        for entry in self.chunithm!.recent {
-            let song = self.data.chunithm.songs.filter {
-                String($0.musicId) == entry.music_id
-            }.first
-            
-            if (song != nil) {
-                self.chunithm!.custom.recentSong.append(song!)
-            } else {
-                print("Cannot found music id:", entry.music_id, "Deleting...")
-                self.chunithm!.recent.removeAll { recent in
-                    recent.music_id == entry.music_id
-                }
-            }
         }
     }
     
