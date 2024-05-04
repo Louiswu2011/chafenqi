@@ -21,7 +21,6 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsChunithmChartSource") var chunithmChartSource = 1
     @AppStorage("settingsMaimaiCoverSource") var maimaiCoverSource = 0
-    @AppStorage("settingsShouldForwardToFish") var shouldForwardToFish = true
     @AppStorage("settingsCurrentMode") var currentMode = 0
     @AppStorage("settingsChunithmPricePerTrack") var chuPricePerTrack = ""
     @AppStorage("settingsMaimaiPricePerTrack") var maiPricePerTrack = ""
@@ -38,6 +37,7 @@ class CFQNUser: ObservableObject {
     var assertionFailedTried = false
     
     @AppStorage("CFQUsername") var username = ""
+    var shouldForwardToFish = false
     var fishUsername = ""
     
     var isPremium = false
@@ -362,7 +362,18 @@ class CFQNUser: ObservableObject {
         }
         
         do {
-            publishLoadStatus("获取水鱼网Token...")
+            publishLoadStatus("获取用户设置...")
+            let fishForward = try await CFQUserServer.fetchUserOption(authToken: token, param: "forwarding_fish")
+            DispatchQueue.main.async {
+                self.shouldForwardToFish = fishForward == "1"
+            }
+            print("[CFQNUser] User option fowarding_fish: \(self.shouldForwardToFish).")
+        } catch {
+            self.shouldForwardToFish = false
+            print("[CFQNUser] User option forwarding_fish: not found, fallback to false.")
+        }
+        
+        do {
             let token = try await CFQFishServer.fetchToken(authToken: token)
             DispatchQueue.main.async {
                 self.fishToken = token

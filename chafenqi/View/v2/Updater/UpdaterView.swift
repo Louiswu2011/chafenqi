@@ -21,6 +21,7 @@ struct UpdaterView: View {
     @State private var isShowingHelp = false
     @State private var isShowingQRCode = false
     @State private var isShowingBind = false
+    @State private var isLoadingForwardFish = false
     
     @State private var isProxyOn = false
     @State private var proxyStatus = ""
@@ -155,6 +156,16 @@ struct UpdaterView: View {
                     Text("上传到水鱼网")
                 }
                 .disabled(user.fishToken.isEmpty)
+                .disabled(isLoadingForwardFish)
+                .onChange(of: user.shouldForwardToFish) { newValue in
+                    isLoadingForwardFish = true
+                    Task {
+                        if await !uploadForwardFish(newValue: newValue) {
+                            user.shouldForwardToFish = !newValue
+                        }
+                        isLoadingForwardFish = false
+                    }
+                }
                 
                 Toggle(isOn: $user.proxyAutoJump) {
                     Text("自动跳转到微信")
@@ -247,6 +258,32 @@ struct UpdaterView: View {
             } catch {
                 print(error)
             }
+        }
+    }
+    
+    func loadForwardFish() {
+        isLoadingForwardFish = true
+        Task {
+            do {
+                user.shouldForwardToFish = try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "1"
+                isLoadingForwardFish = false
+            } catch {
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载用户设置失败", subTitle: "请稍后重试")
+            }
+        }
+    }
+    
+    // Return if successfully applied changes
+    func uploadForwardFish(newValue: Bool) async -> Bool {
+        do {
+            let result = try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "forwarding_fish", value: newValue ? "1" : "0")
+            if result {
+                return try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == (newValue ? "1" : "0")
+            } else {
+                return false
+            }
+        } catch {
+            return false
         }
     }
     
@@ -371,8 +408,7 @@ struct UpdaterView: View {
     
     func makeUrl(mode: Int) -> String {
         let destination = mode == 0 ? "chunithm" : "maimai"
-        let forwarding = user.shouldForwardToFish ? 1 : 0
-        return "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)&forwarding=\(forwarding)"
+        return "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)"
     }
     
     func makeUploadStatusText() async throws -> String {

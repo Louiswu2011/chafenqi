@@ -14,8 +14,8 @@ struct UserLinkOptionView: View {
     
     @State private var isLoading = true
     @State private var isUploading = false
-    @State private var options = CFQUserOptions()
     @State private var bind: String = ""
+    @State private var currentQQ = ""
     
     var body: some View {
         Form {
@@ -27,11 +27,11 @@ struct UserLinkOptionView: View {
 //                        Text("加载中...")
 //                            .foregroundColor(.gray)
                         ProgressView()
-                    } else if options.bindQQ == 0 {
+                    } else if currentQQ.isEmpty {
                         Text("暂未绑定")
                             .foregroundColor(.gray)
                     } else {
-                        Text(verbatim: "\(options.bindQQ)")
+                        Text(currentQQ)
                             .foregroundColor(.gray)
                     }
                 }
@@ -73,7 +73,7 @@ struct UserLinkOptionView: View {
     func loadOptions() {
         Task {
             do {
-                options = try await CFQUserServer.fetchUserOptions(authToken: user.jwtToken)
+                currentQQ = try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "bindQQ")
             } catch {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据加载失败")
             }
@@ -93,10 +93,7 @@ struct UserLinkOptionView: View {
         isUploading = true
         Task {
             do {
-                let payload = CFQUserOptions(
-                    bindQQ: Int(bind) ?? 0
-                )
-                if try await CFQUserServer.uploadUserOptions(options: payload, authToken: user.jwtToken) {
+                if try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "bindQQ", value: bind) {
                     alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "数据上传成功")
                     loadOptions()
                     bind = ""
@@ -108,18 +105,6 @@ struct UserLinkOptionView: View {
             }
             isUploading = false
         }
-    }
-}
-
-struct CFQUserOptions: Codable {
-    var bindQQ: Int
-    
-    init() {
-        self.bindQQ = 0
-    }
-    
-    init(bindQQ: Int) {
-        self.bindQQ = bindQQ
     }
 }
 

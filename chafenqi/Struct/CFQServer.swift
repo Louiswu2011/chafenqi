@@ -66,18 +66,19 @@ struct CFQServer {
             return response.statusCode() == 200
         }
         
-        static func fetchUserOptions(authToken: String) async throws -> CFQUserOptions {
-            let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/options", token: authToken)
+        static func fetchUserOption(authToken: String, param: String) async throws -> String {
+            let query = [URLQueryItem(name: "param", value: param)]
+            let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/option", query: query, token: authToken, shouldThrowByCode: false)
             if response.statusCode() == 200 {
-                return try CFQServer.decoder.decode(CFQUserOptions.self, from: data)
+                return String(decoding: data, as: UTF8.self)
             } else {
-                return CFQUserOptions()
+                return ""
             }
         }
         
-        static func uploadUserOptions(options: CFQUserOptions, authToken: String) async throws -> Bool {
-            let payload = try CFQServer.encoder.encode(options)
-            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/options", payload: payload, token: authToken)
+        static func uploadUserOption(authToken: String, param: String, value: String) async throws -> Bool {
+            let payload = try JSONSerialization.data(withJSONObject: ["param": param, "value": value])
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/option", payload: payload, token: authToken, shouldThrowByCode: false)
             return response.statusCode() == 200
         }
         
