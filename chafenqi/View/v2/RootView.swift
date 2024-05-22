@@ -27,7 +27,7 @@ struct RootView: View {
                     ProgressView(user.loadPrompt)
                 }
             } else if (user.didLogin) {
-                TabView {
+                TabView() {
                     NavigationView {
                         HomeView(user: user)
                     }

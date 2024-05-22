@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct CFQMaimaiDayRecords {
-    struct CFQMaimaiDayRecord {
+struct CFQMaimaiDayRecords: Codable {
+    struct CFQMaimaiDayRecord: Codable {
         var date: Date = Date()
         
         var ratingDelta = 0
@@ -86,8 +86,9 @@ struct CFQMaimaiDayRecords {
     }
 }
 
-struct CFQChunithmDayRecords {
-    struct CFQChunithmDayRecord {
+struct CFQChunithmDayRecords: Codable {
+    
+    struct CFQChunithmDayRecord: Codable {
         var date: Date = Date()
         
         var ratingDelta: Double = 0

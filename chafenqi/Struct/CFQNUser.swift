@@ -28,6 +28,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
     @AppStorage("settingsAutoRedirectToWeChat") var proxyAutoJump = false
     @AppStorage("settingsShouldPromptDFishLinking") var proxyShouldPromptLinking = true
+    @AppStorage("settingsShouldPromptTooHighVersion") var proxyShouldPromptManualProxy = true
     @AppStorage("settingsShowRefreshButton") var shouldShowRefreshButton = false
     
     var maimai = Maimai()
@@ -61,11 +62,12 @@ class CFQNUser: ObservableObject {
             var versionList: [String] = []
             
             var levelRecords = CFQMaimaiLevelRecords()
+            var dayRecords: CFQMaimaiDayRecords = .init()
             
             init() {}
             
             // MARK: Maimai Custom Init
-            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries, list: [MaimaiSongData]) {
+            init(orig: CFQMaimaiBestScoreEntries, recent: CFQMaimaiRecentScoreEntries, list: [MaimaiSongData], delta: CFQMaimaiDeltaEntries) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 self.pastSlice = Array(orig.filter { entry in
                     return !entry.associatedSong!.basicInfo.isNew
@@ -145,6 +147,7 @@ class CFQNUser: ObservableObject {
                 }
                 
                 self.levelRecords = CFQMaimaiLevelRecords(songs: list, best: orig)
+                self.dayRecords = CFQMaimaiDayRecords(recents: recent, deltas: delta)
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
@@ -206,11 +209,12 @@ class CFQNUser: ObservableObject {
             var versionList: [String] = []
             
             var levelRecords = CFQChunithmLevelRecords()
+            var dayRecords: CFQChunithmDayRecords = .init()
             
             init() {}
             
             // MARK: Chunithm Custom Init
-            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries, best: CFQChunithmBestScoreEntries, list: [ChunithmMusicData]) {
+            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries, best: CFQChunithmBestScoreEntries, list: [ChunithmMusicData], delta: CFQChunithmDeltaEntries) {
                 guard !orig.isEmpty && !recent.isEmpty else { return }
                 self.b30Slice = orig.filter {
                     $0.type == "best"
@@ -266,6 +270,7 @@ class CFQNUser: ObservableObject {
                 }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
                 
                 levelRecords = CFQChunithmLevelRecords(songs: list, best: best)
+                dayRecords = CFQChunithmDayRecords(recents: recent, deltas: delta)
                 
                 print("[CFQNUser] Loaded chunithm Custom Data.")
             }
@@ -515,8 +520,8 @@ class CFQNUser: ObservableObject {
         
         if !skipCustomLoading {
             publishLoadStatus("加载用户数据...")
-            self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist)
-            self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent, best: self.chunithm.best, list: self.data.chunithm.musics)
+            self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, list: self.data.maimai.songlist, delta: self.maimai.delta)
+            self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent, best: self.chunithm.best, list: self.data.chunithm.musics, delta: self.chunithm.delta)
             self.maimai.info.nickname = self.maimai.info.nickname.transformingHalfwidthFullwidth()
             self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
             print("[CFQNUser] Calculated Custom Values.")

@@ -16,6 +16,8 @@ struct UpdaterView: View {
     
     @Environment(\.openURL) var openURL
     
+    @State private var iOSMajorVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
+    
     @State private var isShowingAlert = false
     @State private var isShowingConfig = false
     @State private var isShowingHelp = false
@@ -221,6 +223,7 @@ struct UpdaterView: View {
                 validateFishToken()
             }
             
+            validateSystemVersion()
             statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
         }
         .onDisappear {
@@ -284,6 +287,16 @@ struct UpdaterView: View {
             }
         } catch {
             return false
+        }
+    }
+    
+    func validateSystemVersion() {
+        if user.proxyShouldPromptManualProxy && iOSMajorVersion >= 17 {
+            // App proxy not working, prompt to manual proxy
+            alertToast.alert = Alert(title: Text("提示"),
+                                     message: Text("由于iOS17系统限制，暂时无法通过App内代理传分，请前往群置顶公告查看手动代理的设置方法。"),
+                                     primaryButton: .cancel(Text("关闭")),
+                                     secondaryButton: .default(Text("不再提醒"), action: { self.user.proxyShouldPromptManualProxy = false }))
         }
     }
     

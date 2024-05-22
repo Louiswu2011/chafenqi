@@ -66,27 +66,31 @@ struct DeltaShortLook: View {
     // MARK: Variable Loading
     func loadVar() {
         if user.currentMode == 0 {
-            if let chuLast = CFQChunithmDayRecords(recents: user.chunithm.recent, deltas: user.chunithm.delta).records.last {
-                self.chuLast = chuLast
-                playCount = chuLast.recentEntries.count
-                playDate = DateTool.shared.yyyymmddTransformer.string(from: chuLast.date)
-                avgScore = String(format: "%.0f", (chuLast.recentEntries.reduce(0) { $0 + Double($1.score) }) / Double(playCount))
-                if let first = chuLast.recentEntries.first {
-                    if let last = chuLast.recentEntries.last {
-                        playLength = abs(first.timestamp - last.timestamp)
+            if !user.chunithm.custom.dayRecords.records.isEmpty {
+                if let chuLast = user.chunithm.custom.dayRecords.records.last {
+                    self.chuLast = chuLast
+                    playCount = chuLast.recentEntries.count
+                    playDate = DateTool.shared.yyyymmddTransformer.string(from: chuLast.date)
+                    avgScore = String(format: "%.0f", (chuLast.recentEntries.reduce(0) { $0 + Double($1.score) }) / Double(playCount))
+                    if let first = chuLast.recentEntries.first {
+                        if let last = chuLast.recentEntries.last {
+                            playLength = abs(first.timestamp - last.timestamp)
+                        }
                     }
                 }
-            }
             
+            }
         } else if user.currentMode == 1 {
-            if let maiLast = CFQMaimaiDayRecords(recents: user.maimai.recent, deltas: user.maimai.delta).records.last {
-                self.maiLast = maiLast
-                playCount = maiLast.recentEntries.count
-                playDate = DateTool.shared.yyyymmddTransformer.string(from: maiLast.date)
-                avgScore = String(format: "%.4f", (maiLast.recentEntries.reduce(0) { $0 + $1.score }) / Double(playCount)) + "%"
-                if let first = maiLast.recentEntries.first {
-                    if let last = maiLast.recentEntries.last {
-                        playLength = abs(first.timestamp - last.timestamp)
+            if !user.maimai.custom.dayRecords.records.isEmpty {
+                if let maiLast = user.maimai.custom.dayRecords.records.last {
+                    self.maiLast = maiLast
+                    playCount = maiLast.recentEntries.count
+                    playDate = DateTool.shared.yyyymmddTransformer.string(from: maiLast.date)
+                    avgScore = String(format: "%.4f", (maiLast.recentEntries.reduce(0) { $0 + $1.score }) / Double(playCount)) + "%"
+                    if let first = maiLast.recentEntries.first {
+                        if let last = maiLast.recentEntries.last {
+                            playLength = abs(first.timestamp - last.timestamp)
+                        }
                     }
                 }
             }

@@ -234,9 +234,3 @@ struct HomeView: View {
         daysSinceLastPlayed = min(maiDay, chuDay)
     }
 }
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(user: CFQNUser())
-    }
-}
