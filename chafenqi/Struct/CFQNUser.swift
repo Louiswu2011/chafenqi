@@ -454,7 +454,7 @@ class CFQNUser: ObservableObject {
             self.premiumUntil = try await CFQUserServer.checkPremiumExpireTime(username: self.username)
         }
         
-        publishLoadStatus("加载本地缓存...")
+        publishLoadStatus("加载歌曲列表...")
         self.data = try await .loadFromCacheOrRefresh(user: self)
         self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
         self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
