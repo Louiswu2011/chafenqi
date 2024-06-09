@@ -17,6 +17,10 @@ class CFQNUser: ObservableObject {
     @AppStorage("MaimaiCache") var maimaiCache = Data()
     @AppStorage("ChunithmCache") var chunithmCache = Data()
     @AppStorage("widgetCustomization") var widgetCustom = Data()
+    
+    @AppStorage("maimaiSongListVersion") var maimaiSongListVersion = 0
+    @AppStorage("chunithmSongListVersion") var chunithmSongListVersion = 0
+    
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
     @AppStorage("settingsChunithmChartSource") var chunithmChartSource = 1
@@ -30,6 +34,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsShouldPromptDFishLinking") var proxyShouldPromptLinking = true
     @AppStorage("settingsShouldPromptTooHighVersion") var proxyShouldPromptManualProxy = true
     @AppStorage("settingsShowRefreshButton") var shouldShowRefreshButton = false
+    @AppStorage("settingsAutoUpdateSongList") var shouldAutoUpdateSongList = true
     
     var maimai = Maimai()
     var chunithm = Chunithm()
@@ -413,7 +418,7 @@ class CFQNUser: ObservableObject {
     
     func login(username: String, forceReload: Bool = false) async throws {
         publishLoadStatus("检查持久化数据...")
-        self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh()
+        self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh(user: self)
 
         try await fetchUserData(token: self.jwtToken, username: username)
         
@@ -450,7 +455,7 @@ class CFQNUser: ObservableObject {
         }
         
         publishLoadStatus("加载本地缓存...")
-        self.data = try await .loadFromCacheOrRefresh()
+        self.data = try await .loadFromCacheOrRefresh(user: self)
         self.maimai = try decoder.decode(Maimai.self, from: self.maimaiCache)
         self.chunithm = try decoder.decode(Chunithm.self, from: self.chunithmCache)
         print("[CFQNUser] Loaded user cache.")

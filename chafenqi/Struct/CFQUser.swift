@@ -159,9 +159,9 @@ class CFQUser: ObservableObject {
         self.token = token
         cachedToken = token
         
-        let data = try await CFQPersistentData.loadFromCacheOrRefresh()
+        // let data = try await CFQPersistentData.loadFromCacheOrRefresh()
         
-        self.data = data
+        // self.data = data
         
         do {
             let maimaiProfile = try await JSONDecoder().decode(MaimaiPlayerProfile.self, from: MaimaiDataGrabber.getPlayerProfile(token: token))

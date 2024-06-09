@@ -173,6 +173,7 @@ struct Settings: View {
                 }
                     
                 SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
+                Toggle("自动更新歌曲列表", isOn: $user.shouldAutoUpdateSongList)
                 NavigationLink {
                     LogView()
                 } label: {
@@ -200,16 +201,6 @@ struct Settings: View {
                     Text("刷新歌曲列表")
                 }
                 .foregroundColor(.red)
-//                Button {
-//                    let eraseAlert = Alert(title: Text("确定要清空吗？"), message: Text("将登出并清空所有游戏数据，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
-//                        user.logout()
-//                        // TODO: Add erase function
-//                    }))
-//                    alertToast.alert = eraseAlert
-//                } label: {
-//                    Text("清空游戏数据...")
-//                }
-//                .foregroundColor(.red)
             } header: {
                 Text("高级")
             }

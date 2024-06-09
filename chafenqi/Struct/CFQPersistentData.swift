@@ -81,8 +81,26 @@ class CFQPersistentData: ObservableObject {
         try await update()
     }
     
-    static func loadFromCacheOrRefresh() async throws -> CFQPersistentData {
+    static func loadFromCacheOrRefresh(user: CFQNUser) async throws -> CFQPersistentData {
         let data = CFQPersistentData()
+        
+        if user.shouldAutoUpdateSongList {
+            // Check for new updates
+            let latestMai = await CFQStatsServer.checkSongListVersion(game: .Maimai)
+            let latestChu = await CFQStatsServer.checkSongListVersion(game: .Chunithm)
+            
+            if user.maimaiSongListVersion < latestMai || user.chunithmSongListVersion < latestChu {
+                print("[CFQPersistentData] New data found, downloading...")
+                try await data.update()
+                user.maimaiSongListVersion = latestMai
+                user.chunithmSongListVersion = latestChu
+                return data
+            }
+            print("[CFQPersistentData] Music data is up to date.")
+        } else {
+            print("[CFQPersistentData] Auto update skipped by user.")
+        }
+        
         if (Maimai.hasCache() && Chunithm.hasCache()) {
             try await data.loadFromCache()
             data.shouldReload = false

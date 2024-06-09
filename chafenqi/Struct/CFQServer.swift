@@ -120,6 +120,18 @@ struct CFQServer {
             let decoded = try CFQServer.decoder.decode(Dictionary<String, Int>.self, from: data)
             return [decoded["chu"] ?? -1, decoded["mai"] ?? -1]
         }
+        
+        static func checkSongListVersion(game: GameType) async -> Int {
+            do {
+                let query = [URLQueryItem(name: "game", value: game == .Chunithm ? "1" : "0")]
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/songListVersion", query: query, shouldThrowByCode: false)
+                let result = String(decoding: data, as: UTF8.self)
+                return Int(result) ?? 0
+            } catch {
+                print("[CFQStatsServer] Failed to fetch song list version, defaulting to 0.")
+                return 0
+            }
+        }
     }
     
     struct Comment {
