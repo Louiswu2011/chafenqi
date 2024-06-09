@@ -102,7 +102,9 @@ struct CFQFilterOptions {
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} Splash PLUS",
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} UNiVERSE",
         "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} UNiVERSE PLUS",
-        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} FESTiVAL"
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} FESTiVAL",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} FESTiVAL PLUS",
+        "maimai \u{3067}\u{3089}\u{3063}\u{304f}\u{3059} BUDDiES"
     ]
     
     var filterMaiLevelToggles: [Bool] = []
