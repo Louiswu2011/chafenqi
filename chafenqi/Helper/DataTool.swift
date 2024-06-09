@@ -38,7 +38,9 @@ func getMaxRatingPossible(songList: Set<ChunithmSongData>) -> Double {
 
 func getCoverNumber(id: String) -> String {
     if let id = Int(id) {
-        if (10000...11000).contains(id) {
+        if id >= 100000 {
+            return getCoverNumber(id: String(id - 100000))
+        } else if (10000...11000).contains(id) {
             let pad = id - 10000
             var padded = String(pad)
             while padded.count < 5 {
