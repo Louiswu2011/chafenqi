@@ -16,7 +16,7 @@ struct LevelStripView: View {
         
         HStack {
             ForEach(levels.indices, id: \.self) { index in
-                if let color = levelColor[index], levels[index] != "0" {
+                if let color = levelColor[index], levels[index] != "0" && !levels[index].isEmpty {
                     LevelBlockView(color: color, level: levels[index])
                 }
             }
