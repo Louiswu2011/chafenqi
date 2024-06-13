@@ -80,6 +80,9 @@ extension ChunithmMusicData.Charts {
     var charters: [String] {
         [basic.charter ?? "", advanced.charter ?? "", expert.charter ?? "", master.charter ?? "", ultima.charter ?? "", worldsend.charter ?? ""]
     }
+    var enumerated: [Chart] {
+        [basic, advanced, expert, master, ultima]
+    }
     
     func getChartFromLabel(_ string: String) -> Chart {
         switch string {

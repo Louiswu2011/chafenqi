@@ -132,6 +132,17 @@ struct CFQServer {
                 return 0
             }
         }
+        
+        static func fetchMusicStat(musicId: Int, diffIndex: Int) async -> CFQChunithmMusicStatEntry {
+            let queries = [URLQueryItem(name: "index", value: String(musicId)), URLQueryItem(name: "diff", value: String(diffIndex))]
+            do {
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/chunithm/stats", query: queries, shouldThrowByCode: false)
+                return try decoder.decode(CFQChunithmMusicStatEntry.self, from: data)
+            } catch {
+                print("[CFQServer] Failed to retrieve music stat for music \(musicId) diff \(diffIndex).")
+                return CFQChunithmMusicStatEntry()
+            }
+        }
     }
     
     struct Comment {

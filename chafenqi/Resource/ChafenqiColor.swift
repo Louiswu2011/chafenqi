@@ -38,3 +38,13 @@ let chunithmLevelColor = [
     4: Color(red: 32, green: 32, blue: 32),
     5: Color.white
 ]
+
+let chunithmRankColor = [
+    0: Color(hex: 0xffffa800),
+    1: Color(hex: 0xffca8402),
+    2: Color(hex: 0xff78ce95),
+    3: Color(hex: 0xff369656),
+    4: Color(hex: 0xfffe2f20),
+    5: Color(hex: 0xff8e0a01),
+    6: Color(hex: 0xff444444)
+]

@@ -569,6 +569,27 @@ struct CFQData: Codable {
                 var createdAt: String
             }
         }
+        
+        struct MusicStatEntry: Codable {
+            var idx: Int = 0
+            var diff: Int = 0
+            var totalPlayed: Int = 0
+            var totalFullCombo: Int = 0
+            var totalAllJustice: Int = 0
+            var totalScore: Double = 0
+            var ssspSplit: Int = 0
+            var sssSplit: Int = 0
+            var sspSplit: Int = 0
+            var ssSplit: Int = 0
+            var spSplit: Int = 0
+            var sSplit: Int = 0
+            var otherSplit: Int = 0
+            var highestScore: Double = 0
+            var highestPlayer: String = ""
+            var highestPlayerNickname: String = ""
+            var updatedAt: String = ""
+            var createdAt: String = ""
+        }
     }
 }
 
@@ -874,3 +895,4 @@ typealias CFQChunithmRecentScoreEntries = [CFQChunithm.RecentScoreEntry]
 typealias CFQChunithmRatingEntries = [CFQChunithm.RatingEntry]
 typealias CFQChunithmDeltaEntries = [CFQChunithm.DeltaEntry]
 typealias CFQChunithmExtraEntry = CFQChunithm.ExtraEntry
+typealias CFQChunithmMusicStatEntry = CFQChunithm.MusicStatEntry
