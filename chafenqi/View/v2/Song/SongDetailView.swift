@@ -522,12 +522,12 @@ struct SongCardExpandedView: View {
             }
             
             if let song = maiSong {
-                NavigationLink {
-                    SongStatsView(maiSong: song, diff: diff, user: user)
-                } label: {
-                    Image(systemName: "chart.bar.fill")
-                    Text("排行榜和统计信息")
-                }
+//                NavigationLink {
+//                    SongStatsView(maiSong: song, diff: diff, user: user)
+//                } label: {
+//                    Image(systemName: "chart.bar.fill")
+//                    Text("排行榜和统计信息")
+//                }
             } else if let song = chuSong {
                 NavigationLink {
                     SongStatsView(chuSong: song, diff: diff, user: user)

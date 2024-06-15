@@ -64,7 +64,7 @@ struct ChartImageGrabber {
         let request = URLRequest(url: url)
         let (data, _) = try await URLSession.shared.data(for: request)
         
-        return UIImage(data: data)!
+        return UIImage(data: data) ?? UIImage()
     }
     
     private static func saveToCache(_ image: UIImage, chartUrl: String, context: NSManagedObjectContext) {
