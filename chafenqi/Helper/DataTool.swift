@@ -8,6 +8,24 @@
 import Foundation
 
 let difficulty = ["Expert": "exp", "Master": "mst", "Ultima": "ult"]
+let chunithmRanks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]
+
+let maimaiLevelLabel = [
+    0: "Basic",
+    1: "Advanced",
+    2: "Expert",
+    3: "Master",
+    4: "Re:Master"
+]
+
+let chunithmLevelLabel = [
+    0: "Basic",
+    1: "Advanced",
+    2: "Expert",
+    3: "Master",
+    4: "Ultima",
+    5: "World's End"
+]
 
 class DataTool {
     static let shared = DataTool()

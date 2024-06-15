@@ -143,6 +143,17 @@ struct CFQServer {
                 return CFQChunithmMusicStatEntry()
             }
         }
+        
+        static func fetchChunithmLeaderboard(musicId: Int, diffIndex: Int) async -> CFQChunithmLeaderboard {
+            let queries = [URLQueryItem(name: "index", value: String(musicId)), URLQueryItem(name: "diff", value: String(diffIndex))]
+            do {
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/chunithm/leaderboard", query: queries, shouldThrowByCode: false)
+                return try decoder.decode(CFQChunithmLeaderboard.self, from: data)
+            } catch {
+                print("[CFQServer] Failed to retrieve leaderboard for music \(musicId) diff \(diffIndex).")
+                return []
+            }
+        }
     }
     
     struct Comment {

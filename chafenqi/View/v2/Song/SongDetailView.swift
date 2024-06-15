@@ -399,7 +399,10 @@ struct ScoreCardView: View {
                         SongCardExpandedView(
                             constant: song.constant[levelIndex],
                             charter: song.charts[levelIndex].charter,
-                            data: song.charts[levelIndex]
+                            data: song.charts[levelIndex],
+                            maiSong: song,
+                            diff: levelIndex,
+                            user: user
                         )
                     }
                 }
@@ -449,15 +452,17 @@ struct ScoreCardView: View {
                                 constant: song.charts.constants[levelIndex],
                                 charter: song.charts.charters[levelIndex],
                                 chuEntry: entry,
-                                chuIndex: song.musicID,
-                                chuDiff: levelIndex
+                                chuSong: song,
+                                diff: levelIndex,
+                                user: user
                             )
                         } else {
                             SongCardExpandedView(
                                 constant: song.charts.constants[levelIndex],
                                 charter: song.charts.charters[levelIndex],
-                                chuIndex: song.musicID,
-                                chuDiff: levelIndex
+                                chuSong: song,
+                                diff: levelIndex,
+                                user: user
                             )
                         }
                     }
@@ -495,11 +500,11 @@ struct SongCardExpandedView: View {
     
     var data: MaimaiSongData.MaimaiSongChartData?
     var chuEntry: CFQChunithm.RecentScoreEntry?
-    var chuIndex: Int?
-    var chuDiff: Int?
-    
-    @State var chuStat: CFQChunithmMusicStatEntry = CFQChunithmMusicStatEntry()
-    @State var statLoaded = false
+    var maiSong: MaimaiSongData?
+    var chuSong: ChunithmMusicData?
+    var diff: Int
+    var user: CFQNUser
+
     
     var body: some View {
         VStack {
@@ -515,27 +520,26 @@ struct SongCardExpandedView: View {
             } else if let entry = chuEntry {
                 // SongCardChunithmLossesView(entry: entry)
             }
-            if statLoaded {
-                SongCardChunithmStatView(entry: chuStat)
-            } else {
-                ProgressView()
+            
+            if let song = maiSong {
+                NavigationLink {
+                    SongStatsView(maiSong: song, diff: diff, user: user)
+                } label: {
+                    Image(systemName: "chart.bar.fill")
+                    Text("排行榜和统计信息")
+                }
+            } else if let song = chuSong {
+                NavigationLink {
+                    SongStatsView(chuSong: song, diff: diff, user: user)
+                } label: {
+                    Image(systemName: "chart.bar.fill")
+                    Text("排行榜和统计信息")
+                }
             }
         }
-        .onAppear {
-            Task {
-                await loadStat()
-            }
-        }
+
     }
-    
-    func loadStat() async {
-        if let index = chuIndex, let diff = chuDiff {
-            chuStat = await CFQStatsServer.fetchMusicStat(musicId: index, diffIndex: diff)
-            if !chuStat.updatedAt.isEmpty {
-                statLoaded = true
-            }
-        }
-    }
+
 }
 
 struct SongCardChunithmLossesView: View {
@@ -569,73 +573,7 @@ struct SongCardChunithmLossesView: View {
     }
 }
 
-struct SongCardChunithmStatView: View {
-    var entry: CFQChunithmMusicStatEntry
-    
-    let ranks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]
-    
-    var body: some View {
-        VStack {
-            HStack(alignment: .center) {
-                Text("游玩人数：\(entry.totalPlayed)")
-                Spacer()
-                Text("平均分数：\(entry.totalScore / Double(entry.totalPlayed), specifier: "%.0f")")
-            }
-            
-            HStack {
-                let data = makeData()
-                
-                DoughnutChart(chartData: data)
-                    .touchOverlay(chartData: data, specifier: "%.0f")
-                    .headerBox(chartData: data)
-                    .frame(idealWidth: 200, idealHeight: 200)
-                    .id(data.id)
-                    .padding(.horizontal)
-                    .padding(.bottom)
-                
-                HStack {
-                    VStack(alignment: .leading) {
-                        let splits = [entry.ssspSplit, entry.sssSplit, entry.sspSplit, entry.ssSplit, entry.spSplit, entry.sSplit, entry.otherSplit]
-                        ForEach(ranks, id: \.self) { rank in
-                            let index = ranks.firstIndex(of: rank) ?? 0
-                            Text("\(rank)")
-                                .foregroundColor(chunithmRankColor[index] ?? Color.primary) +
-                            Text("：") +
-                            Text("\(splits[index])")
-                        }
-                    }
-                    VStack(alignment: .trailing) {
-                        Text("拟合定数")
-                        Text("Coming soon")
-                            .fontWeight(.bold)
-                            .padding(.bottom)
-                        
-                        Text("最高分")
-                        Text("\(entry.highestScore, specifier: "%.0f")")
-                            .fontWeight(.bold)
-                    }
-                }
-            }
-        }
-    }
-    
-    func makeData() -> DoughnutChartData {
-        let data = PieDataSet(dataPoints: [
-            PieChartDataPoint(value: Double(entry.ssspSplit), description: "SSS+", colour: chunithmRankColor[0] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.sssSplit), description: "SSS", colour: chunithmRankColor[1] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.sspSplit), description: "SS+", colour: chunithmRankColor[2] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.ssSplit), description: "SS", colour: chunithmRankColor[3] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.spSplit), description: "S+", colour: chunithmRankColor[4] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.sSplit), description: "S", colour: chunithmRankColor[5] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.otherSplit), description: "其他", colour: chunithmRankColor[6] ?? Color.accentColor)
-        ], legendTitle: "")
-        
-        return DoughnutChartData(
-            dataSets: data,
-            metadata: ChartMetadata(),
-            noDataText: Text("暂无数据"))
-    }
-}
+
 
 struct SongCardMaimaiLossesView: View {
     var data: MaimaiSongData.MaimaiSongChartData
@@ -760,18 +698,3 @@ struct SongCommentScrollView: View {
     }
 }
 
-struct SongDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        SongCardChunithmStatView(entry: CFQChunithmMusicStatEntry(
-            totalPlayed: 100,
-            totalScore: 123400000.0,
-            ssspSplit: 8,
-            sssSplit: 22,
-            sspSplit: 10,
-            ssSplit: 30,
-            spSplit: 10,
-            sSplit: 10,
-            otherSplit: 10
-        ))
-    }
-}

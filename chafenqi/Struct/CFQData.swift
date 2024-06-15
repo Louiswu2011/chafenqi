@@ -590,6 +590,20 @@ struct CFQData: Codable {
             var updatedAt: String = ""
             var createdAt: String = ""
         }
+        
+        struct LeaderboardEntry: Codable {
+            var id: Int = 0
+            var uid: Int = 0
+            var username: String = ""
+            var nickname: String = ""
+            var highscore: Int = 0
+            var rankIndex: Int = 0
+            var clear: String = ""
+            var fullCombo: String = ""
+            var fullChain: String = ""
+            var updatedAt: String = ""
+            var createdAt: String = ""
+        }
     }
 }
 
@@ -896,3 +910,5 @@ typealias CFQChunithmRatingEntries = [CFQChunithm.RatingEntry]
 typealias CFQChunithmDeltaEntries = [CFQChunithm.DeltaEntry]
 typealias CFQChunithmExtraEntry = CFQChunithm.ExtraEntry
 typealias CFQChunithmMusicStatEntry = CFQChunithm.MusicStatEntry
+typealias CFQChunithmLeaderboardEntry = CFQChunithm.LeaderboardEntry
+typealias CFQChunithmLeaderboard = [CFQChunithm.LeaderboardEntry]
