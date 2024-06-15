@@ -530,7 +530,7 @@ struct SongCardExpandedView: View {
 //                }
             } else if let song = chuSong {
                 NavigationLink {
-                    SongStatsView(chuSong: song, diff: diff, user: user)
+                    SongStatsDetailView(chuSong: song, diff: diff, user: user)
                 } label: {
                     Image(systemName: "chart.bar.fill")
                     Text("排行榜和统计信息")

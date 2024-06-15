@@ -9,7 +9,7 @@ import SwiftUI
 import AlertToast
 import SwiftUICharts
 
-struct SongStatsView: View {
+struct SongStatsDetailView: View {
     var maiSong: MaimaiSongData?
     var chuSong: ChunithmMusicData?
     
