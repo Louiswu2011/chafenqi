@@ -15,49 +15,55 @@ struct SongEntryListView: View {
     @State var maiRecords: CFQMaimaiRecentScoreEntries?
     @State var chuRecords: CFQChunithmRecentScoreEntries?
     
-    @State var shouldShowPointMarkers: Bool = true
+    @State var shouldShowPointMarkers: Bool = false
     
     var body: some View {
-        ScrollView {
-            if let maiRecords = maiRecords {
-                SongScoreTrendChart(rawDataPoints: $historyData, mode: 1, shouldShowPointMarkers: $shouldShowPointMarkers)
-                    .padding()
-                ForEach(maiRecords, id: \.timestamp) { record in
-                    NavigationLink {
-                        RecentDetail(user: user, maiEntry: record, hideSongInfo: true)
-                    } label: {
-                        MaimaiRecentEntryView(user: user, entry: record)
+        if user.isPremium {
+            ScrollView {
+                if let maiRecords = maiRecords {
+                    SongScoreTrendChart(rawDataPoints: $historyData, mode: 1, shouldShowPointMarkers: $shouldShowPointMarkers)
+                        .padding()
+                    ForEach(maiRecords, id: \.timestamp) { record in
+                        NavigationLink {
+                            RecentDetail(user: user, maiEntry: record, hideSongInfo: true)
+                        } label: {
+                            MaimaiRecentEntryView(user: user, entry: record)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
-                }
-                .padding(.horizontal)
-            } else if let chuRecords = chuRecords {
-                SongScoreTrendChart(rawDataPoints: $historyData, mode: 0, shouldShowPointMarkers: $shouldShowPointMarkers)
-                    .padding()
-                ForEach(chuRecords, id: \.timestamp) { record in
-                    NavigationLink {
-                        RecentDetail(user: user, chuEntry: record, hideSongInfo: true)
-                    } label: {
-                        ChunithmRecentEntryView(user: user, entry: record)
+                    .padding(.horizontal)
+                } else if let chuRecords = chuRecords {
+                    SongScoreTrendChart(rawDataPoints: $historyData, mode: 0, shouldShowPointMarkers: $shouldShowPointMarkers)
+                        .padding()
+                    ForEach(chuRecords, id: \.timestamp) { record in
+                        NavigationLink {
+                            RecentDetail(user: user, chuEntry: record, hideSongInfo: true)
+                        } label: {
+                            ChunithmRecentEntryView(user: user, entry: record)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
-        }
-        .navigationTitle("游玩记录")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    shouldShowPointMarkers.toggle()
+            .onAppear {
+                loadVar()
+            }
+        } else {
+            VStack {
+                Spacer()
+                Text("订阅会员以查询游玩记录")
+                    .padding(.bottom)
+                NavigationLink {
+                    NotPremiumView()
                 } label: {
-                    Image(systemName: shouldShowPointMarkers ? "eye" : "eye.slash")
+                    HStack {
+                        Image(systemName: "arrowshape.turn.up.forward")
+                        Text("了解详情")
+                    }
                 }
+                Spacer()
             }
-        }
-        .onAppear {
-            loadVar()
         }
     }
     
@@ -76,5 +82,11 @@ struct SongEntryListView: View {
                 historyData.append((Double(record.score), record.timestamp.toDateString(format: "MM-dd")))
             }
         }
+    }
+}
+
+struct SongEmptyEntryView: View {
+    var body: some View {
+        Text("哎呀，还没有游玩过该难度！")
     }
 }

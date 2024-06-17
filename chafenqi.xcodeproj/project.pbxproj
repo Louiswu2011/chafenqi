@@ -94,6 +94,9 @@
 		BF2D3A532AA4FB040066464F /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A522AA4FB040066464F /* LogView.swift */; };
 		BF3739C329C4E5F7002825B4 /* CFQUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3739C229C4E5F7002825B4 /* CFQUser.swift */; };
 		BF3739C529C4F47B002825B4 /* CFQPersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */; };
+		BF3970F52C205EA700FBEA41 /* SongLeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3970F42C205EA700FBEA41 /* SongLeaderboardView.swift */; };
+		BF3970F72C205EB600FBEA41 /* SongStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3970F62C205EB600FBEA41 /* SongStatsView.swift */; };
+		BF3970F92C205F2300FBEA41 /* SongStatsTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3970F82C205F2300FBEA41 /* SongStatsTabBarView.swift */; };
 		BF3C3EA729997385001959E5 /* AlertToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3C3EA629997385001959E5 /* AlertToastManager.swift */; };
 		BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F2E29B642F4005D1C67 /* RegexManager.swift */; };
 		BF403F3329B64DA2005D1C67 /* FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF403F3229B64DA2005D1C67 /* FilterExtension.swift */; };
@@ -331,6 +334,9 @@
 		BF2D3A522AA4FB040066464F /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		BF3739C229C4E5F7002825B4 /* CFQUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQUser.swift; sourceTree = "<group>"; };
 		BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQPersistentData.swift; sourceTree = "<group>"; };
+		BF3970F42C205EA700FBEA41 /* SongLeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLeaderboardView.swift; sourceTree = "<group>"; };
+		BF3970F62C205EB600FBEA41 /* SongStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongStatsView.swift; sourceTree = "<group>"; };
+		BF3970F82C205F2300FBEA41 /* SongStatsTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongStatsTabBarView.swift; sourceTree = "<group>"; };
 		BF3C3EA629997385001959E5 /* AlertToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastManager.swift; sourceTree = "<group>"; };
 		BF403F2E29B642F4005D1C67 /* RegexManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexManager.swift; sourceTree = "<group>"; };
 		BF403F3229B64DA2005D1C67 /* FilterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
@@ -659,6 +665,16 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		BF3970F32C205E9600FBEA41 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				BF3970F42C205EA700FBEA41 /* SongLeaderboardView.swift */,
+				BF3970F62C205EB600FBEA41 /* SongStatsView.swift */,
+				BF3970F82C205F2300FBEA41 /* SongStatsTabBarView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
 		BF3C3EA52999734C001959E5 /* Object */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,6 +880,7 @@
 		BFE075A22A078583005248A6 /* Song */ = {
 			isa = PBXGroup;
 			children = (
+				BF3970F32C205E9600FBEA41 /* Stats */,
 				BF57F3792A3EB2A400E9BE6A /* Charts */,
 				6786F0AE2A3C62BF00CE90C2 /* SongChartView.swift */,
 				BFA006CA2C1D97AD00BC4BC2 /* SongStatsDetailView.swift */,
@@ -1403,6 +1420,7 @@
 				6757B20F2A39BB75005701A5 /* InfoMaimaiFrameList.swift in Sources */,
 				6786F0AD2A3C62AA00CE90C2 /* SponsorView.swift in Sources */,
 				BF9E52112A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift in Sources */,
+				BF3970F52C205EA700FBEA41 /* SongLeaderboardView.swift in Sources */,
 				6786F0A12A3C3BC300CE90C2 /* DeltaShortLook.swift in Sources */,
 				BF7872A92A07E515007243B3 /* RootView.swift in Sources */,
 				6786F0BC2A3C637800CE90C2 /* GradeBadgeView.swift in Sources */,
@@ -1429,6 +1447,7 @@
 				BF5F2ABB2A7ED38B001F92C9 /* ShareSheetMaker.swift in Sources */,
 				BF3739C529C4F47B002825B4 /* CFQPersistentData.swift in Sources */,
 				BFB57B772A62FA26007DA4BC /* UserLinkOptionView.swift in Sources */,
+				BF3970F72C205EB600FBEA41 /* SongStatsView.swift in Sources */,
 				BF905CB62AB0CFAF00EEFA87 /* ViewExtension.swift in Sources */,
 				67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */,
 				BFBC5501298CEB4C00A93918 /* MaimaiSongData.swift in Sources */,
@@ -1469,6 +1488,7 @@
 				BF7BC69D297C482C003A67B0 /* SongViewModifier.swift in Sources */,
 				670EBC1B2A3022DB00D32723 /* InfoChunithmCharacterList.swift in Sources */,
 				BFCCA5C32A6D884700FB360A /* InfoChunithmTrophyList.swift in Sources */,
+				BF3970F92C205F2300FBEA41 /* SongStatsTabBarView.swift in Sources */,
 				6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
 				BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */,

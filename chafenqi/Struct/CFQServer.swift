@@ -144,13 +144,28 @@ struct CFQServer {
             }
         }
         
+        static func fetchMaimaiLeaderboard(musicId: Int, type: String, diffIndex: Int) async -> CFQMaimaiLeaderboard {
+            let queries = [
+                URLQueryItem(name: "index", value: String(musicId)),
+                URLQueryItem(name: "type", value: type),
+                URLQueryItem(name: "diff", value: String(diffIndex))
+            ]
+            do {
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/maimai/leaderboard", query: queries, shouldThrowByCode: false)
+                return try decoder.decode(CFQMaimaiLeaderboard.self, from: data)
+            } catch {
+                print("[CFQServer] Failed to retrieve maimai leaderboard for music \(musicId) diff \(diffIndex) type \(type).\n\(error)")
+                return []
+            }
+        }
+        
         static func fetchChunithmLeaderboard(musicId: Int, diffIndex: Int) async -> CFQChunithmLeaderboard {
             let queries = [URLQueryItem(name: "index", value: String(musicId)), URLQueryItem(name: "diff", value: String(diffIndex))]
             do {
                 let (data, _) = try await fetchFromServer(method: "GET", path: "api/chunithm/leaderboard", query: queries, shouldThrowByCode: false)
                 return try decoder.decode(CFQChunithmLeaderboard.self, from: data)
             } catch {
-                print("[CFQServer] Failed to retrieve leaderboard for music \(musicId) diff \(diffIndex).")
+                print("[CFQServer] Failed to retrieve chunithm leaderboard for music \(musicId) diff \(diffIndex).\n\(error)")
                 return []
             }
         }

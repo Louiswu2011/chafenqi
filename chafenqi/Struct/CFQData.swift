@@ -270,6 +270,19 @@ struct CFQData: Codable {
                 var selected: Int
             }
         }
+        
+        struct LeaderboardEntry: Codable {
+            var id: Int = 0
+            var uid: Int = 0
+            var username: String = ""
+            var nickname: String = ""
+            var achievements: Double = 0.0
+            var rate: String = ""
+            var fullCombo: String = ""
+            var fullSync: String = ""
+            var createdAt: String = ""
+            var updatedAt: String = ""
+        }
     }
     
     struct Chunithm: Codable {
@@ -901,6 +914,8 @@ typealias CFQMaimaiBestScoreEntries = [CFQMaimai.BestScoreEntry]
 typealias CFQMaimaiRecentScoreEntries = [CFQMaimai.RecentScoreEntry]
 typealias CFQMaimaiDeltaEntries = [CFQMaimai.DeltaEntry]
 typealias CFQMaimaiExtraEntry = CFQMaimai.ExtraEntry
+typealias CFQMaimaiLeaderboardEntry = CFQMaimai.LeaderboardEntry
+typealias CFQMaimaiLeaderboard = [CFQMaimai.LeaderboardEntry]
 
 typealias CFQChunithm = CFQData.Chunithm
 typealias CFQChunithmUserInfo = CFQChunithm.UserInfo

@@ -16,3 +16,9 @@ extension Bool {
         return true
     }
 }
+
+extension String {
+    var displayRate: String {
+        return self.replacingOccurrences(of: "p", with: "+").uppercased()
+    }
+}

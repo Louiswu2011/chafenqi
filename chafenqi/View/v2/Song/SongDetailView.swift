@@ -377,33 +377,15 @@ struct ScoreCardView: View {
                         if let entry = maiEntry {
                             Text("\(entry.score, specifier: "%.4f")%")
                                 .bold()
-                            if let maiRecords = maiRecords {
-                                NavigationLink {
-                                    if user.isPremium {
-                                        SongEntryListView(user: user, maiRecords: maiRecords)
-                                    } else {
-                                        NotPremiumView()
-                                    }
-                                } label: {
-                                    Image(systemName: "info.circle")
-                                }
-                                .disabled(maiRecords.isEmpty)
-                            }
                         } else {
                             Text("尚未游玩")
                                 .bold()
                         }
-                    }
-                    
-                    if expanded {
-                        SongCardExpandedView(
-                            constant: song.constant[levelIndex],
-                            charter: song.charts[levelIndex].charter,
-                            data: song.charts[levelIndex],
-                            maiSong: song,
-                            diff: levelIndex,
-                            user: user
-                        )
+                        NavigationLink {
+                            SongStatsDetailView(maiSong: song, maiRecord: maiRecords?.first(where: { element in element.levelIndex == levelIndex }), maiRecords: maiRecords, diff: levelIndex, user: user)
+                        } label: {
+                            Image(systemName: "chart.bar")
+                        }
                     }
                 }
                 .padding()
@@ -428,53 +410,20 @@ struct ScoreCardView: View {
                         if let entry = chuEntry {
                             Text("\(entry.score)")
                                 .bold()
-                            if let chuRecords = chuRecords {
-                                NavigationLink {
-                                    if user.isPremium {
-                                        SongEntryListView(user: user, chuRecords: chuRecords)
-                                    } else {
-                                        NotPremiumView()
-                                    }
-                                } label: {
-                                    Image(systemName: "info.circle")
-                                }
-                                .disabled(chuRecords.isEmpty)
-                            }
                         } else {
                             Text("尚未游玩")
                                 .bold()
                         }
-                    }
-                    
-                    if expanded {
-                        if let entry = chuRecords?.first(where: { $0.levelIndex == levelIndex }) {
-                            SongCardExpandedView(
-                                constant: song.charts.constants[levelIndex],
-                                charter: song.charts.charters[levelIndex],
-                                chuEntry: entry,
-                                chuSong: song,
-                                diff: levelIndex,
-                                user: user
-                            )
-                        } else {
-                            SongCardExpandedView(
-                                constant: song.charts.constants[levelIndex],
-                                charter: song.charts.charters[levelIndex],
-                                chuSong: song,
-                                diff: levelIndex,
-                                user: user
-                            )
+                        NavigationLink {
+                            SongStatsDetailView(chuSong: song, chuRecord: chuRecords?.first(where: { element in element.levelIndex == levelIndex }), chuRecords: chuRecords, diff: levelIndex, user: user)
+                        } label: {
+                            Image(systemName: "chart.bar")
                         }
                     }
                 }
                 .padding()
             }
             .padding(.horizontal)
-            .onTapGesture {
-                withAnimation {
-                    expanded.toggle()
-                }
-            }
             .onAppear {
                 loadVar()
             }
@@ -489,168 +438,6 @@ struct ScoreCardView: View {
         } else if let song = chuSong {
             chuRecords = user.chunithm.recent.filter {
                 $0.associatedSong!.musicID == song.musicID && $0.levelIndex == self.levelIndex
-            }
-        }
-    }
-}
-
-struct SongCardExpandedView: View {
-    var constant: Double
-    var charter: String
-    
-    var data: MaimaiSongData.MaimaiSongChartData?
-    var chuEntry: CFQChunithm.RecentScoreEntry?
-    var maiSong: MaimaiSongData?
-    var chuSong: ChunithmMusicData?
-    var diff: Int
-    var user: CFQNUser
-
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text("定数：\(constant, specifier: "%.1f")")
-                Spacer()
-                Text("谱师:\(charter)")
-                    .lineLimit(1)
-            }
-            .padding(.vertical, 5)
-            if let data = data {
-                SongCardMaimaiLossesView(data: data)
-            } else if let entry = chuEntry {
-                // SongCardChunithmLossesView(entry: entry)
-            }
-            
-            if let song = maiSong {
-//                NavigationLink {
-//                    SongStatsView(maiSong: song, diff: diff, user: user)
-//                } label: {
-//                    Image(systemName: "chart.bar.fill")
-//                    Text("排行榜和统计信息")
-//                }
-            } else if let song = chuSong {
-                NavigationLink {
-                    SongStatsDetailView(chuSong: song, diff: diff, user: user)
-                } label: {
-                    Image(systemName: "chart.bar.fill")
-                    Text("排行榜和统计信息")
-                }
-            }
-        }
-
-    }
-
-}
-
-struct SongCardChunithmLossesView: View {
-    var entry: CFQChunithm.RecentScoreEntry
-    
-    var body: some View {
-        HStack {
-            let judges = ["justice", "attack", "miss"]
-            VStack(alignment: .leading) {
-                
-                ForEach(Array(judges.enumerated()), id: \.offset) { index, type in
-                    HStack {
-                        Text(type.firstUppercased)
-                            .bold()
-                        Text("-\(entry.losses[index], specifier: "%.0f")")
-                    }
-                }
-                
-                
-            }
-            Spacer()
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("SSS/+容错")
-                        .bold()
-                    Text("\(2500 / entry.losses[1], specifier: "%.1f") / \(1000 / entry.losses[1], specifier: "%.0f")")
-                }
-            }
-        }
-        .padding(.top, 5)
-    }
-}
-
-
-
-struct SongCardMaimaiLossesView: View {
-    var data: MaimaiSongData.MaimaiSongChartData
-    
-    let noteTypes = ["Tap", "Hold", "Slide", "Touch"]
-    let judgeTypes = ["Great", "Good", "Miss"]
-    
-    var body: some View {
-        VStack {
-            HStack {
-                VStack(alignment: .leading, spacing: 5) {
-                    Spacer()
-                    ForEach(Array(noteTypes.enumerated()), id: \.offset) { index, noteType in
-                        if index == 3 && !data.possibleNormalLosses[3].isEmpty {
-                            Text(noteType)
-                                .bold()
-                        } else if index != 3 {
-                            Text(noteType)
-                                .bold()
-                        }
-                    }
-                }
-                Spacer()
-                
-                ForEach(Array(judgeTypes.enumerated()), id: \.offset) { index, judgeType in
-                    VStack(alignment: .trailing, spacing: 5) {
-                        Text(judgeType)
-                            .bold()
-                        ForEach(data.possibleNormalLosses.indices, id: \.self) { innerIndex in
-                            if !data.possibleNormalLosses[innerIndex].isEmpty && index < data.possibleNormalLosses.count - 1 {
-                                Text(data.possibleNormalLosses[innerIndex][index])
-                            }
-                        }
-                    }
-                }
-            }
-            
-            HStack {
-                Text("Break")
-                    .bold()
-                Spacer()
-                VStack {
-                    Text("\(data.possibleBreakLosses[2]) ~")
-                        .font(.system(size: 15))
-                    Text("\(data.possibleBreakLosses[4])")
-                        .font(.system(size: 15))
-                }
-                VStack {
-                    Text("\(data.possibleBreakLosses[5])")
-                }
-                VStack {
-                    Text("\(data.possibleBreakLosses[6])")
-                }
-            }
-            .padding(.bottom ,5)
-            
-            HStack {
-                VStack {
-                    Text("50/100落")
-                        .bold()
-                    Text("\(data.possibleBreakLosses[0]) /")
-                        .font(.system(size: 15))
-                    Text("\(data.possibleBreakLosses[1])")
-                        .font(.system(size: 15))
-                }
-                Spacer()
-                VStack {
-                    Text("SSS/+容错")
-                        .bold()
-                    Text("-\(data.lossUntilSSS, specifier: "%.1f") / -\(data.lossUntilSSSPlus, specifier: "%.1f")")
-                }
-                Spacer()
-                VStack {
-                    Text("50落/Great比")
-                        .bold()
-                    Text("\(data.breakToGreatRatio, specifier: "%.1f")")
-                }
             }
         }
     }
