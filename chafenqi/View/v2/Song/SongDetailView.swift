@@ -384,7 +384,7 @@ struct ScoreCardView: View {
                         NavigationLink {
                             SongStatsDetailView(maiSong: song, maiRecord: maiRecords?.first(where: { element in element.levelIndex == levelIndex }), maiRecords: maiRecords, diff: levelIndex, user: user)
                         } label: {
-                            Image(systemName: "chart.bar")
+                            Image(systemName: "ellipsis.circle")
                         }
                     }
                 }
@@ -417,7 +417,7 @@ struct ScoreCardView: View {
                         NavigationLink {
                             SongStatsDetailView(chuSong: song, chuRecord: chuRecords?.first(where: { element in element.levelIndex == levelIndex }), chuRecords: chuRecords, diff: levelIndex, user: user)
                         } label: {
-                            Image(systemName: "chart.bar")
+                            Image(systemName: "ellipsis.circle")
                         }
                     }
                 }
