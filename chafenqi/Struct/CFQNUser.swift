@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import OneSignal
+import FirebasePerformance
 
 class CFQNUser: ObservableObject {
     @Published var didLogin = false
@@ -417,6 +418,7 @@ class CFQNUser: ObservableObject {
     }
     
     func login(username: String, forceReload: Bool = false) async throws {
+        let loginTrace = Performance.startTrace(name: "login")
         publishLoadStatus("检查持久化数据...")
         self.data = try await forceReload ? .forceRefresh() : .loadFromCacheOrRefresh(user: self)
 
@@ -425,6 +427,7 @@ class CFQNUser: ObservableObject {
         OneSignal.setExternalUserId(username)
         
         print("[CFQNUser] Saved game data cache.")
+        loginTrace?.stop()
     }
     
     func logout() {

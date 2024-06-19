@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebasePerformance
 
 class CFQPersistentData: ObservableObject {
     @Published var chunithm: Chunithm = Chunithm()
@@ -63,10 +64,12 @@ class CFQPersistentData: ObservableObject {
     }
     
     func update() async throws {
+        let updateTrace = Performance.startTrace(name: "update_persistent_data")
         try await reloadMaimai()
         try await reloadChunithm()
         
         shouldReload = false
+        updateTrace?.stop()
     }
     
     func loadFromCache() async throws {

@@ -7,6 +7,10 @@
 
 import UIKit
 import OneSignal
+import FirebaseCore
+import FirebaseCrashlytics
+import FirebaseAnalytics
+import FirebasePerformance
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     private let actionService = QuickActionService.shared
@@ -29,21 +33,23 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-           // Remove this method to stop OneSignal Debugging
-           // OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
+        // Remove this method to stop OneSignal Debugging
+        // OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
             
-           OneSignal.initWithLaunchOptions(launchOptions)
-           OneSignal.setAppId("61d8cb1c-6de2-4b50-af87-f419b2d24ece")
+        OneSignal.initWithLaunchOptions(launchOptions)
+        OneSignal.setAppId("61d8cb1c-6de2-4b50-af87-f419b2d24ece")
             
-           OneSignal.promptForPushNotifications(userResponse: { accepted in
-             print("User accepted notification: \(accepted)")
-           })
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notification: \(accepted)")
+        })
+        
+        FirebaseApp.configure()
           
-          // Set your customer userId
-          // OneSignal.setExternalUserId("userId")
+        // Set your customer userId
+        // OneSignal.setExternalUserId("userId")
           
-           return true
-        }
+        return true
+    }
 }
 
 class SceneDelegate: NSObject, UIWindowSceneDelegate {
