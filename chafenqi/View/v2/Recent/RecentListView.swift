@@ -78,6 +78,7 @@ struct RecentListView: View {
         .navigationTitle("最近动态")
         .navigationBarTitleDisplayMode(.large)
         .id(currentPage)
+        .analyticsScreen(name: "recent_list_screen")
     }
     
     func offsetPage(by value: Int) {

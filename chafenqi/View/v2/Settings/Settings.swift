@@ -235,6 +235,7 @@ struct Settings: View {
         }
         .navigationTitle("设置")
         .navigationBarTitleDisplayMode(.inline)
+        .analyticsScreen(name: "settings_screen")
     }
 }
 

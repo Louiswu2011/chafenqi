@@ -23,6 +23,7 @@ struct SongDetailView: View {
     
     @State var finishedLoading = false
     
+    @State var mode = 0
     @State var title = ""
     @State var artist = ""
     @State var coverUrl = URL(string: "http://127.0.0.1")!
@@ -277,10 +278,12 @@ struct SongDetailView: View {
                 }
             }
         }
+        .analyticsScreen(name: "song_detail_screen", extraParameters: ["musicTitle": self.title, "mode": self.mode])
     }
     
     func loadVar() {
         if let song = maiSong {
+            self.mode = 0
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
             self.title = song.title
             self.artist = song.basicInfo.artist
@@ -295,6 +298,7 @@ struct SongDetailView: View {
                 $0.levelIndex < $1.levelIndex
             }
         } else if let song = chuSong {
+            self.mode = 1
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]
             self.title = song.title
             self.artist = song.artist

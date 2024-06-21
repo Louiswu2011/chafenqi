@@ -52,6 +52,12 @@ struct ClickGameView: View {
                     }
                 }
                 .padding(.horizontal, 30)
+                Button {
+                    fatalError("Crashed by design.")
+                } label: {
+                    Text("别按我")
+                }
+                .padding(.top)
             }
         }
         .simultaneousGesture(
@@ -63,6 +69,7 @@ struct ClickGameView: View {
         .edgesIgnoringSafeArea(.all)
         .navigationTitle("现在开始打交")
         .navigationBarTitleDisplayMode(.inline)
+        .analyticsScreen(name: "easter_egg_screen")
     }
     
     func onTouchDown() {

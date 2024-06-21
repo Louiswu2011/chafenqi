@@ -49,6 +49,7 @@ struct SongEntryListView: View {
             .onAppear {
                 loadVar()
             }
+            .analyticsScreen(name: "song_entry_list_screen")
         } else {
             VStack {
                 Spacer()
@@ -64,6 +65,7 @@ struct SongEntryListView: View {
                 }
                 Spacer()
             }
+            .analyticsScreen(name: "song_entry_list_not_premium_screen")
         }
     }
     

@@ -73,6 +73,7 @@ struct SongFilterOptionsView: View {
         }
         .navigationTitle("筛选和排序")
         .navigationBarTitleDisplayMode(.inline)
+        .analyticsScreen(name: "songlist_filter_screen")
     }
 }
 

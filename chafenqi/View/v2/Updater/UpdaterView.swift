@@ -238,6 +238,7 @@ struct UpdaterView: View {
         .toast(isPresenting: $alertToast.show) {
             alertToast.toast
         }
+        .analyticsScreen(name: "updater_screen")
         
     }
     

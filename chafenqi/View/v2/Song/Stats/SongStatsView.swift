@@ -129,6 +129,7 @@ struct ChunithmSongStatView: View {
             }
             .padding()
         }
+        .analyticsScreen(name: "chunithm_music_stat_screen")
     }
     
     func makeData() -> DoughnutChartData {
@@ -242,5 +243,6 @@ struct MaimaiSongStatView: View {
             Spacer()
         }
         .padding()
+        .analyticsScreen(name: "maimai_music_stat_screen")
     }
 }

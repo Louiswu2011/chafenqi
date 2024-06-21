@@ -73,6 +73,7 @@ struct NotPremiumView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .analyticsScreen(name: "promotion_screen")
     }
 }
 

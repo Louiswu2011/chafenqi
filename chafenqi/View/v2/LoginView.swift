@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import FirebaseAnalyticsSwift
 
 enum LoginState {
     case loginPending
@@ -180,6 +181,7 @@ struct LoginView: View {
             .alert(isPresented: $alertToast.alertShow) {
                 alertToast.alert
             }
+            .analyticsScreen(name: "login_screen")
         }
         
     }

@@ -86,6 +86,7 @@ struct SongTopView: View {
             }
         }
         .navigationTitle("歌曲列表")
+        .analyticsScreen(name: "songlist_screen")
     }
     
     func filterSongs() {

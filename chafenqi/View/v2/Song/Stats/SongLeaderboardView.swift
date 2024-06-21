@@ -19,8 +19,10 @@ struct SongLeaderboardView: View {
         if doneLoading {
             if let leaderboard = chuLeaderboard {
                 ChunithmLeaderboardView(leaderboard: leaderboard, username: username)
+                    .analyticsScreen(name: "chunithm_leaderboard_screen")
             } else if let leaderboard = maiLeaderboard {
                 MaimaiLeaderboardView(leaderboard: leaderboard, username: username)
+                    .analyticsScreen(name: "maimai_leaderboard_screen")
             } else {
                 Text("哎呀，还没有人游玩过该难度！")
             }

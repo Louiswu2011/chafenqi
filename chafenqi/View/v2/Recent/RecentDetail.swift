@@ -111,6 +111,7 @@ struct RecentDetail: View {
         .toast(isPresenting: $alertToast.show) {
             alertToast.toast
         }
+        .analyticsScreen(name: "recent_detail_screen", extraParameters: ["musicTitle": self.title, "mode": user.currentMode])
     }
     
     func loadVar() {
