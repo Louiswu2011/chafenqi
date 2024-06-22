@@ -9,9 +9,12 @@ import Foundation
 import SwiftUI
 import OneSignal
 import FirebasePerformance
+import FirebaseAnalytics
 
 class CFQNUser: ObservableObject {
     @Published var didLogin = false
+    
+    var iOSMajorVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
     
     @AppStorage("JWT") var jwtToken = ""
     @AppStorage("Fish") var fishToken = ""
@@ -33,6 +36,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
     @AppStorage("settingsAutoRedirectToWeChat") var proxyAutoJump = false
     @AppStorage("settingsShouldPromptDFishLinking") var proxyShouldPromptLinking = true
+    @AppStorage("settingsShouldPromptExpiredToken") var proxyShouldPromptExpiring = true
     @AppStorage("settingsShouldPromptTooHighVersion") var proxyShouldPromptManualProxy = true
     @AppStorage("settingsShowRefreshButton") var shouldShowRefreshButton = false
     @AppStorage("settingsAutoUpdateSongList") var shouldAutoUpdateSongList = true
@@ -425,6 +429,7 @@ class CFQNUser: ObservableObject {
         try await fetchUserData(token: self.jwtToken, username: username)
         
         OneSignal.setExternalUserId(username)
+        Analytics.setUserID(username)
         
         print("[CFQNUser] Saved game data cache.")
         loginTrace?.stop()
@@ -443,6 +448,7 @@ class CFQNUser: ObservableObject {
         }
         
         OneSignal.removeExternalUserId()
+        Analytics.setUserID(nil)
     }
     
     func loadFromCache() async throws {
@@ -607,6 +613,10 @@ class CFQNUser: ObservableObject {
     }
     
     func testFishToken() async -> Bool {
+        guard !fishToken.isEmpty else {
+            return true
+        }
+        
         do {
             let url = URL(string: "https://www.diving-fish.com/api/maimaidxprober/player/profile")!
             var request = URLRequest(url: url)

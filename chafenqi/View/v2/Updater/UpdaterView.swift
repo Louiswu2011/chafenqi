@@ -8,6 +8,7 @@
 import SwiftUI
 import AlertToast
 import CoreImage.CIFilterBuiltins
+import FirebaseAnalytics
 
 struct UpdaterView: View {
     @ObservedObject var user: CFQNUser
@@ -16,14 +17,16 @@ struct UpdaterView: View {
     
     @Environment(\.openURL) var openURL
     
-    @State private var iOSMajorVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
-    
     @State private var isShowingAlert = false
     @State private var isShowingConfig = false
     @State private var isShowingHelp = false
     @State private var isShowingQRCode = false
     @State private var isShowingBind = false
     @State private var isLoadingForwardFish = false
+    
+    @State private var shouldShowEmptyBindAlert = false
+    @State private var shouldShowExpiredTokenAlert = false
+    @State private var shouldShowiOS17Alert = false
     
     @State private var isProxyOn = false
     @State private var proxyStatus = ""
@@ -55,6 +58,8 @@ struct UpdaterView: View {
                             .foregroundColor(.gray)
                     }
                     .onChange(of: isProxyOn) { value in
+                        Analytics.logEvent("proxy_clicked", parameters: [
+                            "game": value ? "start" : "stop" as NSObject])
                         if value {
                             startProxyByUser()
                         } else {
@@ -76,6 +81,12 @@ struct UpdaterView: View {
                 }
             } header: {
                 Text("代理")
+            } footer: {
+                if user.iOSMajorVersion >= 17 {
+                    Text("由于iOS17系统限制，暂时无法通过App内代理传分，请前往群置顶公告查看手动代理的设置方法。")
+                } else {
+                    Text("如遇无法打开链接等情况，请先在不打开代理的情况下点击链接，待微信出现提示后再打开代理并点击继续访问按钮。")
+                }
             }
             
             Section {
@@ -93,6 +104,8 @@ struct UpdaterView: View {
                 }
                 Button {
                     Task {
+                        Analytics.logEvent("quick_upload_clicked", parameters: [
+                            "game": quickUploadDestination.rawValue as NSObject])
                         await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
                     }
                 } label: {
@@ -195,35 +208,13 @@ struct UpdaterView: View {
                 } label: {
                     Text("添加到快捷指令")
                 }
-                
-                Button {
-                    isShowingHelp.toggle()
-                } label: {
-                    Text("使用教程")
-                }
-                .sheet(isPresented: $isShowingHelp) {
-                    UpdaterHelpView(isShowingHelp: $isShowingHelp)
-                }
             }
         }
         .onAppear {
             refreshStatus()
             registerObserver()
             loadVar()
-            
-            if user.fishToken.isEmpty {
-                if user.proxyShouldPromptLinking {
-                    alertToast.alert = Alert(title: Text("提示"),
-                                             message: Text("您当前暂未绑定水鱼账号，将无法同步数据到水鱼网。是否现在进行绑定？\n\n（稍后可以在设置 - 更新水鱼Token中绑定）"),
-                                             primaryButton: .cancel(Text("不再提醒"), action: { self.user.proxyShouldPromptLinking = false }),
-                                             secondaryButton: .default(Text("绑定"), action: { self.isShowingBind.toggle() }))
-                }
-            } else {
-                user.proxyShouldPromptLinking = false
-                validateFishToken()
-            }
-            
-            validateSystemVersion()
+            showAlerts()
             statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
         }
         .onDisappear {
@@ -235,8 +226,19 @@ struct UpdaterView: View {
         .sheet(isPresented: $isShowingBind) {
             TokenUploderView(user: user)
         }
+        .sheet(isPresented: $isShowingHelp) {
+            UpdaterHelpView(isShowingHelp: $isShowingHelp)
+        }
         .toast(isPresenting: $alertToast.show) {
             alertToast.toast
+        }
+        .toolbar {
+            Button {
+                Analytics.logEvent("updater_help_clicked", parameters: nil)
+                isShowingHelp.toggle()
+            } label: {
+                Image(systemName: "questionmark.circle")
+            }
         }
         .analyticsScreen(name: "updater_screen")
         
@@ -261,6 +263,19 @@ struct UpdaterView: View {
                 try await updateCookieStatus()
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    func showAlerts() {
+        Task {
+            self.shouldShowEmptyBindAlert = user.fishToken.isEmpty && user.proxyShouldPromptLinking
+            self.shouldShowExpiredTokenAlert = !(await user.testFishToken()) && user.proxyShouldPromptExpiring
+            
+            if self.shouldShowEmptyBindAlert {
+                showEmptyBindAlert()
+            } else if self.shouldShowExpiredTokenAlert {
+                showExpiredTokenAlert()
             }
         }
     }
@@ -291,23 +306,22 @@ struct UpdaterView: View {
         }
     }
     
-    func validateSystemVersion() {
-        if user.proxyShouldPromptManualProxy && iOSMajorVersion >= 17 {
-            // App proxy not working, prompt to manual proxy
-            alertToast.alert = Alert(title: Text("提示"),
-                                     message: Text("由于iOS17系统限制，暂时无法通过App内代理传分，请前往群置顶公告查看手动代理的设置方法。"),
-                                     primaryButton: .cancel(Text("关闭")),
-                                     secondaryButton: .default(Text("不再提醒"), action: { self.user.proxyShouldPromptManualProxy = false }))
-        }
+    func showEmptyBindAlert() {
+        self.alertToast.alert = Alert(title: Text("提示"),
+                                      message: Text("您当前暂未绑定水鱼账号，将无法同步数据到水鱼网。是否现在进行绑定？\n\n（稍后可以在设置 - 更新水鱼Token中绑定）"),
+                                      primaryButton: .cancel(Text("不再提醒"), action: {
+            self.user.proxyShouldPromptLinking = false
+        }),
+                                      secondaryButton: .default(Text("绑定"), action: { self.isShowingBind.toggle() }))
     }
     
-    func validateFishToken() {
+    func showExpiredTokenAlert() {
         Task {
             let result = await user.testFishToken()
             if !result {
                 alertToast.alert = Alert(title: Text("提示"),
                                          message: Text("您的水鱼网Token已过期。是否现在更新Token？\n\n（稍后可以前往设置 - 更新水鱼Token手动更新）"),
-                                         primaryButton: .cancel(Text("忽略"), action: { self.user.proxyShouldPromptLinking = false }),
+                                         primaryButton: .cancel(Text("忽略")),
                                          secondaryButton: .default(Text("更新"), action: { self.isShowingBind.toggle() }))
             }
         }
