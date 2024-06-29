@@ -169,6 +169,29 @@ struct CFQServer {
                 return []
             }
         }
+        
+        static func fetchTotalLeaderboard<T: Decodable>(game: GameType, type: T) async -> T? {
+            var gameName = game == .Chunithm ? "chunithm" : "maimai"
+            var typeString = ""
+            switch type.self {
+            case is ChunithmRatingLeaderboard.Type, is MaimaiRatingLeaderboard.Type:
+                typeString = "rating"
+            case is ChunithmTotalScoreLeaderboard.Type, is MaimaiTotalScoreLeaderboard.Type:
+                typeString = "totalScore"
+            case is ChunithmTotalPlayedLeaderboard.Type, is MaimaiTotalPlayedLeaderboard.Type:
+                typeString = "totalPlayed"
+            default:
+                return nil
+            }
+            
+            let path = "api/\(gameName)/leaderboard/\(typeString)"
+            do {
+                let (data, _) = try await fetchFromServer(method: "GET", path: path, shouldThrowByCode: false)
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                return nil
+            }
+        }
     }
     
     struct Comment {

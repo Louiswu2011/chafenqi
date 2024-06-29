@@ -196,6 +196,8 @@
 		BFF4B7CC2A4DEF7D0080C6FC /* WidgetData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */; };
 		BFF4B7CD2A4DEF800080C6FC /* WidgetDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */; };
 		BFF4B7CE2A4DEF8C0080C6FC /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */; };
+		BFFB526E2C2FCA38006FBA68 /* MaimaiLeaderboardEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFB526D2C2FCA38006FBA68 /* MaimaiLeaderboardEntry.swift */; };
+		BFFB52702C2FCA42006FBA68 /* ChunithmLeaderboardEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFB526F2C2FCA42006FBA68 /* ChunithmLeaderboardEntry.swift */; };
 		BFFEEB132A081C96001B15B7 /* UpdaterRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB122A081C96001B15B7 /* UpdaterRootView.swift */; };
 		BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB142A081CC5001B15B7 /* UpdaterView.swift */; };
 		BFFEEB192A081F5C001B15B7 /* SongTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFEEB182A081F5C001B15B7 /* SongTopView.swift */; };
@@ -433,6 +435,8 @@
 		BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataController.swift; sourceTree = "<group>"; };
 		BFF4B7C72A4DEB4E0080C6FC /* WidgetData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WidgetData.xcdatamodel; sourceTree = "<group>"; };
 		BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
+		BFFB526D2C2FCA38006FBA68 /* MaimaiLeaderboardEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiLeaderboardEntry.swift; sourceTree = "<group>"; };
+		BFFB526F2C2FCA42006FBA68 /* ChunithmLeaderboardEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmLeaderboardEntry.swift; sourceTree = "<group>"; };
 		BFFEEB122A081C96001B15B7 /* UpdaterRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterRootView.swift; sourceTree = "<group>"; };
 		BFFEEB142A081CC5001B15B7 /* UpdaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterView.swift; sourceTree = "<group>"; };
 		BFFEEB182A081F5C001B15B7 /* SongTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTopView.swift; sourceTree = "<group>"; };
@@ -832,6 +836,7 @@
 				BFEB5AEA29897E1C005646AA /* ChunithmUserScoreData.swift */,
 				BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */,
 				67B202C02A260110005FD147 /* ChunithmMusicData.swift */,
+				BFFB526F2C2FCA42006FBA68 /* ChunithmLeaderboardEntry.swift */,
 			);
 			path = Chunithm;
 			sourceTree = "<group>";
@@ -845,6 +850,7 @@
 				BFBC5500298CEB4C00A93918 /* MaimaiSongData.swift */,
 				BFBC5502298CEB5700A93918 /* MaimaiChartStat.swift */,
 				BF21A71E2997787D00292193 /* MaimaiPlayerRating.swift */,
+				BFFB526D2C2FCA38006FBA68 /* MaimaiLeaderboardEntry.swift */,
 			);
 			path = Maimai;
 			sourceTree = "<group>";
@@ -1539,6 +1545,7 @@
 				BFC256AD29A7E96100B65CE7 /* ModalView.swift in Sources */,
 				6786F0A92A3C624000CE90C2 /* LevelBlockView.swift in Sources */,
 				BFCF130B2A0390D1000B2E0D /* CFQServer.swift in Sources */,
+				BFFB52702C2FCA42006FBA68 /* ChunithmLeaderboardEntry.swift in Sources */,
 				BF45B1CE2A0961440076E437 /* TokenUploderView.swift in Sources */,
 				6725EB042A24403D00C1829A /* RatingDeltaChart.swift in Sources */,
 				BF8D2A802A06382800F60633 /* LoginView.swift in Sources */,
@@ -1550,6 +1557,7 @@
 				6725EAFF2A24400F00C1829A /* DeltaListView.swift in Sources */,
 				BF572E1729A5E3A700E9811B /* MaimaiRecentRecord.swift in Sources */,
 				BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */,
+				BFFB526E2C2FCA38006FBA68 /* MaimaiLeaderboardEntry.swift in Sources */,
 				6757B20D2A39B937005701A5 /* InfoMaimaiNameplateList.swift in Sources */,
 				BFF4B7C82A4DEB4E0080C6FC /* WidgetData.xcdatamodeld in Sources */,
 				BF403F2F29B642F4005D1C67 /* RegexManager.swift in Sources */,
