@@ -18,7 +18,7 @@ struct HomeView: View {
     
     @State private var versionData = ClientVersionData.empty
     
-    @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
+    @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录|排行榜"
     @AppStorage("CFQUsername") var username = ""
     
     @State var refreshing = false
@@ -51,6 +51,8 @@ struct HomeView: View {
                                 HomeRating(user: user)
                             case "出勤记录":
                                 HomeDelta(user: user)
+                            case "排行榜":
+                                HomeLeaderboard(user: user)
                             default:
                                 Spacer()
                             }
@@ -103,6 +105,8 @@ struct HomeView: View {
                                 HomeRating(user: user)
                             case "出勤记录":
                                 HomeDelta(user: user)
+                            case "排行榜":
+                                HomeLeaderboard(user: user)
                             default:
                                 Spacer()
                             }
@@ -143,7 +147,6 @@ struct HomeView: View {
                 }
             }
         }
-        // .id(UUID())
         .onAppear {
             if firstLaunch {
                 Task { 
@@ -154,6 +157,11 @@ struct HomeView: View {
                     
                     OneSignal.setExternalUserId(user.username)
                     firstLaunch = false
+                }
+                
+                // Prevent leaderboard missing
+                if homeArrangement.components(separatedBy: "|").count < 4 {
+                    homeArrangement = "最近动态|Rating分析|出勤记录|排行榜"
                 }
             }
         }

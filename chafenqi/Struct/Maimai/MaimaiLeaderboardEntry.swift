@@ -17,7 +17,7 @@ struct MaimaiTotalScoreLeaderboardEntry: Codable {
     var uid: Int = 0
     var username: String = ""
     var nickname: String = ""
-    var totalScore: Double = 0.0
+    var totalAchievements: Double = 0.0
 }
 struct MaimaiTotalPlayedLeaderboardEntry: Codable {
     var uid: Int = 0

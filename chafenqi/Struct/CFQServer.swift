@@ -170,16 +170,16 @@ struct CFQServer {
             }
         }
         
-        static func fetchTotalLeaderboard<T: Decodable>(game: GameType, type: T) async -> T? {
-            var gameName = game == .Chunithm ? "chunithm" : "maimai"
+        static func fetchTotalLeaderboard<T: Decodable>(game: GameType, type: T.Type) async -> T? {
+            let gameName = game == .Chunithm ? "chunithm" : "maimai"
             var typeString = ""
-            switch type.self {
+            switch type {
             case is ChunithmRatingLeaderboard.Type, is MaimaiRatingLeaderboard.Type:
                 typeString = "rating"
             case is ChunithmTotalScoreLeaderboard.Type, is MaimaiTotalScoreLeaderboard.Type:
                 typeString = "totalScore"
             case is ChunithmTotalPlayedLeaderboard.Type, is MaimaiTotalPlayedLeaderboard.Type:
-                typeString = "totalPlayed"
+                typeString = "totalCount"
             default:
                 return nil
             }
@@ -189,6 +189,7 @@ struct CFQServer {
                 let (data, _) = try await fetchFromServer(method: "GET", path: path, shouldThrowByCode: false)
                 return try decoder.decode(T.self, from: data)
             } catch {
+                print("Error fetching total leaderboard of type \(typeString) from game \(gameName): \(error)")
                 return nil
             }
         }

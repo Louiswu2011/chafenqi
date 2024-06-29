@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsHomeArrangement: View {
-    @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
+    @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录|排行榜"
     @State private var editMode = EditMode.active
     
     @State private var homeModules = [String]()
