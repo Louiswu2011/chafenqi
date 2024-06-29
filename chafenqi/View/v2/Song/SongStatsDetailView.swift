@@ -110,7 +110,7 @@ struct SongStatsDetailView: View {
                     if let song = chuSong {
                         SongLeaderboardView(doneLoading: $doneLoadingLeaderboard, username: user.username, chuLeaderboard: chuLeaderboard)
                             .tag(0)
-                        SongStatView(doneLoading: $doneLoadingStat, chuStat: chuStat, chuSong: song, diff: diff)
+                        SongStatView(doneLoading: $doneLoadingStat, chuStat: chuStat, chuEntry: chuRecord, chuSong: song, diff: diff)
                             .tag(1)
                         if !(chuRecords?.isEmpty ?? false) {
                             SongEntryListView(user: user, chuRecords: chuRecords)
