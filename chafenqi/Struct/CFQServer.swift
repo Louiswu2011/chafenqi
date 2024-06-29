@@ -93,6 +93,47 @@ struct CFQServer {
             let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/isUploading", query: query, token: authToken, shouldThrowByCode: false)
             return response.statusCode() == 200
         }
+        
+        static func fetchLeaderboardRank<T: Decodable>(authToken: String, type: T.Type) async -> T? {
+            var leaderboard = ""
+            var game = 0
+            switch type {
+            case is MaimaiRatingRank.Type:
+                leaderboard = "rating"
+                game = 0
+            case is MaimaiTotalScoreRank.Type:
+                leaderboard = "totalScore"
+                game = 0
+            case is MaimaiTotalPlayedRank.Type:
+                leaderboard = "totalPlayed"
+                game = 0
+            case is MaimaiFirstRank.Type:
+                leaderboard = "first"
+                game = 0
+            case is ChunithmRatingRank.Type:
+                leaderboard = "rating"
+                game = 1
+            case is ChunithmTotalScoreRank.Type:
+                leaderboard = "totalScore"
+                game = 1
+            case is ChunithmTotalPlayedRank.Type:
+                leaderboard = "totalPlayed"
+                game = 1
+            case is ChunithmFirstRank.Type:
+                leaderboard = "first"
+                game = 1
+            default:
+                return nil
+            }
+            do {
+                let payload = try JSONSerialization.data(withJSONObject: ["game": game, "type": leaderboard])
+                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/leaderboard", payload: payload, token: authToken, shouldThrowByCode: false)
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                print("Failed to fetch leaderboard rank for game \(game) \(leaderboard).\n\(error)")
+                return nil
+            }
+        }
     }
     
     struct Fish {
@@ -170,7 +211,7 @@ struct CFQServer {
             }
         }
         
-        static func fetchTotalLeaderboard<T: Decodable>(game: GameType, type: T.Type) async -> T? {
+        static func fetchTotalLeaderboard<T: Decodable>(authToken: String, game: GameType, type: T.Type) async -> T? {
             let gameName = game == .Chunithm ? "chunithm" : "maimai"
             var typeString = ""
             switch type {
@@ -180,13 +221,16 @@ struct CFQServer {
                 typeString = "totalScore"
             case is ChunithmTotalPlayedLeaderboard.Type, is MaimaiTotalPlayedLeaderboard.Type:
                 typeString = "totalCount"
+            case is ChunithmFirstLeaderboard.Type, is MaimaiFirstLeaderboard.Type:
+                typeString = "first"
             default:
                 return nil
             }
             
             let path = "api/\(gameName)/leaderboard/\(typeString)"
             do {
-                let (data, _) = try await fetchFromServer(method: "GET", path: path, shouldThrowByCode: false)
+                let (data, _) = try await fetchFromServer(method: "POST", path: path, token: authToken, shouldThrowByCode: false)
+                let temp = String(decoding: data, as: UTF8.self)
                 return try decoder.decode(T.self, from: data)
             } catch {
                 print("Error fetching total leaderboard of type \(typeString) from game \(gameName): \(error)")

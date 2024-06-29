@@ -74,9 +74,10 @@ class CFQNUser: ObservableObject {
             var levelRecords = CFQMaimaiLevelRecords()
             var dayRecords: CFQMaimaiDayRecords = .init()
             
-            var ratingLeaderboard: MaimaiRatingLeaderboard = []
-            var totalScoreLeaderboard: MaimaiTotalScoreLeaderboard = []
-            var totalPlayedLeaderboard: MaimaiTotalPlayedLeaderboard = []
+            var ratingRank = MaimaiRatingRank()
+            var totalScoreRank = MaimaiTotalScoreRank()
+            var totalPlayedRank = MaimaiTotalPlayedRank()
+            var firstRank = MaimaiFirstRank()
             
             init() {}
             
@@ -225,9 +226,10 @@ class CFQNUser: ObservableObject {
             var levelRecords = CFQChunithmLevelRecords()
             var dayRecords: CFQChunithmDayRecords = .init()
             
-            var ratingLeaderboard: ChunithmRatingLeaderboard = []
-            var totalScoreLeaderboard: ChunithmTotalScoreLeaderboard = []
-            var totalPlayedLeaderboard: ChunithmTotalPlayedLeaderboard = []
+            var ratingRank = ChunithmRatingRank()
+            var totalScoreRank = ChunithmTotalScoreRank()
+            var totalPlayedRank = ChunithmTotalPlayedRank()
+            var firstRank = ChunithmFirstRank()
             
             init() {}
             
@@ -549,22 +551,10 @@ class CFQNUser: ObservableObject {
             print("[CFQNUser] Calculated Custom Values.")
         }
         
-        await refreshLeaderboards()
-        
         publishLoadStatus("同步本地存储...")
         sharedContainer.set(self.jwtToken, forKey: "JWT")
         sharedContainer.set(username, forKey: "currentUser")
         print("[CFQNUser] Set jwt token and username to \(username).")
-    }
-    
-    func refreshLeaderboards() async {
-        self.maimai.custom.ratingLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(game: .Maimai, type: MaimaiRatingLeaderboard.self) ?? []
-        self.maimai.custom.totalScoreLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(game: .Maimai, type: MaimaiTotalScoreLeaderboard.self) ?? []
-        self.maimai.custom.totalPlayedLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(game: .Maimai, type: MaimaiTotalPlayedLeaderboard.self) ?? []
-        
-        self.chunithm.custom.ratingLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(game: .Chunithm, type: ChunithmRatingLeaderboard.self) ?? []
-        self.chunithm.custom.totalScoreLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(game: .Chunithm, type: ChunithmTotalScoreLeaderboard.self) ?? []
-        self.chunithm.custom.totalPlayedLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(game: .Chunithm, type: ChunithmTotalPlayedLeaderboard.self) ?? []
     }
     
     // MARK: Make Widget
