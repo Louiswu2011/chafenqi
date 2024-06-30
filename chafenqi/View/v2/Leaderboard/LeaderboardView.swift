@@ -59,14 +59,81 @@ struct LeaderboardView: View {
                     }
             }
             TabView(selection: $currentIndex) {
-                LeaderboardScrollView(doneLoading: user.currentMode == 0 ? $doneLoadingChunithmRatingLeaderboard : $doneLoadingMaimaiRatingLeaderboard, data: ratingLeaderboardData)
-                    .tag(0)
-                LeaderboardScrollView(doneLoading: user.currentMode == 0 ? $doneLoadingChunithmTotalScoreLeaderboard : $doneLoadingMaimaiTotalScoreLeaderboard, data: totalScoreLeaderboardData)
-                    .tag(1)
-                LeaderboardScrollView(doneLoading: user.currentMode == 0 ? $doneLoadingChunithmTotalPlayedLeaderboard : $doneLoadingMaimaiTotalPlayedLeaderboard, data: totalPlayedLeaderboardData)
-                    .tag(2)
-                LeaderboardScrollView(doneLoading: user.currentMode == 0 ? $doneLoadingChunithmFirstLeaderboard : $doneLoadingMaimaiFirstLeaderboard, data: firstLeaderboardData)
-                    .tag(3)
+                if user.currentMode == 0 {
+                    LeaderboardScrollView(doneLoading: $doneLoadingChunithmRatingLeaderboard, data: $ratingLeaderboardData)
+                        .tag(0)
+                        .onChange(of: doneLoadingChunithmRatingLeaderboard) { value in
+                            if value && !chuRatingLeaderboard.isEmpty {
+                                ratingLeaderboardData = chuRatingLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(format: "%.2f", entry.rating))
+                                }
+                            }
+                        }
+                    LeaderboardScrollView(doneLoading: $doneLoadingChunithmTotalScoreLeaderboard, data: $totalScoreLeaderboardData)
+                        .tag(1)
+                        .onChange(of: doneLoadingChunithmTotalScoreLeaderboard) { value in
+                            if value && !chuTotalScoreLeaderboard.isEmpty {
+                                totalScoreLeaderboardData = chuTotalScoreLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.totalScore))
+                                }
+                            }
+                        }
+                    LeaderboardScrollView(doneLoading: $doneLoadingChunithmTotalPlayedLeaderboard, data: $totalPlayedLeaderboardData)
+                        .tag(2)
+                        .onChange(of: doneLoadingChunithmTotalPlayedLeaderboard) { value in
+                            if value && !chuTotalPlayedLeaderboard.isEmpty {
+                                totalPlayedLeaderboardData = chuTotalPlayedLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.totalPlayed))
+                                }
+                            }
+                        }
+                    LeaderboardScrollView(doneLoading: $doneLoadingChunithmFirstLeaderboard, data: $firstLeaderboardData)
+                        .tag(3)
+                        .onChange(of: doneLoadingChunithmFirstLeaderboard) { value in
+                            if value && !chuFirstLeaderboard.isEmpty {
+                                firstLeaderboardData = chuFirstLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount), extraInfo: entry.firstMusics)
+                                }
+                            }
+                        }
+                } else if user.currentMode == 1 {
+                    LeaderboardScrollView(doneLoading: $doneLoadingMaimaiRatingLeaderboard, data: $ratingLeaderboardData)
+                        .tag(0)
+                        .onChange(of: doneLoadingMaimaiRatingLeaderboard) { value in
+                            if value && !maiRatingLeaderboard.isEmpty {
+                                ratingLeaderboardData = maiRatingLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.rating))
+                                }
+                            }
+                        }
+                    LeaderboardScrollView(doneLoading: $doneLoadingMaimaiTotalScoreLeaderboard, data: $totalScoreLeaderboardData)
+                        .tag(1)
+                        .onChange(of: doneLoadingMaimaiTotalScoreLeaderboard) { value in
+                            if value && !maiTotalScoreLeaderboard.isEmpty {
+                                totalScoreLeaderboardData = maiTotalScoreLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(format: "%.4f", entry.totalAchievements) + "%")
+                                }
+                            }
+                        }
+                    LeaderboardScrollView(doneLoading: $doneLoadingMaimaiTotalPlayedLeaderboard, data: $totalPlayedLeaderboardData)
+                        .tag(2)
+                        .onChange(of: doneLoadingMaimaiTotalPlayedLeaderboard) { value in
+                            if !maiTotalPlayedLeaderboard.isEmpty {
+                                totalPlayedLeaderboardData = maiTotalPlayedLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.totalPlayed))
+                                }
+                            }
+                        }
+                    LeaderboardScrollView(doneLoading: $doneLoadingMaimaiFirstLeaderboard, data: $firstLeaderboardData)
+                        .tag(3)
+                        .onChange(of: doneLoadingMaimaiFirstLeaderboard) { value in
+                            if value && !maiFirstLeaderboard.isEmpty {
+                                firstLeaderboardData = maiFirstLeaderboard.enumerated().map { (index, entry) in
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount), extraInfo: entry.firstMusics)
+                                }
+                            }
+                        }
+                }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
@@ -83,22 +150,27 @@ struct LeaderboardView: View {
             // Chunithm
             Task {
                 if !doneLoadingChunithmRatingLeaderboard {
-                    chuRatingLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmRatingLeaderboard.self) ?? []
+                    await chuRatingLeaderboard = CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmRatingLeaderboard.self) ?? []
                     doneLoadingChunithmRatingLeaderboard = true
                 }
+            }
+            Task {
                 if !doneLoadingChunithmTotalScoreLeaderboard {
-                    chuTotalScoreLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmTotalScoreLeaderboard.self) ?? []
+                    await chuTotalScoreLeaderboard = CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmTotalScoreLeaderboard.self) ?? []
                     doneLoadingChunithmTotalScoreLeaderboard = true
                 }
+            }
+            Task {
                 if !doneLoadingChunithmTotalPlayedLeaderboard {
-                    chuTotalPlayedLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmTotalPlayedLeaderboard.self) ?? []
+                    await chuTotalPlayedLeaderboard = CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmTotalPlayedLeaderboard.self) ?? []
                     doneLoadingChunithmTotalPlayedLeaderboard = true
                 }
+            }
+            Task {
                 if !doneLoadingChunithmFirstLeaderboard {
-                    chuFirstLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmFirstLeaderboard.self) ?? []
+                    await chuFirstLeaderboard = CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Chunithm, type: ChunithmFirstLeaderboard.self) ?? []
                     doneLoadingChunithmFirstLeaderboard = true
                 }
-                convertChunithm()
             }
         } else if user.currentMode == 1 {
             // Maimai
@@ -107,65 +179,24 @@ struct LeaderboardView: View {
                     maiRatingLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Maimai, type: MaimaiRatingLeaderboard.self) ?? []
                     doneLoadingMaimaiRatingLeaderboard = true
                 }
+            }
+            Task {
                 if !doneLoadingMaimaiTotalScoreLeaderboard {
                     maiTotalScoreLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Maimai, type: MaimaiTotalScoreLeaderboard.self) ?? []
                     doneLoadingMaimaiTotalScoreLeaderboard = true
                 }
+            }
+            Task {
                 if !doneLoadingMaimaiTotalPlayedLeaderboard {
                     maiTotalPlayedLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Maimai, type: MaimaiTotalPlayedLeaderboard.self) ?? []
                     doneLoadingMaimaiTotalPlayedLeaderboard = true
                 }
+            }
+            Task {
                 if !doneLoadingMaimaiFirstLeaderboard {
                     maiFirstLeaderboard = await CFQStatsServer.fetchTotalLeaderboard(authToken: user.jwtToken, game: .Maimai, type: MaimaiFirstLeaderboard.self) ?? []
                     doneLoadingMaimaiFirstLeaderboard = true
                 }
-                convertMaimai()
-            }
-        }
-    }
-    
-    func convertChunithm() {
-        if !chuRatingLeaderboard.isEmpty {
-            ratingLeaderboardData = chuRatingLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(format: "%.2f", entry.rating))
-            }
-        }
-        if !chuTotalScoreLeaderboard.isEmpty {
-            totalScoreLeaderboardData = chuTotalScoreLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.totalScore))
-            }
-        }
-        if !chuTotalPlayedLeaderboard.isEmpty {
-            totalPlayedLeaderboardData = chuTotalPlayedLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.totalPlayed))
-            }
-        }
-        if !chuFirstLeaderboard.isEmpty {
-            firstLeaderboardData = chuFirstLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount), extraInfo: entry.firstMusics)
-            }
-        }
-    }
-    
-    func convertMaimai() {
-        if !maiRatingLeaderboard.isEmpty {
-            ratingLeaderboardData = maiRatingLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.rating))
-            }
-        }
-        if !maiTotalScoreLeaderboard.isEmpty {
-            totalScoreLeaderboardData = maiTotalScoreLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(format: "%.4f", entry.totalAchievements) + "%")
-            }
-        }
-        if !maiTotalPlayedLeaderboard.isEmpty {
-            totalPlayedLeaderboardData = maiTotalPlayedLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.totalPlayed))
-            }
-        }
-        if !maiFirstLeaderboard.isEmpty {
-            firstLeaderboardData = maiFirstLeaderboard.enumerated().map { (index, entry) in
-                LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount), extraInfo: entry.firstMusics)
             }
         }
     }
@@ -173,31 +204,33 @@ struct LeaderboardView: View {
 
 struct LeaderboardScrollView: View {
     @Binding var doneLoading: Bool
-    var data: Array<LeaderboardEntryData>
+    @Binding var data: Array<LeaderboardEntryData>
     
     var body: some View {
-        if !doneLoading {
-            VStack {
-                ProgressView()
-                    .padding(.bottom)
-                Text("加载数据中...")
-            }
-        } else {
-            if !data.isEmpty && data[0].extraInfo != nil {
-                ScrollView(.vertical) {
-                    LazyVStack(alignment: .center ,spacing: 20) {
-                        ForEach(data) { item in
-                            LeaderboardFirstEntryColumn(item: item)
-                                .padding(.horizontal)
-                        }
-                    }
+        ZStack {
+            if !doneLoading {
+                VStack {
+                    ProgressView()
+                        .padding(.bottom)
+                    Text("加载数据中...")
                 }
             } else {
-                ScrollView(.vertical) {
-                    LazyVStack(alignment: .center ,spacing: 20) {
-                        ForEach(data) { item in
-                            LeaderboardEntryColumn(item: item)
-                                .padding(.horizontal)
+                if !data.isEmpty && data[0].extraInfo != nil {
+                    ScrollView(.vertical) {
+                        LazyVStack(alignment: .center ,spacing: 20) {
+                            ForEach(data) { item in
+                                LeaderboardFirstEntryColumn(item: item)
+                                    .padding(.horizontal)
+                            }
+                        }
+                    }
+                } else {
+                    ScrollView(.vertical) {
+                        LazyVStack(alignment: .center ,spacing: 20) {
+                            ForEach(data) { item in
+                                LeaderboardEntryColumn(item: item)
+                                    .padding(.horizontal)
+                            }
                         }
                     }
                 }
