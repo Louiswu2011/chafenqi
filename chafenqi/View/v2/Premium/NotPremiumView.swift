@@ -49,6 +49,8 @@ struct NotPremiumView: View {
                         title: "小组件自定义",
                         message: "用已获得的角色、称号、底板等装饰桌面小组件")
                     
+                    PremiumInfoBlock(imageSystemName: "chart.bar.doc.horizontal", title: "国服排行榜", message: "查看Rating、总分、总游玩曲目、榜一获得数的总榜及详细信息")
+                    
                     PremiumInfoBlock(
                         imageSystemName: "ellipsis",
                         title: "更多功能",
