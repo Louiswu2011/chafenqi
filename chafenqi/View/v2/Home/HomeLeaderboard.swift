@@ -82,7 +82,7 @@ struct HomeLeaderboard: View {
                             .bold()
                         Text(first)
                             .font(.system(size: 15))
-                        Text("取得的第一名数")
+                        Text("榜一取得数")
                             .font(.caption)
                     }
                 } else {
