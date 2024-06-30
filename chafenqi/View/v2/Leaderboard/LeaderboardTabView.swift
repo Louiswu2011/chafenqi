@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LeaderboardTabView: View {
+    var proxy: ScrollViewProxy
     @Binding var currentIndex: Int
     @Namespace var namespace
     
@@ -22,7 +23,7 @@ struct LeaderboardTabView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(Array(zip(items.indices, items)), id: \.0) { index, item in
-                    LeaderboardTabBarComponent(currentIndex: $currentIndex, namespace: namespace.self, index: index, title: item.title, unselectedIcon: item.unselectedIcon, selectedIcon: item.selectedIcon)
+                    LeaderboardTabBarComponent(currentIndex: $currentIndex, proxy: proxy, namespace: namespace.self, index: index, title: item.title, unselectedIcon: item.unselectedIcon, selectedIcon: item.selectedIcon)
                 }
             }
         }
@@ -34,6 +35,7 @@ struct LeaderboardTabBarComponent: View {
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var currentIndex: Int
+    var proxy: ScrollViewProxy
     let namespace: Namespace.ID
     
     var index: Int
@@ -45,6 +47,7 @@ struct LeaderboardTabBarComponent: View {
         Button {
             withAnimation(.spring) {
                 currentIndex = index
+                proxy.scrollTo(index)
             }
         } label: {
             VStack {
@@ -53,6 +56,7 @@ struct LeaderboardTabBarComponent: View {
                     Image(systemName: currentIndex == index ? selectedIcon : unselectedIcon)
                     Text(title)
                 }
+                .padding(.horizontal)
                 if currentIndex == index {
                     (colorScheme == .light ? Color.black : Color.white)
                         .frame(height: 2)
@@ -63,7 +67,6 @@ struct LeaderboardTabBarComponent: View {
                 }
             }
             .animation(.spring, value: currentIndex)
-            .padding(.horizontal)
         }
         .buttonStyle(.plain)
     }

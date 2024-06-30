@@ -49,8 +49,15 @@ struct LeaderboardView: View {
     
     var body: some View {
         VStack {
-            LeaderboardTabView(currentIndex: $currentIndex.animation(.spring))
-                .padding(.bottom, 5)
+            ScrollViewReader { proxy in
+                LeaderboardTabView(proxy: proxy, currentIndex: $currentIndex.animation(.spring))
+                    .padding(.bottom, 5)
+                    .onChange(of: currentIndex) { value in
+                        withAnimation {
+                            proxy.scrollTo(currentIndex)
+                        }
+                    }
+            }
             TabView(selection: $currentIndex) {
                 LeaderboardScrollView(doneLoading: user.currentMode == 0 ? $doneLoadingChunithmRatingLeaderboard : $doneLoadingMaimaiRatingLeaderboard, data: ratingLeaderboardData)
                     .tag(0)
@@ -181,6 +188,7 @@ struct LeaderboardScrollView: View {
                     LazyVStack(alignment: .center ,spacing: 20) {
                         ForEach(data) { item in
                             LeaderboardFirstEntryColumn(item: item)
+                                .padding(.horizontal)
                         }
                     }
                 }
@@ -189,6 +197,7 @@ struct LeaderboardScrollView: View {
                     LazyVStack(alignment: .center ,spacing: 20) {
                         ForEach(data) { item in
                             LeaderboardEntryColumn(item: item)
+                                .padding(.horizontal)
                         }
                     }
                 }
@@ -211,7 +220,6 @@ struct LeaderboardEntryColumn: View {
                 Text(item.info)
             }
         }
-        .padding(.horizontal, 5)
     }
 }
 
@@ -240,10 +248,8 @@ struct LeaderboardFirstEntryColumn: View {
                                 }
                             }
                         }
-                        .padding(.trailing, 5)
                     } else {
                         Text(verbatim: "\(item.info)")
-                            .padding(.trailing, 5)
                     }
                 } else if let info = extraInfo as? Array<MaimaiFirstLeaderboardMusicEntry> {
                     if detailed {
@@ -257,10 +263,8 @@ struct LeaderboardFirstEntryColumn: View {
                                 }
                             }
                         }
-                        .padding(.trailing, 5)
                     } else {
                         Text(verbatim: "\(item.info)")
-                            .padding(.trailing, 5)
                     }
                 }
             }
