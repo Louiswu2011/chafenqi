@@ -230,7 +230,6 @@ struct CFQServer {
             let path = "api/\(gameName)/leaderboard/\(typeString)"
             do {
                 let (data, _) = try await fetchFromServer(method: "POST", path: path, token: authToken, shouldThrowByCode: false)
-                let temp = String(decoding: data, as: UTF8.self)
                 return try decoder.decode(T.self, from: data)
             } catch {
                 print("Error fetching total leaderboard of type \(typeString) from game \(gameName): \(error)")

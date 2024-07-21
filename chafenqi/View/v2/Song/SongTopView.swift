@@ -19,54 +19,29 @@ struct SongTopView: View {
     
     var body: some View {
         VStack {
-            if #available(iOS 15.0, *) {
-                List {
-                    if (user.currentMode == 0) {
-                        ForEach(filteredChuSongs, id: \.musicID) { entry in
-                            SongItemView(user: user, chuSong: entry)
-                        }
-                    } else {
-                        ForEach(filteredMaiSongs, id: \.musicId) { entry in
-                            SongItemView(user: user, maiSong: entry)
-                        }
+            List {
+                if (user.currentMode == 0) {
+                    ForEach(filteredChuSongs, id: \.musicID) { entry in
+                        SongItemView(user: user, chuSong: entry)
+                    }
+                } else {
+                    ForEach(filteredMaiSongs, id: \.musicId) { entry in
+                        SongItemView(user: user, maiSong: entry)
                     }
                 }
-                .searchable(text: $searchText, prompt: Text("搜索标题/曲师"))
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled(true)
-                .onSubmit(of: .search) {
-                    filterSongs()
-                }
-                .onChange(of: searchText) { _ in
-                    filterSongs()
-                }
-                .onAppear {
-                    setupFilters()
-                    filterSongs()
-                }
-            } else {
-                // Fallback on earlier versions
-                List {
-                    if (user.currentMode == 0) {
-                        ForEach(filteredChuSongs, id: \.musicID) { entry in
-                            SongItemView(user: user, chuSong: entry)
-                                .id(UUID())
-                        }
-                    } else {
-                        ForEach(filteredMaiSongs, id: \.musicId) { entry in
-                            SongItemView(user: user, maiSong: entry)
-                                .id(UUID())
-                        }
-                    }
-                }
-                .navigationBarSearch($searchText)
-                .onChange(of: searchText) { _ in
-                    filterSongs()
-                }
-                .onAppear {
-                    setupFilters()
-                    filterSongs()
-                }
+            }
+            .searchable(text: $searchText, prompt: Text("搜索标题/曲师"))
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+            .onSubmit(of: .search) {
+                filterSongs()
+            }
+            .onChange(of: searchText) { _ in
+                filterSongs()
+            }
+            .onAppear {
+                setupFilters()
+                filterSongs()
             }
         }
         .toolbar {

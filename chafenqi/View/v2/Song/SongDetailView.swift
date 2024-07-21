@@ -191,38 +191,24 @@ struct SongDetailView: View {
                     
                     let maiDiffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
                     let chuDiffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]
-                    if #available(iOS 15.0, *) {
-                        Button {
-                            showingDiffSelection.toggle()
-                        } label: {
-                            Image(systemName: "arrowshape.turn.up.right")
-                            Text("在Bilibili搜索谱面确认")
-                        }
-                        .padding(5)
-                        .alert("选择难度", isPresented: $showingDiffSelection) {
-                            ForEach(Array(level.enumerated()), id: \.offset) { index, level in
-                                if level != "" && level != "0" {
-                                    Button {
-                                        openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(user.currentMode == 0 ? chuDiffArray[index] : maiDiffArray[index]) \(user.currentMode == 0 ? "chunithm" : "maimai")".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
-                                    } label: {
-                                        Text("\(user.currentMode == 0 ? chuDiffArray[index] : maiDiffArray[index]) \(level)")
-                                    }
+                    Button {
+                        showingDiffSelection.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.turn.up.right")
+                        Text("在Bilibili搜索谱面确认")
+                    }
+                    .padding(5)
+                    .alert("选择难度", isPresented: $showingDiffSelection) {
+                        ForEach(Array(level.enumerated()), id: \.offset) { index, level in
+                            if level != "" && level != "0" {
+                                Button {
+                                    openURL(URL(string: "bilibili://search?keyword=" + ("\(title) \(user.currentMode == 0 ? chuDiffArray[index] : maiDiffArray[index]) \(user.currentMode == 0 ? "chunithm" : "maimai")".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""))!)
+                                } label: {
+                                    Text("\(user.currentMode == 0 ? chuDiffArray[index] : maiDiffArray[index]) \(level)")
                                 }
                             }
-                            Button("取消", role: .cancel) {}
                         }
-                    } else {
-                        // Fallback on earlier versions
-                        Button {
-                            showingDiffSelectioniOS14.toggle()
-                        } label: {
-                            Image(systemName: "arrowshape.turn.up.right")
-                            Text("在Bilibili搜索谱面确认")
-                        }
-                        .padding(5)
-                        .sheet(isPresented: $showingDiffSelectioniOS14) {
-                            CustomAlert(message: "选择难度", titlesAndActions: getDiffSelectionArray(levels: level, diffs: user.currentMode == 0 ? chuDiffArray : maiDiffArray, game: user.currentMode == 0 ? "chunithm" : "maimai"))
-                        }
+                        Button("取消", role: .cancel) {}
                     }
                     
                     HStack {

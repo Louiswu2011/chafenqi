@@ -21,6 +21,7 @@ struct SettingsHomeArrangement: View {
             .onMove { index, newIndex in
                 homeModules.move(fromOffsets: index, toOffset: newIndex)
             }
+            
         }
         .environment(\.editMode, $editMode)
         .navigationTitle("主页排序")

@@ -36,114 +36,58 @@ struct HomeView: View {
             if refreshing {
                 ProgressView(user.loadPrompt)
             } else if (user.didLogin) {
-                if #available(iOS 15, *) {
-                    ScrollView {
-                        HomeNameplate(user: user)
-                        if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
-                            Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
-                                .bold()
-                        }
-                        ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
-                            switch value {
-                            case "最近动态":
-                                HomeRecent(user: user)
-                            case "Rating分析":
-                                HomeRating(user: user)
-                            case "出勤记录":
-                                HomeDelta(user: user)
-                            case "排行榜":
-                                HomeLeaderboard(user: user)
-                            default:
-                                Spacer()
-                            }
+                ScrollView {
+                    HomeNameplate(user: user)
+                    if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
+                        Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
+                            .bold()
+                    }
+                    ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
+                        switch value {
+                        case "最近动态":
+                            HomeRecent(user: user)
+                        case "Rating分析":
+                            HomeRating(user: user)
+                        case "出勤记录":
+                            HomeDelta(user: user)
+                        case "排行榜":
+                            HomeLeaderboard(user: user)
+                        default:
+                            Spacer()
                         }
                     }
-                    .navigationTitle("主页")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.15)) {
-                                    user.currentMode.toggle()
-                                }
-                            } label: {
-                                Image(systemName: "arrow.left.arrow.right")
+                }
+                .navigationTitle("主页")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                user.currentMode.toggle()
                             }
-                        }
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                refresh()
-                            } label: {
-                                if user.shouldShowRefreshButton {
-                                    Image(systemName: "arrow.counterclockwise")
-                                }
-                            }
-                            .disabled(!user.shouldShowRefreshButton)
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink {
-                                Settings(user: user)
-                            } label: {
-                                Image(systemName: "gear")
-                            }
+                        } label: {
+                            Image(systemName: "arrow.left.arrow.right")
                         }
                     }
-                    .refreshable {
-                        refresh()
-                    }
-                } else {
-                    ScrollView {
-                        HomeNameplate(user: user)
-                        if daysSinceLastPlayed > 0 && user.showDaysSinceLastPlayed {
-                            Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
-                                .bold()
-                        }
-                        ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
-                            switch value {
-                            case "最近动态":
-                                HomeRecent(user: user)
-                            case "Rating分析":
-                                HomeRating(user: user)
-                            case "出勤记录":
-                                HomeDelta(user: user)
-                            case "排行榜":
-                                HomeLeaderboard(user: user)
-                            default:
-                                Spacer()
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            refresh()
+                        } label: {
+                            if user.shouldShowRefreshButton {
+                                Image(systemName: "arrow.counterclockwise")
                             }
+                        }
+                        .disabled(!user.shouldShowRefreshButton)
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink {
+                            Settings(user: user)
+                        } label: {
+                            Image(systemName: "gear")
                         }
                     }
-                    .navigationTitle("主页")
-                    .backport.refreshable(action: {
-                        await refresh()
-                    })
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.15)) {
-                                    user.currentMode.toggle()
-                                }
-                            } label: {
-                                Image(systemName: "arrow.left.arrow.right")
-                            }
-                        }
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                refresh()
-                            } label: {
-                                if user.shouldShowRefreshButton {
-                                    Image(systemName: "arrow.counterclockwise")
-                                }
-                            }
-                            .disabled(!user.shouldShowRefreshButton)
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink {
-                                Settings(user: user)
-                            } label: {
-                                Image(systemName: "gear")
-                            }
-                        }
-                    }
+                }
+                .refreshable {
+                    refresh()
                 }
             }
         }

@@ -24,12 +24,4 @@ extension View {
             falseTransform(self)
         }
     }
-    
-    @ViewBuilder func iOS15if<Content: View>(_ trueTransform: (Self) -> Content, _ falseTransform: (Self) -> Content) -> some View {
-        if Bool.iOS15 {
-            trueTransform(self)
-        } else {
-            falseTransform(self)
-        }
-    }
 }
