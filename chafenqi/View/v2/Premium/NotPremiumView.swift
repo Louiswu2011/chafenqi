@@ -61,7 +61,7 @@ struct NotPremiumView: View {
             
             Spacer()
 
-            Link(destination: URL(string: "https://afdian.net/a/chafenqi")!) {
+            Link(destination: URL(string: "https://afdian.com/a/chafenqi")!) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
                         

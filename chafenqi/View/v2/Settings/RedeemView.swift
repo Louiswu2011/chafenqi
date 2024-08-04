@@ -56,7 +56,7 @@ struct RedeemView: View {
             }
             
             Section {
-                Link("获取兑换码...", destination: URL(string: "https://afdian.net/a/chafenqi")!)
+                Link("获取兑换码...", destination: URL(string: "https://afdian.com/a/chafenqi")!)
                 NavigationLink {
                     NotPremiumView()
                 } label: {
