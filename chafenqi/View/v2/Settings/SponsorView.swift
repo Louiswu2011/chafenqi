@@ -44,7 +44,7 @@ struct SponsorView: View {
         .onAppear {
             Task {
                 do {
-                    let request = URLRequest(url: URL(string: "http://43.139.107.206:8083/api/stats/sponsor")!)
+                    let request = URLRequest(url: URL(string: "https://chafenqi.nltv.top/api/stats/sponsor")!)
                     let (data, _) = try await URLSession.shared.data(for: request)
                     sponsorList = try JSONDecoder().decode(Array<String>.self, from: data)
                     sponsorList.reverse()

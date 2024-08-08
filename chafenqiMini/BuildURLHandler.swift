@@ -30,7 +30,7 @@ class BuildURLHandler: NSObject, BuildProxyURLIntentHandling {
             }
             let forward = intent.forward
             let response = BuildProxyURLIntentResponse(code: .success, userActivity: nil)
-            let url = "http://43.139.107.206:8083/\(uploadQuery)?jwt=\(token)&forwading=\(forward?.intValue ?? 1)"
+            let url = "https://chafenqi.nltv.top/\(uploadQuery)?jwt=\(token)&forwading=\(forward?.intValue ?? 1)"
             response.url = url
             completion(response)
         }
