@@ -22,9 +22,9 @@ struct ChartImageGrabber {
             chartURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/obj/data\(identifier)\(diff).png")
         } else {
             let title = identifier.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-            barURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=bar")
-            bgURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=bg")
-            chartURL = URL(string: "http://43.139.107.206:8083/api/chunithm/chart?title=\(title)&type=\(diff)")
+            barURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/chart?title=\(title)&type=bar")
+            bgURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/chart?title=\(title)&type=bg")
+            chartURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/chart?title=\(title)&type=\(diff)")
         }
         
         let fetchRequest = ChartCache.fetchRequest()
