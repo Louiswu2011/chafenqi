@@ -134,6 +134,7 @@
 		BF7E251F296AAACE00169B57 /* ChunithmSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E251E296AAACE00169B57 /* ChunithmSongData.swift */; };
 		BF7E2522296AAD1A00169B57 /* ChunithmDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */; };
 		BF82062F29E94794004D32B0 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF82062E29E94794004D32B0 /* CustomAlert.swift */; };
+		BF8689202C64EA5100B08DFE /* tun2proxy-Bridging-Header.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BF86891C2C64E90300B08DFE /* tun2proxy-Bridging-Header.h */; };
 		BF8D2A802A06382800F60633 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D2A7F2A06382800F60633 /* LoginView.swift */; };
 		BF8D2A832A06395F00F60633 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = BF8D2A822A06395F00F60633 /* Crypto */; };
 		BF8D2A852A063A9A00F60633 /* AlertToastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D2A842A063A9A00F60633 /* AlertToastModel.swift */; };
@@ -173,6 +174,10 @@
 		BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A62A07B642005248A6 /* RecentListView.swift */; };
 		BFE075A92A07B64B005248A6 /* RecentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A82A07B64B005248A6 /* RecentDetail.swift */; };
 		BFE205E22A8B8538002AC527 /* UserComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE205E12A8B8538002AC527 /* UserComment.swift */; };
+		BFE5CD252C64E29D00804DF0 /* tun2proxy.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; };
+		BFE5CD262C64E29D00804DF0 /* tun2proxy.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BFE5CD282C64E2A400804DF0 /* tun2proxy.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; };
+		BFE5CD292C64E2A400804DF0 /* tun2proxy.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */; };
 		BFE9A6822A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */; };
 		BFE9A6852A9FBEE900B7AC55 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = BFE9A6842A9FBEE900B7AC55 /* SwiftUIBackports */; };
@@ -268,6 +273,38 @@
 				BF068F7A2991856F008665E3 /* updater.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF86891F2C64EA4100B08DFE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				BF8689202C64EA5100B08DFE /* tun2proxy-Bridging-Header.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE5CD272C64E29D00804DF0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BFE5CD262C64E29D00804DF0 /* tun2proxy.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE5CD2A2C64E2A400804DF0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BFE5CD292C64E2A400804DF0 /* tun2proxy.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -379,6 +416,7 @@
 		BF7E251E296AAACE00169B57 /* ChunithmSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmSongData.swift; sourceTree = "<group>"; };
 		BF7E2521296AAD1A00169B57 /* ChunithmDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmDataGrabber.swift; sourceTree = "<group>"; };
 		BF82062E29E94794004D32B0 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		BF86891C2C64E90300B08DFE /* tun2proxy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tun2proxy-Bridging-Header.h"; sourceTree = "<group>"; };
 		BF8D2A7F2A06382800F60633 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF8D2A842A063A9A00F60633 /* AlertToastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastModel.swift; sourceTree = "<group>"; };
 		BF905CB52AB0CFAF00EEFA87 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
@@ -416,6 +454,7 @@
 		BFE075A62A07B642005248A6 /* RecentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentListView.swift; sourceTree = "<group>"; };
 		BFE075A82A07B64B005248A6 /* RecentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetail.swift; sourceTree = "<group>"; };
 		BFE205E12A8B8538002AC527 /* UserComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserComment.swift; sourceTree = "<group>"; };
+		BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = tun2proxy.xcframework; sourceTree = "<group>"; };
 		BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChunithmTicketList.swift; sourceTree = "<group>"; };
 		BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoChunithmMapIconList.swift; sourceTree = "<group>"; };
 		BFEB5AE8298937E8005646AA /* ChunithmUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunithmUserData.swift; sourceTree = "<group>"; };
@@ -474,6 +513,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */,
+				BFE5CD282C64E2A400804DF0 /* tun2proxy.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
+				BFE5CD252C64E29D00804DF0 /* tun2proxy.xcframework in Frameworks */,
 				67C434D82A3AA9B700202605 /* CardStack in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
@@ -665,6 +706,7 @@
 				BF068F742991856F008665E3 /* UpdaterTunnelProvider.swift */,
 				BF068F762991856F008665E3 /* Info.plist */,
 				BF068F772991856F008665E3 /* updater.entitlements */,
+				BF86891C2C64E90300B08DFE /* tun2proxy-Bridging-Header.h */,
 			);
 			path = updater;
 			sourceTree = "<group>";
@@ -961,6 +1003,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		BFE5CD212C64E25000804DF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 		BFEF2E8C29EDCA0400EFF455 /* chafenqiMini */ = {
 			isa = PBXGroup;
 			children = (
@@ -975,6 +1025,7 @@
 		BFF353B429681F8D001392E5 = {
 			isa = PBXGroup;
 			children = (
+				BFE5CD212C64E25000804DF0 /* Frameworks */,
 				BF6FB6ED2C22AD8300DAEBFF /* GoogleService-Info.plist */,
 				67E95F882A4ACCBD004134C8 /* infoWidgetExtension.entitlements */,
 				BF0A0BAE298C444D008F9700 /* .gitignore */,
@@ -1139,8 +1190,10 @@
 			buildConfigurationList = BF068F7B2991856F008665E3 /* Build configuration list for PBXNativeTarget "updater" */;
 			buildPhases = (
 				BF068F6B2991856F008665E3 /* Sources */,
+				BF86891F2C64EA4100B08DFE /* CopyFiles */,
 				BF068F6C2991856F008665E3 /* Frameworks */,
 				BF068F6D2991856F008665E3 /* Resources */,
+				BFE5CD2A2C64E2A400804DF0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1179,6 +1232,7 @@
 				BFF353BB29681F8D001392E5 /* Resources */,
 				BF068F7E2991856F008665E3 /* Embed Foundation Extensions */,
 				BF6FB6FE2C22B2D200DAEBFF /* Firebase Crashlytics Scripts */,
+				BFE5CD272C64E29D00804DF0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1262,6 +1316,7 @@
 					};
 					BF068F6E2991856F008665E3 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1530;
 					};
 					BFEF2E8929EDCA0400EFF455 = {
 						CreatedOnToolsVersion = 14.2;
@@ -1780,6 +1835,7 @@
 		BF068F7C2991856F008665E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = updater/updater.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1800,6 +1856,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "updater/tun2proxy-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1808,6 +1866,7 @@
 		BF068F7D2991856F008665E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = updater/updater.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1828,6 +1887,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "updater/tun2proxy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1923,8 +1983,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = Framworks/;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1945,6 +2007,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "updater/tun2proxy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1983,8 +2046,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = Framworks/;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1998,6 +2063,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "updater/tun2proxy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
