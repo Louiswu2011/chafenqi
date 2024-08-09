@@ -141,8 +141,7 @@ struct SongDetailView: View {
                                 Task {
                                     do {
                                         chartImage = UIImage()
-                                        let identifier = title
-                                        try await reloadChartImage(identifier: identifier, diff: selectedDiff)
+                                        try await reloadChartImage(musicId: String(chuSong?.musicID ?? 0), diffIndex: selectedDiff.toDiffIndex())
                                     } catch {}
                                 }
                             }
@@ -254,7 +253,9 @@ struct SongDetailView: View {
                 loadVar()
                 finishedLoading = true
                 do {
-                    try await reloadChartImage(identifier: title, diff: selectedDiff)
+                    if let song = chuSong {
+                        try await reloadChartImage(musicId: String(song.musicID), diffIndex: selectedDiff.toDiffIndex())
+                    }
                 } catch CFQError.requestTimeoutError {
 
                 } catch CFQError.unsupportedError {
@@ -301,8 +302,8 @@ struct SongDetailView: View {
         }
     }
     
-    func reloadChartImage(identifier: String, diff: String) async throws {
-        chartImage = try await ChartImageGrabber.downloadChartImage(identifier: title, diff: difficulty[diff]!, mode: 1, context: context)
+    func reloadChartImage(musicId: String, diffIndex: Int) async throws {
+        chartImage = try await ChartImageGrabber.downloadChartImage(musicId: musicId, diffIndex: diffIndex, context: context)
         chartImageView = Image(uiImage: chartImage)
     }
     

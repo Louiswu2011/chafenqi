@@ -46,3 +46,17 @@ struct ChartIdConverter {
         return availableDiffs
     }
 }
+
+extension String {
+    func toDiffIndex() -> Int {
+        switch self {
+        case "Basic": return 0
+        case "Advanced": return 1
+        case "Expert": return 2
+        case "Master": return 3
+        case "Ultima": return 4
+        case "World's End": return 5
+        default: return -1
+        }
+    }
+}

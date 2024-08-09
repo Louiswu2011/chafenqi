@@ -11,21 +11,14 @@ import CoreData
 import UIKit
 
 struct ChartImageGrabber {
-    static func downloadChartImage(identifier: String, diff: String, mode: Int, context: NSManagedObjectContext) async throws -> UIImage {
+    static func downloadChartImage(musicId: String, diffIndex: Int, context: NSManagedObjectContext) async throws -> UIImage {
         let barURL: URL?
         let bgURL: URL?
         let chartURL: URL?
 
-        if (mode == 0) {
-            barURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/bg/\(identifier)bar.png")
-            bgURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/bg/\(identifier)bg.png")
-            chartURL = URL(string: "https://sdvx.in/chunithm/\(diff == "ult" ? "ult" : identifier.prefix(2))/obj/data\(identifier)\(diff).png")
-        } else {
-            let title = identifier.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-            barURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/chart?title=\(title)&type=bar")
-            bgURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/chart?title=\(title)&type=bg")
-            chartURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/chart?title=\(title)&type=\(diff)")
-        }
+        barURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bar")
+        bgURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bg")
+        chartURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=chart")
         
         let fetchRequest = ChartCache.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", chartURL?.absoluteString ?? "ongeki wen?")
