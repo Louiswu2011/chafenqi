@@ -84,6 +84,7 @@ struct MaimaiSongData: Codable, Hashable, Comparable {
     }
     
     func getNumericLevelByLabel(_ string: String) -> Double {
+        if self.basicInfo.genre == "宴会場" { return 0.0 }
         func getNumericLevel(for level: String) -> Double {
             var numericLevel: Double = Double(level.replacingOccurrences(of: "+", with: "")) ?? 0.0
             if level.contains("+") {
