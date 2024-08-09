@@ -140,6 +140,7 @@
 		BF8D2A852A063A9A00F60633 /* AlertToastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D2A842A063A9A00F60633 /* AlertToastModel.swift */; };
 		BF905CB62AB0CFAF00EEFA87 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF905CB52AB0CFAF00EEFA87 /* ViewExtension.swift */; };
 		BF905CB82AB0D28D00EEFA87 /* FoundationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF905CB72AB0D28D00EEFA87 /* FoundationExtension.swift */; };
+		BF97DE9D2C65B92300C831BE /* tun2proxy.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; };
 		BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CEFB92992C03500658724 /* TunnelManagerService.swift */; };
 		BF9E520F2A77E26B008D7C01 /* WidgetPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E520E2A77E26B008D7C01 /* WidgetPreviews.swift */; };
 		BF9E52112A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9E52102A77E2C4008D7C01 /* WidgetCustomSelectionViews.swift */; };
@@ -174,10 +175,6 @@
 		BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A62A07B642005248A6 /* RecentListView.swift */; };
 		BFE075A92A07B64B005248A6 /* RecentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A82A07B64B005248A6 /* RecentDetail.swift */; };
 		BFE205E22A8B8538002AC527 /* UserComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE205E12A8B8538002AC527 /* UserComment.swift */; };
-		BFE5CD252C64E29D00804DF0 /* tun2proxy.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; };
-		BFE5CD262C64E29D00804DF0 /* tun2proxy.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BFE5CD282C64E2A400804DF0 /* tun2proxy.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; };
-		BFE5CD292C64E2A400804DF0 /* tun2proxy.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFE5CD222C64E28900804DF0 /* tun2proxy.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A67F2A9FB27100B7AC55 /* InfoChunithmTicketList.swift */; };
 		BFE9A6822A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE9A6812A9FB44F00B7AC55 /* InfoChunithmMapIconList.swift */; };
 		BFE9A6852A9FBEE900B7AC55 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = BFE9A6842A9FBEE900B7AC55 /* SwiftUIBackports */; };
@@ -283,28 +280,6 @@
 			files = (
 				BF8689202C64EA5100B08DFE /* tun2proxy-Bridging-Header.h in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFE5CD272C64E29D00804DF0 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				BFE5CD262C64E29D00804DF0 /* tun2proxy.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFE5CD2A2C64E2A400804DF0 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				BFE5CD292C64E2A400804DF0 /* tun2proxy.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -512,8 +487,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF97DE9D2C65B92300C831BE /* tun2proxy.xcframework in Frameworks */,
 				BF068F722991856F008665E3 /* NetworkExtension.framework in Frameworks */,
-				BFE5CD282C64E2A400804DF0 /* tun2proxy.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +505,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
-				BFE5CD252C64E29D00804DF0 /* tun2proxy.xcframework in Frameworks */,
 				67C434D82A3AA9B700202605 /* CardStack in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
@@ -1193,7 +1167,6 @@
 				BF86891F2C64EA4100B08DFE /* CopyFiles */,
 				BF068F6C2991856F008665E3 /* Frameworks */,
 				BF068F6D2991856F008665E3 /* Resources */,
-				BFE5CD2A2C64E2A400804DF0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1232,7 +1205,6 @@
 				BFF353BB29681F8D001392E5 /* Resources */,
 				BF068F7E2991856F008665E3 /* Embed Foundation Extensions */,
 				BF6FB6FE2C22B2D200DAEBFF /* Firebase Crashlytics Scripts */,
-				BFE5CD272C64E29D00804DF0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
