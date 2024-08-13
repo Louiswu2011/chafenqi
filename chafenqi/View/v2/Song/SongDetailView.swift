@@ -303,8 +303,12 @@ struct SongDetailView: View {
     }
     
     func reloadChartImage(musicId: String, diffIndex: Int) async throws {
-        chartImage = try await ChartImageGrabber.downloadChartImage(musicId: musicId, diffIndex: diffIndex, context: context)
-        chartImageView = Image(uiImage: chartImage)
+        do {
+            chartImage = try await ChartImageGrabber.downloadChartImage(musicId: musicId, diffIndex: diffIndex, context: context)
+            chartImageView = Image(uiImage: chartImage)
+        } catch {
+            print("Failed to fetch chart \(musicId) diff \(diffIndex).")
+        }
     }
     
     func getDiffSelectionArray(levels: [String], diffs: [String], game: String) -> [(title: String, action: (() -> Void)?)] {
