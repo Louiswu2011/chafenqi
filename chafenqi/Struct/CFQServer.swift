@@ -23,6 +23,8 @@ struct CFQServer {
     static let encoder = JSONEncoder()
     static let decoder = JSONDecoder()
     
+    static let serverAddress = "http://43.139.107.206:8083/"
+    
     struct User {
         static func auth(username: String, password: String) async throws -> String {
             let payload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
@@ -333,7 +335,7 @@ struct CFQServer {
     
     static func fetchFromServer(method: String, path: String, payload: Data = Data(), query: [URLQueryItem] = [], token: String = "", shouldThrowByCode: Bool = true) async throws -> (Data, URLResponse) {
         guard method == "GET" || method == "POST" else { throw CFQServerError.InvalidParameterError }
-        var url = URLComponents(string: "https://chafenqi.nltv.top/" + path)!
+        var url = URLComponents(string: CFQServer.serverAddress + path)!
         if !query.isEmpty {
             url.queryItems = query
         }

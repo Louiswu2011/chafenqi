@@ -11,13 +11,14 @@ import AlertToast
 import SwiftUICharts
 
 struct SongDetailView: View {
-    @ObservedObject var user: CFQNUser
-    @ObservedObject var alertToast = AlertToastModel.shared
-    
     @Environment(\.managedObjectContext) var context
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.openURL) var openURL
     
+    @ObservedObject var user: CFQNUser
+    @ObservedObject var alertToast = AlertToastModel.shared
+    @ObservedObject var grabber = ChartImageGrabber()
+
     var maiSong: MaimaiSongData?
     var chuSong: ChunithmMusicData?
     
@@ -304,7 +305,7 @@ struct SongDetailView: View {
     
     func reloadChartImage(musicId: String, diffIndex: Int) async throws {
         do {
-            chartImage = try await ChartImageGrabber.downloadChartImage(musicId: musicId, diffIndex: diffIndex, context: context)
+            chartImage = try await grabber.downloadChartImage(musicId: musicId, diffIndex: diffIndex, context: context)
             chartImageView = Image(uiImage: chartImage)
         } catch {
             print("Failed to fetch chart \(musicId) diff \(diffIndex).")

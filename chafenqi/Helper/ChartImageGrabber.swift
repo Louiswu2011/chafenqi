@@ -10,15 +10,15 @@ import SwiftUI
 import CoreData
 import UIKit
 
-struct ChartImageGrabber {
-    static func downloadChartImage(musicId: String, diffIndex: Int, context: NSManagedObjectContext) async throws -> UIImage {
+class ChartImageGrabber: ObservableObject {
+    func downloadChartImage(musicId: String, diffIndex: Int, context: NSManagedObjectContext) async throws -> UIImage {
         let barURL: URL?
         let bgURL: URL?
         let chartURL: URL?
 
-        barURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bar")
-        bgURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bg")
-        chartURL = URL(string: "https://chafenqi.nltv.top/api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=chart")
+        barURL = URL(string: "\(CFQServer.serverAddress)api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bar")
+        bgURL = URL(string: "\(CFQServer.serverAddress)api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bg")
+        chartURL = URL(string: "\(CFQServer.serverAddress)api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=chart")
         
         let fetchRequest = ChartCache.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", chartURL?.absoluteString ?? "ongeki wen?")
@@ -29,9 +29,9 @@ struct ChartImageGrabber {
         }
         
         do {
-            async let barImage = try downloadImageFromUrl(url: barURL!)
-            async let bgImage = try downloadImageFromUrl(url: bgURL!)
-            async let chartImage = try downloadImageFromUrl(url: chartURL!)
+            async let barImage = try downloadImageFromUrl(url: barURL!, index: 0)
+            async let bgImage = try downloadImageFromUrl(url: bgURL!, index: 1)
+            async let chartImage = try downloadImageFromUrl(url: chartURL!, index: 2)
             
             let images = try await [barImage, bgImage, chartImage]
             
@@ -53,7 +53,7 @@ struct ChartImageGrabber {
         }
     }
     
-    private static func downloadImageFromUrl(url: URL) async throws -> UIImage {
+    private func downloadImageFromUrl(url: URL, index: Int) async throws -> UIImage {
         let request = URLRequest(url: url)
         let (data, _) = try await URLSession.shared.data(for: request)
         
@@ -65,7 +65,7 @@ struct ChartImageGrabber {
         }
     }
     
-    private static func saveToCache(_ image: UIImage, chartUrl: String, context: NSManagedObjectContext) {
+    private func saveToCache(_ image: UIImage, chartUrl: String, context: NSManagedObjectContext) {
         do {
             let chartCache = ChartCache(context: context)
             chartCache.image = image.pngData()!
