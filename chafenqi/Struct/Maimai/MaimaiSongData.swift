@@ -110,6 +110,20 @@ struct MaimaiSongData: Codable, Hashable, Comparable {
         }
     }
     
+    func getNumericLevelByLevelIndex(_ index: Int) -> Double {
+        if self.basicInfo.genre == "宴会場" { return 0.0 }
+        func getNumericLevel(for level: String) -> Double {
+            var numericLevel: Double = Double(level.replacingOccurrences(of: "+", with: "")) ?? 0.0
+            if level.contains("+") {
+                numericLevel += 0.5
+            }
+            return numericLevel
+        }
+        if index == 4 && self.level.count < 5 { return 0.0 }
+        if !(0...4 ~= index) { return 0.0 }
+        return getNumericLevel(for: self.level[index])
+    }
+    
     func levelLabeltoLevelIndex(_ label: String) -> Int {
         switch label {
         case "Basic":

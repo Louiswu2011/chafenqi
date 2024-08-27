@@ -48,7 +48,7 @@ struct RootView: View {
                     .navigationViewStyle(.stack)
                     
                     NavigationView {
-                        SongTopView(user: user)
+                        SongListView(user: user)
                     }
                     .tabItem {
                         Image(systemName: "music.note.list")

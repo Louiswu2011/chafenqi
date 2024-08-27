@@ -208,7 +208,7 @@ struct LoginView: View {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "网络连接错误", subTitle: cause)
             case CFQNUserError.AssociationError(in: let list):
                 if assertionFailureRetried {
-                    alertToast.alert = Alert(title: Text("关联歌曲出错"), message: Text("未在歌曲列表中找到以下歌曲：\n" + list.uniqued().joined(separator: "\n")))
+                    alertToast.alert = Alert(title: Text("关联歌曲出错"), message: Text("未在歌曲列表中找到以下歌曲：\n" + list.unique.joined(separator: "\n")))
                     assertionFailureRetried = false
                 } else {
                     assertionFailureRetried = true

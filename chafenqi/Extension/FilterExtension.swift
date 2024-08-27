@@ -7,34 +7,29 @@
 
 import Foundation
 
-extension Array<ChunithmSongData> {
-    func filterTitle(keyword: String) -> Array<ChunithmSongData> {
+extension Array<ChunithmMusicData> {
+    func filterTitle(keyword: String) -> Array<ChunithmMusicData> {
         self.filter {
-            $0.basicInfo.title.lowercased().contains(keyword.lowercased())
+            $0.title.lowercased().contains(keyword.lowercased())
         }
     }
     
-    func filterArtist(keyword: String) -> Array<ChunithmSongData> {
+    func filterArtist(keyword: String) -> Array<ChunithmMusicData> {
         self.filter {
-            $0.basicInfo.artist.lowercased().contains(keyword.lowercased())
+            $0.artist.lowercased().contains(keyword.lowercased())
         }
     }
     
-    func filterTitleAndArtist(keyword: String) -> Array<ChunithmSongData> {
+    func filterTitleAndArtist(keyword: String) -> Array<ChunithmMusicData> {
         self.filter {
-            $0.basicInfo.title.lowercased().contains(keyword.lowercased()) || $0.basicInfo.artist.lowercased().contains(keyword.lowercased())
+            $0.title.localizedCaseInsensitiveContains(keyword) ||
+            $0.artist.localizedCaseInsensitiveContains(keyword)
         }
     }
     
-    func filterCombo(levelIndex: Int, lower: Int, upper: Int) -> Array<ChunithmSongData> {
+    func filterConstant(lower: Double, upper: Double) -> Array<ChunithmMusicData> {
         self.filter {
-            lower...upper ~= $0.charts[levelIndex].combo
-        }
-    }
-    
-    func filterConstant(lower: Double, upper: Double) -> Array<ChunithmSongData> {
-        self.filter {
-            for constant in $0.constant {
+            for constant in $0.charts.constants {
                 if(lower...upper ~= constant) {
                     return true
                 }
@@ -44,11 +39,11 @@ extension Array<ChunithmSongData> {
         }
     }
     
-    func filterLevel(lower: String, upper: String) -> Array<ChunithmSongData> {
+    func filterLevel(lower: String, upper: String) -> Array<ChunithmMusicData> {
         let lowerDigit = levelToDigit(level: lower)
         let upperDigit = levelToDigit(level: upper)
         return self.filter {
-            for level in $0.level {
+            for level in $0.charts.levels {
                 if(lowerDigit...upperDigit ~= levelToDigit(level: level)) {
                     return true
                 }
@@ -57,21 +52,21 @@ extension Array<ChunithmSongData> {
         }
     }
     
-    func filterGenre(keywords: Array<String>) -> Array<ChunithmSongData> {
+    func filterGenre(keywords: Array<String>) -> Array<ChunithmMusicData> {
         self.filter {
-            keywords.contains($0.basicInfo.genre)
+            keywords.contains($0.genre)
         }
     }
     
-    func filterVersion(keywords: Array<String>) -> Array<ChunithmSongData> {
+    func filterVersion(keywords: Array<String>) -> Array<ChunithmMusicData> {
         self.filter {
-            keywords.contains($0.basicInfo.from)
+            keywords.contains($0.from)
         }
     }
     
-    func filterPlayed(idList: Array<Int>) -> Array<ChunithmSongData> {
+    func filterPlayed(idList: Array<Int>) -> Array<ChunithmMusicData> {
         self.filter {
-            idList.contains($0.musicId)
+            idList.contains($0.musicID)
         }
     }
     
@@ -80,7 +75,8 @@ extension Array<ChunithmSongData> {
 extension Array<MaimaiSongData> {
     func filterTitleAndArtist(keyword: String) -> Self {
         self.filter {
-            $0.basicInfo.title.lowercased().contains(keyword.lowercased()) || $0.basicInfo.artist.lowercased().contains(keyword.lowercased())
+            $0.title.localizedCaseInsensitiveContains(keyword) ||
+            $0.basicInfo.artist.localizedCaseInsensitiveContains(keyword)
         }
     }
     
@@ -119,4 +115,15 @@ func levelToDigit(level: String) -> Double {
     } else {
         return Double(level) ?? 0.0
     }
+}
+
+func anyCommonElements <T, U> (lhs: T, rhs: U) -> Bool where T: Sequence, U: Sequence, T.Iterator.Element: Equatable, T.Iterator.Element == U.Iterator.Element {
+    for lhsItem in lhs {
+        for rhsItem in rhs {
+            if lhsItem == rhsItem {
+                return true
+            }
+        }
+    }
+    return false
 }

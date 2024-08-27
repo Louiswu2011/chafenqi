@@ -29,7 +29,7 @@ struct SponsorView: View {
                 }
                 
                 Section {
-                    ForEach(sponsorList.uniqued(), id: \.hashValue) { sponsor in
+                    ForEach(sponsorList.unique, id: \.hashValue) { sponsor in
                         Text(sponsor)
                     }
                 } header: {
