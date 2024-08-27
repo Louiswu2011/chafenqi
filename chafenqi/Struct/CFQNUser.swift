@@ -163,6 +163,9 @@ class CFQNUser: ObservableObject {
                 
                 self.levelRecords = CFQMaimaiLevelRecords(songs: list, best: orig)
                 self.dayRecords = CFQMaimaiDayRecords(recents: recent, deltas: delta)
+                
+                self.versionList = list.map { entry in entry.basicInfo.from }.unique
+                self.genreList = list.map { entry in entry.basicInfo.genre }.unique
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
@@ -291,6 +294,9 @@ class CFQNUser: ObservableObject {
                 
                 levelRecords = CFQChunithmLevelRecords(songs: list, best: best)
                 dayRecords = CFQChunithmDayRecords(recents: recent, deltas: delta)
+                
+                self.genreList = list.map { entry in entry.genre }.unique
+                self.versionList = list.map { entry in entry.from }.unique
                 
                 print("[CFQNUser] Loaded chunithm Custom Data.")
             }
@@ -697,12 +703,5 @@ extension String {
         let str = NSMutableString(string: self)
         CFStringTransform(str, nil, kCFStringTransformFullwidthHalfwidth, false)
         return str as String
-    }
-}
-
-public extension Array where Element: Hashable {
-    func uniqued() -> [Element] {
-        var seen = Set<Element>()
-        return filter{ seen.insert($0).inserted }
     }
 }
