@@ -68,12 +68,17 @@ struct CFQServer {
             return response.statusCode() == 200
         }
         
-        static func fetchUserOption(authToken: String, param: String) async throws -> String {
-            let query = [URLQueryItem(name: "param", value: param)]
-            let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/option", query: query, token: authToken, shouldThrowByCode: false)
-            if response.statusCode() == 200 {
-                return String(decoding: data, as: UTF8.self)
-            } else {
+        static func fetchUserOption(authToken: String, param: String) async -> String {
+            do {
+                let query = [URLQueryItem(name: "param", value: param)]
+                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/option", query: query, token: authToken, shouldThrowByCode: false)
+                if response.statusCode() == 200 {
+                    return String(decoding: data, as: UTF8.self)
+                } else {
+                    return ""
+                }
+            } catch {
+                print("Failed to fetch user option \(param) from server.")
                 return ""
             }
         }

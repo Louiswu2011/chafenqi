@@ -100,6 +100,7 @@ struct SongListView: View {
             filteredList = filteredList.filter { entry in option.genreSelection.contains(entry.genre) }
         }
         
+        
         if !option.sortEnabled { return filteredList }
         switch option.sortBy {
         case .level:

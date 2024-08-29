@@ -80,7 +80,7 @@ struct TokenUploderView: View {
                         }
                     }
                 }
-                .disabled(user.fishToken.isEmpty || testing)
+                .disabled(user.remoteOptions.fishToken.isEmpty || testing)
             } footer: {
                 Text("""
                 查分器NEW不会存储您的用户名和密码，仅保留Token作上传用。
@@ -123,7 +123,7 @@ struct TokenUploderView: View {
             let tokenComponent = rawCookie!.components(separatedBy: ";")[0]
             let token = String(tokenComponent[tokenComponent.index(after: tokenComponent.firstIndex(of: "=")!)...])
             
-            user.fishToken = token
+            user.remoteOptions.fishToken = token
             try await CFQFishServer.uploadToken(authToken: user.jwtToken, fishToken: token)
             
             presentationMode.wrappedValue.dismiss()
