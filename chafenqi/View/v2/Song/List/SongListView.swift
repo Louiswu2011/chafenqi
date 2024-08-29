@@ -78,9 +78,11 @@ struct SongListView: View {
         }
     }
     
-    // TODO: Add fav list
     func filterChunithm(option: SongListFilterOptions) -> [ChunithmMusicData] {
         var filteredList = user.data.chunithm.musics
+        if option.onlyShowLoved {
+            filteredList = filteredList.filter { entry in user.remoteOptions.chunithmFavList.components(separatedBy: ",").contains(String(entry.musicID)) }
+        }
         if !searchText.isEmpty {
             filteredList = filteredList.filterTitleAndArtist(keyword: searchText)
         }
@@ -133,6 +135,9 @@ struct SongListView: View {
     
     func filterMaimai(option: SongListFilterOptions) -> [MaimaiSongData] {
         var filteredList = user.data.maimai.songlist
+        if option.onlyShowLoved {
+            filteredList = filteredList.filter { entry in user.remoteOptions.maimaiFavList.components(separatedBy: ",").contains(entry.musicId) }
+        }
         if !searchText.isEmpty {
             filteredList = filteredList.filterTitleAndArtist(keyword: searchText)
         }
