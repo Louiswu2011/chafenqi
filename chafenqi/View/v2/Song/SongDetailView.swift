@@ -48,6 +48,9 @@ struct SongDetailView: View {
     @State var showingDiffSelectioniOS14 = false
     
     @State var coverImg: UIImage = UIImage()
+
+    @State var isSyncing: Bool = false
+    @State var loved: Bool = false
     
     var body: some View {
         ScrollView {
@@ -74,6 +77,18 @@ struct SongDetailView: View {
                                 }
                             }
                         VStack(alignment: .leading) {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    loved.toggle()
+                                } label: {
+                                    Image(systemName: loved ? "heart.fill" : "heart")
+                                        .imageScale(.large)
+                                        .tint(loved ? .red : .blue)
+                                }
+                                .disabled(isSyncing)
+                            }
+                            .padding(.trailing, 5)
                             Spacer()
                             Text(title)
                                 .font(.title)
