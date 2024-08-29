@@ -17,7 +17,6 @@ class CFQNUser: ObservableObject {
     var iOSMajorVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
     
     @AppStorage("JWT") var jwtToken = ""
-    @AppStorage("Fish") var fishToken = ""
     @AppStorage("MaimaiCache") var maimaiCache = Data()
     @AppStorage("ChunithmCache") var chunithmCache = Data()
     @AppStorage("widgetCustomization") var widgetCustom = Data()
@@ -44,12 +43,11 @@ class CFQNUser: ObservableObject {
     var maimai = Maimai()
     var chunithm = Chunithm()
     var data = CFQPersistentData()
+    var remoteOptions = CFQRemoteOptions()
     
     var assertionFailedTried = false
     
     @AppStorage("CFQUsername") var username = ""
-    var shouldForwardToFish = false
-    var fishUsername = ""
     
     var isPremium = false
     var premiumUntil: TimeInterval = 0
@@ -392,28 +390,8 @@ class CFQNUser: ObservableObject {
             print("[CFQNUser] Saved Data to Cache.")
         }
         
-        do {
-            publishLoadStatus("获取用户设置...")
-            let fishForward = try await CFQUserServer.fetchUserOption(authToken: token, param: "forwarding_fish")
-            DispatchQueue.main.async {
-                self.shouldForwardToFish = fishForward == "1"
-            }
-            print("[CFQNUser] User option fowarding_fish: \(self.shouldForwardToFish).")
-        } catch {
-            self.shouldForwardToFish = false
-            print("[CFQNUser] User option forwarding_fish: not found, fallback to false.")
-        }
-        
-        do {
-            let token = try await CFQFishServer.fetchToken(authToken: token)
-            DispatchQueue.main.async {
-                self.fishToken = token
-            }
-            print("[CFQNUser] Fetched Fish Token.")
-        } catch CFQServerError.EntryNotFoundError {
-            self.fishToken = ""
-            print("[CFQNUser] No Fish Token Found.")
-        }
+        publishLoadStatus("获取用户设置...")
+        await self.remoteOptions.sync(authToken: self.jwtToken)
     }
     
     func checkAssociated() -> [String] {
@@ -455,9 +433,7 @@ class CFQNUser: ObservableObject {
         self.maimaiCache = Data()
         self.chunithmCache = Data()
         self.jwtToken = ""
-        self.fishToken = ""
         self.username = ""
-        self.fishUsername = ""
         self.isPremium = false
         withAnimation {
             self.didLogin.toggle()
@@ -629,7 +605,7 @@ class CFQNUser: ObservableObject {
     }
     
     func testFishToken() async -> Bool {
-        guard !fishToken.isEmpty else {
+        guard !remoteOptions.fishToken.isEmpty else {
             return true
         }
         
@@ -638,7 +614,7 @@ class CFQNUser: ObservableObject {
             var request = URLRequest(url: url)
             
             request.httpMethod = "GET"
-            request.setValue("jwt_token=\(fishToken)", forHTTPHeaderField: "Cookie")
+            request.setValue("jwt_token=\(remoteOptions.fishToken)", forHTTPHeaderField: "Cookie")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
             
             let (_, response) = try await URLSession.shared.data(for: request)

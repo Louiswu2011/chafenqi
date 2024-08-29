@@ -106,7 +106,7 @@ struct UpdaterView: View {
                     Task {
                         Analytics.logEvent("quick_upload_clicked", parameters: [
                             "game": quickUploadDestination.rawValue as NSObject])
-                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.shouldForwardToFish)
+                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.remoteOptions.forwardToFish)
                     }
                 } label: {
                     Text("开始上传")
@@ -167,16 +167,16 @@ struct UpdaterView: View {
             }
             
             Section {
-                Toggle(isOn: $user.shouldForwardToFish.animation()) {
+                Toggle(isOn: $user.remoteOptions.forwardToFish.animation()) {
                     Text("上传到水鱼网")
                 }
-                .disabled(user.fishToken.isEmpty)
+                .disabled(user.remoteOptions.fishToken.isEmpty)
                 .disabled(isLoadingForwardFish)
-                .onChange(of: user.shouldForwardToFish) { newValue in
+                .onChange(of: user.remoteOptions.forwardToFish) { newValue in
                     isLoadingForwardFish = true
                     Task {
                         if await !uploadForwardFish(newValue: newValue) {
-                            user.shouldForwardToFish = !newValue
+                            user.remoteOptions.forwardToFish = !newValue
                         }
                         isLoadingForwardFish = false
                     }
@@ -269,7 +269,7 @@ struct UpdaterView: View {
     
     func showAlerts() {
         Task {
-            self.shouldShowEmptyBindAlert = user.fishToken.isEmpty && user.proxyShouldPromptLinking
+            self.shouldShowEmptyBindAlert = user.remoteOptions.fishToken.isEmpty && user.proxyShouldPromptLinking
             self.shouldShowExpiredTokenAlert = !(await user.testFishToken()) && user.proxyShouldPromptExpiring
             
             if self.shouldShowEmptyBindAlert {
@@ -284,7 +284,7 @@ struct UpdaterView: View {
         isLoadingForwardFish = true
         Task {
             do {
-                user.shouldForwardToFish = try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "1"
+                user.remoteOptions.forwardToFish = try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "1"
                 isLoadingForwardFish = false
             } catch {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载用户设置失败", subTitle: "请稍后重试")

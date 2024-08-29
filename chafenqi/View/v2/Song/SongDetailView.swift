@@ -48,6 +48,9 @@ struct SongDetailView: View {
     @State var showingDiffSelectioniOS14 = false
     
     @State var coverImg: UIImage = UIImage()
+
+    @State var isSyncing: Bool = false
+    @State var loved: Bool = false
     
     var body: some View {
         ScrollView {
@@ -74,6 +77,20 @@ struct SongDetailView: View {
                                 }
                             }
                         VStack(alignment: .leading) {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    Task {
+                                        await toggleLoved(targetState: !self.loved)
+                                    }
+                                } label: {
+                                    Image(systemName: loved ? "heart.fill" : "heart")
+                                        .imageScale(.large)
+                                        .tint(loved ? .red : .blue)
+                                }
+                                .disabled(isSyncing)
+                            }
+                            .padding(.trailing, 5)
                             Spacer()
                             Text(title)
                                 .font(.title)
@@ -285,6 +302,7 @@ struct SongDetailView: View {
             }.sorted {
                 $0.levelIndex < $1.levelIndex
             }
+            self.loved = user.remoteOptions.maimaiFavList.components(separatedBy: ",").contains(song.musicId)
         } else if let song = chuSong {
             self.mode = 1
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]
@@ -300,6 +318,7 @@ struct SongDetailView: View {
             }.sorted {
                 $0.levelIndex < $1.levelIndex
             }
+            self.loved = user.remoteOptions.chunithmFavList.components(separatedBy: ",").contains(String(song.musicID))
         }
     }
     
@@ -325,6 +344,73 @@ struct SongDetailView: View {
             
         }))
         return array
+    }
+    
+    func toggleLoved(targetState: Bool) async {
+        self.isSyncing = true
+        let currentState = self.loved
+        let updatedString = await targetState ? addLoved() : removeLoved()
+        if let string = updatedString {
+            if let song = maiSong {
+                user.remoteOptions.maimaiFavList = string
+            } else if let song = chuSong {
+                user.remoteOptions.chunithmFavList = string
+            }
+            self.loved = targetState
+        } else {
+            self.loved = currentState
+        }
+        self.isSyncing = false
+    }
+    
+    func addLoved() async -> String? {
+        if let song = maiSong {
+            let expectedString = user.remoteOptions.maimaiFavList.isEmpty ? song.musicId : user.remoteOptions.maimaiFavList + ",\(song.musicId)"
+            let actualString = await CFQUserServer.addFavMusic(authToken: user.jwtToken, game: 1, musicId: song.musicId)
+            if let string = actualString {
+                return string
+            } else {
+                return nil
+            }
+        } else if let song = chuSong {
+            let expectedString = user.remoteOptions.chunithmFavList.isEmpty ? String(song.musicID) : user.remoteOptions.chunithmFavList + ",\(String(song.musicID))"
+            let actualString = await CFQUserServer.addFavMusic(authToken: user.jwtToken, game: 0, musicId: String(song.musicID))
+            if let string = actualString {
+                return string
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    func removeLoved() async -> String? {
+        if let song = maiSong {
+            let expectedString = user.remoteOptions.maimaiFavList
+                .components(separatedBy: ",")
+                .filter { entry in entry != song.musicId }
+                .joined(separator: ",")
+            let actualString = await CFQUserServer.removeFavMusic(authToken: user.jwtToken, game: 1, musicId: song.musicId)
+            if let string = actualString {
+                return string
+            } else {
+                return nil
+            }
+        } else if let song = chuSong {
+            let expectedString = user.remoteOptions.chunithmFavList
+                .components(separatedBy: ",")
+                .filter { entry in entry != String(song.musicID) }
+                .joined(separator: ",")
+            let actualString = await CFQUserServer.removeFavMusic(authToken: user.jwtToken, game: 0, musicId: String(song.musicID))
+            if let string = actualString {
+                return string
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
     }
 }
 

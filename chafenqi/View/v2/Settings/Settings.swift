@@ -89,8 +89,8 @@ struct Settings: View {
             }
             
             Section {
-                if (user.shouldForwardToFish) {
-                    SettingsInfoLabelView(title: "Token", message: user.fishToken)
+                if (user.remoteOptions.forwardToFish) {
+                    SettingsInfoLabelView(title: "Token", message: user.remoteOptions.fishToken)
                         .lineLimit(1)
                 }
                 NavigationLink {
@@ -212,8 +212,8 @@ struct Settings: View {
             alertToast.alert
         }
         .onAppear {
-            if (user.fishToken.isEmpty) {
-                user.shouldForwardToFish = false
+            if (user.remoteOptions.fishToken.isEmpty) {
+                user.remoteOptions.forwardToFish = false
             }
             DispatchQueue.main.async {
                 cacheSize = cacheController.getCacheSize()

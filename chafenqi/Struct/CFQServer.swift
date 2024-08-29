@@ -68,12 +68,17 @@ struct CFQServer {
             return response.statusCode() == 200
         }
         
-        static func fetchUserOption(authToken: String, param: String) async throws -> String {
-            let query = [URLQueryItem(name: "param", value: param)]
-            let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/option", query: query, token: authToken, shouldThrowByCode: false)
-            if response.statusCode() == 200 {
-                return String(decoding: data, as: UTF8.self)
-            } else {
+        static func fetchUserOption(authToken: String, param: String) async -> String {
+            do {
+                let query = [URLQueryItem(name: "param", value: param)]
+                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/option", query: query, token: authToken, shouldThrowByCode: false)
+                if response.statusCode() == 200 {
+                    return String(decoding: data, as: UTF8.self)
+                } else {
+                    return ""
+                }
+            } catch {
+                print("Failed to fetch user option \(param) from server.")
                 return ""
             }
         }
@@ -133,6 +138,28 @@ struct CFQServer {
                 return try decoder.decode(T.self, from: data)
             } catch {
                 print("Failed to fetch leaderboard rank for game \(game) \(leaderboard).\n\(error)")
+                return nil
+            }
+        }
+        
+        static func addFavMusic(authToken: String, game: Int, musicId: String) async -> String? {
+            do {
+                let payload = try JSONSerialization.data(withJSONObject: ["game": String(game), "musicId": musicId])
+                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite/add", payload: payload, token: authToken, shouldThrowByCode: false)
+                return String(decoding: data, as: UTF8.self)
+            } catch {
+                print("Failed to add favorite music \(musicId) to game \(game).")
+                return nil
+            }
+        }
+        
+        static func removeFavMusic(authToken: String, game: Int, musicId: String) async -> String? {
+            do {
+                let payload = try JSONSerialization.data(withJSONObject: ["game": String(game), "musicId": musicId])
+                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite/remove", payload: payload, token: authToken, shouldThrowByCode: false)
+                return String(decoding: data, as: UTF8.self)
+            } catch {
+                print("Failed to remove favorite music \(musicId) to game \(game).")
                 return nil
             }
         }
