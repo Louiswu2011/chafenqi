@@ -141,6 +141,28 @@ struct CFQServer {
                 return nil
             }
         }
+        
+        static func addFavMusic(authToken: String, game: Int, musicId: String) async -> String? {
+            do {
+                let payload = try JSONSerialization.data(withJSONObject: ["game": String(game), "musicId": musicId])
+                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite/add", payload: payload, token: authToken, shouldThrowByCode: false)
+                return String(decoding: data, as: UTF8.self)
+            } catch {
+                print("Failed to add favorite music \(musicId) to game \(game).")
+                return nil
+            }
+        }
+        
+        static func removeFavMusic(authToken: String, game: Int, musicId: String) async -> String? {
+            do {
+                let payload = try JSONSerialization.data(withJSONObject: ["game": String(game), "musicId": musicId])
+                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite/remove", payload: payload, token: authToken, shouldThrowByCode: false)
+                return String(decoding: data, as: UTF8.self)
+            } catch {
+                print("Failed to remove favorite music \(musicId) to game \(game).")
+                return nil
+            }
+        }
     }
     
     struct Fish {
