@@ -389,9 +389,6 @@ class CFQNUser: ObservableObject {
             self.chunithmCache = chuCache
             print("[CFQNUser] Saved Data to Cache.")
         }
-        
-        publishLoadStatus("获取用户设置...")
-        await self.remoteOptions.sync(authToken: self.jwtToken)
     }
     
     func checkAssociated() -> [String] {
@@ -532,6 +529,9 @@ class CFQNUser: ObservableObject {
             self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
             print("[CFQNUser] Calculated Custom Values.")
         }
+        
+        publishLoadStatus("同步用户设置...")
+        await self.remoteOptions.sync(authToken: self.jwtToken)
         
         publishLoadStatus("同步本地存储...")
         sharedContainer.set(self.jwtToken, forKey: "JWT")
