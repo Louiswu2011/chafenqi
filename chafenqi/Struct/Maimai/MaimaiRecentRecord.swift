@@ -35,6 +35,7 @@ struct MaimaiRecentRecord: Codable {
     var matching_3: String?
     var createdAt: String
     var updatedAt: String
+    var track: Int
     
     func getDate() -> Date {
         Date(timeIntervalSince1970: TimeInterval(timestamp))

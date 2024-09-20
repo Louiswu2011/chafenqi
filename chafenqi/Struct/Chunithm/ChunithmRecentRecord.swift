@@ -34,6 +34,7 @@ struct ChunithmRecentRecord: Codable {
     var note_flick: String?
     var createdAt: String
     var updatedAt: String
+    var track: Int
     
     func getRawScore() -> Int {
         return Int(self.score.replacingOccurrences(of: ",", with: "")) ?? 0
