@@ -39,6 +39,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsShouldPromptTooHighVersion") var proxyShouldPromptManualProxy = true
     @AppStorage("settingsShowRefreshButton") var shouldShowRefreshButton = false
     @AppStorage("settingsAutoUpdateSongList") var shouldAutoUpdateSongList = true
+    @AppStorage("settingsHomeNameplateTheme") var homeUseCurrentVersionTheme = true
     
     var maimai = Maimai()
     var chunithm = Chunithm()

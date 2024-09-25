@@ -11,19 +11,17 @@ struct HomeNameplate: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
     
-    @State private var nameplateChuniColorTop = Color(red: 254, green: 241, blue: 65)
-    @State private var nameplateChuniColorBottom = Color(red: 243, green: 200, blue: 48)
-    
-    @State private var nameplateMaiColorTop = Color(red: 167, green: 243, blue: 254)
-    @State private var nameplateMaiColorBottom = Color(red: 93, green: 166, blue: 247)
-    
     @State private var updateTime = ""
     
     var body: some View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 5)
-                    .fill(LinearGradient(colors: user.currentMode == 0 ? [nameplateChuniColorTop, nameplateChuniColorBottom] : [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom))
+//                    .fill(user.currentMode == 0 ?
+//                          user.homeUseCurrentVersionTheme ? nameplateThemedChuniGradientStyle : nameplateDefaultChuniGradientStyle :
+//                            user.homeUseCurrentVersionTheme ? nameplateThemedMaiGradientStyle : nameplateDefaultMaiGradientStyle
+//                    )
+                    .fill(user.currentMode == 0 ? nameplateDefaultChuniGradientStyle : nameplateDefaultMaiGradientStyle)
                     .shadow(radius: 5)
                 
                 VStack {
@@ -163,18 +161,18 @@ struct HomeNameplate: View {
             }
         }
         .padding()
+        .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .local).onEnded { value in
+            if value.translation.width < 0 {
+                // Swipe to Maimai
+            }
+            if value.translation.width > 0 {
+                // Swipe to Chunithm
+            }
+        })
     }
     
     func getUpdateTime(_ str: String) -> String {
         DateTool.updateDateString(from: str)
-    }
-    
-    var gradient: LinearGradient {
-        if (user.currentMode == 0) {
-            return LinearGradient(colors: [nameplateChuniColorTop, nameplateChuniColorBottom], startPoint: .top, endPoint: .bottom)
-        } else {
-            return LinearGradient(colors: [nameplateMaiColorTop, nameplateMaiColorBottom], startPoint: .top, endPoint: .bottom)
-        }
     }
     
     var avatarName: String {

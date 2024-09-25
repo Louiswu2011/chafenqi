@@ -24,6 +24,7 @@ struct SponsorView: View {
                 
                 Section {
                     TextInfoView(text: "0Shu", info: "App图标设计")
+                    TextInfoView(text: "C.C.Duck", info: "配色方案")
                 } header: {
                     Text("美术支持")
                 }

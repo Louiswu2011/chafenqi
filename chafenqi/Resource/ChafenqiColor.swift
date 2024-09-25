@@ -48,3 +48,30 @@ let chunithmRankColor = [
     5: Color(hex: 0xff8e0a01),
     6: Color(hex: 0xff444444)
 ]
+
+let nameplateDefaultChuniColorTop = Color(red: 254, green: 241, blue: 65)
+let nameplateDefaultChuniColorBottom = Color(red: 243, green: 200, blue: 48)
+
+let nameplateThemedChuniColors = [
+    Color(red: 192, green: 230, blue: 249),
+    Color(red: 219, green: 226, blue: 250),
+    Color(red: 240, green: 223, blue: 246),
+    Color(red: 248, green: 211, blue: 238),
+    Color(red: 245, green: 178, blue: 225)
+]
+let nameplateThemedMaiColors = [
+    Color(red: 235, green: 182, blue: 85),
+    Color(red: 235, green: 187, blue: 87),
+    Color(red: 236, green: 196, blue: 90),
+    Color(red: 235, green: 200, blue: 89),
+    Color(red: 242, green: 225, blue: 68)
+]
+
+let nameplateDefaultMaiColorTop = Color(red: 167, green: 243, blue: 254)
+let nameplateDefaultMaiColorBottom = Color(red: 93, green: 166, blue: 247)
+
+let nameplateDefaultChuniGradientStyle = LinearGradient(colors: [nameplateDefaultChuniColorTop, nameplateDefaultChuniColorBottom], startPoint: .top, endPoint: .bottom)
+let nameplateDefaultMaiGradientStyle = LinearGradient(colors: [nameplateDefaultMaiColorTop, nameplateDefaultMaiColorBottom], startPoint: .top, endPoint: .bottom)
+
+let nameplateThemedChuniGradientStyle = LinearGradient(colors: nameplateThemedChuniColors, startPoint: .topLeading, endPoint: .bottomTrailing)
+let nameplateThemedMaiGradientStyle = LinearGradient(colors: nameplateThemedMaiColors, startPoint: .bottomLeading, endPoint: .topTrailing)
