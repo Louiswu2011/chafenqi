@@ -391,7 +391,12 @@ class CFQNUser: ObservableObject {
         }
     }
     
-    func checkAssociated() -> [String] {
+    func filterAssociated() -> [String] {
+        let maiDeleted = self.maimai.best.filter {
+            $0.associatedSong == nil
+        }.map {
+            $0.title
+        }
         self.maimai.best = self.maimai.best.filter {
             $0.associatedSong != nil
         }
@@ -399,6 +404,11 @@ class CFQNUser: ObservableObject {
             $0.associatedSong != nil
         }
         
+        let chuDeleted = self.chunithm.best.filter {
+            $0.associatedSong == nil
+        }.map {
+            $0.title
+        }
         self.chunithm.best = self.chunithm.best.filter {
             $0.associatedSong != nil
         }
@@ -406,10 +416,10 @@ class CFQNUser: ObservableObject {
             $0.associatedSong != nil
         }
         self.chunithm.rating = self.chunithm.rating.filter {
-            $0.associatedBestEntry != nil
+            $0.associatedBestEntry?.associatedSong != nil
         }
         
-        return []
+        return (maiDeleted + chuDeleted).unique
     }
     
     func login(username: String, forceReload: Bool = false) async throws {
@@ -514,10 +524,12 @@ class CFQNUser: ObservableObject {
         }
         print("[CFQNUser] Assigned Associated Song Data.")
         
-        let failed = checkAssociated()
+        let failed = filterAssociated()
         if (!failed.isEmpty) {
-            print(failed)
-            throw CFQNUserError.AssociationError(in: failed)
+            failed.forEach { deleted in
+                print("[CFQNUser] Found deleted music: \(deleted)")
+            }
+            // throw CFQNUserError.AssociationError(in: failed)
         }
         print("[CFQNUser] Association Assertion Passed.")
         
