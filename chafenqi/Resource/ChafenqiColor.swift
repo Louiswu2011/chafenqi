@@ -74,4 +74,4 @@ let nameplateDefaultChuniGradientStyle = LinearGradient(colors: [nameplateDefaul
 let nameplateDefaultMaiGradientStyle = LinearGradient(colors: [nameplateDefaultMaiColorTop, nameplateDefaultMaiColorBottom], startPoint: .top, endPoint: .bottom)
 
 let nameplateThemedChuniGradientStyle = LinearGradient(colors: nameplateThemedChuniColors, startPoint: .topLeading, endPoint: .bottomTrailing)
-let nameplateThemedMaiGradientStyle = LinearGradient(colors: nameplateThemedMaiColors, startPoint: .bottomLeading, endPoint: .topTrailing)
+let nameplateThemedMaiGradientStyle = LinearGradient(colors: nameplateThemedMaiColors, startPoint: .topLeading, endPoint: .bottomTrailing)

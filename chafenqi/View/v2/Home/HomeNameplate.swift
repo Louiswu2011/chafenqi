@@ -17,11 +17,11 @@ struct HomeNameplate: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 5)
-//                    .fill(user.currentMode == 0 ?
-//                          user.homeUseCurrentVersionTheme ? nameplateThemedChuniGradientStyle : nameplateDefaultChuniGradientStyle :
-//                            user.homeUseCurrentVersionTheme ? nameplateThemedMaiGradientStyle : nameplateDefaultMaiGradientStyle
-//                    )
-                    .fill(user.currentMode == 0 ? nameplateDefaultChuniGradientStyle : nameplateDefaultMaiGradientStyle)
+                    .fill(user.currentMode == 0 ?
+                          user.homeUseCurrentVersionTheme ? nameplateThemedChuniGradientStyle : nameplateDefaultChuniGradientStyle :
+                            user.homeUseCurrentVersionTheme ? nameplateThemedMaiGradientStyle : nameplateDefaultMaiGradientStyle
+                    )
+//                    .fill(user.currentMode == 0 ? nameplateDefaultChuniGradientStyle : nameplateDefaultMaiGradientStyle)
                     .shadow(radius: 5)
                 
                 VStack {
@@ -161,14 +161,6 @@ struct HomeNameplate: View {
             }
         }
         .padding()
-        .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .local).onEnded { value in
-            if value.translation.width < 0 {
-                // Swipe to Maimai
-            }
-            if value.translation.width > 0 {
-                // Swipe to Chunithm
-            }
-        })
     }
     
     func getUpdateTime(_ str: String) -> String {

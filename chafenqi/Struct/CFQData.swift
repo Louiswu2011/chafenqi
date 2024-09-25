@@ -290,7 +290,8 @@ struct CFQData: Codable {
             var b = bests
             for (i,entry) in b.enumerated() {
                 let searched = songs.first {
-                    String($0.musicID) == entry.idx
+                    // String($0.musicID) == entry.idx
+                    $0.title == entry.title
                 }
                 if let song = searched {
                     var e = entry
@@ -318,7 +319,8 @@ struct CFQData: Codable {
                     }
                 } else {
                     let searched = songs.first {
-                        String($0.musicID) == entry.idx
+                        // String($0.musicID) == entry.idx
+                        $0.title == entry.title
                     }
                     if let song = searched {
                         var e = entry
@@ -334,7 +336,7 @@ struct CFQData: Codable {
             var r = ratings
             for (i, entry) in r.enumerated() {
                 let searched = bests.first {
-                    $0.idx == entry.idx && $0.levelIndex == entry.levelIndex
+                    $0.title == entry.title && $0.levelIndex == entry.levelIndex
                 }
                 if let song = searched {
                     var e = entry
