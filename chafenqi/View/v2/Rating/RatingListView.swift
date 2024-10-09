@@ -10,7 +10,9 @@ import SwiftUI
 struct RatingListView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
-//    @State var screenshotMaker: ScreenshotMaker?
+    
+    @State private var image: UIImage? = nil
+    @State private var doneLoading: Bool = false
     
     var body: some View {
         ScrollView {
@@ -22,20 +24,18 @@ struct RatingListView: View {
                     .padding()
             }
         }
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button {
-//                    UIImageWriteToSavedPhotosAlbum(self.snapshotWithContext(context), nil, nil, nil)
-//                } label: {
-//                    Image(systemName: "square.and.arrow.up")
-//                }
-//            }
-//        }
         .navigationTitle("Rating列表")
         .navigationBarTitleDisplayMode(.large)
-//        .screenshotView { maker in
-//            self.screenshotMaker = maker
-//        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    RatingShareView(type: user.currentMode == 0 ? "b30" : "b50", user: user)
+                } label: {
+                    // Image(systemName: "square.and.arrow.up")
+                    Text("生成分表")
+                }
+            }
+        }
     }
 }
 

@@ -636,6 +636,21 @@ class CFQNUser: ObservableObject {
             return false
         }
     }
+    
+    func makeB50() -> MaimaiB50Info {
+        return MaimaiB50Info(username: self.username, info: MaimaiB50Detail(
+            rating: self.maimai.info.rating,
+            newRating: self.maimai.custom.currentRating,
+            pastRating: self.maimai.custom.pastRating,
+            nickname: self.maimai.info.nickname,
+            b35: self.maimai.custom.pastSlice.enumerated().map { index, entry in
+                MaimaiB50Entry(index: index, title: entry.title, level: entry.level, achievements: entry.score, constant: entry.associatedSong?.constant[entry.levelIndex] ?? 0.0, rating: entry.rating, fc: entry.fc, diffIndex: entry.levelIndex, musicId: entry.associatedSong?.musicId ?? "")
+            },
+            b15: self.maimai.custom.currentSlice.enumerated().map { index, entry in
+                MaimaiB50Entry(index: index, title: entry.title, level: entry.level, achievements: entry.score, constant: entry.associatedSong?.constant[entry.levelIndex] ?? 0.0, rating: entry.rating, fc: entry.fc, diffIndex: entry.levelIndex, musicId: entry.associatedSong?.musicId ?? "")
+            }
+        ))
+    }
 }
 
 enum CFQNUserError: Error {

@@ -8,6 +8,7 @@
 import Foundation
 import Crypto
 import AlertToast
+import UIKit
 
 struct CFQServer {
     enum GameType: String, Hashable, CaseIterable, Identifiable {
@@ -175,6 +176,29 @@ struct CFQServer {
             let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "fish/fetch_token", token: authToken)
             let token = String(decoding: data, as: UTF8.self)
             return token
+        }
+    }
+    
+    struct Image {
+        static func getChunithmB30Image(authToken: String) async -> UIImage? {
+            do {
+                let query = [URLQueryItem(name: "game", value: "0"), URLQueryItem(name: "type", value: "b30")]
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/image", query: query, token: authToken, shouldThrowByCode: false)
+                return UIImage(data: data)
+            } catch {
+                return nil
+            }
+        }
+        
+        static func getMaimaiB50Image(data: MaimaiB50Info) async -> UIImage? {
+            do {
+                // let payload = try JSONSerialization.data(withJSONObject: data)
+                let payload = try JSONEncoder().encode(data)
+                let (imageData, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/image/b50", payload: payload, shouldThrowByCode: false)
+                return UIImage(data: imageData)
+            } catch {
+                return nil
+            }
         }
     }
     
@@ -481,3 +505,4 @@ typealias CFQMaimaiServer = CFQServer.Maimai
 typealias CFQChunithmServer = CFQServer.Chunithm
 typealias CFQStatsServer = CFQServer.Stats
 typealias CFQCommentServer = CFQServer.Comment
+typealias CFQImageServer = CFQServer.Image

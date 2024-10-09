@@ -263,6 +263,8 @@ class CFQUser: ObservableObject {
         self.shouldReload = true
         self.loaded = false
     }
+    
+
 }
 
 extension Int {
