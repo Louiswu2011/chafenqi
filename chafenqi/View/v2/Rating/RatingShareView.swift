@@ -68,8 +68,12 @@ struct RatingShareView: View {
     }
     
     func shareImage(image: UIImage) {
-        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        UIApplication.shared.currentUIWindow()?.rootViewController?.present(activityViewController, animated: true)
+        if let viewController = UIApplication.shared.windows.first?.rootViewController {
+            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = viewController.view
+            activityViewController.popoverPresentationController?.sourceRect = .zero
+            UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true)
+        }
     }
 }
 
