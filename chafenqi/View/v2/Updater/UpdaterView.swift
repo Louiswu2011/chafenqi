@@ -269,12 +269,13 @@ struct UpdaterView: View {
     
     func showAlerts() {
         Task {
-            self.shouldShowEmptyBindAlert = user.remoteOptions.fishToken.isEmpty && user.proxyShouldPromptLinking
-            self.shouldShowExpiredTokenAlert = !(await user.testFishToken()) && user.proxyShouldPromptExpiring
+            self.shouldShowEmptyBindAlert = user.proxyShouldPromptLinking && user.remoteOptions.fishToken.isEmpty
             
             if self.shouldShowEmptyBindAlert {
                 showEmptyBindAlert()
-            } else if self.shouldShowExpiredTokenAlert {
+            }
+            
+            if user.proxyShouldPromptExpiring {
                 showExpiredTokenAlert()
             }
         }
@@ -283,12 +284,8 @@ struct UpdaterView: View {
     func loadForwardFish() {
         isLoadingForwardFish = true
         Task {
-            do {
-                user.remoteOptions.forwardToFish = try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "1"
-                isLoadingForwardFish = false
-            } catch {
-                alertToast.toast = AlertToast(displayMode: .hud, type: .error(Color.red), title: "加载用户设置失败", subTitle: "请稍后重试")
-            }
+            user.remoteOptions.forwardToFish = await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "1"
+            isLoadingForwardFish = false
         }
     }
     
@@ -297,7 +294,7 @@ struct UpdaterView: View {
         do {
             let result = try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "forwarding_fish", value: newValue ? "1" : "0")
             if result {
-                return try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == (newValue ? "1" : "0")
+                return await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == (newValue ? "1" : "0")
             } else {
                 return false
             }

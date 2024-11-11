@@ -99,6 +99,8 @@ struct Settings: View {
                 } label: {
                     Text("更新水鱼Token")
                 }
+                Toggle("提示未绑定水鱼账号", isOn: $user.proxyShouldPromptLinking)
+                Toggle("自动检查水鱼Token", isOn: $user.proxyShouldPromptExpiring)
             } header: {
                 Text("传分")
             }
