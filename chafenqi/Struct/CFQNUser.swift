@@ -558,12 +558,20 @@ class CFQNUser: ObservableObject {
         var chuCover = Data()
 
         if let maiFirst = self.maimai.recent.first {
-            let (data, _) = try await URLSession.shared.data(from: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: maiFirst.associatedSong!.musicId)))
-            maiCover = data
+            do {
+                let (data, _) = try await URLSession.shared.data(from: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: maiFirst.associatedSong!.musicId)))
+                maiCover = data
+            } catch {
+                maiCover = Data()
+            }
         }
         if let chuFirst = self.chunithm.recent.first {
-            let (data, _) = try await URLSession.shared.data(from: ChunithmDataGrabber.getSongCoverUrl(source: 0, musicId: String(chuFirst.associatedSong!.musicID)))
-            chuCover = data
+            do {
+                let (data, _) = try await URLSession.shared.data(from: ChunithmDataGrabber.getSongCoverUrl(source: 0, musicId: String(chuFirst.associatedSong!.musicID)))
+                chuCover = data
+            } catch {
+                chuCover = Data()
+            }
         }
         
         print("[CFQNUser] Fetched recent images: \(maiCover.count), \(chuCover.count)")
