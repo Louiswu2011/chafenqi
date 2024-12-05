@@ -24,16 +24,16 @@ struct MaimaiRatingBannerView: View {
     @ObservedObject var user: CFQNUser
     
     var index: Int
-    var entry: CFQMaimai.BestScoreEntry
+    var entry: UserMaimaiBestScoreEntry
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 50, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
+            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: entry.associatedSong?.coverId ?? 0), size: 50, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Group {
                 VStack(alignment: .leading) {
                     HStack {
-                        let constant = entry.associatedSong!.constant[entry.levelIndex]
+                        let constant = entry.associatedSong?.constants[entry.levelIndex] ?? 0.0
                         Text("#\(index)")
                             .frame(width: 35, alignment: .leading)
                         Text("\(constant, specifier: "%.1f")/\(entry.rating)")
@@ -41,7 +41,7 @@ struct MaimaiRatingBannerView: View {
                             .frame(width: 90, alignment: .leading)
                     }
                     Spacer()
-                    Text("\(entry.title)")
+                    Text("\(entry.associatedSong?.title ?? "")")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 Spacer()
@@ -51,7 +51,7 @@ struct MaimaiRatingBannerView: View {
                         GradeBadgeView(grade: entry.rateString)
                     }
                     Spacer()
-                    Text("\(entry.score, specifier: "%.4f")%")
+                    Text("\(entry.achievements, specifier: "%.4f")%")
                     
                 }
             }

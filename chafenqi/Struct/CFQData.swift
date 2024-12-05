@@ -14,56 +14,22 @@ struct CFQData: Codable {
     }
     
     struct Maimai: Codable {
-        static func assignAssociated(songs: [MaimaiSongData], bests: [BestScoreEntry]) -> [BestScoreEntry] {
+        static func assignAssociated(songs: [MaimaiSongData], bests: [UserMaimaiBestScoreEntry]) -> [UserMaimaiBestScoreEntry] {
             var b = bests
             for (i,entry) in b.enumerated() {
-                if (entry.title == "D✪N’T ST✪P R✪CKIN’") {
-                    var e = entry
-                    e.associatedSong = songs.first {
-                        $0.musicId == "364" && $0.type == entry.type
-                    }
-                    b[i] = e
-                } else {
-                    let searched = songs.first {
-                        let titleMatch = $0.title.localizedCaseInsensitiveCompare(entry.title)
-                        if titleMatch == .orderedSame {
-                            return $0.type == entry.type // What about Link(COF)? Distinguish them on server-side
-                        }
-                        return false
-                    }
-                    if let song = searched {
-                        var e = entry
-                        e.associatedSong = song
-                        b[i] = e
-                    }
-                }
+                var e = entry
+                e.associatedSong = songs.first { $0.musicId == entry.musicId }
+                b[i] = e
             }
             return b
         }
         
-        static func assignAssociated(songs: [MaimaiSongData], recents: [RecentScoreEntry]) -> [RecentScoreEntry] {
+        static func assignAssociated(songs: [MaimaiSongData], recents: [UserMaimaiRecentScoreEntry]) -> [UserMaimaiRecentScoreEntry] {
             var r = recents
             for (i,entry) in r.enumerated() {
-                if (entry.title == "D✪N’T ST✪P R✪CKIN’") {
-                    var e = entry
-                    e.associatedSong = songs.first {
-                        $0.musicId == "364" && $0.type == entry.type
-                    }
-                    r[i] = e
-                } else {
-                    let searched = songs.first {
-                        let titleMatch = $0.title.localizedCaseInsensitiveCompare(entry.title)
-                        if titleMatch == .orderedSame {
-                            return $0.type == entry.type
-                        }
-                        return false
-                    }
-                    if let song = searched {
-                        var e = entry
-                        e.associatedSong = song
-                        r[i] = e
-                    }
-                }
+                var e = entry
+                e.associatedSong = songs.first { $0.musicId == entry.musicId }
+                r[i] = e
             }
             return r
         }
@@ -272,16 +238,14 @@ struct CFQData: Codable {
         }
         
         struct LeaderboardEntry: Codable {
-            var id: Int = 0
+            var index: Int = 0
             var uid: Int = 0
             var username: String = ""
             var nickname: String = ""
             var achievements: Double = 0.0
-            var rate: String = ""
-            var fullCombo: String = ""
-            var fullSync: String = ""
-            var createdAt: String = ""
-            var updatedAt: String = ""
+            var judgeStatus: String = ""
+            var syncStatus: String = ""
+            var timestamp: Int = 0
         }
     }
     
@@ -607,24 +571,23 @@ struct CFQData: Codable {
         }
         
         struct LeaderboardEntry: Codable {
-            var id: Int = 0
+            var index: Int = 0
             var uid: Int = 0
             var username: String = ""
             var nickname: String = ""
-            var highscore: Int = 0
+            var score: Int = 0
             var rankIndex: Int = 0
-            var clear: String = ""
-            var fullCombo: String = ""
-            var fullChain: String = ""
-            var updatedAt: String = ""
-            var createdAt: String = ""
+            var clearStatus: String = ""
+            var judgeStatus: String = ""
+            var chainStatus: String = ""
+            var timestamp: Int = 0
         }
     }
 }
 
 protocol CFQMaimaiCalculatable {
-    var rating: Int { get }
     var rateString: String { get }
+    var rating: Int { get }
     var status: String { get }
     func getRating(constant: Double, achievements: Double) -> Int
     func getStatus(_ fc: String) -> String
@@ -702,19 +665,20 @@ extension CFQMaimaiCalculatable {
     }
 }
 
-extension CFQData.Maimai.BestScoreEntry: CFQMaimaiCalculatable {
+extension UserMaimaiBestScoreEntry: CFQMaimaiCalculatable {
     var rateString: String {
-        getRateString(self.rate)
+        getRateStringFromScore(self.achievements)
     }
+    
     var rating: Int {
-        getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
+        getRating(constant: self.associatedSong!.constants[self.levelIndex], achievements: self.achievements)
     }
     var status: String {
-        getStatus(self.fc)
+        getStatus(self.judgeStatus)
     }
 }
-extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiCalculatable {
-    var rateString: String { getRateStringFromScore(self.score) }
+extension UserMaimaiRecentScoreEntry: CFQMaimaiCalculatable {
+    var rateString: String { self.getRateStringFromScore(self.achievements) }
     var levelIndex: Int {
         switch self.difficulty.lowercased() {
         case "basic":
@@ -730,11 +694,22 @@ extension CFQData.Maimai.RecentScoreEntry: CFQMaimaiCalculatable {
         }
     }
     var rating: Int {
-        getRating(constant: self.associatedSong!.constant[self.levelIndex], achievements: self.score)
+        getRating(constant: self.associatedSong!.constants[self.levelIndex], achievements: self.achievements)
     }
     var status: String {
-        getStatus(self.fc)
+        getStatus(self.judgeStatus)
     }
+}
+extension CFQData.Maimai.LeaderboardEntry: CFQMaimaiCalculatable {
+    var rating: Int {
+        0
+    }
+    
+    var status: String {
+        getStatus(self.judgeStatus)
+    }
+    
+    var rateString: String { self.getRateStringFromScore(self.achievements) }
 }
 
 protocol CFQChunithmCalculatable {

@@ -94,7 +94,7 @@ struct DeltaDetailView: View {
                                         RecentDetail(user: user, maiEntry: entry)
                                     } label: {
                                         HStack {
-                                            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
+                                            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: entry.associatedSong?.coverId ?? 0), size: 65, cornerRadius: 5)
                                                 .padding(.trailing, 5)
                                             Spacer()
                                             VStack {
@@ -104,11 +104,11 @@ struct DeltaDetailView: View {
                                                 }
                                                 Spacer()
                                                 HStack(alignment: .bottom) {
-                                                    Text(entry.title)
+                                                    Text(entry.associatedSong?.title ?? "")
                                                         .font(.system(size: 17))
                                                         .lineLimit(2)
                                                     Spacer()
-                                                    Text("\(entry.score, specifier: "%.4f")%")
+                                                    Text("\(entry.achievements, specifier: "%.4f")%")
                                                         .font(.system(size: 21))
                                                         .bold()
                                                 }

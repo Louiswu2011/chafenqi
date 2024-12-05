@@ -21,7 +21,7 @@ struct RatingShortLook: View {
     @State var selectedIndex = 0
     
     @State var chuEntry: CFQChunithm.RatingEntry?
-    @State var maiEntry: CFQMaimai.BestScoreEntry?
+    @State var maiEntry: UserMaimaiBestScoreEntry?
     
     @State var indexText = ""
     @State var constant = ""
@@ -141,24 +141,24 @@ struct RatingShortLook: View {
                     maiEntry = user.maimai.custom.pastSlice[selectedIndex]
                     if let entry = maiEntry {
                         indexText = "旧曲 #\(selectedIndex + 1)"
-                        coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
-                        constant = String(format: "%.1f", entry.associatedSong!.constant[entry.levelIndex])
+                        coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: entry.associatedSong?.coverId ?? 0)
+                        constant = String(format: "%.1f", entry.associatedSong!.constants[entry.levelIndex])
                         rating = String(entry.rating)
-                        grade = entry.getRateString(entry.rate)
-                        score = String(format: "%.4f", entry.score) + "%"
-                        title = entry.title
+                        grade = entry.rateString
+                        score = String(format: "%.4f", entry.achievements) + "%"
+                        title = entry.associatedSong?.title ?? ""
                     }
                 } else if (pastCount...pastCount + currentCount - 1).contains(selectedIndex) {
                     // Current
                     maiEntry = user.maimai.custom.currentSlice[selectedIndex - user.maimai.custom.pastSlice.count]
                     if let entry = maiEntry {
                         indexText = "新曲 #\(selectedIndex - pastCount + 1)"
-                        coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
-                        constant = String(format: "%.1f", entry.associatedSong!.constant[entry.levelIndex])
+                        coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: entry.associatedSong?.coverId ?? 0)
+                        constant = String(format: "%.1f", entry.associatedSong!.constants[entry.levelIndex])
                         rating = String(entry.rating)
-                        grade = entry.getRateString(entry.rate)
-                        score = String(format: "%.4f", entry.score) + "%"
-                        title = entry.title
+                        grade = entry.rateString
+                        score = String(format: "%.4f", entry.achievements) + "%"
+                        title = entry.associatedSong?.title ?? ""
                     }
                 }
                 

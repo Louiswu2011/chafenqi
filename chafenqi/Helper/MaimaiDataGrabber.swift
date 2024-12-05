@@ -65,8 +65,8 @@ struct MaimaiDataGrabber {
         return data
     }
     
-    static func getSongCoverUrl(source: Int, coverId: String) -> URL {
+    static func getSongCoverUrl(source: Int, coverId: Int) -> URL {
         
-        return URL(string: "https://www.diving-fish.com/covers/\(coverId).png")!
+        return URL(string: "https://assets2.lxns.net/maimai/jacket/\(coverId).png")!
     }
 }

@@ -12,7 +12,7 @@ struct SongEntryListView: View {
     
     @State var historyData: [(Double, String)] = []
     
-    @State var maiRecords: CFQMaimaiRecentScoreEntries?
+    @State var maiRecords: UserMaimaiRecentScores?
     @State var chuRecords: CFQChunithmRecentScoreEntries?
     
     @State var shouldShowPointMarkers: Bool = false
@@ -75,7 +75,7 @@ struct SongEntryListView: View {
             maiRecords.sorted {
                 $0.timestamp < $1.timestamp
             }.forEach { record in
-                historyData.append((record.score, record.timestamp.toDateString(format: "MM-dd")))
+                historyData.append((record.achievements, record.timestamp.toDateString(format: "MM-dd")))
             }
         } else if let chuRecords = chuRecords {
             chuRecords.sorted {

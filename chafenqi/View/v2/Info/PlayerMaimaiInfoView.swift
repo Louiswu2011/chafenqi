@@ -32,7 +32,7 @@ struct PlayerMaimaiInfoView: View {
     @Environment(\.managedObjectContext) var context
     @ObservedObject var user: CFQNUser
     
-    @State private var currentLoadout: [CFQMaimaiExtraEntry.CharacterEntry] = []
+    @State private var currentLoadout: [UserMaimaiCharacterEntry] = []
     @State private var charImg = UIImage()
     @State private var nameplateImg = UIImage()
     @State private var frameImg = UIImage()
@@ -54,7 +54,7 @@ struct PlayerMaimaiInfoView: View {
                 VStack(spacing: 5) {
                     ZStack {
                         VStack(alignment: .trailing) {
-                            AsyncImage(url: URL(string: user.maimai.extra.nameplates.first { $0.selected == 1 }!.image)!, context: context, placeholder: {
+                            AsyncImage(url: URL(string: user.maimai.extra.nameplates.first { $0.current }!.url)!, context: context, placeholder: {
                                 ProgressView()
                             }, image: { img in
                                 let _ = DispatchQueue.main.async {
@@ -78,12 +78,12 @@ struct PlayerMaimaiInfoView: View {
                                 VStack(alignment: .trailing) {
                                     HStack {
                                         Text("Rating")
-                                        Text("\(user.maimai.info.rating)")
+                                        Text("\(user.maimai.info.last?.rating ?? 0)")
                                             .bold()
                                     }
                                     HStack {
                                         Text("游玩次数")
-                                        Text("\(user.maimai.info.playCount)")
+                                        Text("\(user.maimai.info.last?.playCount ?? 0)")
                                             .bold()
                                     }
                                 }
@@ -97,8 +97,8 @@ struct PlayerMaimaiInfoView: View {
                         }
                         
                         HStack {
-                            if let charUrl = URL(string: user.maimai.info.charUrl) {
-                                AsyncImage(url: URL(string: user.maimai.info.charUrl)!, context: context, placeholder: {
+                            if let charUrl = URL(string: user.maimai.info.last?.charUrl ?? "") {
+                                AsyncImage(url: charUrl, context: context, placeholder: {
                                     ProgressView()
                                 }, image: { img in
                                     let _ = DispatchQueue.main.async {
@@ -133,7 +133,7 @@ struct PlayerMaimaiInfoView: View {
                     if !currentLoadout.isEmpty {
                         HStack() {
                             ForEach(currentLoadout, id: \.name) { char in
-                                CharacterCapsule(imageURL: char.image, level: char.level)
+                                CharacterCapsule(imageURL: char.url, level: String(char.level))
                             }
                         }
                         .padding(.bottom, 25)
@@ -213,7 +213,7 @@ struct PlayerMaimaiInfoView: View {
                 .padding()
                 .onAppear {
                     currentLoadout = user.maimai.extra.characters.filter {
-                        $0.selected == 1 && $0.image != user.maimai.info.charUrl
+                        $0.current && $0.url != user.maimai.info.last?.charUrl ?? ""
                     }
                 }
                 

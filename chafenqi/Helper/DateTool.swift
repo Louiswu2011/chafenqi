@@ -42,6 +42,11 @@ class DateTool {
         return ""
     }
     
+    static func updateTimestamp(from: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: from)
+        return DateTool.shared.defaultTransformer.string(from: date)
+    }
+    
     static func updateDateString(from: String) -> String {
         let date = DateTool.shared.updateFormatter.date(from: from)
         if let date = date {

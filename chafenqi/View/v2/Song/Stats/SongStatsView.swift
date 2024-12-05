@@ -160,7 +160,7 @@ struct MaimaiSongStatView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("定数：\(song.constant[diff], specifier: "%.1f")")
+                Text("定数：\(song.constants[diff], specifier: "%.1f")")
                 Spacer()
                 Text("谱师:\(song.charts[diff].charter)")
                     .lineLimit(1)

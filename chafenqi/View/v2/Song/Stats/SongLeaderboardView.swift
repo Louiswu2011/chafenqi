@@ -87,7 +87,7 @@ struct MaimaiLeaderboardItemView: View {
                 HStack {
                     Text("\(item.achievements, specifier: "%.4f")%")
                         .fontWeight(.bold)
-                    GradeBadgeView(grade: item.rate.displayRate)
+                    GradeBadgeView(grade: item.rateString)
                 }
             } else {
                 Text(verbatim: "#\(index + 1)")
@@ -97,7 +97,7 @@ struct MaimaiLeaderboardItemView: View {
                 
                 HStack {
                     Text("\(item.achievements, specifier: "%.4f")%")
-                    GradeBadgeView(grade: item.rate.displayRate)
+                    GradeBadgeView(grade: item.rateString)
                 }
             }
         }
@@ -157,7 +157,7 @@ struct ChunithmLeaderboardItemView: View {
                 Spacer()
                 
                 HStack {
-                    Text(verbatim: "\(item.highscore)")
+                    Text(verbatim: "\(item.score)")
                         .fontWeight(.bold)
                     if item.rankIndex > 7 {
                         GradeBadgeView(grade: chunithmRanks[13 - item.rankIndex])
@@ -170,7 +170,7 @@ struct ChunithmLeaderboardItemView: View {
                 Spacer()
                 
                 HStack {
-                    Text(verbatim: "\(item.highscore)")
+                    Text(verbatim: "\(item.score)")
                     if item.rankIndex > 7 {
                         GradeBadgeView(grade: chunithmRanks[13 - item.rankIndex])
                     }

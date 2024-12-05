@@ -129,7 +129,7 @@ struct LeaderboardView: View {
                         .onChange(of: doneLoadingMaimaiFirstLeaderboard) { value in
                             if value && !maiFirstLeaderboard.isEmpty {
                                 firstLeaderboardData = maiFirstLeaderboard.enumerated().map { (index, entry) in
-                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount), extraInfo: entry.firstMusics)
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount))
                                 }
                             }
                         }

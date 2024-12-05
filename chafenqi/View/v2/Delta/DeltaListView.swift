@@ -96,7 +96,7 @@ struct DeltaListView: View {
                 .padding(.horizontal)
                 if user.currentMode == 0 && user.chunithm.delta.count > 2 {
                     DeltaList(user: user, chuDelta: chuDayPlayData)
-                } else if user.currentMode == 1 && user.maimai.delta.count > 2 {
+                } else if user.currentMode == 1 && user.maimai.info.count > 2 {
                     DeltaList(user: user, maiDelta: maiDayPlayData)
                 } else {
                     DeltaList(user: user)
@@ -122,7 +122,7 @@ struct DeltaListView: View {
     func loadVar() {
         guard !isLoaded else { return }
         let chuDelta = user.chunithm.delta
-        let maiDelta = user.maimai.delta
+        let maiDelta = user.maimai.info
         ratingChartData = []
         pcChartData = []
         
@@ -150,13 +150,13 @@ struct DeltaListView: View {
                 pcChartData.append((Double(datum.recentEntries.count), DateTool.shared.premiumTransformer.string(from: datum.date)))
             }
         } else if user.currentMode == 1 && !maiDelta.isEmpty {
-            maiDayPlayData = CFQMaimaiDayRecords(recents: user.maimai.recent, deltas: user.maimai.delta)
+            maiDayPlayData = CFQMaimaiDayRecords(recents: user.maimai.recent, deltas: user.maimai.info)
             let latest7 = maiDayPlayData.records.suffix(7)
             
             deltaCount = maiDayPlayData.records.reduce(0) {
                 $0 + $1.recentEntries.count
             }
-            playCount = user.maimai.info.playCount
+            playCount = user.maimai.info.last?.playCount ?? 0
             if let first = latest7.last?.latestDelta {
                 if let latest = latest7.first?.latestDelta {
                     avgRatingGrowth = Double(first.rating - latest.rating) / Double(latest7.count)

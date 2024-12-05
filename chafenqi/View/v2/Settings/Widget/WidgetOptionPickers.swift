@@ -103,7 +103,7 @@ struct WidgetLargeBgPicker: View {
     @Binding var maiBackground: WidgetBackgroundOption
     @Binding var chuBackground: WidgetBackgroundOption
     @Binding var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
-    @Binding var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
+    @Binding var selectedMaiBg: UserMaimaiFrameEntry?
     
     @State var maiBgBlur: Double = 0.0
     @State var chuBgBlur: Double = 0.0
@@ -123,7 +123,7 @@ struct WidgetLargeBgPicker: View {
             if newValue == .defaultBg {
                 currentWidgetSettings.maiBgUrl = ""
             } else if newValue == .plate {
-                currentWidgetSettings.maiBgUrl = user.maimai.extra.frames.first { $0.selected == 1 }?.image
+                currentWidgetSettings.maiBgUrl = user.maimai.extra.frames.first { $0.current }?.url
             }
         }
         .onChange(of: chuBackground) { newValue in
@@ -147,7 +147,7 @@ struct WidgetLargeBgPicker: View {
             }
             .onChange(of: selectedMaiBg) { bg in
                 if let selected = bg {
-                    currentWidgetSettings.maiBgUrl = selected.image
+                    currentWidgetSettings.maiBgUrl = selected.url
                 }
             }
         } else if currentPreviewType == .chunithm && chuBackground == .custom {
@@ -202,7 +202,7 @@ struct WidgetCharPicker: View {
     @Binding var currentPreviewType: WidgetPreviewTypeOption
     @Binding var maiChar: WidgetCharacterOption
     @Binding var chuChar: WidgetCharacterOption
-    @Binding var selectedMaiChar: CFQData.Maimai.ExtraEntry.CharacterEntry?
+    @Binding var selectedMaiChar: UserMaimaiCharacterEntry?
     @Binding var selectedChuChar: CFQData.Chunithm.ExtraEntry.CharacterEntry?
     
     @Binding var currentWidgetSettings: WidgetData.Customization
@@ -218,7 +218,7 @@ struct WidgetCharPicker: View {
             if newValue == .defaultChar {
                 currentWidgetSettings.maiCharUrl = ""
             } else if newValue == .captain {
-                currentWidgetSettings.maiCharUrl = user.maimai.info.charUrl
+                currentWidgetSettings.maiCharUrl = user.maimai.info.last?.charUrl
             }
         }
         .onChange(of: chuChar) { newValue in
@@ -230,7 +230,7 @@ struct WidgetCharPicker: View {
         }
         .onChange(of: selectedMaiChar) { char in
             if let selected = char {
-                currentWidgetSettings.maiCharUrl = selected.image
+                currentWidgetSettings.maiCharUrl = selected.url
             }
         }
         .onChange(of: selectedChuChar) { char in

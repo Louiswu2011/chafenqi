@@ -69,7 +69,7 @@ struct SongItemView: View {
     
     func loadVar() {
         if let song = maiSong {
-            requestURL = MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: song.musicId))
+            requestURL = MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: song.coverId)
             title = song.title
             artist = song.basicInfo.artist
             strip = LevelStripView(mode: 1, levels: song.level)

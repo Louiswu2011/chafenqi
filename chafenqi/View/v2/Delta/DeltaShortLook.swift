@@ -86,7 +86,7 @@ struct DeltaShortLook: View {
                     self.maiLast = maiLast
                     playCount = maiLast.recentEntries.count
                     playDate = DateTool.shared.yyyymmddTransformer.string(from: maiLast.date)
-                    avgScore = String(format: "%.4f", (maiLast.recentEntries.reduce(0) { $0 + $1.score }) / Double(playCount)) + "%"
+                    avgScore = String(format: "%.4f", (maiLast.recentEntries.reduce(0) { $0 + $1.achievements }) / Double(playCount)) + "%"
                     if let first = maiLast.recentEntries.first {
                         if let last = maiLast.recentEntries.last {
                             playLength = abs(first.timestamp - last.timestamp)

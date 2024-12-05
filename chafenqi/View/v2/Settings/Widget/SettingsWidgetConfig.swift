@@ -79,9 +79,9 @@ struct SettingsWidgetConfig: View {
     @State private var chuChar: WidgetCharacterOption = .defaultChar
     
     @State private var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
-    @State private var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
+    @State private var selectedMaiBg: UserMaimaiFrameEntry?
     
-    @State private var selectedMaiChar: CFQData.Maimai.ExtraEntry.CharacterEntry?
+    @State private var selectedMaiChar: UserMaimaiCharacterEntry?
     @State private var selectedChuChar: CFQData.Chunithm.ExtraEntry.CharacterEntry?
     
     @State private var currentPreviewType: WidgetPreviewTypeOption = .maimai
@@ -193,17 +193,17 @@ struct SettingsWidgetConfig: View {
         if user.maimai.isNotEmpty {
             switch maiBackground {
             case .plate:
-                config.maiBgUrl = user.maimai.extra.frames.first { $0.selected == 1 }?.image
+                config.maiBgUrl = user.maimai.extra.frames.first { $0.current }?.url
             case .custom:
-                config.maiBgUrl = selectedMaiBg?.image
+                config.maiBgUrl = selectedMaiBg?.url
             case .defaultBg:
                 config.maiBgUrl = ""
             }
             switch maiChar {
             case .captain:
-                config.maiCharUrl = user.maimai.extra.characters.first { $0.selected == 1 }?.image
+                config.maiCharUrl = user.maimai.extra.characters.first { $0.current }?.url
             case .custom:
-                config.maiCharUrl = selectedMaiChar?.image
+                config.maiCharUrl = selectedMaiChar?.url
             case .defaultChar:
                 config.maiCharUrl = ""
             }
@@ -230,14 +230,14 @@ struct SettingsWidgetConfig: View {
     }
     
     func loadSettings() {
-        if let char = currentWidgetSettings.maiCharUrl, let first = user.maimai.extra.characters.first(where: { $0.selected == 1 }), char == first.image {
+        if let char = currentWidgetSettings.maiCharUrl, let first = user.maimai.extra.characters.first(where: { $0.current }), char == first.url {
             maiChar = .captain
         } else if currentWidgetSettings.maiCharUrl != nil {
             maiChar = .custom
         } else {
             maiChar = .defaultChar
         }
-        if let bg = currentWidgetSettings.maiBgUrl, let current = user.maimai.extra.frames.first(where: { $0.selected == 1 }), bg == current.image {
+        if let bg = currentWidgetSettings.maiBgUrl, let current = user.maimai.extra.frames.first(where: { $0.current }), bg == current.url {
             maiBackground = .plate
         } else if currentWidgetSettings.maiBgUrl != nil {
             maiBackground = .custom

@@ -17,7 +17,7 @@ struct RecentDetail: View {
     @ObservedObject var alertToast = AlertToastModel.shared
     
     var chuEntry: CFQChunithm.RecentScoreEntry?
-    var maiEntry: CFQMaimai.RecentScoreEntry?
+    var maiEntry: UserMaimaiRecentScoreEntry?
     
     @State var hideSongInfo = false
     
@@ -126,18 +126,18 @@ struct RecentDetail: View {
             self.chuniMaxCombo = entry.judges.values.reduce(0) { orig, next in orig + next}
             self.chuniWidthArray = getWidthForChuniJudge()
         } else if let entry = maiEntry {
-            self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: entry.associatedSong!.musicId))
-            self.title = entry.title
+            self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: entry.associatedSong?.coverId ?? 0)
+            self.title = entry.associatedSong!.title
             self.artist = entry.associatedSong!.basicInfo.artist
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
-            self.score = "\(entry.score)%"
+            self.score = "\(entry.achievements)%"
             self.diffColor = chunithmLevelColor[entry.levelIndex]!
-            self.maiTapArray = entry.notes["tap"]!.components(separatedBy: ",")
-            self.maiHoldArray = entry.notes["hold"]!.components(separatedBy: ",")
-            self.maiSlideArray = entry.notes["slide"]!.components(separatedBy: ",")
-            self.maiTouchArray = entry.notes["touch"]!.components(separatedBy: ",")
-            self.maiBreakArray = entry.notes["break"]!.components(separatedBy: ",")
+            self.maiTapArray = entry.noteTap
+            self.maiHoldArray = entry.noteHold
+            self.maiSlideArray = entry.noteSlide
+            self.maiTouchArray = entry.noteTouch
+            self.maiBreakArray = entry.noteBreak
             for index in maiTouchArray.indices {
                 let element = maiTouchArray[index].trimmingCharacters(in: .whitespacesAndNewlines)
                 if (element == "") {
@@ -172,7 +172,7 @@ struct RecentBaseDetail: View {
     var playTime: String
     
     var chuEntry: CFQChunithm.RecentScoreEntry?
-    var maiEntry: CFQMaimai.RecentScoreEntry?
+    var maiEntry: UserMaimaiRecentScoreEntry?
     
     var chuniJudgeWidth: CGFloat
     
@@ -244,7 +244,7 @@ struct RecentBaseDetail: View {
 }
 
 struct RecentMaimaiDetail: View {
-    var entry: CFQMaimai.RecentScoreEntry
+    var entry: UserMaimaiRecentScoreEntry
     
     var maiTapArray: [String]
     var maiHoldArray: [String]
@@ -254,7 +254,7 @@ struct RecentMaimaiDetail: View {
     
     var body: some View {
         HStack(alignment: .bottom) {
-            Text("\(entry.score, specifier: "%.4f")%")
+            Text("\(entry.achievements, specifier: "%.4f")%")
                 .font(.system(size: 30))
                 .bold()
             
@@ -384,22 +384,22 @@ struct RecentMaimaiDetail: View {
             .padding()
         }
         VStack {
-            if(entry.matching[0] != "―") {
+            if(entry.players[0] != "―") {
                 HStack {
                     VStack(spacing: 5) {
                         Text("Player 2")
-                        Text(entry.matching[0])
+                        Text(entry.players[0])
                     }
                     Spacer()
                     VStack(spacing: 5) {
                         Text("Player 3")
-                        Text(entry.matching[1])
+                        Text(entry.players[1])
                     }
                     
                     
                     VStack(spacing: 5) {
                         Text("Player 4")
-                        Text(entry.matching[2])
+                        Text(entry.players[2])
                     }
                 }
             }

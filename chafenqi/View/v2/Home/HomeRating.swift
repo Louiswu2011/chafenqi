@@ -30,7 +30,7 @@ struct HomeRating: View {
                 RatingShortLook(user: user, length: min(30, user.chunithm.custom.b30Slice.count), coverUrl: ChunithmDataGrabber.getSongCoverUrl(source: 0, musicId: user.chunithm.custom.b30Slice.first?.idx ?? "1"))
                     .frame(width: UIScreen.main.bounds.size.width - 30)
             } else if user.currentMode == 1 && user.maimai.custom.pastSlice.count > 0 {
-                RatingShortLook(user: user, length: min(50, user.maimai.custom.pastSlice.count + user.maimai.custom.currentSlice.count), coverUrl: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: user.maimai.custom.pastSlice.first?.associatedSong!.musicId ?? "0"))
+                RatingShortLook(user: user, length: min(50, user.maimai.custom.pastSlice.count + user.maimai.custom.currentSlice.count), coverUrl: MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: user.maimai.custom.pastSlice.first?.associatedSong?.musicId ?? 0))
                     .frame(width: UIScreen.main.bounds.size.width - 30)
             }
         }

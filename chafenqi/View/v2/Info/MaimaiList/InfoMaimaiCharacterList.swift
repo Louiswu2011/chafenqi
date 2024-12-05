@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct InfoMaimaiCharacterList: View {
-    var list: [CFQMaimai.ExtraEntry.CharacterEntry]
+    var list: [UserMaimaiCharacterEntry]
     
-    @State var group = [String: [CFQMaimai.ExtraEntry.CharacterEntry]]()
+    @State var group = [String: [UserMaimaiCharacterEntry]]()
     
     var body: some View {
         Form {
             ForEach(Array(group.keys).sorted(), id: \.hashValue) { area in
                 Section {
-                    ForEach(group[area]!, id: \.image) { char in
+                    ForEach(group[area]!, id: \.url) { char in
                         InfoMaimaiCharacterEntry(char: char)
                     }
                 } header: {
@@ -37,13 +37,13 @@ struct InfoMaimaiCharacterList: View {
 
 struct InfoMaimaiCharacterEntry: View {
     @Environment(\.managedObjectContext) var context
-    var char: CFQMaimai.ExtraEntry.CharacterEntry
+    var char: UserMaimaiCharacterEntry
     
     @State var image = UIImage()
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: char.image)!, context: context, placeholder: {
+            AsyncImage(url: URL(string: char.url)!, context: context, placeholder: {
                 ProgressView()
             }, image: { img in
                 let _ = DispatchQueue.main.async {
@@ -67,7 +67,7 @@ struct InfoMaimaiCharacterEntry: View {
                     Text(char.name)
                         .bold()
                     Spacer()
-                    Text(char.level)
+                    Text("\(char.level)")
                 }
             }
         }

@@ -24,55 +24,55 @@ struct CFQServer {
     static let encoder = JSONEncoder()
     static let decoder = JSONDecoder()
     
-    static let serverAddress = "http://43.139.107.206:8083/"
+    static let serverAddress = "http://127.0.0.1:8998/"
     
     struct User {
         static func auth(username: String, password: String) async throws -> String {
             let payload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
-            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth", payload: payload)
+            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth/login", payload: payload)
             let token = String(decoding: data, as: UTF8.self)
             return token
         }
         
         static func register(username: String, password: String) async throws {
             let payload = try JSONSerialization.data(withJSONObject: ["username": username])
-            let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/checkUsername", payload: payload)
+            let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth/register/checkAvailability", payload: payload)
             let registerPayload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
-            let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/register", payload: registerPayload)
+            let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth/register", payload: registerPayload)
         }
         
-        static func checkPremium(username: String) async throws -> Bool {
+        static func checkPremium(authToken: String) async throws -> Bool {
             do {
-                let payload = try JSONSerialization.data(withJSONObject: ["username": username])
-                let (data, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/isPremium", payload: payload)
-                let responseCode = response.statusCode()
-                print("[CFQServer] Premium checking return \(String(decoding: data, as: UTF8.self)), response code: \(responseCode)")
-                return responseCode == 200
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/info", token: authToken)
+                let info = try decoder.decode(CFQUserInfo.self, from: data)
+                print("[CFQServer] Premium checking return \(info.premiumUntil)")
+                return info.premiumUntil >= Int(Date().timeIntervalSince1970)
             } catch CFQServerError.UserNotPremiumError {
                 return false
             }
         }
         
-        static func checkPremiumExpireTime(username: String) async throws -> Double {
-            let payload = try JSONSerialization.data(withJSONObject: ["username": username])
-            let (data, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/premiumTime", payload: payload)
-            if response.statusCode() == 200 {
-                return Double(String(decoding: data, as: UTF8.self)) ?? 0
-            } else {
+        static func checkPremiumExpireTime(authToken: String) async throws -> TimeInterval {
+            do {
+                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/info", token: authToken)
+                let info = try decoder.decode(CFQUserInfo.self, from: data)
+                return TimeInterval(info.premiumUntil)
+            } catch {
                 return 0
             }
         }
         
+        // TODO: Add server side implementation
         static func redeem(username: String, code: String) async throws -> Bool {
             let payload = try JSONSerialization.data(withJSONObject: ["username": username, "code": code])
             let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/redeemCode", payload: payload)
             return response.statusCode() == 200
         }
         
-        static func fetchUserOption(authToken: String, param: String) async -> String {
+        static func fetchUserOption(authToken: String, param: String, type: String = "string") async -> String {
             do {
-                let query = [URLQueryItem(name: "param", value: param)]
-                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/option", query: query, token: authToken, shouldThrowByCode: false)
+                let query = [URLQueryItem(name: "param", value: param), URLQueryItem(name: "type", value: type)]
+                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/properties", query: query, token: authToken, shouldThrowByCode: false)
                 if response.statusCode() == 200 {
                     return String(decoding: data, as: UTF8.self)
                 } else {
@@ -85,17 +85,19 @@ struct CFQServer {
         }
         
         static func uploadUserOption(authToken: String, param: String, value: String) async throws -> Bool {
-            let payload = try JSONSerialization.data(withJSONObject: ["param": param, "value": value])
-            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/option", payload: payload, token: authToken, shouldThrowByCode: false)
+            let payload = try JSONSerialization.data(withJSONObject: ["property": param, "value": value])
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/properties", payload: payload, token: authToken, shouldThrowByCode: false)
             return response.statusCode() == 200
         }
         
+        // TODO: Add server side implementation
         static func fetchCookieStatus(game: GameType, authToken: String) async throws -> Bool {
             let query = [URLQueryItem(name: "dest", value: game == .Chunithm ? "0" : "1")]
-            let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/hasCache", query: query, token: authToken, shouldThrowByCode: false)
+            let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/has-cache", query: query, token: authToken, shouldThrowByCode: false)
             return response.statusCode() == 200
         }
         
+        // TODO: Adapt new api
         static func fetchIsUploading(game: GameType, authToken: String) async throws -> Bool {
             let query = [URLQueryItem(name: "dest", value: game == .Chunithm ? "0" : "1")]
             let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/isUploading", query: query, token: authToken, shouldThrowByCode: false)
@@ -110,10 +112,10 @@ struct CFQServer {
                 leaderboard = "rating"
                 game = 0
             case is MaimaiTotalScoreRank.Type:
-                leaderboard = "totalScore"
+                leaderboard = "total-score"
                 game = 0
             case is MaimaiTotalPlayedRank.Type:
-                leaderboard = "totalPlayed"
+                leaderboard = "total-played"
                 game = 0
             case is MaimaiFirstRank.Type:
                 leaderboard = "first"
@@ -122,10 +124,10 @@ struct CFQServer {
                 leaderboard = "rating"
                 game = 1
             case is ChunithmTotalScoreRank.Type:
-                leaderboard = "totalScore"
+                leaderboard = "total-score"
                 game = 1
             case is ChunithmTotalPlayedRank.Type:
-                leaderboard = "totalPlayed"
+                leaderboard = "total-played"
                 game = 1
             case is ChunithmFirstRank.Type:
                 leaderboard = "first"
@@ -133,12 +135,12 @@ struct CFQServer {
             default:
                 return nil
             }
+            let gameTypeString = game == 1 ? "chunithm" : "maimai"
             do {
-                let payload = try JSONSerialization.data(withJSONObject: ["game": game, "type": leaderboard])
-                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/leaderboard", payload: payload, token: authToken, shouldThrowByCode: false)
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/user/leaderboard/\(gameTypeString)/\(leaderboard)", token: authToken, shouldThrowByCode: false)
                 return try decoder.decode(T.self, from: data)
             } catch {
-                print("Failed to fetch leaderboard rank for game \(game) \(leaderboard).\n\(error)")
+                print("Failed to fetch leaderboard rank for game \(gameTypeString) \(leaderboard).\n\(error)")
                 return nil
             }
         }
@@ -146,7 +148,7 @@ struct CFQServer {
         static func addFavMusic(authToken: String, game: Int, musicId: String) async -> String? {
             do {
                 let payload = try JSONSerialization.data(withJSONObject: ["game": String(game), "musicId": musicId])
-                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite/add", payload: payload, token: authToken, shouldThrowByCode: false)
+                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite", payload: payload, token: authToken, shouldThrowByCode: false)
                 return String(decoding: data, as: UTF8.self)
             } catch {
                 print("Failed to add favorite music \(musicId) to game \(game).")
@@ -156,8 +158,8 @@ struct CFQServer {
         
         static func removeFavMusic(authToken: String, game: Int, musicId: String) async -> String? {
             do {
-                let payload = try JSONSerialization.data(withJSONObject: ["game": String(game), "musicId": musicId])
-                let (data, _) = try await fetchFromServer(method: "POST", path: "api/user/favorite/remove", payload: payload, token: authToken, shouldThrowByCode: false)
+                let queries = [URLQueryItem(name: "game", value: String(game)), URLQueryItem(name: "musicId", value: musicId)]
+                let (data, _) = try await fetchFromServer(method: "DELETE", path: "api/user/favorite", query: queries, token: authToken, shouldThrowByCode: false)
                 return String(decoding: data, as: UTF8.self)
             } catch {
                 print("Failed to remove favorite music \(musicId) to game \(game).")
@@ -166,6 +168,7 @@ struct CFQServer {
         }
     }
     
+    // TODO: Adapt new api
     struct Fish {
         static func uploadToken(authToken: String, fishToken: String) async throws {
             let payload = try JSONSerialization.data(withJSONObject: ["token": fishToken])
@@ -179,6 +182,7 @@ struct CFQServer {
         }
     }
     
+    // TODO: Add server side implementation
     struct Image {
         static func getChunithmB30Image(authToken: String) async -> UIImage? {
             do {
@@ -204,29 +208,31 @@ struct CFQServer {
     
     struct Stats {
         static func getAvgUploadTime(for mode: Int) async throws -> String {
-            let payload = try JSONSerialization.data(withJSONObject: ["type": mode])
-            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/stats/upload_time", payload: payload)
+            let queries = [URLQueryItem(name: "type", value: String(mode))]
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/upload-time", query: queries)
             return String(decoding: data, as: UTF8.self)
         }
         
         static func checkUploadStatus(authToken: String) async throws -> [Int] {
-            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/upload_status", token: authToken)
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/upload-status", token: authToken)
             let decoded = try CFQServer.decoder.decode(Dictionary<String, Int>.self, from: data)
             return [decoded["chu"] ?? -1, decoded["mai"] ?? -1]
         }
         
+        // TODO: Add server side implementation
         static func checkSongListVersion(game: GameType) async -> Int {
             do {
                 let query = [URLQueryItem(name: "game", value: game == .Chunithm ? "1" : "0")]
                 let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/songListVersion", query: query, shouldThrowByCode: false)
                 let result = String(decoding: data, as: UTF8.self)
-                return Int(result) ?? 0
+                return Int(result) ?? 200000000
             } catch {
                 print("[CFQStatsServer] Failed to fetch song list version, defaulting to 0.")
-                return 0
+                return 200000000
             }
         }
         
+        // TODO: Add server side implementation
         static func fetchMusicStat(musicId: Int, diffIndex: Int) async -> CFQChunithmMusicStatEntry {
             let queries = [URLQueryItem(name: "index", value: String(musicId)), URLQueryItem(name: "diff", value: String(diffIndex))]
             do {
@@ -238,14 +244,14 @@ struct CFQServer {
             }
         }
         
-        static func fetchMaimaiLeaderboard(musicId: Int, type: String, diffIndex: Int) async -> CFQMaimaiLeaderboard {
+        static func fetchMaimaiLeaderboard(authToken: String, musicId: Int, type: String, diffIndex: Int) async -> CFQMaimaiLeaderboard {
             let queries = [
-                URLQueryItem(name: "index", value: String(musicId)),
-                URLQueryItem(name: "type", value: type),
-                URLQueryItem(name: "diff", value: String(diffIndex))
+                URLQueryItem(name: "music_id", value: String(musicId)),
+                URLQueryItem(name: "type", value: type == "DX" ? "dx" : "standard"),
+                URLQueryItem(name: "level_index", value: String(diffIndex))
             ]
             do {
-                let (data, _) = try await fetchFromServer(method: "GET", path: "api/maimai/leaderboard", query: queries, shouldThrowByCode: false)
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/user/maimai/leaderboard", query: queries, token: authToken, shouldThrowByCode: false)
                 return try decoder.decode(CFQMaimaiLeaderboard.self, from: data)
             } catch {
                 print("[CFQServer] Failed to retrieve maimai leaderboard for music \(musicId) diff \(diffIndex) type \(type).\n\(error)")
@@ -253,10 +259,10 @@ struct CFQServer {
             }
         }
         
-        static func fetchChunithmLeaderboard(musicId: Int, diffIndex: Int) async -> CFQChunithmLeaderboard {
-            let queries = [URLQueryItem(name: "index", value: String(musicId)), URLQueryItem(name: "diff", value: String(diffIndex))]
+        static func fetchChunithmLeaderboard(authToken: String, musicId: Int, diffIndex: Int) async -> CFQChunithmLeaderboard {
+            let queries = [URLQueryItem(name: "music_id", value: String(musicId)), URLQueryItem(name: "level_index", value: String(diffIndex))]
             do {
-                let (data, _) = try await fetchFromServer(method: "GET", path: "api/chunithm/leaderboard", query: queries, shouldThrowByCode: false)
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/user/chunithm/leaderboard", query: queries, token: authToken, shouldThrowByCode: false)
                 return try decoder.decode(CFQChunithmLeaderboard.self, from: data)
             } catch {
                 print("[CFQServer] Failed to retrieve chunithm leaderboard for music \(musicId) diff \(diffIndex).\n\(error)")
@@ -271,18 +277,18 @@ struct CFQServer {
             case is ChunithmRatingLeaderboard.Type, is MaimaiRatingLeaderboard.Type:
                 typeString = "rating"
             case is ChunithmTotalScoreLeaderboard.Type, is MaimaiTotalScoreLeaderboard.Type:
-                typeString = "totalScore"
+                typeString = "total-score"
             case is ChunithmTotalPlayedLeaderboard.Type, is MaimaiTotalPlayedLeaderboard.Type:
-                typeString = "totalCount"
+                typeString = "total-played"
             case is ChunithmFirstLeaderboard.Type, is MaimaiFirstLeaderboard.Type:
                 typeString = "first"
             default:
                 return nil
             }
             
-            let path = "api/\(gameName)/leaderboard/\(typeString)"
+            let path = "api/user/\(gameName)/leaderboard/\(typeString)"
             do {
-                let (data, _) = try await fetchFromServer(method: "POST", path: path, token: authToken, shouldThrowByCode: false)
+                let (data, _) = try await fetchFromServer(method: "GET", path: path, token: authToken, shouldThrowByCode: false)
                 return try decoder.decode(T.self, from: data)
             } catch {
                 print("Error fetching total leaderboard of type \(typeString) from game \(gameName): \(error)")
@@ -292,26 +298,29 @@ struct CFQServer {
     }
     
     struct Comment {
-        static func loadComments(mode: Int, musicId: Int) async throws -> [UserComment] {
-            let payload = try JSONSerialization.data(withJSONObject: ["musicId": musicId, "musicFrom": mode])
-            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/comment/fetch", payload: payload)
+        static func loadComments(authToken: String, mode: Int, musicId: Int) async throws -> [UserComment] {
+            let gameTypeString = mode == 0 ? "chunithm" : "maimai"
+            let queries = [URLQueryItem(name: "musicId", value: String(musicId))]
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/comment/\(gameTypeString)", query: queries, token: authToken)
             return try CFQServer.decoder.decode(Array<UserComment>.self, from: data)
         }
         
         static func postComment(authToken: String, content: String, mode: Int, musicId: Int, reply: Int = -1) async throws -> Bool {
+            let gameTypeString = mode == 0 ? "chunithm" : "maimai"
+            let timestamp = Int(Date().timeIntervalSince1970)
             let payload = try JSONSerialization.data(withJSONObject: [
                 "content": content,
                 "musicId": musicId,
-                "musicFrom": mode,
-                "reply": reply
+                "timestamp": timestamp
             ] as [String : Any])
-            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/comment/post", payload: payload, token: authToken)
+            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/comment/\(gameTypeString)", payload: payload, token: authToken)
             return response.statusCode() == 200
         }
         
-        static func deleteComment(authToken: String, commentId: Int) async throws -> Bool {
-            let payload = try JSONSerialization.data(withJSONObject: ["id": commentId])
-            let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/comment/delete", payload: payload, token: authToken)
+        static func deleteComment(authToken: String, mode: Int, commentId: Int) async throws -> Bool {
+            let gameTypeString = mode == 0 ? "chunithm" : "maimai"
+            let queries = [URLQueryItem(name: "comment_id", value: String(commentId))]
+            let (_, response) = try await CFQServer.fetchFromServer(method: "DELETE", path: "api/comment/\(gameTypeString)", query: queries, token: authToken)
             return response.statusCode() == 200
         }
     }
@@ -323,24 +332,21 @@ struct CFQServer {
             self.authToken = authToken
         }
         
-        func fetchUserInfo() async throws -> CFQMaimaiUserInfo {
-            try await fetchGameData(CFQMaimaiUserInfo.self, path: "api/maimai/info", authToken: authToken)
+        func fetchUserInfo() async throws -> UserMaimaiPlayerInfos {
+            try await fetchGameData(UserMaimaiPlayerInfos.self, path: "api/user/maimai/info", authToken: authToken)
         }
-        func fetchBestEntries() async throws -> CFQMaimaiBestScoreEntries {
-            try await fetchGameData(CFQMaimaiBestScoreEntries.self, path: "api/maimai/best", authToken: authToken)
+        func fetchBestEntries() async throws -> UserMaimaiBestScores {
+            try await fetchGameData(UserMaimaiBestScores.self, path: "api/user/maimai/best", authToken: authToken)
         }
-        func fetchRecentEntries() async throws -> CFQMaimaiRecentScoreEntries {
-            try await fetchGameData(CFQMaimaiRecentScoreEntries.self, path: "api/maimai/recent", authToken: authToken)
+        func fetchRecentEntries() async throws -> UserMaimaiRecentScores {
+            try await fetchGameData(UserMaimaiRecentScores.self, path: "api/user/maimai/recent", authToken: authToken)
         }
-        func fetchDeltaEntries() async throws -> CFQMaimaiDeltaEntries {
-            try await fetchGameData(CFQMaimaiDeltaEntries.self, path: "api/maimai/delta", authToken: authToken)
-        }
-        func fetchExtraEntry() async throws -> CFQMaimaiExtraEntry {
-            try await fetchGameData(CFQMaimaiExtraEntry.self, path: "api/maimai/extra", authToken: authToken)
+        func fetchExtraEntry() async throws -> UserMaimaiExtra {
+            try await fetchGameData(UserMaimaiExtra.self, path: "api/user/maimai/extra", authToken: authToken)
         }
         
         static func fetchMusicData() async throws -> Data {
-            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/maimai/music_data")
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/resource/maimai/song-list")
             if resp.statusCode() == 200 && !data.isEmpty {
                 return data
             } else {
@@ -357,25 +363,25 @@ struct CFQServer {
         }
         
         func fetchUserInfo() async throws -> CFQChunithmUserInfo {
-            try await fetchGameData(CFQChunithmUserInfo.self, path: "api/chunithm/info", authToken: authToken)
+            try await fetchGameData(CFQChunithmUserInfo.self, path: "api/user/chunithm/info", authToken: authToken)
         }
         func fetchBestEntries() async throws -> CFQChunithmBestScoreEntries {
-            try await fetchGameData(CFQChunithmBestScoreEntries.self, path: "api/chunithm/best", authToken: authToken)
+            try await fetchGameData(CFQChunithmBestScoreEntries.self, path: "api/user/chunithm/best", authToken: authToken)
         }
         func fetchRecentEntries() async throws -> CFQChunithmRecentScoreEntries {
-            try await fetchGameData(CFQChunithmRecentScoreEntries.self, path: "api/chunithm/recent", authToken: authToken)
+            try await fetchGameData(CFQChunithmRecentScoreEntries.self, path: "api/user/chunithm/recent", authToken: authToken)
         }
         func fetchDeltaEntries() async throws -> CFQChunithmDeltaEntries {
-            try await fetchGameData(CFQChunithmDeltaEntries.self, path: "api/chunithm/delta", authToken: authToken)
+            try await fetchGameData(CFQChunithmDeltaEntries.self, path: "api/user/chunithm/delta", authToken: authToken)
         }
         func fetchExtraEntries() async throws -> CFQChunithmExtraEntry {
-            try await fetchGameData(CFQChunithmExtraEntry.self, path: "api/chunithm/extras", authToken: authToken)
+            try await fetchGameData(CFQChunithmExtraEntry.self, path: "api/user/chunithm/extras", authToken: authToken)
         }
         func fetchRatingEntries() async throws -> CFQChunithmRatingEntries {
-            try await fetchGameData(CFQChunithmRatingEntries.self, path: "api/chunithm/rating", authToken: authToken)
+            try await fetchGameData(CFQChunithmRatingEntries.self, path: "api/user/chunithm/rating", authToken: authToken)
         }
         static func fetchMusicData() async throws -> Data {
-            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/chunithm/music_data")
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/resource/chunithm/song-list")
             if resp.statusCode() == 200 && !data.isEmpty {
                 return data
             } else {
@@ -385,7 +391,7 @@ struct CFQServer {
     }
     
     static func fetchFromServer(method: String, path: String, payload: Data = Data(), query: [URLQueryItem] = [], token: String = "", shouldThrowByCode: Bool = true) async throws -> (Data, URLResponse) {
-        guard method == "GET" || method == "POST" else { throw CFQServerError.InvalidParameterError }
+        guard method == "GET" || method == "POST" || method == "DELETE" else { throw CFQServerError.InvalidParameterError }
         var url = URLComponents(string: CFQServer.serverAddress + path)!
         if !query.isEmpty {
             url.queryItems = query
@@ -401,6 +407,9 @@ struct CFQServer {
             request.setValue("bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         let (data, response) = try await session.data(for: request)
+        print("Response from \(path)")
+        print("Status Code: \(response.statusCode())")
+        print("Response Body: \(String(data: data, encoding: .utf8) ?? "None")")
         if shouldThrowByCode {
             let _ = try throwByCode(data: data, response: response)
         }
