@@ -226,7 +226,11 @@ struct PlayerChunithmInfoView: View {
         guard user.isPremium && !user.chunithm.extra.characters.isEmpty else { return }
         if user.currentMode == 0 {
             if let currentInfo = user.chunithm.info.last {
-                avatarUrlString = currentInfo.charUrl
+                if (currentInfo.charUrl.isEmpty) {
+                    avatarUrlString = "https://chunithm.wahlap.com/mobile/img/71e1e250b22e2f4f.png"
+                } else {
+                    avatarUrlString = currentInfo.charUrl
+                }
                 charName = currentInfo.charName
                 charLevel = currentInfo.charRank
                 charProgress = currentInfo.charExp
