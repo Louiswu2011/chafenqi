@@ -34,7 +34,7 @@ struct SongDetailView: View {
     @State var from = ""
     @State var genre = ""
     
-    @State var chuScores: CFQChunithmBestScoreEntries = []
+    @State var chuScores: UserChunithmBestScores = []
     @State var maiScores: UserMaimaiBestScores = []
     
     @State var showingChart = false
@@ -422,10 +422,10 @@ struct ScoreCardView: View {
     @State var chuSong: ChunithmMusicData?
     
     @State var maiEntry: UserMaimaiBestScoreEntry?
-    @State var chuEntry: CFQChunithm.BestScoreEntry?
+    @State var chuEntry: UserChunithmBestScoreEntry?
     
     @State var maiRecords: [UserMaimaiRecentScoreEntry]?
-    @State var chuRecords: [CFQChunithm.RecentScoreEntry]?
+    @State var chuRecords: [UserChunithmRecentScoreEntry]?
     
     @State var expanded = false
     

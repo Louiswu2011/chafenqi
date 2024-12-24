@@ -124,7 +124,7 @@ struct ChunithmRatingListView: View {
     var body: some View {
         VStack {
             HStack(alignment: .bottom) {
-                Text("\(user.chunithm.info.rating, specifier: "%.2f")")
+                Text("\(user.chunithm.info.last?.rating ?? 0, specifier: "%.2f")")
                     .font(.system(size: 30))
                     .bold()
                 Spacer()
@@ -150,7 +150,7 @@ struct ChunithmRatingListView: View {
             
             if(!bestFold) {
                 LazyVStack(spacing: 15) {
-                    ForEach(Array(user.chunithm.custom.b30Slice.enumerated()), id: \.offset) { index, entry in
+                    ForEach(Array(user.chunithm.rating.best.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, chuSong: entry.associatedBestEntry!.associatedSong!)
                         } label: {
@@ -178,7 +178,7 @@ struct ChunithmRatingListView: View {
             
             if(!recentFold) {
                 LazyVStack(spacing: 15) {
-                    ForEach(Array(user.chunithm.custom.r10Slice.enumerated()), id: \.offset) { index, entry in
+                    ForEach(Array(user.chunithm.rating.recent.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, chuSong: entry.associatedBestEntry!.associatedSong!)
                         } label: {

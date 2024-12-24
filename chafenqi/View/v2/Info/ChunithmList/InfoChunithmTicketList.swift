@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InfoChunithmTicketList: View {
-    var tickets: [CFQChunithm.ExtraEntry.TicketEntry]
+    var tickets: [UserChunithmTicketEntry]
     
     var body: some View {
         Form {
@@ -27,7 +27,7 @@ struct InfoChunithmTicketList: View {
 
 struct InfoChunithmTicketItem: View {
     @Environment(\.managedObjectContext) var context
-    var ticket: CFQChunithm.ExtraEntry.TicketEntry
+    var ticket: UserChunithmTicketEntry
     
     var body: some View {
         HStack {

@@ -58,10 +58,10 @@ struct SimpleEntry: TimelineEntry {
     var date: Date
     var configuration: ConfigurationIntent
     var isPremium: Bool = false
-    var maimai: CFQMaimai.UserInfo? = nil
-    var chunithm: CFQChunithm.UserInfo? = nil
-    var maiRecentOne: CFQMaimai.RecentScoreEntry? = nil
-    var chuRecentOne: CFQChunithm.RecentScoreEntry? = nil
+    var maimai: UserMaimaiPlayerInfoEntry? = nil
+    var chunithm: UserChunithmPlayerInfo? = nil
+    var maiRecentOne: UserMaimaiRecentScoreEntry? = nil
+    var chuRecentOne: UserChunithmRecentScoreEntry? = nil
     var maiCover: Data = Data()
     var chuCover: Data = Data()
     var maiBg: Data = Data()

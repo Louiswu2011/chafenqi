@@ -362,23 +362,20 @@ struct CFQServer {
             self.authToken = authToken
         }
         
-        func fetchUserInfo() async throws -> CFQChunithmUserInfo {
-            try await fetchGameData(CFQChunithmUserInfo.self, path: "api/user/chunithm/info", authToken: authToken)
+        func fetchUserInfo() async throws -> UserChunithmPlayerInfos {
+            try await fetchGameData(UserChunithmPlayerInfos.self, path: "api/user/chunithm/info", authToken: authToken)
         }
-        func fetchBestEntries() async throws -> CFQChunithmBestScoreEntries {
-            try await fetchGameData(CFQChunithmBestScoreEntries.self, path: "api/user/chunithm/best", authToken: authToken)
+        func fetchBestEntries() async throws -> UserChunithmBestScores {
+            try await fetchGameData(UserChunithmBestScores.self, path: "api/user/chunithm/best", authToken: authToken)
         }
-        func fetchRecentEntries() async throws -> CFQChunithmRecentScoreEntries {
-            try await fetchGameData(CFQChunithmRecentScoreEntries.self, path: "api/user/chunithm/recent", authToken: authToken)
+        func fetchRecentEntries() async throws -> UserChunithmRecentScores {
+            try await fetchGameData(UserChunithmRecentScores.self, path: "api/user/chunithm/recent", authToken: authToken)
         }
-        func fetchDeltaEntries() async throws -> CFQChunithmDeltaEntries {
-            try await fetchGameData(CFQChunithmDeltaEntries.self, path: "api/user/chunithm/delta", authToken: authToken)
+        func fetchExtraEntries() async throws -> UserChunithmExtra {
+            try await fetchGameData(UserChunithmExtra.self, path: "api/user/chunithm/extra", authToken: authToken)
         }
-        func fetchExtraEntries() async throws -> CFQChunithmExtraEntry {
-            try await fetchGameData(CFQChunithmExtraEntry.self, path: "api/user/chunithm/extras", authToken: authToken)
-        }
-        func fetchRatingEntries() async throws -> CFQChunithmRatingEntries {
-            try await fetchGameData(CFQChunithmRatingEntries.self, path: "api/user/chunithm/rating", authToken: authToken)
+        func fetchRatingEntries() async throws -> UserChunithmRatingList {
+            try await fetchGameData(UserChunithmRatingList.self, path: "api/user/chunithm/rating", authToken: authToken)
         }
         static func fetchMusicData() async throws -> Data {
             let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/resource/chunithm/song-list")
@@ -409,7 +406,7 @@ struct CFQServer {
         let (data, response) = try await session.data(for: request)
         print("Response from \(path)")
         print("Status Code: \(response.statusCode())")
-        print("Response Body: \(String(data: data, encoding: .utf8) ?? "None")")
+        print("Response Body Length: \(data.count)")
         if shouldThrowByCode {
             let _ = try throwByCode(data: data, response: response)
         }

@@ -11,10 +11,10 @@ struct WidgetBgCustomSelectionView: View {
     @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
     
-    var availableChuBgs: [CFQData.Chunithm.ExtraEntry.NameplateEntry]? = nil
+    var availableChuBgs: [UserChunithmNameplateEntry]? = nil
     var availableMaiBgs: [UserMaimaiFrameEntry]? = nil
     
-    @Binding var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
+    @Binding var selectedChuBg: UserChunithmNameplateEntry?
     @Binding var selectedMaiBg: UserMaimaiFrameEntry?
     
     var body: some View {
@@ -70,10 +70,10 @@ struct WidgetCharCustomSelectionView: View {
     @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
     
-    var availableChuChars: [CFQData.Chunithm.ExtraEntry.CharacterEntry]?
+    var availableChuChars: [UserChunithmCharacterEntry]?
     var availableMaiChars: [UserMaimaiCharacterEntry]?
     
-    @Binding var selectedChuChar: CFQData.Chunithm.ExtraEntry.CharacterEntry?
+    @Binding var selectedChuChar: UserChunithmCharacterEntry?
     @Binding var selectedMaiChar: UserMaimaiCharacterEntry?
     
     var body: some View {
@@ -96,7 +96,7 @@ struct WidgetCharCustomSelectionView: View {
                                 Text(character.name)
                                     .lineLimit(1)
                                 Spacer()
-                                if character.current == 1 {
+                                if character.current {
                                     Text("当前角色")
                                         .bold()
                                 }

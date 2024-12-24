@@ -16,7 +16,7 @@ struct RecentDetail: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
-    var chuEntry: CFQChunithm.RecentScoreEntry?
+    var chuEntry: UserChunithmRecentScoreEntry?
     var maiEntry: UserMaimaiRecentScoreEntry?
     
     @State var hideSongInfo = false
@@ -117,13 +117,13 @@ struct RecentDetail: View {
     func loadVar() {
         if let entry = chuEntry {
             self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedSong!.musicID))
-            self.title = entry.title
+            self.title = entry.associatedSong!.title
             self.artist = entry.associatedSong!.artist
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
             self.score = "\(entry.score)"
             self.diffColor = maimaiLevelColor[entry.levelIndex]!
-            self.chuniMaxCombo = entry.judges.values.reduce(0) { orig, next in orig + next}
+            self.chuniMaxCombo = entry.judgeCritical + entry.judgeJustice + entry.judgeAttack + entry.judgeMiss
             self.chuniWidthArray = getWidthForChuniJudge()
         } else if let entry = maiEntry {
             self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: entry.associatedSong?.coverId ?? 0)
@@ -150,10 +150,10 @@ struct RecentDetail: View {
     func getWidthForChuniJudge() -> Array<CGFloat> {
         var array: Array<CGFloat> = []
         if let entry = chuEntry {
-            array.append(CGFloat(Float(entry.judges["critical"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
-            array.append(CGFloat(Float(entry.judges["justice"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
-            array.append(CGFloat((Float(entry.judges["attack"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
-            array.append(CGFloat((Float(entry.judges["miss"] ?? 0) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
+            array.append(CGFloat(Float(entry.judgeCritical) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
+            array.append(CGFloat(Float(entry.judgeJustice) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()).cap(at: chuniJudgeWidth))
+            array.append(CGFloat((Float(entry.judgeAttack) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
+            array.append(CGFloat((Float(entry.judgeMiss) / Float(chuniMaxCombo) * chuniJudgeWidth.asFloat()) + 1).cap(at: chuniJudgeWidth))
         }
         return array
     }
@@ -171,7 +171,7 @@ struct RecentBaseDetail: View {
     var diffColor: Color
     var playTime: String
     
-    var chuEntry: CFQChunithm.RecentScoreEntry?
+    var chuEntry: UserChunithmRecentScoreEntry?
     var maiEntry: UserMaimaiRecentScoreEntry?
     
     var chuniJudgeWidth: CGFloat
@@ -419,7 +419,7 @@ struct RecentMaimaiDetail: View {
 struct RecentChuniDetail: View {
     var chuniJudgeWidth: CGFloat
     
-    var entry: CFQChunithm.RecentScoreEntry
+    var entry: UserChunithmRecentScoreEntry
     var score: String
     
     var body: some View {
@@ -447,24 +447,43 @@ struct RecentChuniDetail: View {
                             .font(.system(size: 10))
                     }
                     Spacer()
-                    Text("\(entry.judges["critical"] ?? 0)")
+                    Text("\(entry.judgeCritical)")
                         .bold()
                 }
                 
-                let judges = ["justice", "attack", "miss"]
-                ForEach(Array(judges.enumerated()), id: \.offset) { index, type in
-                    HStack {
-                        if let judge = entry.judges[type] {
-                            Text(type.firstUppercased)
-                            Spacer()
-                            VStack(alignment: .trailing) {
-                                Text("\(judge)")
-                                    .bold()
-                                if judge > 0 {
-                                    Text("(-\(entry.losses[index] * Double(judge), specifier: "%.0f"))")
-                                        .font(.system(size: 12))
-                                }
-                            }
+                HStack {
+                    Text("Justice")
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text("\(entry.judgeJustice)")
+                            .bold()
+                        if entry.judgeJustice > 0 {
+                            Text("(-\(entry.losses[0] * Double(entry.judgeJustice), specifier: "%.0f"))")
+                                .font(.system(size: 12))
+                        }
+                    }
+                }
+                HStack {
+                    Text("Attack")
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text("\(entry.judgeAttack)")
+                            .bold()
+                        if entry.judgeAttack > 0 {
+                            Text("(-\(entry.losses[1] * Double(entry.judgeAttack), specifier: "%.0f"))")
+                                .font(.system(size: 12))
+                        }
+                    }
+                }
+                HStack {
+                    Text("Miss")
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text("\(entry.judgeMiss)")
+                            .bold()
+                        if entry.judgeMiss > 0 {
+                            Text("(-\(entry.losses[2] * Double(entry.judgeMiss), specifier: "%.0f"))")
+                                .font(.system(size: 12))
                         }
                     }
                 }
@@ -478,27 +497,27 @@ struct RecentChuniDetail: View {
                 HStack {
                     Text("Tap")
                     Spacer()
-                    Text("\(entry.notes["tap"] ?? "0")")
+                    Text("\(entry.noteTap)")
                 }
                 HStack {
                     Text("Hold")
                     Spacer()
-                    Text("\(entry.notes["hold"] ?? "0")")
+                    Text("\(entry.noteHold)")
                 }
                 HStack {
                     Text("Slide")
                     Spacer()
-                    Text("\(entry.notes["slide"] ?? "0")")
+                    Text("\(entry.noteSlide)")
                 }
                 HStack {
                     Text("Air")
                     Spacer()
-                    Text("\(entry.notes["air"] ?? "0")")
+                    Text("\(entry.noteAir)")
                 }
                 HStack {
                     Text("Flick")
                     Spacer()
-                    Text("\(entry.notes["flick"] ?? "0")")
+                    Text("\(entry.noteFlick)")
                 }
             }
         }

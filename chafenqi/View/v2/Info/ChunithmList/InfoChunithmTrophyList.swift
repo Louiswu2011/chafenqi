@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InfoChunithmTrophyList: View {
-    var list = [CFQChunithm.ExtraEntry.TrophyEntry]()
+    var list = [UserChunithmTrophyEntry]()
     let typeStrings = [
         "normal": "普通称号",
         "copper": "铜称号",
@@ -17,7 +17,7 @@ struct InfoChunithmTrophyList: View {
         "platinum": "白金称号"
     ]
     
-    @State var group = [String: [CFQChunithm.ExtraEntry.TrophyEntry]]()
+    @State var group = [String: [UserChunithmTrophyEntry]]()
     
     var body: some View {
         Form {

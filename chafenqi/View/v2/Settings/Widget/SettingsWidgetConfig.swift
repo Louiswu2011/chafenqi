@@ -78,11 +78,11 @@ struct SettingsWidgetConfig: View {
     @State private var maiChar: WidgetCharacterOption = .defaultChar
     @State private var chuChar: WidgetCharacterOption = .defaultChar
     
-    @State private var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
+    @State private var selectedChuBg: UserChunithmNameplateEntry?
     @State private var selectedMaiBg: UserMaimaiFrameEntry?
     
     @State private var selectedMaiChar: UserMaimaiCharacterEntry?
-    @State private var selectedChuChar: CFQData.Chunithm.ExtraEntry.CharacterEntry?
+    @State private var selectedChuChar: UserChunithmCharacterEntry?
     
     @State private var currentPreviewType: WidgetPreviewTypeOption = .maimai
     @State private var currentPreviewSize: WidgetPreviewSizeOption = .medium
@@ -211,7 +211,7 @@ struct SettingsWidgetConfig: View {
         if user.chunithm.isNotEmpty {
             switch chuBackground {
             case .plate:
-                config.chuBgUrl = user.chunithm.extra.nameplates.first { $0.current == 1 }?.url
+                config.chuBgUrl = user.chunithm.extra.nameplates.first { $0.current }?.url
             case .custom:
                 config.chuBgUrl = selectedChuBg?.url
             case .defaultBg:
@@ -219,7 +219,7 @@ struct SettingsWidgetConfig: View {
             }
             switch chuChar {
             case .captain:
-                config.chuCharUrl = user.chunithm.extra.nameplates.first { $0.current == 1 }?.url
+                config.chuCharUrl = user.chunithm.extra.nameplates.first { $0.current }?.url
             case .custom:
                 config.chuCharUrl = selectedChuChar?.url
             case .defaultChar:
@@ -254,14 +254,14 @@ struct SettingsWidgetConfig: View {
             maiMediumBackground = .defaultBg
         }
         
-        if let char = currentWidgetSettings.chuCharUrl, let first = user.chunithm.extra.characters.first(where: { $0.current == 1 }), char == first.url {
+        if let char = currentWidgetSettings.chuCharUrl, let first = user.chunithm.extra.characters.first(where: { $0.current }), char == first.url {
             chuChar = .captain
         } else if currentWidgetSettings.chuCharUrl != nil {
             chuChar = .custom
         } else {
             chuChar = .defaultChar
         }
-        if let bg = currentWidgetSettings.chuBgUrl, let first = user.chunithm.extra.nameplates.first(where: { $0.current == 1 }), bg == first.url {
+        if let bg = currentWidgetSettings.chuBgUrl, let first = user.chunithm.extra.nameplates.first(where: { $0.current }), bg == first.url {
             chuBackground = .plate
         } else if currentWidgetSettings.chuBgUrl != nil {
             chuBackground = .custom

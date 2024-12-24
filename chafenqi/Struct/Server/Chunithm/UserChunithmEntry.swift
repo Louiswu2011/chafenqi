@@ -28,13 +28,13 @@ struct UserChunithmRecentScoreEntry: Codable, Hashable, Equatable {
     let newRecord: Bool
     let judgeCritical: Int
     let judgeJustice: Int
-    let judgeAttact: Int
+    let judgeAttack: Int
     let judgeMiss: Int
-    let noteTap: Int
-    let noteHold: Int
-    let noteSlide: Int
-    let noteAir: Int
-    let noteFlick: Int
+    let noteTap: String
+    let noteHold: String
+    let noteSlide: String
+    let noteAir: String
+    let noteFlick: String
     let rankIndex: Int
     let clearStatus: String
     let judgeStatus: String
@@ -49,18 +49,20 @@ struct UserChunithmRatingListEntry: Codable, Hashable, Equatable {
     let score: Int
     let levelIndex: Int
     
-    var associatedSong: ChunithmMusicData?
+    var associatedBestEntry: UserChunithmBestScoreEntry?
 }
 
 struct UserChunithmRatingList: Codable, Hashable, Equatable {
     let best: [UserChunithmRatingListEntry]
     let recent: [UserChunithmRatingListEntry]
     let candidate: [UserChunithmRatingListEntry]
+    
+    static let empty = UserChunithmRatingList(best: [], recent: [], candidate: [])
 }
 
 struct UserChunithmPlayerInfo: Codable, Hashable, Equatable {
     let timestamp: Int
-    let nickname: String
+    var nickname: String
     let level: String
     let trophy: String
     let plate: String

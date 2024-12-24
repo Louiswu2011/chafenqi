@@ -8,37 +8,6 @@
 import Foundation
 
 struct ChunithmDataGrabber {
-    static func getSongDataSetFromServer() async throws ->  Set<ChunithmSongData>{
-        let request = URLRequest(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/music_data")!)
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let decoder = JSONDecoder()
-        return try! decoder.decode(Set<ChunithmSongData>.self, from: data)
-    }
-
-    
-    static func getUserNickname(username: String) async throws -> String {
-        let body = ["username": username]
-        let bodyData = try! JSONSerialization.data(withJSONObject: body)
-        
-        let (data, _) = try await postWithPayload(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/query/player")!, payload: bodyData)
-        let decoder = JSONDecoder()
-        
-        do {
-            return try decoder.decode(ChunithmUserScoreData.self, from: data).nickname
-        } catch {
-            throw CFQError.invalidResponseError(response: String(decoding: data, as: UTF8.self))
-        }
-    }
-    
-    static func getUserScoreData(username: String) async throws -> Data {
-        let body = ["username": username]
-        let bodyData = try! JSONSerialization.data(withJSONObject: body)
-        
-        let (data, _) = try await postWithPayload(url: URL(string: "https://www.diving-fish.com/api/chunithmprober/query/player")!, payload: bodyData)
-        return data
-
-    }
-    
     static func loginAs(username: String, password: String) async throws -> (String, String) {
         let body = ["username": username, "password": password]
         let bodyData = try! JSONSerialization.data(withJSONObject: body)

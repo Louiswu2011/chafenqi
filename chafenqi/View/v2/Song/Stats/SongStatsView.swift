@@ -14,7 +14,7 @@ struct SongStatView: View {
     
     // TODO: Add Maimai stat
     var chuStat: CFQChunithmMusicStatEntry?
-    var chuEntry: CFQChunithm.RecentScoreEntry?
+    var chuEntry: UserChunithmRecentScoreEntry?
     
     var chuSong: ChunithmMusicData?
     var maiSong: MaimaiSongData?
@@ -40,7 +40,7 @@ struct SongStatView: View {
 struct ChunithmSongStatView: View {
     var song: ChunithmMusicData
     var entry: CFQChunithmMusicStatEntry
-    var scoreEntry: CFQChunithm.RecentScoreEntry?
+    var scoreEntry: UserChunithmRecentScoreEntry?
     var diff: Int
     
     let ranks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]

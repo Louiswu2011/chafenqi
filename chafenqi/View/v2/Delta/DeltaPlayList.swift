@@ -10,7 +10,7 @@ import SwiftUI
 struct DeltaPlayList: View {
     @ObservedObject var user: CFQNUser
     
-    @State var chuLog: CFQChunithmRecentScoreEntries?
+    @State var chuLog: UserChunithmRecentScores?
     @State var maiLog: UserMaimaiRecentScores?
     
     var body: some View {
@@ -32,7 +32,7 @@ struct DeltaPlayList: View {
                                     }
                                     Spacer()
                                     HStack(alignment: .bottom) {
-                                        Text(entry.title)
+                                        Text(entry.associatedSong?.title ?? "")
                                             .font(.system(size: 17))
                                             .lineLimit(2)
                                         Spacer()

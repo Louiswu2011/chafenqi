@@ -212,14 +212,11 @@ class CFQNUser: ObservableObject {
     
     struct Chunithm: Codable {
         struct Custom: Codable {
-            var b30Slice: CFQChunithmRatingEntries = []
-            var r10Slice: CFQChunithmRatingEntries = []
-            var candidateSlice: CFQChunithmRatingEntries = []
             var b30: Double = 0.0
             var r10: Double = 0.0
             var maxRating: Double = 0.0
             
-            var recommended: [CFQChunithm.RecentScoreEntry: String] = [:]
+            var recommended: [UserChunithmRecentScoreEntry: String] = [:]
             var genreList: [String] = []
             var versionList: [String] = []
             
@@ -234,25 +231,16 @@ class CFQNUser: ObservableObject {
             init() {}
             
             // MARK: Chunithm Custom Init
-            init(orig: CFQChunithmRatingEntries, recent: CFQChunithmRecentScoreEntries, best: CFQChunithmBestScoreEntries, list: [ChunithmMusicData], delta: CFQChunithmDeltaEntries) {
-                guard !orig.isEmpty && !recent.isEmpty else { return }
-                self.b30Slice = orig.filter {
-                    $0.type == "best"
-                }
-                self.r10Slice = orig.filter {
-                    $0.type == "recent"
-                }
-                self.candidateSlice = orig.filter {
-                    $0.type == "candidate"
-                }
-                self.b30 = (self.b30Slice.reduce(0.0) { orig, next in
+            init(rating: UserChunithmRatingList, recent: UserChunithmRecentScores, best: UserChunithmBestScores, list: [ChunithmMusicData], delta: UserChunithmPlayerInfos) {
+                guard !rating.best.isEmpty && !rating.recent.isEmpty && !recent.isEmpty else { return }
+                self.b30 = (rating.best.reduce(0.0) { orig, next in
                     orig + next.rating
                 } / 30.0).cut(remainingDigits: 2)
-                self.r10 = (self.r10Slice.reduce(0.0) { orig, next in
+                self.r10 = (rating.recent.reduce(0.0) { orig, next in
                     orig + next.rating
                 } / 10.0).cut(remainingDigits: 2)
                 
-                let b1 = self.b30Slice.sorted {
+                let b1 = rating.best.sorted {
                     $0.rating > $1.rating
                 }.first!
                 self.maxRating = ((self.b30 * 30.0 + b1.rating * 10.0) / 40.0).cut(remainingDigits: 2)
@@ -266,13 +254,13 @@ class CFQNUser: ObservableObject {
                 }
                 
                 if let ap = (r.filter {
-                    $0.fcombo == "alljustice"
+                    $0.judgeStatus == "alljustice"
                 }.first) {
                     recommended[ap] = "AJ"
                     r.removeAll { $0.timestamp == ap.timestamp }
                 }
                 if let fc = (r.filter {
-                    $0.fcombo.contains("fullcombo") || $0.fchain.contains("fullchain")
+                    $0.judgeStatus.contains("fullcombo") || $0.chainStatus.contains("fullchain")
                 }.first) {
                     recommended[fc] = "FC"
                     r.removeAll { $0.timestamp == fc.timestamp }
@@ -286,7 +274,7 @@ class CFQNUser: ObservableObject {
                 }.first!
                 recommended[ro] = "RO"
                 if let nr = (r.filter {
-                    $0.isNewRecord == 1
+                    $0.newRecord
                 }.sorted { $0.timestamp > $1.timestamp }.first) { recommended[nr] = "NR" }
                 
                 levelRecords = CFQChunithmLevelRecords(songs: list, best: best)
@@ -299,12 +287,12 @@ class CFQNUser: ObservableObject {
             }
         }
         
-        var info: CFQChunithmUserInfo = .empty
-        var best: CFQChunithmBestScoreEntries = []
-        var recent: CFQChunithmRecentScoreEntries = []
-        var rating: CFQChunithmRatingEntries = []
-        var delta: CFQChunithmDeltaEntries = []
-        var extra: CFQChunithmExtraEntry = .empty
+        var nickname: String = ""
+        var info: UserChunithmPlayerInfos = []
+        var best: UserChunithmBestScores = []
+        var recent: UserChunithmRecentScores = []
+        var rating: UserChunithmRatingList = .empty
+        var extra: UserChunithmExtra = .empty
         var isNotEmpty: Bool = false
         var custom: Custom = Custom()
         
@@ -321,6 +309,10 @@ class CFQNUser: ObservableObject {
                 self.recent = try await recent
                 self.rating = try await rating
                 
+                self.recent = self.recent.sorted {
+                    $0.timestamp > $1.timestamp
+                }
+                
                 hideWorldsEnd()
                 
                 isNotEmpty = true
@@ -329,17 +321,12 @@ class CFQNUser: ObservableObject {
                 print(String(describing: error))
             }
             do {
-                async let delta = try server.fetchDeltaEntries()
                 async let extra = try server.fetchExtraEntries()
-                
-                self.delta = try await delta.sorted {
-                    $0.createdAt.toDate()?.timeIntervalSince1970 ?? 0 > $1.createdAt.toDate()?.timeIntervalSince1970 ?? 0
-                }
+
                 self.extra = try await extra
             } catch CFQServerError.UserNotPremiumError {
                 print("[CFQNUser] User is not premium, skipping chunithm extras.")
             } catch {
-                self.delta = []
                 self.extra = .empty
                 print(error)
                 print("[CFQNUser] User is premium but chunithm delta/extra info is missing, skipping...")
@@ -350,10 +337,10 @@ class CFQNUser: ObservableObject {
         
         mutating func hideWorldsEnd() {
             self.best.removeAll {
-                $0.idx == "1"
+                $0.associatedSong?.charts.worldsend.enabled ?? false
             }
             self.recent.removeAll {
-                $0.idx == "1"
+                $0.associatedSong?.charts.worldsend.enabled ?? false
             }
         }
     }
@@ -406,7 +393,7 @@ class CFQNUser: ObservableObject {
         let chuDeleted = self.chunithm.best.filter {
             $0.associatedSong == nil
         }.map {
-            $0.title
+            String($0.musicId)
         }
         self.chunithm.best = self.chunithm.best.filter {
             $0.associatedSong != nil
@@ -414,9 +401,13 @@ class CFQNUser: ObservableObject {
         self.chunithm.recent = self.chunithm.recent.filter {
             $0.associatedSong != nil
         }
-        self.chunithm.rating = self.chunithm.rating.filter {
+        self.chunithm.rating = UserChunithmRatingList(best: self.chunithm.rating.best.filter {
             $0.associatedBestEntry?.associatedSong != nil
-        }
+        }, recent: self.chunithm.rating.recent.filter {
+            $0.associatedBestEntry?.associatedSong != nil
+        }, candidate: self.chunithm.rating.candidate.filter {
+            $0.associatedBestEntry?.associatedSong != nil
+        })
         
         return (maiDeleted + chuDeleted).unique
     }
@@ -515,7 +506,7 @@ class CFQNUser: ObservableObject {
                     if (!self.chunithm.recent.isEmpty) {
                         self.chunithm.recent = CFQChunithm.assignAssociated(songs: self.data.chunithm.musics, recents: self.chunithm.recent)
                     }
-                    if (!self.chunithm.rating.isEmpty) {
+                    if (!self.chunithm.rating.best.isEmpty && !self.chunithm.rating.recent.isEmpty && !self.chunithm.rating.candidate.isEmpty) {
                         self.chunithm.rating = CFQChunithm.assignAssociated(bests: self.chunithm.best, ratings: self.chunithm.rating)
                     }
                 }
@@ -535,13 +526,17 @@ class CFQNUser: ObservableObject {
         if !skipCustomLoading {
             publishLoadStatus("加载用户数据...")
             self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, infos: self.maimai.info, list: self.data.maimai.songlist)
-            self.chunithm.custom = Chunithm.Custom(orig: self.chunithm.rating, recent: self.chunithm.recent, best: self.chunithm.best, list: self.data.chunithm.musics, delta: self.chunithm.delta)
+            self.chunithm.custom = Chunithm.Custom(rating: self.chunithm.rating, recent: self.chunithm.recent, best: self.chunithm.best, list: self.data.chunithm.musics, delta: self.chunithm.info)
             if let lastInfo = self.maimai.info.last {
                 self.maimai.nickname = lastInfo.nickname.transformingHalfwidthFullwidth()
             } else {
                 self.maimai.nickname = username
             }
-            self.chunithm.info.nickname = self.chunithm.info.nickname.transformingHalfwidthFullwidth()
+            if let lastInfo = self.chunithm.info.last {
+                self.chunithm.nickname = lastInfo.nickname.transformingHalfwidthFullwidth()
+            } else {
+                self.chunithm.nickname = username
+            }
             print("[CFQNUser] Calculated Custom Values.")
         }
         
@@ -582,7 +577,7 @@ class CFQNUser: ObservableObject {
             username: self.username,
             isPremium: self.isPremium,
             maimaiInfo: self.maimai.isNotEmpty ? self.maimai.info.last : nil,
-            chunithmInfo: self.chunithm.isNotEmpty ? self.chunithm.info : nil,
+            chunithmInfo: self.chunithm.isNotEmpty ? self.chunithm.info.last : nil,
             maiRecentOne: self.maimai.recent.first,
             chuRecentOne: self.chunithm.recent.first,
             chuCover: chuCover,

@@ -28,7 +28,7 @@ struct UserMaimaiCharacterEntry: Codable, Equatable {
     let name: String
     let url: String
     let description: String
-    let level: Int
+    let level: String
     let area: String
     let current: Bool
 }

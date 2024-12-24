@@ -94,7 +94,7 @@ struct DeltaListView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
-                if user.currentMode == 0 && user.chunithm.delta.count > 2 {
+                if user.currentMode == 0 && user.chunithm.info.count > 2 {
                     DeltaList(user: user, chuDelta: chuDayPlayData)
                 } else if user.currentMode == 1 && user.maimai.info.count > 2 {
                     DeltaList(user: user, maiDelta: maiDayPlayData)
@@ -121,19 +121,19 @@ struct DeltaListView: View {
     
     func loadVar() {
         guard !isLoaded else { return }
-        let chuDelta = user.chunithm.delta
+        let chuDelta = user.chunithm.info
         let maiDelta = user.maimai.info
         ratingChartData = []
         pcChartData = []
         
         if user.currentMode == 0 && !chuDelta.isEmpty {
-            chuDayPlayData = CFQChunithmDayRecords(recents: user.chunithm.recent, deltas: user.chunithm.delta)
+            chuDayPlayData = CFQChunithmDayRecords(recents: user.chunithm.recent, deltas: user.chunithm.info)
             let latest7 = chuDayPlayData.records.suffix(7)
             
             deltaCount = chuDayPlayData.records.reduce(0) {
                 $0 + $1.recentEntries.count
             }
-            playCount = user.chunithm.info.playCount
+            playCount = user.chunithm.info.last?.playCount ?? 0
             
             if let first = latest7.last?.latestDelta {
                 if let latest = latest7.first?.latestDelta {

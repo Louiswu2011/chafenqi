@@ -20,7 +20,7 @@ struct RatingShortLook: View {
     
     @State var selectedIndex = 0
     
-    @State var chuEntry: CFQChunithm.RatingEntry?
+    @State var chuEntry: UserChunithmRatingListEntry?
     @State var maiEntry: UserMaimaiBestScoreEntry?
     
     @State var indexText = ""
@@ -121,15 +121,15 @@ struct RatingShortLook: View {
     func updateSong() {
         if (0...length - 1).contains(selectedIndex) {
             if user.currentMode == 0 {
-                chuEntry = user.chunithm.rating[selectedIndex]
+                chuEntry = user.chunithm.rating.best[selectedIndex]
                 if let entry = chuEntry {
                     indexText = "#\(selectedIndex + 1)"
-                    coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: entry.idx)
+                    coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.musicId))
                     constant = String(format: "%.1f", entry.associatedBestEntry!.associatedSong!.charts.constants[entry.levelIndex])
                     rating = String(format: "%.2f", entry.rating)
                     grade = entry.grade
                     score = String(entry.score)
-                    title = entry.title
+                    title = entry.associatedBestEntry?.associatedSong?.title ?? ""
                 }
             } else if user.currentMode == 1 {
                 let pastCount = user.maimai.custom.pastSlice.count

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct InfoChunithmNameplateList: View {
     @Environment(\.managedObjectContext) var context
-    var list = [CFQChunithm.ExtraEntry.NameplateEntry]()
+    var list = [UserChunithmNameplateEntry]()
     
     @State private var image = [String: UIImage]()
     

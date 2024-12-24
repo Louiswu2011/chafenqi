@@ -73,7 +73,7 @@ struct DeltaDetailView: View {
                                                 }
                                                 Spacer()
                                                 HStack(alignment: .bottom) {
-                                                    Text(entry.title)
+                                                    Text(entry.associatedSong?.title ?? "")
                                                         .font(.system(size: 17))
                                                         .lineLimit(2)
                                                     Spacer()

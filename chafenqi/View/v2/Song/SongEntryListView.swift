@@ -13,7 +13,7 @@ struct SongEntryListView: View {
     @State var historyData: [(Double, String)] = []
     
     @State var maiRecords: UserMaimaiRecentScores?
-    @State var chuRecords: CFQChunithmRecentScoreEntries?
+    @State var chuRecords: UserChunithmRecentScores?
     
     @State var shouldShowPointMarkers: Bool = false
     

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InfoChunithmMapIconList: View {
-    var mapIcons: [CFQChunithm.ExtraEntry.MapIconEntry]
+    var mapIcons: [UserChunithmMapIconEntry]
     
     var body: some View {
         Form {
@@ -27,7 +27,7 @@ struct InfoChunithmMapIconList: View {
 
 struct InfoChunithmMapIconItem: View {
     @Environment(\.managedObjectContext) var context
-    var mapIcon: CFQChunithm.ExtraEntry.MapIconEntry
+    var mapIcon: UserChunithmMapIconEntry
     
     var body: some View {
         HStack {
@@ -45,7 +45,7 @@ struct InfoChunithmMapIconItem: View {
             
             Spacer()
             
-            if mapIcon.current == 1 {
+            if mapIcon.current {
                 Text("当前头像")
                     .bold()
             }

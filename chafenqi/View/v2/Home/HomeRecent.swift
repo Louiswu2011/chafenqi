@@ -48,7 +48,7 @@ struct HomeRecent: View {
                                     }
                                     Spacer()
                                     HStack(alignment: .bottom) {
-                                        Text(entry.title)
+                                        Text(entry.associatedSong?.title ?? "")
                                             .font(.system(size: 17))
                                             .lineLimit(2)
                                         Spacer()
@@ -103,9 +103,9 @@ struct HomeRecent: View {
     }
     
     
-    func expandChunithmRecommended(orig: [CFQChunithm.RecentScoreEntry: String]) -> [(String, CFQChunithm.RecentScoreEntry)] {
-        var r: [CFQChunithm.RecentScoreEntry] = []
-        var recommended: [(String, CFQChunithm.RecentScoreEntry)] = []
+    func expandChunithmRecommended(orig: [UserChunithmRecentScoreEntry: String]) -> [(String, UserChunithmRecentScoreEntry)] {
+        var r: [UserChunithmRecentScoreEntry] = []
+        var recommended: [(String, UserChunithmRecentScoreEntry)] = []
         for entry in orig.keys {
             r.append(entry)
         }

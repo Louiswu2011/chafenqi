@@ -14,7 +14,7 @@ struct RecentListView: View {
     @State private var currentPage: Int = 1
     
     @State private var maiSlice = UserMaimaiRecentScores()
-    @State private var chuSlice = CFQChunithmRecentScoreEntries()
+    @State private var chuSlice = UserChunithmRecentScores()
     
     @State private var loaded = false
     
@@ -125,7 +125,7 @@ struct MaimaiRecentEntryView: View {
 
 struct ChunithmRecentEntryView: View {
     @ObservedObject var user: CFQNUser
-    var entry: CFQChunithm.RecentScoreEntry
+    var entry: UserChunithmRecentScoreEntry
     
     var body: some View {
         HStack {
@@ -140,7 +140,7 @@ struct ChunithmRecentEntryView: View {
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text(entry.title)
+                    Text(entry.associatedSong?.title ?? "")
                         .font(.system(size: 17))
                         .lineLimit(1)
                     Spacer()

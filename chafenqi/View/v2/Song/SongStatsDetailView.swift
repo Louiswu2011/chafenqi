@@ -14,10 +14,10 @@ struct SongStatsDetailView: View {
     var chuSong: ChunithmMusicData?
     
     var maiRecord: UserMaimaiRecentScoreEntry?
-    var chuRecord: CFQChunithm.RecentScoreEntry?
+    var chuRecord: UserChunithmRecentScoreEntry?
     
     var maiRecords: UserMaimaiRecentScores?
-    var chuRecords: CFQChunithmRecentScoreEntries?
+    var chuRecords: UserChunithmRecentScores?
     
     var diff: Int
     
