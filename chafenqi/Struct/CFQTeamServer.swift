@@ -20,7 +20,7 @@ struct CFQTeamServer {
         queries: [URLQueryItem] = [],
         token: String? = nil
     ) async throws -> (Data, URLResponse) {
-        var url = URLComponents(string: CFQServer.serverAddress + "api/team/")!
+        var url = URLComponents(string: CFQServer.serverAddress + "api/team/" + path)!
         if !queries.isEmpty {
             url.queryItems = queries
         }
@@ -76,7 +76,7 @@ struct CFQTeamServer {
         game: Int
     ) async -> Int? {
         do {
-            let (data, response) = try await fetchFromServer(
+            let (data, _) = try await fetchFromServer(
                 method: "GET",
                 path: "\(game.gameString())/current",
                 token: authToken
@@ -95,7 +95,7 @@ struct CFQTeamServer {
         teamId: Int
     ) async -> TeamInfo? {
         do {
-            let (data, response) = try await fetchFromServer(
+            let (data, _) = try await fetchFromServer(
                 method: "GET",
                 path: "\(game.gameString())/\(teamId)",
                 token: authToken
@@ -112,7 +112,7 @@ struct CFQTeamServer {
         payload: TeamCreatePayload
     ) async -> String {
         do {
-            let (data, response) = try await fetchFromServer(
+            let (data, _) = try await fetchFromServer(
                 method: "POST",
                 path: "\(payload.game.gameString())/create",
                 payload: try JSONEncoder().encode(payload),
@@ -132,7 +132,7 @@ struct CFQTeamServer {
         message: String
     ) async -> String {
         do {
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -152,7 +152,7 @@ struct CFQTeamServer {
         teamId: Int
     ) async -> String {
         do {
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -172,7 +172,7 @@ struct CFQTeamServer {
         teamId: Int
     ) async -> [TeamBulletinBoardEntry]? {
         do {
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -196,7 +196,7 @@ struct CFQTeamServer {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["message": message]
             )
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -218,7 +218,7 @@ struct CFQTeamServer {
         entryId: Int
     ) async -> String {
         do {
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -243,7 +243,7 @@ struct CFQTeamServer {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["userId": pendingMemberId]
             )
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -268,7 +268,7 @@ struct CFQTeamServer {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["userId": pendingMemberId]
             )
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -290,7 +290,7 @@ struct CFQTeamServer {
         memberId: Int
     ) async -> String {
         do {
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -315,7 +315,7 @@ struct CFQTeamServer {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["userId": newLeaderUserId]
             )
-            let (data, response) = try await fetchFromTeam(
+            let (data, _) = try await fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -332,7 +332,7 @@ struct CFQTeamServer {
     
     static func adminRotateTeamCode(authToken: String, game: Int, teamId: Int) async -> Bool {
         do {
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -352,7 +352,7 @@ struct CFQTeamServer {
                 withJSONObject: ["displayName": newName],
                 options: []
             )
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (data, _) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -373,7 +373,7 @@ struct CFQTeamServer {
                 withJSONObject: ["style": newStyle],
                 options: []
             )
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -394,7 +394,7 @@ struct CFQTeamServer {
                 withJSONObject: ["remarks": newRemarks],
                 options: []
             )
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -415,7 +415,7 @@ struct CFQTeamServer {
                 withJSONObject: ["promotable": promotable],
                 options: []
             )
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -436,7 +436,7 @@ struct CFQTeamServer {
                 withJSONObject: newCourse,
                 options: []
             )
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (data, _) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -457,7 +457,7 @@ struct CFQTeamServer {
                 withJSONObject: ["id": pinnedMessageId],
                 options: []
             )
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -474,7 +474,7 @@ struct CFQTeamServer {
 
     static func adminResetPinnedMessage(authToken: String, game: Int, teamId: Int) async -> Bool {
         do {
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -490,7 +490,7 @@ struct CFQTeamServer {
 
     static func adminDisbandTeam(authToken: String, game: Int, teamId: Int) async -> Bool {
         do {
-            let (data, response) = try await CFQTeamServer.fetchFromTeam(
+            let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,

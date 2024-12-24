@@ -42,6 +42,7 @@ struct HomeView: View {
                         Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
                             .bold()
                     }
+                    HomeTeam(user: user)
                     ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
                         switch value {
                         case "最近动态":
