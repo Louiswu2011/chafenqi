@@ -190,6 +190,10 @@ class CFQNUser: ObservableObject {
                 self.info = try await info
                 self.best = try await best
                 self.recent = try await recent
+                
+                self.recent = self.recent.sorted {
+                    $0.timestamp > $1.timestamp
+                }
                 isNotEmpty = true
             } catch {
                 print("[CFQNUser] No maimai data from server.")
