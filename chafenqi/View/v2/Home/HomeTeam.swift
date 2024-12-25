@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 
 struct HomeTeam: View {
+    @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
     
     var body: some View {
         HStack {
             NavigationLink {
-                TeamLandingPage(user: user)
+                TeamLandingPage(team: team, user: user)
             } label: {
                 Text("团队")
             }

@@ -16,6 +16,7 @@ struct HomeView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
+    @StateObject var team = CFQTeam()
     @State private var versionData = ClientVersionData.empty
     
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录|排行榜"
@@ -42,7 +43,7 @@ struct HomeView: View {
                         Text("你已经有\(daysSinceLastPlayed)天没出勤了！")
                             .bold()
                     }
-                    HomeTeam(user: user)
+                    HomeTeam(team: team, user: user)
                     ForEach(homeArrangement.components(separatedBy: "|"), id: \.hashValue) { value in
                         switch value {
                         case "最近动态":

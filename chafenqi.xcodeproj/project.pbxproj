@@ -199,6 +199,11 @@
 		BFF4B7CC2A4DEF7D0080C6FC /* WidgetData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C62A4DEB4E0080C6FC /* WidgetData.xcdatamodeld */; };
 		BFF4B7CD2A4DEF800080C6FC /* WidgetDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */; };
 		BFF4B7CE2A4DEF8C0080C6FC /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */; };
+		BFF58B172D1BCF2A00AD1BE1 /* TeamMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B162D1BCF2A00AD1BE1 /* TeamMemberView.swift */; };
+		BFF58B192D1BCF5700AD1BE1 /* TeamActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */; };
+		BFF58B1B2D1BCF7100AD1BE1 /* TeamCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */; };
+		BFF58B1D2D1BCF8B00AD1BE1 /* TeamBulletinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */; };
+		BFF58B1F2D1BD54600AD1BE1 /* CFQTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */; };
 		BFF936AF2D1AC1B600679F8A /* CFQTeamServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */; };
 		BFF936B22D1AC58C00679F8A /* TeamInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936B12D1AC58C00679F8A /* TeamInfo.swift */; };
 		BFF936B32D1AC58C00679F8A /* TeamInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936B12D1AC58C00679F8A /* TeamInfo.swift */; };
@@ -465,6 +470,11 @@
 		BFF4B7C42A4DEB400080C6FC /* WidgetDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataController.swift; sourceTree = "<group>"; };
 		BFF4B7C72A4DEB4E0080C6FC /* WidgetData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WidgetData.xcdatamodel; sourceTree = "<group>"; };
 		BFF4B7CA2A4DED330080C6FC /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
+		BFF58B162D1BCF2A00AD1BE1 /* TeamMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberView.swift; sourceTree = "<group>"; };
+		BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamActivityView.swift; sourceTree = "<group>"; };
+		BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCourseView.swift; sourceTree = "<group>"; };
+		BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBulletinView.swift; sourceTree = "<group>"; };
+		BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQTeam.swift; sourceTree = "<group>"; };
 		BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQTeamServer.swift; sourceTree = "<group>"; };
 		BFF936B12D1AC58C00679F8A /* TeamInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamInfo.swift; sourceTree = "<group>"; };
 		BFF936B42D1AC59600679F8A /* TeamBasicInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBasicInfo.swift; sourceTree = "<group>"; };
@@ -827,6 +837,7 @@
 				67BA854E2A2D82DA00C0B0EA /* CFQAuxData.swift */,
 				BF268D202C804D7F00486762 /* CFQRemoteOptions.swift */,
 				BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */,
+				BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */,
 			);
 			path = Struct;
 			sourceTree = "<group>";
@@ -1184,6 +1195,10 @@
 				BFF936CF2D1AD2F000679F8A /* TeamLandingPage.swift */,
 				BFF936D12D1AD2FF00679F8A /* TeamInfoPage.swift */,
 				BFF936D32D1AD31600679F8A /* TeamIntroductionPage.swift */,
+				BFF58B162D1BCF2A00AD1BE1 /* TeamMemberView.swift */,
+				BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */,
+				BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */,
+				BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */,
 			);
 			path = Team;
 			sourceTree = "<group>";
@@ -1603,6 +1618,8 @@
 				670EBC1D2A3026B000D32723 /* InfoChunithmSkillList.swift in Sources */,
 				6786F0B92A3C636300CE90C2 /* CommentCell.swift in Sources */,
 				6776EF4C2A42A4CF00D28D93 /* InfoMaimaiClearList.swift in Sources */,
+				BFF58B1F2D1BD54600AD1BE1 /* CFQTeam.swift in Sources */,
+				BFF58B192D1BCF5700AD1BE1 /* TeamActivityView.swift in Sources */,
 				BFCF130D2A03A1C3000B2E0D /* CFQNUser.swift in Sources */,
 				67B202C12A260110005FD147 /* ChunithmMusicData.swift in Sources */,
 				BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */,
@@ -1642,6 +1659,7 @@
 				BFBC5503298CEB5700A93918 /* MaimaiChartStat.swift in Sources */,
 				BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */,
 				BF45B1D72A096E800076E437 /* RatingBannerView.swift in Sources */,
+				BFF58B1D2D1BCF8B00AD1BE1 /* TeamBulletinView.swift in Sources */,
 				BF57F37B2A3EB2C200E9BE6A /* SongScoreTrendChart.swift in Sources */,
 				BFF936CA2D1ACA3000679F8A /* TeamActivity.swift in Sources */,
 				BFFEEB1B2A081FCA001B15B7 /* SongItemView.swift in Sources */,
@@ -1727,11 +1745,13 @@
 				BF2D3A532AA4FB040066464F /* LogView.swift in Sources */,
 				BFB384702A7BBB38005109EB /* ScreenshotMaker.swift in Sources */,
 				67BA854F2A2D82DA00C0B0EA /* CFQAuxData.swift in Sources */,
+				BFF58B1B2D1BCF7100AD1BE1 /* TeamCourseView.swift in Sources */,
 				671192822A495E9E00BCE0B9 /* PerkSheetView.swift in Sources */,
 				BF9E520F2A77E26B008D7C01 /* WidgetPreviews.swift in Sources */,
 				6725EB012A24401A00C1829A /* DeltaDetailView.swift in Sources */,
 				BFE0759F2A07845B005248A6 /* HomeRecent.swift in Sources */,
 				BF71A28A2D1A97A0004DED5E /* UserChunithmEntry.swift in Sources */,
+				BFF58B172D1BCF2A00AD1BE1 /* TeamMemberView.swift in Sources */,
 				6786F0B32A3C631300CE90C2 /* TextInfoView.swift in Sources */,
 				BFA133262A7556ED00593C7B /* ClickGameView.swift in Sources */,
 				BF533C9829BF093C003409AB /* Comment.swift in Sources */,

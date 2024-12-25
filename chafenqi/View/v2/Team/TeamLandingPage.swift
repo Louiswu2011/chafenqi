@@ -9,35 +9,25 @@ import Foundation
 import SwiftUI
 
 struct TeamLandingPage: View {
+    @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
-    
-    @State private var isLoading = true
-    @State private var currentTeam: Int? = nil
-    @State private var teamInfo: TeamInfo? = nil
     
     var body: some View {
         VStack {
-            if isLoading {
+            if team.isLoading {
                 ProgressView() {
                     Text("加载中...")
                 }
             } else {
-                if currentTeam != nil, let teamInfo = teamInfo {
-                    TeamInfoPage(team: teamInfo)
+                if team.currentTeamId != nil, team.current.info.displayName != "" {
+                    TeamInfoPage(team: team, user: user)
                 } else {
                     TeamIntroductionPage()
                 }
             }
         }
         .onAppear {
-            Task {
-                isLoading = true
-                currentTeam = await CFQTeamServer.fetchCurrentTeam(authToken: user.jwtToken, game: user.currentMode)
-                if let currentTeam = currentTeam {
-                    teamInfo = await CFQTeamServer.fetchTeamInfo(authToken: user.jwtToken, game: user.currentMode, teamId: currentTeam)
-                }
-                isLoading = false
-            }
+            team.refresh(user: user)
         }
     }
 }
