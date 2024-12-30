@@ -49,6 +49,7 @@ class CFQNUser: ObservableObject {
     var assertionFailedTried = false
     
     @AppStorage("CFQUsername") var username = ""
+    var userId = 0
     
     var isPremium = false
     var premiumUntil: TimeInterval = 0
@@ -435,6 +436,7 @@ class CFQNUser: ObservableObject {
         self.chunithmCache = Data()
         self.jwtToken = ""
         self.username = ""
+        self.userId = -1
         self.isPremium = false
         withAnimation {
             self.didLogin.toggle()
@@ -551,6 +553,16 @@ class CFQNUser: ObservableObject {
         sharedContainer.set(self.jwtToken, forKey: "JWT")
         sharedContainer.set(username, forKey: "currentUser")
         print("[CFQNUser] Set jwt token and username to \(username).")
+        
+        do {
+            if let info = try await CFQUserServer.fetchUserInfo(authToken: self.jwtToken) {
+                DispatchQueue.main.async {
+                    self.userId = info.id
+                }
+            }
+        } catch {
+            self.userId = -1
+        }
     }
     
     // MARK: Make Widget

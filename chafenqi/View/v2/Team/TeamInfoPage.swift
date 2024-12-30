@@ -61,13 +61,13 @@ struct TeamInfoPage: View {
                 }
             }
             TabView(selection: $currentIndex) {
-                TeamMemberView()
+                TeamMemberView(team: team)
                     .tag(0)
-                TeamActivityView()
+                TeamActivityView(team: team)
                     .tag(1)
-                TeamCourseView()
+                TeamCourseView(team: team)
                     .tag(2)
-                TeamBulletinView()
+                TeamBulletinView(team: team)
                     .tag(3)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
@@ -75,7 +75,7 @@ struct TeamInfoPage: View {
         .navigationTitle("队伍信息")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            if let leader = leader() {
+            if let leader = team.current.members.first(where: { $0.userId == team.current.info.leaderUserId }) {
                 leaderNickname = leader.nickname.transformingHalfwidthFullwidth()
             } else {
                 leaderNickname = "未知"
@@ -89,12 +89,16 @@ struct TeamInfoPage: View {
                     Image(systemName: "arrow.counterclockwise")
                 }
             }
-        }
-    }
-    
-    func leader() -> TeamMember? {
-        return team.current.members.first {
-            $0.userId == team.current.info.leaderUserId
+            ToolbarItem(placement: .topBarTrailing) {
+                if user.userId == team.current.info.leaderUserId {
+                    NavigationLink {
+                        TeamSettingsPage(team: team, user: user)
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+            }
+            
         }
     }
 }

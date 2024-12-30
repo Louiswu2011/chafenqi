@@ -52,6 +52,16 @@ struct CFQServer {
             }
         }
         
+        static func fetchUserInfo(authToken: String) async throws -> CFQUserInfo? {
+            do {
+                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/info", token: authToken)
+                let info = try decoder.decode(CFQUserInfo.self, from: data)
+                return info
+            } catch {
+                return nil
+            }
+        }
+        
         static func checkPremiumExpireTime(authToken: String) async throws -> TimeInterval {
             do {
                 let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/info", token: authToken)

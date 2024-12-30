@@ -1,5 +1,5 @@
 {
-  "originHash" : "c6523c54dff81b7b52688fafb73aefc52efd59c56b05e384810f39919effbe15",
+  "originHash" : "449132d068d86b3da1bdb15be4e656dc2e6742aaed181e5f6541a82343b29ff6",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -92,6 +92,15 @@
       }
     },
     {
+      "identity" : "inject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzysztofzablocki/Inject.git",
+      "state" : {
+        "revision" : "728c56639ecb3df441d51d5bc6747329afabcfc9",
+        "version" : "1.5.2"
+      }
+    },
+    {
       "identity" : "interop-ios-for-google-sdks",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
@@ -134,6 +143,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "setting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/aheze/Setting",
+      "state" : {
+        "revision" : "f506b13b2024fc3e7585b6e4f8290f6f1525127c",
+        "version" : "1.0.1"
       }
     },
     {

@@ -86,6 +86,7 @@
 		BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */; };
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF268D212C804D7F00486762 /* CFQRemoteOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF268D202C804D7F00486762 /* CFQRemoteOptions.swift */; };
+		BF26D8B02D22D69F0056CFB3 /* Setting in Frameworks */ = {isa = PBXBuildFile; productRef = BF26D8AF2D22D69F0056CFB3 /* Setting */; };
 		BF2D3A512AA4F9B10066464F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A502AA4F9B10066464F /* Logger.swift */; };
 		BF2D3A532AA4FB040066464F /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A522AA4FB040066464F /* LogView.swift */; };
 		BF3739C529C4F47B002825B4 /* CFQPersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */; };
@@ -187,6 +188,8 @@
 		BFEF2E9229EDCA0400EFF455 /* chafenqiMini.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BFEF2E8A29EDCA0400EFF455 /* chafenqiMini.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BFEF2E9729EDCB4000EFF455 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */; };
 		BFEF2E9829EDCC1E00EFF455 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */; };
+		BFEF66EB2D22CF2A00E6D263 /* TeamSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEF66EA2D22CF2A00E6D263 /* TeamSettingsPage.swift */; };
+		BFEF66EE2D22CF9100E6D263 /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = BFEF66ED2D22CF9100E6D263 /* Inject */; };
 		BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF353C029681F8D001392E5 /* chafenqiApp.swift */; };
 		BFF353C529681F8E001392E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF353C429681F8E001392E5 /* Assets.xcassets */; };
 		BFF353C829681F8E001392E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF353C729681F8E001392E5 /* Preview Assets.xcassets */; };
@@ -458,6 +461,7 @@
 		BFEF2E8D29EDCA0400EFF455 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		BFEF2E8F29EDCA0400EFF455 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BFEF2E9629EDCB4000EFF455 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		BFEF66EA2D22CF2A00E6D263 /* TeamSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsPage.swift; sourceTree = "<group>"; };
 		BFF353BD29681F8D001392E5 /* chafenqi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chafenqi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF353C029681F8D001392E5 /* chafenqiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chafenqiApp.swift; sourceTree = "<group>"; };
 		BFF353C429681F8E001392E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -542,11 +546,13 @@
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
 				67C434D82A3AA9B700202605 /* CardStack in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
+				BFEF66EE2D22CF9100E6D263 /* Inject in Frameworks */,
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
 				BF6FB6F92C22AEA200DAEBFF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				BF6FB6F72C22AEA200DAEBFF /* FirebaseAnalyticsSwift in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 				6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */,
+				BF26D8B02D22D69F0056CFB3 /* Setting in Frameworks */,
 				6757B2032A399577005701A5 /* ColorKit in Frameworks */,
 				BF6FB6FB2C22AEA200DAEBFF /* FirebaseCrashlytics in Frameworks */,
 				BF6FB6FD2C22AEA200DAEBFF /* FirebasePerformance in Frameworks */,
@@ -1199,6 +1205,7 @@
 				BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */,
 				BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */,
 				BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */,
+				BFEF66EA2D22CF2A00E6D263 /* TeamSettingsPage.swift */,
 			);
 			path = Team;
 			sourceTree = "<group>";
@@ -1329,6 +1336,8 @@
 				BF6FB6F82C22AEA200DAEBFF /* FirebaseAnalyticsWithoutAdIdSupport */,
 				BF6FB6FA2C22AEA200DAEBFF /* FirebaseCrashlytics */,
 				BF6FB6FC2C22AEA200DAEBFF /* FirebasePerformance */,
+				BFEF66ED2D22CF9100E6D263 /* Inject */,
+				BF26D8AF2D22D69F0056CFB3 /* Setting */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -1425,6 +1434,8 @@
 				67C434D62A3AA9B700202605 /* XCRemoteSwiftPackageReference "SwiftUI-CardStackView" */,
 				BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 				BF6FB6F52C22AEA200DAEBFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BFEF66EC2D22CF9100E6D263 /* XCRemoteSwiftPackageReference "Inject" */,
+				BF26D8AE2D22D69F0056CFB3 /* XCRemoteSwiftPackageReference "Setting" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1612,6 +1623,7 @@
 				BFE0759D2A0781E9005248A6 /* HomeView.swift in Sources */,
 				BF426D302A08DE5400606799 /* SongDetailView.swift in Sources */,
 				BFCA383229770851008E30F1 /* CFQError.swift in Sources */,
+				BFEF66EB2D22CF2A00E6D263 /* TeamSettingsPage.swift in Sources */,
 				67E95F812A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */,
 				BFBC54F3298CE5F300A93918 /* MaimaiDataGrabber.swift in Sources */,
 				671192892A49628E00BCE0B9 /* PerksString.swift in Sources */,
@@ -2191,6 +2203,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-interposable",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nltv.chafenqi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2432,6 +2448,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		BF26D8AE2D22D69F0056CFB3 /* XCRemoteSwiftPackageReference "Setting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/Setting";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 		BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast";
@@ -2480,6 +2504,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		BFEF66EC2D22CF9100E6D263 /* XCRemoteSwiftPackageReference "Inject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzysztofzablocki/Inject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2502,6 +2534,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
 			productName = OneSignal;
+		};
+		BF26D8AF2D22D69F0056CFB3 /* Setting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF26D8AE2D22D69F0056CFB3 /* XCRemoteSwiftPackageReference "Setting" */;
+			productName = Setting;
 		};
 		BF42045729982705008C7E02 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2547,6 +2584,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */;
 			productName = SwiftUIBackports;
+		};
+		BFEF66ED2D22CF9100E6D263 /* Inject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFEF66EC2D22CF9100E6D263 /* XCRemoteSwiftPackageReference "Inject" */;
+			productName = Inject;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct TeamCourseView: View {
+    @ObservedObject var team: CFQTeam
+    
     var body: some View {
         VStack {
             

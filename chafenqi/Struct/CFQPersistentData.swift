@@ -95,8 +95,10 @@ class CFQPersistentData: ObservableObject {
             if user.maimaiSongListVersion < latestMai || user.chunithmSongListVersion < latestChu {
                 print("[CFQPersistentData] New data found, downloading...")
                 try await data.update()
-                user.maimaiSongListVersion = latestMai
-                user.chunithmSongListVersion = latestChu
+                DispatchQueue.main.async {
+                    user.maimaiSongListVersion = latestMai
+                    user.chunithmSongListVersion = latestChu
+                }
                 return data
             }
             print("[CFQPersistentData] Music data is up to date.")
