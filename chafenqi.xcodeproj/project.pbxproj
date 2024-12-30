@@ -86,7 +86,9 @@
 		BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */; };
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
 		BF268D212C804D7F00486762 /* CFQRemoteOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF268D202C804D7F00486762 /* CFQRemoteOptions.swift */; };
-		BF26D8B02D22D69F0056CFB3 /* Setting in Frameworks */ = {isa = PBXBuildFile; productRef = BF26D8AF2D22D69F0056CFB3 /* Setting */; };
+		BF26D8B32D2302AE0056CFB3 /* TeamCourseSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B22D2302AE0056CFB3 /* TeamCourseSetting.swift */; };
+		BF26D8B52D2302F40056CFB3 /* TeamMemberSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B42D2302F40056CFB3 /* TeamMemberSetting.swift */; };
+		BF26D8B72D2303960056CFB3 /* TeamPendingMemberSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B62D2303960056CFB3 /* TeamPendingMemberSetting.swift */; };
 		BF2D3A512AA4F9B10066464F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A502AA4F9B10066464F /* Logger.swift */; };
 		BF2D3A532AA4FB040066464F /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A522AA4FB040066464F /* LogView.swift */; };
 		BF3739C529C4F47B002825B4 /* CFQPersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */; };
@@ -378,6 +380,9 @@
 		BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartIdConverter.swift; sourceTree = "<group>"; };
 		BF0CFD60297B26E5003763E2 /* IdMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IdMap.json; sourceTree = "<group>"; };
 		BF268D202C804D7F00486762 /* CFQRemoteOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQRemoteOptions.swift; sourceTree = "<group>"; };
+		BF26D8B22D2302AE0056CFB3 /* TeamCourseSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCourseSetting.swift; sourceTree = "<group>"; };
+		BF26D8B42D2302F40056CFB3 /* TeamMemberSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberSetting.swift; sourceTree = "<group>"; };
+		BF26D8B62D2303960056CFB3 /* TeamPendingMemberSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPendingMemberSetting.swift; sourceTree = "<group>"; };
 		BF2D3A502AA4F9B10066464F /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		BF2D3A522AA4FB040066464F /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQPersistentData.swift; sourceTree = "<group>"; };
@@ -552,7 +557,6 @@
 				BF6FB6F72C22AEA200DAEBFF /* FirebaseAnalyticsSwift in Frameworks */,
 				BF42045829982705008C7E02 /* AlertToast in Frameworks */,
 				6725EB072A2440AB00C1829A /* SwiftUICharts in Frameworks */,
-				BF26D8B02D22D69F0056CFB3 /* Setting in Frameworks */,
 				6757B2032A399577005701A5 /* ColorKit in Frameworks */,
 				BF6FB6FB2C22AEA200DAEBFF /* FirebaseCrashlytics in Frameworks */,
 				BF6FB6FD2C22AEA200DAEBFF /* FirebasePerformance in Frameworks */,
@@ -745,6 +749,17 @@
 				BF571DAB29A91A2700702240 /* ChafenqiColor.swift */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		BF26D8B12D23028C0056CFB3 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				BFEF66EA2D22CF2A00E6D263 /* TeamSettingsPage.swift */,
+				BF26D8B22D2302AE0056CFB3 /* TeamCourseSetting.swift */,
+				BF26D8B42D2302F40056CFB3 /* TeamMemberSetting.swift */,
+				BF26D8B62D2303960056CFB3 /* TeamPendingMemberSetting.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		BF3970F32C205E9600FBEA41 /* Stats */ = {
@@ -1198,6 +1213,7 @@
 		BFF936CC2D1AD27400679F8A /* Team */ = {
 			isa = PBXGroup;
 			children = (
+				BF26D8B12D23028C0056CFB3 /* Setting */,
 				BFF936CF2D1AD2F000679F8A /* TeamLandingPage.swift */,
 				BFF936D12D1AD2FF00679F8A /* TeamInfoPage.swift */,
 				BFF936D32D1AD31600679F8A /* TeamIntroductionPage.swift */,
@@ -1205,7 +1221,6 @@
 				BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */,
 				BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */,
 				BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */,
-				BFEF66EA2D22CF2A00E6D263 /* TeamSettingsPage.swift */,
 			);
 			path = Team;
 			sourceTree = "<group>";
@@ -1337,7 +1352,6 @@
 				BF6FB6FA2C22AEA200DAEBFF /* FirebaseCrashlytics */,
 				BF6FB6FC2C22AEA200DAEBFF /* FirebasePerformance */,
 				BFEF66ED2D22CF9100E6D263 /* Inject */,
-				BF26D8AF2D22D69F0056CFB3 /* Setting */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -1435,7 +1449,6 @@
 				BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 				BF6FB6F52C22AEA200DAEBFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BFEF66EC2D22CF9100E6D263 /* XCRemoteSwiftPackageReference "Inject" */,
-				BF26D8AE2D22D69F0056CFB3 /* XCRemoteSwiftPackageReference "Setting" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -1670,6 +1683,7 @@
 				BFFEEB1F2A0825B3001B15B7 /* ImageCache.xcdatamodeld in Sources */,
 				BFBC5503298CEB5700A93918 /* MaimaiChartStat.swift in Sources */,
 				BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */,
+				BF26D8B32D2302AE0056CFB3 /* TeamCourseSetting.swift in Sources */,
 				BF45B1D72A096E800076E437 /* RatingBannerView.swift in Sources */,
 				BFF58B1D2D1BCF8B00AD1BE1 /* TeamBulletinView.swift in Sources */,
 				BF57F37B2A3EB2C200E9BE6A /* SongScoreTrendChart.swift in Sources */,
@@ -1725,6 +1739,7 @@
 				BFF936D42D1AD31600679F8A /* TeamIntroductionPage.swift in Sources */,
 				6786F0A92A3C624000CE90C2 /* LevelBlockView.swift in Sources */,
 				BFCF130B2A0390D1000B2E0D /* CFQServer.swift in Sources */,
+				BF26D8B72D2303960056CFB3 /* TeamPendingMemberSetting.swift in Sources */,
 				BFF936AF2D1AC1B600679F8A /* CFQTeamServer.swift in Sources */,
 				BFFB52702C2FCA42006FBA68 /* ChunithmLeaderboardEntry.swift in Sources */,
 				BF45B1CE2A0961440076E437 /* TokenUploderView.swift in Sources */,
@@ -1769,6 +1784,7 @@
 				BF533C9829BF093C003409AB /* Comment.swift in Sources */,
 				677004212A20B9E6005BB69A /* RedeemView.swift in Sources */,
 				BFFB52772C2FEE63006FBA68 /* LeaderboardView.swift in Sources */,
+				BF26D8B52D2302F40056CFB3 /* TeamMemberSetting.swift in Sources */,
 				BF9CEFBA2992C03500658724 /* TunnelManagerService.swift in Sources */,
 				BFF936D02D1AD2F000679F8A /* TeamLandingPage.swift in Sources */,
 				BFF353C129681F8D001392E5 /* chafenqiApp.swift in Sources */,
@@ -2448,14 +2464,6 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		BF26D8AE2D22D69F0056CFB3 /* XCRemoteSwiftPackageReference "Setting" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/aheze/Setting";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.1;
-			};
-		};
 		BF42045629982705008C7E02 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast";
@@ -2534,11 +2542,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF04318C2A3427E900577E6F /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
 			productName = OneSignal;
-		};
-		BF26D8AF2D22D69F0056CFB3 /* Setting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF26D8AE2D22D69F0056CFB3 /* XCRemoteSwiftPackageReference "Setting" */;
-			productName = Setting;
 		};
 		BF42045729982705008C7E02 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -246,6 +246,8 @@ struct SettingsInfoLabelView: View {
     @State var title: String
     @State var message: String
     
+    let lineLimit: Int = 1
+    
     var body: some View {
         HStack {
             Text(title)
@@ -253,6 +255,35 @@ struct SettingsInfoLabelView: View {
             Text(message)
                 .foregroundColor(.gray)
         }
+        .lineLimit(lineLimit)
+    }
+}
+
+struct SettingsInfoLabelButton: View {
+    let title: String
+    let message: String
+    
+    let action: () -> Void
+    let lineLimit: Int = 1
+    
+    var body: some View {
+        HStack {
+            Button {
+                action()
+            } label: {
+                HStack {
+                    Text(title)
+                    Spacer()
+                    Text(message)
+                        .foregroundStyle(Color.gray)
+                    Image(systemName: "chevron.right")
+                }
+                .lineLimit(lineLimit)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+            }
+        }
+        .buttonStyle(.plain)
     }
 }
 

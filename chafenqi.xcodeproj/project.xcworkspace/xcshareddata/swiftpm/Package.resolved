@@ -1,5 +1,5 @@
 {
-  "originHash" : "449132d068d86b3da1bdb15be4e656dc2e6742aaed181e5f6541a82343b29ff6",
+  "originHash" : "8a08d7c38d3ae861ece2b7d090bcac193d34f6f998ca3787793d7a9b3a4ae984",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,15 +143,6 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
-      }
-    },
-    {
-      "identity" : "setting",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/aheze/Setting",
-      "state" : {
-        "revision" : "f506b13b2024fc3e7585b6e4f8290f6f1525127c",
-        "version" : "1.0.1"
       }
     },
     {
