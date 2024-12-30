@@ -11,6 +11,7 @@ import CachedAsyncImage
 
 struct TeamBulletinView: View {
     @ObservedObject var team: CFQTeam
+    @ObservedObject var user: CFQNUser
     
     var body: some View {
         ScrollView(.vertical) {
@@ -18,6 +19,23 @@ struct TeamBulletinView: View {
                 ForEach(team.current.bulletinBoard, id: \.id) { bulletin in
                     if let member = team.current.members.first(where: { $0.userId == bulletin.userId }) {
                         TeamBulletinEntryView(bulletin: bulletin, member: member)
+                            .contextMenu {
+                                Button {
+                                    
+                                } label: {
+                                    Label("删除", systemImage: "trash")
+                                        .foregroundStyle(Color.red)
+                                }
+                                .disabled(user.userId != bulletin.userId && user.userId != team.current.info.leaderUserId)
+                                
+                                Button {
+                                    
+                                } label: {
+                                    Label("置顶", systemImage: "pin")
+                                }
+                                .disabled(user.userId != team.current.info.leaderUserId)
+                            }
+                            .padding()
                     }
                 }
             }
@@ -54,6 +72,5 @@ struct TeamBulletinEntryView: View {
             }
         }
         .frame(height: 75)
-        .padding()
     }
 }

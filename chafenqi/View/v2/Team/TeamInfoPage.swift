@@ -67,7 +67,7 @@ struct TeamInfoPage: View {
                     .tag(1)
                 TeamCourseView(team: team)
                     .tag(2)
-                TeamBulletinView(team: team)
+                TeamBulletinView(team: team, user: user)
                     .tag(3)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))

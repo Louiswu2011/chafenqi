@@ -68,7 +68,7 @@ struct TeamMemberEntryView: View {
             }
             .frame(height: 75)
             .if(expanded) {
-                $0.padding(.bottom)
+                $0.padding(.bottom, 5)
             }
             
             if expanded {
@@ -96,6 +96,7 @@ struct TeamMemberEntryView: View {
         }
         .padding()
         .lineLimit(1)
+        .contentShape(Rectangle())
         .onTapGesture {
             withAnimation {
                 expanded.toggle()
