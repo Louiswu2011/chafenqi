@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Inject
+import CachedAsyncImage
 
 struct TeamCourseView: View {
     @ObserveInjection var inject
@@ -56,6 +57,15 @@ struct TeamCourseView: View {
                     .padding(.horizontal)
                     
                     Divider()
+                    
+                    LazyVStack {
+                        ForEach(team.current.courseRecords, id: \.id) { record in
+                            if let member = team.current.members.first(where: { $0.userId == record.userId }) {
+                                TeamCourseRecordEntryView(record: record, member: member)
+                                    .padding(.horizontal)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -126,6 +136,55 @@ struct TeamCourseMusicEntryView: View {
                         .font(.caption)
                 }
             }
+        }
+    }
+}
+
+struct TeamCourseRecordEntryView: View {
+    let record: TeamCourseRecord
+    let member: TeamMember
+    
+    struct TrackScore: View {
+        let index: Int
+        let score: TeamCourseRecord.TrackRecord
+        
+        var body: some View {
+            VStack {
+                Text("TRACK \(index + 1)")
+                Text(score.score)
+                    .bold()
+            }
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            CachedAsyncImage(url: URL(string: member.avatar)) { image in
+                image
+                    .resizable()
+                    .cornerRadius(5)
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 75, height: 75)
+            
+            VStack {
+                HStack {
+                    Text(member.nickname.transformingHalfwidthFullwidth())
+                    Spacer()
+                    Text(DateTool.ymdhmsDateString(from: TimeInterval(record.timestamp)))
+                }
+                Divider()
+                Spacer()
+                HStack {
+                    TrackScore(index: 0, score: record.trackRecords[0])
+                    Spacer()
+                    TrackScore(index: 1, score: record.trackRecords[1])
+                    Spacer()
+                    TrackScore(index: 2, score: record.trackRecords[2])
+                }
+            }
+            .font(.callout)
         }
     }
 }
