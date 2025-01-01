@@ -8,14 +8,26 @@
 import Foundation
 import SwiftUI
 import CachedAsyncImage
+import Inject
 
 struct TeamBulletinView: View {
+    @ObserveInjection var inject
+    
     @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
+    
+    @State private var username = ""
+    @State private var showPostSheet = false
     
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack {
+                Button {
+                    showPostSheet.toggle()
+                } label: {
+                    Label("发布留言", systemImage: "plus")
+                }
+                .padding(.bottom)
                 ForEach(team.current.bulletinBoard, id: \.id) { bulletin in
                     if let member = team.current.members.first(where: { $0.userId == bulletin.userId }) {
                         TeamBulletinEntryView(bulletin: bulletin, member: member)
@@ -35,9 +47,18 @@ struct TeamBulletinView: View {
                                 }
                                 .disabled(user.userId != team.current.info.leaderUserId)
                             }
-                            .padding()
+                            .padding(.horizontal)
                     }
                 }
+            }
+        }
+        .enableInjection()
+        .onAppear {
+            username = team.current.members.first(where: { $0.userId == user.userId })?.nickname.transformingHalfwidthFullwidth() ?? user.username
+        }
+        .sheet(isPresented: $showPostSheet) {
+            TeamBulletinPostSheet(username: username, onCancel: { showPostSheet.toggle() }) { message in
+                showPostSheet.toggle()
             }
         }
     }
@@ -72,5 +93,55 @@ struct TeamBulletinEntryView: View {
             }
         }
         .frame(height: 75)
+    }
+}
+
+struct TeamBulletinPostSheet: View {
+    let username: String
+    let onCancel: () -> Void
+    let onPost: (String) -> Void
+    
+    @State private var message = ""
+    @FocusState private var isFocused: Bool
+    
+    var body: some View {
+        NavigationView {
+            VStack(alignment: .leading) {
+                TextEditor(text: $message)
+                    .autocorrectionDisabled(true)
+                    .multilineTextAlignment(.leading)
+                    .autocapitalization(.none)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .focused($isFocused, equals: true)
+                Spacer()
+                Text("将以\(username)的身份发布，请文明发言")
+                    .font(.callout)
+                    .foregroundStyle(Color.secondary)
+            }
+            .padding()
+            .navigationBarTitle("发表留言")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        onPost(message)
+                    } label: {
+                        Text("提交")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        message = ""
+                        onCancel()
+                    } label: {
+                        Text("取消")
+                    }
+                }
+            }
+            .onAppear {
+                isFocused = true
+            }
+        }
     }
 }

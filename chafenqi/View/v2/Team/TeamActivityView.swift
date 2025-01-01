@@ -53,6 +53,6 @@ struct TeamActivityEntryView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(height: 60)
-        .padding()
+        .padding(.horizontal)
     }
 }
