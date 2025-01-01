@@ -448,7 +448,7 @@ struct CFQTeamServer {
         }
     }
 
-    static func adminSetPinnedMessage(authToken: String, game: Int, teamId: Int, pinnedMessageId: Int) async -> Bool {
+    static func adminSetPinnedMessage(authToken: String, game: Int, teamId: Int, pinnedMessageId: Int) async -> String {
         do {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["id": pinnedMessageId],
@@ -462,14 +462,14 @@ struct CFQTeamServer {
                 path: "admin/update/pinned",
                 payload: payload
             )
-            return response.statusCode() == 200
+            return response.statusCode() == 200 ? "" : "未知错误，请联系开发者。"
         } catch {
             print("CFQTeamServer: Failed to set pinned message: \(error)")
-            return false
+            return error.localizedDescription
         }
     }
 
-    static func adminResetPinnedMessage(authToken: String, game: Int, teamId: Int) async -> Bool {
+    static func adminResetPinnedMessage(authToken: String, game: Int, teamId: Int) async -> String {
         do {
             let (_, response) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
@@ -478,10 +478,10 @@ struct CFQTeamServer {
                 method: "DELETE",
                 path: "admin/update/pinned"
             )
-            return response.statusCode() == 200
+            return response.statusCode() == 200 ? "" : "未知错误，请联系开发者。"
         } catch {
             print("CFQTeamServer: Failed to reset pinned message: \(error)")
-            return false
+            return error.localizedDescription
         }
     }
 
