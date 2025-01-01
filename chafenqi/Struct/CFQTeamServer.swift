@@ -430,12 +430,9 @@ struct CFQTeamServer {
         }
     }
 
-    static func adminUpdateTeamCourse(authToken: String, game: Int, teamId: Int, newCourse: [String: Any]) async -> String {
+    static func adminUpdateTeamCourse(authToken: String, game: Int, teamId: Int, newCourse: TeamUpdateCoursePayload) async -> String {
         do {
-            let payload = try JSONSerialization.data(
-                withJSONObject: newCourse,
-                options: []
-            )
+            let payload = try encoder.encode(newCourse)
             let (data, _) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
@@ -451,7 +448,7 @@ struct CFQTeamServer {
         }
     }
 
-    static func adminSetPinnedMessage(authToken: String, game: Int, teamId: Int, pinnedMessageId: Int64) async -> Bool {
+    static func adminSetPinnedMessage(authToken: String, game: Int, teamId: Int, pinnedMessageId: Int) async -> Bool {
         do {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["id": pinnedMessageId],

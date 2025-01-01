@@ -55,9 +55,14 @@ struct TeamCourseTrack {
     let musicId: Int
     let levelIndex: Int
     
+    init(musicId: Int, levelIndex: Int) {
+        self.musicId = musicId
+        self.levelIndex = levelIndex
+    }
+    
     init(trackString: String) {
-        musicId = Int(trackString.split(separator: "-")[0]) ?? 0
-        levelIndex = Int(trackString.split(separator: "-")[1]) ?? 0
+        self.musicId = Int(trackString.split(separator: ",")[0]) ?? 0
+        self.levelIndex = Int(trackString.split(separator: ",")[1]) ?? 0
     }
 }
 

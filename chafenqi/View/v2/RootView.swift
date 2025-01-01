@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct RootView: View {
     @ObservedObject var user: CFQNUser

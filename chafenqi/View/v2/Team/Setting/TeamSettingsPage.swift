@@ -14,7 +14,7 @@ struct TeamSettingsPage: View {
     
     @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
-
+    
     @State var promotable: Bool = false
     
     @State var courseName: String = ""
@@ -98,6 +98,8 @@ struct TeamSettingsPage: View {
         .onAppear {
             promotable = team.current.info.promotable
         }
+        .navigationTitle("团队设置")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func updatePromotable(newValue: Bool) async -> Bool {
