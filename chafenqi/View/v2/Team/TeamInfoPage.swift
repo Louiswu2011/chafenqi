@@ -65,7 +65,7 @@ struct TeamInfoPage: View {
                     .tag(0)
                 TeamActivityView(team: team)
                     .tag(1)
-                TeamCourseView(team: team)
+                TeamCourseView(team: team, user: user)
                     .tag(2)
                 TeamBulletinView(team: team, user: user)
                     .tag(3)
