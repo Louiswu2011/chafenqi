@@ -16,6 +16,7 @@ struct TeamCourseView: View {
     @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
     
+    @State var expanded: Bool = true
     @State var courseTrackInfos: [(String, String, String, URL, Color)] = []
     @State var playCount: Int = 0
     @State var passCount: Int = 0
@@ -31,30 +32,48 @@ struct TeamCourseView: View {
             } else {
                 ScrollView {
                     VStack {
-                        Text(team.current.info.courseName)
-                            .bold()
-                        
-                        if !courseTrackInfos.isEmpty {
-                            VStack {
-                                TeamCourseMusicEntryView(index: 0, info: courseTrackInfos[0])
-                                TeamCourseMusicEntryView(index: 1, info: courseTrackInfos[1])
-                                TeamCourseMusicEntryView(index: 2, info: courseTrackInfos[2])
+                        ZStack {
+                            HStack {
+                                Text(team.current.info.courseName)
+                                    .bold()
+                            }
+                            HStack {
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        expanded.toggle()
+                                    }
+                                } label: {
+                                    Text(expanded ? "收起" : "展开")
+                                }
                             }
                         }
                     }
                     .padding(.horizontal)
                     
-                    HStack {
-                        Text("游玩人数：")
-                        Text("\(playCount)")
-                            .bold()
-                        Spacer()
-                        Text("通过人数：")
-                        Text("\(passCount)")
-                            .bold()
+                    if expanded {
+                        VStack {
+                            if !courseTrackInfos.isEmpty {
+                                VStack {
+                                    TeamCourseMusicEntryView(index: 0, info: courseTrackInfos[0])
+                                    TeamCourseMusicEntryView(index: 1, info: courseTrackInfos[1])
+                                    TeamCourseMusicEntryView(index: 2, info: courseTrackInfos[2])
+                                }
+                            }
+                            
+                            HStack {
+                                Text("游玩人数：")
+                                Text("\(playCount)")
+                                    .bold()
+                                Spacer()
+                                Text("通过人数：")
+                                Text("\(passCount)")
+                                    .bold()
+                            }
+                        }
+                        .font(.callout)
+                        .padding(.horizontal)
                     }
-                    .font(.callout)
-                    .padding(.horizontal)
                     
                     Divider()
                     
