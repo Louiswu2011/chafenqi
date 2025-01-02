@@ -15,25 +15,49 @@ struct TeamIntroductionPage: View {
     
     @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
+    @ObservedObject var alertToastModel = AlertToastModel.shared
     
     @State private var searchText: String = ""
-    @State private var list: [TeamBasicInfo] = []
+    
+    @State private var searchedTeam: [TeamBasicInfo] = []
     
     @State private var showCreateSheet: Bool = false
     
     var body: some View {
-        List {
-            ForEach(list, id: \.id) { team in
-                TeamIntroductionEntryView(info: team) { teamId in
-                    
+        VStack {
+            HStack {
+                TextField("输入团队代码...", text: $searchText)
+                Spacer()
+                Button {
+                    search()
+                } label: {
+                    Text(searchedTeam.isEmpty ? "搜索" : "取消")
                 }
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    Button {
-                        
-                    } label: {
-                        Text("申请加入")
+            }
+            .padding()
+            List {
+                if searchedTeam.isEmpty {
+                    ForEach(team.list, id: \.id) { team in
+                        TeamIntroductionEntryView(info: team)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button {
+                                onApply(teamId: team.id, message: "")
+                            } label: {
+                                Text("申请加入")
+                            }
+                            .tint(Color.blue)
+                        }
                     }
-                    .tint(Color.blue)
+                } else {
+                    TeamIntroductionEntryView(info: searchedTeam[0])
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button {
+                            onApply(teamId: searchedTeam[0].id, message: "")
+                        } label: {
+                            Text("申请加入")
+                        }
+                        .tint(Color.blue)
+                    }
                 }
             }
         }
@@ -49,7 +73,6 @@ struct TeamIntroductionPage: View {
                 }
             }
         }
-        .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "输入团队代码")
         .disableAutocorrection(true)
         .autocapitalization(.none)
         .sheet(isPresented: $showCreateSheet) {
@@ -58,26 +81,30 @@ struct TeamIntroductionPage: View {
         .refreshable {
             team.refresh(user: user)
         }
-        .onAppear {
-            list = team.list
-        }
-        .onChange(of: searchText) { newValue in
-            search()
-        }
     }
     
     func search() {
-        if searchText.isEmpty {
-            list = team.list
+        if searchedTeam.isEmpty {
+            searchedTeam = team.list.filter { $0.teamCode == searchText }
         } else {
-            list = team.list.filter { $0.teamCode == searchText }
+            searchedTeam.removeAll()
+        }
+    }
+    
+    func onApply(teamId: Int, message: String) {
+        Task {
+            let result = await CFQTeamServer.applyForTeam(authToken: user.jwtToken, game: user.currentMode, teamId: teamId, message: message)
+            if result.isEmpty {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已发送申请", subTitle: "请注意同一时间申请数量")
+            } else {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "发送申请失败", subTitle: result)
+            }
         }
     }
 }
 
 struct TeamIntroductionEntryView: View {
     let info: TeamBasicInfo
-    let onApply: (Int) -> Void
     
     var body: some View {
         VStack(alignment: .leading) {

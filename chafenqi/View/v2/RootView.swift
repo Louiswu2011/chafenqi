@@ -56,7 +56,7 @@ struct RootView: View {
                         Text("歌曲")
                     }
                 }
-                .toast(isPresenting: $alertToast.show, duration: 3, tapToDismiss: true) {
+                .toast(isPresenting: $alertToast.show, duration: 5, tapToDismiss: true) {
                     alertToast.toast
                 }
             } else {
