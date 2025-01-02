@@ -137,7 +137,7 @@ struct TeamIntroductionCreateView: View {
                     Label("创建团队", systemImage: "plus")
                 }
                 .buttonStyle(.borderedProminent)
-                // .disabled(!user.isPremium)
+                .disabled(!user.isPremium)
             }
             .padding()
             .navigationTitle("团队功能介绍")
