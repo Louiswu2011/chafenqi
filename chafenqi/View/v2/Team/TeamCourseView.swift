@@ -170,6 +170,7 @@ struct TeamCourseRecordEntryView: View {
         var body: some View {
             VStack {
                 Text("TRACK \(index + 1)")
+                    .font(.caption2)
                 Text(score.score)
                     .bold()
             }
