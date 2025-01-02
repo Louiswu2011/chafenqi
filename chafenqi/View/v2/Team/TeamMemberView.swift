@@ -94,7 +94,7 @@ struct TeamMemberEntryView: View {
                 .font(.caption)
             }
         }
-        .padding()
+        .padding(.horizontal)
         .lineLimit(1)
         .contentShape(Rectangle())
         .onTapGesture {
