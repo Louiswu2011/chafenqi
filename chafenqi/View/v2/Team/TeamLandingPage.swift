@@ -22,7 +22,7 @@ struct TeamLandingPage: View {
                 if team.currentTeamId != nil, team.current.info.displayName != "" {
                     TeamInfoPage(team: team, user: user)
                 } else {
-                    TeamIntroductionPage()
+                    TeamIntroductionPage(team: team, user: user)
                 }
             }
         }

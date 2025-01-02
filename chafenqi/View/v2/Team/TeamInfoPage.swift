@@ -72,7 +72,7 @@ struct TeamInfoPage: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
-        .navigationTitle("队伍信息")
+        .navigationTitle("团队信息")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             if let leader = team.current.members.first(where: { $0.userId == team.current.info.leaderUserId }) {

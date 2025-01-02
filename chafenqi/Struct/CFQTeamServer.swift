@@ -107,6 +107,19 @@ struct CFQTeamServer {
         }
     }
     
+    static func fetchAllTeamInfos(
+        authToken: String,
+        game: Int
+    ) async -> [TeamBasicInfo] {
+        do {
+            let (data, _) = try await fetchFromServer(method: "GET", path: "\(game.gameString())", token: authToken)
+            return try decoder.decode(Array<TeamBasicInfo>.self, from: data)
+        } catch {
+            print("Failed to fetch all game \(game) teams: \(error)")
+            return []
+        }
+    }
+    
     static func createTeam(
         authToken: String,
         payload: TeamCreatePayload
@@ -115,7 +128,7 @@ struct CFQTeamServer {
             let (data, _) = try await fetchFromServer(
                 method: "POST",
                 path: "\(payload.game.gameString())/create",
-                payload: try JSONEncoder().encode(payload),
+                payload: try encoder.encode(payload),
                 token: authToken
             )
             return String(data: data, encoding: .utf8)!
