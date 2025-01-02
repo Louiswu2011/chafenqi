@@ -64,15 +64,25 @@ struct TeamSettingsPage: View {
             
             Section {
                 NavigationLink {
-                    
+                    TeamMemberSettingView(team: team, user: user)
                 } label: {
-                    Text("成员")
+                    HStack {
+                        Text("成员")
+                        Spacer()
+                        Text("\(team.current.members.count)")
+                            .foregroundStyle(Color.secondary)
+                    }
                 }
                 
                 NavigationLink {
-                    
+                    TeamPendingMemberSettingView(team: team, user: user)
                 } label: {
-                    Text("待加入成员")
+                    HStack {
+                        Text("待加入成员")
+                        Spacer()
+                        Text("\(team.current.pendingMembers.count)")
+                            .foregroundStyle(Color.secondary)
+                    }
                 }
             } header: {
                 Text("成员管理")
