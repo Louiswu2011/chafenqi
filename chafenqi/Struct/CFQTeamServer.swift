@@ -380,13 +380,13 @@ struct CFQTeamServer {
         }
     }
 
-    static func adminUpdateTeamStyle(authToken: String, game: Int, teamId: Int, newStyle: String) async -> Bool {
+    static func adminUpdateTeamStyle(authToken: String, game: Int, teamId: Int, newStyle: String) async -> String {
         do {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["style": newStyle],
                 options: []
             )
-            let (_, response) = try await CFQTeamServer.fetchFromTeam(
+            let (data, _) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -394,20 +394,20 @@ struct CFQTeamServer {
                 path: "admin/update/style",
                 payload: payload
             )
-            return response.statusCode() == 200
+            return String(data: data, encoding: .utf8) ?? ""
         } catch {
             print("CFQTeamServer: Failed to update team style: \(error)")
-            return false
+            return "未知错误，请联系开发者。"
         }
     }
 
-    static func adminUpdateTeamRemarks(authToken: String, game: Int, teamId: Int, newRemarks: String) async -> Bool {
+    static func adminUpdateTeamRemarks(authToken: String, game: Int, teamId: Int, newRemarks: String) async -> String {
         do {
             let payload = try JSONSerialization.data(
                 withJSONObject: ["remarks": newRemarks],
                 options: []
             )
-            let (_, response) = try await CFQTeamServer.fetchFromTeam(
+            let (data, _) = try await CFQTeamServer.fetchFromTeam(
                 token: authToken,
                 game: game,
                 teamId: teamId,
@@ -415,10 +415,10 @@ struct CFQTeamServer {
                 path: "admin/update/remarks",
                 payload: payload
             )
-            return response.statusCode() == 200
+            return String(data: data, encoding: .utf8) ?? ""
         } catch {
             print("CFQTeamServer: Failed to update team remarks: \(error)")
-            return false
+            return "未知错误，请联系开发者。"
         }
     }
 

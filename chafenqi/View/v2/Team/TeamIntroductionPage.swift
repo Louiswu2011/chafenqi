@@ -176,12 +176,19 @@ struct TeamIntroductionCreateView: View {
     }
 }
 
+struct TextLengthLimiter: View {
+    let limit: Int
+    @Binding var text: String
+    
+    var body: some View {
+        HStack {
+            Text("\(text.count)/\(limit)")
+        }
+        .foregroundStyle((text.count > limit || text.count == 0) ? Color.red : Color.secondary)
+    }
+}
 
 struct TeamIntroductionCreateFormView: View {
-    let teamNameLimit = 24
-    let teamStyleLimit = 16
-    let teamRemarksLimit = 120
-    
     @ObservedObject var user: CFQNUser
     
     @Binding var showForm: Bool
@@ -194,19 +201,7 @@ struct TeamIntroductionCreateFormView: View {
     
     let onSuccess: () -> Void
     let onFailure: (String) -> Void
-    
-    struct TextLengthLimiter: View {
-        let limit: Int
-        @Binding var text: String
-        
-        var body: some View {
-            HStack {
-                Text("\(text.count)/\(limit)")
-            }
-            .foregroundStyle((text.count > limit || text.count == 0) ? Color.red : Color.secondary)
-        }
-    }
-    
+
     var body: some View {
         Form {
             Section {

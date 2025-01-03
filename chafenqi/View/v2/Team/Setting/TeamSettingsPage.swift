@@ -26,6 +26,14 @@ struct TeamSettingsPage: View {
     @State var showRotateTeamCodeConfirmAlert: Bool = false
     @State var showDisbandTeamConfirmAlert: Bool = false
     
+    @State var showEditTeamNameAlert: Bool = false
+    @State var showEditTeamStyleAlert: Bool = false
+    @State var showEditTeamRemarksAlert: Bool = false
+    
+    @State var newTeamName: String = ""
+    @State var newTeamStyle: String = ""
+    @State var newTeamRemarks: String = ""
+    
     var body: some View {
         let promotableToggle = Binding {
             promotable
@@ -41,13 +49,13 @@ struct TeamSettingsPage: View {
         Form {
             Section {
                 SettingsInfoLabelButton(title: "团队名称", message: team.current.info.displayName) {
-                    
+                    showEditTeamNameAlert.toggle()
                 }
                 SettingsInfoLabelButton(title: "团队方针", message: team.current.info.style) {
-                    
+                    showEditTeamStyleAlert.toggle()
                 }
                 SettingsInfoLabelButton(title: "团队介绍", message: team.current.info.remarks) {
-                    
+                    showEditTeamRemarksAlert.toggle()
                 }
                 Toggle(isOn: promotableToggle) {
                     Text("可被搜索")
@@ -133,6 +141,78 @@ struct TeamSettingsPage: View {
         } message: {
             Text("确认要解散团队吗？该操作无法撤销。")
         }
+        .alert("编辑团队名称", isPresented: $showEditTeamNameAlert) {
+            TextField("输入新的团队名称...", text: $newTeamName)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            Button("取消", role: .cancel) { newTeamName = "" }
+            Button("确定") {
+                onUpdateTeamName()
+            }
+            .disabled(newTeamName.isEmpty || newTeamName.count > teamNameLimit)
+        } message: {
+            Text("新团队名称不能超过\(teamNameLimit)字")
+        }
+        .alert("编辑团队方针", isPresented: $showEditTeamStyleAlert) {
+            TextField("输入新的团队方针...", text: $newTeamStyle)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            Button("取消", role: .cancel) { newTeamStyle = "" }
+            Button("确定") {
+                onUpdateTeamStyle()
+            }
+            .disabled(newTeamStyle.isEmpty || newTeamStyle.count > teamStyleLimit)
+        } message: {
+            Text("新团队方针不能超过\(teamStyleLimit)字")
+        }
+        .alert("编辑团队介绍", isPresented: $showEditTeamRemarksAlert) {
+            TextField("输入新的团队介绍...", text: $newTeamRemarks)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            Button("取消", role: .cancel) { newTeamRemarks = "" }
+            Button("确定") {
+                onUpdateTeamRemarks()
+            }
+            .disabled(newTeamRemarks.isEmpty || newTeamRemarks.count > teamRemarksLimit)
+        } message: {
+            Text("新团队介绍不能超过\(teamRemarksLimit)字")
+        }
+    }
+    
+    func onUpdateTeamName() {
+        Task {
+            let result = await CFQTeamServer.adminUpdateTeamName(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, newName: newTeamName)
+            if result.isEmpty {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "更新成功")
+            } else {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "更新失败", subTitle: result)
+            }
+        }
+        newTeamName = ""
+    }
+    
+    func onUpdateTeamStyle() {
+        Task {
+            let result = await CFQTeamServer.adminUpdateTeamStyle(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, newStyle: newTeamStyle)
+            if result.isEmpty {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "更新成功")
+            } else {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "更新失败", subTitle: result)
+            }
+        }
+        newTeamStyle = ""
+    }
+    
+    func onUpdateTeamRemarks() {
+        Task {
+            let result = await CFQTeamServer.adminUpdateTeamRemarks(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, newRemarks: newTeamRemarks)
+            if result.isEmpty {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "更新成功")
+            } else {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "更新失败", subTitle: result)
+            }
+        }
+        newTeamRemarks = ""
     }
     
     func updatePromotable(newValue: Bool) async -> Bool {

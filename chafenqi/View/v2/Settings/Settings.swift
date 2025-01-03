@@ -277,6 +277,7 @@ struct SettingsInfoLabelButton: View {
                     Text(message)
                         .foregroundStyle(Color.gray)
                     Image(systemName: "chevron.right")
+                        .foregroundStyle(Color.secondary)
                 }
                 .lineLimit(lineLimit)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

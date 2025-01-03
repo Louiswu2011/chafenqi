@@ -7,6 +7,10 @@
 
 import Foundation
 
+let teamNameLimit = 24
+let teamStyleLimit = 16
+let teamRemarksLimit = 120
+
 let difficulty = ["Expert": "exp", "Master": "mst", "Ultima": "ult"]
 let chunithmRanks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]
 
