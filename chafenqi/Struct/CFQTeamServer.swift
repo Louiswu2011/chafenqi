@@ -326,7 +326,7 @@ struct CFQTeamServer {
     ) async -> String {
         do {
             let payload = try JSONSerialization.data(
-                withJSONObject: ["userId": newLeaderUserId]
+                withJSONObject: ["newLeaderUserId": newLeaderUserId]
             )
             let (data, _) = try await fetchFromTeam(
                 token: authToken,
