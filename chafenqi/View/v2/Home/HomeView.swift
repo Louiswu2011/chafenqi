@@ -10,9 +10,11 @@ import AlertToast
 import OneSignal
 import WidgetKit
 import SwiftUIBackports
+import Inject
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) var context
+    @ObserveInjection var inject
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToast = AlertToastModel.shared
     
@@ -65,6 +67,7 @@ struct HomeView: View {
                         Button {
                             withAnimation(.easeInOut(duration: 0.15)) {
                                 user.currentMode.toggle()
+                                team.refresh(user: user)
                             }
                         } label: {
                             Image(systemName: "arrow.left.arrow.right")
@@ -117,6 +120,7 @@ struct HomeView: View {
         .alert(isPresented: $alertToast.alertShow) {
             alertToast.alert
         }
+        .enableInjection()
     }
     
     func refresh() {
@@ -128,6 +132,7 @@ struct HomeView: View {
         Task {
             do {
                 try await user.refresh()
+                team.refresh(user: user)
                 syncToWidget()
             } catch {
                 print("[HomeView] Error refreshing record for", user.username, error)
