@@ -38,10 +38,10 @@ struct TeamActivityEntryView: View {
             } placeholder: {
                 ProgressView()
             }
-            .frame(width: 60, height: 60)
+            .frame(width: 75, height: 75)
             
             VStack(alignment: .leading) {
-                Text(try! AttributedString(markdown: "**\(member.nickname.transformingHalfwidthFullwidth())** \(activity.activity)"))
+                Text(try! AttributedString(markdown: "**\(member.nickname.transformingHalfwidthFullwidth())** \(activity.activity.transformingHalfwidthFullwidth())"))
                     .lineLimit(2)
                 Spacer()
                 HStack {
@@ -52,7 +52,7 @@ struct TeamActivityEntryView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(height: 60)
+        .frame(height: 75)
         .padding(.horizontal)
     }
 }
