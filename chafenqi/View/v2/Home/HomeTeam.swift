@@ -40,6 +40,7 @@ struct HomeTeam: View {
                         .padding(5)
                 }
             }
+            .disabled(true)
         }
         .enableInjection()
         .padding(.horizontal)

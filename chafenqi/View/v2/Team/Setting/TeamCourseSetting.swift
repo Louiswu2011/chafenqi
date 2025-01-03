@@ -240,9 +240,9 @@ struct TeamSettingMusicSelectionSheet: View {
                     }
                 }
             }
+            .navigationTitle("选择歌曲和难度")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle("选择歌曲和难度")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             filteredList = musicList
         }

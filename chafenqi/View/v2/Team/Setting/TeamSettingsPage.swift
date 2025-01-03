@@ -184,11 +184,12 @@ struct TeamSettingsPage: View {
             let result = await CFQTeamServer.adminUpdateTeamName(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, newName: newTeamName)
             if result.isEmpty {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "更新成功")
+                team.refresh(user: user)
             } else {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "更新失败", subTitle: result)
             }
+            newTeamName = ""
         }
-        newTeamName = ""
     }
     
     func onUpdateTeamStyle() {
@@ -196,11 +197,12 @@ struct TeamSettingsPage: View {
             let result = await CFQTeamServer.adminUpdateTeamStyle(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, newStyle: newTeamStyle)
             if result.isEmpty {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "更新成功")
+                team.refresh(user: user)
             } else {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "更新失败", subTitle: result)
             }
+            newTeamStyle = ""
         }
-        newTeamStyle = ""
     }
     
     func onUpdateTeamRemarks() {
@@ -208,11 +210,12 @@ struct TeamSettingsPage: View {
             let result = await CFQTeamServer.adminUpdateTeamRemarks(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, newRemarks: newTeamRemarks)
             if result.isEmpty {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "更新成功")
+                team.refresh(user: user)
             } else {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "更新失败", subTitle: result)
             }
+            newTeamRemarks = ""
         }
-        newTeamRemarks = ""
     }
     
     func updatePromotable(newValue: Bool) async -> Bool {
