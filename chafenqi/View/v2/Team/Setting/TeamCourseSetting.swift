@@ -247,6 +247,8 @@ struct TeamSettingMusicSelectionSheet: View {
             filteredList = musicList
         }
         .searchable(text: $searchText, prompt: "搜索标题或曲师...")
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
         .onSubmit(of: .search) {
             filteredList = musicList.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText) || $0.artist.localizedCaseInsensitiveContains(searchText)
