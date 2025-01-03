@@ -147,6 +147,7 @@
 		BFA133262A7556ED00593C7B /* ClickGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA133252A7556ED00593C7B /* ClickGameView.swift */; };
 		BFA3190C2A02ED140042B5FB /* CFQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3190B2A02ED140042B5FB /* CFQData.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
+		BFB2C2292D281A35003D84EA /* TeamLeaderboardPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB2C2282D281A35003D84EA /* TeamLeaderboardPage.swift */; };
 		BFB384702A7BBB38005109EB /* ScreenshotMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3846F2A7BBB38005109EB /* ScreenshotMaker.swift */; };
 		BFB57B772A62FA26007DA4BC /* UserLinkOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */; };
 		BFBC54F3298CE5F300A93918 /* MaimaiDataGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */; };
@@ -426,6 +427,7 @@
 		BFA006CA2C1D97AD00BC4BC2 /* SongStatsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongStatsDetailView.swift; sourceTree = "<group>"; };
 		BFA133252A7556ED00593C7B /* ClickGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickGameView.swift; sourceTree = "<group>"; };
 		BFA3190B2A02ED140042B5FB /* CFQData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQData.swift; sourceTree = "<group>"; };
+		BFB2C2282D281A35003D84EA /* TeamLeaderboardPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamLeaderboardPage.swift; sourceTree = "<group>"; };
 		BFB3846F2A7BBB38005109EB /* ScreenshotMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMaker.swift; sourceTree = "<group>"; };
 		BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLinkOptionView.swift; sourceTree = "<group>"; };
 		BFBC54F2298CE5F300A93918 /* MaimaiDataGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiDataGrabber.swift; sourceTree = "<group>"; };
@@ -901,6 +903,18 @@
 			path = Easter;
 			sourceTree = "<group>";
 		};
+		BFB2C2272D281A17003D84EA /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				BFF936D12D1AD2FF00679F8A /* TeamInfoPage.swift */,
+				BFF58B162D1BCF2A00AD1BE1 /* TeamMemberView.swift */,
+				BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */,
+				BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */,
+				BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
 		BFB57B752A62F742007DA4BC /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,14 +1227,11 @@
 		BFF936CC2D1AD27400679F8A /* Team */ = {
 			isa = PBXGroup;
 			children = (
+				BFB2C2272D281A17003D84EA /* Info */,
 				BF26D8B12D23028C0056CFB3 /* Setting */,
 				BFF936CF2D1AD2F000679F8A /* TeamLandingPage.swift */,
-				BFF936D12D1AD2FF00679F8A /* TeamInfoPage.swift */,
 				BFF936D32D1AD31600679F8A /* TeamIntroductionPage.swift */,
-				BFF58B162D1BCF2A00AD1BE1 /* TeamMemberView.swift */,
-				BFF58B182D1BCF5700AD1BE1 /* TeamActivityView.swift */,
-				BFF58B1A2D1BCF7100AD1BE1 /* TeamCourseView.swift */,
-				BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */,
+				BFB2C2282D281A35003D84EA /* TeamLeaderboardPage.swift */,
 			);
 			path = Team;
 			sourceTree = "<group>";
@@ -1677,6 +1688,7 @@
 				6786F0AF2A3C62BF00CE90C2 /* SongChartView.swift in Sources */,
 				BF71A28E2D1A9C77004DED5E /* UserChunithmExtraEntry.swift in Sources */,
 				BFE9A6802A9FB27100B7AC55 /* InfoChunithmTicketList.swift in Sources */,
+				BFB2C2292D281A35003D84EA /* TeamLeaderboardPage.swift in Sources */,
 				BFCDABC12D01B0DE002F1FED /* CFQUserInfo.swift in Sources */,
 				670EBC1F2A30541900D32723 /* PlayerMaimaiInfoView.swift in Sources */,
 				BF2D3A512AA4F9B10066464F /* Logger.swift in Sources */,

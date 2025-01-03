@@ -29,7 +29,7 @@ struct HomeTeam: View {
                 }
             }
             NavigationLink {
-                
+                TeamLeaderboardPage(team: team, user: user)
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
@@ -40,7 +40,6 @@ struct HomeTeam: View {
                         .padding(5)
                 }
             }
-            .disabled(true)
         }
         .enableInjection()
         .padding(.horizontal)
