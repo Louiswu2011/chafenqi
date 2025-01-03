@@ -55,7 +55,10 @@ struct TeamSettingsPage: View {
             } header: {
                 Text("基本信息")
             } footer: {
-                Text("团队名称在30天内仅能更改一次")
+                VStack(alignment: .leading) {
+                    Text("团队名称在30天内仅能更改一次")
+                    Text("最后修改时间：" + DateTool.ymdhmsDateString(from: TimeInterval(team.current.info.nameLastModifiedAt)))
+                }
             }
             
             Section {
