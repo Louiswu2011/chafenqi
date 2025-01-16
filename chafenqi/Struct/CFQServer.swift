@@ -193,23 +193,19 @@ struct CFQServer {
         }
     }
     
-    // TODO: Add server side implementation
     struct Image {
         static func getChunithmB30Image(authToken: String) async -> UIImage? {
             do {
-                let query = [URLQueryItem(name: "game", value: "0"), URLQueryItem(name: "type", value: "b30")]
-                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/image", query: query, token: authToken, shouldThrowByCode: false)
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/chunithm/image/b30", token: authToken, shouldThrowByCode: false)
                 return UIImage(data: data)
             } catch {
                 return nil
             }
         }
         
-        static func getMaimaiB50Image(data: MaimaiB50Info) async -> UIImage? {
+        static func getMaimaiB50Image(authToken: String) async -> UIImage? {
             do {
-                // let payload = try JSONSerialization.data(withJSONObject: data)
-                let payload = try JSONEncoder().encode(data)
-                let (imageData, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/image/b50", payload: payload, shouldThrowByCode: false)
+                let (imageData, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/maimai/image/b50", token: authToken, shouldThrowByCode: false)
                 return UIImage(data: imageData)
             } catch {
                 return nil

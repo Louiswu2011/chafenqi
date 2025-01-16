@@ -177,7 +177,6 @@
 		BFE075A72A07B642005248A6 /* RecentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A62A07B642005248A6 /* RecentListView.swift */; };
 		BFE075A92A07B64B005248A6 /* RecentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE075A82A07B64B005248A6 /* RecentDetail.swift */; };
 		BFE205E22A8B8538002AC527 /* UserComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE205E12A8B8538002AC527 /* UserComment.swift */; };
-		BFE66DB02CB688A4006C8CFD /* MaimaiB50Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE66DAF2CB688A4006C8CFD /* MaimaiB50Info.swift */; };
 		BFE99A0C2C7D96D600A67259 /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE99A0B2C7D96D600A67259 /* SongListView.swift */; };
 		BFE99A0F2C7DA36700A67259 /* MultiplePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE99A0E2C7DA36700A67259 /* MultiplePicker.swift */; };
 		BFE99A112C7DAF6100A67259 /* SongListFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE99A102C7DAF6100A67259 /* SongListFilterView.swift */; };
@@ -455,7 +454,6 @@
 		BFE075A62A07B642005248A6 /* RecentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentListView.swift; sourceTree = "<group>"; };
 		BFE075A82A07B64B005248A6 /* RecentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetail.swift; sourceTree = "<group>"; };
 		BFE205E12A8B8538002AC527 /* UserComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserComment.swift; sourceTree = "<group>"; };
-		BFE66DAF2CB688A4006C8CFD /* MaimaiB50Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaimaiB50Info.swift; sourceTree = "<group>"; };
 		BFE99A0B2C7D96D600A67259 /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		BFE99A0E2C7DA36700A67259 /* MultiplePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePicker.swift; sourceTree = "<group>"; };
 		BFE99A102C7DAF6100A67259 /* SongListFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListFilterView.swift; sourceTree = "<group>"; };
@@ -938,7 +936,6 @@
 				BFBC5500298CEB4C00A93918 /* MaimaiSongData.swift */,
 				BFBC5502298CEB5700A93918 /* MaimaiChartStat.swift */,
 				BFFB526D2C2FCA38006FBA68 /* MaimaiLeaderboardEntry.swift */,
-				BFE66DAF2CB688A4006C8CFD /* MaimaiB50Info.swift */,
 			);
 			path = Maimai;
 			sourceTree = "<group>";
@@ -1661,7 +1658,6 @@
 				BFFEEB152A081CC5001B15B7 /* UpdaterView.swift in Sources */,
 				BF45B1D52A096DC00076E437 /* RatingListView.swift in Sources */,
 				673B33152A286D9D00857FF0 /* HomeDelta.swift in Sources */,
-				BFE66DB02CB688A4006C8CFD /* MaimaiB50Info.swift in Sources */,
 				BF57F3782A3EB0CB00E9BE6A /* SongEntryListView.swift in Sources */,
 				BFCDABC62D01C1C9002F1FED /* UserMaimaiEntry.swift in Sources */,
 				67D622D62A248C2800E7D70E /* CFQFilterOptions.swift in Sources */,
