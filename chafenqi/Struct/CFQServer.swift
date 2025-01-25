@@ -108,11 +108,18 @@ struct CFQServer {
             return response.statusCode() == 200
         }
         
-        // TODO: Adapt new api
         static func fetchIsUploading(game: GameType, authToken: String) async throws -> Bool {
-            let query = [URLQueryItem(name: "dest", value: game == .Chunithm ? "0" : "1")]
-            let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/isUploading", query: query, token: authToken, shouldThrowByCode: false)
-            return response.statusCode() == 200
+            do {
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/upload-status", token: authToken, shouldThrowByCode: false)
+                let status = try decoder.decode(CFQUserUploadStatus.self, from: data)
+                if game == .Chunithm {
+                    return status.chunithm >= 0
+                } else {
+                    return status.maimai >= 0
+                }
+            } catch {
+                return false
+            }
         }
         
         static func fetchLeaderboardRank<T: Decodable>(authToken: String, type: T.Type) async -> T? {
@@ -222,8 +229,8 @@ struct CFQServer {
         
         static func checkUploadStatus(authToken: String) async throws -> [Int] {
             let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/upload-status", token: authToken)
-            let decoded = try CFQServer.decoder.decode(Dictionary<String, Int>.self, from: data)
-            return [decoded["chu"] ?? -1, decoded["mai"] ?? -1]
+            let decoded = try decoder.decode(CFQUserUploadStatus.self, from: data)
+            return [decoded.chunithm, decoded.maimai]
         }
         
         // TODO: Add server side implementation

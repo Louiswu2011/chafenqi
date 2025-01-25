@@ -210,6 +210,7 @@
 		BFF58B1D2D1BCF8B00AD1BE1 /* TeamBulletinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */; };
 		BFF58B1F2D1BD54600AD1BE1 /* CFQTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */; };
 		BFF8F51A2D4545AF001AFDD9 /* CFQMusicStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F5192D4545AF001AFDD9 /* CFQMusicStat.swift */; };
+		BFF8F51C2D454EC9001AFDD9 /* CFQUserUploadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51B2D454EC9001AFDD9 /* CFQUserUploadStatus.swift */; };
 		BFF936AF2D1AC1B600679F8A /* CFQTeamServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */; };
 		BFF936B22D1AC58C00679F8A /* TeamInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936B12D1AC58C00679F8A /* TeamInfo.swift */; };
 		BFF936B32D1AC58C00679F8A /* TeamInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936B12D1AC58C00679F8A /* TeamInfo.swift */; };
@@ -486,6 +487,7 @@
 		BFF58B1C2D1BCF8B00AD1BE1 /* TeamBulletinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBulletinView.swift; sourceTree = "<group>"; };
 		BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQTeam.swift; sourceTree = "<group>"; };
 		BFF8F5192D4545AF001AFDD9 /* CFQMusicStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQMusicStat.swift; sourceTree = "<group>"; };
+		BFF8F51B2D454EC9001AFDD9 /* CFQUserUploadStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQUserUploadStatus.swift; sourceTree = "<group>"; };
 		BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQTeamServer.swift; sourceTree = "<group>"; };
 		BFF936B12D1AC58C00679F8A /* TeamInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamInfo.swift; sourceTree = "<group>"; };
 		BFF936B42D1AC59600679F8A /* TeamBasicInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBasicInfo.swift; sourceTree = "<group>"; };
@@ -998,6 +1000,7 @@
 				BFCDABC32D01C1A4002F1FED /* Maimai */,
 				BFCDABC02D01B0DE002F1FED /* CFQUserInfo.swift */,
 				BFF8F5192D4545AF001AFDD9 /* CFQMusicStat.swift */,
+				BFF8F51B2D454EC9001AFDD9 /* CFQUserUploadStatus.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -1719,6 +1722,7 @@
 				BF905CB62AB0CFAF00EEFA87 /* ViewExtension.swift in Sources */,
 				67B1E94C2A29E1C700DC41D0 /* DeltaPlayList.swift in Sources */,
 				BFBC5501298CEB4C00A93918 /* MaimaiSongData.swift in Sources */,
+				BFF8F51C2D454EC9001AFDD9 /* CFQUserUploadStatus.swift in Sources */,
 				BFE205E22A8B8538002AC527 /* UserComment.swift in Sources */,
 				BFC256A729A7E32000B65CE7 /* AsyncImage.swift in Sources */,
 				BFCCA5C52A6D8DC100FB360A /* InfoChunithmNameplateList.swift in Sources */,
