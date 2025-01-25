@@ -120,19 +120,16 @@ struct SongDetailView: View {
                     HStack {
                         if chuSong != nil && chuSong!.charts.worldsend.enabled {
                             Text(chuSong!.charts.levels.last ?? "")
-                                .font(.title3)
                         } else {
                             ForEach(Array(constant.enumerated()), id: \.offset) { index, value in
                                 if value > 0.0 {
                                     Text("\(value, specifier: "%.1f")")
                                         .foregroundColor(chunithmLevelColor[index])
-                                        .font(.title3)
                                 }
                             }
                         }
                         Spacer()
                         Text("BPM: \(bpm)")
-                            .font(.title3)
                     }
                     .padding(.horizontal)
                     
@@ -296,7 +293,8 @@ struct SongDetailView: View {
             self.constant = song.constants
             self.level = song.level
             self.bpm = song.basicInfo.bpm
-            self.from = song.basicInfo.from
+            self.genre = user.data.maimai.genreList.first { genre in genre.genre == song.basicInfo.genre }?.title ?? song.basicInfo.genre
+            self.from = user.data.maimai.versionList.first { version in version.version / 100 == song.basicInfo.version / 100 }?.title ?? "未知"
             self.maiScores = user.maimai.best.filter {
                 $0.associatedSong!.musicId == song.musicId
             }.sorted {
