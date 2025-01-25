@@ -12,8 +12,10 @@ import SwiftUICharts
 struct SongStatView: View {
     @Binding var doneLoading: Bool
     
-    // TODO: Add Maimai stat
-    var chuStat: CFQChunithmMusicStatEntry?
+    var maiStat: CFQMusicStat?
+    var chuStat: CFQMusicStat?
+    
+    var maiEntry: UserMaimaiBestScoreEntry?
     var chuEntry: UserChunithmRecentScoreEntry?
     
     var chuSong: ChunithmMusicData?
@@ -23,9 +25,9 @@ struct SongStatView: View {
     var body: some View {
         if doneLoading {
             if let entry = chuStat, let song = chuSong {
-                ChunithmSongStatView(song: song, entry: entry, scoreEntry: chuEntry, diff: diff)
-            } else if let song = maiSong {
-                MaimaiSongStatView(song: song, diff: diff)
+                ChunithmSongStatView(song: song, stat: entry, scoreEntry: chuEntry, diff: diff)
+            } else if let entry = maiStat, let song = maiSong {
+                MaimaiSongStatView(song: song, stat: entry, diff: diff)
             } else {
                 Text("哎呀，还没有人游玩过该难度！")
             }
@@ -39,7 +41,7 @@ struct SongStatView: View {
 
 struct ChunithmSongStatView: View {
     var song: ChunithmMusicData
-    var entry: CFQChunithmMusicStatEntry
+    var stat: CFQMusicStat
     var scoreEntry: UserChunithmRecentScoreEntry?
     var diff: Int
     
@@ -85,9 +87,9 @@ struct ChunithmSongStatView: View {
                 }
                 
                 HStack(alignment: .center) {
-                    Text("游玩人数：\(entry.totalPlayed)")
+                    Text("游玩人数：\(stat.totalPlayed)")
                     Spacer()
-                    Text("平均分数：\(entry.totalScore / Double(entry.totalPlayed), specifier: "%.0f")")
+                    Text("平均分数：\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.0f")")
                 }
                 .padding(.bottom)
                 
@@ -104,7 +106,7 @@ struct ChunithmSongStatView: View {
                     
                     HStack {
                         VStack(alignment: .leading) {
-                            let splits = [entry.ssspSplit, entry.sssSplit, entry.sspSplit, entry.ssSplit, entry.spSplit, entry.sSplit, entry.otherSplit]
+                            let splits = [stat.ssspSplit, stat.sssSplit, stat.sspSplit, stat.ssSplit, stat.spSplit, stat.sSplit, stat.otherSplit]
                             ForEach(ranks, id: \.self) { rank in
                                 let index = ranks.firstIndex(of: rank) ?? 0
                                 Text("\(rank)")
@@ -120,7 +122,7 @@ struct ChunithmSongStatView: View {
                                 .padding(.bottom)
                             
                             Text("最高分")
-                            Text("\(entry.highestScore, specifier: "%.0f")")
+                            Text("\(stat.highestScore, specifier: "%.0f")")
                                 .fontWeight(.bold)
                         }
                     }
@@ -134,13 +136,13 @@ struct ChunithmSongStatView: View {
     
     func makeData() -> DoughnutChartData {
         let data = PieDataSet(dataPoints: [
-            PieChartDataPoint(value: Double(entry.ssspSplit), description: "SSS+", colour: chunithmRankColor[0] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.sssSplit), description: "SSS", colour: chunithmRankColor[1] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.sspSplit), description: "SS+", colour: chunithmRankColor[2] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.ssSplit), description: "SS", colour: chunithmRankColor[3] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.spSplit), description: "S+", colour: chunithmRankColor[4] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.sSplit), description: "S", colour: chunithmRankColor[5] ?? Color.accentColor),
-            PieChartDataPoint(value: Double(entry.otherSplit), description: "其他", colour: chunithmRankColor[6] ?? Color.accentColor)
+            PieChartDataPoint(value: Double(stat.ssspSplit), description: "SSS+", colour: chunithmRankColor[0] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.sssSplit), description: "SSS", colour: chunithmRankColor[1] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.sspSplit), description: "SS+", colour: chunithmRankColor[2] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.ssSplit), description: "SS", colour: chunithmRankColor[3] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.spSplit), description: "S+", colour: chunithmRankColor[4] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.sSplit), description: "S", colour: chunithmRankColor[5] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.otherSplit), description: "其他", colour: chunithmRankColor[6] ?? Color.accentColor)
         ], legendTitle: "")
         
         return DoughnutChartData(
@@ -152,8 +154,10 @@ struct ChunithmSongStatView: View {
 
 struct MaimaiSongStatView: View {
     var song: MaimaiSongData
+    var stat: CFQMusicStat
     var diff: Int
     
+    let ranks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]
     let noteTypes = ["Tap", "Hold", "Slide", "Touch"]
     let judgeTypes = ["Great", "Good", "Miss"]
     
@@ -164,6 +168,49 @@ struct MaimaiSongStatView: View {
                 Spacer()
                 Text("谱师:\(song.charts[diff].charter)")
                     .lineLimit(1)
+            }
+            .padding(.bottom)
+            
+            HStack(alignment: .center) {
+                Text("游玩人数：\(stat.totalPlayed)")
+                Spacer()
+                Text("平均分数：\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.4f")%")
+            }
+            .padding(.bottom)
+            
+            HStack {
+                let data = makeData()
+                
+                DoughnutChart(chartData: data)
+                    .touchOverlay(chartData: data, specifier: "%.4f")
+                    .headerBox(chartData: data)
+                    .frame(idealWidth: 200, idealHeight: 200)
+                    .id(data.id)
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                
+                HStack {
+                    VStack(alignment: .leading) {
+                        let splits = [stat.ssspSplit, stat.sssSplit, stat.sspSplit, stat.ssSplit, stat.spSplit, stat.sSplit, stat.otherSplit]
+                        ForEach(ranks, id: \.self) { rank in
+                            let index = ranks.firstIndex(of: rank) ?? 0
+                            Text("\(rank)")
+                                .foregroundColor(chunithmRankColor[index] ?? Color.primary) +
+                            Text("：") +
+                            Text("\(splits[index])")
+                        }
+                    }
+                    VStack(alignment: .trailing) {
+                        Text("拟合定数")
+                        Text("Coming soon")
+                            .fontWeight(.bold)
+                            .padding(.bottom)
+                        
+                        Text("最高分")
+                        Text("\(stat.highestScore, specifier: "%.4f")%")
+                            .fontWeight(.bold)
+                    }
+                }
             }
             .padding(.bottom)
             
@@ -244,5 +291,22 @@ struct MaimaiSongStatView: View {
         }
         .padding()
         .analyticsScreen(name: "maimai_music_stat_screen")
+    }
+    
+    func makeData() -> DoughnutChartData {
+        let data = PieDataSet(dataPoints: [
+            PieChartDataPoint(value: Double(stat.ssspSplit), description: "SSS+", colour: chunithmRankColor[0] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.sssSplit), description: "SSS", colour: chunithmRankColor[1] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.sspSplit), description: "SS+", colour: chunithmRankColor[2] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.ssSplit), description: "SS", colour: chunithmRankColor[3] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.spSplit), description: "S+", colour: chunithmRankColor[4] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.sSplit), description: "S", colour: chunithmRankColor[5] ?? Color.accentColor),
+            PieChartDataPoint(value: Double(stat.otherSplit), description: "其他", colour: chunithmRankColor[6] ?? Color.accentColor)
+        ], legendTitle: "")
+        
+        return DoughnutChartData(
+            dataSets: data,
+            metadata: ChartMetadata(),
+            noDataText: Text("暂无数据"))
     }
 }

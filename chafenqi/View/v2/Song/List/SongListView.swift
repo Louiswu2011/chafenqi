@@ -151,10 +151,16 @@ struct SongListView: View {
             filteredList = filteredList.filter { entry in anyCommonElements(lhs: entry.level, rhs: option.levelSelection) }
         }
         if !option.versionSelection.isEmpty {
-            filteredList = filteredList.filter { entry in option.versionSelection.contains(entry.basicInfo.from) }
+            filteredList = filteredList.filter { entry in
+                let versionIndexes = option.versionSelection.map { selection in (user.data.maimai.versionList.first { version in version.title == selection }?.version ?? 0) / 100 }
+                return versionIndexes.contains(entry.basicInfo.version / 100)
+            }
         }
         if !option.genreSelection.isEmpty {
-            filteredList = filteredList.filter { entry in option.genreSelection.contains(entry.basicInfo.genre) }
+            filteredList = filteredList.filter { entry in
+                let genreOrigNames = option.genreSelection.map { selection in user.data.maimai.genreList.first { genre in genre.title == selection }?.genre ?? "" }
+                return genreOrigNames.contains(entry.basicInfo.genre)
+            }
         }
         
         if !option.sortEnabled { return filteredList }

@@ -30,7 +30,6 @@ struct ChunithmFirstLeaderboardEntry: Codable {
     var username: String = ""
     var nickname: String = ""
     var firstCount: Int = 0
-    var firstMusics: Array<ChunithmFirstLeaderboardMusicEntry> = []
 }
 struct ChunithmFirstLeaderboardMusicEntry: Codable {
     var musicId: Int = 0

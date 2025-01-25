@@ -21,8 +21,8 @@ class CFQNUser: ObservableObject {
     @AppStorage("ChunithmCache") var chunithmCache = Data()
     @AppStorage("widgetCustomization") var widgetCustom = Data()
     
-    @AppStorage("maimaiSongListVersion") var maimaiSongListVersion = 0
-    @AppStorage("chunithmSongListVersion") var chunithmSongListVersion = 0
+    @AppStorage("maimaiSongListVersion") var maimaiSongListVersion = ""
+    @AppStorage("chunithmSongListVersion") var chunithmSongListVersion = ""
     
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
@@ -33,6 +33,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsMaimaiPricePerTrack") var maiPricePerTrack = ""
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录"
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
+    @AppStorage("settingsHomeHideTeamEntry") var hideTeamEntry = false
     @AppStorage("settingsAutoRedirectToWeChat") var proxyAutoJump = false
     @AppStorage("settingsShouldPromptDFishLinking") var proxyShouldPromptLinking = true
     @AppStorage("settingsShouldPromptExpiredToken") var proxyShouldPromptExpiring = true
@@ -49,6 +50,7 @@ class CFQNUser: ObservableObject {
     var assertionFailedTried = false
     
     @AppStorage("CFQUsername") var username = ""
+    var userId = 0
     
     var isPremium = false
     var premiumUntil: TimeInterval = 0
@@ -67,8 +69,6 @@ class CFQNUser: ObservableObject {
             var statusCounter = [0, 0, 0, 0, 0]
             
             var recommended: [UserMaimaiRecentScoreEntry: String] = [:]
-            var genreList: [String] = []
-            var versionList: [String] = []
             
             var levelRecords = CFQMaimaiLevelRecords()
             var dayRecords: CFQMaimaiDayRecords = .init()
@@ -163,9 +163,6 @@ class CFQNUser: ObservableObject {
                 
                 self.levelRecords = CFQMaimaiLevelRecords(songs: list, best: orig)
                 self.dayRecords = CFQMaimaiDayRecords(recents: recent, deltas: infos)
-                
-                self.versionList = list.map { entry in entry.basicInfo.from }.unique
-                self.genreList = list.map { entry in entry.basicInfo.genre }.unique
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
@@ -435,6 +432,7 @@ class CFQNUser: ObservableObject {
         self.chunithmCache = Data()
         self.jwtToken = ""
         self.username = ""
+        self.userId = -1
         self.isPremium = false
         withAnimation {
             self.didLogin.toggle()
@@ -551,6 +549,16 @@ class CFQNUser: ObservableObject {
         sharedContainer.set(self.jwtToken, forKey: "JWT")
         sharedContainer.set(username, forKey: "currentUser")
         print("[CFQNUser] Set jwt token and username to \(username).")
+        
+        do {
+            if let info = try await CFQUserServer.fetchUserInfo(authToken: self.jwtToken) {
+                DispatchQueue.main.async {
+                    self.userId = info.id
+                }
+            }
+        } catch {
+            self.userId = -1
+        }
     }
     
     // MARK: Make Widget
@@ -644,21 +652,6 @@ class CFQNUser: ObservableObject {
         } catch {
             return false
         }
-    }
-    
-    func makeB50() -> MaimaiB50Info {
-        return MaimaiB50Info(username: self.username, info: MaimaiB50Detail(
-            rating: self.maimai.info.last?.rating ?? 0,
-            newRating: self.maimai.custom.currentRating,
-            pastRating: self.maimai.custom.pastRating,
-            nickname: self.maimai.nickname,
-            b35: self.maimai.custom.pastSlice.enumerated().map { index, entry in
-                MaimaiB50Entry(index: index, title: entry.associatedSong?.title ?? "", level: entry.associatedSong?.level[entry.levelIndex] ?? "", achievements: entry.achievements, constant: entry.associatedSong?.constants[entry.levelIndex] ?? 0.0, rating: entry.rating, fc: entry.judgeStatus, diffIndex: entry.levelIndex, musicId: String(entry.associatedSong?.musicId ?? 0))
-            },
-            b15: self.maimai.custom.currentSlice.enumerated().map { index, entry in
-                MaimaiB50Entry(index: index, title: entry.associatedSong?.title ?? "", level: entry.associatedSong?.level[entry.levelIndex] ?? "", achievements: entry.achievements, constant: entry.associatedSong?.constants[entry.levelIndex] ?? 0.0, rating: entry.rating, fc: entry.judgeStatus, diffIndex: entry.levelIndex, musicId: String(entry.associatedSong?.musicId ?? 0))
-            }
-        ))
     }
 }
 

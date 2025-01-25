@@ -29,7 +29,7 @@ struct chafenqiApp: App {
     @StateObject var newUser = CFQNUser()
     
     @State var currentTab: TabIdentifier = .home
-    @State var shouldRefresh = false
+    @State var shouldRefresh = false 
     
     @ObservedObject var service = TunnelManagerService.shared
     

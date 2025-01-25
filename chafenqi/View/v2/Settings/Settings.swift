@@ -71,6 +71,7 @@ struct Settings: View {
                 Toggle("显示距上次出勤天数", isOn: $user.showDaysSinceLastPlayed)
                 Toggle("显示刷新按钮", isOn: $user.shouldShowRefreshButton)
                 Toggle("使用版本主题色", isOn: $user.homeUseCurrentVersionTheme)
+                Toggle("隐藏团队功能", isOn: $user.hideTeamEntry)
                 NavigationLink {
                     SettingsHomeArrangement()
                 } label: {
@@ -246,6 +247,8 @@ struct SettingsInfoLabelView: View {
     @State var title: String
     @State var message: String
     
+    let lineLimit: Int = 1
+    
     var body: some View {
         HStack {
             Text(title)
@@ -253,6 +256,36 @@ struct SettingsInfoLabelView: View {
             Text(message)
                 .foregroundColor(.gray)
         }
+        .lineLimit(lineLimit)
+    }
+}
+
+struct SettingsInfoLabelButton: View {
+    let title: String
+    let message: String
+    
+    let action: () -> Void
+    let lineLimit: Int = 1
+    
+    var body: some View {
+        HStack {
+            Button {
+                action()
+            } label: {
+                HStack {
+                    Text(title)
+                    Spacer()
+                    Text(message)
+                        .foregroundStyle(Color.gray)
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(Color.secondary)
+                }
+                .lineLimit(lineLimit)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+            }
+        }
+        .buttonStyle(.plain)
     }
 }
 

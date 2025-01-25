@@ -92,7 +92,7 @@ struct LeaderboardView: View {
                         .onChange(of: doneLoadingChunithmFirstLeaderboard) { value in
                             if value && !chuFirstLeaderboard.isEmpty {
                                 firstLeaderboardData = chuFirstLeaderboard.enumerated().map { (index, entry) in
-                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount), extraInfo: entry.firstMusics)
+                                    LeaderboardEntryData(index: index, uid: entry.uid, username: entry.username, nickname: entry.nickname, info: String(entry.firstCount))
                                 }
                             }
                         }
@@ -215,22 +215,11 @@ struct LeaderboardScrollView: View {
                     Text("加载数据中...")
                 }
             } else {
-                if !data.isEmpty && data[0].extraInfo != nil {
-                    ScrollView(.vertical) {
-                        LazyVStack(alignment: .center ,spacing: 20) {
-                            ForEach(data) { item in
-                                LeaderboardFirstEntryColumn(item: item)
-                                    .padding(.horizontal)
-                            }
-                        }
-                    }
-                } else {
-                    ScrollView(.vertical) {
-                        LazyVStack(alignment: .center ,spacing: 20) {
-                            ForEach(data) { item in
-                                LeaderboardEntryColumn(item: item)
-                                    .padding(.horizontal)
-                            }
+                ScrollView(.vertical) {
+                    LazyVStack(alignment: .center ,spacing: 20) {
+                        ForEach(data) { item in
+                            LeaderboardEntryColumn(item: item)
+                                .padding(.horizontal)
                         }
                     }
                 }
@@ -243,10 +232,12 @@ struct LeaderboardEntryColumn: View {
     var item: LeaderboardEntryData
     
     var body: some View {
+        let displayName = item.nickname.isEmpty ? item.username : item.nickname
+        
         HStack {
             Text(verbatim: "#\(item.index + 1)")
                 .frame(width: 55)
-            Text(item.nickname.transformingHalfwidthFullwidth())
+            Text(displayName.transformingHalfwidthFullwidth())
             Spacer()
             
             HStack {

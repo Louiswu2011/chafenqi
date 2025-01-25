@@ -59,8 +59,7 @@ struct RatingShareView: View {
     
     func fetchB50Image() {
         Task {
-            let b50Data = user.makeB50()
-            image = await CFQImageServer.getMaimaiB50Image(data: b50Data)
+            image = await CFQImageServer.getMaimaiB50Image(authToken: user.jwtToken)
             if let b50Image = image {
                 image = b50Image
             }

@@ -15,6 +15,8 @@ class CFQPersistentData: ObservableObject {
     
     var shouldReload = true
     
+    static let decoder = JSONDecoder()
+    
     struct Chunithm {
         @AppStorage("loadedChunithmMusics") var loadedMusics: Data = Data()
         @AppStorage("chartIDMap") var mapData = Data()
@@ -28,12 +30,19 @@ class CFQPersistentData: ObservableObject {
     
     struct Maimai {
         @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
+        @AppStorage("loadedMaimaiVersions") var loadedVersions: Data = Data()
+        @AppStorage("loadedMaimaiGenres") var loadedGenres: Data = Data()
         
         var songlist: Array<MaimaiSongData> = []
+        var versionList: Array<MaimaiVersionData> = []
+        var genreList: Array<MaimaiGenreData> = []
         
         static func hasCache() -> Bool {
             @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
-            return !loadedSongs.isEmpty
+            @AppStorage("loadedMaimaiVersions") var loadedVersions: Data = Data()
+            @AppStorage("loadedMaimaiGenres") var loadedGenres: Data = Data()
+            
+            return !loadedSongs.isEmpty && !loadedVersions.isEmpty && !loadedGenres.isEmpty
         }
     }
     
@@ -54,13 +63,19 @@ class CFQPersistentData: ObservableObject {
     }
     
     private func loadMaimai() async throws {
-        self.maimai.songlist = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
+        self.maimai.songlist = try CFQPersistentData.decoder.decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
+        self.maimai.versionList = try CFQPersistentData.decoder.decode(Array<MaimaiVersionData>.self, from: self.maimai.loadedVersions)
+        self.maimai.genreList = try CFQPersistentData.decoder.decode(Array<MaimaiGenreData>.self, from: self.maimai.loadedGenres)
     }
     
     private func reloadMaimai() async throws {
         self.maimai.loadedSongs = try await CFQMaimaiServer.fetchMusicData()
+        self.maimai.loadedVersions = try await CFQMaimaiServer.fetchVersionData()
+        self.maimai.loadedGenres = try await CFQMaimaiServer.fetchGenreData()
         
         self.maimai.songlist = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
+        self.maimai.versionList = try JSONDecoder().decode(Array<MaimaiVersionData>.self, from: self.maimai.loadedVersions)
+        self.maimai.genreList = try JSONDecoder().decode(Array<MaimaiGenreData>.self, from: self.maimai.loadedGenres)
     }
     
     func update() async throws {
@@ -89,14 +104,16 @@ class CFQPersistentData: ObservableObject {
         
         if user.shouldAutoUpdateSongList {
             // Check for new updates
-            let latestMai = await CFQStatsServer.checkSongListVersion(game: .Maimai)
-            let latestChu = await CFQStatsServer.checkSongListVersion(game: .Chunithm)
+            let latestMai = await CFQStatsServer.checkSongListVersion(tag: "maimai_song_list")
+            let latestChu = await CFQStatsServer.checkSongListVersion(tag: "chunithm_song_list")
             
-            if user.maimaiSongListVersion < latestMai || user.chunithmSongListVersion < latestChu {
+            if user.maimaiSongListVersion != latestMai || user.chunithmSongListVersion != latestChu {
                 print("[CFQPersistentData] New data found, downloading...")
                 try await data.update()
-                user.maimaiSongListVersion = latestMai
-                user.chunithmSongListVersion = latestChu
+                DispatchQueue.main.async {
+                    user.maimaiSongListVersion = latestMai
+                    user.chunithmSongListVersion = latestChu
+                }
                 return data
             }
             print("[CFQPersistentData] Music data is up to date.")

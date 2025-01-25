@@ -75,12 +75,14 @@ struct MaimaiLeaderboardItemView: View {
     var shouldHighlight: Bool
     
     var body: some View {
+        let displayName = item.nickname.isEmpty ? item.username : item.nickname
+        
         HStack {
             if shouldHighlight {
                 Text(verbatim: "#\(index + 1)")
                     .fontWeight(.bold)
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                     .fontWeight(.bold)
                 Spacer()
                 
@@ -92,7 +94,7 @@ struct MaimaiLeaderboardItemView: View {
             } else {
                 Text(verbatim: "#\(index + 1)")
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                 Spacer()
                 
                 HStack {
@@ -147,12 +149,14 @@ struct ChunithmLeaderboardItemView: View {
     var shouldHighlight: Bool
     
     var body: some View {
+        let displayName = item.nickname.isEmpty ? item.username : item.nickname
+        
         HStack {
             if shouldHighlight {
                 Text(verbatim: "#\(index + 1)")
                     .fontWeight(.bold)
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                     .fontWeight(.bold)
                 Spacer()
                 
@@ -166,7 +170,7 @@ struct ChunithmLeaderboardItemView: View {
             } else {
                 Text(verbatim: "#\(index + 1)")
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                 Spacer()
                 
                 HStack {
