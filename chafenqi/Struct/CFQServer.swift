@@ -366,6 +366,22 @@ struct CFQServer {
                 throw CFQServerError.ServerDatabaseError
             }
         }
+        static func fetchVersionData() async throws -> Data {
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/resource/maimai/version-list")
+            if resp.statusCode() == 200 && !data.isEmpty {
+                return data
+            } else {
+                throw CFQServerError.ServerDatabaseError
+            }
+        }
+        static func fetchGenreData() async throws -> Data {
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/resource/maimai/genre-list")
+            if resp.statusCode() == 200 && !data.isEmpty {
+                return data
+            } else {
+                throw CFQServerError.ServerDatabaseError
+            }
+        }
     }
     
     struct Chunithm {
