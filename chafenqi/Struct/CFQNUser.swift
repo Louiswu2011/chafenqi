@@ -69,8 +69,6 @@ class CFQNUser: ObservableObject {
             var statusCounter = [0, 0, 0, 0, 0]
             
             var recommended: [UserMaimaiRecentScoreEntry: String] = [:]
-            var genreList: [String] = []
-            var versionList: [String] = []
             
             var levelRecords = CFQMaimaiLevelRecords()
             var dayRecords: CFQMaimaiDayRecords = .init()
@@ -83,7 +81,7 @@ class CFQNUser: ObservableObject {
             init() {}
             
             // MARK: Maimai Custom Init
-            init(orig: UserMaimaiBestScores, recent: UserMaimaiRecentScores, infos: UserMaimaiPlayerInfos, list: [MaimaiSongData], versions: [MaimaiVersionData], genres: [MaimaiGenreData]) {
+            init(orig: UserMaimaiBestScores, recent: UserMaimaiRecentScores, infos: UserMaimaiPlayerInfos, list: [MaimaiSongData]) {
                 guard (!orig.isEmpty && !recent.isEmpty) else { return }
                 
                 self.pastSlice = Array(orig.filter { entry in
@@ -165,9 +163,6 @@ class CFQNUser: ObservableObject {
                 
                 self.levelRecords = CFQMaimaiLevelRecords(songs: list, best: orig)
                 self.dayRecords = CFQMaimaiDayRecords(recents: recent, deltas: infos)
-                
-                self.versionList = versions.map { entry in entry.title }
-                self.genreList = genres.map { entry in entry.title }
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
@@ -532,7 +527,7 @@ class CFQNUser: ObservableObject {
         
         if !skipCustomLoading {
             publishLoadStatus("加载用户数据...")
-            self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, infos: self.maimai.info, list: self.data.maimai.songlist, versions: self.data.maimai.versionList, genres: self.data.maimai.genreList)
+            self.maimai.custom = Maimai.Custom(orig: self.maimai.best, recent: self.maimai.recent, infos: self.maimai.info, list: self.data.maimai.songlist)
             self.chunithm.custom = Chunithm.Custom(rating: self.chunithm.rating, recent: self.chunithm.recent, best: self.chunithm.best, list: self.data.chunithm.musics, delta: self.chunithm.info)
             if let lastInfo = self.maimai.info.last {
                 self.maimai.nickname = lastInfo.nickname.transformingHalfwidthFullwidth()
