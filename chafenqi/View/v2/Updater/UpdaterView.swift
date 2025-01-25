@@ -39,7 +39,7 @@ struct UpdaterView: View {
     @State private var startProxyActivity = "StartProxyIntent"
     @State private var stopProxyActivity = "StopProxyIntent"
     
-    @State private var statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
+    @State private var statusCheckTimer = Timer.publish(every: 10, tolerance: 1, on: .main, in: .common).autoconnect()
     @State private var uploadStatus = "未开始上传"
     
     @State private var quickUploadDestination = CFQServer.GameType.Maimai
