@@ -24,7 +24,7 @@ struct CFQServer {
     static let encoder = JSONEncoder()
     static let decoder = JSONDecoder()
     
-    static let serverAddress = "http://192.168.1.151:8998/"
+    static let serverAddress = SharedValues.serverAddress
     
     struct User {
         static func auth(username: String, password: String) async throws -> String {
@@ -398,6 +398,9 @@ struct CFQServer {
             } else {
                 throw CFQServerError.ServerDatabaseError
             }
+        }
+        static func coverUrl(musicId: Int) -> String {
+            return "\(serverAddress)api/resource/chunithm/cover?musicId=\(musicId)"
         }
     }
     

@@ -211,6 +211,8 @@
 		BFF58B1F2D1BD54600AD1BE1 /* CFQTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */; };
 		BFF8F51A2D4545AF001AFDD9 /* CFQMusicStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F5192D4545AF001AFDD9 /* CFQMusicStat.swift */; };
 		BFF8F51C2D454EC9001AFDD9 /* CFQUserUploadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51B2D454EC9001AFDD9 /* CFQUserUploadStatus.swift */; };
+		BFF8F51F2D4551F6001AFDD9 /* CFQSharedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */; };
+		BFF8F5202D455228001AFDD9 /* CFQSharedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */; };
 		BFF936AF2D1AC1B600679F8A /* CFQTeamServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */; };
 		BFF936B22D1AC58C00679F8A /* TeamInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936B12D1AC58C00679F8A /* TeamInfo.swift */; };
 		BFF936B32D1AC58C00679F8A /* TeamInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF936B12D1AC58C00679F8A /* TeamInfo.swift */; };
@@ -488,6 +490,7 @@
 		BFF58B1E2D1BD54600AD1BE1 /* CFQTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQTeam.swift; sourceTree = "<group>"; };
 		BFF8F5192D4545AF001AFDD9 /* CFQMusicStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQMusicStat.swift; sourceTree = "<group>"; };
 		BFF8F51B2D454EC9001AFDD9 /* CFQUserUploadStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQUserUploadStatus.swift; sourceTree = "<group>"; };
+		BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQSharedValue.swift; sourceTree = "<group>"; };
 		BFF936AE2D1AC1B600679F8A /* CFQTeamServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFQTeamServer.swift; sourceTree = "<group>"; };
 		BFF936B12D1AC58C00679F8A /* TeamInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamInfo.swift; sourceTree = "<group>"; };
 		BFF936B42D1AC59600679F8A /* TeamBasicInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBasicInfo.swift; sourceTree = "<group>"; };
@@ -1199,6 +1202,7 @@
 				BFF353C029681F8D001392E5 /* chafenqiApp.swift */,
 				BFCA383129770851008E30F1 /* CFQError.swift */,
 				BFCE1B2B29EE93A600BFAA67 /* AppDelegate.swift */,
+				BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1611,6 +1615,7 @@
 				67ABBA442A56C6E800DA154A /* InfoWidgetEntryView.swift in Sources */,
 				67FE568B2A4D83FF0086C335 /* ChunithmDataGrabber.swift in Sources */,
 				BFF936B22D1AC58C00679F8A /* TeamInfo.swift in Sources */,
+				BFF8F5202D455228001AFDD9 /* CFQSharedValue.swift in Sources */,
 				BFF4B7CD2A4DEF800080C6FC /* WidgetDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1707,6 +1712,7 @@
 				BF7B89DB29B7289C00E9ADA9 /* URLResponseExtension.swift in Sources */,
 				BFF936C72D1AC9CA00679F8A /* TeamUpdateCoursePayload.swift in Sources */,
 				BF8D2A852A063A9A00F60633 /* AlertToastModel.swift in Sources */,
+				BFF8F51F2D4551F6001AFDD9 /* CFQSharedValue.swift in Sources */,
 				BF905CB82AB0D28D00EEFA87 /* FoundationExtension.swift in Sources */,
 				BFA3190C2A02ED140042B5FB /* CFQData.swift in Sources */,
 				6763175A2A2F111400693E4B /* RatingShortLook.swift in Sources */,
