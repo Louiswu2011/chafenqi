@@ -89,10 +89,10 @@ class CFQPersistentData: ObservableObject {
         
         if user.shouldAutoUpdateSongList {
             // Check for new updates
-            let latestMai = await CFQStatsServer.checkSongListVersion(game: .Maimai)
-            let latestChu = await CFQStatsServer.checkSongListVersion(game: .Chunithm)
+            let latestMai = await CFQStatsServer.checkSongListVersion(tag: "maimai_song_list")
+            let latestChu = await CFQStatsServer.checkSongListVersion(tag: "chunithm_song_list")
             
-            if user.maimaiSongListVersion < latestMai || user.chunithmSongListVersion < latestChu {
+            if user.maimaiSongListVersion != latestMai || user.chunithmSongListVersion < latestChu {
                 print("[CFQPersistentData] New data found, downloading...")
                 try await data.update()
                 DispatchQueue.main.async {

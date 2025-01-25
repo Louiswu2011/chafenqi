@@ -21,8 +21,8 @@ class CFQNUser: ObservableObject {
     @AppStorage("ChunithmCache") var chunithmCache = Data()
     @AppStorage("widgetCustomization") var widgetCustom = Data()
     
-    @AppStorage("maimaiSongListVersion") var maimaiSongListVersion = 0
-    @AppStorage("chunithmSongListVersion") var chunithmSongListVersion = 0
+    @AppStorage("maimaiSongListVersion") var maimaiSongListVersion = ""
+    @AppStorage("chunithmSongListVersion") var chunithmSongListVersion = ""
     
     @AppStorage("settingsRecentLogEntryCount") var entryCount = "30"
     @AppStorage("settingsChunithmCoverSource") var chunithmCoverSource = 1
