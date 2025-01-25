@@ -21,25 +21,27 @@ struct HomeTeam: View {
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(.purple.opacity(0.9))
+                        .fill(user.currentMode == 0 ?
+                              user.homeUseCurrentVersionTheme ? nameplateThemedChuniGradientStyle : nameplateDefaultChuniGradientStyle :
+                                user.homeUseCurrentVersionTheme ? nameplateThemedMaiGradientStyle : nameplateDefaultMaiGradientStyle
+                        )
                     Label(team.current.info.displayName.isEmpty ? "加入或创建团队" : team.current.info.displayName, systemImage: "person.3.fill")
-                        .font(.system(size: 16, weight: .heavy))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(5)
                 }
             }
-            NavigationLink {
-                TeamLeaderboardPage(team: team, user: user)
-            } label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(.purple.opacity(0.9))
-                    Label("团队排行榜", systemImage: "chart.bar.fill")
-                        .font(.system(size: 16, weight: .heavy))
-                        .foregroundColor(.white)
-                        .padding(5)
-                }
-            }
+//            NavigationLink {
+//                TeamLeaderboardPage(team: team, user: user)
+//            } label: {
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: 5)
+//                        .foregroundColor(.purple.opacity(0.9))
+//                    Label("团队排行榜", systemImage: "chart.bar.fill")
+//                        .font(.system(size: 16, weight: .heavy))
+//                        .foregroundColor(.white)
+//                        .padding(5)
+//                }
+//            }
         }
         .enableInjection()
         .padding(.horizontal)
