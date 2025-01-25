@@ -33,10 +33,10 @@ struct SongStatsDetailView: View {
     @State var diffLabel = ""
     @State var diffLabelColor = Color.black
     
+    @State var maiStat = CFQMusicStat()
+    @State var chuStat = CFQMusicStat()
     
-    @State var chuStat = CFQChunithmMusicStatEntry()
     @State var chuLeaderboard: CFQChunithmLeaderboard = []
-    
     @State var maiLeaderboard: CFQMaimaiLeaderboard = []
     
     @State var doneLoadingStat = false
@@ -122,7 +122,7 @@ struct SongStatsDetailView: View {
                     } else if let song = maiSong {
                         SongLeaderboardView(doneLoading: $doneLoadingLeaderboard, username: user.username, maiLeaderboard: maiLeaderboard)
                             .tag(0)
-                        SongStatView(doneLoading: $doneLoadingStat, maiSong: song, diff: diff)
+                        SongStatView(doneLoading: $doneLoadingStat, maiStat: maiStat, maiSong: song, diff: diff)
                             .tag(1)
                         if !(maiRecords?.isEmpty ?? false) {
                             SongEntryListView(user: user, maiRecords: maiRecords)
@@ -145,7 +145,7 @@ struct SongStatsDetailView: View {
     func loadVar() {
         if let song = chuSong {
             Task {
-                chuStat = await CFQStatsServer.fetchMusicStat(musicId: song.musicID, diffIndex: diff)
+                chuStat = await CFQStatsServer.fetchMusicStat(authToken: user.jwtToken, mode: 0, musicId: song.musicID, diffIndex: diff)
                 doneLoadingStat = true
             }
             Task {
@@ -159,10 +159,11 @@ struct SongStatsDetailView: View {
             diffLabelColor = chunithmLevelColor[diff] ?? .systemsBackground
         } else if let song = maiSong {
             Task {
-                maiLeaderboard = await CFQStatsServer.fetchMaimaiLeaderboard(authToken: user.jwtToken, musicId: song.musicId, type: song.type.uppercased(), diffIndex: diff)
+                maiLeaderboard = await CFQStatsServer.fetchMaimaiLeaderboard(authToken: user.jwtToken, musicId: song.coverId, type: song.type, diffIndex: diff)
                 doneLoadingLeaderboard = true
             }
             Task {
+                maiStat = await CFQStatsServer.fetchMusicStat(authToken: user.jwtToken, mode: 1, musicId: song.coverId, diffIndex: diff, type: song.type)
                 doneLoadingStat = true
             }
             coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: song.coverId)

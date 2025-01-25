@@ -239,15 +239,15 @@ struct CFQServer {
             }
         }
         
-        // TODO: Add server side implementation
-        static func fetchMusicStat(musicId: Int, diffIndex: Int) async -> CFQChunithmMusicStatEntry {
-            let queries = [URLQueryItem(name: "index", value: String(musicId)), URLQueryItem(name: "diff", value: String(diffIndex))]
+        static func fetchMusicStat(authToken: String, mode: Int, musicId: Int, diffIndex: Int, type: String = "SD") async -> CFQMusicStat {
+            let queries = [URLQueryItem(name: "musicId", value: String(musicId)), URLQueryItem(name: "levelIndex", value: String(diffIndex)), URLQueryItem(name: "type", value: type)]
+            let gameString = mode == 0 ? "chunithm" : "maimai"
             do {
-                let (data, _) = try await fetchFromServer(method: "GET", path: "api/chunithm/stats", query: queries, shouldThrowByCode: false)
-                return try decoder.decode(CFQChunithmMusicStatEntry.self, from: data)
+                let (data, _) = try await fetchFromServer(method: "GET", path: "api/user/\(gameString)/stat", query: queries, token: authToken, shouldThrowByCode: false)
+                return try decoder.decode(CFQMusicStat.self, from: data)
             } catch {
-                print("[CFQServer] Failed to retrieve music stat for music \(musicId) diff \(diffIndex).")
-                return CFQChunithmMusicStatEntry()
+                print("[CFQServer] Failed to retrieve \(gameString) music stat for music \(musicId) diff \(diffIndex), type \(type).")
+                return CFQMusicStat()
             }
         }
         
