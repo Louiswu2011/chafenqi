@@ -75,11 +75,7 @@ struct UserLinkOptionView: View {
     
     func loadOptions() {
         Task {
-            do {
-                currentQQ = try await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "bindQQ")
-            } catch {
-                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据加载失败")
-            }
+            currentQQ = await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "bindQQ")
             isLoading = false
         }
     }
