@@ -72,12 +72,11 @@ struct CFQServer {
             }
         }
         
-        // TODO: Add server side implementation
-        static func redeem(username: String, code: String) async throws -> Bool {
+        static func redeem(username: String, code: String) async throws -> String {
             let payload = try JSONSerialization.data(withJSONObject: ["code": code])
             let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/redeem", payload: payload)
             let resp = String(decoding: data, as: UTF8.self)
-            return resp.isEmpty
+            return resp
         }
         
         static func fetchUserOption(authToken: String, param: String, type: String = "string") async -> String {
@@ -101,7 +100,6 @@ struct CFQServer {
             return response.statusCode() == 200
         }
         
-        // TODO: Add server side implementation
         static func fetchCookieStatus(game: GameType, authToken: String) async throws -> Bool {
             let query = [URLQueryItem(name: "dest", value: game == .Chunithm ? "0" : "1")]
             let (_, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/has-cache", query: query, token: authToken, shouldThrowByCode: false)

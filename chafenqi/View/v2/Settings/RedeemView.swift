@@ -80,7 +80,7 @@ struct RedeemView: View {
     func verify() async {
         do {
             let result = try await CFQUserServer.redeem(username: user.username, code: code)
-            if result {
+            if result.isEmpty {
                 toastModel.toast = successToast
             } else {
                 toastModel.toast = failureToast
