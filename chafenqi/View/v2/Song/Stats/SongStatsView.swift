@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import SwiftUICharts
+import Inject
 
 struct SongStatView: View {
     @Binding var doneLoading: Bool
@@ -40,6 +41,7 @@ struct SongStatView: View {
 
 
 struct ChunithmSongStatView: View {
+    @ObserveInjection var inject
     var song: ChunithmMusicData
     var stat: CFQMusicStat
     var scoreEntry: UserChunithmRecentScoreEntry?
@@ -117,7 +119,7 @@ struct ChunithmSongStatView: View {
                         }
                         VStack(alignment: .trailing) {
                             Text("拟合定数")
-                            Text("Coming soon")
+                            Text("统计中")
                                 .fontWeight(.bold)
                                 .padding(.bottom)
                             
@@ -132,6 +134,7 @@ struct ChunithmSongStatView: View {
             .padding()
         }
         .analyticsScreen(name: "chunithm_music_stat_screen")
+        .enableInjection()
     }
     
     func makeData() -> DoughnutChartData {
@@ -153,6 +156,7 @@ struct ChunithmSongStatView: View {
 }
 
 struct MaimaiSongStatView: View {
+    @ObserveInjection var inject
     var song: MaimaiSongData
     var stat: CFQMusicStat
     var diff: Int
@@ -162,135 +166,139 @@ struct MaimaiSongStatView: View {
     let judgeTypes = ["Great", "Good", "Miss"]
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("定数：\(song.constants[diff], specifier: "%.1f")")
-                Spacer()
-                Text("谱师:\(song.charts[diff].charter)")
-                    .lineLimit(1)
-            }
-            .padding(.bottom)
-            
-            HStack(alignment: .center) {
-                Text("游玩人数：\(stat.totalPlayed)")
-                Spacer()
-                Text("平均分数：\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.4f")%")
-            }
-            .padding(.bottom)
-            
-            HStack {
-                let data = makeData()
-                
-                DoughnutChart(chartData: data)
-                    .touchOverlay(chartData: data, specifier: "%.4f")
-                    .headerBox(chartData: data)
-                    .frame(idealWidth: 200, idealHeight: 200)
-                    .id(data.id)
-                    .padding(.horizontal)
-                    .padding(.bottom)
-                
+        ScrollView {
+            LazyVStack {
                 HStack {
-                    VStack(alignment: .leading) {
-                        let splits = [stat.ssspSplit, stat.sssSplit, stat.sspSplit, stat.ssSplit, stat.spSplit, stat.sSplit, stat.otherSplit]
-                        ForEach(ranks, id: \.self) { rank in
-                            let index = ranks.firstIndex(of: rank) ?? 0
-                            Text("\(rank)")
-                                .foregroundColor(chunithmRankColor[index] ?? Color.primary) +
-                            Text("：") +
-                            Text("\(splits[index])")
-                        }
-                    }
-                    VStack(alignment: .trailing) {
-                        Text("拟合定数")
-                        Text("Coming soon")
-                            .fontWeight(.bold)
-                            .padding(.bottom)
-                        
-                        Text("最高分")
-                        Text("\(stat.highestScore, specifier: "%.4f")%")
-                            .fontWeight(.bold)
-                    }
+                    Text("定数：\(song.constants[diff], specifier: "%.1f")")
+                    Spacer()
+                    Text("谱师:\(song.charts[diff].charter)")
+                        .lineLimit(1)
                 }
-            }
-            .padding(.bottom)
-            
-            let data = song.charts[diff]
-            VStack {
+                .padding(.bottom)
+                
+                HStack(alignment: .center) {
+                    Text("游玩人数：\(stat.totalPlayed)")
+                    Spacer()
+                    Text("平均分数：\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.4f")%")
+                }
+                .padding(.bottom)
+                
                 HStack {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text(" ")
-                        ForEach(Array(noteTypes.enumerated()), id: \.offset) { index, noteType in
-                            if index == 3 && !data.possibleNormalLosses[3].isEmpty {
-                                Text(noteType)
-                                    .bold()
-                            } else if index != 3 {
-                                Text(noteType)
-                                    .bold()
+                    let data = makeData()
+                    
+                    DoughnutChart(chartData: data)
+                        .touchOverlay(chartData: data, specifier: "%.4f")
+                        .headerBox(chartData: data)
+                        .frame(idealWidth: 100, idealHeight: 100)
+                        .id(data.id)
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                    
+                    HStack {
+                        VStack(alignment: .leading) {
+                            let splits = [stat.ssspSplit, stat.sssSplit, stat.sspSplit, stat.ssSplit, stat.spSplit, stat.sSplit, stat.otherSplit]
+                            ForEach(ranks, id: \.self) { rank in
+                                let index = ranks.firstIndex(of: rank) ?? 0
+                                Text("\(rank)")
+                                    .foregroundColor(chunithmRankColor[index] ?? Color.primary) +
+                                Text("：") +
+                                Text("\(splits[index])")
                             }
                         }
+                        VStack(alignment: .trailing) {
+                            Text("拟合定数")
+                            Text("统计中")
+                                .fontWeight(.bold)
+                                .padding(.bottom)
+                            
+                            Text("最高分")
+                            Text("\(stat.highestScore, specifier: "%.4f")%")
+                                .fontWeight(.bold)
+                        }
                     }
-                    Spacer()
-                    
-                    ForEach(Array(judgeTypes.enumerated()), id: \.offset) { index, judgeType in
-                        VStack(alignment: .trailing, spacing: 5) {
-                            Text(judgeType)
-                                .bold()
-                            ForEach(data.possibleNormalLosses.indices, id: \.self) { innerIndex in
-                                if !data.possibleNormalLosses[innerIndex].isEmpty && index < data.possibleNormalLosses.count - 1 {
-                                    Text(data.possibleNormalLosses[innerIndex][index])
+                    .font(.callout)
+                }
+                .padding(.bottom)
+                
+                let data = song.charts[diff]
+                VStack {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(" ")
+                            ForEach(Array(noteTypes.enumerated()), id: \.offset) { index, noteType in
+                                if index == 3 && !data.possibleNormalLosses[3].isEmpty {
+                                    Text(noteType)
+                                        .bold()
+                                } else if index != 3 {
+                                    Text(noteType)
+                                        .bold()
+                                }
+                            }
+                        }
+                        Spacer()
+                        
+                        ForEach(Array(judgeTypes.enumerated()), id: \.offset) { index, judgeType in
+                            VStack(alignment: .trailing, spacing: 5) {
+                                Text(judgeType)
+                                    .bold()
+                                ForEach(data.possibleNormalLosses.indices, id: \.self) { innerIndex in
+                                    if !data.possibleNormalLosses[innerIndex].isEmpty && index < data.possibleNormalLosses.count - 1 {
+                                        Text(data.possibleNormalLosses[innerIndex][index])
+                                    }
                                 }
                             }
                         }
                     }
+                    
+                    HStack {
+                        Text("Break")
+                            .bold()
+                        Spacer()
+                        VStack {
+                            Text("\(data.possibleBreakLosses[2]) ~")
+                                .font(.system(size: 15))
+                            Text("\(data.possibleBreakLosses[4])")
+                                .font(.system(size: 15))
+                        }
+                        VStack {
+                            Text("\(data.possibleBreakLosses[5])")
+                        }
+                        VStack {
+                            Text("\(data.possibleBreakLosses[6])")
+                        }
+                    }
+                    .padding(.bottom ,5)
+                    
+                    HStack {
+                        VStack {
+                            Text("50/100落")
+                                .bold()
+                            Text("\(data.possibleBreakLosses[0]) /")
+                                .font(.system(size: 15))
+                            Text("\(data.possibleBreakLosses[1])")
+                                .font(.system(size: 15))
+                        }
+                        Spacer()
+                        VStack {
+                            Text("SSS/+容错")
+                                .bold()
+                            Text("-\(data.lossUntilSSS, specifier: "%.1f") / -\(data.lossUntilSSSPlus, specifier: "%.1f")")
+                        }
+                        Spacer()
+                        VStack {
+                            Text("50落/Great比")
+                                .bold()
+                            Text("\(data.breakToGreatRatio, specifier: "%.1f")")
+                        }
+                    }
                 }
                 
-                HStack {
-                    Text("Break")
-                        .bold()
-                    Spacer()
-                    VStack {
-                        Text("\(data.possibleBreakLosses[2]) ~")
-                            .font(.system(size: 15))
-                        Text("\(data.possibleBreakLosses[4])")
-                            .font(.system(size: 15))
-                    }
-                    VStack {
-                        Text("\(data.possibleBreakLosses[5])")
-                    }
-                    VStack {
-                        Text("\(data.possibleBreakLosses[6])")
-                    }
-                }
-                .padding(.bottom ,5)
-                
-                HStack {
-                    VStack {
-                        Text("50/100落")
-                            .bold()
-                        Text("\(data.possibleBreakLosses[0]) /")
-                            .font(.system(size: 15))
-                        Text("\(data.possibleBreakLosses[1])")
-                            .font(.system(size: 15))
-                    }
-                    Spacer()
-                    VStack {
-                        Text("SSS/+容错")
-                            .bold()
-                        Text("-\(data.lossUntilSSS, specifier: "%.1f") / -\(data.lossUntilSSSPlus, specifier: "%.1f")")
-                    }
-                    Spacer()
-                    VStack {
-                        Text("50落/Great比")
-                            .bold()
-                        Text("\(data.breakToGreatRatio, specifier: "%.1f")")
-                    }
-                }
+                Spacer()
             }
-            
-            Spacer()
+            .padding()
         }
-        .padding()
         .analyticsScreen(name: "maimai_music_stat_screen")
+        .enableInjection()
     }
     
     func makeData() -> DoughnutChartData {
