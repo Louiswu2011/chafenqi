@@ -54,8 +54,11 @@ struct UserLinkOptionView: View {
                 .disabled(isUploading)
             } footer: {
                 Text("""
-绑定QQ号即视为同意Chieri Bot查询您的以下信息:
-- 中二节奏B30/R10数据
+绑定QQ号即视为同意查分器NEW共享您的以下信息:
+- 中二节奏 B30/R10数据
+- 中二节奏 单曲成绩数据
+- 舞萌DX B50数据
+- 舞萌DX 单曲成绩数据
 """)
             }
         }
