@@ -89,31 +89,31 @@ struct UpdaterView: View {
                 }
             }
             
-            Section {
-                Picker("游戏", selection: $quickUploadDestination) {
-                    ForEach(CFQServer.GameType.allCases) { value in
-                        Text(value.rawValue)
-                            .tag(value)
-                    }
-                }
-                HStack {
-                    Text("缓存状态")
-                    Spacer()
-                    Text(quickUploadDestination == .Maimai ? maiCookieStatus : chuCookieStatus)
-                        .foregroundColor(.gray)
-                }
-                Button {
-                    Task {
-                        Analytics.logEvent("quick_upload_clicked", parameters: [
-                            "game": quickUploadDestination.rawValue as NSObject])
-                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.remoteOptions.forwardToFish)
-                    }
-                } label: {
-                    Text("开始上传")
-                }
-            } header: {
-                Text("快速上传")
-            }
+//            Section {
+//                Picker("游戏", selection: $quickUploadDestination) {
+//                    ForEach(CFQServer.GameType.allCases) { value in
+//                        Text(value.rawValue)
+//                            .tag(value)
+//                    }
+//                }
+//                HStack {
+//                    Text("缓存状态")
+//                    Spacer()
+//                    Text(quickUploadDestination == .Maimai ? maiCookieStatus : chuCookieStatus)
+//                        .foregroundColor(.gray)
+//                }
+//                Button {
+//                    Task {
+//                        Analytics.logEvent("quick_upload_clicked", parameters: [
+//                            "game": quickUploadDestination.rawValue as NSObject])
+//                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.remoteOptions.forwardToFish)
+//                    }
+//                } label: {
+//                    Text("开始上传")
+//                }
+//            } header: {
+//                Text("快速上传")
+//            }
             
             Section {
                 HStack {
@@ -433,7 +433,7 @@ struct UpdaterView: View {
     
     func makeUrl(mode: Int) -> String {
         let destination = mode == 0 ? "chunithm" : "maimai"
-        return "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)"
+        return "http://43.139.107.206:8083/upload/\(destination)?jwt=\(user.jwtToken)"
     }
     
     func makeUploadStatusText() async throws -> String {
