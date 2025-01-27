@@ -58,7 +58,7 @@ struct TeamSettingsPage: View {
                     showEditTeamRemarksAlert.toggle()
                 }
                 Toggle(isOn: promotableToggle) {
-                    Text("可被搜索")
+                    Text("可见")
                 }
             } header: {
                 Text("基本信息")

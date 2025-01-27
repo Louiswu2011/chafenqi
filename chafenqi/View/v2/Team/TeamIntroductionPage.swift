@@ -37,7 +37,7 @@ struct TeamIntroductionPage: View {
             .padding()
             List {
                 if searchedTeam.isEmpty {
-                    ForEach(team.list, id: \.id) { team in
+                    ForEach(team.list.filter { $0.promotable }, id: \.id) { team in
                         TeamIntroductionEntryView(info: team)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button {
