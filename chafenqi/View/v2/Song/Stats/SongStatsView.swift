@@ -60,34 +60,6 @@ struct ChunithmSongStatView: View {
                 }
                 .padding(.bottom)
                 
-                
-                if let entry = scoreEntry {
-                    HStack {
-                        let judges = ["justice", "attack", "miss"]
-                        VStack(alignment: .leading) {
-                            
-                            ForEach(Array(judges.enumerated()), id: \.offset) { index, type in
-                                HStack {
-                                    Text(type.firstUppercased)
-                                        .bold()
-                                    Text("-\(entry.losses[index], specifier: "%.0f")")
-                                }
-                            }
-                            
-                            
-                        }
-                        Spacer()
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("SSS/+容错")
-                                    .bold()
-                                Text("\(2500 / entry.losses[1], specifier: "%.1f") / \(1000 / entry.losses[1], specifier: "%.0f")")
-                            }
-                        }
-                    }
-                    .padding(.bottom)
-                }
-                
                 HStack(alignment: .center) {
                     Text("游玩人数：\(stat.totalPlayed)")
                     Spacer()
@@ -128,8 +100,34 @@ struct ChunithmSongStatView: View {
                                 .fontWeight(.bold)
                         }
                     }
+                    .padding(.bottom)
                 }
-                Spacer()
+                
+                if let entry = scoreEntry {
+                    HStack {
+                        let judges = ["justice", "attack", "miss"]
+                        VStack(alignment: .leading) {
+                            
+                            ForEach(Array(judges.enumerated()), id: \.offset) { index, type in
+                                HStack {
+                                    Text(type.firstUppercased)
+                                        .bold()
+                                    Text("-\(entry.losses[index], specifier: "%.0f")")
+                                }
+                            }
+                            
+                            
+                        }
+                        Spacer()
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("SSS/+容错")
+                                    .bold()
+                                Text("\(2500 / entry.losses[1], specifier: "%.1f") / \(1000 / entry.losses[1], specifier: "%.0f")")
+                            }
+                        }
+                    }
+                }
             }
             .padding()
         }
@@ -189,9 +187,7 @@ struct MaimaiSongStatView: View {
                     DoughnutChart(chartData: data)
                         .touchOverlay(chartData: data, specifier: "%.4f")
                         .headerBox(chartData: data)
-                        .frame(idealWidth: 100, idealHeight: 100)
                         .id(data.id)
-                        .padding(.horizontal)
                         .padding(.bottom)
                     
                     HStack {

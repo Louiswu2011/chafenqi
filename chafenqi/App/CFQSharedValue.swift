@@ -8,5 +8,5 @@
 import Foundation
 
 struct SharedValues {
-    static let serverAddress = "http://192.168.1.151:8998/"
+    static let serverAddress = "http://43.139.107.206:8998/"
 }
