@@ -352,8 +352,8 @@ struct UpdaterView: View {
     }
     
     func makeServerStatusText() async throws {
-        let chuni = try await Double(CFQStatsServer.getAvgUploadTime(for: 0))!
-        let mai = try await Double(CFQStatsServer.getAvgUploadTime(for: 1))!
+        let chuni = try await Double(CFQStatsServer.getAvgUploadTime(for: 0)) ?? -1
+        let mai = try await Double(CFQStatsServer.getAvgUploadTime(for: 1)) ?? -1
         
         func makeStatusString(with time: Double) -> String {
             switch time {
