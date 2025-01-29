@@ -2255,7 +2255,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = (
+				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = (
 					"-Xlinker",
 					"-interposable",
 				);
