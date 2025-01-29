@@ -48,7 +48,7 @@ struct HomeRecent: View {
                                     }
                                     Spacer()
                                     HStack(alignment: .bottom) {
-                                        Text(entry.title)
+                                        Text(entry.associatedSong?.title ?? "")
                                             .font(.system(size: 17))
                                             .lineLimit(2)
                                         Spacer()
@@ -71,7 +71,7 @@ struct HomeRecent: View {
                             RecentDetail(user: user, maiEntry: entry)
                         } label: {
                             HStack {
-                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
+                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: entry.associatedSong?.coverId ?? 0), size: 65, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
                                     .padding(.trailing, 5)
                                 Spacer()
                                 VStack {
@@ -83,11 +83,11 @@ struct HomeRecent: View {
                                     }
                                     Spacer()
                                     HStack(alignment: .bottom) {
-                                        Text(entry.title)
+                                        Text(entry.associatedSong?.title ?? "")
                                             .font(.system(size: 17))
                                             .lineLimit(2)
                                         Spacer()
-                                        Text("\(entry.score, specifier: "%.4f")%")
+                                        Text("\(entry.achievements, specifier: "%.4f")%")
                                             .font(.system(size: 21))
                                             .bold()
                                     }
@@ -103,9 +103,9 @@ struct HomeRecent: View {
     }
     
     
-    func expandChunithmRecommended(orig: [CFQChunithm.RecentScoreEntry: String]) -> [(String, CFQChunithm.RecentScoreEntry)] {
-        var r: [CFQChunithm.RecentScoreEntry] = []
-        var recommended: [(String, CFQChunithm.RecentScoreEntry)] = []
+    func expandChunithmRecommended(orig: [UserChunithmRecentScoreEntry: String]) -> [(String, UserChunithmRecentScoreEntry)] {
+        var r: [UserChunithmRecentScoreEntry] = []
+        var recommended: [(String, UserChunithmRecentScoreEntry)] = []
         for entry in orig.keys {
             r.append(entry)
         }
@@ -118,9 +118,9 @@ struct HomeRecent: View {
         return Array(recommended.prefix(3))
     }
     
-    func expandMaimaiRecommended(orig: [CFQMaimai.RecentScoreEntry: String]) -> [(String, CFQMaimai.RecentScoreEntry)] {
-        var r: [CFQMaimai.RecentScoreEntry] = []
-        var recommended: [(String, CFQMaimai.RecentScoreEntry)] = []
+    func expandMaimaiRecommended(orig: [UserMaimaiRecentScoreEntry: String]) -> [(String, UserMaimaiRecentScoreEntry)] {
+        var r: [UserMaimaiRecentScoreEntry] = []
+        var recommended: [(String, UserMaimaiRecentScoreEntry)] = []
         for entry in orig.keys {
             r.append(entry)
         }

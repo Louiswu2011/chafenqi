@@ -34,11 +34,11 @@ struct WidgetData {
     var username: String
     var isPremium: Bool
     
-    var maimaiInfo: CFQMaimai.UserInfo?
-    var chunithmInfo: CFQChunithm.UserInfo?
+    var maimaiInfo: UserMaimaiPlayerInfoEntry?
+    var chunithmInfo: UserChunithmPlayerInfo?
     
-    var maiRecentOne: CFQMaimai.RecentScoreEntry?
-    var chuRecentOne: CFQChunithm.RecentScoreEntry?
+    var maiRecentOne: UserMaimaiRecentScoreEntry?
+    var chuRecentOne: UserChunithmRecentScoreEntry?
     
     var chuChar: Data?
     var chuBg: Data?

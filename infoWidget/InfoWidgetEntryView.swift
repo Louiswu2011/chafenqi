@@ -186,11 +186,11 @@ struct infoWidgetEntryView : View {
                     rating = String(format: "%.2f", chunithm.rating)
                     username = transformingHalfwidthFullwidth(chunithm.nickname)
                     playCount = "\(chunithm.playCount)"
-                    lastUpdate = toDateString(chunithm.updatedAt)
+                    lastUpdate = toDateString(TimeInterval(chunithm.timestamp))
                     if let chu = entry.chuRecentOne {
                         hasRecent = true
                         cover = UIImage(data: entry.chuCover) ?? UIImage()
-                        title = chu.title
+                        title = chu.associatedSong?.title ?? ""
                         score = String(chu.score)
                     }
                 }
@@ -199,12 +199,12 @@ struct infoWidgetEntryView : View {
                     rating = String(maimai.rating)
                     username = transformingHalfwidthFullwidth(maimai.nickname)
                     playCount = "\(maimai.playCount)"
-                    lastUpdate = toDateString(maimai.updatedAt)
+                    lastUpdate = toDateString(TimeInterval(maimai.timestamp))
                     if let mai = entry.maiRecentOne {
                         hasRecent = true
                         cover = UIImage(data: entry.maiCover) ?? UIImage()
-                        title = mai.title
-                        score = String(format: "%.4f", mai.score) + "%"
+                        title = mai.associatedSong?.title ?? ""
+                        score = String(format: "%.4f", mai.achievements) + "%"
                     }
                 }
             }
@@ -212,13 +212,9 @@ struct infoWidgetEntryView : View {
         .widgetBackground(WidgetBackgroundView(entry: entry))
     }
     
-    func toDateString(_ string: String) -> String {
-        let formatter = DateTool.shared.updateFormatter
-        if let date = formatter.date(from: string) {
-            let f = DateTool.shared.premiumTransformer
-            return f.string(from: date)
-        }
-        return ""
+    func toDateString(_ epoch: TimeInterval) -> String {
+        let f = DateTool.shared.premiumTransformer
+        return f.string(from: Date(timeIntervalSince1970: epoch))
     }
     
     func transformingHalfwidthFullwidth(_ string: String) -> String {

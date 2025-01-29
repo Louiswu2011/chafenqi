@@ -34,8 +34,8 @@ struct SongDetailView: View {
     @State var from = ""
     @State var genre = ""
     
-    @State var chuScores: CFQChunithmBestScoreEntries = []
-    @State var maiScores: CFQMaimaiBestScoreEntries = []
+    @State var chuScores: UserChunithmBestScores = []
+    @State var maiScores: UserMaimaiBestScores = []
     
     @State var showingChart = false
     @State var diffArray: [String] = []
@@ -120,19 +120,16 @@ struct SongDetailView: View {
                     HStack {
                         if chuSong != nil && chuSong!.charts.worldsend.enabled {
                             Text(chuSong!.charts.levels.last ?? "")
-                                .font(.title3)
                         } else {
                             ForEach(Array(constant.enumerated()), id: \.offset) { index, value in
                                 if value > 0.0 {
                                     Text("\(value, specifier: "%.1f")")
                                         .foregroundColor(chunithmLevelColor[index])
-                                        .font(.title3)
                                 }
                             }
                         }
                         Spacer()
                         Text("BPM: \(bpm)")
-                            .font(.title3)
                     }
                     .padding(.horizontal)
                     
@@ -253,7 +250,7 @@ struct SongDetailView: View {
                     }
                     
                     if let song = maiSong {
-                        SongCommentScrollView(user: user, musicId: Int(song.musicId) ?? 0, musicFrom: 1)
+                        SongCommentScrollView(user: user, musicId: song.musicId, musicFrom: 1)
                     } else if let song = chuSong {
                         SongCommentScrollView(user: user, musicId: song.musicID, musicFrom: 0)
                     }
@@ -292,17 +289,18 @@ struct SongDetailView: View {
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Re:Master"]
             self.title = song.title
             self.artist = song.basicInfo.artist
-            self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: song.musicId))
-            self.constant = song.constant
+            self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: song.coverId)
+            self.constant = song.constants
             self.level = song.level
             self.bpm = song.basicInfo.bpm
-            self.from = song.basicInfo.from
+            self.genre = user.data.maimai.genreList.first { genre in genre.genre == song.basicInfo.genre }?.title ?? song.basicInfo.genre
+            self.from = user.data.maimai.versionList.first { version in version.version / 100 == song.basicInfo.version / 100 }?.title ?? "未知"
             self.maiScores = user.maimai.best.filter {
                 $0.associatedSong!.musicId == song.musicId
             }.sorted {
                 $0.levelIndex < $1.levelIndex
             }
-            self.loved = user.remoteOptions.maimaiFavList.components(separatedBy: ",").contains(song.musicId)
+            self.loved = user.remoteOptions.maimaiFavList.components(separatedBy: ",").contains(String(song.musicId))
         } else if let song = chuSong {
             self.mode = 1
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]
@@ -365,8 +363,8 @@ struct SongDetailView: View {
     
     func addLoved() async -> String? {
         if let song = maiSong {
-            let expectedString = user.remoteOptions.maimaiFavList.isEmpty ? song.musicId : user.remoteOptions.maimaiFavList + ",\(song.musicId)"
-            let actualString = await CFQUserServer.addFavMusic(authToken: user.jwtToken, game: 1, musicId: song.musicId)
+            let expectedString = user.remoteOptions.maimaiFavList.isEmpty ? String(song.musicId) : user.remoteOptions.maimaiFavList + ",\(song.musicId)"
+            let actualString = await CFQUserServer.addFavMusic(authToken: user.jwtToken, game: 1, musicId: String(song.musicId))
             if let string = actualString {
                 return string
             } else {
@@ -389,9 +387,9 @@ struct SongDetailView: View {
         if let song = maiSong {
             let expectedString = user.remoteOptions.maimaiFavList
                 .components(separatedBy: ",")
-                .filter { entry in entry != song.musicId }
+                .filter { entry in entry != String(song.musicId) }
                 .joined(separator: ",")
-            let actualString = await CFQUserServer.removeFavMusic(authToken: user.jwtToken, game: 1, musicId: song.musicId)
+            let actualString = await CFQUserServer.removeFavMusic(authToken: user.jwtToken, game: 1, musicId: String(song.musicId))
             if let string = actualString {
                 return string
             } else {
@@ -421,11 +419,11 @@ struct ScoreCardView: View {
     @State var maiSong: MaimaiSongData?
     @State var chuSong: ChunithmMusicData?
     
-    @State var maiEntry: CFQMaimai.BestScoreEntry?
-    @State var chuEntry: CFQChunithm.BestScoreEntry?
+    @State var maiEntry: UserMaimaiBestScoreEntry?
+    @State var chuEntry: UserChunithmBestScoreEntry?
     
-    @State var maiRecords: [CFQMaimai.RecentScoreEntry]?
-    @State var chuRecords: [CFQChunithm.RecentScoreEntry]?
+    @State var maiRecords: [UserMaimaiRecentScoreEntry]?
+    @State var chuRecords: [UserChunithmRecentScoreEntry]?
     
     @State var expanded = false
     
@@ -457,7 +455,7 @@ struct ScoreCardView: View {
                         Text(maimaiLevelLabel[levelIndex]!)
                         Spacer()
                         if let entry = maiEntry {
-                            Text("\(entry.score, specifier: "%.4f")%")
+                            Text("\(entry.achievements, specifier: "%.4f")%")
                                 .bold()
                         } else {
                             Text("尚未游玩")
@@ -561,7 +559,7 @@ struct SongCommentScrollView: View {
         .padding()
         .onAppear {
             Task {
-                comments = try await CFQCommentServer.loadComments(mode: musicFrom, musicId: musicId)
+                comments = try await CFQCommentServer.loadComments(authToken: user.jwtToken, mode: musicFrom, musicId: musicId)
             }
         }
     }

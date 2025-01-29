@@ -95,16 +95,10 @@ struct InfoMaimaiClearList: View {
                             .padding(.bottom, 5)
                             if !currentFold[index] {
                                 VStack {
-                                    ForEach(gradeInfo.songs, id: \.idx) { song in
+                                    ForEach(gradeInfo.songs, id: \.musicId) { song in
                                         MaimaiBestEntryBannerView(song: song)
                                             .padding(.horizontal)
                                     }
-                                    //                                if !levelInfo.noRecordSongs.isEmpty && index == 6 {
-                                    //                                    ForEach(levelInfo.noRecordSongs, id: \.musicId) { song in
-                                    //                                        MaimaiBestEntryBannerView(data: song, levelIndex: currentLevel)
-                                    //                                            .padding(.horizontal)
-                                    //                                    }
-                                    //                                }
                                 }
                             }
                         }
@@ -138,7 +132,7 @@ struct InfoMaimaiClearList: View {
 }
 
 struct MaimaiBestEntryBannerView: View {
-    var song: CFQMaimai.BestScoreEntry?
+    var song: UserMaimaiBestScoreEntry?
     var data: MaimaiSongData?
     var levelIndex: Int?
     
@@ -161,16 +155,16 @@ struct MaimaiBestEntryBannerView: View {
                 SongCoverView(coverURL: song.associatedSong!.coverURL, size: 50, cornerRadius: 5)
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(song.associatedSong!.constant[song.levelIndex], specifier: "%.1f")/\(song.rating)")
+                        Text("\(song.associatedSong!.constants[song.levelIndex], specifier: "%.1f")/\(song.rating)")
                         Spacer()
                         // Text(diff(of: song))
                     }
                     Spacer()
                     HStack {
-                        Text(song.title)
+                        Text(song.associatedSong?.title ?? "")
                             .lineLimit(1)
                         Spacer()
-                        Text("\(song.score, specifier: "%.4f")%")
+                        Text("\(song.achievements, specifier: "%.4f")%")
                             .bold()
                     }
                 }
@@ -181,12 +175,11 @@ struct MaimaiBestEntryBannerView: View {
     func constantByLevelIndex(from song: MaimaiSongData) -> Double {
         let string = CFQMaimaiLevelRecords.maiLevelStrings[levelIndex ?? 0]
         let idx = song.level.firstIndex(of: string) ?? 0
-        return song.constant[idx]
+        return song.constants[idx]
     }
     
-    func diff(of entry: CFQMaimai.BestScoreEntry) -> String {
-        let string = entry.level
-        let idx = entry.associatedSong!.level.firstIndex(of: string) ?? 0
+    func diff(of entry: UserMaimaiBestScoreEntry) -> String {
+        let idx = entry.levelIndex
         return ["BASIC", "ADVANCED", "EXPERT", "MASTER", "Re:MASTER"][idx]
     }
 }

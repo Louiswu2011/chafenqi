@@ -9,7 +9,7 @@ import SwiftUI
 
 struct InfoMaimaiTrophyList: View {
     @Environment(\.managedObjectContext) var context
-    var list: [CFQMaimai.ExtraEntry.TrophyEntry]
+    var list: [UserMaimaiTrophyEntry]
     
     let typeStrings = [
         "NORMAL": "普通称号",
@@ -19,7 +19,7 @@ struct InfoMaimaiTrophyList: View {
         "RAINBOW": "彩虹称号"
     ]
     
-    @State var group = [String: [CFQMaimai.ExtraEntry.TrophyEntry]]()
+    @State var group = [String: [UserMaimaiTrophyEntry]]()
     
     var body: some View {
         Form {

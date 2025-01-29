@@ -10,8 +10,8 @@ import SwiftUI
 struct DeltaPlayList: View {
     @ObservedObject var user: CFQNUser
     
-    @State var chuLog: CFQChunithmRecentScoreEntries?
-    @State var maiLog: CFQMaimaiRecentScoreEntries?
+    @State var chuLog: UserChunithmRecentScores?
+    @State var maiLog: UserMaimaiRecentScores?
     
     var body: some View {
         ScrollView {
@@ -32,7 +32,7 @@ struct DeltaPlayList: View {
                                     }
                                     Spacer()
                                     HStack(alignment: .bottom) {
-                                        Text(entry.title)
+                                        Text(entry.associatedSong?.title ?? "")
                                             .font(.system(size: 17))
                                             .lineLimit(2)
                                         Spacer()
@@ -51,7 +51,7 @@ struct DeltaPlayList: View {
                             RecentDetail(user: user, maiEntry: entry)
                         } label: {
                             HStack {
-                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: getCoverNumber(id: String(entry.associatedSong!.musicId))), size: 65, cornerRadius: 5)
+                                SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.maimaiCoverSource, coverId: entry.associatedSong?.coverId ?? 0), size: 65, cornerRadius: 5)
                                     .padding(.trailing, 5)
                                 Spacer()
                                 VStack {
@@ -61,11 +61,11 @@ struct DeltaPlayList: View {
                                     }
                                     Spacer()
                                     HStack(alignment: .bottom) {
-                                        Text(entry.title)
+                                        Text(entry.associatedSong?.title ?? "")
                                             .font(.system(size: 17))
                                             .lineLimit(2)
                                         Spacer()
-                                        Text("\(entry.score, specifier: "%.4f")%")
+                                        Text("\(entry.achievements, specifier: "%.4f")%")
                                             .font(.system(size: 21))
                                             .bold()
                                     }

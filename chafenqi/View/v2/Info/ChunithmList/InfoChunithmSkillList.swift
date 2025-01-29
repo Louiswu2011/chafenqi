@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InfoSkillList: View {
-    var skills: [CFQChunithm.ExtraEntry.SkillEntry]
+    var skills: [UserChunithmSkillEntry]
     
     var body: some View {
         Form {
@@ -23,11 +23,11 @@ struct InfoSkillList: View {
 
 struct InfoSkillItem: View {
     @Environment(\.managedObjectContext) var context
-    var skill: CFQChunithm.ExtraEntry.SkillEntry
+    var skill: UserChunithmSkillEntry
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: skill.icon)!, context: context, placeholder: {
+            AsyncImage(url: URL(string: skill.url)!, context: context, placeholder: {
                 ProgressView()
             }, image: { img in
                 Image(uiImage: img)

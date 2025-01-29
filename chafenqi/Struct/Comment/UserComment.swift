@@ -8,16 +8,16 @@
 import Foundation
 
 struct UserComment: Codable {
-    static let shared = UserComment(id: 0, timestamp: 0, uid: 1, username: "Admin", content: "Test", musicId: 1, musicFrom: 1, reply: -1)
+    static let shared = UserComment(id: 0, timestamp: 0, userId: 1, username: "Admin", content: "Test", musicId: 1, gameType: 1, replyId: -1)
     
     var id: Int
     var timestamp: Int
-    var uid: Int
+    var userId: Int
     var username: String
     var content: String
     var musicId: Int
-    var musicFrom: Int
-    var reply: Int
+    var gameType: Int
+    var replyId: Int
 }
 
 extension UserComment {

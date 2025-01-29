@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InfoCharacterList: View {
-    var characters: [CFQChunithm.ExtraEntry.CharacterEntry]
+    var characters: [UserChunithmCharacterEntry]
     
     var body: some View {
         Form {
@@ -27,7 +27,7 @@ struct InfoCharacterList: View {
 
 struct InfoCharacterItem: View {
     @Environment(\.managedObjectContext) var context
-    var character: CFQChunithm.ExtraEntry.CharacterEntry
+    var character: UserChunithmCharacterEntry
     
     var body: some View {
         HStack {
@@ -46,7 +46,7 @@ struct InfoCharacterItem: View {
                     Text(character.name)
                         .lineLimit(1)
                     Spacer()
-                    if character.current == 1 {
+                    if character.current {
                         Text("当前角色")
                             .bold()
                     }

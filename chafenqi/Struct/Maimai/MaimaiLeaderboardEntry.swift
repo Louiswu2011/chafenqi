@@ -30,7 +30,6 @@ struct MaimaiFirstLeaderboardEntry: Codable {
     var username: String = ""
     var nickname: String = ""
     var firstCount: Int = 0
-    var firstMusics: Array<MaimaiFirstLeaderboardMusicEntry> = []
 }
 struct MaimaiFirstLeaderboardMusicEntry: Codable {
     var musicId: Int = 0

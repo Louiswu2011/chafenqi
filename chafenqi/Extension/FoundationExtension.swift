@@ -35,6 +35,12 @@ extension Array where Element == Double {
     }
 }
 
+extension Double {
+    func cut(remainingDigits: Int) -> Double {
+        return floor(self * pow(10, Double(remainingDigits))) / pow(10, Double(remainingDigits))
+    }
+}
+
 extension UIApplication {
     func currentUIWindow() -> UIWindow? {
         let connectedScenes = UIApplication.shared.connectedScenes

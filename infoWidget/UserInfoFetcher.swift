@@ -14,10 +14,10 @@ struct UserInfoFetcher {
     static let session = URLSession.shared
     
     static var isPremium = false
-    static var maimai: CFQMaimai.UserInfo?
-    static var chunithm: CFQChunithm.UserInfo?
-    static var maiRecentOne: CFQMaimai.RecentScoreEntry?
-    static var chuRecentOne: CFQChunithm.RecentScoreEntry?
+    static var maimai: UserMaimaiPlayerInfoEntry?
+    static var chunithm: UserChunithmPlayerInfo?
+    static var maiRecentOne: UserMaimaiRecentScoreEntry?
+    static var chuRecentOne: UserChunithmRecentScoreEntry?
     
     static var cachedMaiCover = Data()
     static var cachedChuCover = Data()
@@ -38,21 +38,21 @@ struct UserInfoFetcher {
                 NSLog("[CFQWidget] Premium: " + (isPremium ? "true" : "false"))
                 if let maiData = info.maimai {
                     do {
-                        self.maimai = try decoder.decode(CFQMaimai.UserInfo.self, from: maiData)
+                        self.maimai = try decoder.decode(UserMaimaiPlayerInfoEntry.self, from: maiData)
                     } catch {
                         self.maimai = nil
                     }
                 }
                 if let chuData = info.chunithm {
                     do {
-                        self.chunithm = try decoder.decode(CFQChunithm.UserInfo.self, from: chuData)
+                        self.chunithm = try decoder.decode(UserChunithmPlayerInfo.self, from: chuData)
                     } catch {
                         self.chunithm = nil
                     }
                 }
                 if let maiRecentOne = info.maiRecentOne {
                     do {
-                        self.maiRecentOne = try decoder.decode(CFQMaimai.RecentScoreEntry.self, from: maiRecentOne)
+                        self.maiRecentOne = try decoder.decode(UserMaimaiRecentScoreEntry.self, from: maiRecentOne)
                         NSLog("[CFQWidget] Found maimai recent data")
                     } catch {
                         self.maiRecentOne = nil
@@ -60,7 +60,7 @@ struct UserInfoFetcher {
                 }
                 if let chuRecentOne = info.chuRecentOne {
                     do {
-                        self.chuRecentOne = try decoder.decode(CFQChunithm.RecentScoreEntry.self, from: chuRecentOne)
+                        self.chuRecentOne = try decoder.decode(UserChunithmRecentScoreEntry.self, from: chuRecentOne)
                         NSLog("[CFQWidget] Found chunithm recent data")
                     } catch {
                         self.chuRecentOne = nil

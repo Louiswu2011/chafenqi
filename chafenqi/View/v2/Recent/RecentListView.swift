@@ -13,8 +13,8 @@ struct RecentListView: View {
     @State private var pageAvailable: Int = 1
     @State private var currentPage: Int = 1
     
-    @State private var maiSlice = CFQMaimaiRecentScoreEntries()
-    @State private var chuSlice = CFQChunithmRecentScoreEntries()
+    @State private var maiSlice = UserMaimaiRecentScores()
+    @State private var chuSlice = UserChunithmRecentScores()
     
     @State private var loaded = false
     
@@ -94,11 +94,11 @@ struct RecentListView: View {
 
 struct MaimaiRecentEntryView: View {
     @ObservedObject var user: CFQNUser
-    var entry: CFQMaimai.RecentScoreEntry
+    var entry: UserMaimaiRecentScoreEntry
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: getCoverNumber(id: entry.associatedSong!.musicId)), size: 65, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
+            SongCoverView(coverURL: MaimaiDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, coverId: entry.associatedSong?.coverId ?? 0), size: 65, cornerRadius: 5, diffColor: maimaiLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Spacer()
             VStack {
@@ -109,11 +109,11 @@ struct MaimaiRecentEntryView: View {
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text(entry.title)
+                    Text(entry.associatedSong?.title ?? "")
                         .font(.system(size: 17))
                         .lineLimit(1)
                     Spacer()
-                    Text("\(entry.score, specifier: "%.4f")%")
+                    Text("\(entry.achievements, specifier: "%.4f")%")
                         .font(.system(size: 17))
                         .bold()
                 }
@@ -125,7 +125,7 @@ struct MaimaiRecentEntryView: View {
 
 struct ChunithmRecentEntryView: View {
     @ObservedObject var user: CFQNUser
-    var entry: CFQChunithm.RecentScoreEntry
+    var entry: UserChunithmRecentScoreEntry
     
     var body: some View {
         HStack {
@@ -140,7 +140,7 @@ struct ChunithmRecentEntryView: View {
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text(entry.title)
+                    Text(entry.associatedSong?.title ?? "")
                         .font(.system(size: 17))
                         .lineLimit(1)
                     Spacer()

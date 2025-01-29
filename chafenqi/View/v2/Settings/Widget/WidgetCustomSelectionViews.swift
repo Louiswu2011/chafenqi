@@ -11,11 +11,11 @@ struct WidgetBgCustomSelectionView: View {
     @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
     
-    var availableChuBgs: [CFQData.Chunithm.ExtraEntry.NameplateEntry]? = nil
-    var availableMaiBgs: [CFQData.Maimai.ExtraEntry.FrameEntry]? = nil
+    var availableChuBgs: [UserChunithmNameplateEntry]? = nil
+    var availableMaiBgs: [UserMaimaiFrameEntry]? = nil
     
-    @Binding var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
-    @Binding var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
+    @Binding var selectedChuBg: UserChunithmNameplateEntry?
+    @Binding var selectedMaiBg: UserMaimaiFrameEntry?
     
     var body: some View {
         Form {
@@ -43,9 +43,9 @@ struct WidgetBgCustomSelectionView: View {
                     }
                 }
             } else if let entries = availableMaiBgs {
-                ForEach(entries, id: \.image) { frame in
+                ForEach(entries, id: \.url) { frame in
                     VStack {
-                        AsyncImage(url: URL(string: frame.image)!, context: context, placeholder: {
+                        AsyncImage(url: URL(string: frame.url)!, context: context, placeholder: {
                             ProgressView()
                         }, image: { img in
                             Image(uiImage: img)
@@ -70,11 +70,11 @@ struct WidgetCharCustomSelectionView: View {
     @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
     
-    var availableChuChars: [CFQData.Chunithm.ExtraEntry.CharacterEntry]?
-    var availableMaiChars: [CFQData.Maimai.ExtraEntry.CharacterEntry]?
+    var availableChuChars: [UserChunithmCharacterEntry]?
+    var availableMaiChars: [UserMaimaiCharacterEntry]?
     
-    @Binding var selectedChuChar: CFQData.Chunithm.ExtraEntry.CharacterEntry?
-    @Binding var selectedMaiChar: CFQData.Maimai.ExtraEntry.CharacterEntry?
+    @Binding var selectedChuChar: UserChunithmCharacterEntry?
+    @Binding var selectedMaiChar: UserMaimaiCharacterEntry?
     
     var body: some View {
         Form {
@@ -96,7 +96,7 @@ struct WidgetCharCustomSelectionView: View {
                                 Text(character.name)
                                     .lineLimit(1)
                                 Spacer()
-                                if character.current == 1 {
+                                if character.current {
                                     Text("当前角色")
                                         .bold()
                                 }
@@ -115,9 +115,9 @@ struct WidgetCharCustomSelectionView: View {
                     }
                 }
             } else if let entries = availableMaiChars {
-                ForEach(entries, id: \.image) { char in
+                ForEach(entries, id: \.url) { char in
                     HStack {
-                        AsyncImage(url: URL(string: char.image)!, context: context, placeholder: {
+                        AsyncImage(url: URL(string: char.url)!, context: context, placeholder: {
                             ProgressView()
                         }, image: { img in
                             Image(uiImage: img)
@@ -131,7 +131,7 @@ struct WidgetCharCustomSelectionView: View {
                                 Text(char.name)
                                     .bold()
                                 Spacer()
-                                Text(char.level)
+                                Text("\(char.level)")
                             }
                         }
                     }

@@ -7,6 +7,10 @@
 
 import Foundation
 
+let teamNameLimit = 24
+let teamStyleLimit = 16
+let teamRemarksLimit = 120
+
 let difficulty = ["Expert": "exp", "Master": "mst", "Ultima": "ult"]
 let chunithmRanks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]
 
@@ -37,20 +41,6 @@ class DataTool {
         numberFormatter.numberStyle = .decimal
         numberFormatter.roundingMode = .down
     }
-}
-
-func getMaxRatingPossible(songList: Set<ChunithmSongData>) -> Double {
-    var max = 0.0
-    
-    let sortedList = songList.sorted(by: { (a, b) in
-        return a.constant.last! > b.constant.last!
-    })
-    
-    for i in 0..<30 {
-        max += sortedList[i].constant.last!
-    }
-    
-    return max / 30.0
 }
 
 

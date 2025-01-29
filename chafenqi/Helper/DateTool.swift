@@ -15,10 +15,13 @@ class DateTool {
     let premiumTransformer = DateFormatter()
     let updateFormatter = ISO8601DateFormatter()
     let yyyymmddTransformer = DateFormatter()
+    let ymdhmsTransformer = DateFormatter()
     
     static let shared = DateTool()
     
     init() {
+        ymdhmsTransformer.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        ymdhmsTransformer.timeZone = .autoupdatingCurrent
         yyyymmddTransformer.timeZone = .autoupdatingCurrent
         yyyymmddTransformer.dateFormat = "yyyy-MM-dd"
         premiumTransformer.timeZone = .autoupdatingCurrent
@@ -40,6 +43,16 @@ class DateTool {
             return DateTool.shared.defaultTransformer.string(from: date)
         }
         return ""
+    }
+    
+    static func ymdhmsDateString(from: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: from)
+        return DateTool.shared.ymdhmsTransformer.string(from: date)
+    }
+    
+    static func updateTimestamp(from: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: from)
+        return DateTool.shared.defaultTransformer.string(from: date)
     }
     
     static func updateDateString(from: String) -> String {

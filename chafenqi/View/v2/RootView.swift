@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct RootView: View {
     @ObservedObject var user: CFQNUser
@@ -55,7 +56,7 @@ struct RootView: View {
                         Text("歌曲")
                     }
                 }
-                .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
+                .toast(isPresenting: $alertToast.show, duration: 5, tapToDismiss: true) {
                     alertToast.toast
                 }
             } else {

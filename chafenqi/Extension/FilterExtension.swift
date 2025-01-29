@@ -82,7 +82,7 @@ extension Array<MaimaiSongData> {
     
     func filterConstant(lower: Double, upper: Double) -> Self {
         self.filter {
-            for constant in $0.constant {
+            for constant in $0.constants {
                 if (lower...upper ~= constant) {
                     return true
                 }

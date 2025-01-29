@@ -17,8 +17,8 @@ struct CFQMaimaiDayRecords: Codable {
         var achievementDelta: Double = 0
         var syncPointDelta = 0
         
-        var latestDelta: CFQMaimai.DeltaEntry?
-        var recentEntries: CFQMaimaiRecentScoreEntries = []
+        var latestDelta: UserMaimaiPlayerInfoEntry?
+        var recentEntries: UserMaimaiRecentScores = []
         
         var hasDelta = false
         
@@ -30,7 +30,7 @@ struct CFQMaimaiDayRecords: Codable {
     var dayPlayed = -1
     var records: [CFQMaimaiDayRecord] = []
     
-    init(recents: CFQMaimaiRecentScoreEntries, deltas: CFQMaimaiDeltaEntries) {
+    init(recents: UserMaimaiRecentScores, deltas: UserMaimaiPlayerInfos) {
         let latestStamp = recents.first?.timestamp ?? 0
         let firstStamp = recents.last?.timestamp ?? 0
         
@@ -56,11 +56,7 @@ struct CFQMaimaiDayRecords: Codable {
                 // Filter delta logs
                 // TODO: Fix slow toDate() function call
                 let latestDelta = deltas.filter { entry in
-                    if let timestamp = entry.createdAt.toDate()?.timeIntervalSince1970 {
-                        return (truncatedFirstStamp...t).contains(timestamp)
-                    } else {
-                        return false
-                    }
+                    return (truncatedFirstStamp...t).contains(TimeInterval(entry.timestamp))
                 }.last
                 if let last = latestDelta {
                     record.latestDelta = last
@@ -71,9 +67,7 @@ struct CFQMaimaiDayRecords: Codable {
                         
                         record.ratingDelta = last.rating - secondLast.rating
                         record.pcDelta = last.playCount - secondLast.playCount
-                        record.achievementDelta = last.achievement - secondLast.achievement
-                        record.dxScoreDelta = last.dxScore - secondLast.dxScore
-                        record.syncPointDelta = last.syncPoint - secondLast.syncPoint
+                        // TODO: At lease get total achievements back
                     }
                 }
                 self.records.append(record)
@@ -96,8 +90,8 @@ struct CFQChunithmDayRecords: Codable {
         var overpowerDelta: Double = 0
         var totalGoldDelta: Int = 0
         
-        var latestDelta: CFQChunithm.DeltaEntry?
-        var recentEntries: CFQChunithmRecentScoreEntries = []
+        var latestDelta: UserChunithmPlayerInfo?
+        var recentEntries: UserChunithmRecentScores = []
         
         var hasDelta = false
         
@@ -109,7 +103,7 @@ struct CFQChunithmDayRecords: Codable {
     
     init() {}
     
-    init(recents: CFQChunithmRecentScoreEntries, deltas: CFQChunithmDeltaEntries) {
+    init(recents: UserChunithmRecentScores, deltas: UserChunithmPlayerInfos) {
         let latestStamp = recents.first?.timestamp ?? 0
         let firstStamp = recents.last?.timestamp ?? 0
         
@@ -134,11 +128,7 @@ struct CFQChunithmDayRecords: Codable {
                 
                 // Filter delta logs
                 let latestDelta = deltas.filter { entry in
-                    if let timestamp = entry.createdAt.toDate()?.timeIntervalSince1970 {
-                        return (truncatedFirstStamp...t).contains(timestamp)
-                    } else {
-                        return false
-                    }
+                    return (truncatedFirstStamp...t).contains(TimeInterval(entry.timestamp))
                 }.last
                 if let last = latestDelta {
                     record.latestDelta = last
@@ -148,7 +138,7 @@ struct CFQChunithmDayRecords: Codable {
                         
                         record.ratingDelta = last.rating - secondLast.rating
                         record.pcDelta = last.playCount - secondLast.playCount
-                        record.overpowerDelta = last.overpower_raw - secondLast.overpower_raw
+                        record.overpowerDelta = last.rawOverpower - secondLast.rawOverpower
                         record.totalGoldDelta = last.totalGold - secondLast.totalGold
                     }
                 }
@@ -178,11 +168,11 @@ struct CFQMaimaiLevelRecords: Codable {
     struct CFQMaimaiLevelRecord: Codable {
         struct CFQMaimaiGradeRecord: Codable {
             var count: Int = 0
-            var songs: CFQMaimaiBestScoreEntries = []
+            var songs: UserMaimaiBestScores = []
             
-            init(range: ClosedRange<Double>, best: CFQMaimaiBestScoreEntries) {
+            init(range: ClosedRange<Double>, best: UserMaimaiBestScores) {
                 songs = best.filter {
-                    range.contains($0.score)
+                    range.contains($0.achievements)
                 }
                 count = songs.count
             }
@@ -194,9 +184,9 @@ struct CFQMaimaiLevelRecords: Codable {
         var noRecordSongs: [MaimaiSongData] = []
         var ratios: [Double] = []
         
-        init(index: Int, best: CFQMaimaiBestScoreEntries, songData: [MaimaiSongData]) {
+        init(index: Int, best: UserMaimaiBestScores, songData: [MaimaiSongData]) {
             let songs = best.filter {
-                $0.level == CFQMaimaiLevelRecords.maiLevelStrings[index]
+                $0.associatedSong!.level[$0.levelIndex] == CFQMaimaiLevelRecords.maiLevelStrings[index]
             }
             self.levelString = CFQMaimaiLevelRecords.maiLevelStrings[index]
             let playedIdList = songs.compactMap { $0.associatedSong!.musicId }
@@ -216,7 +206,7 @@ struct CFQMaimaiLevelRecords: Codable {
     
     var levels: [CFQMaimaiLevelRecord] = []
     
-    init(songs: [MaimaiSongData], best: CFQMaimaiBestScoreEntries) {
+    init(songs: [MaimaiSongData], best: UserMaimaiBestScores) {
         for level in CFQMaimaiLevelRecords.maiLevelStrings.indices {
             levels.append(CFQMaimaiLevelRecord(index: level, best: best, songData: songs))
         }
@@ -246,7 +236,7 @@ struct CFQChunithmLevelRecords: Codable {
         var noRecordSongs: [ChunithmMusicData] = []
         var ratios: [Double] = []
         
-        init(level: String, best: CFQChunithmBestScoreEntries, songData: [ChunithmMusicData]) {
+        init(level: String, best: UserChunithmBestScores, songData: [ChunithmMusicData]) {
             self.levelString = level
             let songs = best.filter {
                 $0.associatedSong!.charts.getChartFromIndex($0.levelIndex).level == level
@@ -261,7 +251,7 @@ struct CFQChunithmLevelRecords: Codable {
         }
     }
     
-    init(songs: [ChunithmMusicData], best: CFQChunithmBestScoreEntries) {
+    init(songs: [ChunithmMusicData], best: UserChunithmBestScores) {
         for level in CFQChunithmLevelRecords.chuLevelStrings {
             levels.append(CFQChunithmLevelRecord(level: level, best: best, songData: songs))
         }
@@ -270,4 +260,3 @@ struct CFQChunithmLevelRecords: Codable {
     init() {}
 }
 
-typealias CFQMaimaiDayEntry = (CFQMaimaiRecentScoreEntries, Date)

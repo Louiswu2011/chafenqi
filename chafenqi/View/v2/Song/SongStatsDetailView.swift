@@ -13,11 +13,11 @@ struct SongStatsDetailView: View {
     var maiSong: MaimaiSongData?
     var chuSong: ChunithmMusicData?
     
-    var maiRecord: CFQMaimai.RecentScoreEntry?
-    var chuRecord: CFQChunithm.RecentScoreEntry?
+    var maiRecord: UserMaimaiRecentScoreEntry?
+    var chuRecord: UserChunithmRecentScoreEntry?
     
-    var maiRecords: CFQMaimaiRecentScoreEntries?
-    var chuRecords: CFQChunithmRecentScoreEntries?
+    var maiRecords: UserMaimaiRecentScores?
+    var chuRecords: UserChunithmRecentScores?
     
     var diff: Int
     
@@ -33,10 +33,10 @@ struct SongStatsDetailView: View {
     @State var diffLabel = ""
     @State var diffLabelColor = Color.black
     
+    @State var maiStat = CFQMusicStat()
+    @State var chuStat = CFQMusicStat()
     
-    @State var chuStat = CFQChunithmMusicStatEntry()
     @State var chuLeaderboard: CFQChunithmLeaderboard = []
-    
     @State var maiLeaderboard: CFQMaimaiLeaderboard = []
     
     @State var doneLoadingStat = false
@@ -122,7 +122,7 @@ struct SongStatsDetailView: View {
                     } else if let song = maiSong {
                         SongLeaderboardView(doneLoading: $doneLoadingLeaderboard, username: user.username, maiLeaderboard: maiLeaderboard)
                             .tag(0)
-                        SongStatView(doneLoading: $doneLoadingStat, maiSong: song, diff: diff)
+                        SongStatView(doneLoading: $doneLoadingStat, maiStat: maiStat, maiSong: song, diff: diff)
                             .tag(1)
                         if !(maiRecords?.isEmpty ?? false) {
                             SongEntryListView(user: user, maiRecords: maiRecords)
@@ -145,11 +145,11 @@ struct SongStatsDetailView: View {
     func loadVar() {
         if let song = chuSong {
             Task {
-                chuStat = await CFQStatsServer.fetchMusicStat(musicId: song.musicID, diffIndex: diff)
+                chuStat = await CFQStatsServer.fetchMusicStat(authToken: user.jwtToken, mode: 0, musicId: song.musicID, diffIndex: diff)
                 doneLoadingStat = true
             }
             Task {
-                chuLeaderboard = await CFQStatsServer.fetchChunithmLeaderboard(musicId: song.musicID, diffIndex: diff)
+                chuLeaderboard = await CFQStatsServer.fetchChunithmLeaderboard(authToken: user.jwtToken, musicId: song.musicID, diffIndex: diff)
                 doneLoadingLeaderboard = true
             }
             coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 0, musicId: String(song.musicID))
@@ -159,13 +159,14 @@ struct SongStatsDetailView: View {
             diffLabelColor = chunithmLevelColor[diff] ?? .systemsBackground
         } else if let song = maiSong {
             Task {
-                maiLeaderboard = await CFQStatsServer.fetchMaimaiLeaderboard(musicId: Int(song.musicId) ?? 0, type: song.type.uppercased(), diffIndex: diff)
+                maiLeaderboard = await CFQStatsServer.fetchMaimaiLeaderboard(authToken: user.jwtToken, musicId: song.coverId, type: song.type, diffIndex: diff)
                 doneLoadingLeaderboard = true
             }
             Task {
+                maiStat = await CFQStatsServer.fetchMusicStat(authToken: user.jwtToken, mode: 1, musicId: song.coverId, diffIndex: diff, type: song.type)
                 doneLoadingStat = true
             }
-            coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: getCoverNumber(id: song.musicId))
+            coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: song.coverId)
             title = song.title
             artist = song.basicInfo.artist
             diffLabel = maimaiLevelLabel[diff] ?? ""
@@ -173,17 +174,4 @@ struct SongStatsDetailView: View {
             // TODO: Add maimai stats fetcher
         }
     }
-}
-
-#Preview {
-    ChunithmLeaderboardView(leaderboard: [
-        CFQChunithmLeaderboardEntry(id: 1, nickname: "Player1", highscore: 1010000, rankIndex: 13, fullCombo: "alljustice"),
-        CFQChunithmLeaderboardEntry(id: 2, nickname: "Player2", highscore: 1010000, rankIndex: 12, fullCombo: "fullcombo"),
-        CFQChunithmLeaderboardEntry(id: 3, username: "Player3", nickname: "Player3", highscore: 1003400, rankIndex: 11, fullCombo: ""),
-        CFQChunithmLeaderboardEntry(id: 4, nickname: "Player4", highscore: 998888, rankIndex: 10, fullCombo: ""),
-        CFQChunithmLeaderboardEntry(id: 5, nickname: "Player5", highscore: 1010000, rankIndex: 9, fullCombo: ""),
-        CFQChunithmLeaderboardEntry(id: 6, nickname: "Player6", highscore: 987768, rankIndex: 8, fullCombo: ""),
-        CFQChunithmLeaderboardEntry(id: 7, nickname: "Player7", highscore: 970067, rankIndex: 7, fullCombo: ""),
-        CFQChunithmLeaderboardEntry(id: 8, nickname: "Player8", highscore: 954466, rankIndex: 6, fullCombo: "")
-    ], username: "Player3")
 }

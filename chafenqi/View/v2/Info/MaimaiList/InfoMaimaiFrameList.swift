@@ -9,15 +9,15 @@ import SwiftUI
 
 struct InfoMaimaiFrameList: View {
     @Environment(\.managedObjectContext) var context
-    var list: [CFQMaimai.ExtraEntry.FrameEntry]
+    var list: [UserMaimaiFrameEntry]
     
-    @State var group = [String: [CFQMaimai.ExtraEntry.FrameEntry]]()
+    @State var group = [String: [UserMaimaiFrameEntry]]()
     
     var body: some View {
         Form {
             ForEach(Array(group.keys).sorted(), id: \.hashValue) { area in
                 Section {
-                    ForEach(group[area]!, id: \.image) { frame in
+                    ForEach(group[area]!, id: \.url) { frame in
                         InfoMaimaiFrameEntry(frame: frame)
                     }
                 } header: {
@@ -37,13 +37,13 @@ struct InfoMaimaiFrameList: View {
 
 struct InfoMaimaiFrameEntry: View {
     @Environment(\.managedObjectContext) var context
-    var frame: CFQMaimaiExtraEntry.FrameEntry
+    var frame: UserMaimaiFrameEntry
     
     @State var image = UIImage()
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: frame.image)!, context: context, placeholder: {
+            AsyncImage(url: URL(string: frame.url)!, context: context, placeholder: {
                 ProgressView()
             }, image: { img in
                 Image(uiImage: img)

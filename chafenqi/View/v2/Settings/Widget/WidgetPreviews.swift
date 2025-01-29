@@ -96,7 +96,7 @@ struct WidgetPreviewInfo: View {
         if size == 1 {
             VStack {
                 HStack {
-                    Text(previewType == .chunithm ? user.chunithm.info.nickname : user.maimai.info.nickname)
+                    Text(previewType == .chunithm ? user.chunithm.nickname : user.maimai.nickname)
                         .bold()
                         .foregroundColor(previewType == .chunithm ? (config.darkModes[0] ? .white : .black) : (config.darkModes[2] ? .white : .black))
                     Spacer()
@@ -105,9 +105,9 @@ struct WidgetPreviewInfo: View {
                 
                 HStack {
                     Group {
-                        WidgetInfoBox(content: previewType == .chunithm ? String(format: "%.2f", user.chunithm.info.rating) : String(user.maimai.info.rating), title: "Rating")
-                        WidgetInfoBox(content: previewType == .chunithm ? String(user.chunithm.info.playCount) : String(user.maimai.info.playCount), title: "游玩次数")
-                        WidgetInfoBox(content: previewType == .chunithm ? toDateString(user.chunithm.info.updatedAt) : toDateString(user.maimai.info.updatedAt), title: "最近更新")
+                        WidgetInfoBox(content: previewType == .chunithm ? String(format: "%.2f", user.chunithm.info.last?.rating ?? 0) : String(user.maimai.info.last?.rating ?? 0), title: "Rating")
+                        WidgetInfoBox(content: previewType == .chunithm ? String(user.chunithm.info.last?.playCount ?? 0) : String(user.maimai.info.last?.playCount ?? 0), title: "游玩次数")
+                        WidgetInfoBox(content: previewType == .chunithm ? toDateString(TimeInterval(user.chunithm.info.last?.timestamp ?? 0)) : toDateString(TimeInterval(user.maimai.info.last?.timestamp ?? 0)), title: "最近更新")
                     }
                     .foregroundColor(previewType == .chunithm ? (config.darkModes[0] ? .white : .black) : (config.darkModes[2] ? .white : .black))
                     Spacer()
@@ -118,19 +118,25 @@ struct WidgetPreviewInfo: View {
         } else {
             VStack(alignment: .leading) {
                 HStack {
-                    Text(previewType == .chunithm ? user.chunithm.info.nickname : user.maimai.info.nickname)
+                    Text(previewType == .chunithm ? user.chunithm.nickname : user.maimai.nickname)
                         .bold()
                         .foregroundColor(previewType == .chunithm ? (config.darkModes[1] ? .white : .black) : (config.darkModes[3] ? .white : .black))
                     Spacer()
                 }
                 Group {
-                    WidgetInfoBox(content: previewType == .chunithm ? String(format: "%.2f", user.chunithm.info.rating) : String(user.maimai.info.rating), title: "Rating")
-                    WidgetInfoBox(content: previewType == .chunithm ? String(user.chunithm.info.playCount) : String(user.maimai.info.playCount), title: "游玩次数")
+                    WidgetInfoBox(content: previewType == .chunithm ? String(format: "%.2f", user.chunithm.info.last?.rating ?? 0) : String(user.maimai.info.last?.rating ?? 0), title: "Rating")
+                    WidgetInfoBox(content: previewType == .chunithm ? String(user.chunithm.info.last?.playCount ?? 0) : String(user.maimai.info.last?.playCount ?? 0), title: "游玩次数")
                 }
                 .foregroundColor(previewType == .chunithm ? (config.darkModes[1] ? .white : .black) : (config.darkModes[3] ? .white : .black))
             }
             .padding(.leading)
         }
+    }
+    
+    func toDateString(_ epoch: TimeInterval) -> String {
+        let formatter = DateTool.shared.premiumTransformer
+        let date = Date(timeIntervalSince1970: epoch)
+        return formatter.string(from: date)
     }
     
     func toDateString(_ string: String) -> String {

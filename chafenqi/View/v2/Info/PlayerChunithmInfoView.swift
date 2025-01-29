@@ -223,36 +223,41 @@ struct PlayerChunithmInfoView: View {
     }
     
     func loadVar() {
-        guard user.isPremium && !user.chunithm.extra.collections.isEmpty else { return }
+        guard user.isPremium && !user.chunithm.extra.characters.isEmpty else { return }
         if user.currentMode == 0 {
-            if let currentAvatar = user.chunithm.extra.collections.last {
-                avatarUrlString = currentAvatar.charUrl
-                charName = currentAvatar.charName
-                charLevel = currentAvatar.charRank
-                charProgress = currentAvatar.charExp
+            if let currentInfo = user.chunithm.info.last {
+                if (currentInfo.charUrl.isEmpty) {
+                    avatarUrlString = "https://chunithm.wahlap.com/mobile/img/71e1e250b22e2f4f.png"
+                } else {
+                    avatarUrlString = currentInfo.charUrl
+                }
+                charName = currentInfo.charName
+                charLevel = currentInfo.charRank
+                charProgress = currentInfo.charExp
+                playCount = currentInfo.playCount
+                overpowerRaw = currentInfo.rawOverpower
+                overpowerPercent = currentInfo.percentOverpower
+                currentGold = currentInfo.currentGold
+                totalGold = currentInfo.totalGold
+                friendCodeString = currentInfo.friendCode
             } else {
                 avatarUrlString = "https://chunithm.wahlap.com/mobile/img/71e1e250b22e2f4f.png"
             }
             if let currentSkill = user.chunithm.extra.skills.first(where: {
-                $0.current == 1
+                $0.current
             }) {
-                skillUrlString = currentSkill.icon
+                skillUrlString = currentSkill.url
                 skillLevel = currentSkill.level
                 skillName = currentSkill.name
                 skillDescription = currentSkill.description
             }
-            playCount = user.chunithm.info.playCount
-            overpowerRaw = user.chunithm.info.overpower_raw
-            overpowerPercent = user.chunithm.info.overpower_percent
-            currentGold = user.chunithm.info.currentGold
-            totalGold = user.chunithm.info.totalGold
+            
             charCount = user.chunithm.extra.characters.count
             skillCount = user.chunithm.extra.skills.count
             nameplateCount = user.chunithm.extra.nameplates.count
             trophyCount = user.chunithm.extra.trophies.count
             ticketCount = user.chunithm.extra.tickets.reduce(0) { $0 + $1.count }
             mapIconCount = user.chunithm.extra.mapIcons.count
-            friendCodeString = user.chunithm.info.friendCode
             isLoaded = true
         }
         

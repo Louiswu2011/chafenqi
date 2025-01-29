@@ -57,7 +57,7 @@ struct HomeNameplate: View {
                 HStack {
                     VStack(alignment: .leading) {
                         HStack {
-                            let displayName = user.currentMode == 0 ? user.chunithm.info.nickname : user.maimai.info.nickname
+                            let displayName = user.currentMode == 0 ? user.chunithm.nickname ?? user.username : user.maimai.nickname
                             Text(displayName)
                                 .foregroundColor(.black)
                                 .font(.system(size: 25))
@@ -91,7 +91,7 @@ struct HomeNameplate: View {
                                 HStack {
                                     Text("Rating")
                                     if (user.currentMode == 0) {
-                                        Text("\(user.chunithm.info.rating, specifier: "%.2f") (\(user.chunithm.custom.maxRating, specifier: "%.2f"))")
+                                        Text("\(user.chunithm.info.last?.rating ?? 0, specifier: "%.2f") (\(user.chunithm.custom.maxRating, specifier: "%.2f"))")
                                             .bold()
                                     } else {
                                         Text(verbatim: "\(user.maimai.custom.rawRating)")
@@ -130,12 +130,12 @@ struct HomeNameplate: View {
                                     if (user.currentMode == 0) {
                                         Text("OVERPOWER")
                                         
-                                        Text("\(user.chunithm.info.overpower_raw, specifier: "%.2f")")
+                                        Text("\(user.chunithm.info.last?.rawOverpower ?? 0, specifier: "%.2f")")
                                             .bold()
                                     } else {
                                         Text("游玩次数")
 
-                                        Text("\(user.maimai.info.playCount)")
+                                        Text("\(user.maimai.info.last?.playCount ?? 0)")
                                             .bold()
                                     }
                                 }
@@ -145,9 +145,9 @@ struct HomeNameplate: View {
                                 HStack {
                                     Text("更新于")
                                     if user.currentMode == 0 {
-                                        Text(getUpdateTime(user.chunithm.info.updatedAt))
+                                        Text(getUpdateTime(TimeInterval(user.chunithm.info.last?.timestamp ?? 0)))
                                     } else {
-                                        Text(getUpdateTime(user.maimai.info.updatedAt))
+                                        Text(getUpdateTime(TimeInterval(user.maimai.info.last?.timestamp ?? 0)))
                                     }
                                 }
                             }
@@ -165,6 +165,10 @@ struct HomeNameplate: View {
     
     func getUpdateTime(_ str: String) -> String {
         DateTool.updateDateString(from: str)
+    }
+    
+    func getUpdateTime(_ epoch: TimeInterval) -> String {
+        DateTool.updateTimestamp(from: epoch)
     }
     
     var avatarName: String {

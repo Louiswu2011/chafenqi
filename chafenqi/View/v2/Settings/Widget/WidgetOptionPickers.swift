@@ -102,8 +102,8 @@ struct WidgetLargeBgPicker: View {
     @Binding var currentPreviewType: WidgetPreviewTypeOption
     @Binding var maiBackground: WidgetBackgroundOption
     @Binding var chuBackground: WidgetBackgroundOption
-    @Binding var selectedChuBg: CFQData.Chunithm.ExtraEntry.NameplateEntry?
-    @Binding var selectedMaiBg: CFQData.Maimai.ExtraEntry.FrameEntry?
+    @Binding var selectedChuBg: UserChunithmNameplateEntry?
+    @Binding var selectedMaiBg: UserMaimaiFrameEntry?
     
     @State var maiBgBlur: Double = 0.0
     @State var chuBgBlur: Double = 0.0
@@ -123,14 +123,14 @@ struct WidgetLargeBgPicker: View {
             if newValue == .defaultBg {
                 currentWidgetSettings.maiBgUrl = ""
             } else if newValue == .plate {
-                currentWidgetSettings.maiBgUrl = user.maimai.extra.frames.first { $0.selected == 1 }?.image
+                currentWidgetSettings.maiBgUrl = user.maimai.extra.frames.first { $0.current }?.url
             }
         }
         .onChange(of: chuBackground) { newValue in
             if newValue == .defaultBg {
                 currentWidgetSettings.chuBgUrl = ""
             } else if newValue == .plate {
-                currentWidgetSettings.chuBgUrl = user.chunithm.extra.nameplates.first { $0.current == 1 }?.url
+                currentWidgetSettings.chuBgUrl = user.chunithm.extra.nameplates.first { $0.current }?.url
             }
         }
         if currentPreviewType == .maimai && maiBackground == .custom {
@@ -147,7 +147,7 @@ struct WidgetLargeBgPicker: View {
             }
             .onChange(of: selectedMaiBg) { bg in
                 if let selected = bg {
-                    currentWidgetSettings.maiBgUrl = selected.image
+                    currentWidgetSettings.maiBgUrl = selected.url
                 }
             }
         } else if currentPreviewType == .chunithm && chuBackground == .custom {
@@ -202,8 +202,8 @@ struct WidgetCharPicker: View {
     @Binding var currentPreviewType: WidgetPreviewTypeOption
     @Binding var maiChar: WidgetCharacterOption
     @Binding var chuChar: WidgetCharacterOption
-    @Binding var selectedMaiChar: CFQData.Maimai.ExtraEntry.CharacterEntry?
-    @Binding var selectedChuChar: CFQData.Chunithm.ExtraEntry.CharacterEntry?
+    @Binding var selectedMaiChar: UserMaimaiCharacterEntry?
+    @Binding var selectedChuChar: UserChunithmCharacterEntry?
     
     @Binding var currentWidgetSettings: WidgetData.Customization
     
@@ -218,19 +218,19 @@ struct WidgetCharPicker: View {
             if newValue == .defaultChar {
                 currentWidgetSettings.maiCharUrl = ""
             } else if newValue == .captain {
-                currentWidgetSettings.maiCharUrl = user.maimai.info.charUrl
+                currentWidgetSettings.maiCharUrl = user.maimai.info.last?.charUrl
             }
         }
         .onChange(of: chuChar) { newValue in
             if newValue == .defaultChar {
                 currentWidgetSettings.chuCharUrl = ""
             } else if newValue == .captain {
-                currentWidgetSettings.chuCharUrl = user.chunithm.info.charUrl
+                currentWidgetSettings.chuCharUrl = user.chunithm.info.last?.charUrl
             }
         }
         .onChange(of: selectedMaiChar) { char in
             if let selected = char {
-                currentWidgetSettings.maiCharUrl = selected.image
+                currentWidgetSettings.maiCharUrl = selected.url
             }
         }
         .onChange(of: selectedChuChar) { char in

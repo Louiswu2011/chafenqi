@@ -23,6 +23,15 @@ struct TokenUploderView: View {
         Form {
             Section {
                 HStack {
+                    Text("当前状态")
+                    Spacer()
+                    Text(user.remoteOptions.fishToken.isEmpty ? "未绑定" : "已绑定")
+                        .foregroundColor(.gray)
+                }
+            }
+            
+            Section {
+                HStack {
                     Text("用户名")
                     Spacer()
                     TextField("", text: $username)
@@ -85,12 +94,12 @@ struct TokenUploderView: View {
                 Text("""
                 查分器NEW不会存储您的用户名和密码，仅保留Token作上传用。
                 
-                初次使用请登录水鱼服务器以启用“上传到水鱼网”功能。
-                如遇无法上传的情况，请再次登录并避免在水鱼网页端登录导致Token失效。
+                “上传到水鱼网”功能需要使用您的水鱼网登陆Token。
+                如遇无法上传的情况，请重新获取Token并避免在水鱼网页端登录导致Token失效。
                 """)
             }
         }
-        .navigationTitle("登录到水鱼网")
+        .navigationTitle("更新水鱼Token")
         .navigationBarTitleDisplayMode(.inline)
         .toast(isPresenting: $alertToast.show, duration: 1, tapToDismiss: true) {
             alertToast.toast
@@ -124,7 +133,9 @@ struct TokenUploderView: View {
             let token = String(tokenComponent[tokenComponent.index(after: tokenComponent.firstIndex(of: "=")!)...])
             
             user.remoteOptions.fishToken = token
-            try await CFQFishServer.uploadToken(authToken: user.jwtToken, fishToken: token)
+            if !(try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "fish_token", value: token)) {
+                alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "上传失败", subTitle: "请联系开发者")
+            }
             
             presentationMode.wrappedValue.dismiss()
         } catch CFQServerError.CredentialsMismatchError {

@@ -75,29 +75,31 @@ struct MaimaiLeaderboardItemView: View {
     var shouldHighlight: Bool
     
     var body: some View {
+        let displayName = item.nickname.isEmpty ? item.username : item.nickname
+        
         HStack {
             if shouldHighlight {
                 Text(verbatim: "#\(index + 1)")
                     .fontWeight(.bold)
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                     .fontWeight(.bold)
                 Spacer()
                 
                 HStack {
                     Text("\(item.achievements, specifier: "%.4f")%")
                         .fontWeight(.bold)
-                    GradeBadgeView(grade: item.rate.displayRate)
+                    GradeBadgeView(grade: item.rateString)
                 }
             } else {
                 Text(verbatim: "#\(index + 1)")
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                 Spacer()
                 
                 HStack {
                     Text("\(item.achievements, specifier: "%.4f")%")
-                    GradeBadgeView(grade: item.rate.displayRate)
+                    GradeBadgeView(grade: item.rateString)
                 }
             }
         }
@@ -147,17 +149,19 @@ struct ChunithmLeaderboardItemView: View {
     var shouldHighlight: Bool
     
     var body: some View {
+        let displayName = item.nickname.isEmpty ? item.username : item.nickname
+        
         HStack {
             if shouldHighlight {
                 Text(verbatim: "#\(index + 1)")
                     .fontWeight(.bold)
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                     .fontWeight(.bold)
                 Spacer()
                 
                 HStack {
-                    Text(verbatim: "\(item.highscore)")
+                    Text(verbatim: "\(item.score)")
                         .fontWeight(.bold)
                     if item.rankIndex > 7 {
                         GradeBadgeView(grade: chunithmRanks[13 - item.rankIndex])
@@ -166,11 +170,11 @@ struct ChunithmLeaderboardItemView: View {
             } else {
                 Text(verbatim: "#\(index + 1)")
                     .frame(width: 55)
-                Text(item.nickname.transformingHalfwidthFullwidth())
+                Text(displayName.transformingHalfwidthFullwidth())
                 Spacer()
                 
                 HStack {
-                    Text(verbatim: "\(item.highscore)")
+                    Text(verbatim: "\(item.score)")
                     if item.rankIndex > 7 {
                         GradeBadgeView(grade: chunithmRanks[13 - item.rankIndex])
                     }

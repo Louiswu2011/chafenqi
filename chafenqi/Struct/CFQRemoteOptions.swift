@@ -27,11 +27,6 @@ class CFQRemoteOptions {
         rateLimiting = await CFQUserServer.fetchUserOption(authToken: authToken, param: "rate_limiting") == "1"
         maimaiFavList = await CFQUserServer.fetchUserOption(authToken: authToken, param: "maimai_fav_list")
         chunithmFavList = await CFQUserServer.fetchUserOption(authToken: authToken, param: "chunithm_fav_list")
-        
-        do {
-            fishToken = try await CFQFishServer.fetchToken(authToken: authToken)
-        } catch {
-            print("Failed to fetch fish token from server.")
-        }
+        fishToken = await CFQUserServer.fetchUserOption(authToken: authToken, param: "fish_token")
     }
 }

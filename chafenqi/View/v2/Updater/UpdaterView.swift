@@ -39,7 +39,7 @@ struct UpdaterView: View {
     @State private var startProxyActivity = "StartProxyIntent"
     @State private var stopProxyActivity = "StopProxyIntent"
     
-    @State private var statusCheckTimer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
+    @State private var statusCheckTimer = Timer.publish(every: 10, tolerance: 1, on: .main, in: .common).autoconnect()
     @State private var uploadStatus = "未开始上传"
     
     @State private var quickUploadDestination = CFQServer.GameType.Maimai
@@ -89,31 +89,31 @@ struct UpdaterView: View {
                 }
             }
             
-            Section {
-                Picker("游戏", selection: $quickUploadDestination) {
-                    ForEach(CFQServer.GameType.allCases) { value in
-                        Text(value.rawValue)
-                            .tag(value)
-                    }
-                }
-                HStack {
-                    Text("缓存状态")
-                    Spacer()
-                    Text(quickUploadDestination == .Maimai ? maiCookieStatus : chuCookieStatus)
-                        .foregroundColor(.gray)
-                }
-                Button {
-                    Task {
-                        Analytics.logEvent("quick_upload_clicked", parameters: [
-                            "game": quickUploadDestination.rawValue as NSObject])
-                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.remoteOptions.forwardToFish)
-                    }
-                } label: {
-                    Text("开始上传")
-                }
-            } header: {
-                Text("快速上传")
-            }
+//            Section {
+//                Picker("游戏", selection: $quickUploadDestination) {
+//                    ForEach(CFQServer.GameType.allCases) { value in
+//                        Text(value.rawValue)
+//                            .tag(value)
+//                    }
+//                }
+//                HStack {
+//                    Text("缓存状态")
+//                    Spacer()
+//                    Text(quickUploadDestination == .Maimai ? maiCookieStatus : chuCookieStatus)
+//                        .foregroundColor(.gray)
+//                }
+//                Button {
+//                    Task {
+//                        Analytics.logEvent("quick_upload_clicked", parameters: [
+//                            "game": quickUploadDestination.rawValue as NSObject])
+//                        await triggerQuickUpload(destination: quickUploadDestination, authToken: user.jwtToken, forwarding: user.remoteOptions.forwardToFish)
+//                    }
+//                } label: {
+//                    Text("开始上传")
+//                }
+//            } header: {
+//                Text("快速上传")
+//            }
             
             Section {
                 HStack {
@@ -352,8 +352,8 @@ struct UpdaterView: View {
     }
     
     func makeServerStatusText() async throws {
-        let chuni = try await Double(CFQStatsServer.getAvgUploadTime(for: 0))!
-        let mai = try await Double(CFQStatsServer.getAvgUploadTime(for: 1))!
+        let chuni = try await Double(CFQStatsServer.getAvgUploadTime(for: 0)) ?? -1
+        let mai = try await Double(CFQStatsServer.getAvgUploadTime(for: 1)) ?? -1
         
         func makeStatusString(with time: Double) -> String {
             switch time {
@@ -433,7 +433,7 @@ struct UpdaterView: View {
     
     func makeUrl(mode: Int) -> String {
         let destination = mode == 0 ? "chunithm" : "maimai"
-        return "http://43.139.107.206:8083/upload_\(destination)?jwt=\(user.jwtToken)"
+        return "http://43.139.107.206:8083/upload/\(destination)?jwt=\(user.jwtToken)"
     }
     
     func makeUploadStatusText() async throws -> String {
