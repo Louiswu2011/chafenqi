@@ -18,9 +18,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         NSLog("Starting Tunnel...")
         
-        let port = 8999
-        
-        let settings = self.initUpdaterSettings(host: "43.139.107.206", port: port)
+        let settings = self.initUpdaterSettings(host: SharedValues.serverAddress, port: SharedValues.proxyServerPort)
         self.setTunnelNetworkSettings(settings) { error in
             if let e = error {
                 NSLog("Failed to save settings.")
@@ -30,7 +28,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
                 NSLog("Setting endpoint...")
                 // let endpoint = NWHostEndpoint(hostname: "127.0.0.1", port: String(self.port))
                 // NSLog("Connecting to local server...")
-                let endpoint = NWHostEndpoint(hostname: "43.139.107.206", port: "8999")
+                let endpoint = NWHostEndpoint(hostname: SharedValues.serverAddress, port: String(SharedValues.proxyServerPort))
                 self.connection = self.createTCPConnection(to: endpoint, enableTLS: false, tlsParameters: nil, delegate: nil)
                 NSLog("Connected to NLTV server.")
                 completionHandler(nil)
@@ -80,7 +78,7 @@ class UpdaterTunnelProvider: NEPacketTunnelProvider {
     }
     
     private func initUpdaterSettings(host: String, port: Int) -> NEPacketTunnelNetworkSettings {
-        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "43.139.107.206")
+        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: SharedValues.serverAddress)
         
         let proxySettings = NEProxySettings()
         proxySettings.httpServer = NEProxyServer(address: host, port: port)

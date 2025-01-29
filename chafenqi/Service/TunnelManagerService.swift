@@ -75,7 +75,7 @@ final class TunnelManagerService: ObservableObject {
         
         let proto = NETunnelProviderProtocol()
         proto.providerBundleIdentifier = "com.nltv.chafenqi.updater"
-        proto.serverAddress = "43.139.107.206"
+        proto.serverAddress = SharedValues.serverAddress
         
         manager.protocolConfiguration = proto
         

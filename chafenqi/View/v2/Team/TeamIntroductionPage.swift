@@ -252,8 +252,6 @@ struct TeamIntroductionCreateFormView: View {
                     !(teamRemarks.count > 0 && teamRemarks.count <= teamRemarksLimit) ||
                     !agreedToTerms
                 )
-            } footer: {
-                Text("查看查分器NEW的团队功能[使用条款](https://www.baidu.com)")
             }
         }
         .navigationTitle("创建团队")

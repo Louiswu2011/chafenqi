@@ -24,7 +24,7 @@ struct CFQServer {
     static let encoder = JSONEncoder()
     static let decoder = JSONDecoder()
     
-    static let serverAddress = SharedValues.serverAddress
+    static let serverAddress = SharedValues.apiServerAddress
     
     struct User {
         static func auth(username: String, password: String) async throws -> String {

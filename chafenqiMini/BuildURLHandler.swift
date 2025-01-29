@@ -24,13 +24,13 @@ class BuildURLHandler: NSObject, BuildProxyURLIntentHandling {
             case .unknown:
                 fatalError("Cannot select unknown")
             case .chunithm:
-                uploadQuery = "upload_chunithm"
+                uploadQuery = "upload/chunithm"
             case .maimai:
-                uploadQuery = "upload_maimai"
+                uploadQuery = "upload/maimai"
             }
             let forward = intent.forward
             let response = BuildProxyURLIntentResponse(code: .success, userActivity: nil)
-            let url = "http://43.139.107.206/\(uploadQuery)?jwt=\(token)&forwading=\(forward?.intValue ?? 1)"
+            let url = "http://\(SharedValues.serverAddress):\(SharedValues.proxyServerPort)/\(uploadQuery)?jwt=\(token)"
             response.url = url
             completion(response)
         }

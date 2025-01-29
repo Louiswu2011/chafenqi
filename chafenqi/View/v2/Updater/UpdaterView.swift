@@ -433,7 +433,7 @@ struct UpdaterView: View {
     
     func makeUrl(mode: Int) -> String {
         let destination = mode == 0 ? "chunithm" : "maimai"
-        return "http://43.139.107.206:8083/upload/\(destination)?jwt=\(user.jwtToken)"
+        return "\(SharedValues.uploadServerAddress)upload/\(destination)?jwt=\(user.jwtToken)"
     }
     
     func makeUploadStatusText() async throws -> String {
