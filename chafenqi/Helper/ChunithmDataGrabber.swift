@@ -9,6 +9,6 @@ import Foundation
 
 struct ChunithmDataGrabber {
     static func getSongCoverUrl(source: Int, musicId: String) -> URL {
-        return URL(string: "\(SharedValues.serverAddress)api/resource/chunithm/cover?musicId=\(musicId)")!
+        return URL(string: "\(SharedValues.apiServerAddress)api/resource/chunithm/cover?musicId=\(musicId)")!
     }
 }

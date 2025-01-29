@@ -89,6 +89,9 @@
 		BF26D8B32D2302AE0056CFB3 /* TeamCourseSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B22D2302AE0056CFB3 /* TeamCourseSetting.swift */; };
 		BF26D8B52D2302F40056CFB3 /* TeamMemberSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B42D2302F40056CFB3 /* TeamMemberSetting.swift */; };
 		BF26D8B72D2303960056CFB3 /* TeamPendingMemberSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B62D2303960056CFB3 /* TeamPendingMemberSetting.swift */; };
+		BF2A0C932D49F58200A6F385 /* CFQSharedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */; };
+		BF2A0C942D49F6B600A6F385 /* CFQSharedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */; };
+		BF2A0C952D49F6B600A6F385 /* CFQSharedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8F51E2D4551F6001AFDD9 /* CFQSharedValue.swift */; };
 		BF2D3A512AA4F9B10066464F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A502AA4F9B10066464F /* Logger.swift */; };
 		BF2D3A532AA4FB040066464F /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A522AA4FB040066464F /* LogView.swift */; };
 		BF3739C529C4F47B002825B4 /* CFQPersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3739C429C4F47B002825B4 /* CFQPersistentData.swift */; };
@@ -1631,6 +1634,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF0431842A34274A00577E6F /* NotificationService.swift in Sources */,
+				BF2A0C952D49F6B600A6F385 /* CFQSharedValue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1639,6 +1643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF068F752991856F008665E3 /* UpdaterTunnelProvider.swift in Sources */,
+				BF2A0C932D49F58200A6F385 /* CFQSharedValue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1647,6 +1652,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFEF2E9829EDCC1E00EFF455 /* Intents.intentdefinition in Sources */,
+				BF2A0C942D49F6B600A6F385 /* CFQSharedValue.swift in Sources */,
 				BFCE1B2829EE70EC00BFAA67 /* BuildURLHandler.swift in Sources */,
 				BFEF2E8E29EDCA0400EFF455 /* IntentHandler.swift in Sources */,
 				BFCE1B2529EE591C00BFAA67 /* TunnelManagerService.swift in Sources */,

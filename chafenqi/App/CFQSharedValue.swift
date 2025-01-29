@@ -8,5 +8,8 @@
 import Foundation
 
 struct SharedValues {
-    static let serverAddress = "http://43.139.107.206:8998/"
+    static let serverAddress = "43.139.107.206"
+    static let apiServerAddress = "http://\(serverAddress):8998/"
+    static let uploadServerAddress = "http://\(serverAddress):9030/"
+    static let proxyServerPort = 8999
 }
