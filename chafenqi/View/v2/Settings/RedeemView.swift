@@ -68,9 +68,6 @@ struct RedeemView: View {
         }
         .navigationTitle(user.isPremium ? "续费会员" : "加入会员")
         .navigationBarTitleDisplayMode(.inline)
-        .toast(isPresenting: $toastModel.show, duration: 1, tapToDismiss: true) {
-            toastModel.toast
-        }
         .sheet(isPresented: $isShowingPreview) {
             PerkSheetView()
         }
@@ -79,7 +76,7 @@ struct RedeemView: View {
     // MARK: Verify Code
     func verify() async {
         do {
-            let result = try await CFQUserServer.redeem(username: user.username, code: code)
+            let result = try await CFQUserServer.redeem(authToken: user.jwtToken, code: code)
             if result.isEmpty {
                 toastModel.toast = successToast
             } else {
