@@ -72,9 +72,9 @@ struct CFQServer {
             }
         }
         
-        static func redeem(username: String, code: String) async throws -> String {
+        static func redeem(authToken: String, code: String) async throws -> String {
             let payload = try JSONSerialization.data(withJSONObject: ["code": code])
-            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/redeem", payload: payload)
+            let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/redeem", payload: payload, token: authToken)
             let resp = String(decoding: data, as: UTF8.self)
             return resp
         }
