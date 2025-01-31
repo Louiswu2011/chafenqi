@@ -7,10 +7,13 @@
 
 import Foundation
 import SwiftUI
+import AlertToast
 
 struct TeamInfoPage: View {
     @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
+    
+    @ObservedObject var alertToastModel = AlertToastModel.shared
     
     let items = [
         TabBarItem(title: "成员", unselectedIcon: "person.2", selectedIcon: "person.2.fill"),
@@ -22,6 +25,8 @@ struct TeamInfoPage: View {
     
     @State private var leaderNickname: String = ""
     @State private var currentIndex: Int = 0
+    
+    @State private var showLeaveTeamConfirmDialog: Bool = false
     
     var body: some View {
         VStack {
@@ -96,9 +101,35 @@ struct TeamInfoPage: View {
                     } label: {
                         Image(systemName: "gear")
                     }
+                } else {
+                    Button {
+                        showLeaveTeamConfirmDialog = true
+                    } label: {
+                        Image(systemName: "person.crop.circle.badge.xmark")
+                    }
                 }
             }
             
+        }
+        .alert("退出团队", isPresented: $showLeaveTeamConfirmDialog) {
+            Button("取消", role: .cancel) {}
+            Button("确定", role:. destructive) {
+                onLeaveTeam()
+            }
+        } message: {
+            Text("确认要退出团队吗？该操作无法撤销。")
+        }
+    }
+    
+    func onLeaveTeam() {
+        Task {
+            let result = await CFQTeamServer.leaveTeam(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id)
+            if result.isEmpty {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已退出团队")
+                team.refresh(user: user)
+            } else {
+                alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "退出失败", subTitle: result)
+            }
         }
     }
 }
