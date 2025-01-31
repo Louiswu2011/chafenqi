@@ -93,7 +93,7 @@ struct TeamPendingMemberSettingView: View {
     func onRejectPendingMember(pendingMember: TeamPendingMember) {
         selectedPendingMember = nil
         Task {
-            let result = await CFQTeamServer.adminAcceptMember(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, pendingMemberId: pendingMember.userId)
+            let result = await CFQTeamServer.adminRejectMember(authToken: user.jwtToken, game: user.currentMode, teamId: team.current.info.id, pendingMemberId: pendingMember.userId)
             if result.isEmpty {
                 alertToastModel.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "已拒绝该申请")
                 team.refresh(user: user)
