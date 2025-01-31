@@ -36,7 +36,7 @@ struct CFQServer {
         
         static func register(username: String, password: String) async throws {
             let payload = try JSONSerialization.data(withJSONObject: ["username": username])
-            let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth/register/checkAvailability", payload: payload)
+            let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth/register/check-availability", payload: payload)
             let registerPayload = try JSONSerialization.data(withJSONObject: ["username": username, "password": password.sha256String])
             let (_, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/auth/register", payload: registerPayload)
         }
