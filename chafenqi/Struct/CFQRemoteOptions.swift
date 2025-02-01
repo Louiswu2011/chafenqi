@@ -21,7 +21,7 @@ class CFQRemoteOptions {
     func sync(authToken: String) async {
         self.authToken = authToken
         
-        bindQQ = await CFQUserServer.fetchUserOption(authToken: authToken, param: "bindQQ")
+        bindQQ = await CFQUserServer.getBindQQ(authToken: authToken)
         forwardToFish = await CFQUserServer.fetchUserOption(authToken: authToken, param: "forwarding_fish") == "1"
         forwardToLxns = await CFQUserServer.fetchUserOption(authToken: authToken, param: "forwarding_lxns") == "1"
         rateLimiting = await CFQUserServer.fetchUserOption(authToken: authToken, param: "rate_limiting") == "1"

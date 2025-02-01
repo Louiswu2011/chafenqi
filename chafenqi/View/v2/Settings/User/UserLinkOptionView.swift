@@ -75,7 +75,7 @@ struct UserLinkOptionView: View {
     
     func loadOptions() {
         Task {
-            currentQQ = await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "bindQQ")
+            currentQQ = await CFQUserServer.getBindQQ(authToken: user.jwtToken)
             isLoading = false
         }
     }
@@ -91,15 +91,11 @@ struct UserLinkOptionView: View {
         }
         isUploading = true
         Task {
-            do {
-                if try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "bindQQ", value: bind) {
-                    alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "数据上传成功")
-                    loadOptions()
-                    bind = ""
-                } else {
-                    alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据上传失败")
-                }
-            } catch {
+            if await CFQUserServer.updateBindQQ(authToken: user.jwtToken, qq: bind) {
+                alertToast.toast = AlertToast(displayMode: .hud, type: .complete(.green), title: "数据上传成功")
+                loadOptions()
+                bind = ""
+            } else {
                 alertToast.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "数据上传失败")
             }
             isUploading = false

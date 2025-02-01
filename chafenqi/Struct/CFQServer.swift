@@ -64,7 +64,7 @@ struct CFQServer {
         
         static func checkPremiumExpireTime(authToken: String) async throws -> TimeInterval {
             do {
-                let (data, response) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/info", token: authToken)
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/info", token: authToken)
                 let info = try decoder.decode(CFQUserInfo.self, from: data)
                 return TimeInterval(info.premiumUntil)
             } catch {
@@ -77,6 +77,37 @@ struct CFQServer {
             let (data, _) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/redeem", payload: payload, token: authToken)
             let resp = String(decoding: data, as: UTF8.self)
             return resp
+        }
+        
+        static func getBindQQ(authToken: String) async -> String {
+            do {
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/bind", token: authToken)
+                return String(decoding: data, as: UTF8.self)
+            } catch {
+                print("Failed to bind user qq \(error)")
+                return ""
+            }
+        }
+        
+        static func updateBindQQ(authToken: String, qq: String) async -> Bool {
+            do {
+                let payload = try JSONSerialization.data(withJSONObject: ["qq": qq])
+                let (_, response) = try await CFQServer.fetchFromServer(method: "POST", path: "api/user/bind", payload: payload, token: authToken)
+                return response.statusCode() == 200
+            } catch {
+                print("Failed to bind user qq \(error)")
+                return false
+            }
+        }
+        
+        static func unbindQQ(authToken: String) async -> Bool {
+            do {
+                let (_, response) = try await CFQServer.fetchFromServer(method: "DELETE", path: "api/user/bind", token: authToken)
+                return response.statusCode() == 200
+            } catch {
+                print("Failed to bind user qq \(error)")
+                return false
+            }
         }
         
         static func fetchUserOption(authToken: String, param: String, type: String = "string") async -> String {
