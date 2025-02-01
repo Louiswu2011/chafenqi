@@ -36,27 +36,11 @@ struct TeamIntroductionPage: View {
             }
             .padding()
             List {
-                if searchedTeam.isEmpty {
-                    ForEach(team.list.filter { $0.promotable }, id: \.id) { team in
-                        TeamIntroductionEntryView(info: team)
-                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            Button {
-                                onApply(teamId: team.id, message: "")
-                            } label: {
-                                Text("申请加入")
-                            }
-                            .tint(Color.blue)
+                ForEach(team.list.filter { $0.promotable }, id: \.id) { team in
+                    Section {
+                        TeamIntroductionEntryView(info: team) {
+                            onApply(teamId: team.id, message: "")
                         }
-                    }
-                } else {
-                    TeamIntroductionEntryView(info: searchedTeam[0])
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button {
-                            onApply(teamId: searchedTeam[0].id, message: "")
-                        } label: {
-                            Text("申请加入")
-                        }
-                        .tint(Color.blue)
                     }
                 }
             }
@@ -105,6 +89,7 @@ struct TeamIntroductionPage: View {
 
 struct TeamIntroductionEntryView: View {
     let info: TeamBasicInfo
+    let onApply: () -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -128,6 +113,14 @@ struct TeamIntroductionEntryView: View {
                 }
             }
             .font(.callout)
+            HStack {
+                Spacer()
+                Button {
+                    onApply()
+                } label: {
+                    Text("申请加入")
+                }
+            }
         }
     }
 }
