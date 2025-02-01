@@ -18,10 +18,10 @@ struct TeamIntroductionPage: View {
     @ObservedObject var alertToastModel = AlertToastModel.shared
     
     @State private var searchText: String = ""
-    
-    @State private var searchedTeam: [TeamBasicInfo] = []
+    @State private var searchTeam: TeamBasicInfo? = nil
     
     @State private var showCreateSheet: Bool = false
+    @State private var showConfirmApplyAlert: Bool = false
     
     var body: some View {
         VStack {
@@ -31,10 +31,11 @@ struct TeamIntroductionPage: View {
                 Button {
                     search()
                 } label: {
-                    Text(searchedTeam.isEmpty ? "搜索" : "取消")
+                    Text("加入")
                 }
+                .disabled(searchText.count != 8)
+                .padding(.horizontal)
             }
-            .padding()
             List {
                 ForEach(team.list.filter { $0.promotable }, id: \.id) { team in
                     Section {
@@ -65,14 +66,28 @@ struct TeamIntroductionPage: View {
         .refreshable {
             team.refresh(user: user)
         }
+        .alert("申请加入", isPresented: $showConfirmApplyAlert) {
+            Button("取消", role: .cancel) { searchTeam = nil }
+            Button("确定") {
+                if let info = searchTeam {
+                    onApply(teamId: info.id, message: "")
+                }
+            }
+        } message: {
+            if let info = searchTeam {
+                Text(info.displayName)
+            }
+        }
     }
     
     func search() {
-        if searchedTeam.isEmpty {
-            searchedTeam = team.list.filter { $0.teamCode == searchText }
+        searchTeam = team.list.filter { $0.teamCode == searchText }.first
+        if searchTeam != nil {
+            showConfirmApplyAlert = true
         } else {
-            searchedTeam.removeAll()
+            alertToastModel.toast = AlertToast(displayMode: .hud, type: .error(.red), title: "未找到团队")
         }
+        searchText = ""
     }
     
     func onApply(teamId: Int, message: String) {
