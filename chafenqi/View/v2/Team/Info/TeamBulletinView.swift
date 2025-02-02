@@ -144,6 +144,8 @@ struct TeamBulletinEntryView: View {
     var bulletin: TeamBulletinBoardEntry
     var member: TeamMember
     
+    @State private var expanded = false
+    
     var body: some View {
         HStack {
             CachedAsyncImage(url: URL(string: member.avatar)) { image in
@@ -166,10 +168,15 @@ struct TeamBulletinEntryView: View {
                 Text(bulletin.content)
                     .bold()
                     .font(.body)
+                    .lineLimit(expanded ? nil : 1)
                 Spacer()
             }
         }
-        .frame(height: 75)
+        .onTapGesture {
+            withAnimation {
+                expanded.toggle()
+            }
+        }
     }
 }
 
