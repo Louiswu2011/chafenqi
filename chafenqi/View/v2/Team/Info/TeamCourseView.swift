@@ -183,6 +183,7 @@ struct TeamCourseRecordEntryView: View {
                 image
                     .resizable()
                     .cornerRadius(5)
+                    .aspectRatio(contentMode: .fit)
             } placeholder: {
                 ProgressView()
             }

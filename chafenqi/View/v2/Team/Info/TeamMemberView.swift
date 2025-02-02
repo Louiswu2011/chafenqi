@@ -35,7 +35,7 @@ struct TeamMemberEntryView: View {
                     image
                         .resizable()
                         .cornerRadius(5)
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fit)
                 } placeholder: {
                     ProgressView()
                 }
