@@ -96,7 +96,7 @@ struct CFQData: Codable {
                 var r = ratings
                 for (i, entry) in r.enumerated() {
                     let searched = bests.first {
-                        $0.musicId == entry.musicId
+                        $0.musicId == entry.musicId && $0.levelIndex == entry.levelIndex
                     }
                     if let song = searched {
                         var e = entry
