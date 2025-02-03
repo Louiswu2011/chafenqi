@@ -105,7 +105,7 @@ struct HomeView: View {
                     syncToWidget()
                     
                     loadDays()
-                    
+                    team.refresh(user: user)
                     OneSignal.setExternalUserId(user.username)
                     firstLaunch = false
                 }

@@ -75,3 +75,7 @@ let nameplateDefaultMaiGradientStyle = LinearGradient(colors: [nameplateDefaultM
 
 let nameplateThemedChuniGradientStyle = LinearGradient(colors: nameplateThemedChuniColors, startPoint: .topLeading, endPoint: .bottomTrailing)
 let nameplateThemedMaiGradientStyle = LinearGradient(colors: nameplateThemedMaiColors, startPoint: .topLeading, endPoint: .bottomTrailing)
+
+let leaderboardGoldColor = Color(hex: 0xaf9500)
+let leaderboardSilverColor = Color(hex: 0xb4b4b4)
+let leaderboardBronzeColor = Color(hex: 0x6a3805)

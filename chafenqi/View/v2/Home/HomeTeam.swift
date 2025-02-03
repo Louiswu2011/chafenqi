@@ -30,18 +30,20 @@ struct HomeTeam: View {
                         .padding(5)
                 }
             }
-//            NavigationLink {
-//                TeamLeaderboardPage(team: team, user: user)
-//            } label: {
-//                ZStack {
-//                    RoundedRectangle(cornerRadius: 5)
-//                        .foregroundColor(.purple.opacity(0.9))
-//                    Label("团队排行榜", systemImage: "chart.bar.fill")
-//                        .font(.system(size: 16, weight: .heavy))
-//                        .foregroundColor(.white)
-//                        .padding(5)
-//                }
-//            }
+            NavigationLink {
+                TeamLeaderboardPage(team: team, user: user)
+            } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(user.currentMode == 0 ?
+                              user.homeUseCurrentVersionTheme ? nameplateThemedChuniGradientStyle : nameplateDefaultChuniGradientStyle :
+                                user.homeUseCurrentVersionTheme ? nameplateThemedMaiGradientStyle : nameplateDefaultMaiGradientStyle
+                        )
+                    Label("团队排行榜", systemImage: "chart.bar.fill")
+                        .foregroundColor(.black)
+                        .padding(5)
+                }
+            }
         }
         .enableInjection()
         .padding(.horizontal)
