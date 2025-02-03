@@ -81,7 +81,7 @@ extension TeamBasicInfo {
     
     func activeDays() -> Int {
         let now = Date().timeIntervalSince1970
-        let interval = now - Double(lastActivityAt)
+        let interval = now - Double(createdAt)
         return Int(interval / 86400)
     }
 }
