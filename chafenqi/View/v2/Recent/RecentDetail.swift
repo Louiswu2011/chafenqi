@@ -388,18 +388,18 @@ struct RecentMaimaiDetail: View {
                 HStack {
                     VStack(spacing: 5) {
                         Text("Player 2")
-                        Text(entry.players[0])
+                        Text(entry.players[safe: 0] ?? "-")
                     }
                     Spacer()
                     VStack(spacing: 5) {
                         Text("Player 3")
-                        Text(entry.players[1])
+                        Text(entry.players[safe: 1] ?? "-")
                     }
                     
                     
                     VStack(spacing: 5) {
                         Text("Player 4")
-                        Text(entry.players[2])
+                        Text(entry.players[safe: 2] ?? "-")
                     }
                 }
             }
