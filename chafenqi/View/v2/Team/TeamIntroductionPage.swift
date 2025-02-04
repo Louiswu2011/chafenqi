@@ -34,8 +34,8 @@ struct TeamIntroductionPage: View {
                     Text("加入")
                 }
                 .disabled(searchText.count != 8)
-                .padding(.horizontal)
             }
+            .padding([.top, .horizontal])
             List {
                 ForEach(team.list.filter { $0.promotable }, id: \.id) { team in
                     Section {
