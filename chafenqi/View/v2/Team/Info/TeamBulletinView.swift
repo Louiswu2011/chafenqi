@@ -164,9 +164,9 @@ struct TeamBulletinEntryView: View {
                     Spacer()
                     Text(DateTool.ymdhmsDateString(from: TimeInterval(bulletin.timestamp)))
                 }
+                .font(.caption)
                 Divider()
                 Text(bulletin.content)
-                    .bold()
                     .font(.body)
                     .lineLimit(expanded ? nil : 1)
                 Spacer()

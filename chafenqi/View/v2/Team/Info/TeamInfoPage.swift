@@ -36,10 +36,10 @@ struct TeamInfoPage: View {
                 Divider()
                 HStack(spacing: 10) {
                     TeamInfoCard(icon: "magnifyingglass", content: team.current.info.teamCode, subtitle: "团队代码")
-                    TeamInfoCard(icon: "calendar.badge.clock", content: "\(team.current.info.activeDays())天", subtitle: "活动天数")
+                    TeamInfoCard(icon: "chart.bar.fill", content: "\(team.current.info.currentActivityPoints)", subtitle: "本月积分")
                 }
                 HStack(spacing: 10) {
-                    TeamInfoCard(icon: "chart.bar.fill", content: "\(team.current.info.currentActivityPoints)", subtitle: "本月积分")
+                    TeamInfoCard(icon: "calendar.badge.clock", content: "\(team.current.info.activeDays())天", subtitle: "活动天数")
                     TeamInfoCard(icon: "person.crop.circle.fill", content: leaderNickname, subtitle: "队长")
                     TeamInfoCard(icon: "person.3.fill", content: "\(team.current.members.count)人", subtitle: "团队人数")
                 }
@@ -50,7 +50,6 @@ struct TeamInfoPage: View {
                 }
             }
             .padding([.horizontal, .top])
-            Divider()
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {

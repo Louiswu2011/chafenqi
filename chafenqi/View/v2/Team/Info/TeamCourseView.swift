@@ -48,6 +48,8 @@ struct TeamCourseView: View {
                                 }
                             }
                         }
+                        Text("组曲生命值：\(team.current.info.courseHealth > 0 ? String(team.current.info.courseHealth) : "无限制")")
+                            .font(.caption)
                     }
                     .padding(.horizontal)
                     
@@ -70,6 +72,7 @@ struct TeamCourseView: View {
                                 Text("\(passCount)")
                                     .bold()
                             }
+                            .padding(.top)
                         }
                         .font(.callout)
                         .padding(.horizontal)
@@ -138,7 +141,7 @@ struct TeamCourseMusicEntryView: View {
     var body: some View {
         HStack {
             HStack {
-                SongCoverView(coverURL: info.3, size: 80, cornerRadius: 10, withShadow: false)
+                SongCoverView(coverURL: info.3, size: 65, cornerRadius: 10, withShadow: false)
                     .overlay(RoundedRectangle(cornerRadius: 10)
                         .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                 VStack(alignment: .leading) {
