@@ -17,6 +17,7 @@ class CFQTeam: ObservableObject {
     @Published var sortedList: [TeamBasicInfo] = []
     
     func refresh(user: CFQNUser) {
+        isLoading = true
         Task {
             let currentTeamId = await CFQTeamServer.fetchCurrentTeam(authToken: user.jwtToken, game: user.currentMode)
             let allTeams = await fetchAllTeams(token: user.jwtToken, mode: user.currentMode)

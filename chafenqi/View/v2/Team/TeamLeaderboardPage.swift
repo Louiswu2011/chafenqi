@@ -22,17 +22,21 @@ struct TeamLeaderboardPage: View {
         let start = DateTool.shared.yyyymmddTransformer.string(from: Date().startOfMonth)
         let end = DateTool.shared.yyyymmddTransformer.string(from: Date().endOfMonth)
         VStack {
-            VStack {
-                Text(verbatim: "\(dateComponents.year ?? 2025) 第\(dateComponents.month ?? 1)赛季")
-                    .bold()
-                Text("\(start) ~ \(end)")
-                    .font(.footnote)
-            }
-            Divider()
-            ScrollView {
-                LazyVStack {
-                    ForEach(Array(zip(team.sortedList.indices, team.sortedList)), id: \.0) { index, team in
-                        TeamLeaderboardEntry(team: team, rank: index + 1)
+            if team.isLoading {
+                ProgressView()
+            } else {
+                VStack {
+                    Text(verbatim: "\(dateComponents.year ?? 2025) 第\(dateComponents.month ?? 1)赛季")
+                        .bold()
+                    Text("\(start) ~ \(end)")
+                        .font(.footnote)
+                }
+                Divider()
+                ScrollView {
+                    LazyVStack {
+                        ForEach(Array(zip(team.sortedList.indices, team.sortedList)), id: \.0) { index, team in
+                            TeamLeaderboardEntry(team: team, rank: index + 1)
+                        }
                     }
                 }
             }
@@ -40,6 +44,17 @@ struct TeamLeaderboardPage: View {
         .enableInjection()
         .navigationTitle("团队排行榜")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    withAnimation {
+                        team.refresh(user: user)
+                    }
+                } label: {
+                    Image(systemName: "arrow.counterclockwise")
+                }
+            }
+        }
     }
 }
 
