@@ -80,10 +80,11 @@ struct TeamCourseView: View {
                     
                     Divider()
                     
+                    let sortedList = team.current.courseRecords.sorted { $0.rawScore() > $1.rawScore() }
                     LazyVStack {
-                        ForEach(team.current.courseRecords, id: \.id) { record in
+                        ForEach(Array(zip(sortedList.indices, sortedList)), id: \.0) { index, record in
                             if let member = team.current.members.first(where: { $0.userId == record.userId }) {
-                                TeamCourseRecordEntryView(record: record, member: member)
+                                TeamCourseRecordEntryView(currentMode: user.currentMode, index: index, record: record, member: member)
                                     .padding(.horizontal)
                             }
                         }
@@ -163,8 +164,12 @@ struct TeamCourseMusicEntryView: View {
 }
 
 struct TeamCourseRecordEntryView: View {
+    let currentMode: Int
+    let index: Int
     let record: TeamCourseRecord
     let member: TeamMember
+    
+    @State private var showDetail = false
     
     struct TrackScore: View {
         let index: Int
@@ -176,6 +181,8 @@ struct TeamCourseRecordEntryView: View {
                     .font(.caption2)
                 Text(score.score)
                     .bold()
+                Text("(-\(score.damage))")
+                    .font(.caption)
             }
         }
     }
@@ -198,17 +205,36 @@ struct TeamCourseRecordEntryView: View {
                     Spacer()
                     Text(DateTool.ymdhmsDateString(from: TimeInterval(record.timestamp)))
                 }
+                .font(.caption)
                 Divider()
-                Spacer()
-                HStack {
-                    TrackScore(index: 0, score: record.trackRecords[0])
-                    Spacer()
-                    TrackScore(index: 1, score: record.trackRecords[1])
-                    Spacer()
-                    TrackScore(index: 2, score: record.trackRecords[2])
+                if showDetail {
+                    HStack {
+                        TrackScore(index: 0, score: record.trackRecords[0])
+                        Spacer()
+                        TrackScore(index: 1, score: record.trackRecords[1])
+                        Spacer()
+                        TrackScore(index: 2, score: record.trackRecords[2])
+                    }
+                } else {
+                    HStack(alignment: .bottom) {
+                        Text("#\(index + 1)")
+                            .bold()
+                        Spacer()
+                        if !record.cleared {
+                            Text("未通过")
+                                .foregroundStyle(.orange).opacity(0.6)
+                        }
+                        Text(verbatim: record.totalScore(mode: currentMode))
+                            .bold()
+                    }
                 }
             }
             .font(.callout)
+        }
+        .onTapGesture {
+            withAnimation {
+                showDetail.toggle()
+            }
         }
     }
 }
