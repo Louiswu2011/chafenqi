@@ -44,15 +44,9 @@ struct TeamLeaderboardPage: View {
         .enableInjection()
         .navigationTitle("团队排行榜")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    withAnimation {
-                        team.refresh(user: user)
-                    }
-                } label: {
-                    Image(systemName: "arrow.counterclockwise")
-                }
+        .refreshable {
+            withAnimation {
+                team.refresh(user: user)
             }
         }
     }
