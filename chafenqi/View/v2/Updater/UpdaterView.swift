@@ -83,7 +83,7 @@ struct UpdaterView: View {
                 Text("代理")
             } footer: {
                 if user.iOSMajorVersion >= 17 {
-                    Text("由于iOS17系统限制，暂时无法通过App内代理传分，请前往群置顶公告查看手动代理的设置方法。")
+                    Text("由于iOS17及以上系统限制，暂时无法通过App内代理传分，请前往群置顶公告查看手动代理的设置方法。")
                 } else {
                     Text("如遇无法打开链接等情况，请先在不打开代理的情况下点击链接，待微信出现提示后再打开代理并点击继续访问按钮。")
                 }
