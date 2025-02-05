@@ -44,7 +44,10 @@ struct TeamInfoPage: View {
                     TeamInfoCard(icon: "person.3.fill", content: "\(team.current.members.count)人", subtitle: "团队人数")
                 }
                 VStack {
-                    Text(team.current.info.remarks)
+                    ScrollView {
+                        Text(team.current.info.remarks)
+                    }
+                    .frame(maxHeight: 50)
                     Text("团队介绍")
                         .font(.caption)
                 }
