@@ -159,7 +159,7 @@ struct SongStatsDetailView: View {
             diffLabelColor = chunithmLevelColor[diff] ?? .systemsBackground
         } else if let song = maiSong {
             Task {
-                maiLeaderboard = await CFQStatsServer.fetchMaimaiLeaderboard(authToken: user.jwtToken, musicId: song.coverId, type: song.type, diffIndex: diff)
+                maiLeaderboard = await CFQStatsServer.fetchMaimaiLeaderboard(authToken: user.jwtToken, musicId: song.musicId, type: song.type, diffIndex: diff)
                 doneLoadingLeaderboard = true
             }
             Task {
