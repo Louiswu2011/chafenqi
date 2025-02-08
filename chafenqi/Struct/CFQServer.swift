@@ -275,7 +275,7 @@ struct CFQServer {
         static func fetchMaimaiLeaderboard(authToken: String, musicId: Int, type: String, diffIndex: Int) async -> CFQMaimaiLeaderboard {
             let queries = [
                 URLQueryItem(name: "music_id", value: String(musicId)),
-                URLQueryItem(name: "type", value: type == "DX" ? "dx" : "standard"),
+                URLQueryItem(name: "type", value: type),
                 URLQueryItem(name: "level_index", value: String(diffIndex))
             ]
             do {
