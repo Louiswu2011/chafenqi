@@ -204,7 +204,6 @@ struct TeamIntroductionCreateFormView: View {
     @State private var teamName: String = ""
     @State private var teamStyle: String = ""
     @State private var teamRemarks: String = ""
-    @State private var agreedToTerms: Bool = false
     @State private var promotable: Bool = true
     
     let onSuccess: () -> Void
@@ -247,8 +246,6 @@ struct TeamIntroductionCreateFormView: View {
             }
             
             Section {
-                Toggle("同意使用条款", isOn: $agreedToTerms)
-                
                 Button {
                     onCreateTeam()
                 } label: {
@@ -257,8 +254,7 @@ struct TeamIntroductionCreateFormView: View {
                 .disabled(
                     !(teamName.count > 0 && teamName.count <= teamNameLimit) ||
                     !(teamStyle.count > 0 && teamStyle.count <= teamStyleLimit) ||
-                    !(teamRemarks.count > 0 && teamRemarks.count <= teamRemarksLimit) ||
-                    !agreedToTerms
+                    !(teamRemarks.count > 0 && teamRemarks.count <= teamRemarksLimit)
                 )
             }
         }
@@ -281,7 +277,6 @@ struct TeamIntroductionCreateFormView: View {
         teamName = ""
         teamStyle = ""
         teamRemarks = ""
-        agreedToTerms = false
         promotable = true
     }
     
