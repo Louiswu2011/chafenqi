@@ -44,12 +44,13 @@ struct TeamInfoPage: View {
                     TeamInfoCard(icon: "person.3.fill", content: "\(team.current.members.count)人", subtitle: "团队人数")
                 }
                 VStack {
-                    ScrollView {
-                        Text(team.current.info.remarks)
-                    }
-                    .frame(maxHeight: 50)
                     Text("团队介绍")
                         .font(.caption)
+                    ScrollView {
+                        Text(team.current.info.remarks)
+                            .font(.footnote)
+                    }
+                    .frame(maxHeight: 50)
                 }
             }
             .padding([.horizontal, .top])
@@ -90,25 +91,27 @@ struct TeamInfoPage: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    team.refresh(user: user)
-                } label: {
-                    Image(systemName: "arrow.counterclockwise")
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                if user.userId == team.current.info.leaderUserId {
-                    NavigationLink {
-                        TeamSettingsPage(team: team, user: user)
-                    } label: {
-                        Image(systemName: "gear")
-                    }
-                } else {
+                Menu {
                     Button {
-                        showLeaveTeamConfirmDialog = true
+                        
                     } label: {
-                        Image(systemName: "person.crop.circle.badge.xmark")
+                        Label("帮助", systemImage: "questionmark.circle")
                     }
+                    if user.userId == team.current.info.leaderUserId {
+                        NavigationLink {
+                            TeamSettingsPage(team: team, user: user)
+                        } label: {
+                            Label("管理团队", systemImage: "gear")
+                        }
+                    } else {
+                        Button(role: .destructive) {
+                            showLeaveTeamConfirmDialog = true
+                        } label: {
+                            Label("退出团队...", systemImage: "person.crop.circle.badge.xmark")
+                        }
+                    }
+                } label: {
+                    Label("更多", systemImage: "ellipsis.circle")
                 }
             }
             

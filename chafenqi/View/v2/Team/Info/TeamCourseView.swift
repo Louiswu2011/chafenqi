@@ -72,7 +72,6 @@ struct TeamCourseView: View {
                                 Text("\(passCount)")
                                     .bold()
                             }
-                            .padding(.top)
                         }
                         .font(.callout)
                         .padding(.horizontal)

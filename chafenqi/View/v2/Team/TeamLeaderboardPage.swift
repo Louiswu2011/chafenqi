@@ -49,6 +49,15 @@ struct TeamLeaderboardPage: View {
                 team.refresh(user: user)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+            }
+        }
     }
 }
 

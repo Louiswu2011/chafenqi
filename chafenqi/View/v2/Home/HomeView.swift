@@ -19,7 +19,7 @@ struct HomeView: View {
     @ObservedObject var alertToast = AlertToastModel.shared
     
     @StateObject var team = CFQTeam()
-    @State private var versionData = ClientVersionData.empty
+    @State private var versionData = 0
     
     @AppStorage("settingsHomeArrangement") var homeArrangement = "最近动态|Rating分析|出勤记录|排行榜"
     @AppStorage("CFQUsername") var username = ""
@@ -164,13 +164,13 @@ struct HomeView: View {
     func checkVersion() async {
         guard bundleBuildNumber != "83" else { return }
         do {
-            let versionRequest = URLRequest(url: URL(string: "\(CFQServer.serverAddress)api/stats/version")!)
+            let versionRequest = URLRequest(url: URL(string: "\(CFQServer.serverAddress)api/stat/version/app/ios")!)
             let (data, _) = try await URLSession.shared.data(for: versionRequest)
-            versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
-            if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) && !dismissed {
+            versionData = Int(String(data: data, encoding: .utf8) ?? "83") ?? 83
+            if versionData > Int(bundleBuildNumber) ?? 83 && !dismissed {
                 let updateAlert = Alert(
                     title: Text("发现新版本"),
-                    message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
+                    message: Text("当前版本为：Build \(bundleBuildNumber)\n最新版本为：Build \(versionData)\n是否前往更新？"),
                     primaryButton: .default(Text("前往Testflight")) {
                         UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
                     },
@@ -179,7 +179,7 @@ struct HomeView: View {
                 alertToast.alert = updateAlert
             }
         } catch {
-            versionData = .empty
+            versionData = 83
         }
     }
     

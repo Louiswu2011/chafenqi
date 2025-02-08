@@ -26,7 +26,7 @@ struct Settings: View {
     @State private var showingJWT = false
     @State private var loading = false
     
-    @State private var versionData = ClientVersionData.empty
+    @State private var versionData = 83
     
     @State private var iOSVersion = Int(UIDevice.current.systemVersion.split(separator: ".")[0])!
     
@@ -145,10 +145,10 @@ struct Settings: View {
                         .hidden()
                 }
                 Button {
-                    if versionData.hasNewVersion(major: bundleVersion, minor: bundleBuildNumber) {
+                    if versionData > Int(bundleBuildNumber) ?? 83 {
                         let updateAlert = Alert(
                             title: Text("发现新版本"),
-                            message: Text("当前版本为：\(bundleVersion) Build \(bundleBuildNumber)\n最新版本为：\(versionData.major) Build \(versionData.minor)\n是否前往更新？"),
+                            message: Text("当前版本为：Build \(bundleBuildNumber)\n最新版本为：Build \(versionData)\n是否前往更新？"),
                             primaryButton: .default(Text("前往Testflight")) {
                                 UIApplication.shared.open(URL(string: "itms-beta://testflight.apple.com/join/OBC08JvQ")!)
                             },
@@ -224,11 +224,11 @@ struct Settings: View {
             }
             Task {
                 do {
-                    let versionRequest = URLRequest(url: URL(string: "\(CFQServer.serverAddress)api/stats/version")!)
+                    let versionRequest = URLRequest(url: URL(string: "\(CFQServer.serverAddress)api/stat/version/app/ios")!)
                     let (data, _) = try await URLSession.shared.data(for: versionRequest)
-                    versionData = try JSONDecoder().decode(ClientVersionData.self, from: data)
+                    versionData = Int(String(data: data, encoding: .utf8) ?? "83") ?? 83
                 } catch {
-                    versionData = .empty
+                    versionData = 83
                 }
             }
             do {

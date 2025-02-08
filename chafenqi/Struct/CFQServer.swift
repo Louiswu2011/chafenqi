@@ -238,7 +238,7 @@ struct CFQServer {
     struct Stats {
         static func getAvgUploadTime(for mode: Int) async throws -> String {
             let queries = [URLQueryItem(name: "type", value: String(mode))]
-            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/upload-time", query: queries)
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stat/upload-time", query: queries)
             return String(decoding: data, as: UTF8.self)
         }
         
@@ -251,7 +251,7 @@ struct CFQServer {
         static func checkSongListVersion(tag: String) async -> String {
             do {
                 let query = [URLQueryItem(name: "tag", value: tag)]
-                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stats/version/resource", query: query, shouldThrowByCode: false)
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/stat/version/resource", query: query, shouldThrowByCode: false)
                 let result = String(decoding: data, as: UTF8.self)
                 return result
             } catch {
