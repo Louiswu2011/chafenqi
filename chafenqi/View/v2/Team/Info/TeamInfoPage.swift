@@ -32,6 +32,8 @@ struct TeamInfoPage: View {
     @State private var showLeaveTeamConfirmDialog: Bool = false
     @State private var showHelpSheet: Bool = false
     
+    @State private var navigateToSettings: Bool = false
+    
     var body: some View {
         VStack {
             VStack(spacing: 10) {
@@ -102,8 +104,8 @@ struct TeamInfoPage: View {
                         Label("帮助", systemImage: "questionmark.circle")
                     }
                     if user.userId == team.current.info.leaderUserId {
-                        NavigationLink {
-                            TeamSettingsPage(team: team, user: user)
+                        Button {
+                            navigateToSettings.toggle()
                         } label: {
                             Label("管理团队", systemImage: "gear")
                         }
@@ -117,6 +119,11 @@ struct TeamInfoPage: View {
                 } label: {
                     Label("更多", systemImage: "ellipsis.circle")
                 }
+                .background(
+                    NavigationLink(destination: TeamSettingsPage(team: team, user: user), isActive: $navigateToSettings) {
+                        EmptyView()
+                    }
+                )
             }
             
         }
