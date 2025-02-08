@@ -25,9 +25,13 @@ struct HomeTeam: View {
                               user.homeUseCurrentVersionTheme ? nameplateThemedChuniGradientStyle : nameplateDefaultChuniGradientStyle :
                                 user.homeUseCurrentVersionTheme ? nameplateThemedMaiGradientStyle : nameplateDefaultMaiGradientStyle
                         )
-                    Label(team.current.info.displayName.isEmpty ? "加入或创建团队" : team.current.info.displayName, systemImage: "person.3.fill")
-                        .foregroundColor(.black)
-                        .padding(5)
+                    if team.isLoading {
+                        ProgressView()
+                    } else {
+                        Label(team.current.info.displayName.isEmpty ? "加入或创建团队" : team.current.info.displayName, systemImage: "person.3.fill")
+                            .foregroundColor(.black)
+                            .padding(5)
+                    }
                 }
             }
             NavigationLink {
