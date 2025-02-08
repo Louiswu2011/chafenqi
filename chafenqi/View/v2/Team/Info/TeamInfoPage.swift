@@ -8,8 +8,11 @@
 import Foundation
 import SwiftUI
 import AlertToast
+import Inject
 
 struct TeamInfoPage: View {
+    @ObserveInjection var inject
+    
     @ObservedObject var team: CFQTeam
     @ObservedObject var user: CFQNUser
     
@@ -27,6 +30,7 @@ struct TeamInfoPage: View {
     @State private var currentIndex: Int = 0
     
     @State private var showLeaveTeamConfirmDialog: Bool = false
+    @State private var showHelpSheet: Bool = false
     
     var body: some View {
         VStack {
@@ -93,7 +97,7 @@ struct TeamInfoPage: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button {
-                        
+                        showHelpSheet.toggle()
                     } label: {
                         Label("帮助", systemImage: "questionmark.circle")
                     }
@@ -124,6 +128,10 @@ struct TeamInfoPage: View {
         } message: {
             Text("确认要退出团队吗？该操作无法撤销。")
         }
+        .sheet(isPresented: $showHelpSheet) {
+            TeamInfoHelpView(showHelpSheet: $showHelpSheet)
+        }
+        .enableInjection()
     }
     
     func onLeaveTeam() {
@@ -212,5 +220,38 @@ struct TeamTabBarComponent: View {
             .animation(.spring, value: currentIndex)
         }
         .buttonStyle(.plain)
+    }
+}
+
+struct TeamInfoHelpView: View {
+    @Binding var showHelpSheet: Bool
+    
+    var body: some View {
+        VStack {
+            Text("团队帮助")
+                .font(.title)
+            
+            Spacer()
+            
+            VStack(spacing: 25) {
+                IconWithInfoBlock(imageSystemName: "info.circle", title: "团队信息", message: "位于团队页面上方的团队信息区域，点击任意项目可以显示该项详细信息")
+                IconWithInfoBlock(imageSystemName: "person.2", title: "成员列表", message: "显示当前团队成员信息，按照加入时间排序，点击任意成员可显示成员详细信息")
+                IconWithInfoBlock(imageSystemName: "clock", title: "团队动态列表", message: "显示团队动态，包括成员变动，团队信息变动及组曲挑战变动等")
+                IconWithInfoBlock(imageSystemName: "list.bullet.rectangle", title: "组曲挑战", message: "显示当前团队的组曲挑战，在1PC内按顺序连续游玩指定谱面后上传成绩，即可参与组曲挑战")
+                IconWithInfoBlock(imageSystemName: "message", title: "留言板", message: "显示团队留言板，长按以管理自己的留言，队长可长按管理任意留言")
+                IconWithInfoBlock(imageSystemName: "ellipsis", title: "更多", message: "当前团队人数上限为20人，团队在订阅会员过期后仍可正常使用，但无法变更团队内的成员")
+            }
+            
+            Spacer()
+            
+            Button {
+                showHelpSheet.toggle()
+            } label: {
+                Text("关闭")
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .enableInjection()
+        .padding()
     }
 }
