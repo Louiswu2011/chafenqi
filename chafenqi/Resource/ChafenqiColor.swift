@@ -46,7 +46,7 @@ let chunithmRankColor = [
     3: Color(hex: 0xff369656),
     4: Color(hex: 0xfffe2f20),
     5: Color(hex: 0xff8e0a01),
-    6: Color(hex: 0xff444444)
+    6: Color(hex: 0xff818589)
 ]
 
 let nameplateDefaultChuniColorTop = Color(red: 254, green: 241, blue: 65)
