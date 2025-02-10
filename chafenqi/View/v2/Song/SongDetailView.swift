@@ -33,6 +33,7 @@ struct SongDetailView: View {
     @State var bpm = 0
     @State var from = ""
     @State var genre = ""
+    @State var dx = false
     
     @State var chuScores: UserChunithmBestScores = []
     @State var maiScores: UserMaimaiBestScores = []
@@ -78,6 +79,17 @@ struct SongDetailView: View {
                             }
                         VStack(alignment: .leading) {
                             HStack {
+                                if dx {
+                                    Text("DX")
+                                        .bold()
+                                        .foregroundStyle(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]),
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                }
                                 Spacer()
                                 Button {
                                     Task {
@@ -301,6 +313,7 @@ struct SongDetailView: View {
                 $0.levelIndex < $1.levelIndex
             }
             self.loved = user.remoteOptions.maimaiFavList.components(separatedBy: ",").contains(String(song.musicId))
+            self.dx = song.type == "DX"
         } else if let song = chuSong {
             self.mode = 1
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]

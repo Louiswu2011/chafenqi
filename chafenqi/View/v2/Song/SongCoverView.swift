@@ -52,7 +52,7 @@ struct SongCoverView: View {
                     .frame(width: size, height: size)
             } else if rainbowStroke {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 3)
+                    .stroke(AngularGradient(gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]), center: .center), lineWidth: 2)
                     .frame(width: size, height: size)
             }
         }
