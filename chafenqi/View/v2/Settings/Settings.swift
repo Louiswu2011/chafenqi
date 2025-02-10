@@ -171,7 +171,9 @@ struct Settings: View {
                     Text(showingJWT ? user.jwtToken : "点击显示")
                         .foregroundColor(.gray)
                         .onTapGesture {
-                            showingJWT.toggle()
+                            withAnimation {
+                                showingJWT.toggle()
+                            }
                         }
                 }
                 Toggle("自动更新歌曲列表", isOn: $user.shouldAutoUpdateSongList)
