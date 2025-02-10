@@ -21,6 +21,7 @@ struct SongItemView: View {
     @State var title = ""
     @State var artist = ""
     @State var strip = LevelStripView(mode: 0, levels: ["1", "2", "3", "4"])
+    @State var dx = false
 
     
     var body: some View {
@@ -34,7 +35,7 @@ struct SongItemView: View {
                     }
                 } label: {
                     HStack {
-                        SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false)
+                        SongCoverView(coverURL: requestURL!, size: 80, cornerRadius: 10, withShadow: false, rainbowStroke: dx)
                             .overlay(RoundedRectangle(cornerRadius: 10)
                                 .stroke(colorScheme == .dark ? .white.opacity(0.33) : .black.opacity(0.33), lineWidth: 1))
                         VStack(alignment: .leading) {
@@ -73,6 +74,7 @@ struct SongItemView: View {
             title = song.title
             artist = song.basicInfo.artist
             strip = LevelStripView(mode: 1, levels: song.level)
+            dx = song.type == "DX"
         } else if let song = chuSong {
             requestURL = ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicID))
             title = song.title
