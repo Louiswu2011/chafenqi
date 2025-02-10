@@ -1,5 +1,5 @@
 {
-  "originHash" : "8a08d7c38d3ae861ece2b7d090bcac193d34f6f998ca3787793d7a9b3a4ae984",
+  "originHash" : "96517e3ccff0baa6f81231cc21d47b18c38dadb338343a7c89017e0c9211bd6d",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -98,6 +98,15 @@
       "state" : {
         "revision" : "728c56639ecb3df441d51d5bc6747329afabcfc9",
         "version" : "1.5.2"
+      }
+    },
+    {
+      "identity" : "injectionnext",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/johnno1962/InjectionNext",
+      "state" : {
+        "revision" : "dc3474dc65e0a8d6661932733950810bfca180a9",
+        "version" : "1.2.6"
       }
     },
     {
