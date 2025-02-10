@@ -19,6 +19,9 @@ class Logger {
     
     func append(_ log: String) {
         let item = Log(timestamp: Date().timeIntervalSince1970, log: log)
+        if self.logs.count >= 50 {
+            self.logs.removeFirst()
+        }
         self.logs.append(item)
     }
 }
