@@ -150,7 +150,6 @@
 		BFA133262A7556ED00593C7B /* ClickGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA133252A7556ED00593C7B /* ClickGameView.swift */; };
 		BFA3190C2A02ED140042B5FB /* CFQData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3190B2A02ED140042B5FB /* CFQData.swift */; };
 		BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFAF5E8D296F25F100A0B771 /* CachedAsyncImage */; };
-		BFB0A93C2D5A1FBB00265996 /* InjectionNext in Frameworks */ = {isa = PBXBuildFile; productRef = BFB0A93B2D5A1FBB00265996 /* InjectionNext */; };
 		BFB2C2292D281A35003D84EA /* TeamLeaderboardPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB2C2282D281A35003D84EA /* TeamLeaderboardPage.swift */; };
 		BFB384702A7BBB38005109EB /* ScreenshotMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3846F2A7BBB38005109EB /* ScreenshotMaker.swift */; };
 		BFB57B772A62FA26007DA4BC /* UserLinkOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB57B762A62FA26007DA4BC /* UserLinkOptionView.swift */; };
@@ -565,7 +564,6 @@
 			files = (
 				BF8D2A832A06395F00F60633 /* Crypto in Frameworks */,
 				67C434D82A3AA9B700202605 /* CardStack in Frameworks */,
-				BFB0A93C2D5A1FBB00265996 /* InjectionNext in Frameworks */,
 				BFAF5E8E296F25F100A0B771 /* CachedAsyncImage in Frameworks */,
 				BFEF66EE2D22CF9100E6D263 /* Inject in Frameworks */,
 				BF66DAF82A0A2FAF00EDB749 /* SwiftlySearch in Frameworks */,
@@ -1381,7 +1379,6 @@
 				BF6FB6FA2C22AEA200DAEBFF /* FirebaseCrashlytics */,
 				BF6FB6FC2C22AEA200DAEBFF /* FirebasePerformance */,
 				BFEF66ED2D22CF9100E6D263 /* Inject */,
-				BFB0A93B2D5A1FBB00265996 /* InjectionNext */,
 			);
 			productName = chafenqi;
 			productReference = BFF353BD29681F8D001392E5 /* chafenqi.app */;
@@ -1479,7 +1476,6 @@
 				BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 				BF6FB6F52C22AEA200DAEBFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BFEF66EC2D22CF9100E6D263 /* XCRemoteSwiftPackageReference "Inject" */,
-				BFB0A93A2D5A1F8F00265996 /* XCRemoteSwiftPackageReference "InjectionNext" */,
 			);
 			productRefGroup = BFF353BE29681F8D001392E5 /* Products */;
 			projectDirPath = "";
@@ -2545,14 +2541,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		BFB0A93A2D5A1F8F00265996 /* XCRemoteSwiftPackageReference "InjectionNext" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/johnno1962/InjectionNext";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.6;
-			};
-		};
 		BFE9A6832A9FBEE900B7AC55 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shaps80/SwiftUIBackports.git";
@@ -2631,11 +2619,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFAF5E8C296F25F100A0B771 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
 			productName = CachedAsyncImage;
-		};
-		BFB0A93B2D5A1FBB00265996 /* InjectionNext */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFB0A93A2D5A1F8F00265996 /* XCRemoteSwiftPackageReference "InjectionNext" */;
-			productName = InjectionNext;
 		};
 		BFE9A6842A9FBEE900B7AC55 /* SwiftUIBackports */ = {
 			isa = XCSwiftPackageProductDependency;
