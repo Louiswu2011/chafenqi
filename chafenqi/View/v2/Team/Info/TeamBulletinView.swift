@@ -18,7 +18,6 @@ struct TeamBulletinView: View {
     @ObservedObject var user: CFQNUser
     @ObservedObject var alertToastModel = AlertToastModel.shared
     
-    @State private var username = ""
     @State private var showPostSheet = false
     
     var body: some View {
@@ -80,11 +79,8 @@ struct TeamBulletinView: View {
             }
         }
         .enableInjection()
-        .onAppear {
-            username = team.current.members.first(where: { $0.userId == user.userId })?.nickname.transformingHalfwidthFullwidth() ?? user.username
-        }
         .sheet(isPresented: $showPostSheet) {
-            TeamBulletinPostSheet(username: username, onCancel: { showPostSheet.toggle() }) { message in
+            TeamBulletinPostSheet(username: team.current.members.first(where: { $0.userId == user.userId })?.nickname.transformingHalfwidthFullwidth() ?? user.username, onCancel: { showPostSheet.toggle() }) { message in
                 postBulletin(message: message)
             }
         }
