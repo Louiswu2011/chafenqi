@@ -60,23 +60,19 @@ struct ChunithmSongStatView: View {
                 }
                 .padding(.bottom)
                 
-                HStack(alignment: .center) {
-                    Text("游玩人数：\(stat.totalPlayed)")
-                    Spacer()
-                    Text("平均分数：\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.0f")")
-                }
-                .padding(.bottom)
-                
                 HStack {
                     let data = makeData()
                     
-                    DoughnutChart(chartData: data)
-                        .touchOverlay(chartData: data, specifier: "%.0f")
-                        .headerBox(chartData: data)
-                        .frame(idealWidth: 200, idealHeight: 200)
-                        .id(data.id)
-                        .padding(.horizontal)
-                        .padding(.bottom)
+                    VStack {
+                        Text("游玩人数：\(stat.totalPlayed)")
+                            .font(.caption)
+                        
+                        DoughnutChart(chartData: data)
+                            .touchOverlay(chartData: data, specifier: "%.0f")
+                            .headerBox(chartData: data)
+                            .id(data.id)
+                            .padding(.bottom)
+                    }
                     
                     HStack {
                         VStack(alignment: .leading) {
@@ -90,8 +86,8 @@ struct ChunithmSongStatView: View {
                             }
                         }
                         VStack(alignment: .trailing) {
-                            Text("拟合定数")
-                            Text("统计中")
+                            Text("平均分数")
+                            Text("\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.0f")")
                                 .fontWeight(.bold)
                                 .padding(.bottom)
                             
@@ -100,8 +96,8 @@ struct ChunithmSongStatView: View {
                                 .fontWeight(.bold)
                         }
                     }
-                    .padding(.bottom)
                 }
+                .padding(.bottom)
                 
                 if let entry = scoreEntry {
                     HStack {
@@ -160,7 +156,8 @@ struct MaimaiSongStatView: View {
     var diff: Int
     
     let ranks = ["SSS+", "SSS", "SS+", "SS", "S+", "S", "其他"]
-    let noteTypes = ["Tap", "Hold", "Slide", "Touch"]
+    let standardNoteTypes = ["Tap", "Hold", "Slide"]
+    let deluxeNoteTypes = ["Tap", "Hold", "Slide", "Touch"]
     let judgeTypes = ["Great", "Good", "Miss"]
     
     var body: some View {
@@ -174,21 +171,18 @@ struct MaimaiSongStatView: View {
                 }
                 .padding(.bottom)
                 
-                HStack(alignment: .center) {
-                    Text("游玩人数：\(stat.totalPlayed)")
-                    Spacer()
-                    Text("平均分数：\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.4f")%")
-                }
-                .padding(.bottom)
-                
                 HStack {
                     let data = makeData()
-                    
-                    DoughnutChart(chartData: data)
-                        .touchOverlay(chartData: data, specifier: "%.4f")
-                        .headerBox(chartData: data)
-                        .id(data.id)
-                        .padding(.bottom)
+                    VStack {
+                        Text("总游玩人数：\(stat.totalPlayed)")
+                            .font(.caption)
+                        
+                        DoughnutChart(chartData: data)
+                            .touchOverlay(chartData: data, specifier: "%.4f")
+                            .headerBox(chartData: data)
+                            .id(data.id)
+                    }
+                    .padding(.bottom)
                     
                     HStack {
                         VStack(alignment: .leading) {
@@ -202,8 +196,8 @@ struct MaimaiSongStatView: View {
                             }
                         }
                         VStack(alignment: .trailing) {
-                            Text("拟合定数")
-                            Text("统计中")
+                            Text("平均分数")
+                            Text("\(stat.totalScore / Double(stat.totalPlayed), specifier: "%.4f")%")
                                 .fontWeight(.bold)
                                 .padding(.bottom)
                             
@@ -217,6 +211,7 @@ struct MaimaiSongStatView: View {
                 .padding(.bottom)
                 
                 let data = song.charts[diff]
+                let noteTypes = song.type == "DX" ? deluxeNoteTypes : standardNoteTypes
                 VStack {
                     HStack {
                         VStack(alignment: .leading, spacing: 5) {
@@ -238,7 +233,7 @@ struct MaimaiSongStatView: View {
                                 Text(judgeType)
                                     .bold()
                                 ForEach(data.possibleNormalLosses.indices, id: \.self) { innerIndex in
-                                    if !data.possibleNormalLosses[innerIndex].isEmpty && index < data.possibleNormalLosses.count - 1 {
+                                    if song.type == "DX" || (song.type == "SD" && innerIndex < data.possibleNormalLosses.count - 1) {
                                         Text(data.possibleNormalLosses[innerIndex][index])
                                     }
                                 }
