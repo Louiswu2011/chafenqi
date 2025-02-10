@@ -109,7 +109,8 @@ struct MaimaiRecentEntryView: View {
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text(entry.associatedSong?.title ?? "")
+                    let isDX = user.data.maimai.songlist.filter { $0.title == entry.associatedSong!.title }.count > 1
+                    Text((isDX ? "[DX]" : "") + (entry.associatedSong?.title ?? ""))
                         .font(.system(size: 17))
                         .lineLimit(1)
                     Spacer()

@@ -38,6 +38,7 @@ struct RecentDetail: View {
     @State var maiSlideArray: Array<String> = []
     @State var maiTouchArray: Array<String> = []
     @State var maiBreakArray: Array<String> = []
+    @State var isDX = false
     
     @State var isLoaded = false
     
@@ -50,7 +51,7 @@ struct RecentDetail: View {
         ScrollView {
             if (isLoaded) {
                 VStack {
-                    RecentBaseDetail(coverUrl: coverUrl, title: title, score: score, artist: artist, diffColor: diffColor, playTime: playTime, chuEntry: chuEntry, maiEntry: maiEntry, chuniJudgeWidth: chuniJudgeWidth, maiTapArray: maiTapArray, maiHoldArray: maiHoldArray, maiSlideArray: maiSlideArray, maiTouchArray: maiTouchArray, maiBreakArray: maiBreakArray)
+                    RecentBaseDetail(coverUrl: coverUrl, title: title, score: score, artist: artist, diffColor: diffColor, playTime: playTime, chuEntry: chuEntry, maiEntry: maiEntry, chuniJudgeWidth: chuniJudgeWidth, maiTapArray: maiTapArray, maiHoldArray: maiHoldArray, maiSlideArray: maiSlideArray, maiTouchArray: maiTouchArray, maiBreakArray: maiBreakArray, isDX: isDX)
                 }
                 .padding()
                 .screenshotView { maker in
@@ -144,6 +145,7 @@ struct RecentDetail: View {
                     maiTouchArray[index] = "-"
                 }
             }
+            self.isDX = user.data.maimai.songlist.filter { $0.title == entry.associatedSong!.title }.count > 1
         }
     }
     
@@ -182,6 +184,8 @@ struct RecentBaseDetail: View {
     var maiTouchArray: Array<String>
     var maiBreakArray: Array<String>
     
+    var isDX = false
+    
     var body: some View {
         VStack {
             HStack(alignment: .bottom) {
@@ -202,6 +206,17 @@ struct RecentBaseDetail: View {
                         }
                     }
                 VStack(alignment: .leading) {
+                    if isDX {
+                        Text("DX")
+                            .bold()
+                            .foregroundStyle(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                    }
                     Spacer()
                     Text(title)
                         .font(.title)

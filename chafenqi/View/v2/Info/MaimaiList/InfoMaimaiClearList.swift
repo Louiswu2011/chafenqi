@@ -95,8 +95,9 @@ struct InfoMaimaiClearList: View {
                             .padding(.bottom, 5)
                             if !currentFold[index] {
                                 VStack {
-                                    ForEach(gradeInfo.songs, id: \.musicId) { song in
-                                        MaimaiBestEntryBannerView(song: song)
+                                    ForEach(gradeInfo.songs, id: \.associatedSong!.coverId) { song in
+                                        let dx = song.associatedSong!.type == "DX" && user.data.maimai.songlist.filter { $0.title == song.associatedSong!.title }.count > 1
+                                        MaimaiBestEntryBannerView(song: song, isDX: dx)
                                             .padding(.horizontal)
                                     }
                                 }
@@ -135,6 +136,7 @@ struct MaimaiBestEntryBannerView: View {
     var song: UserMaimaiBestScoreEntry?
     var data: MaimaiSongData?
     var levelIndex: Int?
+    var isDX: Bool = false
     
     var body: some View {
         HStack {
@@ -144,7 +146,7 @@ struct MaimaiBestEntryBannerView: View {
                     Text("\(constantByLevelIndex(from: song), specifier: "%.1f")")
                     Spacer()
                     HStack {
-                        Text(song.title)
+                        Text((isDX ? "[DX] " : "") + "\(song.title)")
                             .lineLimit(1)
                         Spacer()
                         Text("暂未游玩")
@@ -161,7 +163,7 @@ struct MaimaiBestEntryBannerView: View {
                     }
                     Spacer()
                     HStack {
-                        Text(song.associatedSong?.title ?? "")
+                        Text((isDX ? "[DX] " : "") + (song.associatedSong?.title ?? ""))
                             .lineLimit(1)
                         Spacer()
                         Text("\(song.achievements, specifier: "%.4f")%")

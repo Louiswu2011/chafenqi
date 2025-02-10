@@ -74,7 +74,7 @@ struct SongItemView: View {
             title = song.title
             artist = song.basicInfo.artist
             strip = LevelStripView(mode: 1, levels: song.level)
-            dx = song.type == "DX"
+            dx = song.type == "DX" && user.data.maimai.songlist.filter { $0.title == song.title }.count > 1
         } else if let song = chuSong {
             requestURL = ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(song.musicID))
             title = song.title

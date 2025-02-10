@@ -313,7 +313,7 @@ struct SongDetailView: View {
                 $0.levelIndex < $1.levelIndex
             }
             self.loved = user.remoteOptions.maimaiFavList.components(separatedBy: ",").contains(String(song.musicId))
-            self.dx = song.type == "DX"
+            self.dx = song.type == "DX" && user.data.maimai.songlist.filter { $0.title == song.title }.count > 1
         } else if let song = chuSong {
             self.mode = 1
             self.diffArray = ["Basic", "Advanced", "Expert", "Master", "Ultima", "World's End"]

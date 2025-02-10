@@ -189,12 +189,12 @@ struct CFQMaimaiLevelRecords: Codable {
                 $0.associatedSong!.level[$0.levelIndex] == CFQMaimaiLevelRecords.maiLevelStrings[index]
             }
             self.levelString = CFQMaimaiLevelRecords.maiLevelStrings[index]
-            let playedIdList = songs.compactMap { $0.associatedSong!.musicId }
+            let playedIdList = songs.compactMap { $0.associatedSong!.coverId }
             let filteredData = songData.filter {
                 $0.level.contains(levelString)
             }
             self.noRecordSongs = filteredData.filter {
-                !playedIdList.contains($0.musicId)
+                !playedIdList.contains($0.coverId)
             }
             for range in CFQMaimaiLevelRecords.clearAchievements {
                 grades.append(CFQMaimaiGradeRecord(range: range, best: songs))
