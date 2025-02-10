@@ -53,7 +53,7 @@ struct PlayerChunithmInfoView: View {
                     Image(uiImage: img)
                         .resizable()
                 })
-                .aspectRatio(1, contentMode: .fit)
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 250)
                 .contextMenu {
                     Button {
