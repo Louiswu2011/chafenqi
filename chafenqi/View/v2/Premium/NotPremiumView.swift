@@ -51,6 +51,8 @@ struct NotPremiumView: View {
                     
                     PremiumInfoBlock(imageSystemName: "chart.bar.doc.horizontal", title: "国服排行榜", message: "查看Rating、总分、总游玩曲目、榜一获得数的总榜及详细信息")
                     
+                    PremiumInfoBlock(imageSystemName: "person.3.fill", title: "创建团队", message: "创建、管理自己的团队，并参与每月的团队积分排行榜")
+                    
                     PremiumInfoBlock(
                         imageSystemName: "ellipsis",
                         title: "更多功能",
@@ -90,7 +92,7 @@ struct PremiumInfoBlock: View {
             Image(systemName: imageSystemName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 40)
+                .frame(width: 35)
                 .foregroundColor(.blue)
                 .padding(.trailing, 8)
             VStack(alignment: .leading, spacing: 5) {
