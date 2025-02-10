@@ -37,7 +37,7 @@ struct TeamIntroductionPage: View {
             }
             .padding([.top, .horizontal])
             List {
-                ForEach(team.list.filter { $0.promotable }, id: \.id) { team in
+                ForEach(team.list.sorted { $0.lastActivityAt > $1.lastActivityAt }.filter { $0.promotable }, id: \.id) { team in
                     Section {
                         TeamIntroductionEntryView(info: team) {
                             onApply(teamId: team.id, message: "")
