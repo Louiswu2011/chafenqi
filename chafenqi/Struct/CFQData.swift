@@ -18,7 +18,7 @@ struct CFQData: Codable {
             var b = bests
             for (i,entry) in b.enumerated() {
                 var e = entry
-                e.associatedSong = songs.first { $0.musicId == entry.musicId }
+                e.associatedSong = songs.first { $0.musicId == entry.musicId && $0.type == entry.type }
                 b[i] = e
             }
             return b
@@ -28,7 +28,7 @@ struct CFQData: Codable {
             var r = recents
             for (i,entry) in r.enumerated() {
                 var e = entry
-                e.associatedSong = songs.first { $0.musicId == entry.musicId }
+                e.associatedSong = songs.first { $0.musicId == entry.musicId && $0.type == entry.type }
                 r[i] = e
             }
             return r
