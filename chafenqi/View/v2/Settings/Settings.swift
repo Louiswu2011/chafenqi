@@ -39,7 +39,6 @@ struct Settings: View {
     
     @State private var shouldOpenMiniGame = false
     
-    @State private var cacheSize = "加载中..."
     @State private var widgetData = WidgetData.Customization()
     
     var body: some View {
@@ -175,8 +174,6 @@ struct Settings: View {
                             showingJWT.toggle()
                         }
                 }
-                    
-                SettingsInfoLabelView(title: "缓存大小", message: cacheSize)
                 Toggle("自动更新歌曲列表", isOn: $user.shouldAutoUpdateSongList)
                 NavigationLink {
                     LogView()
@@ -187,7 +184,6 @@ struct Settings: View {
                     let purgeCacheAlert = Alert(title: Text("确定要清空吗？"), message: Text("将清空所有图片缓存，该操作不可逆。"), primaryButton: .cancel(Text("取消")), secondaryButton: .destructive(Text("清空"), action: {
                         DispatchQueue.main.async {
                             cacheController.clearCache()
-                            cacheSize = cacheController.getCacheSize()
                         }
                     }))
                     alertToast.alert = purgeCacheAlert
@@ -218,9 +214,6 @@ struct Settings: View {
         .onAppear {
             if (user.remoteOptions.fishToken.isEmpty) {
                 user.remoteOptions.forwardToFish = false
-            }
-            DispatchQueue.main.async {
-                cacheSize = cacheController.getCacheSize()
             }
             Task {
                 do {
