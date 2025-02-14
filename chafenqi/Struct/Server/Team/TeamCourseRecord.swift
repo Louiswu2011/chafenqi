@@ -25,7 +25,7 @@ extension TeamCourseRecord {
         return if mode == 0 {
             String(trackRecords.reduce(0) { $0 + (Int($1.score) ?? 0) })
         } else {
-            String(format: "%.4f", trackRecords.reduce(0) { $0 + (Int($1.score.replacingOccurrences(of: "%", with: "")) ?? 0) })
+            String(format: "%.4f", trackRecords.reduce(0) { $0 + (Double($1.score.replacingOccurrences(of: "%", with: "")) ?? 0.0) }) + "%"
         }
     }
     
