@@ -22,9 +22,9 @@ class CFQRemoteOptions {
         self.authToken = authToken
         
         bindQQ = await CFQUserServer.getBindQQ(authToken: authToken)
-        forwardToFish = await CFQUserServer.fetchUserOption(authToken: authToken, param: "forwarding_fish") == "1"
-        forwardToLxns = await CFQUserServer.fetchUserOption(authToken: authToken, param: "forwarding_lxns") == "1"
-        rateLimiting = await CFQUserServer.fetchUserOption(authToken: authToken, param: "rate_limiting") == "1"
+        forwardToFish = await CFQUserServer.fetchUserOption(authToken: authToken, param: "forwarding_fish") == "true"
+        forwardToLxns = await CFQUserServer.fetchUserOption(authToken: authToken, param: "forwarding_lxns") == "true"
+        rateLimiting = await CFQUserServer.fetchUserOption(authToken: authToken, param: "rate_limiting") == "true"
         maimaiFavList = await CFQUserServer.fetchUserOption(authToken: authToken, param: "maimai_fav_list")
         chunithmFavList = await CFQUserServer.fetchUserOption(authToken: authToken, param: "chunithm_fav_list")
         fishToken = await CFQUserServer.fetchUserOption(authToken: authToken, param: "fish_token")

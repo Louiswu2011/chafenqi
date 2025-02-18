@@ -286,7 +286,7 @@ struct UpdaterView: View {
     func loadForwardFish() {
         isLoadingForwardFish = true
         Task {
-            user.remoteOptions.forwardToFish = await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "1"
+            user.remoteOptions.forwardToFish = await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == "true"
             isLoadingForwardFish = false
         }
     }
@@ -294,9 +294,9 @@ struct UpdaterView: View {
     // Return if successfully applied changes
     func uploadForwardFish(newValue: Bool) async -> Bool {
         do {
-            let result = try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "forwarding_fish", value: newValue ? "1" : "0")
+            let result = try await CFQUserServer.uploadUserOption(authToken: user.jwtToken, param: "forwarding_fish", value: newValue ? "true" : "false")
             if result {
-                return await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == (newValue ? "1" : "0")
+                return await CFQUserServer.fetchUserOption(authToken: user.jwtToken, param: "forwarding_fish") == (newValue ? "true" : "false")
             } else {
                 return false
             }
