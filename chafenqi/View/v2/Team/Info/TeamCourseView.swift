@@ -48,7 +48,7 @@ struct TeamCourseView: View {
                                 }
                             }
                         }
-                        Text("组曲生命值：\(team.current.info.courseHealth > 0 ? String(team.current.info.courseHealth) : "无限制")")
+                        Text("组曲生命值：\(team.current.info.courseHealth > 0 ? String(team.current.info.courseHealth) : "无限制") (-\(team.current.info.coursePrimaryErrorPenalty)/-\(team.current.info.courseSecondaryErrorPenalty)/-\(team.current.info.courseTertiaryErrorPenalty))")
                             .font(.caption)
                     }
                     .padding(.horizontal)

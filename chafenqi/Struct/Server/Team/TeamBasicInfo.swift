@@ -23,6 +23,9 @@ struct TeamBasicInfo: Codable {
     let courseTrack2: String
     let courseTrack3: String
     let courseHealth: Int
+    let coursePrimaryErrorPenalty: Int
+    let courseSecondaryErrorPenalty: Int
+    let courseTertiaryErrorPenalty: Int
     let courseLastModifiedAt: Int
     let pinnedMessageId: Int?
     let createdAt: Int
@@ -44,6 +47,9 @@ struct TeamBasicInfo: Codable {
         courseTrack2: "",
         courseTrack3: "",
         courseHealth: 0,
+        coursePrimaryErrorPenalty: 0,
+        courseSecondaryErrorPenalty: 0,
+        courseTertiaryErrorPenalty: 0,
         courseLastModifiedAt: 0,
         pinnedMessageId: nil,
         createdAt: 0,
