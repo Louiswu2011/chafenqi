@@ -327,10 +327,15 @@ struct CFQServer {
     
     struct Comment {
         static func loadComments(authToken: String, mode: Int, musicId: Int) async throws -> [UserComment] {
-            let gameTypeString = mode == 0 ? "chunithm" : "maimai"
-            let queries = [URLQueryItem(name: "musicId", value: String(musicId))]
-            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/comment/\(gameTypeString)", query: queries, token: authToken)
-            return try CFQServer.decoder.decode(Array<UserComment>.self, from: data)
+            do {
+                let gameTypeString = mode == 0 ? "chunithm" : "maimai"
+                let queries = [URLQueryItem(name: "musicId", value: String(musicId))]
+                let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/comment/\(gameTypeString)", query: queries, token: authToken)
+                return try CFQServer.decoder.decode(Array<UserComment>.self, from: data)
+            } catch {
+                print("Error fetching comments for \(musicId), game \(mode): \(error)")
+                return []
+            }
         }
         
         static func postComment(authToken: String, content: String, mode: Int, musicId: Int, reply: Int = -1) async throws -> Bool {
