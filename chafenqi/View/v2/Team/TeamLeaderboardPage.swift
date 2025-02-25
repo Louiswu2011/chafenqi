@@ -73,6 +73,8 @@ struct TeamLeaderboardEntry: View {
     let team: TeamBasicInfo
     let rank: Int
     
+    @State private var showLastMonthPoints = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -95,13 +97,23 @@ struct TeamLeaderboardEntry: View {
                     }
                     .lineLimit(1)
                 Spacer()
-                Text(team.currentActivityPoints > 0 ? "\(team.currentActivityPoints)Pt" : "暂未参加")
+                if showLastMonthPoints {
+                    Text("上赛季: " + (team.lastMonthActivityPoints > 0 ? "\(team.lastMonthActivityPoints)Pt" : "暂未参加"))
+                } else {
+                    Text(team.currentActivityPoints > 0 ? "\(team.currentActivityPoints)Pt" : "暂未参加")
+                }
             }
             Text("\(team.remarks)")
                 .font(.footnote)
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation {
+                showLastMonthPoints.toggle()
+            }
+        }
     }
 }
 
