@@ -232,7 +232,11 @@ extension UserMaimaiBestScoreEntry: CFQMaimaiCalculatable {
     }
     
     var rating: Int {
-        getRating(constant: self.associatedSong!.constants[self.levelIndex], achievements: self.achievements)
+        if let song = associatedSong {
+            return getRating(constant: song.constants[self.levelIndex], achievements: self.achievements)
+        } else {
+            return 0
+        }
     }
     var status: String {
         getStatus(self.judgeStatus)

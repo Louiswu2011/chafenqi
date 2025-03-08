@@ -21,6 +21,9 @@ class WidgetDataController {
         let storeURL = containerURL?.appendingPathComponent("WidgetData.sqlite")
         let description = NSPersistentStoreDescription(url: storeURL!)
         
+        description.shouldMigrateStoreAutomatically = true
+        description.shouldInferMappingModelAutomatically = true
+        
         container.persistentStoreDescriptions = [description]
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.loadPersistentStores { (storeDescription, error) in
@@ -32,43 +35,46 @@ class WidgetDataController {
     }
     
     func save(data: WidgetData, context: NSManagedObjectContext) throws {
-        let widgetData = WidgetUser(context: self.container.viewContext)
-        widgetData.username = data.username
-        widgetData.isPremium = data.isPremium
-        widgetData.maimai = nil
-        widgetData.chunithm = nil
-        widgetData.chuRecentOne = nil
-        widgetData.maiRecentOne = nil
-        widgetData.chuChar = nil
-        widgetData.chuBg = nil
-        widgetData.maiChar = nil
-        widgetData.maiBg = nil
-        widgetData.custom = nil
-        if let data = data.maimaiInfo {
-            widgetData.maimai = try encoder.encode(data)
-        }
-        if let data = data.chunithmInfo {
-            widgetData.chunithm = try encoder.encode(data)
-        }
-        if let data = data.maiRecentOne {
-            widgetData.maiRecentOne = try encoder.encode(data)
-        }
-        if let data = data.chuRecentOne {
-            widgetData.chuRecentOne = try encoder.encode(data)
-        }
-        if let data = data.custom {
-            widgetData.custom = try encoder.encode(data)
-        }
-        widgetData.maiCover = data.maiCover
-        widgetData.chuCover = data.chuCover
-        widgetData.maiBg = data.maiBg
-        widgetData.chuBg = data.chuBg
-        widgetData.maiChar = data.maiChar
-        widgetData.chuChar = data.chuChar
-        
-        if self.container.viewContext.hasChanges {
-            print("[WidgetDataController] Saving widget data of", widgetData.username ?? "unknown user")
-            try self.container.viewContext.save()
+        let backgroundContext = container.newBackgroundContext()
+        try backgroundContext.performAndWait {
+            let widgetData = WidgetUser(context: self.container.viewContext)
+            widgetData.username = data.username
+            widgetData.isPremium = data.isPremium
+            widgetData.maimai = nil
+            widgetData.chunithm = nil
+            widgetData.chuRecentOne = nil
+            widgetData.maiRecentOne = nil
+            widgetData.chuChar = nil
+            widgetData.chuBg = nil
+            widgetData.maiChar = nil
+            widgetData.maiBg = nil
+            widgetData.custom = nil
+            if let data = data.maimaiInfo {
+                widgetData.maimai = try encoder.encode(data)
+            }
+            if let data = data.chunithmInfo {
+                widgetData.chunithm = try encoder.encode(data)
+            }
+            if let data = data.maiRecentOne {
+                widgetData.maiRecentOne = try encoder.encode(data)
+            }
+            if let data = data.chuRecentOne {
+                widgetData.chuRecentOne = try encoder.encode(data)
+            }
+            if let data = data.custom {
+                widgetData.custom = try encoder.encode(data)
+            }
+            widgetData.maiCover = data.maiCover
+            widgetData.chuCover = data.chuCover
+            widgetData.maiBg = data.maiBg
+            widgetData.chuBg = data.chuBg
+            widgetData.maiChar = data.maiChar
+            widgetData.chuChar = data.chuChar
+            
+            if backgroundContext.hasChanges {
+                print("[WidgetDataController] Saving widget data of", widgetData.username ?? "unknown user")
+                try self.container.viewContext.save()
+            }
         }
     }
 }

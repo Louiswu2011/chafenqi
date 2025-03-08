@@ -7,3 +7,4 @@ DerivedData/
 chafenqi.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 /chafenqi.xcodeproj/xcuserdata/louis.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 /.idea
+.vscode/settings.json

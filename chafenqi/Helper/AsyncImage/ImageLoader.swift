@@ -72,13 +72,21 @@ class ImageLoader: ObservableObject {
     }
     
     private func saveToCache(_ image: UIImage?) {
-        if let image = image {
-            let pngData = image.pngData()!
-            let cacheItem = CoverCache(context: viewContext)
-            cacheItem.imageUrl = self.url.absoluteString
+        guard let image = image else { return }
+        
+        guard let pngData = image.pngData() else { return }
+        let url = self.url.absoluteString
+        
+        let container = CacheController.shared.container
+        
+        let backgroundContext = container.newBackgroundContext()
+        backgroundContext.perform {
+            let cacheItem = CoverCache(context: backgroundContext)
+            cacheItem.imageUrl = url
             cacheItem.image = pngData
+            
             do {
-                try viewContext.save()
+                try backgroundContext.save()
                 print("[ImageLoader] Saved \(self.url.absoluteString) to cache.")
             } catch {
                 print("[ImageLoader] Failed to save cache: \(error.localizedDescription)")
