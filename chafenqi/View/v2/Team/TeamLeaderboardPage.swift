@@ -97,11 +97,7 @@ struct TeamLeaderboardEntry: View {
                     }
                     .lineLimit(1)
                 Spacer()
-                if showLastMonthPoints {
-                    Text("上赛季: " + (team.lastMonthActivityPoints > 0 ? "\(team.lastMonthActivityPoints)Pt" : "暂未参加"))
-                } else {
-                    Text(team.currentActivityPoints > 0 ? "\(team.currentActivityPoints)Pt" : "暂未参加")
-                }
+                Text(team.currentActivityPoints > 0 ? "\(team.currentActivityPoints)Pt" : "暂未参加")
             }
             Text("\(team.remarks)")
                 .font(.footnote)
