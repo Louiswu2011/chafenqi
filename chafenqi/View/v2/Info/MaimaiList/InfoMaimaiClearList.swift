@@ -95,7 +95,7 @@ struct InfoMaimaiClearList: View {
                             .padding(.bottom, 5)
                             if !currentFold[index] {
                                 VStack {
-                                    ForEach(gradeInfo.songs, id: \.associatedSong!.coverId) { song in
+                                    ForEach(gradeInfo.songs, id: \.associatedSong!.musicId) { song in
                                         let dx = song.associatedSong!.type == "DX" && user.data.maimai.songlist.filter { $0.title == song.associatedSong!.title }.count > 1
                                         MaimaiBestEntryBannerView(song: song, isDX: dx)
                                             .padding(.horizontal)
@@ -104,31 +104,24 @@ struct InfoMaimaiClearList: View {
                             }
                         }
                     }
-                    .id(UUID())
                 }
+                .id(currentLevel)
+            } else {
+                ProgressView()
             }
         }
         .onAppear {
-            isLoading = true
-            info = user.maimai.custom.levelRecords
-            withAnimation {
-                currentRatio = info.levels[currentLevel].ratios
-                currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+            if isLoading {
+                DispatchQueue.global(qos: .userInitiated).async {
+                    info = user.maimai.custom.levelRecords
+                    currentRatio = info.levels[currentLevel].ratios
+                    currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
+                    isLoading = false
+                }
             }
-            isLoading = false
         }
         .navigationTitle("歌曲完成度")
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    func setCurrentLevelIndex(to index: Int) {
-        currentLevel = index
-        let currenInfo = info.levels[currentLevel]
-        currentRatio = currenInfo.ratios
-        if !currenInfo.noRecordSongs.isEmpty {
-            
-        }
-        currentFold = Array(repeating: false, count: info.levels[currentLevel].grades.count)
     }
 }
 
@@ -138,6 +131,15 @@ struct MaimaiBestEntryBannerView: View {
     var levelIndex: Int?
     var isDX: Bool = false
     
+    private var songTitle: String {
+        if let song = data {
+            return (isDX ? "[DX] " : "") + song.title
+        } else if let song = song?.associatedSong {
+            return (isDX ? "[DX] " : "") + (song.title)
+        }
+        return ""
+    }
+    
     var body: some View {
         HStack {
             if let song = data {
@@ -146,7 +148,7 @@ struct MaimaiBestEntryBannerView: View {
                     Text("\(constantByLevelIndex(from: song), specifier: "%.1f")")
                     Spacer()
                     HStack {
-                        Text((isDX ? "[DX] " : "") + "\(song.title)")
+                        Text(songTitle)
                             .lineLimit(1)
                         Spacer()
                         Text("暂未游玩")
