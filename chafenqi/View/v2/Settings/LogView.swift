@@ -12,12 +12,12 @@ struct LogView: View {
     
     var body: some View {
         List {
-            ForEach(logger.logs.reversed(), id: \.timestamp) { log in
+            ForEach(logger.getAllLogs().reversed(), id: \.timestamp) { log in
                 VStack(alignment: .leading) {
-                    Text(log.timestamp.toDateString(format: "yyyy-MM-dd HH:mm:ss"))
+                    Text(log.timestamp.toDateString(format: "yyyy-MM-dd HH:mm:ss") + " " + log.level.rawValue)
                         .foregroundColor(.gray)
                         .font(.system(size: 12))
-                    Text(log.log)
+                    Text(log.message)
                 }
             }
         }
