@@ -41,19 +41,6 @@ extension Double {
     }
 }
 
-extension UIApplication {
-    func currentUIWindow() -> UIWindow? {
-        let connectedScenes = UIApplication.shared.connectedScenes
-            .filter { $0.activationState == .foregroundActive }
-            .compactMap { $0 as? UIWindowScene }
-        
-        let window = connectedScenes.first?
-            .windows
-            .first { $0.isKeyWindow }
-        return window
-    }
-}
-
 extension Date {
     var startOfMonth: Date {
         let calendar = Calendar(identifier: .gregorian)
@@ -71,7 +58,7 @@ extension Date {
 
 extension Collection {
     // Returns the element at the specified index if it is within bounds, otherwise nil.
-    subscript(safe index: Index) -> Element? {
-        indices.contains(index) ? self[index] : nil
+    subscript(orNil index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }

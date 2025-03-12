@@ -85,6 +85,8 @@
 		BF0A0BAF298C444D008F9700 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BF0A0BAE298C444D008F9700 /* .gitignore */; };
 		BF0CFD5E297B25E1003763E2 /* ChartIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0CFD5D297B25E1003763E2 /* ChartIdConverter.swift */; };
 		BF0CFD61297B26E5003763E2 /* IdMap.json in Resources */ = {isa = PBXBuildFile; fileRef = BF0CFD60297B26E5003763E2 /* IdMap.json */; };
+		BF132FEB2D81B1C1008B4729 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3A502AA4F9B10066464F /* Logger.swift */; };
+		BF132FEC2D81B2A9008B4729 /* FoundationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF905CB72AB0D28D00EEFA87 /* FoundationExtension.swift */; };
 		BF268D212C804D7F00486762 /* CFQRemoteOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF268D202C804D7F00486762 /* CFQRemoteOptions.swift */; };
 		BF26D8B32D2302AE0056CFB3 /* TeamCourseSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B22D2302AE0056CFB3 /* TeamCourseSetting.swift */; };
 		BF26D8B52D2302F40056CFB3 /* TeamMemberSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF26D8B42D2302F40056CFB3 /* TeamMemberSetting.swift */; };
@@ -1602,6 +1604,7 @@
 				67FE568C2A4D84020086C335 /* MaimaiDataGrabber.swift in Sources */,
 				67E95F792A4ACCAC004134C8 /* infoWidgetBundle.swift in Sources */,
 				67E95F802A4ACCAC004134C8 /* infoWidget.intentdefinition in Sources */,
+				BF132FEB2D81B1C1008B4729 /* Logger.swift in Sources */,
 				67FE568A2A4D83F20086C335 /* ChunithmMusicData.swift in Sources */,
 				BFF936BE2D1AC8E000679F8A /* TeamCreatePayload.swift in Sources */,
 				BFF936B82D1AC7BD00679F8A /* TeamBulletinBoardEntry.swift in Sources */,
@@ -1622,6 +1625,7 @@
 				67E95F7B2A4ACCAC004134C8 /* infoWidget.swift in Sources */,
 				BFF936CB2D1ACA3000679F8A /* TeamActivity.swift in Sources */,
 				67ABBA442A56C6E800DA154A /* InfoWidgetEntryView.swift in Sources */,
+				BF132FEC2D81B2A9008B4729 /* FoundationExtension.swift in Sources */,
 				67FE568B2A4D83FF0086C335 /* ChunithmDataGrabber.swift in Sources */,
 				BFF936B22D1AC58C00679F8A /* TeamInfo.swift in Sources */,
 				BFF8F5202D455228001AFDD9 /* CFQSharedValue.swift in Sources */,

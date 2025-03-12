@@ -232,11 +232,17 @@ extension UserMaimaiBestScoreEntry: CFQMaimaiCalculatable {
     }
     
     var rating: Int {
-        if let song = associatedSong {
-            return getRating(constant: song.constants[self.levelIndex], achievements: self.achievements)
-        } else {
+        guard let song = self.associatedSong else {
+            Logger.shared.warning("Nil was found when calculating maimai song rating.")
             return 0
         }
+        
+        guard let constant = song.constants[orNil: self.levelIndex] else {
+            Logger.shared.warning("Cannot find constant for song \(song.title), level index \(self.levelIndex)")
+            return 0
+        }
+        
+        return getRating(constant: constant, achievements: self.achievements)
     }
     var status: String {
         getStatus(self.judgeStatus)
