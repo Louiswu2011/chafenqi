@@ -57,7 +57,7 @@ struct HomeNameplate: View {
                 HStack {
                     VStack(alignment: .leading) {
                         HStack {
-                            let displayName = user.currentMode == 0 ? user.chunithm.nickname ?? user.username : user.maimai.nickname
+                            let displayName = user.currentMode == 0 ? user.chunithm.nickname : user.maimai.nickname
                             Text(displayName)
                                 .foregroundColor(.black)
                                 .font(.system(size: 25))
