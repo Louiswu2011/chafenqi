@@ -109,7 +109,7 @@ struct MaimaiRecentEntryView: View {
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    let isDX = user.data.maimai.songlist.filter { $0.title == entry.associatedSong!.title }.count > 1
+                    let isDX = user.data.maimai.songlist.filter { $0.title == entry.associatedSong?.title ?? "" }.count > 1
                     Text((isDX ? "[DX]" : "") + (entry.associatedSong?.title ?? ""))
                         .font(.system(size: 17))
                         .lineLimit(1)
@@ -130,7 +130,7 @@ struct ChunithmRecentEntryView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
+            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong?.musicID ?? 0)), size: 65, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Spacer()
             VStack {

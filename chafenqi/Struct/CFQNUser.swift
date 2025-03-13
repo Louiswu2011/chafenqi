@@ -89,11 +89,11 @@ class CFQNUser: ObservableObject {
 
                 self.pastSlice = Array(
                     orig.filter { entry in
-                        return !entry.associatedSong!.basicInfo.isNew
+                        return !(entry.associatedSong?.basicInfo.isNew ?? false)
                     }.sorted { $0.rating > $1.rating }.prefix(35))
                 self.currentSlice = Array(
                     orig.filter { entry in
-                        return entry.associatedSong!.basicInfo.isNew
+                        return entry.associatedSong?.basicInfo.isNew ?? false
                     }.sorted { $0.rating > $1.rating }.prefix(15))
                 self.pastRating = self.pastSlice.reduce(0) { orig, next in
                     orig + next.rating
@@ -642,7 +642,7 @@ class CFQNUser: ObservableObject {
             do {
                 let (data, _) = try await URLSession.shared.data(
                     from: ChunithmDataGrabber.getSongCoverUrl(
-                        source: 0, musicId: String(chuFirst.associatedSong!.musicID)))
+                        source: 0, musicId: String(chuFirst.associatedSong?.musicID ?? 0)))
                 chuCover = data
             } catch {
                 chuCover = Data()

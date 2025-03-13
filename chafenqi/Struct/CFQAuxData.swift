@@ -186,10 +186,18 @@ struct CFQMaimaiLevelRecords: Codable {
         
         init(index: Int, best: UserMaimaiBestScores, songData: [MaimaiSongData]) {
             let songs = best.filter {
-                $0.associatedSong!.level[$0.levelIndex] == CFQMaimaiLevelRecords.maiLevelStrings[index]
+                guard let song = $0.associatedSong else {
+                    return false
+                }
+                
+                guard let level = song.level[orNil: $0.levelIndex] else {
+                    return false
+                }
+                
+                return level == CFQMaimaiLevelRecords.maiLevelStrings[index]
             }
             self.levelString = CFQMaimaiLevelRecords.maiLevelStrings[index]
-            let playedIdList = songs.compactMap { $0.associatedSong!.coverId }
+            let playedIdList = songs.compactMap { $0.associatedSong?.coverId ?? 0 }
             let filteredData = songData.filter {
                 $0.level.contains(levelString)
             }
@@ -239,9 +247,9 @@ struct CFQChunithmLevelRecords: Codable {
         init(level: String, best: UserChunithmBestScores, songData: [ChunithmMusicData]) {
             self.levelString = level
             let songs = best.filter {
-                $0.associatedSong!.charts.getChartFromIndex($0.levelIndex).level == level
+                ($0.associatedSong?.charts.getChartFromIndex($0.levelIndex).level ?? "") == level
             }
-            let playedIdList = songs.compactMap { $0.associatedSong!.musicID }
+            let playedIdList = songs.compactMap { $0.associatedSong?.musicID ?? 0 }
             let filteredData = songData.filter {
                 $0.charts.levels.contains(levelString)
             }

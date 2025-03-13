@@ -56,12 +56,12 @@ struct ChunithmRatingBannerView: View {
     
     var body: some View {
         HStack {
-            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedBestEntry!.associatedSong!.musicID)), size: 50, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
+            SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedBestEntry?.associatedSong?.musicID ?? 0)), size: 50, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
                 .padding(.trailing, 5)
             Group {
                 VStack(alignment: .leading) {
                     HStack {
-                        let constant = entry.associatedBestEntry!.associatedSong!.charts.constants[entry.associatedBestEntry!.levelIndex]
+                        let constant = entry.associatedBestEntry?.associatedSong?.charts.constants[orNil: entry.associatedBestEntry?.levelIndex ?? 0] ?? 0.0
                         Text("#\(index)")
                             .frame(width: 35, alignment: .leading)
                         Text("\(constant, specifier: "%.1f")/\(DataTool.shared.numberFormatter.string(from: entry.rating as NSNumber) ?? "0.00")")

@@ -65,8 +65,8 @@ struct SongListView: View {
     }
     
     func loadVar() {
-        chuPlayedId = user.chunithm.best.map { entry in entry.associatedSong!.musicID }
-        maiPlayedId = user.maimai.best.map { entry in entry.associatedSong!.musicId }
+        chuPlayedId = user.chunithm.best.map { entry in entry.associatedSong?.musicID ?? 0 }
+        maiPlayedId = user.maimai.best.map { entry in entry.associatedSong?.musicId ?? 0 }
         refresh()
     }
     

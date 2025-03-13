@@ -159,7 +159,7 @@ struct MaimaiBestEntryBannerView: View {
                 SongCoverView(coverURL: song.associatedSong!.coverURL, size: 50, cornerRadius: 5)
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(song.associatedSong!.constants[song.levelIndex], specifier: "%.1f")/\(song.rating)")
+                        Text("\(song.associatedSong?.constants[song.levelIndex] ?? 0.0, specifier: "%.1f")/\(song.rating)")
                         Spacer()
                         // Text(diff(of: song))
                     }

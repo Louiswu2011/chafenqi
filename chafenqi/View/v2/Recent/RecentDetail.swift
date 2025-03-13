@@ -117,23 +117,23 @@ struct RecentDetail: View {
     
     func loadVar() {
         if let entry = chuEntry {
-            self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedSong!.musicID))
-            self.title = entry.associatedSong!.title
-            self.artist = entry.associatedSong!.artist
+            self.coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.associatedSong?.musicID ?? 0))
+            self.title = entry.associatedSong?.title ?? ""
+            self.artist = entry.associatedSong?.artist ?? ""
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
             self.score = "\(entry.score)"
-            self.diffColor = maimaiLevelColor[entry.levelIndex]!
+            self.diffColor = maimaiLevelColor[entry.levelIndex] ?? Color.black
             self.chuniMaxCombo = entry.judgeCritical + entry.judgeJustice + entry.judgeAttack + entry.judgeMiss
             self.chuniWidthArray = getWidthForChuniJudge()
         } else if let entry = maiEntry {
             self.coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 1, coverId: entry.associatedSong?.coverId ?? 0)
-            self.title = entry.associatedSong!.title
-            self.artist = entry.associatedSong!.basicInfo.artist
+            self.title = entry.associatedSong?.title ?? ""
+            self.artist = entry.associatedSong?.basicInfo.artist ?? ""
             self.playTime = entry.timestamp.customDateString
             self.difficulty = entry.difficulty
             self.score = "\(entry.achievements)%"
-            self.diffColor = chunithmLevelColor[entry.levelIndex]!
+            self.diffColor = chunithmLevelColor[entry.levelIndex] ?? Color.black
             self.maiTapArray = entry.noteTap
             self.maiHoldArray = entry.noteHold
             self.maiSlideArray = entry.noteSlide
@@ -145,7 +145,7 @@ struct RecentDetail: View {
                     maiTouchArray[index] = "-"
                 }
             }
-            self.isDX = user.data.maimai.songlist.filter { $0.title == entry.associatedSong!.title }.count > 1
+            self.isDX = user.data.maimai.songlist.filter { $0.title == entry.associatedSong?.title ?? "" }.count > 1
         }
     }
     
@@ -315,9 +315,6 @@ struct RecentMaimaiDetail: View {
                         HStack {
                             let judgeTypes = ["Critical", "Perfect", "Great", "Good", "Miss"]
                             ForEach(maiTapArray.indices) { index in
-                                let normalLoss = entry.associatedSong!.charts[entry.levelIndex].errors[0]
-                                let breakLoss = entry.associatedSong!.charts[entry.levelIndex].errors[1]
-                                let losses = [2: 0.2, 3: 0.5, 4: 1]
                                 VStack(alignment: .trailing) {
                                     Text(judgeTypes[index])
                                         .bold()

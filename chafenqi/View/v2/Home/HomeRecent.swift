@@ -36,7 +36,7 @@ struct HomeRecent: View {
                             RecentDetail(user: user, chuEntry: entry)
                         } label: {
                             HStack {
-                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
+                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong?.musicID ?? 0)), size: 65, cornerRadius: 5, diffColor: chunithmLevelColor[entry.levelIndex])
                                     .padding(.trailing, 5)
                                 Spacer()
                                 VStack {

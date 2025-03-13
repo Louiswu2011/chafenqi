@@ -22,7 +22,7 @@ struct DeltaPlayList: View {
                             RecentDetail(user: user, chuEntry: entry)
                         } label: {
                             HStack {
-                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong!.musicID)), size: 65, cornerRadius: 5)
+                                SongCoverView(coverURL: ChunithmDataGrabber.getSongCoverUrl(source: user.chunithmCoverSource, musicId: String(entry.associatedSong?.musicID ?? 0)), size: 65, cornerRadius: 5)
                                     .padding(.trailing, 5)
                                 Spacer()
                                 VStack {

@@ -125,7 +125,7 @@ struct RatingShortLook: View {
                 if let entry = chuEntry {
                     indexText = "#\(selectedIndex + 1)"
                     coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.musicId))
-                    constant = String(format: "%.1f", entry.associatedBestEntry!.associatedSong!.charts.constants[entry.levelIndex])
+                    constant = String(format: "%.1f", entry.associatedBestEntry?.associatedSong?.charts.constants[orNil: entry.levelIndex] ?? 0.0)
                     rating = String(format: "%.2f", entry.rating)
                     grade = entry.grade
                     score = String(entry.score)
@@ -142,7 +142,7 @@ struct RatingShortLook: View {
                     if let entry = maiEntry {
                         indexText = "旧曲 #\(selectedIndex + 1)"
                         coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: entry.associatedSong?.coverId ?? 0)
-                        constant = String(format: "%.1f", entry.associatedSong!.constants[entry.levelIndex])
+                        constant = String(format: "%.1f", entry.associatedSong?.constants[entry.levelIndex] ?? 0.0)
                         rating = String(entry.rating)
                         grade = entry.rateString
                         score = String(format: "%.4f", entry.achievements) + "%"
@@ -154,7 +154,7 @@ struct RatingShortLook: View {
                     if let entry = maiEntry {
                         indexText = "新曲 #\(selectedIndex - pastCount + 1)"
                         coverUrl = MaimaiDataGrabber.getSongCoverUrl(source: 0, coverId: entry.associatedSong?.coverId ?? 0)
-                        constant = String(format: "%.1f", entry.associatedSong!.constants[entry.levelIndex])
+                        constant = String(format: "%.1f", entry.associatedSong?.constants[entry.levelIndex] ?? 0.0)
                         rating = String(entry.rating)
                         grade = entry.rateString
                         score = String(format: "%.4f", entry.achievements) + "%"

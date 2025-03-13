@@ -308,7 +308,7 @@ struct SongDetailView: View {
             self.genre = user.data.maimai.genreList.first { genre in genre.genre == song.basicInfo.genre }?.title ?? song.basicInfo.genre
             self.from = user.data.maimai.versionList.first { version in version.version / 100 == song.basicInfo.version / 100 }?.title ?? "未知"
             self.maiScores = user.maimai.best.filter {
-                $0.associatedSong!.musicId == song.musicId
+                $0.associatedSong?.musicId ?? 0 == song.musicId
             }.sorted {
                 $0.levelIndex < $1.levelIndex
             }
@@ -325,7 +325,7 @@ struct SongDetailView: View {
             self.bpm = song.bpm
             self.from = song.from
             self.chuScores = user.chunithm.best.filter {
-                $0.associatedSong!.musicID == song.musicID
+                $0.associatedSong?.musicID ?? 0 == song.musicID
             }.sorted {
                 $0.levelIndex < $1.levelIndex
             }
@@ -526,11 +526,11 @@ struct ScoreCardView: View {
     func loadVar() {
         if let song = maiSong {
             maiRecords = user.maimai.recent.filter {
-                $0.associatedSong!.musicId == song.musicId && $0.levelIndex == self.levelIndex
+                $0.associatedSong?.musicId ?? 0 == song.musicId && $0.levelIndex == self.levelIndex
             }
         } else if let song = chuSong {
             chuRecords = user.chunithm.recent.filter {
-                $0.associatedSong!.musicID == song.musicID && $0.levelIndex == self.levelIndex
+                $0.associatedSong?.musicID ?? 0 == song.musicID && $0.levelIndex == self.levelIndex
             }
         }
     }

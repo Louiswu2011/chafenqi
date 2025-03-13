@@ -265,7 +265,15 @@ extension UserMaimaiRecentScoreEntry: CFQMaimaiCalculatable {
         }
     }
     var rating: Int {
-        getRating(constant: self.associatedSong!.constants[self.levelIndex], achievements: self.achievements)
+        guard let song = self.associatedSong else {
+            return 0
+        }
+        
+        guard let constant = song.constants[orNil: self.levelIndex] else {
+            return 0
+        }
+        
+        return getRating(constant: constant, achievements: self.achievements)
     }
     var status: String {
         getStatus(self.judgeStatus)
@@ -361,7 +369,17 @@ extension CFQChunithmCalculatable {
 extension UserChunithmBestScoreEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.judgeStatus) }
-    var rating: Double { getRating(constant: self.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
+    var rating: Double {
+        guard let song = self.associatedSong else {
+            return 0.0
+        }
+        
+        guard let constant = song.charts.constants[orNil: self.levelIndex] else {
+            return 0.0
+        }
+        
+        return getRating(constant: constant, score: self.score)
+    }
 }
 extension UserChunithmRecentScoreEntry: CFQChunithmCalculatable {
     var levelIndex: Int {
@@ -380,7 +398,17 @@ extension UserChunithmRecentScoreEntry: CFQChunithmCalculatable {
     }
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.judgeStatus) }
-    var rating: Double { getRating(constant: self.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
+    var rating: Double {
+        guard let song = self.associatedSong else {
+            return 0.0
+        }
+        
+        guard let constant = song.charts.constants[orNil: self.levelIndex] else {
+            return 0.0
+        }
+        
+        return getRating(constant: constant, score: self.score)
+    }
     
     var losses: [Double] {
         let combo = self.judgeCritical + self.judgeJustice + self.judgeAttack + self.judgeMiss
@@ -394,7 +422,17 @@ extension UserChunithmRecentScoreEntry: CFQChunithmCalculatable {
 extension UserChunithmRatingListEntry: CFQChunithmCalculatable {
     var grade: String { getGrade(self.score) }
     var status: String { getDescribingStatus(self.associatedBestEntry!.judgeStatus) }
-    var rating: Double { getRating(constant: self.associatedBestEntry!.associatedSong!.charts.constants[self.levelIndex], score: self.score) }
+    var rating: Double {
+        guard let song = self.associatedBestEntry?.associatedSong else {
+            return 0.0
+        }
+        
+        guard let constant = song.charts.constants[orNil: self.levelIndex] else {
+            return 0.0
+        }
+        
+        return getRating(constant: constant, score: self.score)
+    }
 }
 
 extension String {
