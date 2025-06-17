@@ -59,12 +59,17 @@ let nameplateThemedChuniColors = [
     Color(red: 248, green: 211, blue: 238),
     Color(red: 245, green: 178, blue: 225)
 ]
-let nameplateThemedMaiColors = [
+let nameplateThemed2024MaiColors = [
     Color(red: 235, green: 182, blue: 85),
     Color(red: 235, green: 187, blue: 87),
     Color(red: 236, green: 196, blue: 90),
     Color(red: 235, green: 200, blue: 89),
     Color(red: 242, green: 225, blue: 68)
+]
+let nameplateThemedMaiColors = [
+    Color(red: 144, green: 238, blue: 228),
+    Color(red: 179, green: 243, blue: 234),
+    Color(red: 217, green: 250, blue: 246)
 ]
 
 let nameplateDefaultMaiColorTop = Color(red: 167, green: 243, blue: 254)
