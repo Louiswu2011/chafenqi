@@ -11,7 +11,7 @@ struct RatingShortLook: View {
     @Environment(\.managedObjectContext) var context
     let screen = CGSize(width: UIScreen.main.bounds.size.width - 30, height: 1000)
     
-    @ObservedObject var user = CFQNUser()
+    @ObservedObject var user: CFQNUser
     
     @State var length = 35
     
@@ -32,6 +32,8 @@ struct RatingShortLook: View {
     
     @State var coverUrl: URL
     @State var id: Int = 0
+    
+    @State var gradient: [Color] = [Color(red: 254, green: 241, blue: 65), Color(red: 243, green: 200, blue: 48)]
 
     let chuniGradient = [Color(red: 254, green: 241, blue: 65), Color(red: 243, green: 200, blue: 48)]
     let maiGradient = [Color(red: 167, green: 243, blue: 254), Color(red: 93, green: 166, blue: 247)]
@@ -69,7 +71,7 @@ struct RatingShortLook: View {
             if list.isEmpty && heights.isEmpty {
                 for j in 0...length - 1 {
                     heights.append(CGFloat(1))
-                    list.append(RatingPreviewBar(id: j, screen: screen, color: user.currentMode == 0 ? getColor(from: chuniGradient[1], to: chuniGradient[0], ratio: Double(j + 1) / Double(length)) : getColor(from: maiGradient[1], to: maiGradient[0], ratio: Double(j + 1) / Double(length)), height: $heights[j], length: length))
+                    list.append(RatingPreviewBar(id: j, screen: screen, color: getColor(from: gradient[0], to: gradient[1], ratio: Double(j + 1) / Double(length)), height: $heights[j], length: length))
                 }
             }
             selectedIndex = 0
