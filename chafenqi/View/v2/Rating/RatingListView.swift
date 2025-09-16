@@ -119,7 +119,7 @@ struct ChunithmRatingListView: View {
     @ObservedObject var user: CFQNUser
     
     @State var bestFold = false
-    @State var recentFold = false
+    @State var newFold = false
     
     var body: some View {
         VStack {
@@ -128,13 +128,13 @@ struct ChunithmRatingListView: View {
                     .font(.system(size: 30))
                     .bold()
                 Spacer()
-                Text("Best \(user.chunithm.custom.b30, specifier: "%.2f") / Recent \(user.chunithm.custom.r10, specifier: "%.2f")")
+                Text("Best \(user.chunithm.custom.b30, specifier: "%.2f") / New \(user.chunithm.custom.n20, specifier: "%.2f")")
                     .font(.system(size: 20))
             }
             .padding(.bottom)
             
             HStack {
-                Text("最佳成绩 B30")
+                Text("旧曲成绩 B30")
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
@@ -162,23 +162,23 @@ struct ChunithmRatingListView: View {
             }
             
             HStack {
-                Text("最近成绩 R10")
+                Text("新曲成绩 N20")
                     .font(.system(size: 20))
                     .bold()
                 Spacer()
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        recentFold.toggle()
+                        newFold.toggle()
                     }
                 } label: {
-                    Text(recentFold ? "展开" : "收起")
+                    Text(newFold ? "展开" : "收起")
                 }
             }
             .padding(.bottom)
             
-            if(!recentFold) {
+            if(!newFold) {
                 LazyVStack(spacing: 15) {
-                    ForEach(Array(user.chunithm.rating.recent.enumerated()), id: \.offset) { index, entry in
+                    ForEach(Array(user.chunithm.rating.new.enumerated()), id: \.offset) { index, entry in
                         NavigationLink {
                             SongDetailView(user: user, chuSong: entry.associatedBestEntry!.associatedSong!)
                         } label: {

@@ -248,6 +248,12 @@ struct CFQServer {
             return [decoded.chunithm, decoded.maimai]
         }
         
+        static func checkUploadResult(authToken: String) async throws -> [Int] {
+            let (data, _) = try await CFQServer.fetchFromServer(method: "GET", path: "api/user/upload-result", token: authToken)
+            let decoded = try decoder.decode(CFQUserUploadStatus.self, from: data)
+            return [decoded.chunithm, decoded.maimai]
+        }
+        
         static func checkSongListVersion(tag: String) async -> String {
             do {
                 let query = [URLQueryItem(name: "tag", value: tag)]

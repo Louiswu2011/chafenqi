@@ -91,7 +91,7 @@ struct HomeNameplate: View {
                                 HStack {
                                     Text("Rating")
                                     if (user.currentMode == 0) {
-                                        Text("\(user.chunithm.info.last?.rating ?? 0, specifier: "%.2f") (\(user.chunithm.custom.maxRating, specifier: "%.2f"))")
+                                        Text("\(user.chunithm.info.last?.rating ?? 0, specifier: "%.2f")")
                                             .bold()
                                     } else {
                                         Text(verbatim: "\(user.maimai.custom.rawRating)")
@@ -108,7 +108,7 @@ struct HomeNameplate: View {
                                                     .bold()
                                                 Text("/")
                                                 Text("R")
-                                                Text("\(user.chunithm.custom.r10, specifier: "%.2f")")
+                                                Text("\(user.chunithm.custom.n20, specifier: "%.2f")")
                                                     .bold()
                                             }
                                         } else {

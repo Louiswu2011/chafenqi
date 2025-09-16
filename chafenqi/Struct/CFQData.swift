@@ -107,7 +107,7 @@ struct CFQData: Codable {
                 return r
             }
             
-            return UserChunithmRatingList(best: assign(bests: bests, ratings: ratings.best), recent: assign(bests: bests, ratings: ratings.recent), candidate: assign(bests: bests, ratings: ratings.candidate))
+            return UserChunithmRatingList(best: assign(bests: bests, ratings: ratings.best), new: assign(bests: bests, ratings: ratings.new), candidate: assign(bests: bests, ratings: ratings.candidate))
         }
         
         struct MusicStatEntry: Codable {

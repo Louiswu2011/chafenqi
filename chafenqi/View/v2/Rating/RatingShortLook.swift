@@ -123,16 +123,39 @@ struct RatingShortLook: View {
     func updateSong() {
         if (0...length - 1).contains(selectedIndex) {
             if user.currentMode == 0 {
-                chuEntry = user.chunithm.rating.best[selectedIndex]
-                if let entry = chuEntry {
-                    indexText = "#\(selectedIndex + 1)"
-                    coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.musicId))
-                    constant = String(format: "%.1f", entry.associatedBestEntry?.associatedSong?.charts.constants[orNil: entry.levelIndex] ?? 0.0)
-                    rating = String(format: "%.2f", entry.rating)
-                    grade = entry.grade
-                    score = String(entry.score)
-                    title = entry.associatedBestEntry?.associatedSong?.title ?? ""
+                let bestCount = user.chunithm.rating.best.count
+                guard bestCount >= 1 else { return }
+                
+                let newCount = user.chunithm.rating.new.count
+                guard newCount >= 1 else { return }
+                
+                if (0...bestCount - 1).contains(selectedIndex) {
+                    // Best
+                    chuEntry = user.chunithm.rating.best[selectedIndex]
+                    if let entry = chuEntry {
+                        indexText = "旧曲 #\(selectedIndex + 1)"
+                        coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.musicId))
+                        constant = String(format: "%.1f", entry.associatedBestEntry?.associatedSong?.charts.constants[orNil: entry.levelIndex] ?? 0.0)
+                        rating = String(format: "%.2f", entry.rating)
+                        grade = entry.grade
+                        score = String(entry.score)
+                        title = entry.associatedBestEntry?.associatedSong?.title ?? ""
+                    }
+                } else {
+                    // New
+                    chuEntry = user.chunithm.rating.new[selectedIndex - bestCount]
+                    if let entry = chuEntry {
+                        indexText = "新曲 #\(selectedIndex + 1)"
+                        coverUrl = ChunithmDataGrabber.getSongCoverUrl(source: 1, musicId: String(entry.musicId))
+                        constant = String(format: "%.1f", entry.associatedBestEntry?.associatedSong?.charts.constants[orNil: entry.levelIndex] ?? 0.0)
+                        rating = String(format: "%.2f", entry.rating)
+                        grade = entry.grade
+                        score = String(entry.score)
+                        title = entry.associatedBestEntry?.associatedSong?.title ?? ""
+                    }
                 }
+                
+                
             } else if user.currentMode == 1 {
                 let pastCount = user.maimai.custom.pastSlice.count
                 

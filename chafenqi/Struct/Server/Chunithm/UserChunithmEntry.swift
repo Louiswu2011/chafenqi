@@ -54,10 +54,10 @@ struct UserChunithmRatingListEntry: Codable, Hashable, Equatable {
 
 struct UserChunithmRatingList: Codable, Hashable, Equatable {
     let best: [UserChunithmRatingListEntry]
-    let recent: [UserChunithmRatingListEntry]
+    let new: [UserChunithmRatingListEntry]
     let candidate: [UserChunithmRatingListEntry]
     
-    static let empty = UserChunithmRatingList(best: [], recent: [], candidate: [])
+    static let empty = UserChunithmRatingList(best: [], new: [], candidate: [])
 }
 
 struct UserChunithmPlayerInfo: Codable, Hashable, Equatable {

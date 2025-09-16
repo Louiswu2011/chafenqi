@@ -438,6 +438,16 @@ struct UpdaterView: View {
         return "\(SharedValues.uploadServerAddress)upload/\(destination)?jwt=\(user.jwtToken)"
     }
     
+    func makeUploadResultText() async throws -> String {
+        let results = try await CFQStatsServer.checkUploadResult(authToken: user.jwtToken)
+        var string = ""
+        
+        let chuResult = results[0]
+        let maiResult = results[1]
+        
+        return string
+    }
+    
     func makeUploadStatusText() async throws -> String {
         let status = try await CFQStatsServer.checkUploadStatus(authToken: user.jwtToken)
         var string = ""

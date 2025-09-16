@@ -231,8 +231,7 @@ class CFQNUser: ObservableObject {
     struct Chunithm: Codable {
         struct Custom: Codable {
             var b30: Double = 0.0
-            var r10: Double = 0.0
-            var maxRating: Double = 0.0
+            var n20: Double = 0.0
 
             var recommended: [UserChunithmRecentScoreEntry: String] = [:]
             var genreList: [String] = []
@@ -254,23 +253,21 @@ class CFQNUser: ObservableObject {
                 best: UserChunithmBestScores, list: [ChunithmMusicData],
                 delta: UserChunithmPlayerInfos
             ) {
-                guard !rating.best.isEmpty && !rating.recent.isEmpty && !recent.isEmpty else {
+                guard !rating.best.isEmpty && !rating.new.isEmpty && !recent.isEmpty else {
                     return
                 }
                 self.b30 =
                     (rating.best.reduce(0.0) { orig, next in
                         orig + next.rating
                     } / 30.0).cut(remainingDigits: 2)
-                self.r10 =
-                    (rating.recent.reduce(0.0) { orig, next in
+                self.n20 =
+                    (rating.new.reduce(0.0) { orig, next in
                         orig + next.rating
-                    } / 10.0).cut(remainingDigits: 2)
+                    } / 20.0).cut(remainingDigits: 2)
 
                 let b1 = rating.best.sorted {
                     $0.rating > $1.rating
                 }.first!
-                self.maxRating = ((self.b30 * 30.0 + b1.rating * 10.0) / 40.0).cut(
-                    remainingDigits: 2)
 
                 var r = recent.prefix(30)
                 if let max =
@@ -453,7 +450,7 @@ class CFQNUser: ObservableObject {
             best: self.chunithm.rating.best.filter {
                 $0.associatedBestEntry?.associatedSong != nil
             },
-            recent: self.chunithm.rating.recent.filter {
+            new: self.chunithm.rating.new.filter {
                 $0.associatedBestEntry?.associatedSong != nil
             },
             candidate: self.chunithm.rating.candidate.filter {
@@ -562,7 +559,7 @@ class CFQNUser: ObservableObject {
                         self.chunithm.recent = CFQChunithm.assignAssociated(
                             songs: self.data.chunithm.musics, recents: self.chunithm.recent)
                     }
-                    if !self.chunithm.rating.best.isEmpty && !self.chunithm.rating.recent.isEmpty
+                    if !self.chunithm.rating.best.isEmpty && !self.chunithm.rating.new.isEmpty
                         && !self.chunithm.rating.candidate.isEmpty
                     {
                         self.chunithm.rating = CFQChunithm.assignAssociated(
