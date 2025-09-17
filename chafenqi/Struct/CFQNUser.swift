@@ -35,6 +35,7 @@ class CFQNUser: ObservableObject {
     @AppStorage("settingsHomeShowDaysSinceLastPlayed") var showDaysSinceLastPlayed = false
     @AppStorage("settingsHomeHideTeamEntry") var hideTeamEntry = false
     @AppStorage("settingsAutoRedirectToWeChat") var proxyAutoJump = false
+    @AppStorage("settingsUseAlternativeUploadUrl") var useAlternativeUploadUrl = false
     @AppStorage("settingsShouldPromptDFishLinking") var proxyShouldPromptLinking = true
     @AppStorage("settingsShouldPromptExpiredToken") var proxyShouldPromptExpiring = true
     @AppStorage("settingsShouldPromptTooHighVersion") var proxyShouldPromptManualProxy = true

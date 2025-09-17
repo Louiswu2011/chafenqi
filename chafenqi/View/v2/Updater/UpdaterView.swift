@@ -188,6 +188,10 @@ struct UpdaterView: View {
                     Text("自动跳转到微信")
                 }
                 
+                Toggle(isOn: $user.useAlternativeUploadUrl) {
+                    Text("使用备用传分链接")
+                }
+                
                 Button {
                     isShowingAlert.toggle()
                 } label: {
@@ -435,7 +439,8 @@ struct UpdaterView: View {
     
     func makeUrl(mode: Int) -> String {
         let destination = mode == 0 ? "chunithm" : "maimai"
-        return "\(SharedValues.uploadServerAddress)upload/\(destination)?jwt=\(user.jwtToken)"
+        let address = user.useAlternativeUploadUrl ? SharedValues.alternativeUploadServerAddress : SharedValues.uploadServerAddress
+        return "\(address)upload/\(destination)?jwt=\(user.jwtToken)"
     }
     
     func makeUploadResultText() async throws -> String {
