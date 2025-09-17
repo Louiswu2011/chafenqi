@@ -107,7 +107,7 @@ struct HomeNameplate: View {
                                                 Text("\(user.chunithm.custom.b30, specifier: "%.2f")")
                                                     .bold()
                                                 Text("/")
-                                                Text("R")
+                                                Text("N")
                                                 Text("\(user.chunithm.custom.n20, specifier: "%.2f")")
                                                     .bold()
                                             }
