@@ -12,6 +12,6 @@ struct SharedValues {
     static let alternativeServerAddress = "chafenqi.nltv.online"
     static let apiServerAddress = "http://\(serverAddress):8998/"
     static let uploadServerAddress = "http://\(serverAddress):9030/"
-    static let alternativeUploadServerAddress = "http://\(alternativeServerAddress):9030/"
+    static let alternativeUploadServerAddress = "http://\(alternativeServerAddress)/"
     static let proxyServerPort = 8999
 }
