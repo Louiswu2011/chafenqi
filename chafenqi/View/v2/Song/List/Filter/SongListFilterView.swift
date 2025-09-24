@@ -12,7 +12,9 @@ struct SongListFilterView: View {
     @ObservedObject var user: CFQNUser
     
     var versionOptions: [String] { user.currentMode == 0 ? user.chunithm.custom.versionList : user.data.maimai.versionList.map { version in version.title } }
-    var levelOptions: [String] = ["1", "2", "3", "4", "5", "6", "7", "7+", "8", "8+", "9", "9+", "10", "10+", "11", "11+", "12", "12+", "13", "13+", "14", "14+", "15"]
+    var levelOptions: [String] {
+        user.currentMode == 0 ? user.chunithm.custom.levelList : user.data.maimai.levelList
+    }
     var genreOptions: [String] { user.currentMode == 0 ? user.chunithm.custom.genreList : user.data.maimai.genreList.map { genre in genre.title } }
     var diffOptions: [String] {
         user.currentMode == 0 ? CFQChunithmSortDifficulty.allCases.map { value in value.rawValue } : CFQMaimaiSortDifficulty.allCases.map { value in value.rawValue }

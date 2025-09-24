@@ -70,6 +70,8 @@ class CFQNUser: ObservableObject {
             var statusCounter = [0, 0, 0, 0, 0]
 
             var recommended: [UserMaimaiRecentScoreEntry: String] = [:]
+            
+            var levelList: [String] = []
 
             var levelRecords = CFQMaimaiLevelRecords()
             var dayRecords: CFQMaimaiDayRecords = .init()
@@ -179,6 +181,8 @@ class CFQNUser: ObservableObject {
 
                 self.levelRecords = CFQMaimaiLevelRecords(songs: list, best: orig)
                 self.dayRecords = CFQMaimaiDayRecords(recents: recent, deltas: infos)
+                
+                self.levelList = list.flatMap { entry in entry.level }.unique
 
                 print("[CFQNUser] Loaded maimai Custom Data.")
             }
@@ -237,6 +241,7 @@ class CFQNUser: ObservableObject {
             var recommended: [UserChunithmRecentScoreEntry: String] = [:]
             var genreList: [String] = []
             var versionList: [String] = []
+            var levelList: [String] = []
 
             var levelRecords = CFQChunithmLevelRecords()
             var dayRecords: CFQChunithmDayRecords = .init()
@@ -317,6 +322,17 @@ class CFQNUser: ObservableObject {
 
                 self.genreList = list.map { entry in entry.genre }.unique
                 self.versionList = list.map { entry in entry.from }.unique
+                self.levelList = list
+                    .flatMap { entry in
+                        entry.charts.enumerated.map { chart in chart.level }
+                    }
+                    .unique
+                    .filter { level in
+                        !level.isEmpty
+                    }
+                    .sorted { a, b in
+                        Double(a.replacingOccurrences(of: "+", with: ".5")) ?? 0.0 < Double(b.replacingOccurrences(of: "+", with: ".5")) ?? 0.0
+                    }
 
                 print("[CFQNUser] Loaded chunithm Custom Data.")
             }

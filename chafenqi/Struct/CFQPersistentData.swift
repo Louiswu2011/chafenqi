@@ -36,6 +36,7 @@ class CFQPersistentData: ObservableObject {
         var songlist: Array<MaimaiSongData> = []
         var versionList: Array<MaimaiVersionData> = []
         var genreList: Array<MaimaiGenreData> = []
+        var levelList: Array<String> = []
         
         static func hasCache() -> Bool {
             @AppStorage("loadedMaimaiSongs") var loadedSongs: Data = Data()
@@ -66,6 +67,10 @@ class CFQPersistentData: ObservableObject {
         self.maimai.songlist = try CFQPersistentData.decoder.decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
         self.maimai.versionList = try CFQPersistentData.decoder.decode(Array<MaimaiVersionData>.self, from: self.maimai.loadedVersions)
         self.maimai.genreList = try CFQPersistentData.decoder.decode(Array<MaimaiGenreData>.self, from: self.maimai.loadedGenres)
+        
+        self.maimai.levelList = self.maimai.songlist.filter { song in song.basicInfo.genre != "宴会場" }.flatMap { song in song.level }.unique.sorted { a, b in
+            Double(a.replacingOccurrences(of: "+", with: ".5")) ?? 0.0 < Double(b.replacingOccurrences(of: "+", with: ".5")) ?? 0.0
+        }
     }
     
     private func reloadMaimai() async throws {
@@ -76,6 +81,10 @@ class CFQPersistentData: ObservableObject {
         self.maimai.songlist = try JSONDecoder().decode(Array<MaimaiSongData>.self, from: self.maimai.loadedSongs)
         self.maimai.versionList = try JSONDecoder().decode(Array<MaimaiVersionData>.self, from: self.maimai.loadedVersions)
         self.maimai.genreList = try JSONDecoder().decode(Array<MaimaiGenreData>.self, from: self.maimai.loadedGenres)
+        
+        self.maimai.levelList = self.maimai.songlist.filter { song in song.basicInfo.genre != "宴会場" }.flatMap { song in song.level }.unique.sorted { a, b in
+            Double(a.replacingOccurrences(of: "+", with: ".5")) ?? 0.0 < Double(b.replacingOccurrences(of: "+", with: ".5")) ?? 0.0
+        }
     }
     
     func update() async throws {
