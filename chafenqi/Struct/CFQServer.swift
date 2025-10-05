@@ -443,6 +443,15 @@ struct CFQServer {
         static func coverUrl(musicId: Int) -> String {
             return "\(serverAddress)api/resource/chunithm/cover?musicId=\(musicId)"
         }
+        static func fetchChartDiffs(musicId: Int) async throws -> [Int] {
+            let query = [URLQueryItem(name: "musicId", value: String(musicId))]
+            let (data, resp) = try await CFQServer.fetchFromServer(method: "GET", path: "api/resource/chunithm/chart/list", query: query)
+            if resp.statusCode() == 200 && !data.isEmpty {
+                return try decoder.decode(Array<Int>.self, from: data)
+            } else {
+                return []
+            }
+        }
     }
     
     static func fetchFromServer(method: String, path: String, payload: Data = Data(), query: [URLQueryItem] = [], token: String = "", shouldThrowByCode: Bool = true) async throws -> (Data, URLResponse) {

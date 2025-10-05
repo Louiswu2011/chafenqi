@@ -40,8 +40,8 @@ struct SongDetailView: View {
     
     @State var showingChart = false
     @State var diffArray: [String] = []
-    @State var availableDiff = ["Master"]
-    @State var selectedDiff = "Master"
+    @State var availableDiff: [String] = []
+    @State var selectedDiff = ""
     @State var chartImage: UIImage = UIImage()
     @State var chartImageView = Image(systemName: "magnifyingglass")
     
@@ -159,20 +159,24 @@ struct SongDetailView: View {
                                 .bold()
                             Spacer()
                             
-                            Picker(selectedDiff, selection: $selectedDiff) {
-                                ForEach(availableDiff, id: \.self) { diff in
-                                    Text(diff)
+                            if availableDiff.isEmpty {
+                                ProgressView()
+                            } else {
+                                Picker(selectedDiff, selection: $selectedDiff) {
+                                    ForEach(availableDiff, id: \.self) { diff in
+                                        Text(diff)
+                                    }
                                 }
-                            }
-                            .onChange(of: selectedDiff) { tag in
-                                Task {
-                                    do {
-                                        chartImage = UIImage()
-                                        try await reloadChartImage(musicId: String(chuSong?.musicID ?? 0), diffIndex: selectedDiff.toDiffIndex())
-                                    } catch {}
+                                .onChange(of: selectedDiff) { tag in
+                                    Task {
+                                        do {
+                                            chartImage = UIImage()
+                                            try await reloadChartImage(musicId: String(chuSong?.musicID ?? 0), diffIndex: selectedDiff.toDiffIndex())
+                                        } catch {}
+                                    }
                                 }
+                                .pickerStyle(.menu)
                             }
-                            .pickerStyle(.menu)
                         }
                         .padding(.top)
                         .padding(.horizontal)
@@ -281,6 +285,7 @@ struct SongDetailView: View {
                 finishedLoading = true
                 do {
                     if let song = chuSong {
+                        await reloadChartDiffs(musicId: song.musicID)
                         try await reloadChartImage(musicId: String(song.musicID), diffIndex: selectedDiff.toDiffIndex())
                     }
                 } catch CFQError.requestTimeoutError {
@@ -330,6 +335,24 @@ struct SongDetailView: View {
                 $0.levelIndex < $1.levelIndex
             }
             self.loved = user.remoteOptions.chunithmFavList.components(separatedBy: ",").contains(String(song.musicID))
+        }
+    }
+    
+    func reloadChartDiffs(musicId: Int) async {
+        do {
+            self.availableDiff = []
+            let diffs = try await CFQServer.Chunithm.fetchChartDiffs(musicId: musicId)
+            if diffs.isEmpty {
+                self.availableDiff = []
+                return
+            }
+            diffs.forEach { diff in
+                self.availableDiff.append(self.diffArray[diff])
+            }
+            self.selectedDiff = self.diffArray.last ?? ""
+        } catch {
+            print("Failed to fetch chart available diffs.")
+            self.availableDiff = []
         }
     }
     

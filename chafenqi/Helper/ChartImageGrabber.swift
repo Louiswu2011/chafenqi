@@ -11,27 +11,37 @@ import CoreData
 import UIKit
 
 class ChartImageGrabber: ObservableObject {
+    func getUrls(musicId: String, diffIndex: Int) -> [String] {
+        return [
+            "\(CFQServer.serverAddress)api/resource/chunithm/chart/image?musicId=\(musicId)&diff=\(diffIndex)&type=bar",
+            "\(CFQServer.serverAddress)api/resource/chunithm/chart/image?musicId=\(musicId)&diff=\(diffIndex)&type=bg",
+            "\(CFQServer.serverAddress)api/resource/chunithm/chart/image?musicId=\(musicId)&diff=\(diffIndex)&type=chart"
+        ]
+    }
+    
     func downloadChartImage(musicId: String, diffIndex: Int, context: NSManagedObjectContext) async throws -> UIImage {
         let barURL: URL?
         let bgURL: URL?
         let chartURL: URL?
+        
+        let urls = getUrls(musicId: musicId, diffIndex: diffIndex)
 
-        barURL = URL(string: "\(CFQServer.serverAddress)api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bar")
-        bgURL = URL(string: "\(CFQServer.serverAddress)api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=bg")
-        chartURL = URL(string: "\(CFQServer.serverAddress)api/chunithm/preview?musicId=\(musicId)&diff=\(diffIndex)&type=chart")
+        barURL = URL(string: urls[0])
+        bgURL = URL(string: urls[1])
+        chartURL = URL(string: urls[2])
         
         let fetchRequest = ChartCache.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", chartURL?.absoluteString ?? "ongeki wen?")
         let matches = try? context.fetch(fetchRequest)
         if let match = matches?.first?.image {
-            // print("[ChartImageGrabber] Read from cache.")
+            print("[ChartImageGrabber] Read from cache.")
             return UIImage(data: match)!
         }
         
         do {
-            async let barImage = try downloadImageFromUrl(url: barURL!, index: 0)
-            async let bgImage = try downloadImageFromUrl(url: bgURL!, index: 1)
-            async let chartImage = try downloadImageFromUrl(url: chartURL!, index: 2)
+            async let barImage = try downloadImageFromUrl(url: barURL!)
+            async let bgImage = try downloadImageFromUrl(url: bgURL!)
+            async let chartImage = try downloadImageFromUrl(url: chartURL!)
             
             let images = try await [barImage, bgImage, chartImage]
             
@@ -53,7 +63,7 @@ class ChartImageGrabber: ObservableObject {
         }
     }
     
-    private func downloadImageFromUrl(url: URL, index: Int) async throws -> UIImage {
+    private func downloadImageFromUrl(url: URL) async throws -> UIImage {
         let request = URLRequest(url: url)
         let (data, _) = try await URLSession.shared.data(for: request)
         
