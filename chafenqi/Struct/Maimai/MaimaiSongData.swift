@@ -145,7 +145,8 @@ extension MaimaiSongData.MaimaiSongChartData {
     // Errors: [Tap/Hold/Slide/Touch]:[Great, Good, Miss] [Break]:[HGreat, LGreat, Good, Miss]
     var errors: [Double] {
         var basicUnitScore: Double {
-            return 100.0 / Double(self.notes[0] + 2 * self.notes[1] + 3 * self.notes[2] + self.notes[3] + 5 * self.notes[4])
+            let rawError: Int = self.notes[0] + 2 * self.notes[1] + 3 * self.notes[2] + self.notes[3] + 5 * self.notes[4]
+            return 100.0 / Double(rawError)
         }
         let breakUnitScore: Double = 1.0 / Double(self.notes.last ?? 1)
         return [basicUnitScore, breakUnitScore]
